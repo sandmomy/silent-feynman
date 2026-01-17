@@ -1,80 +1,274 @@
 /**
- * Projects Page - Document Grid and Filtering
+ * Projects Page - Slideshow + Category Tabs + Sequential Project View
  */
 
+// Featured projects IDs (the 4 most important)
+const FEATURED_IDS = [4, 11, 18, 26];
+
+let currentSlide = 0;
+let slideInterval = null;
+let currentCategory = 'sustainability';
+let categoryProjectIndex = {};
+
+const CATEGORY_INFO = {
+    sustainability: {
+        icon: '🌿',
+        name: 'Sustainability',
+        description: 'Comprehensive projects focused on ecological balance, sustainable mining practices, and environmental preservation. These initiatives demonstrate commitment to reducing environmental impact while maintaining economic viability.'
+    },
+    food: {
+        icon: '🍴',
+        name: 'Food Security',
+        description: 'Strategic initiatives addressing food security challenges across Africa and developing regions. Projects include agricultural development, capacity building, and innovative solutions for sustainable food production systems.'
+    },
+    realestate: {
+        icon: '🏨',
+        name: 'Real Estate',
+        description: 'Diverse portfolio of real estate development and investment projects. From commercial properties to hospitality ventures, these projects combine strategic location analysis with sustainable development principles.'
+    },
+    investment: {
+        icon: '💰',
+        name: 'Investment',
+        description: 'Strategic investment opportunities and financial analyses across multiple sectors. Comprehensive feasibility studies and investment guides for informed decision-making in emerging markets.'
+    },
+    technology: {
+        icon: '⚡',
+        name: 'Technology',
+        description: 'Innovative technology solutions including renewable energy systems, smart infrastructure, and cutting-edge developments. Projects that leverage technology for sustainable development and improved quality of life.'
+    },
+    research: {
+        icon: '📚',
+        name: 'Research',
+        description: 'In-depth research and academic publications covering sustainable development, economic analysis, and social impact studies. Evidence-based insights for policy and decision-making.'
+    }
+};
+
 document.addEventListener('DOMContentLoaded', function () {
-    initDocumentsGrid();
-    initCategoryFilters();
+    initSlideshow();
+    initCategoryTabs();
     initModal();
 });
 
 // ============================================
-// Documents Grid
+// SLIDESHOW
 // ============================================
-function initDocumentsGrid() {
-    const grid = document.getElementById('documentsGrid');
-    if (!grid || typeof DOCUMENTS_DATA === 'undefined') return;
+function initSlideshow() {
+    if (typeof DOCUMENTS_DATA === 'undefined') return;
 
-    renderDocuments(DOCUMENTS_DATA);
-}
+    const container = document.getElementById('slideshow');
+    if (!container) return;
 
-function renderDocuments(documents) {
-    const grid = document.getElementById('documentsGrid');
-    if (!grid) return;
+    const featured = FEATURED_IDS.map(id => DOCUMENTS_DATA.find(d => d.id === id)).filter(Boolean);
 
-    grid.innerHTML = documents.map(doc => `
-        <div class="document-card" data-category="${doc.category}">
-            <div class="document-preview">
-                <span class="document-type">${doc.type}</span>
+    const slidesHTML = featured.map((doc, i) => `
+        <div class="slide ${i === 0 ? 'active' : ''}" data-index="${i}">
+            <div class="slide-preview">
+                <span class="slide-preview-icon">${getDocIcon(doc.type)}</span>
+                <span class="slide-badge">${doc.type}</span>
             </div>
-            <div class="document-info">
-                <h3 class="document-title">${doc.title}</h3>
-                <span class="document-category">${doc.categoryLabel}</span>
-                <div class="document-actions">
-                    <button class="document-btn document-btn-view" onclick="openModal('${doc.title}', '${doc.filename}')">
-                        👁️ View
+            <div class="slide-content">
+                <div class="slide-category">${doc.categoryLabel}</div>
+                <h2 class="slide-title">${doc.title}</h2>
+                <p class="slide-description">${doc.description}</p>
+                <div class="slide-actions">
+                    <button class="slide-btn slide-btn-primary" onclick="openModal('${escapeQuotes(doc.title)}', '${escapeQuotes(doc.filename)}')">
+                        👁️ View Document
                     </button>
-                    <a href="${DOCUMENTS_BASE_PATH}${doc.filename}" class="document-btn document-btn-download" download>
+                    <a href="${DOCUMENTS_BASE_PATH}${doc.filename}" class="slide-btn slide-btn-secondary" download>
                         ⬇️ Download
                     </a>
                 </div>
             </div>
         </div>
     `).join('');
+
+    const controlsHTML = `
+        <div class="slideshow-controls">
+            <button class="slide-arrow" onclick="changeSlide(-1)">◀</button>
+            <div class="slide-dots">
+                ${featured.map((_, i) => `
+                    <span class="slide-dot ${i === 0 ? 'active' : ''}" data-index="${i}" onclick="goToSlide(${i})"></span>
+                `).join('')}
+            </div>
+            <button class="slide-arrow" onclick="changeSlide(1)">▶</button>
+        </div>
+    `;
+
+    container.innerHTML = slidesHTML + controlsHTML;
+    startSlideshow();
+}
+
+function startSlideshow() {
+    slideInterval = setInterval(() => changeSlide(1), 5000);
+}
+
+function changeSlide(direction) {
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.slide-dot');
+
+    slides[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.remove('active');
+
+    currentSlide = (currentSlide + direction + slides.length) % slides.length;
+
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+
+    clearInterval(slideInterval);
+    startSlideshow();
+}
+
+function goToSlide(index) {
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.slide-dot');
+
+    slides[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.remove('active');
+
+    currentSlide = index;
+
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+
+    clearInterval(slideInterval);
+    startSlideshow();
 }
 
 // ============================================
-// Category Filters
+// CATEGORY TABS
 // ============================================
-function initCategoryFilters() {
-    const pills = document.querySelectorAll('.category-pill');
-
-    pills.forEach(pill => {
-        pill.addEventListener('click', () => {
-            // Update active state
-            pills.forEach(p => p.classList.remove('active'));
-            pill.classList.add('active');
-
-            // Filter documents
-            const filter = pill.dataset.filter;
-            filterDocuments(filter);
-        });
-    });
-}
-
-function filterDocuments(category) {
+function initCategoryTabs() {
     if (typeof DOCUMENTS_DATA === 'undefined') return;
 
-    if (category === 'all') {
-        renderDocuments(DOCUMENTS_DATA);
-    } else {
-        const filtered = DOCUMENTS_DATA.filter(doc => doc.category === category);
-        renderDocuments(filtered);
-    }
+    const tabsContainer = document.getElementById('categoryTabs');
+    const contentsContainer = document.getElementById('categoryContents');
+    if (!tabsContainer || !contentsContainer) return;
+
+    // Group documents
+    const grouped = {};
+    DOCUMENTS_DATA.forEach(doc => {
+        if (!grouped[doc.category]) grouped[doc.category] = [];
+        grouped[doc.category].push(doc);
+    });
+
+    const categoryOrder = ['sustainability', 'food', 'realestate', 'investment', 'technology', 'research'];
+
+    // Init project indices
+    categoryOrder.forEach(cat => categoryProjectIndex[cat] = 0);
+
+    // Render tabs
+    tabsContainer.innerHTML = categoryOrder.map(cat => {
+        const info = CATEGORY_INFO[cat];
+        const docs = grouped[cat] || [];
+        if (docs.length === 0) return '';
+
+        return `
+            <button class="category-tab ${cat === 'sustainability' ? 'active' : ''}" 
+                    data-category="${cat}" 
+                    onclick="selectCategory('${cat}')">
+                <span class="category-tab-icon">${info.icon}</span>
+                <span>${info.name}</span>
+            </button>
+        `;
+    }).join('');
+
+    // Render content for each category
+    contentsContainer.innerHTML = categoryOrder.map(cat => {
+        const info = CATEGORY_INFO[cat];
+        const docs = grouped[cat] || [];
+        if (docs.length === 0) return '';
+
+        return `
+            <div class="category-content ${cat === 'sustainability' ? 'active' : ''}" data-category="${cat}">
+                <!-- Category Description -->
+                <div class="category-description">
+                    <div class="category-desc-header">
+                        <span class="category-desc-icon">${info.icon}</span>
+                        <h3 class="category-desc-title">${info.name}</h3>
+                    </div>
+                    <p class="category-desc-text">${info.description}</p>
+                    <span class="category-project-count">${docs.length} Projects</span>
+                </div>
+                
+                <!-- Projects Grid - All visible -->
+                <div class="projects-grid">
+                    ${docs.map(doc => `
+                        <div class="project-card">
+                            <div class="project-preview">
+                                <span class="project-preview-icon">${getDocIcon(doc.type)}</span>
+                                <span class="project-type-badge">${doc.type}</span>
+                            </div>
+                            <div class="project-content">
+                                <h4 class="project-title">${doc.title}</h4>
+                                <p class="project-description">${doc.description}</p>
+                                <div class="project-actions">
+                                    <button class="project-btn project-btn-view" onclick="openModal('${escapeQuotes(doc.title)}', '${escapeQuotes(doc.filename)}')">
+                                        👁️ View
+                                    </button>
+                                    <a href="${DOCUMENTS_BASE_PATH}${doc.filename}" class="project-btn project-btn-download" download>
+                                        ⬇️ Download
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function selectCategory(category) {
+    // Update tabs
+    document.querySelectorAll('.category-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.category === category);
+    });
+
+    // Update content
+    document.querySelectorAll('.category-content').forEach(content => {
+        content.classList.toggle('active', content.dataset.category === category);
+    });
+
+    currentCategory = category;
+}
+
+function changeProjectSlide(category, direction) {
+    const viewer = document.getElementById(`viewer-${category}`);
+    if (!viewer) return;
+
+    const slides = viewer.querySelectorAll('.project-slide');
+    const currentIndex = categoryProjectIndex[category];
+
+    // Remove active
+    slides[currentIndex].classList.remove('active');
+
+    // Calculate new index
+    let newIndex = currentIndex + direction;
+    if (newIndex < 0) newIndex = slides.length - 1;
+    if (newIndex >= slides.length) newIndex = 0;
+
+    // Set active
+    slides[newIndex].classList.add('active');
+    categoryProjectIndex[category] = newIndex;
+
+    // Update counter
+    document.getElementById(`counter-${category}`).textContent = newIndex + 1;
 }
 
 // ============================================
-// PDF Modal
+// UTILITIES
+// ============================================
+function getDocIcon(type) {
+    const icons = { 'PDF': '📄', 'PPTX': '📊', 'DOCX': '📝' };
+    return icons[type] || '📄';
+}
+
+function escapeQuotes(str) {
+    return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
+}
+
+// ============================================
+// MODAL
 // ============================================
 function initModal() {
     const modal = document.getElementById('pdfModal');
@@ -82,32 +276,29 @@ function initModal() {
 
     if (!modal || !closeBtn) return;
 
-    closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-        document.getElementById('pdfViewer').src = '';
-    });
-
+    closeBtn.addEventListener('click', closeModal);
     modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.style.display = 'none';
-            document.getElementById('pdfViewer').src = '';
-        }
+        if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
     });
 }
 
 function openModal(title, filename) {
     const modal = document.getElementById('pdfModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const pdfViewer = document.getElementById('pdfViewer');
-    const downloadBtn = document.getElementById('downloadBtn');
-
-    if (!modal) return;
-
     const filePath = DOCUMENTS_BASE_PATH + filename;
 
-    modalTitle.textContent = title;
-    pdfViewer.src = filePath;
-    downloadBtn.href = filePath;
-
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('pdfViewer').src = filePath;
+    document.getElementById('modalDownloadBtn').href = filePath;
     modal.style.display = 'flex';
+    clearInterval(slideInterval);
+}
+
+function closeModal() {
+    const modal = document.getElementById('pdfModal');
+    if (modal) modal.style.display = 'none';
+    document.getElementById('pdfViewer').src = '';
+    startSlideshow();
 }
