@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Eugene Mierak</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Explore Eugene Mierak's projects in sustainable development, food security, real estate, and technology.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* Projects Page Specific Styles */
+        .projects-page {
+            min-height: 100vh;
+            background: var(--color-gray-50);
+        }
+
+        .projects-header {
+            background: var(--gradient-primary);
+            padding: var(--spacing-24) 0 var(--spacing-12);
+            color: var(--color-white);
+            text-align: center;
+        }
+
+        .projects-header .section-title {
+            color: var(--color-white);
+            margin-bottom: var(--spacing-4);
+        }
+
+        .projects-header .section-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: var(--spacing-8);
+            font-size: var(--font-size-sm);
+            transition: color var(--transition-fast);
+        }
+
+        .back-link:hover {
+            color: var(--color-white);
+        }
+
+        .projects-content {
+            padding: var(--spacing-12) 0 var(--spacing-24);
+        }
+
+        .projects-content .category-pills {
+            margin-bottom: var(--spacing-8);
+        }
+    </style>
+</head>
+
+<body class="projects-page">
+    <!-- Projects Header -->
+    <header class="projects-header">
+        <div class="container">
+            <a href="index.html" class="back-link">← Back to Home</a>
+            <h1 class="section-title">My Work</h1>
+            <p class="section-subtitle">Explore projects, presentations and publications across different fields of
+                expertise</p>
+        </div>
+    </header>
+
+    <!-- Projects Content -->
+    <main class="projects-content">
+        <div class="container">
+            <!-- Category Pills -->
+            <div class="category-pills">
+                <button class="category-pill active" data-filter="all">
+                    <span class="pill-icon">📁</span>
+                    <span class="pill-text">All Projects</span>
+                    <span class="pill-count">28</span>
+                </button>
+                <button class="category-pill" data-filter="sustainability">
+                    <span class="pill-icon">🌿</span>
+                    <span class="pill-text">Sustainability</span>
+                    <span class="pill-count">3</span>
+                </button>
+                <button class="category-pill" data-filter="food">
+                    <span class="pill-icon">🍴</span>
+                    <span class="pill-text">Food Security</span>
+                    <span class="pill-count">7</span>
+                </button>
+                <button class="category-pill" data-filter="realestate">
+                    <span class="pill-icon">🏨</span>
+                    <span class="pill-text">Real Estate</span>
+                    <span class="pill-count">7</span>
+                </button>
+                <button class="category-pill" data-filter="investment">
+                    <span class="pill-icon">💰</span>
+                    <span class="pill-text">Investment</span>
+                    <span class="pill-count">8</span>
+                </button>
+                <button class="category-pill" data-filter="technology">
+                    <span class="pill-icon">⚡</span>
+                    <span class="pill-text">Technology</span>
+                    <span class="pill-count">2</span>
+                </button>
+                <button class="category-pill" data-filter="research">
+                    <span class="pill-icon">📚</span>
+                    <span class="pill-text">Research</span>
+                    <span class="pill-count">1</span>
+                </button>
+            </div>
+
+            <!-- Documents Grid -->
+            <div class="documents-grid" id="documentsGrid">
+                <!-- Documents will be inserted by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- PDF Viewer Modal -->
+    <div class="modal" id="pdfModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Document</h3>
+                <div class="modal-actions">
+                    <a href="#" class="btn btn-small" id="downloadBtn" download>⬇️ Download</a>
+                    <button class="modal-close" id="modalClose">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <iframe id="pdfViewer" src="" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Eugene Mierak. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/documents-data.js"></script>
+    <script src="js/projects.js"></script>
+</body>
+
+</html>

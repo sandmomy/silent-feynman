@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak - Sustainable Development & Innovation</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Eugene Mierak - Consultant in sustainable development, responsible investments and innovative projects in Indonesia and Africa.">
+    <meta name="keywords"
+        content="Eugene Mierak, sustainable development, investments, Indonesia, Africa, green projects">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Eugene Mierak - Sustainable Development & Innovation">
+    <meta property="og:description"
+        content="Consultant in sustainable development, responsible investments and innovative projects.">
+    <meta property="og:image" content="assets/og-image.jpg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Three.js and Globe.GL -->
+    <script src="https://unpkg.com/three"></script>
+    <script src="https://unpkg.com/globe.gl"></script>
+</head>
+
+<body>
+    <!-- Hero Section -->
+    <header class="hero" id="hero">
+        <div class="hero-bg"></div>
+
+        <div class="hero-content">
+            <p class="hero-subtitle">Sustainable Development & Innovation</p>
+            <h1 class="hero-title">Eugene Mierak</h1>
+            <p class="hero-description">
+                Connecting responsible investments with projects that transform communities
+                across Indonesia, Africa and beyond.
+            </p>
+            <div class="hero-cta">
+                <a href="projects.html" class="btn btn-primary">Explore Projects</a>
+                <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+            </div>
+            <!-- Interactive Globe -->
+            <div class="hero-globe-container">
+                <div id="hero-globe"></div>
+            </div>
+        </div>
+
+        <!-- Side Diagram: Boxes connected to Globe (CSS Lines) -->
+        <div class="hero-diagram">
+            <!-- LEFT: Event Carousel -->
+            <div class="diagram-left">
+                <div class="event-carousel" id="eventCarousel">
+                    <div class="carousel-header">
+                        <span class="carousel-title">EVENTS</span>
+                    </div>
+                    <div class="carousel-track">
+                        <!-- Slide 1 - Bali -->
+                        <div class="carousel-slide active">
+                            <a href="#" class="slide-content" data-event="bali">
+                                <div class="slide-thumb"
+                                    style="background-image: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=400&h=200&fit=crop');">
+                                </div>
+                                <div class="slide-info">
+                                    <h4>Bali Conference</h4>
+                                    <p class="slide-date">March 2025</p>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- Slide 2 - Nigeria -->
+                        <div class="carousel-slide">
+                            <a href="#" class="slide-content" data-event="nigeria">
+                                <div class="slide-thumb"
+                                    style="background-image: url('https://images.unsplash.com/photo-1618828665011-0abd973f7bb8?w=400&h=200&fit=crop');">
+                                </div>
+                                <div class="slide-info">
+                                    <h4>Nigeria Summit</h4>
+                                    <p class="slide-date">April 2025</p>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- Slide 3 - Kenya -->
+                        <div class="carousel-slide">
+                            <a href="#" class="slide-content" data-event="kenya">
+                                <div class="slide-thumb"
+                                    style="background-image: url('https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?w=400&h=200&fit=crop');">
+                                </div>
+                                <div class="slide-info">
+                                    <h4>Kenya Workshop</h4>
+                                    <p class="slide-date">May 2025</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="carousel-dots">
+                        <span class="dot active" data-slide="0"></span>
+                        <span class="dot" data-slide="1"></span>
+                        <span class="dot" data-slide="2"></span>
+                    </div>
+                </div>
+                <div class="line-container-left">
+                    <div class="line-dot"></div>
+                    <div class="line-path"></div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Branching Lines + Two Boxes -->
+            <div class="diagram-right">
+                <div class="right-lines-container">
+                    <div class="line-path-upper"></div>
+                    <div class="line-path-lower"></div>
+                </div>
+
+                <div class="diagram-boxes-right">
+                    <div class="diagram-box partner-box">
+                        <h4>Partnerships</h4>
+                        <div class="partner-list">
+                            <a href="#" class="partner-item">World Bank</a>
+                            <a href="#" class="partner-item">United Nations</a>
+                            <a href="#" class="partner-item">IFC</a>
+                        </div>
+                    </div>
+                    <div class="diagram-box diagram-box-dashed focus-box">
+                        <h4>Focus</h4>
+                        <p class="focus-text">"Connecting responsible investments with sustainable projects that
+                            transform communities."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-scroll">
+            <span>Scroll</span>
+            <div class="scroll-indicator"></div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">About Me</h2>
+                    <p class="about-description">
+                        With years of experience in sustainable project development,
+                        I specialize in building bridges between visionary investors and
+                        opportunities that generate real impact.
+                    </p>
+                    <p class="about-description">
+                        My work spans from food security and innovative agriculture,
+                        to sustainable real estate developments and clean energy technologies.
+                    </p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-card">
+                        <span class="stat-number" data-count="30">0</span>
+                        <span class="stat-plus">+</span>
+                        <span class="stat-label">Projects</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" data-count="5">0</span>
+                        <span class="stat-plus">+</span>
+                        <span class="stat-label">Countries</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" data-count="10">0</span>
+                        <span class="stat-plus">+</span>
+                        <span class="stat-label">Years</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Contact</h2>
+            <p class="section-subtitle">Interested in collaborating? Let's talk.</p>
+
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item" id="contactEmail">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <span class="contact-label">Email</span>
+                            <span class="contact-value">Coming Soon</span>
+                        </div>
+                    </div>
+                    <div class="contact-item" id="contactPhone">
+                        <div class="contact-icon">📱</div>
+                        <div class="contact-details">
+                            <span class="contact-label">Phone</span>
+                            <span class="contact-value">Coming Soon</span>
+                        </div>
+                    </div>
+                    <div class="contact-item" id="contactLocation">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-details">
+                            <span class="contact-label">Location</span>
+                            <span class="contact-value">International</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-social">
+                    <p>Follow me on social media</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="LinkedIn">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Eugene Mierak. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PDF Viewer Modal -->
+    <div class="modal" id="pdfModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Document</h3>
+                <div class="modal-actions">
+                    <a href="#" class="btn btn-small" id="downloadBtn" download>⬇️ Download</a>
+                    <button class="modal-close" id="modalClose">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <iframe id="pdfViewer" src="" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/documents-data.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
