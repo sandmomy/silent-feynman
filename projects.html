@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:wght@400;500;600;700&family=Permanent+Marker&family=Oswald:wght@300;400&display=swap"
         rel="stylesheet">
 
     <!-- Styles -->
@@ -23,7 +23,474 @@
         /* Page Base */
         .showcase-page {
             min-height: 100vh;
-            background: linear-gradient(135deg, #1a365d 0%, #2d3748 50%, #1a202c 100%);
+            background: #0f0f0f;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Confetti/Particles Background */
+        .confetti-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .confetti-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(56, 161, 105, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 30%, rgba(49, 130, 206, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 40% 80%, rgba(128, 90, 213, 0.05) 0%, transparent 40%);
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .particle:nth-child(1) {
+            width: 8px;
+            height: 8px;
+            background: #38a169;
+            top: 15%;
+            left: 10%;
+            animation-delay: 0s;
+            animation-duration: 12s;
+        }
+
+        .particle:nth-child(2) {
+            width: 6px;
+            height: 6px;
+            background: #3182ce;
+            top: 25%;
+            left: 85%;
+            animation-delay: 2s;
+            animation-duration: 14s;
+        }
+
+        .particle:nth-child(3) {
+            width: 10px;
+            height: 10px;
+            background: #805ad5;
+            top: 45%;
+            left: 5%;
+            animation-delay: 4s;
+            animation-duration: 16s;
+        }
+
+        .particle:nth-child(4) {
+            width: 5px;
+            height: 5px;
+            background: #ed8936;
+            top: 60%;
+            left: 90%;
+            animation-delay: 1s;
+            animation-duration: 11s;
+        }
+
+        .particle:nth-child(5) {
+            width: 7px;
+            height: 7px;
+            background: #38a169;
+            top: 80%;
+            left: 15%;
+            animation-delay: 3s;
+            animation-duration: 13s;
+        }
+
+        .particle:nth-child(6) {
+            width: 4px;
+            height: 4px;
+            background: #3182ce;
+            top: 10%;
+            left: 45%;
+            animation-delay: 5s;
+            animation-duration: 15s;
+        }
+
+        .particle:nth-child(7) {
+            width: 9px;
+            height: 9px;
+            background: #805ad5;
+            top: 35%;
+            left: 70%;
+            animation-delay: 2.5s;
+            animation-duration: 12s;
+        }
+
+        .particle:nth-child(8) {
+            width: 6px;
+            height: 6px;
+            background: #ed8936;
+            top: 70%;
+            left: 50%;
+            animation-delay: 1.5s;
+            animation-duration: 14s;
+        }
+
+        .particle:nth-child(9) {
+            width: 8px;
+            height: 8px;
+            background: #38a169;
+            top: 55%;
+            left: 30%;
+            animation-delay: 4.5s;
+            animation-duration: 16s;
+        }
+
+        .particle:nth-child(10) {
+            width: 5px;
+            height: 5px;
+            background: #3182ce;
+            top: 20%;
+            left: 60%;
+            animation-delay: 0.5s;
+            animation-duration: 11s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.6;
+            }
+
+            25% {
+                transform: translateY(-20px) rotate(90deg);
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: translateY(10px) rotate(180deg);
+                opacity: 0.5;
+            }
+
+            75% {
+                transform: translateY(-15px) rotate(270deg);
+                opacity: 0.7;
+            }
+        }
+
+        /* Ensure content is above particles */
+        .showcase-header,
+        .hero-split-wrapper,
+        .showcase-main {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ========================================
+           HERO SPLIT LAYOUT
+           ======================================== */
+        .hero-split-wrapper {
+            position: relative;
+            background: transparent;
+            /* Video will show through */
+            overflow: hidden;
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Video Background at wrapper level */
+        .hero-wrapper-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 100% center;
+            left: -20%;
+            /* Shift video to show subtitles */
+            width: 120%;
+            z-index: -1;
+        }
+
+        /* Diagonal Dark Background (Left Side) */
+        .hero-diagonal-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f0f0f;
+            clip-path: polygon(0 0, 55% 0, 40% 100%, 0% 100%);
+            z-index: 0;
+        }
+
+        /* Container for Split Content */
+        .hero-container {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 45% 55%;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-left {
+            display: flex;
+            align-items: flex-start;
+            /* Align to top */
+            justify-content: center;
+            /* Center horizontally */
+            padding: var(--spacing-8) var(--spacing-12);
+            color: white;
+            text-align: center;
+            /* Center text */
+        }
+
+        .hero-right {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Video Background - removed from hero-right */
+        .hero-video-bg {
+            display: none;
+        }
+
+        .hero-video-overlay {
+            display: none;
+        }
+
+        .hero-right .featured-section {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Slideshow - NO background, NO blur */
+        .hero-right .slideshow-container {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            backdrop-filter: none;
+        }
+
+        /* Hero Content Styling */
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .hero-title {
+            font-size: 5rem;
+            line-height: 0.9;
+            margin-bottom: var(--spacing-6);
+            margin-top: 0;
+        }
+
+        .hero-title .word-my {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 300;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: white;
+            display: block;
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            margin-bottom: 0.1em;
+        }
+
+        .hero-title .word-work {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 5rem;
+            text-transform: none;
+            letter-spacing: 0.02em;
+            color: white;
+            display: block;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-keywords {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-4);
+            margin-bottom: var(--spacing-8);
+            margin-top: var(--spacing-8);
+            /* Push further down */
+        }
+
+        .hero-separator {
+            width: 1px;
+            height: 80px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.1));
+            margin: 0 auto;
+        }
+
+        .hero-keyword {
+            font-size: var(--font-size-2xl);
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .hero-arrow {
+            color: var(--color-green);
+            font-size: var(--font-size-xl);
+            opacity: 0.8;
+            animation: float-arrow 2s infinite ease-in-out;
+        }
+
+        @keyframes float-arrow {
+
+            0%,
+            100% {
+                transform: translateY(0);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: translateY(5px);
+                opacity: 1;
+            }
+        }
+
+        .btn-scroll {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: var(--spacing-3) var(--spacing-6);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-sm);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-scroll:hover {
+            border-color: var(--color-white);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Adjust Slideshow for Right Column */
+        .hero-right .featured-section {
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        .hero-right .featured-label {
+            color: #4a5568;
+            /* Darker label for light background */
+            margin-bottom: var(--spacing-4);
+            display: block;
+            text-align: center;
+        }
+
+        .hero-right .slideshow-container {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            backdrop-filter: none;
+        }
+
+        /* Make slideshow visible on video - WHITE text with shadows */
+        .hero-right .slide-content {
+            color: #ffffff;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-right .slide-title {
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+        }
+
+        .hero-right .slide-description {
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-right .featured-label {
+            color: #ffffff !important;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+        }
+
+        .hero-right .slide-category {
+            color: #00F5FF !important;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+        }
+
+        /* Slide preview box - semi-transparent dark */
+        .hero-right .slide-preview {
+            background: rgba(0, 0, 0, 0.4) !important;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Adjust Slide Actions for video background */
+        .hero-right .slide-btn-secondary {
+            border-color: rgba(255, 255, 255, 0.5);
+            color: #ffffff;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-right .slide-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+
+        .hero-right .slide-btn-primary {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Adjust Slide Dots */
+        .hero-right .slide-dot {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .hero-right .slide-dot.active {
+            background: var(--color-green);
+        }
+
+        .hero-right .slide-arrow {
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-right .slide-arrow:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Responsive Layout */
+        @media (max-width: 1100px) {
+            .hero-diagonal-bg {
+                clip-path: polygon(0 0, 100% 0, 100% 45%, 0% 55%);
+                height: 100%;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                padding-top: var(--spacing-12);
+            }
+
+            .hero-right {
+                padding-top: 0;
+            }
+
+            .hero-split-wrapper {
+                height: auto;
+                min-height: auto;
+            }
         }
 
         /* Header */
@@ -44,6 +511,20 @@
         }
 
         .back-link:hover {
+            color: var(--color-white);
+        }
+
+        /* Hero Title - Gradient Style (Removed duplicate) */
+
+        .hero-subtitle {
+            font-size: var(--font-size-lg);
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .hero-subtitle strong {
             color: var(--color-white);
         }
 
@@ -634,35 +1115,84 @@
 </head>
 
 <body class="showcase-page">
-    <!-- Header -->
-    <header class="showcase-header">
-        <a href="index.html" class="back-link">← Back to Home</a>
-        <h1 class="page-title">My Work</h1>
-        <div style="width: 100px;"></div>
-    </header>
+    <!-- Background Particles -->
+    <div class="confetti-bg">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    <!-- Hero Split Layout -->
+    <div class="hero-split-wrapper">
+        <video class="hero-wrapper-video" autoplay muted loop playsinline>
+            <source src="assets/indonesia_bg.mp4" type="video/mp4">
+        </video>
+        <div class="hero-diagonal-bg"></div>
 
-    <!-- Main -->
-    <main class="showcase-main">
-        <!-- Featured Slideshow -->
-        <section class="featured-section">
-            <span class="featured-label">⭐ Featured Projects</span>
-            <div class="slideshow-container" id="slideshow">
-                <!-- Slides will be inserted by JavaScript -->
-            </div>
-        </section>
+        <header class="showcase-header">
+            <a href="index.html" class="back-link">← Back to Home</a>
+        </header>
 
-        <!-- Category Tabs Section -->
-        <section class="category-tabs-section">
-            <!-- Tabs Bar -->
-            <div class="category-tabs" id="categoryTabs">
-                <!-- Tabs inserted by JavaScript -->
+        <div class="hero-container">
+            <!-- Left Side: Content -->
+            <div class="hero-left">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        <span class="word-my">My</span>
+                        <span class="word-work">Work</span>
+                    </h1>
+
+                    <div class="hero-separator"></div>
+
+                    <div class="hero-keywords">
+                        <span class="hero-keyword">Alignment</span>
+                        <span class="hero-arrow">↓</span>
+                        <span class="hero-keyword">Focus</span>
+                        <span class="hero-arrow">↓</span>
+                        <span class="hero-keyword">Breath</span>
+                    </div>
+                    <div class="hero-actions">
+                        <button class="btn-scroll"
+                            onclick="document.querySelector('.category-tabs-section').scrollIntoView({behavior: 'smooth'})">View
+                            All Projects ↓</button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Category Content -->
-            <div id="categoryContents">
-                <!-- Content for each category -->
+            <!-- Right Side: Slideshow -->
+            <div class="hero-right">
+                <video class="hero-video-bg" autoplay muted loop playsinline>
+                    <source src="assets/indonesia_bg.mp4" type="video/mp4">
+                </video>
+                <div class="hero-video-overlay"></div>
+                <section class="featured-section">
+                    <span class="featured-label">⭐ Featured Projects</span>
+                    <div class="slideshow-container" id="slideshow">
+                        <!-- Slides will be inserted by JavaScript -->
+                    </div>
+                </section>
             </div>
-        </section>
+        </div>
+    </div>
+
+    <!-- Category Tabs Section -->
+    <section class="category-tabs-section">
+        <!-- Tabs Bar -->
+        <div class="category-tabs" id="categoryTabs">
+            <!-- Tabs inserted by JavaScript -->
+        </div>
+
+        <!-- Category Content -->
+        <div id="categoryContents">
+            <!-- Content for each category -->
+        </div>
+    </section>
     </main>
 
     <!-- PDF Viewer Modal -->
