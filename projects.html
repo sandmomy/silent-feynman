@@ -199,9 +199,11 @@
             background: transparent;
             /* Video will show through */
             overflow: hidden;
-            min-height: 85vh;
+            min-height: 100vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
+            padding-top: 5rem;
         }
 
         /* Video Background at wrapper level */
@@ -245,8 +247,8 @@
 
         .hero-left {
             display: flex;
-            align-items: flex-start;
-            /* Align to top */
+            align-items: center;
+            /* Center vertically */
             justify-content: center;
             /* Center horizontally */
             padding: var(--spacing-8) var(--spacing-12);
@@ -292,27 +294,27 @@
         }
 
         .hero-title {
-            font-size: 5rem;
+            font-size: 6rem;
             line-height: 0.9;
-            margin-bottom: var(--spacing-6);
+            margin-bottom: var(--spacing-8);
             margin-top: 0;
         }
 
         .hero-title .word-my {
             font-family: 'Oswald', sans-serif;
             font-weight: 300;
-            font-size: 2.5rem;
+            font-size: 3.5rem;
             text-transform: uppercase;
             letter-spacing: 0.3em;
             color: white;
             display: block;
             text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            margin-bottom: 0.1em;
+            margin-bottom: 0.2em;
         }
 
         .hero-title .word-work {
             font-family: 'Permanent Marker', cursive;
-            font-size: 5rem;
+            font-size: 6.5rem;
             text-transform: none;
             letter-spacing: 0.02em;
             color: white;
@@ -323,23 +325,23 @@
         .hero-keywords {
             display: flex;
             flex-direction: column;
-            gap: var(--spacing-4);
+            gap: var(--spacing-6);
             margin-bottom: var(--spacing-8);
             margin-top: var(--spacing-8);
             /* Push further down */
         }
 
         .hero-separator {
-            width: 1px;
-            height: 80px;
+            width: 2px;
+            height: 100px;
             background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.1));
             margin: 0 auto;
         }
 
         .hero-keyword {
-            font-size: var(--font-size-2xl);
+            font-size: var(--font-size-3xl);
             font-weight: 500;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
             color: rgba(255, 255, 255, 0.9);
         }
@@ -365,24 +367,85 @@
             }
         }
 
-        /* Modern Navigation Bar */
+        /* Modern Navigation Bar - Transparent Floating Icons */
         .projects-navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: rgba(15, 15, 15, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 1rem 0;
+            position: fixed !important;
+            top: 0.5rem !important;
+            left: 1rem !important;
+            z-index: 1000 !important;
+            background: transparent;
+            padding: 0;
+            transform: translateY(0);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 1;
+        }
+
+        .projects-navbar.navbar-hidden {
+            transform: translateY(-100px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .navbar-container {
+            padding: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .navbar-logo {
+            display: none;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .navbar-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: white;
-            padding: var(--spacing-3) var(--spacing-6);
-            border-radius: var(--radius-full);
-            font-size: var(--font-size-sm);
-            cursor: pointer;
+            text-decoration: none;
             transition: all 0.3s ease;
+            position: relative;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .navbar-link:hover {
+            background: rgba(72, 187, 120, 0.3);
+            border-color: rgba(72, 187, 120, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(72, 187, 120, 0.2);
+        }
+
+        .link-text {
+            display: block;
+        }
+
+        .navbar-link-highlight {
+            background: rgba(139, 90, 43, 0.35);
+            border-color: rgba(139, 90, 43, 0.5);
+        }
+
+        .navbar-link-highlight:hover {
+            background: rgba(139, 90, 43, 0.5);
+            border-color: rgba(139, 90, 43, 0.7);
+        }
+
+        .navbar-toggle {
+            display: none;
         }
 
         .btn-scroll:hover {
@@ -847,8 +910,10 @@
            ======================================== */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-            gap: var(--spacing-5);
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-6);
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .project-card {
@@ -857,6 +922,9 @@
             border-radius: var(--radius-xl);
             overflow: hidden;
             transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
         .project-card:hover {
@@ -1077,6 +1145,12 @@
         }
 
         /* Responsive */
+        @media (max-width: 1200px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
         @media (max-width: 992px) {
             .slide.active {
                 grid-template-columns: 1fr;
@@ -1154,20 +1228,16 @@
                 
                 <div class="navbar-menu" id="navbarMenu">
                     <a href="index.html" class="navbar-link">
-                        <span class="link-icon">🏠</span>
-                        <span>Home</span>
+                        <span class="link-text">Home</span>
                     </a>
                     <a href="index.html#about" class="navbar-link">
-                        <span class="link-icon">👤</span>
-                        <span>About</span>
+                        <span class="link-text">About</span>
                     </a>
                     <a href="#partnerships" class="navbar-link">
-                        <span class="link-icon">🤝</span>
-                        <span>Partnerships</span>
+                        <span class="link-text">Partnerships</span>
                     </a>
                     <a href="index.html#contact" class="navbar-link navbar-link-highlight">
-                        <span class="link-icon">📧</span>
-                        <span>Contact</span>
+                        <span class="link-text">Contact</span>
                     </a>
                 </div>
 

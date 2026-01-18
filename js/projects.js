@@ -58,7 +58,32 @@ function initNavbar() {
     const navbarToggle = document.getElementById('navbarToggle');
     const navbarMenu = document.getElementById('navbarMenu');
     
-    if (!navbar || !navbarToggle || !navbarMenu) return;
+    if (!navbar) return;
+
+    let lastScrollTop = 0;
+    const scrollThreshold = 100; // Pixels to scroll before hiding
+
+    // Hide/Show navbar on scroll
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > scrollThreshold) {
+            if (scrollTop > lastScrollTop) {
+                // Scrolling down - hide navbar
+                navbar.classList.add('navbar-hidden');
+            } else {
+                // Scrolling up - show navbar
+                navbar.classList.remove('navbar-hidden');
+            }
+        } else {
+            // At top of page - always show
+            navbar.classList.remove('navbar-hidden');
+        }
+        
+        lastScrollTop = scrollTop;
+    });
+
+    if (!navbarToggle || !navbarMenu) return;
 
     // Toggle mobile menu
     navbarToggle.addEventListener('click', () => {
@@ -73,15 +98,6 @@ function initNavbar() {
             navbarMenu.classList.remove('active');
             navbarToggle.classList.remove('active');
         });
-    });
-
-    // Add scrolled class on scroll
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
     });
 
     // Close menu when clicking outside
