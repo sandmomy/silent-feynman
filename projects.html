@@ -365,9 +365,18 @@
             }
         }
 
-        .btn-scroll {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        /* Modern Navigation Bar */
+        .projects-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(15, 15, 15, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 0;
             color: white;
             padding: var(--spacing-3) var(--spacing-6);
             border-radius: var(--radius-full);
@@ -1135,9 +1144,40 @@
         </video>
         <div class="hero-diagonal-bg"></div>
 
-        <header class="showcase-header">
-            <a href="index.html" class="back-link">← Back to Home</a>
-        </header>
+        <!-- Modern Navigation Bar -->
+        <nav class="projects-navbar">
+            <div class="navbar-container">
+                <a href="index.html" class="navbar-logo">
+                    <span class="logo-icon">🌍</span>
+                    <span class="logo-text">Eugene Mierak</span>
+                </a>
+                
+                <div class="navbar-menu" id="navbarMenu">
+                    <a href="index.html" class="navbar-link">
+                        <span class="link-icon">🏠</span>
+                        <span>Home</span>
+                    </a>
+                    <a href="index.html#about" class="navbar-link">
+                        <span class="link-icon">👤</span>
+                        <span>About</span>
+                    </a>
+                    <a href="#partnerships" class="navbar-link">
+                        <span class="link-icon">🤝</span>
+                        <span>Partnerships</span>
+                    </a>
+                    <a href="index.html#contact" class="navbar-link navbar-link-highlight">
+                        <span class="link-icon">📧</span>
+                        <span>Contact</span>
+                    </a>
+                </div>
+
+                <button class="navbar-toggle" id="navbarToggle" aria-label="Toggle navigation">
+                    <span class="toggle-bar"></span>
+                    <span class="toggle-bar"></span>
+                    <span class="toggle-bar"></span>
+                </button>
+            </div>
+        </nav>
 
         <div class="hero-container">
             <!-- Left Side: Content -->

@@ -47,7 +47,51 @@ document.addEventListener('DOMContentLoaded', function () {
     initSlideshow();
     initCategoryTabs();
     initModal();
+    initNavbar();
 });
+
+// ============================================
+// NAVBAR FUNCTIONALITY
+// ============================================
+function initNavbar() {
+    const navbar = document.querySelector('.projects-navbar');
+    const navbarToggle = document.getElementById('navbarToggle');
+    const navbarMenu = document.getElementById('navbarMenu');
+    
+    if (!navbar || !navbarToggle || !navbarMenu) return;
+
+    // Toggle mobile menu
+    navbarToggle.addEventListener('click', () => {
+        navbarMenu.classList.toggle('active');
+        navbarToggle.classList.toggle('active');
+    });
+
+    // Close menu when clicking on a link
+    const navLinks = navbarMenu.querySelectorAll('.navbar-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            navbarMenu.classList.remove('active');
+            navbarToggle.classList.remove('active');
+        });
+    });
+
+    // Add scrolled class on scroll
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!navbar.contains(e.target)) {
+            navbarMenu.classList.remove('active');
+            navbarToggle.classList.remove('active');
+        }
+    });
+}
 
 // ============================================
 // SLIDESHOW
