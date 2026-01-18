@@ -290,7 +290,13 @@ function openModal(title, filename) {
     const filePath = DOCUMENTS_BASE_PATH + filename;
 
     document.getElementById('modalTitle').textContent = title;
-    document.getElementById('pdfViewer').src = filePath;
+    
+    // For GitHub Pages: Use Google Docs Viewer as fallback for better compatibility
+    // This works reliably with GitHub Pages hosted PDFs
+    const fullUrl = window.location.origin + window.location.pathname.replace('projects.html', '') + filePath;
+    const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
+    document.getElementById('pdfViewer').src = viewerUrl;
+    
     document.getElementById('modalDownloadBtn').href = filePath;
     modal.style.display = 'flex';
     clearInterval(slideInterval);

@@ -88,15 +88,6 @@ const DOCUMENTS_DATA = [
         type: "PDF",
         description: "Smart farming solutions for remote and rural communities."
     },
-    {
-        id: 10,
-        title: "Remote Farming Presentation - Nigeria",
-        filename: "Presentation SBDI Foundation remote farming 07-10-2024 Nigeria.pptx",
-        category: "food",
-        categoryLabel: "🍴 Food Security",
-        type: "PPTX",
-        description: "Comprehensive presentation on remote farming initiatives in Nigeria."
-    },
 
     // 🏨 Real Estate
     {
@@ -269,4 +260,4 @@ const DOCUMENTS_DATA = [
     }
 ];
 
-const DOCUMENTS_BASE_PATH = "file:///C:/Users/Usuario/Desktop/PDFS/";
+const DOCUMENTS_BASE_PATH = "assets/pdfs/";
