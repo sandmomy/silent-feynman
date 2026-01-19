@@ -183,7 +183,7 @@ const DOCUMENTS_DATA = [
     // 💰 Investment & Business
     {
         id: 18,
-        title: "Sustainable Investment Guide Indonesia",
+        title: "Indonesia Investment Guide",
         filename: "Sustainable investment guide Indonesia 20232024.pdf",
         category: "investment",
         categoryId: "investment",
