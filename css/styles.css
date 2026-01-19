@@ -2180,7 +2180,6 @@ section {
     height: 20px;
     width: auto;
     object-fit: contain;
-    filter: brightness(1.1);
 }
 
 .partner-tag.partner-logo-main {
@@ -2197,7 +2196,12 @@ section {
     height: 70px;
     width: auto;
     object-fit: contain;
-    filter: brightness(3);
+}
+
+.home-hero .partner-logo-main-img {
+    filter: none !important;
+    mix-blend-mode: normal;
+    opacity: 1;
 }
 
 .focus-box p {
