@@ -222,8 +222,9 @@
             background: transparent;
             /* Video will show through */
             overflow: hidden;
-            min-height: 100vh;
             height: 100vh;
+            min-height: 600px;
+            max-height: 100vh;
             display: flex;
             flex-direction: column;
             padding-top: 5rem;
@@ -235,12 +236,9 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: 120%;
             object-fit: cover;
-            object-position: 100% center;
-            left: -20%;
-            /* Shift video to show subtitles */
-            width: 120%;
+            object-position: center top;
             z-index: -1;
         }
 
@@ -271,8 +269,9 @@
         .hero-left {
             display: flex;
             align-items: flex-start;
-            justify-content: flex-start;
+            justify-content: center;
             padding: var(--spacing-8) var(--spacing-12);
+            padding-left: 15%;
             color: white;
             text-align: left;
             overflow: visible;
@@ -285,6 +284,10 @@
             max-width: 520px;
             animation: none !important;
             opacity: 1 !important;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .hero-right {
@@ -385,10 +388,19 @@
         .hero-keywords {
             display: flex;
             flex-direction: column;
+            align-items: center;
             gap: var(--spacing-4);
             margin-bottom: var(--spacing-6);
             margin-top: var(--spacing-6);
             /* Push further down */
+            width: 100%;
+        }
+
+        .hero-arrow {
+            color: var(--color-green);
+            font-size: var(--font-size-xl);
+            opacity: 0.8;
+            animation: float-arrow 2s infinite ease-in-out;
         }
 
         .hero-separator {
@@ -845,7 +857,13 @@
             align-items: center;
             gap: var(--spacing-4);
             padding: var(--spacing-4);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: var(--spacing-4);
+        }
+
+        .slide-dots {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2);
         }
 
         .slide-dot {
