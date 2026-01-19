@@ -463,14 +463,12 @@ section {
     height: 2px;
     background: var(--color-white);
     transition: all var(--transition-fast);
-}
-
 /* ============================================
    Hero Section
    ============================================ */
 .hero {
     position: relative;
-    min-height: 80vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -559,9 +557,10 @@ section {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    max-width: 1400px;
-    padding: 0 var(--spacing-8);
-    gap: var(--spacing-12);
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: var(--spacing-10) var(--spacing-8);
+    gap: var(--spacing-10);
     z-index: 5;
     animation: fadeInUp 1s ease-out;
 }
@@ -647,7 +646,7 @@ section {
     justify-content: flex-start;
     /* Align to top to match left */
     align-items: center;
-    max-width: 600px;
+    width: min(100%, 600px);
     gap: var(--spacing-8);
     padding-top: var(--spacing-4);
     /* Match left side padding */
@@ -662,19 +661,38 @@ section {
     /* Ensure clickable above globe aura */
 }
 
+.hero-right .featured-section {
+    width: min(100%, 640px);
+    margin: 0 auto;
+}
+
+.hero-right .slideshow-container {
+    width: 100%;
+}
+
 /* Responsive: Large tablets and smaller desktops */
 @media (max-width: 1280px) {
+    .hero {
+        min-height: 90vh;
+    }
+
     .hero-split {
-        gap: var(--spacing-6);
-        padding: 0 var(--spacing-4);
+        gap: var(--spacing-8);
+        padding: var(--spacing-8) var(--spacing-6);
+        max-width: 1180px;
     }
 
     .hero-left {
-        max-width: 480px;
+        max-width: 500px;
+        padding-bottom: var(--spacing-12);
     }
 
     .hero-right {
-        max-width: 500px;
+        width: min(100%, 540px);
+    }
+
+    .hero-right .featured-section {
+        width: min(100%, 580px);
     }
 
     .hero-title {
@@ -2418,32 +2436,12 @@ section {
     transform: translateX(-50%);
     width: max-content;
     z-index: 20;
-    /* Above globe */
-    margin-top: 0;
-    position: absolute;
-    /* Anchor to the bottom of the globe container */
-    top: 90%;
-    /* Start slightly overlapping the bottom of the globe space */
-    left: 50%;
-    transform: translateX(-50%);
-    width: max-content;
-    z-index: 20;
-    /* Above globe */
-    position: absolute;
-    /* Anchor to the bottom of the globe container */
-    top: 90%;
-    /* Start slightly overlapping the bottom of the globe space */
-    left: 50%;
-    transform: translateX(-50%);
-    width: max-content;
-    z-index: 20;
-    /* Above globe */
-
     /* Styling */
     background: rgba(26, 54, 93, 0.4);
     border-radius: 20px;
     padding: 10px 20px;
     backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
