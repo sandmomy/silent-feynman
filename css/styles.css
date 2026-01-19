@@ -564,10 +564,27 @@ section {
     padding-bottom: var(--spacing-12);
     padding-top: var(--spacing-6);
     gap: var(--spacing-4);
+    position: relative;
 }
 
 .hero-left .hero-subtitle {
     text-align: left;
+}
+
+.hero-left .hero-stats-row {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin-top: var(--spacing-6);
+    margin-bottom: var(--spacing-4);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-4) var(--spacing-6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: fit-content;
 }
 
 .hero-right {
@@ -1862,19 +1879,15 @@ section {
     color: var(--color-white);
     min-width: 180px;
     padding: var(--spacing-6);
-    cursor: pointer;
     transition: all var(--transition-normal);
     border-radius: var(--radius-lg);
 }
 
-.hero-stats-container .stat-card:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    border-color: rgba(255, 255, 255, 0.4);
+.hero-stats-container .modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(0deg) scale(1.05);
 }
 
-.hero-stats-container .stat-number {
     display: block;
     font-size: var(--font-size-3xl);
     font-weight: 700;
