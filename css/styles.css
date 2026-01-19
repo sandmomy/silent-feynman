@@ -736,6 +736,10 @@ section {
         flex-direction: column;
         align-items: center;
     }
+
+    .hero-bottom-shadow {
+        height: 180px;
+    }
 }
 
 /* Responsive: Mobile */
@@ -790,7 +794,7 @@ section {
     }
 
     .hero-bottom-shadow {
-        height: 150px;
+        height: 100px;
     }
 }
 
@@ -845,10 +849,13 @@ section {
 }
 
 #hero-globe {
-    /* Increased size as requested */
-    width: clamp(500px, 50vw, 850px);
-    height: clamp(500px, 50vw, 850px);
+    /* Fixed dimensions to prevent resizing issues */
+    width: 520px;
+    height: 520px;
+    max-width: 100%;
     margin: 0 auto;
+    position: relative;
+    overflow: hidden;
 }
 
 .simple-globe {
@@ -1910,12 +1917,12 @@ section {
     transform: rotate(0deg) scale(1.05);
 }
 
-    display: block;
-    font-size: var(--font-size-3xl);
-    font-weight: 700;
-    color: var(--color-white);
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: var(--spacing-1);
+display: block;
+font-size: var(--font-size-3xl);
+font-weight: 700;
+color: var(--color-white);
+text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+margin-bottom: var(--spacing-1);
 }
 
 .hero-stats-container .stat-label {

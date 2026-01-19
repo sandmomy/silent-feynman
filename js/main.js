@@ -310,12 +310,17 @@ function initHeroGlobe() {
 
     observer.observe(globeContainer);
 
-    // Sync globe size on resize
+    // Sync globe size on resize with debounce
+    let resizeTimeout;
     window.addEventListener('resize', () => {
-        requestAnimationFrame(syncGlobeSizeToContainer);
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            syncGlobeSizeToContainer();
+        }, 150);
     });
     setTimeout(syncGlobeSizeToContainer, 50);
     setTimeout(syncGlobeSizeToContainer, 300);
+    setTimeout(syncGlobeSizeToContainer, 1000);
 
     let scrollTimeout;
     window.addEventListener('scroll', () => {
@@ -581,7 +586,7 @@ function initCountrySlider() {
 // ============================================
 function initFadeAnimations() {
     const fadeElements = document.querySelectorAll('.fade-section, .fade-scale, .fade-left, .fade-right');
-    
+
     if (fadeElements.length === 0) return;
 
     const observerOptions = {
@@ -611,7 +616,7 @@ function initHeroShadow() {
     const hero = document.querySelector('.hero');
     const contact = document.getElementById('contact');
     const about = document.getElementById('about');
-    
+
     if (!hero) return;
 
     // Create shadow element
@@ -625,24 +630,24 @@ function initHeroShadow() {
         const heroBottom = hero.offsetTop + hero.offsetHeight;
         const aboutTop = about ? about.offsetTop : heroBottom;
         const contactBottom = contact ? contact.offsetTop + contact.offsetHeight : document.body.scrollHeight;
-        
+
         // Calculate progress through the page
         const totalScrollable = contactBottom - windowHeight;
         const scrollProgress = scrollY / totalScrollable;
-        
+
         // Partnerships section position (where SBDI logo is)
         const partnerships = document.querySelector('.hero-partnerships');
         const partnershipsTop = partnerships ? partnerships.offsetTop : heroBottom;
-        
+
         // Calculate opacity based on section visibility
         let opacity = 1;
-        
+
         // Fade out only when leaving About section completely
         if (scrollY > aboutTop + windowHeight * 0.5) {
             const progress = (scrollY - (aboutTop + windowHeight * 0.5)) / 400;
             opacity = Math.max(0, 1 - progress * 0.8);
         }
-        
+
         // Fade completely at end of contact
         if (contact) {
             const contactEnd = contact.offsetTop + contact.offsetHeight;
@@ -652,7 +657,7 @@ function initHeroShadow() {
                 opacity = Math.min(opacity, Math.max(0, endFade));
             }
         }
-        
+
         shadow.style.opacity = opacity;
     }
 
