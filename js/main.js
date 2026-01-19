@@ -3,11 +3,66 @@
  */
 
 document.addEventListener('DOMContentLoaded', function () {
+    initSmoothScroll();
     initNavigation();
     initScrollEffects();
     initStatsAnimation();
     initHeroGlobe();
+    initCountrySlider();
 });
+
+// ============================================
+// SMOOTH SCROLL WITH LENIS
+// ============================================
+function initSmoothScroll() {
+    // Prevent multiple instances
+    if (window.lenis) {
+        console.log('Lenis already initialized, skipping');
+        return;
+    }
+
+    // Check if Lenis is available
+    if (typeof Lenis === 'undefined') {
+        console.log('Lenis not loaded, skipping smooth scroll');
+        return;
+    }
+
+    try {
+        // Initialize Lenis - same config as projects.js for consistency
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false,
+        });
+
+        // Sync Lenis with Three.js - share the same RAF loop
+        // This prevents conflicts between multiple animation loops
+        lenis.on('scroll', () => {
+            // Trigger scroll events for other listeners
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Store lenis instance globally for globe sync
+        window.lenisInstance = lenis;
+
+        // Expose lenis to window for debugging
+        window.lenis = lenis;
+        console.log('Lenis smooth scroll initialized');
+    } catch (error) {
+        console.error('Error initializing Lenis:', error);
+    }
+}
 
 // ============================================
 // Hero Globe (WebGL Earth)
@@ -17,6 +72,8 @@ function initHeroGlobe() {
 
     const globeContainer = document.getElementById('hero-globe');
     if (!globeContainer) return;
+
+    // NOTE: Layout is now handled by CSS Grid - no JS calculations needed
 
     // Countries with active projects (will be BLUE)
     const activeCountries = ['Indonesia', 'Nigeria', 'Kenya'];
@@ -29,63 +86,251 @@ function initHeroGlobe() {
         { lat: -1.3, lng: 36.8, name: 'Kenya', color: '#ef4444' }
     ];
 
-    // Ocean Texture (Blue)
-    const canvas = document.createElement('canvas');
-    canvas.width = 2;
-    canvas.height = 2;
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#3b82f6';
-    ctx.fillRect(0, 0, 2, 2);
-    const oceanTexture = canvas.toDataURL();
+    // Natural Earth texture: green land + blue ocean
+    const earthTexture = 'https://unpkg.com/three-globe/example/img/earth-day.jpg';
 
-    // Initialize Globe
+    // Initialize Globe - original style
     const globe = Globe()
         .backgroundColor('rgba(0,0,0,0)')
-        .globeImageUrl(oceanTexture)
-        .width(440)
-        .height(440)
+        .globeImageUrl(earthTexture)
+        .width(520)
+        .height(520)
         .showAtmosphere(true)
         .atmosphereColor('#48bb78')
         .atmosphereAltitude(0.12)
 
-        // --- LAYER 1: HTML MARKERS (SVG Google Pins) ---
-        // Using DOM Elements instead of 3D Meshes to bypass rendering bugs.
-        .htmlElementsData(pointsData)
+    // --- LAYER 1: HTML MARKERS (SVG Google Pins) ---
+    // --- LAYER 1: HTML MARKERS (CSS Pins) ---
+    // Use DOCUMENTS_DATA if available, filtering for items with coordinates
+    let globeData = [];
+    if (typeof DOCUMENTS_DATA !== 'undefined') {
+        globeData = DOCUMENTS_DATA.filter(d => d.lat !== undefined && d.lng !== undefined);
+    } else {
+        // Fallback or dev data
+        globeData = pointsData;
+    }
+
+    globe
+        .htmlElementsData(globeData)
         .htmlLat('lat')
         .htmlLng('lng')
         .htmlAltitude(0.05)
         .htmlElement(d => {
             const el = document.createElement('div');
-            el.className = 'globe-pin';
-            // SVG Google Maps Pin
-            el.innerHTML = `
-                <svg viewBox="0 0 24 24" width="30" height="30" fill="${d.color}" stroke="white" stroke-width="1.5" style="filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.5)); display: block;">
+            el.className = 'globe-pin-container';
+            el.style.position = 'relative';
+            el.style.transform = 'translate(-50%, -100%)';
+            el.style.cursor = 'pointer';
+            el.style.pointerEvents = 'auto';
+
+            // Pin Icon (CSS)
+            const pin = document.createElement('div');
+            pin.className = 'map-pin small-ping';
+            pin.style.background = 'transparent'; // Transparent background, only SVG visible
+
+            // Or use SVG inside
+            pin.innerHTML = `
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="#ef4444" stroke="white" stroke-width="1.5" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); display: block;">
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                     <circle cx="12" cy="9" r="2.5" fill="white"/>
                 </svg>
             `;
-            // Positioning: Center Bottom
-            el.style.transform = 'translate(-50%, -100%)';
-            el.style.pointerEvents = 'auto'; // Allow interaction
-            el.style.cursor = 'pointer';
 
-            el.onclick = () => alert(`Project Location: ${d.name}`);
+            el.appendChild(pin);
+
+            // Tooltip (Hidden by default, shown on hover/click)
+            const tooltip = document.createElement('div');
+            tooltip.className = 'globe-tooltip';
+            tooltip.innerHTML = `
+                <div class="tooltip-category">${d.categoryLabel || 'Project'}</div>
+                <div class="tooltip-title">${d.title}</div>
+            `;
+            // Inline styles for tooltip (or move to CSS)
+            Object.assign(tooltip.style, {
+                position: 'absolute',
+                bottom: '120%',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: 'rgba(255, 255, 255, 0.95)',
+                backdropFilter: 'blur(8px)',
+                padding: '8px 12px',
+                borderRadius: '8px',
+                boxShadow: '0 4px 15px rgba(0,0,0,0.15)',
+                whiteSpace: 'nowrap',
+                pointerEvents: 'none',
+                opacity: '0',
+                transition: 'opacity 0.2s, transform 0.2s',
+                marginTop: '10px',
+                zIndex: '100',
+                border: '1px solid rgba(0,0,0,0.05)',
+                textAlign: 'center',
+                minWidth: '150px'
+            });
+
+            // Tooltip Text Styles
+            const titleStyle = `font-size: 12px; font-weight: 700; color: #1a202c; display: block; margin-top: 2px;`;
+            const catStyle = `font-size: 10px; font-weight: 600; color: #38a169; text-transform: uppercase; letter-spacing: 0.5px;`;
+
+            tooltip.querySelector('.tooltip-title').style.cssText = titleStyle;
+            tooltip.querySelector('.tooltip-category').style.cssText = catStyle;
+
+            el.appendChild(tooltip);
+
+            // Event Listeners for Interaction
+            // Hover
+            el.addEventListener('mouseenter', () => {
+                tooltip.style.opacity = '1';
+                tooltip.style.transform = 'translateX(-50%) translateY(-5px)';
+                pin.style.transform = 'scale(1.2) translateY(-2px)';
+                globe.controls().autoRotate = false; // Pause rotation
+            });
+
+            el.addEventListener('mouseleave', () => {
+                tooltip.style.opacity = '0';
+                tooltip.style.transform = 'translateX(-50%) translateY(0)';
+                pin.style.transform = 'scale(1) translateY(0)';
+                globe.controls().autoRotate = true; // Resume rotation
+            });
+
+            // Click -> Open Modal (Reuse openModal from projects.js if available globally, otherwise alert)
+            el.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent drag
+                if (typeof openModal === 'function') {
+                    openModal(d.title, d.filename);
+                } else {
+                    // Fallback if openModal isn't global yet (it might need to be exposed)
+                    alert(`${d.title}\n\n${d.description}`);
+                }
+            });
+
             return el;
         });
 
     // Mount to DOM
+
+    // Mount to DOM
     globe(globeContainer);
 
-    // Initial View
-    globe.pointOfView({ lat: 0, lng: 10, altitude: 2 });
+    const syncGlobeSizeToContainer = () => {
+        const rect = globeContainer.getBoundingClientRect();
+        const w = Math.max(320, Math.round(rect.width));
+        const h = Math.max(320, Math.round(rect.height));
+        globe.width(w);
+        globe.height(h);
+    };
 
-    // Controls
+    // Ensure WebGL canvas matches responsive CSS size
+    syncGlobeSizeToContainer();
+
+    // Initial View
+    globe.pointOfView({ lat: 0, lng: 10, altitude: 2.5 });
+
+    // Controls - Optimized for performance
     const controls = globe.controls();
     controls.autoRotate = true;
-    controls.autoRotateSpeed = -3.4;
+    controls.autoRotateSpeed = -1.5;  // Slower rotation = less GPU usage
     controls.enableZoom = false;
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
 
-    // Interaction Logic: Pause on interaction, resume after 5s
+    // Reduce render quality for performance
+    const renderer = globe.renderer();
+    if (renderer) {
+        renderer.setPixelRatio(1);
+    }
+
+    // Animation state
+    let animationId = null;
+    let isGlobeActive = false;
+
+    // Set initial state - hidden
+    globeContainer.style.opacity = '0';
+    globeContainer.style.transform = 'scale(0.8)';
+    globeContainer.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+
+    function startRendering() {
+        if (!animationId && renderer) {
+            function animate() {
+                animationId = requestAnimationFrame(animate);
+                controls.update();
+                renderer.render(globe.scene(), globe.camera());
+            }
+            animate();
+        }
+    }
+
+    function stopRendering() {
+        if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+        }
+    }
+
+    function showGlobe() {
+        if (!isGlobeActive) {
+            isGlobeActive = true;
+            startRendering();
+            // Animate in
+            requestAnimationFrame(() => {
+                globeContainer.style.opacity = '1';
+                globeContainer.style.transform = 'scale(1)';
+            });
+            controls.autoRotate = true;
+        }
+    }
+
+    function hideGlobe() {
+        if (isGlobeActive) {
+            isGlobeActive = false;
+            controls.autoRotate = false;
+            // Animate out
+            globeContainer.style.opacity = '0';
+            globeContainer.style.transform = 'scale(0.8)';
+            // Stop rendering after animation completes
+            setTimeout(() => {
+                if (!isGlobeActive) {
+                    stopRendering();
+                }
+            }, 600);
+        }
+    }
+
+    // Use IntersectionObserver to show/hide globe with animation
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                showGlobe();
+            } else {
+                hideGlobe();
+            }
+        });
+    }, {
+        threshold: 0.2
+    });
+
+    observer.observe(globeContainer);
+
+    // Sync globe size on resize
+    window.addEventListener('resize', () => {
+        requestAnimationFrame(syncGlobeSizeToContainer);
+    });
+    setTimeout(syncGlobeSizeToContainer, 50);
+    setTimeout(syncGlobeSizeToContainer, 300);
+
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        if (isGlobeActive && animationId) {
+            stopRendering();
+        }
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            if (isGlobeActive && !animationId) {
+                startRendering();
+            }
+        }, 100); // Resume 100ms after scroll stops
+    }, { passive: true });
+
+    // Interaction Logic: Pause on interaction, resume after 3s
     let resumeTimeout;
 
     controls.addEventListener('start', () => {
@@ -96,22 +341,25 @@ function initHeroGlobe() {
     controls.addEventListener('end', () => {
         resumeTimeout = setTimeout(() => {
             controls.autoRotate = true;
-        }, 5000); // 5 seconds wait
+        }, 3000); // 3 seconds wait
     });
 
-    // Load Countries (Async)
+    // Load ONLY active countries as blue polygons (3 instead of 200+)
+    // Green countries come from texture image = MUCH faster!
     fetch('https://raw.githubusercontent.com/vasturiano/globe.gl/master/example/datasets/ne_110m_admin_0_countries.geojson')
         .then(res => res.json())
         .then(countries => {
+            const activeOnly = countries.features.filter(d => {
+                const name = d.properties.ADMIN || d.properties.name;
+                return activeCountries.includes(name);
+            });
+
             globe
-                .polygonsData(countries.features)
-                .polygonCapColor(d => {
-                    const countryName = d.properties.ADMIN || d.properties.name;
-                    return activeCountries.includes(countryName) ? '#4299e1' : '#48bb78';
-                })
-                .polygonSideColor(() => 'rgba(100, 100, 100, 0.3)')
-                .polygonStrokeColor(() => '#1a365d')
-                .polygonAltitude(0.01);
+                .polygonsData(activeOnly)
+                .polygonCapColor(() => '#4299e1')
+                .polygonSideColor(() => 'rgba(66, 153, 225, 0.5)')
+                .polygonStrokeColor(() => '#2c5282')
+                .polygonAltitude(0.015);
         })
         .catch(err => console.error('Error loading countries:', err));
 }
@@ -159,17 +407,24 @@ function initScrollEffects() {
 }
 
 function initStatsAnimation() {
-    const stats = document.querySelector('.about-stats');
+    // Target the new hero stats row in the diagram
+    const stats = document.querySelector('.hero-stats-row');
     if (!stats) return;
     const observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
-            document.querySelectorAll('.stat-number').forEach(stat => {
-                const target = +stat.dataset.count;
-                let cur = 0, inc = target / 50;
+            document.querySelectorAll('.stat-num').forEach(stat => {
+                const rawText = stat.innerText;
+                const target = parseInt(rawText.replace(/\D/g, ''));
+                if (isNaN(target)) return;
+
+                let cur = 0, inc = Math.ceil(target / 50);
                 const t = setInterval(() => {
                     cur += inc;
-                    if (cur >= target) { stat.textContent = target; clearInterval(t); }
-                    else stat.textContent = Math.ceil(cur);
+                    if (cur >= target) {
+                        stat.textContent = rawText;
+                        clearInterval(t);
+                    }
+                    else stat.textContent = cur;
                 }, 40);
             });
             observer.disconnect();
@@ -191,17 +446,14 @@ function initEventCarousel() {
     let autoPlayInterval;
 
     function showSlide(index) {
-        // Wrap around
         if (index >= slides.length) index = 0;
         if (index < 0) index = slides.length - 1;
         currentIndex = index;
 
-        // Update slides
         slides.forEach((slide, i) => {
             slide.classList.toggle('active', i === index);
         });
 
-        // Update dots
         dots.forEach((dot, i) => {
             dot.classList.toggle('active', i === index);
         });
@@ -211,16 +463,15 @@ function initEventCarousel() {
         showSlide(currentIndex + 1);
     }
 
-    // Auto-play every 4 seconds
     function startAutoPlay() {
+        stopAutoPlay();
         autoPlayInterval = setInterval(nextSlide, 4000);
     }
 
     function stopAutoPlay() {
-        clearInterval(autoPlayInterval);
+        if (autoPlayInterval) clearInterval(autoPlayInterval);
     }
 
-    // Click on dots
     dots.forEach(dot => {
         dot.addEventListener('click', () => {
             stopAutoPlay();
@@ -229,42 +480,185 @@ function initEventCarousel() {
         });
     });
 
-    // Pause on hover - detect on entire carousel area
-    carousel.addEventListener('mouseenter', () => {
-        stopAutoPlay();
-        console.log('Carousel paused');
-    });
-    carousel.addEventListener('mouseleave', () => {
-        startAutoPlay();
-        console.log('Carousel resumed');
-    });
+    // Pause on interaction
+    carousel.addEventListener('mouseenter', stopAutoPlay);
+    carousel.addEventListener('mouseleave', startAutoPlay);
+    carousel.addEventListener('touchstart', stopAutoPlay, { passive: true });
+    carousel.addEventListener('touchend', startAutoPlay, { passive: true });
 
-    // Also pause when hovering on slides
-    const carouselSlides = carousel.querySelectorAll('.carousel-slide');
-    carouselSlides.forEach(slide => {
-        slide.addEventListener('mouseenter', stopAutoPlay);
-    });
-
-    // Touch swipe support
-    let touchStartX = 0;
-    carousel.addEventListener('touchstart', (e) => {
-        touchStartX = e.touches[0].clientX;
-        stopAutoPlay();
-    }, { passive: true });
-
-    carousel.addEventListener('touchend', (e) => {
-        const touchEndX = e.changedTouches[0].clientX;
-        const diff = touchStartX - touchEndX;
-        if (Math.abs(diff) > 50) {
-            if (diff > 0) nextSlide();
-            else showSlide(currentIndex - 1);
-        }
-        startAutoPlay();
-    }, { passive: true });
-
-    // Start
     startAutoPlay();
 }
 
-// Initialize carousel on DOM ready
+// Initialize on load
 document.addEventListener('DOMContentLoaded', initEventCarousel);
+
+// ============================================
+// Country Flags Slider
+// ============================================
+function initCountrySlider() {
+    const slider = document.querySelector('.country-slider');
+    if (!slider) return;
+
+    const slides = slider.querySelectorAll('.country-slide');
+    if (slides.length === 0) return;
+
+    const countryImages = {
+        Indonesia: [
+            'assets/karangasem-water-temple-palace-bali.jpg', // Karangasem water temple, Bali
+            'assets/bali-pagoda-indonesia.jpg', // Bali pagoda temple
+            'assets/pexels-maxravier-2253818.jpg'  // Third temple image
+        ],
+        Nigeria: [
+            'assets/ahmad-jaafar-toQTkWFvWyo-unsplash.jpg', // Mosque in Nigeria
+            'assets/muhammed-a-mustapha-aaIsU06zWrg-unsplash.jpg', // Islamic architecture
+            'assets/ovinuchi-ejiohuo-q4U9Pyfz-vQ-unsplash.jpg'  // Mosque
+        ],
+        Kenya: [
+            'assets/ahmed-qinawy-9Ia_6613pYk-unsplash.jpg', // Church in Kenya
+            'assets/murad-swaleh-7tDidSXbgD8-unsplash.jpg', // Church building
+            'assets/ab-saf-sgFNwIc51lM-unsplash.jpg'  // Church interior
+        ]
+    };
+
+    function preloadImages() {
+        const allImages = Object.values(countryImages).flat();
+        allImages.forEach(url => {
+            const img = new Image();
+            img.src = url;
+        });
+    }
+
+    preloadImages();
+
+    let currentCountryIndex = 0;
+    let currentImageIndex = 0;
+
+    function getCountryName(slide) {
+        const labelSub = slide.querySelector('.country-label-sub');
+        return (labelSub ? labelSub.textContent : '').trim();
+    }
+
+    function setSlideImage(slide, imageIndex) {
+        const img = slide.querySelector('img');
+        if (!img) return;
+
+        const country = getCountryName(slide);
+        const images = countryImages[country];
+        if (!images || images.length === 0) return;
+
+        const url = images[imageIndex % images.length];
+        img.src = url;
+        img.alt = `${country} - Events`;
+    }
+
+    function showCountry(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+        });
+        setSlideImage(slides[index], currentImageIndex);
+    }
+
+    function nextFrame() {
+        // Change country every frame
+        currentCountryIndex = (currentCountryIndex + 1) % slides.length;
+
+        // When we've shown all countries for the current image, move to next image
+        if (currentCountryIndex === 0) {
+            currentImageIndex = (currentImageIndex + 1) % 3;
+        }
+
+        showCountry(currentCountryIndex);
+    }
+
+    showCountry(currentCountryIndex);
+
+    // Auto-rotate: alternate countries, then next image set
+    setInterval(nextFrame, 3000);
+}
+
+// ============================================
+// SECTION FADE ANIMATIONS
+// ============================================
+function initFadeAnimations() {
+    const fadeElements = document.querySelectorAll('.fade-section, .fade-scale, .fade-left, .fade-right');
+    
+    if (fadeElements.length === 0) return;
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -100px 0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, observerOptions);
+
+    fadeElements.forEach(el => observer.observe(el));
+}
+
+// Initialize fade animations
+document.addEventListener('DOMContentLoaded', initFadeAnimations);
+
+// ============================================
+// HERO SHADOW SCROLL CONTROL
+// ============================================
+function initHeroShadow() {
+    const hero = document.querySelector('.hero');
+    const contact = document.getElementById('contact');
+    const about = document.getElementById('about');
+    
+    if (!hero) return;
+
+    // Create shadow element
+    const shadow = document.createElement('div');
+    shadow.className = 'hero-bottom-shadow';
+    document.body.appendChild(shadow);
+
+    function updateShadow() {
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const heroBottom = hero.offsetTop + hero.offsetHeight;
+        const aboutTop = about ? about.offsetTop : heroBottom;
+        const contactBottom = contact ? contact.offsetTop + contact.offsetHeight : document.body.scrollHeight;
+        
+        // Calculate progress through the page
+        const totalScrollable = contactBottom - windowHeight;
+        const scrollProgress = scrollY / totalScrollable;
+        
+        // Partnerships section position (where SBDI logo is)
+        const partnerships = document.querySelector('.hero-partnerships');
+        const partnershipsTop = partnerships ? partnerships.offsetTop : heroBottom;
+        
+        // Calculate opacity based on section visibility
+        let opacity = 1;
+        
+        // Fade out only when leaving About section completely
+        if (scrollY > aboutTop + windowHeight * 0.5) {
+            const progress = (scrollY - (aboutTop + windowHeight * 0.5)) / 400;
+            opacity = Math.max(0, 1 - progress * 0.8);
+        }
+        
+        // Fade completely at end of contact
+        if (contact) {
+            const contactEnd = contact.offsetTop + contact.offsetHeight;
+            const distanceToEnd = contactEnd - (scrollY + windowHeight);
+            if (distanceToEnd < 200) {
+                const endFade = distanceToEnd / 200;
+                opacity = Math.min(opacity, Math.max(0, endFade));
+            }
+        }
+        
+        shadow.style.opacity = opacity;
+    }
+
+    // Listen to scroll
+    window.addEventListener('scroll', updateShadow, { passive: true });
+    updateShadow(); // Initial call
+}
+
+document.addEventListener('DOMContentLoaded', initHeroShadow);

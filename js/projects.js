@@ -44,11 +44,57 @@ const CATEGORY_INFO = {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
+    initSmoothScroll();
     initSlideshow();
     initCategoryTabs();
     initModal();
     initNavbar();
 });
+
+// ============================================
+// SMOOTH SCROLL WITH LENIS
+// ============================================
+function initSmoothScroll() {
+    // Prevent multiple instances
+    if (window.lenis) {
+        console.log('Lenis already initialized, skipping');
+        return;
+    }
+
+    // Check if Lenis is available
+    if (typeof Lenis === 'undefined') {
+        console.log('Lenis not loaded, skipping smooth scroll');
+        return;
+    }
+
+    try {
+        // Initialize Lenis
+        const lenis = new Lenis({
+            duration: 1.2,        // Duration of scroll animation (seconds)
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Easing function
+            direction: 'vertical', // Scroll direction
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,   // Mouse wheel sensitivity
+            smoothTouch: false,   // Disable smooth scroll on touch devices (better performance)
+            touchMultiplier: 2,
+            infinite: false,
+        });
+
+        // Request animation frame loop for 60fps
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Expose lenis to window for debugging
+        window.lenis = lenis;
+        console.log('Lenis smooth scroll initialized');
+    } catch (error) {
+        console.error('Error initializing Lenis:', error);
+    }
+}
 
 // ============================================
 // NAVBAR FUNCTIONALITY
@@ -259,6 +305,14 @@ function initCategoryTabs() {
                                 <span class="project-type-badge">${doc.type}</span>
                             </div>
                             <div class="project-content">
+                                <div class="project-meta">
+                                    <div class="meta-label">Category</div>
+                                    <div class="meta-value">${doc.categoryLabel || (CATEGORY_INFO[doc.category]?.name || '')}</div>
+                                    <div class="meta-label">Type</div>
+                                    <div class="meta-value">${doc.type}</div>
+                                    <div class="meta-label">File</div>
+                                    <div class="meta-value meta-filename">${doc.filename}</div>
+                                </div>
                                 <h4 class="project-title">${doc.title}</h4>
                                 <p class="project-description">${doc.description}</p>
                                 <div class="project-actions">
@@ -351,11 +405,15 @@ function openModal(title, filename) {
 
     document.getElementById('modalTitle').textContent = title;
     
-    // For GitHub Pages: Use Google Docs Viewer as fallback for better compatibility
-    // This works reliably with GitHub Pages hosted PDFs
-    const fullUrl = window.location.origin + window.location.pathname.replace('projects.html', '') + filePath;
-    const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
-    document.getElementById('pdfViewer').src = viewerUrl;
+    // Use direct iframe for localhost, Google Docs for public sites
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        document.getElementById('pdfViewer').src = filePath;
+    } else {
+        // For GitHub Pages: Use Google Docs Viewer as fallback for better compatibility
+        const fullUrl = window.location.origin + window.location.pathname.replace('projects.html', '') + filePath;
+        const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
+        document.getElementById('pdfViewer').src = viewerUrl;
+    }
     
     document.getElementById('modalDownloadBtn').href = filePath;
     modal.style.display = 'flex';

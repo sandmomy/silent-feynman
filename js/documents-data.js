@@ -10,24 +10,31 @@ const DOCUMENTS_DATA = [
         title: "Ecological Sustainable Mining Introduction",
         filename: "Ecological Sustainable Mining Introduction.pdf",
         category: "sustainability",
+        categoryId: "sustainability",
         categoryLabel: "🌿 Sustainability",
         type: "PDF",
-        description: "Overview of eco-friendly mining practices and environmental preservation methods."
+        description: "Overview of eco-friendly mining practices and environmental preservation methods.",
+        lat: -6.2088,
+        lng: 106.8456 // Jakarta, Indonesia
     },
     {
         id: 2,
         title: "Project EcoPro",
         filename: "project EcoPro 09072022.pdf",
         category: "sustainability",
+        categoryId: "sustainability",
         categoryLabel: "🌿 Sustainability",
         type: "PDF",
-        description: "Sustainable mineral extraction project with zero environmental impact goals."
+        description: "Sustainable mineral extraction project with zero environmental impact goals.",
+        lat: -0.7893,
+        lng: 113.9213 // Kalimantan, Indonesia
     },
     {
         id: 3,
         title: "Gold Process",
         filename: "Gold process.pdf",
         category: "sustainability",
+        categoryId: "sustainability",
         categoryLabel: "🌿 Sustainability",
         type: "PDF",
         description: "Innovative gold processing techniques using eco-friendly technologies."
@@ -39,24 +46,31 @@ const DOCUMENTS_DATA = [
         title: "SBDI Food Security Project",
         filename: "SBDI food Security Project Unity in Diversity.pdf",
         category: "food",
+        categoryId: "food",
         categoryLabel: "🍴 Food Security",
         type: "PDF",
-        description: "Comprehensive food security initiative promoting unity and sustainable agriculture."
+        description: "Comprehensive food security initiative promoting unity and sustainable agriculture.",
+        lat: -1.2921,
+        lng: 36.8219 // Nairobi, Kenya
     },
     {
         id: 5,
         title: "Indonesia-Africa Food Security Research",
         filename: "JOINT RESEARCH INDONESI AFRICA SBDI WORLD FOOD SECURITY 2023.pdf",
         category: "food",
+        categoryId: "food",
         categoryLabel: "🍴 Food Security",
         type: "PDF",
-        description: "Joint research collaboration between Indonesia and Africa on global food security."
+        description: "Joint research collaboration between Indonesia and Africa on global food security.",
+        lat: 9.0820,
+        lng: 8.6753 // Nigeria
     },
     {
         id: 6,
         title: "Book of Research - Cassava",
         filename: "book of research casava.pdf",
         category: "food",
+        categoryId: "food",
         categoryLabel: "🍴 Food Security",
         type: "PDF",
         description: "In-depth research on cassava cultivation and its role in food security."
@@ -66,6 +80,7 @@ const DOCUMENTS_DATA = [
         title: "Rumah Mocaf - Impact Report 2023",
         filename: "Rumah Mocaf - Impact Report 2023_compressed.pdf",
         category: "food",
+        categoryId: "food",
         categoryLabel: "🍴 Food Security",
         type: "PDF",
         description: "Annual impact report on mocaf production and community development."
@@ -75,6 +90,7 @@ const DOCUMENTS_DATA = [
         title: "Book of Recipe BFC 2",
         filename: "BOOK OF RECIPE BFC 2 English.pdf",
         category: "food",
+        categoryId: "food",
         categoryLabel: "🍴 Food Security",
         type: "PDF",
         description: "Collection of healthy recipes using sustainable local ingredients."
@@ -84,6 +100,7 @@ const DOCUMENTS_DATA = [
         title: "Project Remote Farming",
         filename: "Project Remote Farming.pdf",
         category: "food",
+        categoryId: "food",
         categoryLabel: "🍴 Food Security",
         type: "PDF",
         description: "Smart farming solutions for remote and rural communities."
@@ -95,15 +112,19 @@ const DOCUMENTS_DATA = [
         title: "SHANAYA PROJECT",
         filename: "SHANAYA PROJECT.pdf",
         category: "realestate",
+        categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
         type: "PDF",
-        description: "Luxury sustainable resort development in prime location."
+        description: "Luxury sustainable resort development in prime location.",
+        lat: -7.9666,
+        lng: 112.6326 // Malang, Indonesia
     },
     {
         id: 12,
         title: "Shanaya Resort 2025 - Investment Proposal",
         filename: "Investment-sales-proposal Shanaya Resort 2025.pdf",
         category: "realestate",
+        categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
         type: "PDF",
         description: "Investment opportunity for eco-luxury resort with projected returns."
@@ -113,6 +134,7 @@ const DOCUMENTS_DATA = [
         title: "Ladang Lina Brochure",
         filename: "Ladang Lina brochure 07-06-2024.pdf",
         category: "realestate",
+        categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
         type: "PDF",
         description: "Agricultural land development project with residential elements."
@@ -122,6 +144,7 @@ const DOCUMENTS_DATA = [
         title: "Bangalang Brochure",
         filename: "bangalang brochure 26-6-2024.pdf",
         category: "realestate",
+        categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
         type: "PDF",
         description: "Beachfront property development with sustainable design principles."
@@ -131,6 +154,7 @@ const DOCUMENTS_DATA = [
         title: "Mariposa Batu - Investment Deck",
         filename: "Promotion Investment Deck MARIPOSA BATU.pdf",
         category: "realestate",
+        categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
         type: "PDF",
         description: "Premium villa development in scenic mountain location."
@@ -140,6 +164,7 @@ const DOCUMENTS_DATA = [
         title: "Social Production Hub",
         filename: "Project Social production hub.pdf",
         category: "realestate",
+        categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
         type: "PDF",
         description: "Community-focused production facility combining housing and workspace."
@@ -149,6 +174,7 @@ const DOCUMENTS_DATA = [
         title: "Hacienda Retreat Brochure",
         filename: "Main Brochure for Hacienda Retreat.docx",
         category: "realestate",
+        categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
         type: "DOCX",
         description: "Sustainable eco-retreat development with holistic wellness focus."
@@ -160,6 +186,7 @@ const DOCUMENTS_DATA = [
         title: "Sustainable Investment Guide Indonesia",
         filename: "Sustainable investment guide Indonesia 20232024.pdf",
         category: "investment",
+        categoryId: "investment",
         categoryLabel: "💰 Investment",
         type: "PDF",
         description: "Complete guide to sustainable investment opportunities in Indonesia."
@@ -169,6 +196,7 @@ const DOCUMENTS_DATA = [
         title: "Business Plan SBDI - SDG Design Lab",
         filename: "Business Plan SBDI- SDG Design Lab.pdf",
         category: "investment",
+        categoryId: "investment",
         categoryLabel: "💰 Investment",
         type: "PDF",
         description: "Business plan aligned with UN Sustainable Development Goals."
@@ -178,6 +206,7 @@ const DOCUMENTS_DATA = [
         title: "Public Private Partnership Cooperative",
         filename: "public private partnership project cooprative 28-12-2024.pdf",
         category: "investment",
+        categoryId: "investment",
         categoryLabel: "💰 Investment",
         type: "PDF",
         description: "Framework for public-private partnership in cooperative ventures."
@@ -187,6 +216,7 @@ const DOCUMENTS_DATA = [
         title: "Gold Investment Event Indonesia",
         filename: "Exclusive Gold and investment event Indonesia final.pdf",
         category: "investment",
+        categoryId: "investment",
         categoryLabel: "💰 Investment",
         type: "PDF",
         description: "Exclusive investment event details and partnership opportunities."
@@ -196,6 +226,7 @@ const DOCUMENTS_DATA = [
         title: "SBDI Center Foundation",
         filename: "SBDI Center Foundation 1842022 (1).pdf",
         category: "investment",
+        categoryId: "investment",
         categoryLabel: "💰 Investment",
         type: "PDF",
         description: "Foundation overview and strategic development objectives."
@@ -205,6 +236,7 @@ const DOCUMENTS_DATA = [
         title: "SBDI Foundation Road Map",
         filename: "SBDI Foundation summary road map 03062022 (16).pdf",
         category: "investment",
+        categoryId: "investment",
         categoryLabel: "💰 Investment",
         type: "PDF",
         description: "Strategic roadmap for foundation growth and impact."
@@ -214,6 +246,7 @@ const DOCUMENTS_DATA = [
         title: "Event Proposal",
         filename: "Event proposal.docx",
         category: "investment",
+        categoryId: "investment",
         categoryLabel: "💰 Investment",
         type: "DOCX",
         description: "Professional event proposal for business networking and partnerships."
@@ -223,6 +256,7 @@ const DOCUMENTS_DATA = [
         title: "Hiyejo Indogold - Sales Agreement",
         filename: "Hiyejo Indogold - Pt Elite Investment Excl Sales and Representation Agrm v 2.7.docx",
         category: "investment",
+        categoryId: "investment",
         categoryLabel: "💰 Investment",
         type: "DOCX",
         description: "Exclusive sales and representation agreement for gold investment."
@@ -234,6 +268,7 @@ const DOCUMENTS_DATA = [
         title: "Magnetic Vertical Wind Turbine",
         filename: "Magnetic_generator_vertical_wind_turbine.pdf",
         category: "technology",
+        categoryId: "technology",
         categoryLabel: "⚡ Technology",
         type: "PDF",
         description: "Innovative magnetic wind turbine design for efficient energy generation."
@@ -243,6 +278,7 @@ const DOCUMENTS_DATA = [
         title: "Rijnenberg Vortex Atom Theory",
         filename: "The Rijnenberg Vortex Atom theory English 2025.pdf",
         category: "technology",
+        categoryId: "technology",
         categoryLabel: "⚡ Technology",
         type: "PDF",
         description: "Groundbreaking theoretical physics research on atomic vortex dynamics."
@@ -254,6 +290,7 @@ const DOCUMENTS_DATA = [
         title: "WiseUse R&D Book",
         filename: "WiseUse Research and Development book.pdf",
         category: "research",
+        categoryId: "research",
         categoryLabel: "📚 Research",
         type: "PDF",
         description: "Comprehensive R&D documentation on sustainable resource utilization."
