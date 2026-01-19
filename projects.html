@@ -270,23 +270,20 @@
 
         .hero-left {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: flex-start;
-            /* Start from left to use translateX accurately */
             padding: var(--spacing-8) var(--spacing-12);
             color: white;
-            text-align: center;
+            text-align: left;
             overflow: visible;
             position: relative;
             z-index: 1;
         }
 
         .hero-left .hero-content {
-            transform: translate(100%, 180px);
-            /* Shifted even further right and lower as per latest request */
-            max-width: 600px;
+            transform: none;
+            max-width: 520px;
             animation: none !important;
-            /* Disable global fadeInUp to prevent reload jump */
             opacity: 1 !important;
         }
 
