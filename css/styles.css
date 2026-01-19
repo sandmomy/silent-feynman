@@ -696,19 +696,20 @@ section {
 
     .hero-left {
         max-width: 100%;
-        text-align: center;
+        text-align: left;
         /* Ensure centered alignment */
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
+        padding-top: var(--spacing-10);
     }
 
     .hero-left .hero-subtitle,
     .hero-left .hero-title,
     .hero-left .hero-description {
-        text-align: center;
-        margin-left: auto;
-        margin-right: auto;
+        text-align: left;
+        margin-left: 0;
+        margin-right: 0;
     }
 
     .hero-right {
@@ -721,12 +722,12 @@ section {
     }
 
     .hero-left .hero-stats-row {
-        margin-left: auto;
+        margin-left: 0;
         margin-right: auto;
     }
 
     .hero-partnerships {
-        justify-content: center;
+        justify-content: flex-start;
         position: relative !important;
         bottom: auto !important;
         left: auto !important;
