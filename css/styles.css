@@ -1,4 +1,11 @@
-﻿/* ============================================
+﻿.home-hero .hero-left .hero-subtitle,
+.home-hero .hero-left .hero-title,
+.home-hero .hero-left .hero-description {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+/* ============================================
    Eugene Mierak Portfolio - Design System
    ============================================ */
 
@@ -553,6 +560,10 @@ section {
     margin: 0 auto;
 }
 
+.home-hero .hero-split {
+    align-items: center;
+}
+
 .hero-left {
     flex: 0 0 45%;
     max-width: 550px;
@@ -565,6 +576,15 @@ section {
     padding-top: var(--spacing-6);
     gap: var(--spacing-4);
     position: relative;
+}
+
+.home-hero .hero-left {
+    flex: 1;
+    margin-top: 0;
+    padding-top: var(--spacing-4);
+    padding-bottom: var(--spacing-20);
+    align-items: center;
+    text-align: center;
 }
 
 .hero-left .hero-subtitle {
