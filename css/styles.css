@@ -1,11 +1,4 @@
-﻿.home-hero .hero-left .hero-subtitle,
-.home-hero .hero-left .hero-title,
-.home-hero .hero-left .hero-description {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-}
-/* ============================================
+﻿/* ============================================
    Eugene Mierak Portfolio - Design System
    ============================================ */
 
@@ -583,8 +576,8 @@ section {
     margin-top: 0;
     padding-top: var(--spacing-4);
     padding-bottom: var(--spacing-20);
-    align-items: center;
-    text-align: center;
+    align-items: flex-start;
+    text-align: left;
 }
 
 .hero-left .hero-subtitle {
@@ -605,6 +598,15 @@ section {
     -webkit-backdrop-filter: blur(4px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     width: fit-content;
+}
+
+.home-hero .hero-left .hero-title {
+    align-self: center;
+    text-align: center;
+}
+
+.home-hero .hero-left .hero-stats-row {
+    margin-left: 0;
 }
 
 .hero-right {
