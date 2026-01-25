@@ -470,7 +470,7 @@ section {
    ============================================ */
 .hero {
     position: relative;
-    min-height: 80vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -482,22 +482,7 @@ section {
 }
 
 /* Shadow overlay at bottom of viewport - controlled by JS */
-.hero-bottom-shadow {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 280px;
-    background: linear-gradient(to top,
-            rgba(8, 15, 28, 0.98) 0%,
-            rgba(8, 15, 28, 0.9) 25%,
-            rgba(8, 15, 28, 0.6) 50%,
-            rgba(8, 15, 28, 0.3) 75%,
-            transparent 100%);
-    pointer-events: none;
-    z-index: 9999;
-    transition: opacity 0.4s ease-out;
-}
+/* Shadow overlay removed per user request */
 
 .hero-bg {
     position: absolute;
@@ -3070,4 +3055,87 @@ section {
         padding: var(--spacing-6);
         /* Less padding on mobile */
     }
+}
+
+/* About Section Fix - Detailed Executive & Square Photo */
+.about-vertical {
+    background: #080c14;
+    padding: 8rem 0;
+    color: #ffffff;
+}
+
+.identity-img-wrapper {
+    width: 280px;
+    height: 280px;
+    margin: 0 auto 2rem;
+    border-radius: 24px;
+    /* Square with soft corners */
+    overflow: hidden;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    transform: rotate(-2deg);
+    /* Subtle premium tilt */
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.identity-img-wrapper:hover {
+    transform: rotate(0deg) scale(1.02);
+    border-color: var(--color-green-light);
+}
+
+.identity-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cv-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    max-width: 1000px;
+    margin: 5rem auto 0;
+    padding: 0 20px;
+}
+
+.cv-item {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+    padding: 2.5rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.cv-item:hover {
+    transform: translateY(-8px);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border-color: var(--color-green-light);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.cv-icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 1.5rem;
+    /* Vibrant Gradient Icons */
+    background: linear-gradient(135deg, #48bb78, #3182ce);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 4px 6px rgba(56, 161, 105, 0.3));
+}
+
+.cv-item h4 {
+    color: #ffffff;
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.cv-item p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+    line-height: 1.6;
 }
