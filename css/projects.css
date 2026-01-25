@@ -756,7 +756,7 @@ html.lenis {
     opacity: 0.5;
 }
 
-.slide-badge {
+.showcase-page .slide-badge {
     position: absolute;
     top: var(--spacing-3);
     right: var(--spacing-3);
