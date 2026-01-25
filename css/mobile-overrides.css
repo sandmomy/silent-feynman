@@ -1,5 +1,5 @@
 /* ============================================================
-   MOBILE OPTIMIZATION - CORRECTED NO-MARKUP VERSION
+   MOBILE OPTIMIZATION - CLEAN CSS-ONLY VERSION
    Strictly scoped to Handheld Devices (max-width: 992px)
    ============================================================ */
 
@@ -18,10 +18,8 @@
         grid-template-areas:
             "top top"
             "left left"
-            "center right"
-            "stats stats"
-            "partners partners";
-        gap: 12px !important;
+            "center right";
+        gap: 15px !important;
         padding-top: 3.5rem !important;
         height: auto !important;
         justify-items: center !important;
@@ -35,18 +33,24 @@
         width: 100% !important;
         font-size: 0.6rem !important;
         color: var(--color-green-light) !important;
+        text-align: center !important;
+        margin-bottom: 5px !important;
     }
 
     .hero-col-left {
         grid-area: left;
         width: 100% !important;
         text-align: center !important;
-        margin-bottom: 5px !important;
+        margin-bottom: 15px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
     }
 
     .hero-title {
         font-size: 1.5rem !important;
         line-height: 1.1 !important;
+        margin-bottom: 5px !important;
     }
 
     .hero-description {
@@ -55,25 +59,12 @@
         margin: 0 auto 10px !important;
     }
 
-    /* Handle the buttons INSIDE center col */
-    .hero-cta {
-        /* Already inside hero-col-center, we keep them flex row */
-        display: flex !important;
-        flex-direction: row !important;
+    /* Handling Partnerships inside Left Col */
+    .hero-partnerships {
+        transform: scale(0.65) !important;
+        margin-top: 0 !important;
+        align-items: center !important;
         justify-content: center !important;
-        gap: 6px !important;
-        margin-bottom: 10px !important;
-        position: static !important;
-        width: 100% !important;
-        grid-column: 1 / span 2;
-        /* Force them to span top of grid interaction */
-        order: -1;
-    }
-
-    .hero-cta .btn {
-        padding: 0.45rem 0.6rem !important;
-        font-size: 0.6rem !important;
-        min-width: 100px !important;
     }
 
     /* 2. THE MINI-GRID ACTION AREA */
@@ -85,13 +76,19 @@
         align-items: center !important;
     }
 
-    .hero-col-right {
-        grid-area: right;
-        width: 100% !important;
+    /* Buttons are inside center col in current HTML */
+    .hero-cta {
         display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        padding-top: 0 !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .hero-cta .btn {
+        padding: 0.45rem 0.6rem !important;
+        font-size: 0.6rem !important;
+        min-width: 90px !important;
     }
 
     .globe-wrapper-center {
@@ -99,6 +96,15 @@
         height: 120px !important;
         margin: 0 auto !important;
         overflow: visible !important;
+    }
+
+    .hero-col-right {
+        grid-area: right;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        padding-top: 0 !important;
     }
 
     .section-label-floating {
@@ -109,39 +115,33 @@
 
     .country-slider {
         width: 90px !important;
-        height: 130px !important;
+        height: 120px !important;
         margin: 0 auto !important;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4) !important;
     }
 
-    /* 3. Footer elements of grid */
+    /* Stats are INSIDE Right Col - Make them a row */
     .hero-stats-column {
-        grid-area: stats;
         display: flex !important;
         flex-direction: row !important;
         justify-content: center !important;
-        gap: 12px !important;
+        gap: 10px !important;
         width: 100% !important;
+        margin-top: 15px !important;
         padding: 0 !important;
-        margin: 10px 0 !important;
         background: transparent !important;
     }
 
+    .hero-stats-column .stat-item {
+        min-width: 40px !important;
+    }
+
     .stat-num {
-        font-size: 0.85rem !important;
+        font-size: 0.8rem !important;
     }
 
     .stat-lbl {
-        font-size: 0.5rem !important;
-    }
-
-    .hero-partnerships {
-        grid-area: partners;
-        width: 100% !important;
-        transform: scale(0.65) !important;
-        align-items: center !important;
-        justify-content: center !important;
-        margin-top: 0 !important;
+        font-size: 0.45rem !important;
     }
 }
 
@@ -152,11 +152,7 @@
     }
 
     .country-slider {
-        width: 85px !important;
-        height: 120px !important;
-    }
-
-    .hero-title {
-        font-size: 1.25rem !important;
+        width: 80px !important;
+        height: 110px !important;
     }
 }
