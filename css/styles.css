@@ -849,13 +849,15 @@ section {
 }
 
 #hero-globe {
-    /* Fixed dimensions to prevent resizing issues */
-    width: 520px;
-    height: 520px;
-    max-width: 100%;
+    /* Responsive dimensions - scales from 280px to 520px based on viewport */
+    width: clamp(280px, 35vw, 520px);
+    height: clamp(280px, 35vw, 520px);
+    max-width: 90vw;
     margin: 0 auto;
     position: relative;
     overflow: hidden;
+    /* Ensure smooth transitions on resize */
+    transition: width 0.3s ease, height 0.3s ease;
 }
 
 .simple-globe {
@@ -1917,12 +1919,13 @@ section {
     transform: rotate(0deg) scale(1.05);
 }
 
-display: block;
-font-size: var(--font-size-3xl);
-font-weight: 700;
-color: var(--color-white);
-text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-margin-bottom: var(--spacing-1);
+.hero-stats-container .stat-number {
+    display: block;
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    color: var(--color-white);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: var(--spacing-1);
 }
 
 .hero-stats-container .stat-label {
@@ -1966,7 +1969,7 @@ margin-bottom: var(--spacing-1);
    ============================================ */
 .hero-diagram {
     display: grid;
-    grid-template-columns: 280px 1fr 280px;
+    grid-template-columns: minmax(240px, 18%) 1fr minmax(240px, 18%);
     gap: 40px;
     align-items: center;
     max-width: 1400px;
@@ -2091,7 +2094,8 @@ margin-bottom: var(--spacing-1);
    Events Carousel (Restored Styling)
    ============================================ */
 .event-carousel {
-    width: 280px;
+    width: 100%;
+    max-width: 320px;
     background: transparent;
 }
 
@@ -2348,10 +2352,7 @@ margin-bottom: var(--spacing-1);
 }
 
 /* Globe Sizing within Grid */
-#hero-globe {
-    width: clamp(380px, 42vw, 550px);
-    height: clamp(380px, 42vw, 550px);
-}
+/* Globe sizing now handled in single definition above (line ~851) */
 
 /* Orbital Bridge - Animated dots between globe and slider */
 .orbital-bridge {
@@ -2702,8 +2703,8 @@ margin-bottom: var(--spacing-1);
    ============================================ */
 .country-slider {
     position: relative;
-    width: 220px;
-    height: 380px;
+    width: clamp(180px, 15vw, 240px);
+    height: clamp(320px, 25vw, 420px);
     overflow: hidden;
     border-radius: 20px;
     background: linear-gradient(135deg, rgba(66, 153, 225, 0.1), rgba(49, 130, 206, 0.1));

@@ -214,20 +214,22 @@
             z-index: 1;
         }
 
-        /* ========================================
-           HERO SPLIT LAYOUT
-           ======================================== */
+        /* Hero Split Layout - Responsive */
         .hero-split-wrapper {
             position: relative;
             background: transparent;
             /* Video will show through */
             overflow: hidden;
-            height: 100vh;
-            min-height: 600px;
-            max-height: 100vh;
+            /* Use min-height to allow content to expand */
+            min-height: 100vh;
+            min-height: 100dvh;
+            /* Dynamic viewport height for mobile browsers */
+            height: auto;
+            /* Allow content to define height */
             display: flex;
             flex-direction: column;
-            padding-top: 5rem;
+            padding-top: clamp(3rem, 6vh, 5rem);
+            /* Responsive padding */
         }
 
         /* Video Background at wrapper level */
@@ -271,8 +273,8 @@
             display: flex;
             align-items: flex-start;
             justify-content: center;
-            padding: var(--spacing-8) var(--spacing-12);
-            padding-left: 15%;
+            padding: var(--spacing-8) clamp(1rem, 5vw, 2rem);
+            padding-left: clamp(2rem, 10vw, 15%);
             color: white;
             text-align: left;
             overflow: visible;
@@ -339,11 +341,11 @@
 
         /* Hero Content Styling */
         .hero-content {
-            max-width: 600px;
+            max-width: min(100%, 600px);
         }
 
         .hero-title {
-            font-size: 6rem;
+            font-size: clamp(3rem, 8vw, 6rem);
             line-height: 0.9;
             margin-bottom: var(--spacing-8);
             margin-top: 0;
@@ -352,7 +354,7 @@
         .hero-title .word-my {
             font-family: 'Oswald', sans-serif;
             font-weight: 300;
-            font-size: 3.5rem;
+            font-size: clamp(1.8rem, 4vw, 3.5rem);
             text-transform: uppercase;
             letter-spacing: 0.3em;
             color: white;
@@ -379,7 +381,7 @@
 
         .hero-title .word-work {
             font-family: 'Permanent Marker', cursive;
-            font-size: 6.5rem;
+            font-size: clamp(3.5rem, 9vw, 6.5rem);
             text-transform: none;
             letter-spacing: 0.02em;
             color: white;
@@ -717,7 +719,7 @@
             border-radius: var(--radius-xl);
             border: 1px solid rgba(255, 255, 255, 0.1);
             overflow: hidden;
-            min-height: 350px;
+            min-height: clamp(250px, 35vh, 350px);
         }
 
         .slide {
@@ -729,12 +731,12 @@
             grid-template-columns: 1fr;
             /* Text fills the whole card */
             position: relative;
-            gap: var(--spacing-8);
-            padding: var(--spacing-12);
+            gap: var(--spacing-6);
+            padding: clamp(1.5rem, 4vw, 3rem);
             align-items: center;
             max-width: 1200px;
             width: 100%;
-            min-height: 300px;
+            min-height: clamp(200px, 30vh, 300px);
 
             /* Unified Glass Card Styling */
             background: rgba(0, 0, 0, 0.5);
@@ -1270,7 +1272,7 @@
             }
 
             .project-slide-preview {
-                max-width: 200px;
+                max-width: clamp(120px, 20vw, 200px);
                 margin: 0 auto;
             }
 

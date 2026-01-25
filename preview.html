@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Device Lab - Eugene Mierak</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --card-bg: #1e293b;
+            --text: #f1f5f9;
+            --accent: #38a169;
+            --panel-width: 280px;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar UI */
+        .sidebar {
+            width: var(--panel-width);
+            background: #111827;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            padding: 30px 20px;
+            overflow-y: auto;
+            flex-shrink: 0;
+            z-index: 100;
+        }
+
+        .logo-area {
+            margin-bottom: 40px;
+        }
+
+        .logo-area h1 {
+            font-size: 20px;
+            margin: 0;
+            color: #fff;
+        }
+
+        .logo-area p {
+            font-size: 12px;
+            color: var(--accent);
+            margin: 5px 0 0;
+            font-weight: 600;
+        }
+
+        .sidebar-section {
+            margin-bottom: 30px;
+        }
+
+        .section-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #64748b;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .device-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .ui-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            padding: 12px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+            font-size: 13px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ui-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        .ui-btn.active {
+            background: var(--accent) !important;
+            border-color: var(--accent) !important;
+            color: #fff !important;
+            box-shadow: 0 4px 12px rgba(56, 161, 105, 0.3);
+        }
+
+        .mode-toggle {
+            display: flex;
+            background: #000;
+            padding: 4px;
+            border-radius: 10px;
+            gap: 4px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            font-size: 11px;
+            padding: 8px;
+            border-radius: 6px;
+            border: none;
+            background: transparent;
+            color: #64748b;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .mode-btn.active {
+            background: #334155;
+            color: #fff;
+        }
+
+        /* Work Canvas */
+        .canvas {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image:
+                radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            overflow: auto;
+            padding: 100px;
+        }
+
+        .viewport-container {
+            position: relative;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.8);
+            background: #fff;
+            border-radius: 8px;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-origin: center center;
+        }
+
+        .device-info-float {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--card-bg);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            white-space: nowrap;
+            color: #94a3b8;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .device-info-float b {
+            color: #fff;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        /* Device Modifiers */
+        .frame-iphone {
+            border: 12px solid #1e293b;
+            border-radius: 40px;
+        }
+
+        .frame-tablet {
+            border: 18px solid #1e293b;
+            border-radius: 24px;
+        }
+
+        .watermark {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 12px;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <div class="logo-area">
+            <h1>Device Lab</h1>
+            <p>EUGENE MIERAK</p>
+        </div>
+
+        <!-- Section 1: Page Selection -->
+        <div class="sidebar-section">
+            <div class="section-label">Active Page</div>
+            <div class="device-list" id="page-list">
+                <button class="ui-btn active" onclick="changePage('index.html', this)">Landing Page</button>
+                <button class="ui-btn" onclick="changePage('projects.html', this)">Projects Page</button>
+            </div>
+        </div>
+
+        <!-- Section 2: Device Selection -->
+        <div class="sidebar-section">
+            <div class="section-label">Select Device</div>
+            <div class="device-list" id="device-list">
+                <button class="ui-btn active" onclick="setDevice('mba', this)">
+                    <span>💻</span> MacBook Air (1440)
+                </button>
+                <button class="ui-btn" onclick="setDevice('small', this)">
+                    <span>📡</span> Small Laptop (1366)
+                </button>
+                <button class="ui-btn" onclick="setDevice('fhd', this)">
+                    <span>🖥️</span> Standard (1080p)
+                </button>
+                <button class="ui-btn" onclick="setDevice('tablet', this)">
+                    <span>📟</span> iPad Pro (Tablet)
+                </button>
+                <button class="ui-btn" onclick="setDevice('iphone', this)">
+                    <span>📱</span> iPhone 14 (Mobile)
+                </button>
+            </div>
+        </div>
+
+        <!-- Section 3: Mode Selection -->
+        <div class="sidebar-section">
+            <div class="section-label">Viewing Mode</div>
+            <div class="mode-toggle">
+                <button class="mode-btn active" onclick="setMode('fit', this)">Adaptive Fit</button>
+                <button class="mode-btn" onclick="setMode('real', this)">100% Pixels</button>
+            </div>
+        </div>
+
+        <div style="margin-top: auto; font-size: 11px; color: #475569;">
+            Professional Verification Tool v2.1<br>
+            Fixed active states logic.
+        </div>
+    </aside>
+
+    <main class="canvas" id="canvas">
+        <div class="viewport-container" id="viewport">
+            <iframe src="index.html" id="frame"></iframe>
+            <div class="device-info-float" id="device-info">
+                Displaying: <b>MacBook Air</b> (1440 x 900)
+            </div>
+        </div>
+        <div class="watermark">PRO DESIGN QA</div>
+    </main>
+
+    <script>
+        const devices = {
+            mba: { w: 1440, h: 900, name: 'MacBook Air', class: '' },
+            small: { w: 1366, h: 768, name: 'Small Laptop', class: '' },
+            fhd: { w: 1920, h: 1080, name: 'Standard Full HD', class: '' },
+            tablet: { w: 1024, h: 1366, name: 'iPad Pro (Tablet)', class: 'frame-tablet' },
+            iphone: { w: 390, h: 844, name: 'iPhone 14 (Mobile)', class: 'frame-iphone' }
+        };
+
+        let currentDevice = 'mba';
+        let currentMode = 'fit';
+
+        function updateUI() {
+            const vp = document.getElementById('viewport');
+            const data = devices[currentDevice];
+            const canvas = document.getElementById('canvas');
+
+            // Set dimensions
+            vp.style.width = data.w + 'px';
+            vp.style.height = data.h + 'px';
+            vp.className = 'viewport-container ' + data.class;
+
+            document.getElementById('device-info').innerHTML = `Displaying: <b>${data.name}</b> (${data.w} x ${data.h})`;
+
+            // Handle Scaling
+            if (currentMode === 'fit') {
+                const availableW = canvas.clientWidth - 200;
+                const availableH = canvas.clientHeight - 200;
+                const scaleW = availableW / data.w;
+                const scaleH = availableH / data.h;
+                const scale = Math.min(scaleW, scaleH, 0.9);
+                vp.style.transform = `scale(${scale})`;
+            } else {
+                vp.style.transform = `scale(1)`;
+            }
+        }
+
+        function setDevice(id, btn) {
+            currentDevice = id;
+            // Target only the device list section buttons
+            document.querySelectorAll('#device-list .ui-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updateUI();
+        }
+
+        function setMode(mode, btn) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updateUI();
+        }
+
+        function changePage(page, btn) {
+            document.getElementById('frame').src = page;
+            // Target only the page list section buttons
+            document.querySelectorAll('#page-list .ui-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        window.addEventListener('resize', updateUI);
+        updateUI();
+    </script>
+</body>
+
+</html>

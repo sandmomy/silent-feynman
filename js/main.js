@@ -89,12 +89,15 @@ function initHeroGlobe() {
     // Natural Earth texture: green land + blue ocean
     const earthTexture = 'https://unpkg.com/three-globe/example/img/earth-day.jpg';
 
-    // Initialize Globe - original style
+    // Initialize Globe - responsive sizing from container
+    const containerRect = globeContainer.getBoundingClientRect();
+    const initialSize = Math.max(280, Math.min(containerRect.width, containerRect.height, 520));
+
     const globe = Globe()
         .backgroundColor('rgba(0,0,0,0)')
         .globeImageUrl(earthTexture)
-        .width(520)
-        .height(520)
+        .width(initialSize)
+        .height(initialSize)
         .showAtmosphere(true)
         .atmosphereColor('#48bb78')
         .atmosphereAltitude(0.12)
