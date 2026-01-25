@@ -1,0 +1,162 @@
+/* ============================================================
+   MOBILE OPTIMIZATION - CORRECTED NO-MARKUP VERSION
+   Strictly scoped to Handheld Devices (max-width: 992px)
+   ============================================================ */
+
+@media (max-width: 992px) {
+
+    /* Global Section Scaling */
+    section {
+        padding: 1.25rem 0 !important;
+    }
+
+    /* 1. Hero Layout - CSS GRID (No Markup Wrapper Needed) */
+    .hero-central-layout {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        /* Forces side-by-side */
+        grid-template-areas:
+            "top top"
+            "left left"
+            "center right"
+            "stats stats"
+            "partners partners";
+        gap: 12px !important;
+        padding-top: 3.5rem !important;
+        height: auto !important;
+        justify-items: center !important;
+        align-items: start !important;
+    }
+
+    .hero-top-banner {
+        grid-area: top;
+        position: relative !important;
+        top: 0 !important;
+        width: 100% !important;
+        font-size: 0.6rem !important;
+        color: var(--color-green-light) !important;
+    }
+
+    .hero-col-left {
+        grid-area: left;
+        width: 100% !important;
+        text-align: center !important;
+        margin-bottom: 5px !important;
+    }
+
+    .hero-title {
+        font-size: 1.5rem !important;
+        line-height: 1.1 !important;
+    }
+
+    .hero-description {
+        font-size: 0.75rem !important;
+        max-width: 90% !important;
+        margin: 0 auto 10px !important;
+    }
+
+    /* Handle the buttons INSIDE center col */
+    .hero-cta {
+        /* Already inside hero-col-center, we keep them flex row */
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        margin-bottom: 10px !important;
+        position: static !important;
+        width: 100% !important;
+        grid-column: 1 / span 2;
+        /* Force them to span top of grid interaction */
+        order: -1;
+    }
+
+    .hero-cta .btn {
+        padding: 0.45rem 0.6rem !important;
+        font-size: 0.6rem !important;
+        min-width: 100px !important;
+    }
+
+    /* 2. THE MINI-GRID ACTION AREA */
+    .hero-col-center {
+        grid-area: center;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+
+    .hero-col-right {
+        grid-area: right;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        padding-top: 0 !important;
+    }
+
+    .globe-wrapper-center {
+        width: 120px !important;
+        height: 120px !important;
+        margin: 0 auto !important;
+        overflow: visible !important;
+    }
+
+    .section-label-floating {
+        font-size: 0.4rem !important;
+        padding: 2px 5px !important;
+        margin-bottom: 4px !important;
+    }
+
+    .country-slider {
+        width: 90px !important;
+        height: 130px !important;
+        margin: 0 auto !important;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    /* 3. Footer elements of grid */
+    .hero-stats-column {
+        grid-area: stats;
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 12px !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 10px 0 !important;
+        background: transparent !important;
+    }
+
+    .stat-num {
+        font-size: 0.85rem !important;
+    }
+
+    .stat-lbl {
+        font-size: 0.5rem !important;
+    }
+
+    .hero-partnerships {
+        grid-area: partners;
+        width: 100% !important;
+        transform: scale(0.65) !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin-top: 0 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .globe-wrapper-center {
+        width: 110px !important;
+        height: 110px !important;
+    }
+
+    .country-slider {
+        width: 85px !important;
+        height: 120px !important;
+    }
+
+    .hero-title {
+        font-size: 1.25rem !important;
+    }
+}

@@ -44,7 +44,7 @@ const CATEGORY_INFO = {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-    initSmoothScroll();
+    // initSmoothScroll(); // Now handled globally in main.js
     initSlideshow();
     initCategoryTabs();
     initModal();
@@ -52,107 +52,98 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // ============================================
-// SMOOTH SCROLL WITH LENIS
+// FEATURED SLIDESHOW
 // ============================================
-function initSmoothScroll() {
-    // Prevent multiple instances
-    if (window.lenis) {
-        console.log('Lenis already initialized, skipping');
-        return;
-    }
+function initSlideshow() {
+    const container = document.getElementById('slideshow');
+    if (!container) return;
 
-    // Check if Lenis is available
-    if (typeof Lenis === 'undefined') {
-        console.log('Lenis not loaded, skipping smooth scroll');
-        return;
-    }
+    // Filter featured documents
+    const featuredDocs = documentsData.filter(doc => FEATURED_IDS.includes(doc.id));
 
-    try {
-        // Initialize Lenis
-        const lenis = new Lenis({
-            duration: 1.2,        // Duration of scroll animation (seconds)
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Easing function
-            direction: 'vertical', // Scroll direction
-            gestureDirection: 'vertical',
-            smooth: true,
-            mouseMultiplier: 1,   // Mouse wheel sensitivity
-            smoothTouch: false,   // Disable smooth scroll on touch devices (better performance)
-            touchMultiplier: 2,
-            infinite: false,
-        });
+    // Render slides
+    container.innerHTML = featuredDocs.map((doc, index) => `
+        <div class="slide ${index === 0 ? 'active' : ''}">
+            <div class="slide-preview">
+                <span class="slide-preview-icon">${getDocIcon(doc.type)}</span>
+            </div>
+            <div class="slide-badge">${doc.type}</div>
+            <div class="slide-content">
+                <span class="slide-category">${CATEGORY_INFO[doc.category]?.name || ''}</span>
+                <h3 class="slide-title">${doc.title}</h3>
+                <p class="slide-description">${doc.description}</p>
+                <div class="slide-actions">
+                    <button class="slide-btn slide-btn-primary" onclick="openModal('${escapeQuotes(doc.title)}', '${escapeQuotes(doc.filename)}')">
+                        👁️ View Document
+                    </button>
+                    <a href="${DOCUMENTS_BASE_PATH}${doc.filename}" class="slide-btn slide-btn-secondary" download>
+                        ⬇️ Download
+                    </a>
+                </div>
+            </div>
+        </div>
+    `).join('') + `
+        <div class="slideshow-controls">
+            <div class="slide-arrow prev" onclick="changeSlide(-1)">&#10094;</div>
+            <div class="slide-dots">
+                ${featuredDocs.map((_, i) => `<span class="slide-dot ${i === 0 ? 'active' : ''}" onclick="goToSlide(${i})"></span>`).join('')}
+            </div>
+            <div class="slide-arrow next" onclick="changeSlide(1)">&#10095;</div>
+        </div>
+    `;
 
-        // Request animation frame loop for 60fps
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-
-        // Expose lenis to window for debugging
-        window.lenis = lenis;
-        console.log('Lenis smooth scroll initialized');
-    } catch (error) {
-        console.error('Error initializing Lenis:', error);
-    }
+    startSlideshow();
 }
+
+function startSlideshow() {
+    stopSlideshow();
+    slideInterval = setInterval(() => changeSlide(1), 5000);
+}
+
+function stopSlideshow() {
+    if (slideInterval) clearInterval(slideInterval);
+}
+
+function changeSlide(n) {
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.slide-dot');
+    if (!slides.length) return;
+
+    slides[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.remove('active');
+
+    currentSlide = (currentSlide + n + slides.length) % slides.length;
+
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+}
+
+function goToSlide(n) {
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.slide-dot');
+
+    slides[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.remove('active');
+
+    currentSlide = n;
+
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+
+    startSlideshow(); // Reset timer
+}
+
+
+// initSmoothScroll removed - handled globally in main.js
 
 // ============================================
 // NAVBAR FUNCTIONALITY
 // ============================================
+// Shared navbar behavior already initialized in main.js
 function initNavbar() {
-    const navbar = document.querySelector('.projects-navbar');
-    const navbarToggle = document.getElementById('navbarToggle');
-    const navbarMenu = document.getElementById('navbarMenu');
-    
-    if (!navbar) return;
-
-    let lastScrollTop = 0;
-    const scrollThreshold = 100; // Pixels to scroll before hiding
-
-    // Hide/Show navbar on scroll
-    window.addEventListener('scroll', () => {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
-        if (scrollTop > scrollThreshold) {
-            if (scrollTop > lastScrollTop) {
-                // Scrolling down - hide navbar
-                navbar.classList.add('navbar-hidden');
-            } else {
-                // Scrolling up - show navbar
-                navbar.classList.remove('navbar-hidden');
-            }
-        } else {
-            // At top of page - always show
-            navbar.classList.remove('navbar-hidden');
-        }
-        
-        lastScrollTop = scrollTop;
-    });
-
-    if (!navbarToggle || !navbarMenu) return;
-
-    // Toggle mobile menu
-    navbarToggle.addEventListener('click', () => {
-        navbarMenu.classList.toggle('active');
-        navbarToggle.classList.toggle('active');
-    });
-
-    // Close menu when clicking on a link
-    const navLinks = navbarMenu.querySelectorAll('.navbar-link');
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            navbarMenu.classList.remove('active');
-            navbarToggle.classList.remove('active');
-        });
-    });
-
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!navbar.contains(e.target)) {
-            navbarMenu.classList.remove('active');
-            navbarToggle.classList.remove('active');
-        }
-    });
+    // This is now purely placeholder for page-specific nav logic if needed.
+    // Basic show/hide on scroll is handled in main.js for all pages.
+    console.log('Projects navigation initialized');
 }
 
 // ============================================
@@ -404,7 +395,7 @@ function openModal(title, filename) {
     const filePath = DOCUMENTS_BASE_PATH + filename;
 
     document.getElementById('modalTitle').textContent = title;
-    
+
     // Use direct iframe for localhost, Google Docs for public sites
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
         document.getElementById('pdfViewer').src = filePath;
@@ -414,7 +405,7 @@ function openModal(title, filename) {
         const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
         document.getElementById('pdfViewer').src = viewerUrl;
     }
-    
+
     document.getElementById('modalDownloadBtn').href = filePath;
     modal.style.display = 'flex';
     clearInterval(slideInterval);

@@ -247,6 +247,19 @@
             </div>
         </div>
 
+        <!-- Section 4: Live Sync Controls -->
+        <div class="sidebar-section">
+            <div class="section-label">Live Preview Sync</div>
+            <div class="device-list">
+                <button class="ui-btn" onclick="refreshFrame()" style="border-color: var(--accent); color: #fff;">
+                    <span>🔃</span> Force Refresh Now
+                </button>
+                <p style="font-size: 10px; color: #475569; margin-top: 10px; line-height: 1.4;">
+                    Push changes in the editor, then click to see them instantly in the simulator.
+                </p>
+            </div>
+        </div>
+
         <div style="margin-top: auto; font-size: 11px; color: #475569;">
             Professional Verification Tool v2.1<br>
             Fixed active states logic.
@@ -320,6 +333,19 @@
             // Target only the page list section buttons
             document.querySelectorAll('#page-list .ui-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+        }
+
+        function refreshFrame() {
+            const frame = document.getElementById('frame');
+            const currentSrc = frame.src;
+            // Add a timestamp to avoid cache
+            frame.src = currentSrc.split('?')[0] + '?t=' + new Date().getTime();
+
+            // Visual feedback
+            const btn = event.currentTarget;
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = '<span>⏳</span> Refreshing...';
+            setTimeout(() => { btn.innerHTML = originalHtml; }, 1000);
         }
 
         window.addEventListener('resize', updateUI);

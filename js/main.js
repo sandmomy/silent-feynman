@@ -90,17 +90,30 @@ function initHeroGlobe() {
     const earthTexture = 'https://unpkg.com/three-globe/example/img/earth-day.jpg';
 
     // Initialize Globe - responsive sizing from container
-    const containerRect = globeContainer.getBoundingClientRect();
-    const initialSize = Math.max(280, Math.min(containerRect.width, containerRect.height, 520));
+    const rect = globeContainer.getBoundingClientRect();
+    const initialSize = Math.min(rect.width, rect.height || 400);
 
     const globe = Globe()
-        .backgroundColor('rgba(0,0,0,0)')
-        .globeImageUrl(earthTexture)
         .width(initialSize)
         .height(initialSize)
+        .backgroundColor('rgba(0,0,0,0)')
+        .globeImageUrl(earthTexture)
         .showAtmosphere(true)
         .atmosphereColor('#48bb78')
-        .atmosphereAltitude(0.12)
+        .atmosphereAltitude(0.12);
+
+    const updateSize = () => {
+        const currentRect = globeContainer.getBoundingClientRect();
+        const size = Math.min(currentRect.width, currentRect.height || 400);
+        globe.width(size).height(size);
+    };
+
+    // Auto-resize on window change with robust debounce
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(updateSize, 150);
+    });
 
     // --- LAYER 1: HTML MARKERS (SVG Google Pins) ---
     // --- LAYER 1: HTML MARKERS (CSS Pins) ---
@@ -225,8 +238,8 @@ function initHeroGlobe() {
     // Ensure WebGL canvas matches responsive CSS size
     syncGlobeSizeToContainer();
 
-    // Initial View
-    globe.pointOfView({ lat: 0, lng: 10, altitude: 2.5 });
+    // Initial View - Set transition to 0 to prevent "zoom in" glitch on load
+    globe.pointOfView({ lat: 0, lng: 10, altitude: 2.5 }, 0);
 
     // Controls - Optimized for performance
     const controls = globe.controls();
@@ -375,32 +388,9 @@ function initHeroGlobe() {
 // ============================================
 // Navigation & Effects
 // ============================================
+// Navigation logic removed to restore original clean aesthetic
 function initNavigation() {
-    const nav = document.querySelector('.nav');
-    const navToggle = document.getElementById('navToggle');
-    const navLinks = document.querySelector('.nav-links');
-    if (!nav || !navToggle || !navLinks) return;
-
-    window.addEventListener('scroll', () => {
-        nav.classList.toggle('scrolled', window.scrollY > 50);
-    });
-
-    navToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        navToggle.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
-    });
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth' });
-                navLinks.classList.remove('active');
-                navToggle.textContent = '☰';
-            }
-        });
-    });
+    console.log('Mobile navigation removed per user request');
 }
 
 function initScrollEffects() {
