@@ -165,3 +165,133 @@
         height: 110px !important;
     }
 }
+
+/* ============================================================
+   ADDITIONAL MOBILE OPTIMIZATIONS (≤992px)
+   ============================================================ */
+
+@media (max-width: 992px) {
+
+    /* Globe WebGL Canvas Sizing */
+    #hero-globe {
+        width: 120px !important;
+        height: 120px !important;
+    }
+
+    /* Touch-Friendly Buttons (44px min target) */
+    .hero-cta .btn {
+        min-height: 44px !important;
+        padding: 0.6rem 1rem !important;
+        font-size: 0.7rem !important;
+        border-radius: 25px !important;
+    }
+
+    /* Hide orbital dots on mobile - too small to see */
+    .orbital-dots-bridge {
+        display: none !important;
+    }
+
+    /* About Section Mobile */
+    .about-compact-card {
+        padding: 1.5rem !important;
+        margin: 0 1rem 1rem !important;
+        border-radius: 20px !important;
+    }
+
+    .compact-img-wrapper {
+        width: 80px !important;
+        height: 110px !important;
+    }
+
+    .compact-name {
+        font-size: 1.6rem !important;
+    }
+
+    .compact-tagline {
+        font-size: 0.7rem !important;
+    }
+
+    .about-bio-extended {
+        padding: 1.5rem !important;
+        margin: 0 1rem !important;
+        border-radius: 20px !important;
+    }
+
+    .about-bio-extended p {
+        font-size: 0.85rem !important;
+    }
+
+    /* Contact Section Mobile - Stack vertically */
+    .contact-section {
+        padding: 3rem 0 2rem !important;
+    }
+
+    .contact-grid-layout {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+        padding: 0 1rem !important;
+    }
+
+    .contact-card {
+        padding: 1.5rem !important;
+        border-radius: 20px !important;
+    }
+
+    .contact-card-header h3 {
+        font-size: 1.4rem !important;
+    }
+
+    .social-circle {
+        width: 50px !important;
+        height: 50px !important;
+    }
+
+    /* Scroll Button Mobile */
+    .hero-scroll {
+        bottom: 1rem !important;
+    }
+
+    .scroll-about-btn {
+        padding: 0.6rem 1.5rem !important;
+        font-size: 0.6rem !important;
+    }
+
+    /* Footer Mobile */
+    .integrated-footer {
+        margin-top: 2rem !important;
+        padding-top: 1.5rem !important;
+    }
+}
+
+/* ============================================================
+   SMALL PHONES (≤480px) - Extra Compact
+   ============================================================ */
+
+@media (max-width: 480px) {
+
+    #hero-globe {
+        width: 100px !important;
+        height: 100px !important;
+    }
+
+    .hero-title {
+        font-size: 1.3rem !important;
+    }
+
+    .hero-description {
+        font-size: 0.7rem !important;
+    }
+
+    .hero-cta .btn {
+        font-size: 0.6rem !important;
+        padding: 0.5rem 0.8rem !important;
+    }
+
+    .compact-name {
+        font-size: 1.4rem !important;
+    }
+
+    .about-bio-extended p {
+        font-size: 0.8rem !important;
+    }
+}
