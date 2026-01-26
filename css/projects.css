@@ -210,6 +210,41 @@ html.lenis {
     /* Responsive padding */
 }
 
+.projects-back-btn {
+    position: absolute;
+    top: clamp(1rem, 3vh, 2rem);
+    left: clamp(1rem, 5vw, 2.5rem);
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.55rem 1.15rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(8, 12, 20, 0.6);
+    color: #f1f5f9;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.projects-back-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 640px) {
+    .projects-back-btn {
+        font-size: 0.78rem;
+        padding: 0.45rem 0.95rem;
+        left: clamp(0.8rem, 4vw, 1.5rem);
+    }
+}
+
 /* Video Background at wrapper level */
 .hero-wrapper-video {
     position: absolute;
