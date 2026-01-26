@@ -91,7 +91,10 @@ function initHeroGlobe() {
 
     // Initialize Globe - responsive sizing from container
     const rect = globeContainer.getBoundingClientRect();
-    const initialSize = Math.min(rect.width, rect.height || 400);
+    // Use minimum size of 150px for mobile, or container size for desktop
+    const isMobile = window.innerWidth <= 992;
+    const mobileSize = 180;
+    const initialSize = isMobile ? mobileSize : Math.max(Math.min(rect.width, rect.height || 400), 150);
 
     const globe = Globe()
         .width(initialSize)
@@ -103,9 +106,14 @@ function initHeroGlobe() {
         .atmosphereAltitude(0.12);
 
     const updateSize = () => {
-        const currentRect = globeContainer.getBoundingClientRect();
-        const size = Math.min(currentRect.width, currentRect.height || 400);
-        globe.width(size).height(size);
+        const isMobileNow = window.innerWidth <= 992;
+        if (isMobileNow) {
+            globe.width(mobileSize).height(mobileSize);
+        } else {
+            const currentRect = globeContainer.getBoundingClientRect();
+            const size = Math.max(Math.min(currentRect.width, currentRect.height || 400), 150);
+            globe.width(size).height(size);
+        }
     };
 
     // Auto-resize on window change with robust debounce
