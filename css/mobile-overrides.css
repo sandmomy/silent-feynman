@@ -15,33 +15,33 @@
         display: flex !important;
         flex-direction: column !important;
         justify-content: flex-start !important;
-        padding-top: 60px !important;
+        padding-top: 50px !important;
     }
 
-    /* Hero Layout - VERTICAL STACK for mobile */
+    /* Hero Layout - Compact vertical with side-by-side globe+slider */
     .hero-central-layout {
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
-        gap: 15px !important;
-        padding: 10px 20px !important;
+        gap: 12px !important;
+        padding: 10px 15px !important;
         width: 100% !important;
         max-width: 100% !important;
     }
 
-    /* Top Banner - Full width, compact */
+    /* Top Banner */
     .hero-top-banner {
         position: relative !important;
         top: 0 !important;
         width: 100% !important;
-        font-size: 0.5rem !important;
-        letter-spacing: 2px !important;
+        font-size: 0.45rem !important;
+        letter-spacing: 1.5px !important;
         text-align: center !important;
-        margin-bottom: 10px !important;
-        padding: 0 10px !important;
+        margin-bottom: 8px !important;
+        padding: 0 5px !important;
     }
 
-    /* Left Column - Name & Description */
+    /* Left Column - Name & Description FIRST */
     .hero-col-left {
         width: 100% !important;
         text-align: center !important;
@@ -49,23 +49,104 @@
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
+        order: 1 !important;
     }
 
     .hero-title {
-        font-size: 2rem !important;
+        font-size: 1.8rem !important;
         line-height: 1.1 !important;
-        margin-bottom: 8px !important;
+        margin-bottom: 6px !important;
     }
 
     .hero-description {
-        font-size: 0.8rem !important;
-        max-width: 85% !important;
-        margin: 0 auto 15px !important;
+        font-size: 0.75rem !important;
+        max-width: 90% !important;
+        margin: 0 auto 12px !important;
     }
 
-    /* Hide partnerships on mobile - too cluttered */
+    /* Hide partnerships on mobile */
     .hero-partnerships {
         display: none !important;
+    }
+
+    /* Buttons SECOND - full row */
+    .hero-cta {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        margin-bottom: 15px !important;
+        order: 2 !important;
+        width: 100% !important;
+    }
+
+    .hero-cta .btn {
+        min-height: 40px !important;
+        padding: 0.5rem 1rem !important;
+        font-size: 0.7rem !important;
+        border-radius: 25px !important;
+    }
+
+    /* Center Column - Contains globe, becomes part of side-by-side */
+    .hero-col-center {
+        width: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        order: 3 !important;
+        position: relative !important;
+    }
+
+    /* Create side-by-side with CSS Grid on the parent */
+    .hero-col-center,
+    .hero-col-right {
+        display: inline-flex !important;
+        vertical-align: top !important;
+    }
+
+    /* Globe wrapper - small and positioned left */
+    .globe-wrapper-center {
+        width: 120px !important;
+        height: 120px !important;
+        margin: 0 !important;
+        overflow: visible !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    #hero-globe {
+        width: 120px !important;
+        height: 120px !important;
+        min-width: 120px !important;
+        min-height: 120px !important;
+    }
+
+    /* Right Column - Slider positioned right of globe */
+    .hero-col-right {
+        width: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        padding: 0 !important;
+        order: 4 !important;
+        margin-left: 15px !important;
+    }
+
+    .section-label-floating {
+        font-size: 0.5rem !important;
+        padding: 3px 8px !important;
+        margin-bottom: 5px !important;
+    }
+
+    /* Country slider - compact */
+    .country-slider {
+        width: 100px !important;
+        height: 140px !important;
+        margin: 0 !important;
+        overflow: hidden !important;
+        position: relative !important;
+        border-radius: 15px !important;
     }
 
     /* Center Column - Globe (order 2, after buttons) */

@@ -91,9 +91,9 @@ function initHeroGlobe() {
 
     // Initialize Globe - responsive sizing from container
     const rect = globeContainer.getBoundingClientRect();
-    // Use minimum size of 150px for mobile, or container size for desktop
+    // Use minimum size of 120px for mobile, or container size for desktop
     const isMobile = window.innerWidth <= 992;
-    const mobileSize = 180;
+    const mobileSize = 120;
     const initialSize = isMobile ? mobileSize : Math.max(Math.min(rect.width, rect.height || 400), 150);
 
     const globe = Globe()
@@ -108,7 +108,7 @@ function initHeroGlobe() {
     const updateSize = () => {
         const isMobileNow = window.innerWidth <= 992;
         if (isMobileNow) {
-            globe.width(mobileSize).height(mobileSize);
+            globe.width(120).height(120);
         } else {
             const currentRect = globeContainer.getBoundingClientRect();
             const size = Math.max(Math.min(currentRect.width, currentRect.height || 400), 150);
