@@ -55,101 +55,6 @@ document.addEventListener('DOMContentLoaded', function () {
 // FEATURED SLIDESHOW
 // ============================================
 function initSlideshow() {
-    const container = document.getElementById('slideshow');
-    if (!container) return;
-
-    // Filter featured documents
-    const featuredDocs = documentsData.filter(doc => FEATURED_IDS.includes(doc.id));
-
-    // Render slides
-    container.innerHTML = featuredDocs.map((doc, index) => `
-        <div class="slide ${index === 0 ? 'active' : ''}">
-            <div class="slide-preview">
-                <span class="slide-preview-icon">${getDocIcon(doc.type)}</span>
-            </div>
-            <div class="slide-badge">${doc.type}</div>
-            <div class="slide-content">
-                <span class="slide-category">${CATEGORY_INFO[doc.category]?.name || ''}</span>
-                <h3 class="slide-title">${doc.title}</h3>
-                <p class="slide-description">${doc.description}</p>
-                <div class="slide-actions">
-                    <button class="slide-btn slide-btn-primary" onclick="openModal('${escapeQuotes(doc.title)}', '${escapeQuotes(doc.filename)}')">
-                        👁️ View Document
-                    </button>
-                    <a href="${DOCUMENTS_BASE_PATH}${doc.filename}" class="slide-btn slide-btn-secondary" download>
-                        ⬇️ Download
-                    </a>
-                </div>
-            </div>
-        </div>
-    `).join('') + `
-        <div class="slideshow-controls">
-            <div class="slide-arrow prev" onclick="changeSlide(-1)">&#10094;</div>
-            <div class="slide-dots">
-                ${featuredDocs.map((_, i) => `<span class="slide-dot ${i === 0 ? 'active' : ''}" onclick="goToSlide(${i})"></span>`).join('')}
-            </div>
-            <div class="slide-arrow next" onclick="changeSlide(1)">&#10095;</div>
-        </div>
-    `;
-
-    startSlideshow();
-}
-
-function startSlideshow() {
-    stopSlideshow();
-    slideInterval = setInterval(() => changeSlide(1), 5000);
-}
-
-function stopSlideshow() {
-    if (slideInterval) clearInterval(slideInterval);
-}
-
-function changeSlide(n) {
-    const slides = document.querySelectorAll('.slide');
-    const dots = document.querySelectorAll('.slide-dot');
-    if (!slides.length) return;
-
-    slides[currentSlide].classList.remove('active');
-    dots[currentSlide].classList.remove('active');
-
-    currentSlide = (currentSlide + n + slides.length) % slides.length;
-
-    slides[currentSlide].classList.add('active');
-    dots[currentSlide].classList.add('active');
-}
-
-function goToSlide(n) {
-    const slides = document.querySelectorAll('.slide');
-    const dots = document.querySelectorAll('.slide-dot');
-
-    slides[currentSlide].classList.remove('active');
-    dots[currentSlide].classList.remove('active');
-
-    currentSlide = n;
-
-    slides[currentSlide].classList.add('active');
-    dots[currentSlide].classList.add('active');
-
-    startSlideshow(); // Reset timer
-}
-
-
-// initSmoothScroll removed - handled globally in main.js
-
-// ============================================
-// NAVBAR FUNCTIONALITY
-// ============================================
-// Shared navbar behavior already initialized in main.js
-function initNavbar() {
-    // This is now purely placeholder for page-specific nav logic if needed.
-    // Basic show/hide on scroll is handled in main.js for all pages.
-    console.log('Projects navigation initialized');
-}
-
-// ============================================
-// SLIDESHOW
-// ============================================
-function initSlideshow() {
     if (typeof DOCUMENTS_DATA === 'undefined') return;
 
     const container = document.getElementById('slideshow');
@@ -196,12 +101,18 @@ function initSlideshow() {
 }
 
 function startSlideshow() {
+    stopSlideshow();
     slideInterval = setInterval(() => changeSlide(1), 5000);
+}
+
+function stopSlideshow() {
+    if (slideInterval) clearInterval(slideInterval);
 }
 
 function changeSlide(direction) {
     const slides = document.querySelectorAll('.slide');
     const dots = document.querySelectorAll('.slide-dot');
+    if (!slides.length) return;
 
     slides[currentSlide].classList.remove('active');
     dots[currentSlide].classList.remove('active');
@@ -211,13 +122,13 @@ function changeSlide(direction) {
     slides[currentSlide].classList.add('active');
     dots[currentSlide].classList.add('active');
 
-    clearInterval(slideInterval);
     startSlideshow();
 }
 
 function goToSlide(index) {
     const slides = document.querySelectorAll('.slide');
     const dots = document.querySelectorAll('.slide-dot');
+    if (!slides.length) return;
 
     slides[currentSlide].classList.remove('active');
     dots[currentSlide].classList.remove('active');
@@ -227,8 +138,14 @@ function goToSlide(index) {
     slides[currentSlide].classList.add('active');
     dots[currentSlide].classList.add('active');
 
-    clearInterval(slideInterval);
     startSlideshow();
+}
+
+// ============================================
+// NAVBAR FUNCTIONALITY
+// ============================================
+function initNavbar() {
+    console.log('Projects navigation initialized');
 }
 
 // ============================================

@@ -137,6 +137,13 @@ img {
     animation: heroGlow 10s ease-in-out infinite alternate;
 }
 
+/* --- Carousel Scope Sanitization --- */
+.hero-carousel .slide-image,
+.hero-carousel .slide-badge,
+.hero-carousel .slide-date {
+    display: none !important;
+}
+
 @keyframes heroGlow {
     0% {
         opacity: 0.5;
