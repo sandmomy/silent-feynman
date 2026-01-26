@@ -19,9 +19,7 @@
     }
 
     /* 
-       GRID & UNWRAP STRATEGY
-       We create a 2-column Grid and "unwrap" the columns using display: contents
-       so we can place the Globe (left) and Slider (right) side-by-side.
+       GRID & UNWRAP STRATEGY (Refined)
     */
     .hero-central-layout {
         display: grid !important;
@@ -33,9 +31,12 @@
             "buttons buttons"
             "globe   slider"
             "stats   stats" !important;
-        gap: 10px !important;
-        padding: 10px 15px !important;
+        grid-row-gap: 20px !important;
+        grid-column-gap: 10px !important;
+        padding: 10px 20px 40px !important;
+        /* Added bottom padding */
         width: 100% !important;
+        height: auto !important;
         align-items: center !important;
         justify-items: center !important;
     }
@@ -79,10 +80,11 @@
         text-align: center !important;
     }
 
-    /* Hide extraneous items */
+    /* Hide extraneous items aggressively */
     .hero-partnerships,
     .orbital-dots-bridge,
-    .hero-scroll {
+    .hero-scroll,
+    .hero-col-right .section-label-floating {
         display: none !important;
     }
 
@@ -93,7 +95,7 @@
         flex-direction: row !important;
         justify-content: center !important;
         gap: 10px !important;
-        margin-bottom: 15px !important;
+        margin-bottom: 5px !important;
         width: 100% !important;
     }
 
@@ -102,6 +104,7 @@
         padding: 0.5rem 1rem !important;
         font-size: 0.7rem !important;
         border-radius: 25px !important;
+        z-index: 50 !important;
     }
 
     /* Row 5 Left: Globe */
@@ -113,6 +116,8 @@
         justify-content: center !important;
         align-items: center !important;
         margin: 0 !important;
+        z-index: 10 !important;
+        /* Ensure proper layering */
     }
 
     #hero-globe {
@@ -123,31 +128,14 @@
     }
 
     /* Row 5 Right: Slider */
-    /* Note: The slider wrapper (.hero-col-right) is unwrapped, 
-       so we target its children directly */
-
-    /* We need to ensure the slider and label are grouped or handled. 
-       Since we unwrapped .hero-col-right, .country-slider is a direct child.
-       But .section-label-floating is also a direct child. 
-       We will hide the label on mobile to simplify the grid cell, 
-       or we can assume they flow into the same cell if we wrap them locally? 
-       Actually, `display: contents` removes the wrapper. 
-       So both Label and Slider are now grid children.
-       
-       Hack: Force the slider to take the cell, hide the label or absolute position it.
-    */
-
-    .section-label-floating {
-        display: none !important;
-        /* Too much clutter */
-    }
-
     .country-slider {
         grid-area: slider !important;
         width: 110px !important;
         height: 150px !important;
         margin: 0 !important;
         justify-self: center !important;
+        z-index: 20 !important;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5) !important;
     }
 
     .country-slide {
@@ -168,6 +156,8 @@
         gap: 25px !important;
         width: 100% !important;
         margin-top: 10px !important;
+        z-index: 30 !important;
+        /* On top of globe if overlap occurs */
     }
 
     .stat-num {
