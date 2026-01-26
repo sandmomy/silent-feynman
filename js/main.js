@@ -259,9 +259,9 @@ function initHeroGlobe() {
     let animationId = null;
     let isGlobeActive = false;
 
-    // Set initial state - hidden
-    globeContainer.style.opacity = '0';
-    globeContainer.style.transform = 'scale(0.8)';
+    // Set initial state - visible immediately for reliable rendering
+    globeContainer.style.opacity = '1';
+    globeContainer.style.transform = 'scale(1)';
     globeContainer.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
 
     function startRendering() {
@@ -325,6 +325,10 @@ function initHeroGlobe() {
     });
 
     observer.observe(globeContainer);
+
+    // Start immediately - don't wait for observer
+    isGlobeActive = true;
+    startRendering();
 
     // Sync globe size on resize with debounce
     let resizeTimeout;
