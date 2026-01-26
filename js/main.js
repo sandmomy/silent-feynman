@@ -86,8 +86,8 @@ function initHeroGlobe() {
         { lat: -1.3, lng: 36.8, name: 'Kenya', color: '#ef4444' }
     ];
 
-    // Natural Earth texture: green land + blue ocean
-    const earthTexture = 'https://unpkg.com/three-globe/example/img/earth-day.jpg';
+    // Natural Earth texture: localized for reliability
+    const earthTexture = 'assets/earth-day.jpg';
 
     // Initialize Globe - responsive sizing from container
     const rect = globeContainer.getBoundingClientRect();
@@ -365,9 +365,8 @@ function initHeroGlobe() {
         }, 3000); // 3 seconds wait
     });
 
-    // Load ONLY active countries as blue polygons (3 instead of 200+)
-    // Green countries come from texture image = MUCH faster!
-    fetch('https://raw.githubusercontent.com/vasturiano/globe.gl/master/example/datasets/ne_110m_admin_0_countries.geojson')
+    // Load ONLY active countries from localized GeoJSON
+    fetch('assets/countries.geojson')
         .then(res => res.json())
         .then(countries => {
             const activeOnly = countries.features.filter(d => {
@@ -602,61 +601,5 @@ function initFadeAnimations() {
 // Initialize fade animations
 document.addEventListener('DOMContentLoaded', initFadeAnimations);
 
-// ============================================
-// HERO SHADOW SCROLL CONTROL
-// ============================================
-function initHeroShadow() {
-    const hero = document.querySelector('.hero');
-    const contact = document.getElementById('contact');
-    const about = document.getElementById('about');
+// Hero shadow logic removed to ensure clean "Golden State" aesthetic.
 
-    if (!hero) return;
-
-    // Create shadow element
-    const shadow = document.createElement('div');
-    shadow.className = 'hero-bottom-shadow';
-    document.body.appendChild(shadow);
-
-    function updateShadow() {
-        const scrollY = window.scrollY;
-        const windowHeight = window.innerHeight;
-        const heroBottom = hero.offsetTop + hero.offsetHeight;
-        const aboutTop = about ? about.offsetTop : heroBottom;
-        const contactBottom = contact ? contact.offsetTop + contact.offsetHeight : document.body.scrollHeight;
-
-        // Calculate progress through the page
-        const totalScrollable = contactBottom - windowHeight;
-        const scrollProgress = scrollY / totalScrollable;
-
-        // Partnerships section position (where SBDI logo is)
-        const partnerships = document.querySelector('.hero-partnerships');
-        const partnershipsTop = partnerships ? partnerships.offsetTop : heroBottom;
-
-        // Calculate opacity based on section visibility
-        let opacity = 1;
-
-        // Fade out only when leaving About section completely
-        if (scrollY > aboutTop + windowHeight * 0.5) {
-            const progress = (scrollY - (aboutTop + windowHeight * 0.5)) / 400;
-            opacity = Math.max(0, 1 - progress * 0.8);
-        }
-
-        // Fade completely at end of contact
-        if (contact) {
-            const contactEnd = contact.offsetTop + contact.offsetHeight;
-            const distanceToEnd = contactEnd - (scrollY + windowHeight);
-            if (distanceToEnd < 200) {
-                const endFade = distanceToEnd / 200;
-                opacity = Math.min(opacity, Math.max(0, endFade));
-            }
-        }
-
-        shadow.style.opacity = opacity;
-    }
-
-    // Listen to scroll
-    window.addEventListener('scroll', updateShadow, { passive: true });
-    updateShadow(); // Initial call
-}
-
-document.addEventListener('DOMContentLoaded', initHeroShadow);

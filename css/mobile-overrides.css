@@ -10,10 +10,19 @@
         padding: 1.25rem 0 !important;
     }
 
+    .hero.home-hero {
+        min-height: 100svh !important;
+        /* Force full viewport on mobile */
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
     /* 1. Hero Layout - CSS GRID (No Markup Wrapper Needed) */
     .hero-central-layout {
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
+        height: auto !important;
+        /* Content defines height inside the forced flex hero */
         /* Forces side-by-side */
         grid-template-areas:
             "top top"
