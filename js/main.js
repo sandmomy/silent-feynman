@@ -569,8 +569,17 @@ function initCountrySlider() {
 
     showCountry(currentCountryIndex);
 
-    // Auto-rotate: alternate countries, then next image set
-    setInterval(nextFrame, 3000);
+    let rotateInterval;
+    const startRotate = () => { rotateInterval = setInterval(nextFrame, 3000); };
+    const stopRotate = () => { clearInterval(rotateInterval); };
+
+    // Efficiency: pause on tab hidden
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) stopRotate();
+        else startRotate();
+    });
+
+    startRotate();
 }
 
 // ============================================
@@ -601,5 +610,6 @@ function initFadeAnimations() {
 // Initialize fade animations
 document.addEventListener('DOMContentLoaded', initFadeAnimations);
 
-// Hero shadow logic removed to ensure clean "Golden State" aesthetic.
+
+
 

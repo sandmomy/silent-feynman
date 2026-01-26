@@ -66,7 +66,7 @@ function initSlideshow() {
         <div class="slide ${i === 0 ? 'active' : ''}" data-index="${i}">
             <div class="slide-preview">
                 <span class="slide-preview-icon">${getDocIcon(doc.type)}</span>
-                <span class="slide-badge">${doc.type}</span>
+                <span class="portal-type-badge">${doc.type}</span>
             </div>
             <div class="slide-content">
                 <div class="slide-category">${doc.categoryLabel}</div>
@@ -102,12 +102,20 @@ function initSlideshow() {
 
 function startSlideshow() {
     stopSlideshow();
-    slideInterval = setInterval(() => changeSlide(1), 5000);
+    if (!document.hidden) {
+        slideInterval = setInterval(() => changeSlide(1), 5000);
+    }
 }
 
 function stopSlideshow() {
     if (slideInterval) clearInterval(slideInterval);
 }
+
+// Efficiency: pause on tab hidden
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopSlideshow();
+    else startSlideshow();
+});
 
 function changeSlide(direction) {
     const slides = document.querySelectorAll('.slide');

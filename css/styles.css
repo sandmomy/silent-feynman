@@ -41,6 +41,12 @@
     --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
     --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
     --shadow-name: 0 4px 30px rgba(255, 255, 255, 0.3);
+
+    /* --- Z-Index Hierarchy --- */
+    --z-bg: -10;
+    --z-hero-content: 5;
+    --z-nav: 100;
+    --z-modal: 1000;
 }
 
 /* --- Base --- */
@@ -137,12 +143,7 @@ img {
     animation: heroGlow 10s ease-in-out infinite alternate;
 }
 
-/* --- Carousel Scope Sanitization --- */
-.hero-carousel .slide-image,
-.hero-carousel .slide-badge,
-.hero-carousel .slide-date {
-    display: none !important;
-}
+
 
 @keyframes heroGlow {
     0% {
