@@ -19,7 +19,9 @@
     }
 
     /* 
-       GRID & UNWRAP STRATEGY (Refined)
+       GRID STRATEGY
+       Using 2 columns.
+       We unwrap the hero columns to place Globe (left) and Slider (right) in the same row.
     */
     .hero-central-layout {
         display: grid !important;
@@ -31,24 +33,21 @@
             "buttons buttons"
             "globe   slider"
             "stats   stats" !important;
-        grid-row-gap: 20px !important;
-        grid-column-gap: 10px !important;
+        column-gap: 10px !important;
+        row-gap: 20px !important;
         padding: 10px 20px 40px !important;
-        /* Added bottom padding */
         width: 100% !important;
         height: auto !important;
         align-items: center !important;
         justify-items: center !important;
     }
 
-    /* Unwrap the columns so their children became direct grid items */
+    /* CRITICAL: Unwrap columns to allow grid placement of children */
     .hero-col-left,
     .hero-col-center,
     .hero-col-right {
         display: contents !important;
     }
-
-    /* --- PLACEMENT --- */
 
     /* Row 1: Banner */
     .hero-top-banner {
@@ -80,14 +79,6 @@
         text-align: center !important;
     }
 
-    /* Hide extraneous items aggressively */
-    .hero-partnerships,
-    .orbital-dots-bridge,
-    .hero-scroll,
-    .hero-col-right .section-label-floating {
-        display: none !important;
-    }
-
     /* Row 4: Buttons */
     .hero-cta {
         grid-area: buttons !important;
@@ -97,6 +88,7 @@
         gap: 10px !important;
         margin-bottom: 5px !important;
         width: 100% !important;
+        z-index: 50 !important;
     }
 
     .hero-cta .btn {
@@ -104,7 +96,6 @@
         padding: 0.5rem 1rem !important;
         font-size: 0.7rem !important;
         border-radius: 25px !important;
-        z-index: 50 !important;
     }
 
     /* Row 5 Left: Globe */
@@ -117,7 +108,6 @@
         align-items: center !important;
         margin: 0 !important;
         z-index: 10 !important;
-        /* Ensure proper layering */
     }
 
     #hero-globe {
@@ -155,9 +145,8 @@
         justify-content: center !important;
         gap: 25px !important;
         width: 100% !important;
-        margin-top: 10px !important;
+        margin-top: 15px !important;
         z-index: 30 !important;
-        /* On top of globe if overlap occurs */
     }
 
     .stat-num {
@@ -166,6 +155,14 @@
 
     .stat-lbl {
         font-size: 0.5rem !important;
+    }
+
+    /* Hide extraneous items */
+    .hero-partnerships,
+    .orbital-dots-bridge,
+    .hero-scroll,
+    .hero-col-right .section-label-floating {
+        display: none !important;
     }
 
     /* Other Mobile components */
