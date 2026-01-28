@@ -115,12 +115,12 @@ function openMobileModal(title, filename, description) {
         document.getElementById('mobile-modal-preview').src = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
     }
 
-    // Lock background scroll
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
-    if (window.lenis) {
-        try { window.lenis.stop(); } catch (e) { }
-    }
+    // Lock background scroll - DISABLED to prevent blocking issues
+    // document.body.style.overflow = 'hidden';
+    // document.documentElement.style.overflow = 'hidden';
+    // if (window.lenis) {
+    //     try { window.lenis.stop(); } catch (e) { }
+    // }
 
     overlay.classList.add('active');
 }
@@ -132,11 +132,11 @@ function closeMobileModal() {
         document.getElementById('mobile-modal-preview').src = '';
 
         // Restore background scroll
-        document.body.style.overflow = '';
-        document.documentElement.style.overflow = '';
-        if (window.lenis) {
-            try { window.lenis.start(); } catch (e) { }
-        }
+        // document.body.style.overflow = '';
+        // document.documentElement.style.overflow = '';
+        // if (window.lenis) {
+        //     try { window.lenis.start(); } catch (e) { }
+        // }
     }
 }
 
@@ -478,13 +478,13 @@ function openModal(title, filename) {
     modal.classList.add('project-modal-active');
     modal.style.display = 'flex'; // Keep as fallback
 
-    // Lock background scroll
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
+    // Lock background scroll - DISABLED to prevent blocking issues
+    // document.body.style.overflow = 'hidden';
+    // document.documentElement.style.overflow = 'hidden';
 
-    if (window.lenis) {
-        try { window.lenis.stop(); } catch (e) { }
-    }
+    // if (window.lenis) {
+    //     try { window.lenis.stop(); } catch (e) { }
+    // }
 
     clearInterval(slideInterval);
 }
@@ -498,12 +498,12 @@ function closeModal() {
     document.getElementById('pdfViewer').src = '';
 
     // Restore background scroll
-    document.body.style.overflow = '';
-    document.documentElement.style.overflow = '';
+    // document.body.style.overflow = '';
+    // document.documentElement.style.overflow = '';
 
-    if (window.lenis) {
-        try { window.lenis.start(); } catch (e) { }
-    }
+    // if (window.lenis) {
+    //     try { window.lenis.start(); } catch (e) { }
+    // }
 
     startSlideshow();
 }
