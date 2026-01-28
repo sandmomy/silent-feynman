@@ -81,13 +81,15 @@ function initSlideshow() {
     const featured = FEATURED_IDS.map(id => DOCUMENTS_DATA.find(d => d.id === id)).filter(Boolean);
 
     const slidesHTML = featured.map((doc, i) => `
-        <div class="slide ${i === 0 ? 'active' : ''}" data-index="${i}">
-            <div class="slide-preview">
-                <span class="slide-preview-icon">${getDocIcon(doc.type)}</span>
-                <span class="portal-type-badge">${doc.type}</span>
+        <div class="slide ${i === 0 ? 'active' : ''}" data-index="${i}" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('${doc.thumbnail || 'assets/placeholder.jpg'}'); background-size: cover; background-position: center;">
+            <div class="slide-featured-header">
+               <span>⭐ FEATURED INSIGHTS</span>
             </div>
             <div class="slide-content">
-                <div class="slide-category">${doc.categoryLabel}</div>
+                <div class="slide-category">
+                   <span class="category-icon">${doc.category === 'investment' ? '💰' : '⚡'}</span>
+                   ${doc.categoryLabel.replace('🌿 ', '').replace('💰 ', '').replace('⚡ ', '')}
+                </div>
                 <h2 class="slide-title">${doc.title}</h2>
                 <p class="slide-description">${doc.description}</p>
                 <div class="slide-actions">
