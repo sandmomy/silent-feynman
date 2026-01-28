@@ -415,13 +415,16 @@ function toggleProjectCard(card, event) {
             event.target.closest('.project-header-mobile');
 
         // Check if clicking outside the modal content (on the backdrop area)
-        const isInsideModal = event.target.closest('.project-content');
-        const isBackdrop = !isInsideModal && (event.target === card || event.target.closest('.project-card') === card);
+        const modalContent = event.target.closest('.project-content');
+        const isBackdrop = !modalContent && (event.target === card ||
+            event.target.closest('.project-card') === card ||
+            event.target.classList.contains('project-overlay'));
 
         if (isCloseBtn || isBackdrop) {
-            // EXPLICITLY CLOSE
+            // EXPLICITLY CLOSE - with proper cleanup
             card.classList.remove('expanded');
             if (viewerTarget) viewerTarget.innerHTML = '';
+            document.body.classList.remove('project-modal-active'); // Ensure cleanup
             return; // Stop here
         }
 
@@ -456,7 +459,7 @@ function toggleProjectCard(card, event) {
                     width="100%" 
                     height="180px" 
                     loading="lazy"
-                    style="border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: white; pointer-events: none;">
+                    style="border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: white;">
                 </iframe>
             `;
 
@@ -472,11 +475,6 @@ function toggleProjectCard(card, event) {
         viewerTarget.innerHTML = '';
     }
 
-    // Just track that a modal is open (no scroll blocking)
-    const anyExpanded = document.querySelector('.project-card.expanded');
-    if (anyExpanded) {
-        document.body.classList.add('project-modal-active');
-    } else {
-        document.body.classList.remove('project-modal-active');
-    }
+    // Track that a modal is open
+    document.body.classList.add('project-modal-active');
 }

@@ -673,9 +673,9 @@ html.lenis {
 
     /* FORCE Split Layout - Override anything else with extreme prejudice */
     .hero-split-wrapper {
-        height: 100vh !important;
         min-height: 100vh !important;
-        overflow: hidden !important;
+        max-height: none !important;
+        overflow: visible !important;
         display: block !important;
         position: relative !important;
     }
@@ -1859,9 +1859,9 @@ html.lenis {
     .project-card.expanded .mobile-chevron {
         transform: none;
         background: var(--color-green);
-        width: 32px;
-        height: 32px;
-        font-size: 0.8rem;
+        width: 44px;
+        height: 44px;
+        font-size: 1rem;
         font-weight: 800;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
         border: 2px solid #0c120c;
