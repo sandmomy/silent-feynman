@@ -324,12 +324,15 @@ function openModal(title, filename) {
     // Use direct iframe for localhost, Google Docs for public sites
     if (window.innerWidth < 768) {
         // Mobile Handling
-        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-            // Localhost: Open raw file (System Viewer)
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || isIOS) {
+            // Localhost OR iOS: Open raw file (System Viewer)
+            // iOS Safari opens PDFs natively in a new tab without downloading
             window.open(encodeURI(filePath), '_blank');
         } else {
-            // Production (GitHub Pages): Open in Google Docs Viewer (New Tab)
-            // This prevents "download" behavior and forces a view
+            // Android/Others (GitHub Pages): Open in Google Docs Viewer (New Tab)
+            // This prevents "download" behavior on Android where no native viewer exists
             const fullUrl = window.location.origin + window.location.pathname.replace('projects.html', '') + filePath;
             const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
             window.open(viewerUrl, '_blank');
