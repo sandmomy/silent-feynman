@@ -101,9 +101,19 @@ function openMobileModal(title, filename, description) {
 
     // Set content safely
     document.getElementById('mobile-modal-name').textContent = title;
-    document.getElementById('mobile-modal-preview').src = `https://docs.google.com/viewer?url=${encodeURIComponent(new URL(filePath, window.location.href).href)}&embedded=true`;
     document.getElementById('mobile-modal-desc').textContent = description || '';
     document.getElementById('mobile-modal-download-btn').href = filePath;
+
+    // Determine viewer source based on environment
+    // Google Docs Viewer cannot read files from localhost
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+    if (isLocalhost) {
+        document.getElementById('mobile-modal-preview').src = filePath;
+    } else {
+        const fullUrl = new URL(filePath, window.location.href).href;
+        document.getElementById('mobile-modal-preview').src = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
+    }
 
     // Lock background scroll
     document.body.style.overflow = 'hidden';
