@@ -77,11 +77,9 @@ function initMobileScrollLock() {
 
     if (viewBtn) {
         viewBtn.addEventListener('click', function () {
-            const title = document.getElementById('mobile-modal-name').textContent;
+            // Open PDF in new tab for full screen viewing
             const downloadLink = document.getElementById('mobile-modal-download-btn').href;
-            const filename = downloadLink.split('/').pop();
-            closeMobileModal();
-            openModal(title, filename);
+            window.open(downloadLink, '_blank');
         });
     }
 
