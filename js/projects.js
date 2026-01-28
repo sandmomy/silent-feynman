@@ -363,33 +363,23 @@ function openModal(title, filename) {
 
     document.getElementById('modalTitle').textContent = title;
 
-    // Use direct iframe for localhost, Google Docs for public sites
-    if (window.innerWidth < 768) {
-        // Mobile Handling
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    document.getElementById('modalTitle').textContent = title;
 
-        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || isIOS) {
-            // Localhost OR iOS: Open raw file (System Viewer)
-            // iOS Safari opens PDFs natively in a new tab without downloading
-            window.open(encodeURI(filePath), '_blank');
-        } else {
-            // Android/Others (GitHub Pages): Open in Google Docs Viewer (New Tab)
-            // This prevents "download" behavior on Android where no native viewer exists
-            const fullUrl = window.location.origin + window.location.pathname.replace('projects.html', '') + filePath;
-            const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
-            window.open(viewerUrl, '_blank');
-        }
-        return;
-    }
+    // Unified handling: Always use the modal
+    // Determine the viewer URL based on environment
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    if (isLocalhost) {
         document.getElementById('pdfViewer').src = filePath;
     } else {
-        // For GitHub Pages: Use Google Docs Viewer as fallback for better compatibility
+        // For GitHub Pages / Production: Use Google Docs Viewer for best cross-device compatibility
+        // This works better on mobile Android/iOS than direct iframe in many cases
         const fullUrl = window.location.origin + window.location.pathname.replace('projects.html', '') + filePath;
         const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
         document.getElementById('pdfViewer').src = viewerUrl;
     }
+
+
 
     document.getElementById('modalDownloadBtn').href = filePath;
     modal.style.display = 'flex';
