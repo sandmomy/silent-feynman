@@ -1510,7 +1510,18 @@ html.lenis {
     /* 1. Hero Split Layout Reset */
     .hero-split-wrapper {
         min-height: auto;
-        padding-bottom: var(--spacing-8);
+        max-height: 60vh;
+        padding-bottom: var(--spacing-4);
+        overflow: hidden;
+    }
+
+    .featured-section {
+        max-height: 45vh;
+        overflow: hidden;
+    }
+
+    .slideshow-container {
+        max-height: 40vh;
     }
 
     .hero-diagonal-bg {
