@@ -117,6 +117,7 @@ function openMobileModal(title, filename, description) {
 
     // Lock background scroll
     document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
     if (window.lenis) {
         try { window.lenis.stop(); } catch (e) { }
     }
@@ -132,6 +133,7 @@ function closeMobileModal() {
 
         // Restore background scroll
         document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
         if (window.lenis) {
             try { window.lenis.start(); } catch (e) { }
         }
@@ -478,6 +480,7 @@ function openModal(title, filename) {
 
     // Lock background scroll
     document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
 
     if (window.lenis) {
         try { window.lenis.stop(); } catch (e) { }
@@ -496,6 +499,7 @@ function closeModal() {
 
     // Restore background scroll
     document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
 
     if (window.lenis) {
         try { window.lenis.start(); } catch (e) { }
