@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Image Test</title>
+    <style>
+        body {
+            background: #0b0f19;
+            color: white;
+            padding: 40px;
+        }
+
+        .test-card {
+            width: 300px;
+            height: 150px;
+            margin: 20px;
+            background-size: cover;
+            background-position: center;
+            border: 2px solid lime;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Image Loading Test</h1>
+    <p>Testing if thumbnail images load correctly:</p>
+
+    <div class="test-card" style="background-image: url('assets/thumbnails/ecological_mining.png')">
+        Ecological Mining
+    </div>
+
+    <div class="test-card" style="background-image: url('assets/thumbnails/project_ecopro.png')">
+        Project EcoPro
+    </div>
+
+    <div class="test-card" style="background-image: url('assets/thumbnails/gold_process.png')">
+        Gold Process
+    </div>
+
+    <div class="test-card" style="background-image: url('assets/thumbnails/shanaya_project.png')">
+        Shanaya Project
+    </div>
+
+    <p>If you see images in the boxes above, the thumbnails are loading correctly!</p>
+    <p>If boxes are empty (just green borders), there's a path or loading issue.</p>
+</body>
+
+</html>

@@ -1444,8 +1444,8 @@ html.lenis {
     .project-overlay {
         position: absolute;
         inset: 0;
-        background: rgba(0, 0, 0, 0.95);
-        /* Nearly opaque to fully hide thumbnail text */
+        background: rgba(0, 0, 0, 0.4);
+        /* Light overlay to show the beautiful custom images through */
         border-radius: 14px;
         z-index: 1;
         transition: opacity 0.3s ease;
