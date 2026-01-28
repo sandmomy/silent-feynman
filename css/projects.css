@@ -1958,7 +1958,8 @@ html.lenis {
     }
 
     .project-card.expanded .project-details-wrapper {
-        display: block;
+        display: flex;
+        flex-direction: column;
         animation: none;
         /* Already modal is animated */
     }
@@ -1972,8 +1973,10 @@ html.lenis {
         font-size: 0.85rem;
         line-height: 1.5;
         color: rgba(255, 255, 255, 0.75);
-        margin-bottom: 1.25rem;
+        margin-bottom: 0.5rem;
         text-align: left;
+        order: 2;
+        /* Move description below actions */
     }
 
     .project-card.expanded .project-actions {
@@ -1981,6 +1984,9 @@ html.lenis {
         flex-direction: column;
         gap: 0.75rem;
         padding-bottom: 0.5rem;
+        order: 1;
+        /* Move actions to top */
+        margin-bottom: 1rem;
     }
 
     .project-card.expanded .project-btn {

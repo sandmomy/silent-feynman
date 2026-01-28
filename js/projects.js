@@ -349,8 +349,8 @@ function initCategoryTabs() {
                                 <div class="project-details-wrapper">
                                     <p class="project-description">${doc.description}</p>
                                     <div class="project-actions">
-                                        <button class="project-btn project-btn-view" onclick="event.stopPropagation(); openModal('${escapeQuotes(doc.title)}', '${escapeQuotes(doc.filename)}')">
-                                            👁️ Full Screen
+                                        <button class="project-btn project-btn-view" onclick="event.stopPropagation(); handleViewPdf('${escapeQuotes(doc.filename)}', '${escapeQuotes(doc.title)}')">
+                                            👁️ View PDF
                                         </button>
                                         <a href="${DOCUMENTS_BASE_PATH}${doc.filename}" class="project-btn project-btn-download" download onclick="event.stopPropagation()">
                                             ⬇️ Download
@@ -507,23 +507,45 @@ function closeModal() {
 }
 
 // ============================================
-// MOBILE ACCORDION
+// MOBILE ACCORDION & PDF HANDLER
 // ============================================
+function handleViewPdf(filename, title) {
+    const isMobile = window.innerWidth < 992;
+    const filePath = DOCUMENTS_BASE_PATH + filename;
+
+    if (isMobile) {
+        // Mobile: Open in new tab for full screen experience
+        window.open(filePath, '_blank');
+    } else {
+        // Desktop: Open modal
+        openModal(title, filename);
+    }
+}
+
 function toggleProjectCard(card, event) {
-    const title = card.getAttribute('data-title');
-    const filename = card.getAttribute('data-filename');
-    const description = card.getAttribute('data-description') || '';
+    // Prevent expansion if clicking buttons/links
+    if (event.target.closest('.project-btn') || event.target.tagName === 'A') {
+        return;
+    }
 
     // Desktop: Open full-screen modal directly
     if (window.innerWidth >= 992) {
+        const title = card.getAttribute('data-title');
+        const filename = card.getAttribute('data-filename');
         if (title && filename) {
             openModal(title, filename);
         }
         return;
     }
 
-    // Mobile: Open simple modal
-    if (title && filename) {
-        openMobileModal(title, filename, description);
-    }
+    // Mobile: Accordion Behavior (In-place expansion)
+    // Close other expanded cards
+    document.querySelectorAll('.project-card.expanded').forEach(c => {
+        if (c !== card) c.classList.remove('expanded');
+    });
+
+    // Toggle current
+    card.classList.toggle('expanded');
+
+    // NO AUTO-SCROLL requested by user
 }
