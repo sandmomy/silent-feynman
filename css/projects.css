@@ -1429,7 +1429,8 @@ html.lenis {
         margin-bottom: 1rem;
         /* Tighter spacing */
         cursor: pointer;
-        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+        /* GPU optimized */
         display: flex;
         flex-direction: column;
         background: rgba(10, 15, 10, 0.7) var(--project-bg) center/cover no-repeat;
@@ -1578,19 +1579,20 @@ html.lenis {
         /* CRITICAL: High z-index to stay on top of other cards */
     }
 
-    /* Fixed Modal Backdrop */
+    /* Fixed Modal Backdrop - OPTIMIZED for mobile */
     .project-card.expanded::before {
         content: '';
         position: fixed;
         inset: 0;
         width: 100vw;
         height: 100vh;
-        background: rgba(0, 0, 0, 0.9);
-        backdrop-filter: blur(12px);
+        background: rgba(0, 0, 0, 0.92);
+        /* Solid color instead of blur */
         z-index: 9991;
-        /* Below the modal but above the list */
-        animation: fadeIn 0.3s ease;
+        /* backdrop-filter removed for mobile performance */
+        animation: fadeIn 0.2s ease-out;
         pointer-events: all;
+        will-change: opacity;
     }
 
     .project-card.expanded .project-overlay {
@@ -1612,7 +1614,7 @@ html.lenis {
         border: 2px solid #0c120c;
     }
 
-    /* MODAL BOX - This is the actual centered recuadro */
+    /* MODAL BOX - OPTIMIZED for mobile performance */
     .project-card.expanded .project-content {
         position: fixed;
         top: 50% !important;
@@ -1622,18 +1624,24 @@ html.lenis {
         max-width: 380px;
         background: #090e09;
         border: 1px solid var(--color-green);
-        border-radius: 20px;
+        border-radius: 16px;
+        /* Slightly reduced */
         padding: 1rem;
         padding-top: 50px;
-        /* Extra space for the close button */
         z-index: 10005;
         display: flex;
         flex-direction: column;
-        box-shadow: 0 0 100px rgba(0, 0, 0, 1);
-        animation: modalZoomIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.8);
+        /* Simpler shadow */
+        animation: modalFadeIn 0.2s ease-out;
+        /* Faster, simpler animation */
         max-height: 85vh;
         overflow-y: auto;
         overscroll-behavior: contain;
+        will-change: transform, opacity;
+        /* GPU acceleration hint */
+        -webkit-overflow-scrolling: touch;
+        /* Smooth scrolling on iOS */
     }
 
     /* Close button positioned inside the modal */
@@ -1782,20 +1790,29 @@ html.lenis {
         letter-spacing: 0.5px;
     }
 
-    @keyframes modalZoomIn {
-        0% {
+    /* Simple, fast modal animation for mobile performance */
+    @keyframes modalFadeIn {
+        from {
             opacity: 0;
-            transform: translate(-50%, -48%) scale(0.92);
+            transform: translate(-50%, -48%);
         }
 
-        70% {
+        to {
             opacity: 1;
-            transform: translate(-50%, -51%) scale(1.02);
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    /* Keep legacy for compatibility */
+    @keyframes modalZoomIn {
+        from {
+            opacity: 0;
+            transform: translate(-50%, -48%);
         }
 
-        100% {
+        to {
             opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
+            transform: translate(-50%, -50%);
         }
     }
 

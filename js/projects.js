@@ -454,24 +454,34 @@ function toggleProjectCard(card, event) {
     // Toggle active class
     card.classList.toggle('expanded');
 
-    // Handle PDF Embedding
+    // Handle PDF Embedding - OPTIMIZED for mobile performance
     if (card.classList.contains('expanded') && viewerTarget && filename) {
-        const filePath = DOCUMENTS_BASE_PATH + filename;
-        const fullUrl = window.location.origin + window.location.pathname.replace('projects.html', '') + filePath;
-        const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
+        // Delay iframe creation for smoother animation
+        requestAnimationFrame(() => {
+            const filePath = DOCUMENTS_BASE_PATH + filename;
+            const fullUrl = window.location.origin + window.location.pathname.replace('projects.html', '') + filePath;
+            const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
 
-        viewerTarget.innerHTML = `
-            <div class="mobile-embed-loading">Loading Project Viewer...</div>
-            <iframe src="${viewerUrl}" frameborder="0" width="100%" height="220px" style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: white;"></iframe>
-        `;
+            viewerTarget.innerHTML = `
+                <div class="mobile-embed-loading">Loading...</div>
+                <iframe 
+                    src="${viewerUrl}" 
+                    frameborder="0" 
+                    width="100%" 
+                    height="180px" 
+                    loading="lazy"
+                    style="border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: white;">
+                </iframe>
+            `;
 
-        const iframe = viewerTarget.querySelector('iframe');
-        if (iframe) {
-            iframe.onload = () => {
-                const loader = viewerTarget.querySelector('.mobile-embed-loading');
-                if (loader) loader.style.display = 'none';
-            };
-        }
+            const iframe = viewerTarget.querySelector('iframe');
+            if (iframe) {
+                iframe.onload = () => {
+                    const loader = viewerTarget.querySelector('.mobile-embed-loading');
+                    if (loader) loader.style.display = 'none';
+                };
+            }
+        });
     } else if (viewerTarget) {
         viewerTarget.innerHTML = '';
     }
