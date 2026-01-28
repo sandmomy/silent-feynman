@@ -1819,7 +1819,7 @@ html.lenis {
 
     /* MODAL BOX - OPTIMIZED for mobile performance */
     .project-card.expanded .project-content {
-        position: fixed;
+        position: fixed !important;
         top: 50% !important;
         left: 50% !important;
         transform: translate(-50%, -50%) !important;
@@ -1828,23 +1828,20 @@ html.lenis {
         background: #090e09;
         border: 1px solid var(--color-green);
         border-radius: 16px;
-        /* Slightly reduced */
         padding: 1rem;
         padding-top: 50px;
         z-index: 10005;
-        display: flex;
-        flex-direction: column;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
         box-shadow: 0 8px 40px rgba(0, 0, 0, 0.8);
-        /* Simpler shadow */
         animation: modalFadeIn 0.2s ease-out;
-        /* Faster, simpler animation */
-        max-height: 85vh;
+        max-height: 80vh;
         overflow-y: auto;
+        overflow-x: hidden;
         overscroll-behavior: contain;
         will-change: transform, opacity;
-        /* GPU acceleration hint */
         -webkit-overflow-scrolling: touch;
-        /* Smooth scrolling on iOS */
     }
 
     /* Close button positioned inside the modal */
