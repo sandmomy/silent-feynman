@@ -380,10 +380,6 @@ function openModal(title, filename) {
     document.getElementById('modalDownloadBtn').href = filePath;
     modal.style.display = 'flex';
 
-    // Double-lock scroll
-    document.documentElement.classList.add('project-modal-active');
-    document.body.classList.add('project-modal-active');
-
     clearInterval(slideInterval);
 }
 
@@ -391,10 +387,6 @@ function closeModal() {
     const modal = document.getElementById('pdfModal');
     if (modal) modal.style.display = 'none';
     document.getElementById('pdfViewer').src = '';
-
-    // Unlock scroll
-    document.documentElement.classList.remove('project-modal-active');
-    document.body.classList.remove('project-modal-active');
 
     startSlideshow();
 }

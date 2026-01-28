@@ -2194,9 +2194,3 @@ html.lenis {
     border: none;
     display: block;
 }
-
-/* Scroll Lock for Mobile Modal - LIGHTER VERSION (No jumps) */
-body.project-modal-active,
-html.project-modal-active {
-    overflow: hidden !important;
-}
