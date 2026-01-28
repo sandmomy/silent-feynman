@@ -241,7 +241,9 @@ html.lenis {
     .projects-back-btn {
         font-size: 0.78rem;
         padding: 0.45rem 0.95rem;
-        left: clamp(0.8rem, 4vw, 1.5rem);
+        left: clamp(1rem, 5vw, 1.5rem);
+        top: max(1rem, env(safe-area-inset-top) + 10px);
+        /* Avoid notch */
     }
 }
 

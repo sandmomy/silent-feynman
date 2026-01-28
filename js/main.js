@@ -105,23 +105,7 @@ function initHeroGlobe() {
         .atmosphereColor('#48bb78')
         .atmosphereAltitude(0.12);
 
-    const updateSize = () => {
-        const isMobileNow = window.innerWidth <= 992;
-        if (isMobileNow) {
-            globe.width(165).height(165);
-        } else {
-            const currentRect = globeContainer.getBoundingClientRect();
-            const size = Math.max(Math.min(currentRect.width, currentRect.height || 400), 150);
-            globe.width(size).height(size);
-        }
-    };
-
-    // Auto-resize on window change with robust debounce
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(updateSize, 150);
-    });
+    // Auto-resize logic handled by syncGlobeSizeToContainer below
 
     // --- LAYER 1: HTML MARKERS (SVG Google Pins) ---
     // --- LAYER 1: HTML MARKERS (CSS Pins) ---
@@ -306,7 +290,8 @@ function initHeroGlobe() {
             // Animate in
             requestAnimationFrame(() => {
                 globeContainer.style.opacity = '1';
-                globeContainer.style.transform = 'scale(1)';
+                // Removed scale transform to prevent layout thrashing
+                // globeContainer.style.transform = 'scale(1)';
             });
             controls.autoRotate = true;
         }
@@ -317,8 +302,9 @@ function initHeroGlobe() {
             isGlobeActive = false;
             controls.autoRotate = false;
             // Animate out
+            // Animate out
             globeContainer.style.opacity = '0';
-            globeContainer.style.transform = 'scale(0.8)';
+            // globeContainer.style.transform = 'scale(0.8)';
             // Stop rendering after animation completes
             setTimeout(() => {
                 if (!isGlobeActive) {
@@ -359,18 +345,8 @@ function initHeroGlobe() {
     setTimeout(syncGlobeSizeToContainer, 300);
     setTimeout(syncGlobeSizeToContainer, 1000);
 
-    let scrollTimeout;
-    window.addEventListener('scroll', () => {
-        if (isGlobeActive && animationId) {
-            stopRendering();
-        }
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-            if (isGlobeActive && !animationId) {
-                startRendering();
-            }
-        }, 100); // Resume 100ms after scroll stops
-    }, { passive: true });
+    // Scroll listener removed to prevent state glitches. 
+    // IntersectionObserver handles start/stop efficiently enough.
 
     // Interaction Logic: Pause on interaction, resume after 3s
     let resumeTimeout;

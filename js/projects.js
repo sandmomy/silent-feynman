@@ -322,6 +322,13 @@ function openModal(title, filename) {
     document.getElementById('modalTitle').textContent = title;
 
     // Use direct iframe for localhost, Google Docs for public sites
+    if (window.innerWidth < 768) {
+        // Mobile: Open in new tab (System Viewer)
+        // Encode URI to handle filenames with spaces
+        window.open(encodeURI(filePath), '_blank');
+        return;
+    }
+
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
         document.getElementById('pdfViewer').src = filePath;
     } else {
