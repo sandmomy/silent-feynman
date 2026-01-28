@@ -363,11 +363,19 @@ function openModal(title, filename) {
 
     document.getElementById('modalTitle').textContent = title;
 
-    // Direct embed for all devices (modern browsers handle PDF in iframe well)
-    // This avoids Google Docs Viewer issues with large files or mobile compatibility
-    document.getElementById('pdfViewer').src = filePath;
+    // Unified handling: Always use the modal
+    // Determine the viewer URL based on environment
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
-
+    if (isLocalhost) {
+        document.getElementById('pdfViewer').src = filePath;
+    } else {
+        // For GitHub Pages / Production: Use Google Docs Viewer for best cross-device compatibility
+        // This keeps the user IN the modal instead of opening a new tab/screen
+        const fullUrl = window.location.origin + window.location.pathname.replace('projects.html', '') + filePath;
+        const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
+        document.getElementById('pdfViewer').src = viewerUrl;
+    }
 
     document.getElementById('modalDownloadBtn').href = filePath;
     modal.style.display = 'flex';
@@ -407,7 +415,6 @@ function toggleProjectCard(card, event) {
     }
 
     const isExpanded = card.classList.contains('expanded');
-    const isExpanding = !isExpanded;
     const viewerTarget = card.querySelector('.project-viewer-target');
 
     // If already expanded, check where the click happened
@@ -419,23 +426,32 @@ function toggleProjectCard(card, event) {
         const isInsideModal = event.target.closest('.project-content');
         const isBackdrop = !isInsideModal && (event.target === card || event.target.closest('.project-card') === card);
 
-        if (!isCloseBtn && !isBackdrop) return;
+        if (isCloseBtn || isBackdrop) {
+            // EXPLICITLY CLOSE
+            card.classList.remove('expanded');
+            if (viewerTarget) viewerTarget.innerHTML = '';
+            document.body.classList.remove('project-modal-active');
+            return; // Stop here
+        }
+
+        // If clicking inside content but NOT close button, do nothing (don't toggle)
+        return;
     }
 
-    // Close others if we are expanding one
-    if (isExpanding) {
-        document.querySelectorAll('.project-card.expanded').forEach(c => {
-            c.classList.remove('expanded');
-            const target = c.querySelector('.project-viewer-target');
-            if (target) target.innerHTML = '';
-        });
-    }
+    // If NOT expanded, we are Opening
+    // First, close others
+    document.querySelectorAll('.project-card.expanded').forEach(c => {
+        c.classList.remove('expanded');
+        const target = c.querySelector('.project-viewer-target');
+        if (target) target.innerHTML = '';
+    });
 
     // Toggle active class
-    card.classList.toggle('expanded');
+    card.classList.add('expanded');
+    document.body.classList.add('project-modal-active');
 
     // Handle PDF Embedding - OPTIMIZED for mobile performance
-    if (card.classList.contains('expanded') && viewerTarget && filename) {
+    if (viewerTarget && filename) {
         // Delay iframe creation for smoother animation
         requestAnimationFrame(() => {
             const filePath = DOCUMENTS_BASE_PATH + filename;
