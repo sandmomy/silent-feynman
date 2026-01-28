@@ -1812,12 +1812,12 @@ html.lenis {
     /* Strict Background Locking without Flickering/Jumping */
     html.project-modal-active,
     body.project-modal-active {
-        overflow: hidden !important;
+        /* Free scroll - no blocking */
         /* Removed height: 100vh to prevent page jump to top */
-        position: relative;
-        touch-action: none;
+        /* position: relative; - removed */
+        /* touch-action: none; - removed */
         -webkit-overflow-scrolling: none;
-        overscroll-behavior: none;
+        /* overscroll-behavior: none; - removed */
         /* ESSENTIAL: Prevents top/bottom bounce scroll */
     }
 

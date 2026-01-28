@@ -53,30 +53,11 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // ============================================
-// MOBILE SCROLL LOCK (ANTI-GLITCH)
+// MOBILE MODAL HELPERS
 // ============================================
 let savedScrollY = 0;
 
 function initMobileScrollLock() {
-    // Aggressive touch-level blocking for mobile modals
-    document.addEventListener('touchmove', function (e) {
-        if (document.body.classList.contains('project-modal-active')) {
-            // Check if the touch is NOT inside a scrollable modal content
-            if (!e.target.closest('.project-content')) {
-                e.preventDefault();
-            }
-        }
-    }, { passive: false });
-
-    // Also block wheel scroll on desktop emulators
-    document.addEventListener('wheel', function (e) {
-        if (document.body.classList.contains('project-modal-active')) {
-            if (!e.target.closest('.project-content')) {
-                e.preventDefault();
-            }
-        }
-    }, { passive: false });
-
     // Keyboard escape to close modal
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && document.body.classList.contains('project-modal-active')) {
@@ -495,19 +476,11 @@ function toggleProjectCard(card, event) {
         viewerTarget.innerHTML = '';
     }
 
-    // Prevent body scroll when any card is expanded
+    // Just track that a modal is open (no scroll blocking)
     const anyExpanded = document.querySelector('.project-card.expanded');
     if (anyExpanded) {
-        // Save scroll position before locking
-        if (!document.body.classList.contains('project-modal-active')) {
-            savedScrollY = window.scrollY;
-        }
-        document.documentElement.classList.add('project-modal-active');
         document.body.classList.add('project-modal-active');
     } else {
-        document.documentElement.classList.remove('project-modal-active');
         document.body.classList.remove('project-modal-active');
-        // Restore scroll position after unlocking
-        window.scrollTo(0, savedScrollY);
     }
 }
