@@ -372,7 +372,7 @@ function openModal(title, filename) {
     } else {
         // For GitHub Pages / Production: Use Google Docs Viewer for best cross-device compatibility
         // This keeps the user IN the modal instead of opening a new tab/screen
-        const fullUrl = window.location.origin + window.location.pathname.replace('projects.html', '') + filePath;
+        const fullUrl = new URL(filePath, window.location.href).href;
         const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
         document.getElementById('pdfViewer').src = viewerUrl;
     }
@@ -445,7 +445,7 @@ function toggleProjectCard(card, event) {
         // Delay iframe creation for smoother animation
         requestAnimationFrame(() => {
             const filePath = DOCUMENTS_BASE_PATH + filename;
-            const fullUrl = window.location.origin + window.location.pathname.replace('projects.html', '') + filePath;
+            const fullUrl = new URL(filePath, window.location.href).href;
             const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
 
             viewerTarget.innerHTML = `
