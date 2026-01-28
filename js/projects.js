@@ -472,7 +472,12 @@ function openModal(title, filename) {
     }
 
     document.getElementById('modalDownloadBtn').href = filePath;
-    modal.style.display = 'flex';
+    // Use class activation instead of just inline style for consistency
+    modal.classList.add('project-modal-active');
+    modal.style.display = 'flex'; // Keep as fallback
+
+    // Lock background scroll
+    document.body.style.overflow = 'hidden';
 
     if (window.lenis) {
         try { window.lenis.stop(); } catch (e) { }
@@ -483,8 +488,14 @@ function openModal(title, filename) {
 
 function closeModal() {
     const modal = document.getElementById('pdfModal');
-    if (modal) modal.style.display = 'none';
+    if (modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('project-modal-active');
+    }
     document.getElementById('pdfViewer').src = '';
+
+    // Restore background scroll
+    document.body.style.overflow = '';
 
     if (window.lenis) {
         try { window.lenis.start(); } catch (e) { }

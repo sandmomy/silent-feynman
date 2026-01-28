@@ -2124,7 +2124,10 @@ html.lenis {
 
 .modal.project-modal-active {
     display: flex !important;
-    /* Force flex when active */
+    opacity: 1 !important;
+    visibility: visible !important;
+    z-index: 2147483647 !important;
+    /* Max z-index */
 }
 
 .modal-content {
