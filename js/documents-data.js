@@ -34,7 +34,7 @@ const DOCUMENTS_DATA = [
     {
         id: 3,
         title: "Gold Process",
-        filename: "Gold process.pdf",
+        filename: "Gold_Process.pdf",
         category: "sustainability",
         categoryId: "sustainability",
         categoryLabel: "🌿 Sustainability",
@@ -47,7 +47,7 @@ const DOCUMENTS_DATA = [
     {
         id: 4,
         title: "SBDI Food Security Project",
-        filename: "SBDI food Security Project Unity in Diversity.pdf",
+        filename: "SBDI_Food_Security_Unity.pdf",
         category: "food",
         categoryId: "food",
         categoryLabel: "🍴 Food Security",
@@ -119,7 +119,7 @@ const DOCUMENTS_DATA = [
     {
         id: 11,
         title: "SHANAYA PROJECT",
-        filename: "SHANAYA PROJECT.pdf",
+        filename: "Shanaya_Project.pdf",
         category: "realestate",
         categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
@@ -200,7 +200,7 @@ const DOCUMENTS_DATA = [
     {
         id: 18,
         title: "Indonesia Investment Guide",
-        filename: "Sustainable investment guide Indonesia 20232024.pdf",
+        filename: "Indonesia_Investment_Guide_2023_2024.pdf",
         category: "investment",
         categoryId: "investment",
         categoryLabel: "💰 Investment",
@@ -290,7 +290,7 @@ const DOCUMENTS_DATA = [
     {
         id: 26,
         title: "Magnetic Vertical Wind Turbine",
-        filename: "Magnetic_generator_vertical_wind_turbine.pdf",
+        filename: "Magnetic_Vertical_Wind_Turbine.pdf",
         category: "technology",
         categoryId: "technology",
         categoryLabel: "⚡ Technology",
@@ -314,7 +314,7 @@ const DOCUMENTS_DATA = [
     {
         id: 28,
         title: "WiseUse R&D Book",
-        filename: "WiseUse Research and Development book.pdf",
+        filename: "WiseUse_RD_Book.pdf",
         category: "research",
         categoryId: "research",
         categoryLabel: "📚 Research",
