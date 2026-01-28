@@ -291,6 +291,7 @@ function initCategoryTabs() {
                         <div class="project-card" onclick="toggleProjectCard(this, event)" 
                              data-title="${escapeQuotes(doc.title)}" 
                              data-filename="${escapeQuotes(doc.filename)}"
+                             data-description="${escapeQuotes(doc.description || '')}"
                              style="${doc.thumbnail ? `--project-bg: url('../${doc.thumbnail}')` : ''}">
                             <div class="project-overlay"></div>
                             
