@@ -1051,6 +1051,7 @@ html.lenis {
     display: flex;
     flex-direction: column;
     height: 100%;
+    cursor: pointer;
 }
 
 .project-card:hover {
@@ -1422,51 +1423,432 @@ html.lenis {
         width: 100%;
     }
 
-    /* 4. Project Card Mobile Optimization */
+    /* 4. Project Card Mobile Optimization - Banner Tab Style */
     .project-card {
-        border-radius: var(--radius-lg);
-    }
-
-    .project-preview {
-        aspect-ratio: 16/9;
-        /* More compact preview */
-    }
-
-    .project-content {
-        padding: 1.25rem;
-        /* Reduced padding */
-    }
-
-    .project-title {
-        font-size: 1.25rem;
-    }
-
-    .project-meta {
-        font-size: 0.8rem;
+        border-radius: 14px;
         margin-bottom: 1rem;
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: 0.25rem 1rem;
-    }
-
-    .meta-filename {
-        word-break: break-all;
-        /* Prevent long filenames breaking layout */
-        font-size: 0.75rem;
-        opacity: 0.7;
-    }
-
-    .project-actions {
+        /* Tighter spacing */
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        display: flex;
         flex-direction: column;
-        gap: 0.75rem;
+        background: rgba(10, 15, 10, 0.7) var(--project-bg) center/cover no-repeat;
+        background-blend-mode: overlay;
+        border: 1px solid rgba(56, 161, 105, 0.35);
+        position: relative;
+        overflow: visible;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
     }
 
-    .project-btn {
+    .project-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.95);
+        /* Nearly opaque to fully hide thumbnail text */
+        border-radius: 14px;
+        z-index: 1;
+        transition: opacity 0.3s ease;
+    }
+
+    /* Floating Title Tab - Centered INSIDE the card */
+    .project-title-tab {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--color-green);
+        color: white;
+        padding: 6px 16px;
+        border-radius: 4px;
+        font-size: 0.65rem;
+        font-weight: 800;
+        white-space: nowrap;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        z-index: 10;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        max-width: 85%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Collapsed State - Fixed uniform size */
+    .project-card:not(.expanded) {
+        flex-direction: row;
+        align-items: center;
+        padding: 0.5rem 0.75rem;
+        height: 60px;
+        /* Fixed height for uniformity */
+        min-height: 60px;
+        max-height: 60px;
+        overflow: hidden;
+    }
+
+    .project-card .project-preview {
+        display: none;
+    }
+
+    .project-thumb-img {
         width: 100%;
-        padding: 0.85rem;
-        /* Better touch target */
-        justify-content: center;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .project-card .project-preview-icon {
+        font-size: 1.6rem;
+        opacity: 0.9;
+    }
+
+    .project-card .project-content {
+        padding: 0;
+        flex-grow: 1;
+        position: relative;
+        z-index: 2;
         display: flex;
         align-items: center;
+    }
+
+    .project-card.expanded .project-title-tab,
+    .project-card.expanded .project-header-mobile-trigger {
+        display: none !important;
+    }
+
+    .project-card:not(.expanded) .project-meta,
+    .project-card:not(.expanded) .desktop-only,
+    .project-card:not(.expanded) .project-details-wrapper,
+    .project-card:not(.expanded) .project-viewer-target,
+    .project-card:not(.expanded) .project-title,
+    .project-card:not(.expanded) .project-modal-title,
+    .project-card:not(.expanded) .project-content {
+        display: none !important;
+    }
+
+    .project-header-mobile-trigger {
+        display: none;
+        /* Hidden - we use the whole card as click target */
+    }
+
+    .mobile-open-icon {
+        width: 22px;
+        height: 22px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        font-weight: 300;
+        transition: all 0.3s ease;
+        color: white;
+        margin-right: 0px;
+    }
+
+    .project-header-mobile {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .mobile-chevron {
+        width: 28px;
+        height: 28px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.6rem;
+        transition: all 0.3s ease;
+        color: white;
+    }
+
+    /* Expanded State - Parent stays in list "sin moverla" */
+    .project-card.expanded {
+        border-radius: 20px;
+        margin-bottom: 1.5rem;
+        border: 1px solid var(--color-green);
+        background: rgba(10, 15, 10, 0.9);
+        height: auto;
+        min-height: 70px;
+        overflow: visible;
+        z-index: 10000;
+        /* CRITICAL: High z-index to stay on top of other cards */
+    }
+
+    /* Fixed Modal Backdrop */
+    .project-card.expanded::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(12px);
+        z-index: 9991;
+        /* Below the modal but above the list */
+        animation: fadeIn 0.3s ease;
+        pointer-events: all;
+    }
+
+    .project-card.expanded .project-overlay {
+        opacity: 0.15;
+        /* Subtler for the modal background */
+        background: var(--project-bg) center/cover no-repeat;
+    }
+
+    .project-card.expanded .project-title-tab {
+        top: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--color-green);
+        color: white;
+        padding: 6px 20px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        font-size: 0.75rem;
+    }
+
+    .project-card.expanded .project-header-mobile {
+        position: fixed;
+        top: calc(50% - 42.5vh + 10px);
+        /* Align to top of modal */
+        right: calc(50% - 45vw + 10px);
+        /* Align to right of modal */
+        z-index: 10010;
+        display: flex;
+    }
+
+    .project-card.expanded .mobile-chevron {
+        transform: none;
+        background: var(--color-green);
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+        font-weight: 800;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        border: 2px solid #0c120c;
+    }
+
+    /* MODAL BOX - This is the actual centered recuadro */
+    .project-card.expanded .project-content {
+        position: fixed;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 90vw;
+        max-width: 380px;
+        background: #090e09;
+        border: 1px solid var(--color-green);
+        border-radius: 20px;
+        padding: 1rem;
+        z-index: 10005;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 0 100px rgba(0, 0, 0, 1);
+        animation: modalZoomIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        max-height: 85vh;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
+
+    .project-modal-title {
+        color: var(--color-green);
+        font-family: 'Oswald', sans-serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        text-align: center;
+        margin: 0.25rem 0 1rem;
+        line-height: 1.2;
+        padding: 0 40px;
+        /* Leave space for 'X' if needed */
+    }
+
+    .project-viewer-target {
+        width: 100%;
+        margin-bottom: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        min-height: auto;
+        height: 220px;
+        /* Forced smaller height */
+        max-height: 220px;
+        align-self: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .mobile-embed-loading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: var(--color-green);
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .project-card.expanded .project-preview {
+        display: none;
+    }
+
+    .project-card.expanded .project-preview-icon {
+        display: none;
+    }
+
+    .project-card.expanded .project-type-badge {
+        display: block;
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: var(--color-green);
+        padding: 4px 12px;
+        border-radius: 8px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        z-index: 3;
+    }
+
+    .project-card.expanded .project-meta {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.4rem 1rem;
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+        background: rgba(255, 255, 255, 0.02);
+        padding: 0.75rem 1rem;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .project-card.expanded .meta-label {
+        color: rgba(255, 255, 255, 0.4);
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+    }
+
+    .project-card.expanded .meta-value {
+        color: var(--color-white);
+        font-weight: 500;
+    }
+
+    .project-card.expanded .project-details-wrapper {
+        display: block;
+        animation: none;
+        /* Already modal is animated */
+    }
+
+    .project-card.expanded .project-details-wrapper .project-title {
+        display: none !important;
+        /* Hide redundant title in details */
+    }
+
+    .project-card.expanded .project-description {
+        font-size: 0.85rem;
+        line-height: 1.5;
+        color: rgba(255, 255, 255, 0.75);
+        margin-bottom: 1.25rem;
+        text-align: left;
+    }
+
+    .project-card.expanded .project-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .project-card.expanded .project-btn {
+        width: 100%;
+        padding: 0.8rem;
+        justify-content: center;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+    }
+
+    @keyframes modalZoomIn {
+        0% {
+            opacity: 0;
+            transform: translate(-50%, -48%) scale(0.92);
+        }
+
+        70% {
+            opacity: 1;
+            transform: translate(-50%, -51%) scale(1.02);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* Strict Background Locking without Flickering/Jumping */
+    html.project-modal-active,
+    body.project-modal-active {
+        overflow: hidden !important;
+        /* Removed height: 100vh to prevent page jump to top */
+        position: relative;
+        touch-action: none;
+        -webkit-overflow-scrolling: none;
+        overscroll-behavior: none;
+        /* ESSENTIAL: Prevents top/bottom bounce scroll */
+    }
+
+    /* Desktop/Large View Resets */
+    .desktop-only {
+        display: block;
+    }
+
+    .project-header-mobile {
+        display: none;
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
+
+@media (min-width: 992px) {
+    .project-header-mobile {
+        display: none !important;
+    }
+
+    .project-details-wrapper {
+        display: block !important;
+    }
+
+    .desktop-only {
+        display: block !important;
     }
 }

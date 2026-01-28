@@ -13,6 +13,7 @@ const DOCUMENTS_DATA = [
         categoryId: "sustainability",
         categoryLabel: "🌿 Sustainability",
         type: "PDF",
+        thumbnail: "assets/earth-day.jpg",
         description: "Overview of eco-friendly mining practices and environmental preservation methods.",
         lat: -6.2088,
         lng: 106.8456 // Jakarta, Indonesia
@@ -25,6 +26,7 @@ const DOCUMENTS_DATA = [
         categoryId: "sustainability",
         categoryLabel: "🌿 Sustainability",
         type: "PDF",
+        thumbnail: "assets/bali-pagoda-indonesia.jpg",
         description: "Sustainable mineral extraction project with zero environmental impact goals.",
         lat: -0.7893,
         lng: 113.9213 // Kalimantan, Indonesia
@@ -37,6 +39,7 @@ const DOCUMENTS_DATA = [
         categoryId: "sustainability",
         categoryLabel: "🌿 Sustainability",
         type: "PDF",
+        thumbnail: "assets/karangasem-water-temple-palace-bali.jpg",
         description: "Innovative gold processing techniques using eco-friendly technologies."
     },
 
@@ -49,6 +52,7 @@ const DOCUMENTS_DATA = [
         categoryId: "food",
         categoryLabel: "🍴 Food Security",
         type: "PDF",
+        thumbnail: "assets/logo-sbdi.webp",
         description: "Comprehensive food security initiative promoting unity and sustainable agriculture.",
         lat: -1.2921,
         lng: 36.8219 // Nairobi, Kenya
@@ -61,6 +65,7 @@ const DOCUMENTS_DATA = [
         categoryId: "food",
         categoryLabel: "🍴 Food Security",
         type: "PDF",
+        thumbnail: "assets/muhammed-a-mustapha-aaIsU06zWrg-unsplash.jpg",
         description: "Joint research collaboration between Indonesia and Africa on global food security.",
         lat: 9.0820,
         lng: 8.6753 // Nigeria
@@ -73,6 +78,7 @@ const DOCUMENTS_DATA = [
         categoryId: "food",
         categoryLabel: "🍴 Food Security",
         type: "PDF",
+        thumbnail: "assets/murad-swaleh-7tDidSXbgD8-unsplash.jpg",
         description: "In-depth research on cassava cultivation and its role in food security."
     },
     {
@@ -83,6 +89,7 @@ const DOCUMENTS_DATA = [
         categoryId: "food",
         categoryLabel: "🍴 Food Security",
         type: "PDF",
+        thumbnail: "assets/ahmed-qinawy-9Ia_6613pYk-unsplash.jpg",
         description: "Annual impact report on mocaf production and community development."
     },
     {
@@ -93,6 +100,7 @@ const DOCUMENTS_DATA = [
         categoryId: "food",
         categoryLabel: "🍴 Food Security",
         type: "PDF",
+        thumbnail: "assets/ahab-saf-sgFNwIc51lM-unsplash.jpg",
         description: "Collection of healthy recipes using sustainable local ingredients."
     },
     {
@@ -103,6 +111,7 @@ const DOCUMENTS_DATA = [
         categoryId: "food",
         categoryLabel: "🍴 Food Security",
         type: "PDF",
+        thumbnail: "assets/ovinuchi-ejiohuo-q4U9Pyfz-vQ-unsplash.jpg",
         description: "Smart farming solutions for remote and rural communities."
     },
 
@@ -115,6 +124,7 @@ const DOCUMENTS_DATA = [
         categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
         type: "PDF",
+        thumbnail: "assets/bali-pagoda-indonesia.jpg",
         description: "Luxury sustainable resort development in prime location.",
         lat: -7.9666,
         lng: 112.6326 // Malang, Indonesia
@@ -127,6 +137,7 @@ const DOCUMENTS_DATA = [
         categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
         type: "PDF",
+        thumbnail: "assets/karangasem-water-temple-palace-bali.jpg",
         description: "Investment opportunity for eco-luxury resort with projected returns."
     },
     {
@@ -137,6 +148,7 @@ const DOCUMENTS_DATA = [
         categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
         type: "PDF",
+        thumbnail: "assets/pexels-maxravier-2253818.jpg",
         description: "Agricultural land development project with residential elements."
     },
     {
@@ -147,6 +159,7 @@ const DOCUMENTS_DATA = [
         categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
         type: "PDF",
+        thumbnail: "assets/bali-pagoda-indonesia.jpg",
         description: "Beachfront property development with sustainable design principles."
     },
     {
@@ -157,6 +170,7 @@ const DOCUMENTS_DATA = [
         categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
         type: "PDF",
+        thumbnail: "assets/karangasem-water-temple-palace-bali.jpg",
         description: "Premium villa development in scenic mountain location."
     },
     {
@@ -167,6 +181,7 @@ const DOCUMENTS_DATA = [
         categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
         type: "PDF",
+        thumbnail: "assets/logo-sbdi.webp",
         description: "Community-focused production facility combining housing and workspace."
     },
     {
@@ -177,6 +192,7 @@ const DOCUMENTS_DATA = [
         categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
         type: "DOCX",
+        thumbnail: "assets/meditation-bg.png",
         description: "Sustainable eco-retreat development with holistic wellness focus."
     },
 
@@ -189,6 +205,7 @@ const DOCUMENTS_DATA = [
         categoryId: "investment",
         categoryLabel: "💰 Investment",
         type: "PDF",
+        thumbnail: "assets/bali-pagoda-indonesia.jpg",
         description: "Complete guide to sustainable investment opportunities in Indonesia."
     },
     {
@@ -199,6 +216,7 @@ const DOCUMENTS_DATA = [
         categoryId: "investment",
         categoryLabel: "💰 Investment",
         type: "PDF",
+        thumbnail: "assets/logo-sbdi.webp",
         description: "Business plan aligned with UN Sustainable Development Goals."
     },
     {
@@ -209,6 +227,7 @@ const DOCUMENTS_DATA = [
         categoryId: "investment",
         categoryLabel: "💰 Investment",
         type: "PDF",
+        thumbnail: "assets/hero-pose.jpg",
         description: "Framework for public-private partnership in cooperative ventures."
     },
     {
@@ -219,6 +238,7 @@ const DOCUMENTS_DATA = [
         categoryId: "investment",
         categoryLabel: "💰 Investment",
         type: "PDF",
+        thumbnail: "assets/karangasem-water-temple-palace-bali.jpg",
         description: "Exclusive investment event details and partnership opportunities."
     },
     {
@@ -229,6 +249,7 @@ const DOCUMENTS_DATA = [
         categoryId: "investment",
         categoryLabel: "💰 Investment",
         type: "PDF",
+        thumbnail: "assets/logo-sbdi.webp",
         description: "Foundation overview and strategic development objectives."
     },
     {
@@ -239,6 +260,7 @@ const DOCUMENTS_DATA = [
         categoryId: "investment",
         categoryLabel: "💰 Investment",
         type: "PDF",
+        thumbnail: "assets/logo-sbdi.webp",
         description: "Strategic roadmap for foundation growth and impact."
     },
     {
@@ -249,6 +271,7 @@ const DOCUMENTS_DATA = [
         categoryId: "investment",
         categoryLabel: "💰 Investment",
         type: "DOCX",
+        thumbnail: "assets/contact-bg.jpg",
         description: "Professional event proposal for business networking and partnerships."
     },
     {
@@ -259,6 +282,7 @@ const DOCUMENTS_DATA = [
         categoryId: "investment",
         categoryLabel: "💰 Investment",
         type: "DOCX",
+        thumbnail: "assets/karangasem-water-temple-palace-bali.jpg",
         description: "Exclusive sales and representation agreement for gold investment."
     },
 
@@ -271,6 +295,7 @@ const DOCUMENTS_DATA = [
         categoryId: "technology",
         categoryLabel: "⚡ Technology",
         type: "PDF",
+        thumbnail: "assets/earth-day.jpg",
         description: "Innovative magnetic wind turbine design for efficient energy generation."
     },
     {
@@ -281,6 +306,7 @@ const DOCUMENTS_DATA = [
         categoryId: "technology",
         categoryLabel: "⚡ Technology",
         type: "PDF",
+        thumbnail: "assets/meditation-bg.png",
         description: "Groundbreaking theoretical physics research on atomic vortex dynamics."
     },
 
@@ -293,6 +319,7 @@ const DOCUMENTS_DATA = [
         categoryId: "research",
         categoryLabel: "📚 Research",
         type: "PDF",
+        thumbnail: "assets/muhammed-a-mustapha-aaIsU06zWrg-unsplash.jpg",
         description: "Comprehensive R&D documentation on sustainable resource utilization."
     }
 ];

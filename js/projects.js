@@ -49,7 +49,44 @@ document.addEventListener('DOMContentLoaded', function () {
     initCategoryTabs();
     initModal();
     initNavbar();
+    initMobileScrollLock();
 });
+
+// ============================================
+// MOBILE SCROLL LOCK (ANTI-GLITCH)
+// ============================================
+let savedScrollY = 0;
+
+function initMobileScrollLock() {
+    // Aggressive touch-level blocking for mobile modals
+    document.addEventListener('touchmove', function (e) {
+        if (document.body.classList.contains('project-modal-active')) {
+            // Check if the touch is NOT inside a scrollable modal content
+            if (!e.target.closest('.project-content')) {
+                e.preventDefault();
+            }
+        }
+    }, { passive: false });
+
+    // Also block wheel scroll on desktop emulators
+    document.addEventListener('wheel', function (e) {
+        if (document.body.classList.contains('project-modal-active')) {
+            if (!e.target.closest('.project-content')) {
+                e.preventDefault();
+            }
+        }
+    }, { passive: false });
+
+    // Keyboard escape to close modal
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && document.body.classList.contains('project-modal-active')) {
+            const expandedCard = document.querySelector('.project-card.expanded');
+            if (expandedCard) {
+                toggleProjectCard(expandedCard, null);
+            }
+        }
+    });
+}
 
 // ============================================
 // FEATURED SLIDESHOW
@@ -215,29 +252,51 @@ function initCategoryTabs() {
                 <!-- Projects Grid - All visible -->
                 <div class="projects-grid">
                     ${docs.map(doc => `
-                        <div class="project-card">
+                        <div class="project-card" onclick="toggleProjectCard(this, event)" 
+                             data-title="${escapeQuotes(doc.title)}" 
+                             data-filename="${escapeQuotes(doc.filename)}"
+                             style="${doc.thumbnail ? `--project-bg: url('../${doc.thumbnail}')` : ''}">
+                            <div class="project-overlay"></div>
+                            
+                            <!-- Floating Title Tab (Mobile Only) -->
+                            <div class="project-title-tab">${doc.title}</div>
+
                             <div class="project-preview">
-                                <span class="project-preview-icon">${getDocIcon(doc.type)}</span>
+                                ${doc.thumbnail ? `<img src="${doc.thumbnail}" class="project-thumb-img" alt="${doc.title}">` : `<span class="project-preview-icon">${getDocIcon(doc.type)}</span>`}
                                 <span class="project-type-badge">${doc.type}</span>
                             </div>
+
+                            <div class="project-header-mobile-trigger">
+                                <span class="mobile-open-icon">+</span>
+                            </div>
+
                             <div class="project-content">
+                                <div class="project-header-mobile">
+                                    <span class="mobile-chevron">✕</span>
+                                </div>
+                                <div class="project-modal-title">${doc.title}</div>
+
+                                <div id="viewer-target-${doc.id}" class="project-viewer-target"></div>
+
                                 <div class="project-meta">
-                                    <div class="meta-label">Category</div>
-                                    <div class="meta-value">${doc.categoryLabel || (CATEGORY_INFO[doc.category]?.name || '')}</div>
                                     <div class="meta-label">Type</div>
                                     <div class="meta-value">${doc.type}</div>
                                     <div class="meta-label">File</div>
                                     <div class="meta-value meta-filename">${doc.filename}</div>
                                 </div>
-                                <h4 class="project-title">${doc.title}</h4>
-                                <p class="project-description">${doc.description}</p>
-                                <div class="project-actions">
-                                    <button class="project-btn project-btn-view" onclick="openModal('${escapeQuotes(doc.title)}', '${escapeQuotes(doc.filename)}')">
-                                        👁️ View
-                                    </button>
-                                    <a href="${DOCUMENTS_BASE_PATH}${doc.filename}" class="project-btn project-btn-download" download>
-                                        ⬇️ Download
-                                    </a>
+                                
+                                <h4 class="project-title desktop-only">${doc.title}</h4>
+                                
+                                <div class="project-details-wrapper">
+                                    <p class="project-description">${doc.description}</p>
+                                    <div class="project-actions">
+                                        <button class="project-btn project-btn-view" onclick="event.stopPropagation(); openModal('${escapeQuotes(doc.title)}', '${escapeQuotes(doc.filename)}')">
+                                            👁️ Full Screen
+                                        </button>
+                                        <a href="${DOCUMENTS_BASE_PATH}${doc.filename}" class="project-btn project-btn-download" download onclick="event.stopPropagation()">
+                                            ⬇️ Download
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -351,6 +410,11 @@ function openModal(title, filename) {
 
     document.getElementById('modalDownloadBtn').href = filePath;
     modal.style.display = 'flex';
+
+    // Double-lock scroll
+    document.documentElement.classList.add('project-modal-active');
+    document.body.classList.add('project-modal-active');
+
     clearInterval(slideInterval);
 }
 
@@ -358,5 +422,92 @@ function closeModal() {
     const modal = document.getElementById('pdfModal');
     if (modal) modal.style.display = 'none';
     document.getElementById('pdfViewer').src = '';
+
+    // Unlock scroll
+    document.documentElement.classList.remove('project-modal-active');
+    document.body.classList.remove('project-modal-active');
+
     startSlideshow();
+}
+
+// ============================================
+// MOBILE ACCORDION
+// ============================================
+function toggleProjectCard(card, event) {
+    const title = card.getAttribute('data-title');
+    const filename = card.getAttribute('data-filename');
+
+    // Desktop: Open full-screen modal directly
+    if (window.innerWidth >= 992) {
+        if (title && filename) {
+            openModal(title, filename);
+        }
+        return;
+    }
+
+    const isExpanded = card.classList.contains('expanded');
+    const isExpanding = !isExpanded;
+    const viewerTarget = card.querySelector('.project-viewer-target');
+
+    // If already expanded, check where the click happened
+    if (isExpanded && event) {
+        const isCloseBtn = event.target.classList.contains('mobile-chevron') ||
+            event.target.closest('.project-header-mobile');
+
+        // Check if clicking outside the modal content (on the backdrop area)
+        const isInsideModal = event.target.closest('.project-content');
+        const isBackdrop = !isInsideModal && (event.target === card || event.target.closest('.project-card') === card);
+
+        if (!isCloseBtn && !isBackdrop) return;
+    }
+
+    // Close others if we are expanding one
+    if (isExpanding) {
+        document.querySelectorAll('.project-card.expanded').forEach(c => {
+            c.classList.remove('expanded');
+            const target = c.querySelector('.project-viewer-target');
+            if (target) target.innerHTML = '';
+        });
+    }
+
+    // Toggle active class
+    card.classList.toggle('expanded');
+
+    // Handle PDF Embedding
+    if (card.classList.contains('expanded') && viewerTarget && filename) {
+        const filePath = DOCUMENTS_BASE_PATH + filename;
+        const fullUrl = window.location.origin + window.location.pathname.replace('projects.html', '') + filePath;
+        const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
+
+        viewerTarget.innerHTML = `
+            <div class="mobile-embed-loading">Loading Project Viewer...</div>
+            <iframe src="${viewerUrl}" frameborder="0" width="100%" height="220px" style="border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: white;"></iframe>
+        `;
+
+        const iframe = viewerTarget.querySelector('iframe');
+        if (iframe) {
+            iframe.onload = () => {
+                const loader = viewerTarget.querySelector('.mobile-embed-loading');
+                if (loader) loader.style.display = 'none';
+            };
+        }
+    } else if (viewerTarget) {
+        viewerTarget.innerHTML = '';
+    }
+
+    // Prevent body scroll when any card is expanded
+    const anyExpanded = document.querySelector('.project-card.expanded');
+    if (anyExpanded) {
+        // Save scroll position before locking
+        if (!document.body.classList.contains('project-modal-active')) {
+            savedScrollY = window.scrollY;
+        }
+        document.documentElement.classList.add('project-modal-active');
+        document.body.classList.add('project-modal-active');
+    } else {
+        document.documentElement.classList.remove('project-modal-active');
+        document.body.classList.remove('project-modal-active');
+        // Restore scroll position after unlocking
+        window.scrollTo(0, savedScrollY);
+    }
 }
