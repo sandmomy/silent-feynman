@@ -8,7 +8,7 @@ const DOCUMENTS_DATA = [
     {
         id: 1,
         title: "Ecological Sustainable Mining Introduction",
-        filename: "Ecological Sustainable Mining Introduction.pdf",
+        filename: "Ecological_Sustainable_Mining_Introduction.pdf",
         category: "sustainability",
         categoryId: "sustainability",
         categoryLabel: "🌿 Sustainability",
@@ -21,7 +21,7 @@ const DOCUMENTS_DATA = [
     {
         id: 2,
         title: "Project EcoPro",
-        filename: "project EcoPro 09072022.pdf",
+        filename: "Project_EcoPro.pdf",
         category: "sustainability",
         categoryId: "sustainability",
         categoryLabel: "🌿 Sustainability",
@@ -60,7 +60,7 @@ const DOCUMENTS_DATA = [
     {
         id: 5,
         title: "Indonesia-Africa Food Security Research",
-        filename: "JOINT RESEARCH INDONESI AFRICA SBDI WORLD FOOD SECURITY 2023.pdf",
+        filename: "Joint_Research_Indonesia_Africa.pdf",
         category: "food",
         categoryId: "food",
         categoryLabel: "🍴 Food Security",
@@ -73,7 +73,7 @@ const DOCUMENTS_DATA = [
     {
         id: 6,
         title: "Book of Research - Cassava",
-        filename: "book of research casava.pdf",
+        filename: "Book_Of_Research_Cassava.pdf",
         category: "food",
         categoryId: "food",
         categoryLabel: "🍴 Food Security",
@@ -84,7 +84,7 @@ const DOCUMENTS_DATA = [
     {
         id: 7,
         title: "Rumah Mocaf - Impact Report 2023",
-        filename: "Rumah Mocaf - Impact Report 2023_compressed.pdf",
+        filename: "Rumah_Mocaf_Impact_Report_2023.pdf",
         category: "food",
         categoryId: "food",
         categoryLabel: "🍴 Food Security",
@@ -95,7 +95,7 @@ const DOCUMENTS_DATA = [
     {
         id: 8,
         title: "Book of Recipe BFC 2",
-        filename: "BOOK OF RECIPE BFC 2 English.pdf",
+        filename: "Book_Of_Recipe_BFC_2.pdf",
         category: "food",
         categoryId: "food",
         categoryLabel: "🍴 Food Security",
@@ -106,7 +106,7 @@ const DOCUMENTS_DATA = [
     {
         id: 9,
         title: "Project Remote Farming",
-        filename: "Project Remote Farming.pdf",
+        filename: "Project_Remote_Farming.pdf",
         category: "food",
         categoryId: "food",
         categoryLabel: "🍴 Food Security",
@@ -132,7 +132,7 @@ const DOCUMENTS_DATA = [
     {
         id: 12,
         title: "Shanaya Resort 2025 - Investment Proposal",
-        filename: "Investment-sales-proposal Shanaya Resort 2025.pdf",
+        filename: "Shanaya_Resort_Investment_2025.pdf",
         category: "realestate",
         categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
@@ -143,7 +143,7 @@ const DOCUMENTS_DATA = [
     {
         id: 13,
         title: "Ladang Lina Brochure",
-        filename: "Ladang Lina brochure 07-06-2024.pdf",
+        filename: "Ladang_Lina_Brochure.pdf",
         category: "realestate",
         categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
@@ -154,7 +154,7 @@ const DOCUMENTS_DATA = [
     {
         id: 14,
         title: "Bangalang Brochure",
-        filename: "bangalang brochure 26-6-2024.pdf",
+        filename: "Bangalang_Brochure.pdf",
         category: "realestate",
         categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
@@ -165,7 +165,7 @@ const DOCUMENTS_DATA = [
     {
         id: 15,
         title: "Mariposa Batu - Investment Deck",
-        filename: "Promotion Investment Deck MARIPOSA BATU.pdf",
+        filename: "Mariposa_Batu_Investment.pdf",
         category: "realestate",
         categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
@@ -176,7 +176,7 @@ const DOCUMENTS_DATA = [
     {
         id: 16,
         title: "Social Production Hub",
-        filename: "Project Social production hub.pdf",
+        filename: "Project_Social_Production_Hub.pdf",
         category: "realestate",
         categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
@@ -187,7 +187,7 @@ const DOCUMENTS_DATA = [
     {
         id: 17,
         title: "Hacienda Retreat Brochure",
-        filename: "Main Brochure for Hacienda Retreat.docx",
+        filename: "Hacienda_Retreat_Brochure.docx",
         category: "realestate",
         categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
@@ -211,7 +211,7 @@ const DOCUMENTS_DATA = [
     {
         id: 19,
         title: "Business Plan SBDI - SDG Design Lab",
-        filename: "Business Plan SBDI- SDG Design Lab.pdf",
+        filename: "Business_Plan_SBDI_SDG.pdf",
         category: "investment",
         categoryId: "investment",
         categoryLabel: "💰 Investment",
@@ -222,7 +222,7 @@ const DOCUMENTS_DATA = [
     {
         id: 20,
         title: "Public Private Partnership Cooperative",
-        filename: "public private partnership project cooprative 28-12-2024.pdf",
+        filename: "PPP_Cooperative.pdf",
         category: "investment",
         categoryId: "investment",
         categoryLabel: "💰 Investment",
@@ -233,7 +233,7 @@ const DOCUMENTS_DATA = [
     {
         id: 21,
         title: "Gold Investment Event Indonesia",
-        filename: "Exclusive Gold and investment event Indonesia final.pdf",
+        filename: "Exclusive_Gold_Investment_Event.pdf",
         category: "investment",
         categoryId: "investment",
         categoryLabel: "💰 Investment",
@@ -244,7 +244,7 @@ const DOCUMENTS_DATA = [
     {
         id: 22,
         title: "SBDI Center Foundation",
-        filename: "SBDI Center Foundation 1842022 (1).pdf",
+        filename: "SBDI_Center_Foundation.pdf",
         category: "investment",
         categoryId: "investment",
         categoryLabel: "💰 Investment",
@@ -255,7 +255,7 @@ const DOCUMENTS_DATA = [
     {
         id: 23,
         title: "SBDI Foundation Road Map",
-        filename: "SBDI Foundation summary road map 03062022 (16).pdf",
+        filename: "SBDI_Foundation_Roadmap.pdf",
         category: "investment",
         categoryId: "investment",
         categoryLabel: "💰 Investment",
@@ -266,7 +266,7 @@ const DOCUMENTS_DATA = [
     {
         id: 24,
         title: "Event Proposal",
-        filename: "Event proposal.docx",
+        filename: "Event_Proposal.docx",
         category: "investment",
         categoryId: "investment",
         categoryLabel: "💰 Investment",
@@ -277,7 +277,7 @@ const DOCUMENTS_DATA = [
     {
         id: 25,
         title: "Hiyejo Indogold - Sales Agreement",
-        filename: "Hiyejo Indogold - Pt Elite Investment Excl Sales and Representation Agrm v 2.7.docx",
+        filename: "Hiyejo_Indogold_Agreement.docx",
         category: "investment",
         categoryId: "investment",
         categoryLabel: "💰 Investment",
@@ -301,7 +301,7 @@ const DOCUMENTS_DATA = [
     {
         id: 27,
         title: "Rijnenberg Vortex Atom Theory",
-        filename: "The Rijnenberg Vortex Atom theory English 2025.pdf",
+        filename: "Rijnenberg_Vortex_Theory.pdf",
         category: "technology",
         categoryId: "technology",
         categoryLabel: "⚡ Technology",
