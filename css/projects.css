@@ -1530,6 +1530,12 @@ html.lenis {
         /* Hidden - we use the whole card as click target */
     }
 
+    /* Hide the desktop PDF modal on mobile */
+    #pdfModal,
+    .modal {
+        display: none !important;
+    }
+
     .mobile-open-icon {
         width: 22px;
         height: 22px;
