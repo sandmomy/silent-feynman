@@ -1727,11 +1727,11 @@ html.lenis {
         /* Hidden - we use the whole card as click target */
     }
 
-    /* Hide the desktop PDF modal on mobile */
-    #pdfModal,
+    /* Hide the desktop PDF modal on mobile - REMOVED for unified experience */
+    /* #pdfModal,
     .modal {
         display: none !important;
-    }
+    } */
 
     .mobile-open-icon {
         width: 22px;
