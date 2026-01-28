@@ -21,8 +21,9 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="css/styles.css">
-    <!-- Custom Styles for Projects Page - Now externalized for performance -->
+    <!-- Custom Styles for Projects Page -->
     <link rel="stylesheet" href="css/projects.css?v=unified_modal_fix">
+    <link rel="stylesheet" href="css/mobile-modal.css">
 </head>
 
 <body class="showcase-page">
@@ -118,6 +119,20 @@
         </div>
     </div>
 
+
+    <!-- MOBILE MODAL -->
+    <div id="mobile-modal-overlay">
+        <div id="mobile-modal-box">
+            <button id="mobile-modal-close-btn">✕</button>
+            <h3 id="mobile-modal-name">Title</h3>
+            <iframe id="mobile-modal-preview" src=""></iframe>
+            <p id="mobile-modal-desc">Description</p>
+            <div class="mobile-modal-btns">
+                <button id="mobile-modal-view-btn">◉ Ver PDF</button>
+                <a id="mobile-modal-download-btn" href="#" download>⬇️ Descargar</a>
+            </div>
+        </div>
+    </div>
 
     <!-- Lenis Smooth Scroll -->
     <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
