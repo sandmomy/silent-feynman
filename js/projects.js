@@ -397,6 +397,7 @@ function closeModal() {
 function toggleProjectCard(card, event) {
     const title = card.getAttribute('data-title');
     const filename = card.getAttribute('data-filename');
+    const description = card.getAttribute('data-description') || '';
 
     // Desktop: Open full-screen modal directly
     if (window.innerWidth >= 992) {
@@ -406,75 +407,48 @@ function toggleProjectCard(card, event) {
         return;
     }
 
-    const isExpanded = card.classList.contains('expanded');
-    const viewerTarget = card.querySelector('.project-viewer-target');
+    // MOBILE: Use the new clean modal system
+    openMobileModal(title, filename, description);
+}
 
-    // If already expanded, check where the click happened
-    if (isExpanded && event) {
-        const isCloseBtn = event.target.classList.contains('mobile-chevron') ||
-            event.target.closest('.project-header-mobile');
+// ============================================
+// NEW MOBILE MODAL SYSTEM (Clean & Simple)
+// ============================================
+function openMobileModal(title, filename, description) {
+    const overlay = document.getElementById('mobile-modal-overlay');
+    if (!overlay) return;
 
-        // Check if clicking outside the modal content (on the backdrop area)
-        const modalContent = event.target.closest('.project-content');
-        const isBackdrop = !modalContent && (event.target === card ||
-            event.target.closest('.project-card') === card ||
-            event.target.classList.contains('project-overlay'));
+    const filePath = DOCUMENTS_BASE_PATH + filename;
+    const fullUrl = new URL(filePath, window.location.href).href;
+    const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
 
-        if (isCloseBtn || isBackdrop) {
-            // EXPLICITLY CLOSE - with proper cleanup
-            card.classList.remove('expanded');
-            if (viewerTarget) viewerTarget.innerHTML = '';
-            document.body.classList.remove('project-modal-active'); // Ensure cleanup
-            return; // Stop here
-        }
+    // Populate modal content
+    document.getElementById('mobile-modal-title').textContent = title;
+    document.getElementById('mobile-modal-viewer').src = viewerUrl;
+    document.getElementById('mobile-modal-file').textContent = filename;
+    document.getElementById('mobile-modal-description').textContent = description;
+    document.getElementById('mobile-modal-download').href = filePath;
 
-        // If clicking inside content but NOT close button, do nothing (don't toggle)
-        return;
+    // Show modal
+    overlay.classList.add('active');
+
+    // Close handlers
+    document.getElementById('mobile-modal-close').onclick = closeMobileModal;
+    overlay.onclick = function (e) {
+        if (e.target === overlay) closeMobileModal();
+    };
+
+    // Full screen button
+    document.getElementById('mobile-modal-fullscreen').onclick = function () {
+        closeMobileModal();
+        openModal(title, filename);
+    };
+}
+
+function closeMobileModal() {
+    const overlay = document.getElementById('mobile-modal-overlay');
+    if (overlay) {
+        overlay.classList.remove('active');
+        document.getElementById('mobile-modal-viewer').src = '';
     }
-
-    // If NOT expanded, we are Opening
-    // First, close others
-    document.querySelectorAll('.project-card.expanded').forEach(c => {
-        c.classList.remove('expanded');
-        const target = c.querySelector('.project-viewer-target');
-        if (target) target.innerHTML = '';
-    });
-
-    // Toggle active class
-    card.classList.add('expanded');
-
-    // Handle PDF Embedding - OPTIMIZED for mobile performance
-    if (viewerTarget && filename) {
-        // Delay iframe creation for smoother animation
-        requestAnimationFrame(() => {
-            const filePath = DOCUMENTS_BASE_PATH + filename;
-            const fullUrl = new URL(filePath, window.location.href).href;
-            const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
-
-            viewerTarget.innerHTML = `
-                <div class="mobile-embed-loading">Loading...</div>
-                <iframe 
-                    src="${viewerUrl}" 
-                    frameborder="0" 
-                    width="100%" 
-                    height="180px" 
-                    loading="lazy"
-                    style="border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: white;">
-                </iframe>
-            `;
-
-            const iframe = viewerTarget.querySelector('iframe');
-            if (iframe) {
-                iframe.onload = () => {
-                    const loader = viewerTarget.querySelector('.mobile-embed-loading');
-                    if (loader) loader.style.display = 'none';
-                };
-            }
-        });
-    } else if (viewerTarget) {
-        viewerTarget.innerHTML = '';
-    }
-
-    // Track that a modal is open
-    document.body.classList.add('project-modal-active');
 }
