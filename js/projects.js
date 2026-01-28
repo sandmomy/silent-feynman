@@ -323,9 +323,17 @@ function openModal(title, filename) {
 
     // Use direct iframe for localhost, Google Docs for public sites
     if (window.innerWidth < 768) {
-        // Mobile: Open in new tab (System Viewer)
-        // Encode URI to handle filenames with spaces
-        window.open(encodeURI(filePath), '_blank');
+        // Mobile Handling
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            // Localhost: Open raw file (System Viewer)
+            window.open(encodeURI(filePath), '_blank');
+        } else {
+            // Production (GitHub Pages): Open in Google Docs Viewer (New Tab)
+            // This prevents "download" behavior and forces a view
+            const fullUrl = window.location.origin + window.location.pathname.replace('projects.html', '') + filePath;
+            const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
+            window.open(viewerUrl, '_blank');
+        }
         return;
     }
 
