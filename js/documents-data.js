@@ -13,7 +13,7 @@ const DOCUMENTS_DATA = [
         categoryId: "sustainability",
         categoryLabel: "🌿 Sustainability",
         type: "PDF",
-        thumbnail: "assets/earth-day.jpg",
+        thumbnail: "assets/thumbnails/ecological_mining.png",
         description: "Overview of eco-friendly mining practices and environmental preservation methods.",
         lat: -6.2088,
         lng: 106.8456 // Jakarta, Indonesia
@@ -26,7 +26,7 @@ const DOCUMENTS_DATA = [
         categoryId: "sustainability",
         categoryLabel: "🌿 Sustainability",
         type: "PDF",
-        thumbnail: "assets/bali-pagoda-indonesia.jpg",
+        thumbnail: "assets/thumbnails/project_ecopro.png",
         description: "Sustainable mineral extraction project with zero environmental impact goals.",
         lat: -0.7893,
         lng: 113.9213 // Kalimantan, Indonesia
@@ -39,7 +39,7 @@ const DOCUMENTS_DATA = [
         categoryId: "sustainability",
         categoryLabel: "🌿 Sustainability",
         type: "PDF",
-        thumbnail: "assets/karangasem-water-temple-palace-bali.jpg",
+        thumbnail: "assets/thumbnails/gold_process.png",
         description: "Innovative gold processing techniques using eco-friendly technologies."
     },
 
@@ -52,7 +52,7 @@ const DOCUMENTS_DATA = [
         categoryId: "food",
         categoryLabel: "🍴 Food Security",
         type: "PDF",
-        thumbnail: "assets/logo-sbdi.webp",
+        thumbnail: "assets/thumbnails/sbdi_food_security.png",
         description: "Comprehensive food security initiative promoting unity and sustainable agriculture.",
         lat: -1.2921,
         lng: 36.8219 // Nairobi, Kenya
@@ -65,7 +65,7 @@ const DOCUMENTS_DATA = [
         categoryId: "food",
         categoryLabel: "🍴 Food Security",
         type: "PDF",
-        thumbnail: "assets/muhammed-a-mustapha-aaIsU06zWrg-unsplash.jpg",
+        thumbnail: "assets/thumbnails/indonesia_africa_research.png",
         description: "Joint research collaboration between Indonesia and Africa on global food security.",
         lat: 9.0820,
         lng: 8.6753 // Nigeria
@@ -78,7 +78,7 @@ const DOCUMENTS_DATA = [
         categoryId: "food",
         categoryLabel: "🍴 Food Security",
         type: "PDF",
-        thumbnail: "assets/murad-swaleh-7tDidSXbgD8-unsplash.jpg",
+        thumbnail: "assets/thumbnails/cassava_research.png",
         description: "In-depth research on cassava cultivation and its role in food security."
     },
     {
@@ -89,7 +89,7 @@ const DOCUMENTS_DATA = [
         categoryId: "food",
         categoryLabel: "🍴 Food Security",
         type: "PDF",
-        thumbnail: "assets/ahmed-qinawy-9Ia_6613pYk-unsplash.jpg",
+        thumbnail: "assets/thumbnails/rumah_mocaf.png",
         description: "Annual impact report on mocaf production and community development."
     },
     {
@@ -100,7 +100,7 @@ const DOCUMENTS_DATA = [
         categoryId: "food",
         categoryLabel: "🍴 Food Security",
         type: "PDF",
-        thumbnail: "assets/ahab-saf-sgFNwIc51lM-unsplash.jpg",
+        thumbnail: "assets/thumbnails/recipe_book.png",
         description: "Collection of healthy recipes using sustainable local ingredients."
     },
     {
@@ -111,7 +111,7 @@ const DOCUMENTS_DATA = [
         categoryId: "food",
         categoryLabel: "🍴 Food Security",
         type: "PDF",
-        thumbnail: "assets/ovinuchi-ejiohuo-q4U9Pyfz-vQ-unsplash.jpg",
+        thumbnail: "assets/thumbnails/remote_farming.png",
         description: "Smart farming solutions for remote and rural communities."
     },
 
@@ -124,7 +124,7 @@ const DOCUMENTS_DATA = [
         categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
         type: "PDF",
-        thumbnail: "assets/bali-pagoda-indonesia.jpg",
+        thumbnail: "assets/thumbnails/shanaya_project.png",
         description: "Luxury sustainable resort development in prime location.",
         lat: -7.9666,
         lng: 112.6326 // Malang, Indonesia
@@ -137,7 +137,7 @@ const DOCUMENTS_DATA = [
         categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
         type: "PDF",
-        thumbnail: "assets/karangasem-water-temple-palace-bali.jpg",
+        thumbnail: "assets/thumbnails/shanaya_investment.png",
         description: "Investment opportunity for eco-luxury resort with projected returns."
     },
     {
@@ -148,7 +148,7 @@ const DOCUMENTS_DATA = [
         categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
         type: "PDF",
-        thumbnail: "assets/pexels-maxravier-2253818.jpg",
+        thumbnail: "assets/thumbnails/ladang_lina.png",
         description: "Agricultural land development project with residential elements."
     },
     {
@@ -159,7 +159,7 @@ const DOCUMENTS_DATA = [
         categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
         type: "PDF",
-        thumbnail: "assets/bali-pagoda-indonesia.jpg",
+        thumbnail: "assets/thumbnails/bangalang.png",
         description: "Beachfront property development with sustainable design principles."
     },
     {
@@ -170,7 +170,7 @@ const DOCUMENTS_DATA = [
         categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
         type: "PDF",
-        thumbnail: "assets/karangasem-water-temple-palace-bali.jpg",
+        thumbnail: "assets/thumbnails/mariposa_batu.png",
         description: "Premium villa development in scenic mountain location."
     },
     {
@@ -181,7 +181,7 @@ const DOCUMENTS_DATA = [
         categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
         type: "PDF",
-        thumbnail: "assets/logo-sbdi.webp",
+        thumbnail: "assets/thumbnails/social_hub.png",
         description: "Community-focused production facility combining housing and workspace."
     },
     {
@@ -192,7 +192,7 @@ const DOCUMENTS_DATA = [
         categoryId: "realestate",
         categoryLabel: "🏨 Real Estate",
         type: "DOCX",
-        thumbnail: "assets/meditation-bg.png",
+        thumbnail: "assets/thumbnails/hacienda_retreat.png",
         description: "Sustainable eco-retreat development with holistic wellness focus."
     },
 
@@ -205,7 +205,7 @@ const DOCUMENTS_DATA = [
         categoryId: "investment",
         categoryLabel: "💰 Investment",
         type: "PDF",
-        thumbnail: "assets/bali-pagoda-indonesia.jpg",
+        thumbnail: "assets/thumbnails/indo_investment_guide.png",
         description: "Complete guide to sustainable investment opportunities in Indonesia."
     },
     {
