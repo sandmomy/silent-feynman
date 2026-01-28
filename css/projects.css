@@ -1427,15 +1427,13 @@ html.lenis {
     .project-card {
         border-radius: 14px;
         margin-bottom: 1rem;
-        /* Tighter spacing */
         cursor: pointer;
         transition: transform 0.2s ease-out, opacity 0.2s ease-out;
-        /* GPU optimized */
         display: flex;
         flex-direction: column;
-        background: rgba(10, 15, 10, 0.7) var(--project-bg) center/cover no-repeat;
-        background-blend-mode: overlay;
-        border: 1px solid rgba(56, 161, 105, 0.35);
+        background: var(--project-bg) center/cover no-repeat;
+        /* No border, no blend mode, pure image */
+        border: none;
         position: relative;
         overflow: visible;
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
@@ -1444,8 +1442,8 @@ html.lenis {
     .project-overlay {
         position: absolute;
         inset: 0;
-        background: rgba(0, 0, 0, 0.4);
-        /* Light overlay to show the beautiful custom images through */
+        background: transparent;
+        /* Completely transparent to show images clearly */
         border-radius: 14px;
         z-index: 1;
         transition: opacity 0.3s ease;
