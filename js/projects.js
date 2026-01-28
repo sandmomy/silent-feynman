@@ -430,8 +430,6 @@ function toggleProjectCard(card, event) {
             // EXPLICITLY CLOSE
             card.classList.remove('expanded');
             if (viewerTarget) viewerTarget.innerHTML = '';
-            document.body.classList.remove('project-modal-active');
-            document.documentElement.classList.remove('project-modal-active');
             return; // Stop here
         }
 
@@ -449,8 +447,6 @@ function toggleProjectCard(card, event) {
 
     // Toggle active class
     card.classList.add('expanded');
-    document.body.classList.add('project-modal-active');
-    document.documentElement.classList.add('project-modal-active');
 
     // Handle PDF Embedding - OPTIMIZED for mobile performance
     if (viewerTarget && filename) {
