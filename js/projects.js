@@ -98,18 +98,17 @@ function openMobileModal(title, filename, description) {
     if (!overlay) return;
 
     const filePath = DOCUMENTS_BASE_PATH + filename;
-    const fullUrl = new URL(filePath, window.location.href).href;
-    const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
 
+    // Set content safely
     document.getElementById('mobile-modal-name').textContent = title;
-    document.getElementById('mobile-modal-preview').src = viewerUrl;
+    document.getElementById('mobile-modal-preview').src = `https://docs.google.com/viewer?url=${encodeURIComponent(new URL(filePath, window.location.href).href)}&embedded=true`;
     document.getElementById('mobile-modal-desc').textContent = description || '';
     document.getElementById('mobile-modal-download-btn').href = filePath;
 
     // Lock background scroll
     document.body.style.overflow = 'hidden';
-    if (window.lenis && typeof window.lenis.stop === 'function') {
-        window.lenis.stop();
+    if (window.lenis) {
+        try { window.lenis.stop(); } catch (e) { }
     }
 
     overlay.classList.add('active');
@@ -123,14 +122,17 @@ function closeMobileModal() {
 
         // Restore background scroll
         document.body.style.overflow = '';
-        if (window.lenis && typeof window.lenis.start === 'function') {
-            window.lenis.start();
+        if (window.lenis) {
+            try { window.lenis.start(); } catch (e) { }
         }
     }
 }
 
-// Ensure popstate is not causing issues - removing the listener if it was added
+// Clean up any potential legacy listeners
 window.onpopstate = null;
+if (window.history.state && window.history.state.isModalOpen) {
+    window.history.replaceState(null, '');
+}
 
 // ============================================
 // FEATURED SLIDESHOW
@@ -400,7 +402,13 @@ function getDocIcon(type) {
 }
 
 function escapeQuotes(str) {
-    return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
+    if (!str) return '';
+    return str.toString()
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
 }
 
 // ============================================
@@ -444,6 +452,10 @@ function openModal(title, filename) {
     document.getElementById('modalDownloadBtn').href = filePath;
     modal.style.display = 'flex';
 
+    if (window.lenis) {
+        try { window.lenis.stop(); } catch (e) { }
+    }
+
     clearInterval(slideInterval);
 }
 
@@ -451,6 +463,10 @@ function closeModal() {
     const modal = document.getElementById('pdfModal');
     if (modal) modal.style.display = 'none';
     document.getElementById('pdfViewer').src = '';
+
+    if (window.lenis) {
+        try { window.lenis.start(); } catch (e) { }
+    }
 
     startSlideshow();
 }
