@@ -1605,25 +1605,6 @@ html.lenis {
         transform: translateX(-50%);
         background: var(--color-green);
         color: white;
-        padding: 6px 20px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-        font-size: 0.75rem;
-    }
-
-    .project-card.expanded .project-header-mobile {
-        position: fixed;
-        top: calc(50% - 42.5vh + 10px);
-        /* Align to top of modal */
-        right: calc(50% - 45vw + 10px);
-        /* Align to right of modal */
-        z-index: 10010;
-        display: flex;
-    }
-
-    .project-card.expanded .mobile-chevron {
-        transform: none;
-        background: var(--color-green);
-        width: 32px;
         height: 32px;
         font-size: 0.8rem;
         font-weight: 800;
@@ -1643,6 +1624,8 @@ html.lenis {
         border: 1px solid var(--color-green);
         border-radius: 20px;
         padding: 1rem;
+        padding-top: 50px;
+        /* Extra space for the close button */
         z-index: 10005;
         display: flex;
         flex-direction: column;
@@ -1651,6 +1634,27 @@ html.lenis {
         max-height: 85vh;
         overflow-y: auto;
         overscroll-behavior: contain;
+    }
+
+    /* Close button positioned inside the modal */
+    .project-card.expanded .project-header-mobile {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        z-index: 10;
+        display: flex;
+    }
+
+    .project-card.expanded .mobile-chevron {
+        transform: none;
+        background: var(--color-green);
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+        font-weight: 800;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        border: 2px solid #0c120c;
+        cursor: pointer;
     }
 
     .project-modal-title {
