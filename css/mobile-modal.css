@@ -11,21 +11,25 @@
     height: 100%;
     background: rgba(0, 0, 0, 0.95);
     z-index: 99999;
+    /* Center content in viewport */
+    justify-content: center;
+    align-items: center;
     padding: 20px;
     box-sizing: border-box;
-    overflow-y: auto;
 }
 
 #mobile-modal-overlay.active {
-    display: block;
+    display: flex;
 }
 
 #mobile-modal-box {
     background: #0a0f0a;
     border: 1px solid #38a169;
     border-radius: 16px;
+    width: 100%;
     max-width: 340px;
-    margin: 40px auto;
+    max-height: 85vh;
+    overflow-y: auto;
     padding: 20px;
     position: relative;
 }
