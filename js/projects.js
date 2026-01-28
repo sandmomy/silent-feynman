@@ -106,44 +106,31 @@ function openMobileModal(title, filename, description) {
     document.getElementById('mobile-modal-desc').textContent = description || '';
     document.getElementById('mobile-modal-download-btn').href = filePath;
 
-    // Lock background scroll - Native & Lenis
+    // Lock background scroll
     document.body.style.overflow = 'hidden';
-    if (window.lenis) window.lenis.stop();
+    if (window.lenis && typeof window.lenis.stop === 'function') {
+        window.lenis.stop();
+    }
 
     overlay.classList.add('active');
-
-    // Add history state for Back Button support
-    window.history.pushState({ modalOpen: true }, '');
 }
 
 function closeMobileModal() {
     const overlay = document.getElementById('mobile-modal-overlay');
-    if (overlay && overlay.classList.contains('active')) {
+    if (overlay) {
         overlay.classList.remove('active');
         document.getElementById('mobile-modal-preview').src = '';
 
-        // Restore background scroll - Native & Lenis
+        // Restore background scroll
         document.body.style.overflow = '';
-        if (window.lenis) window.lenis.start();
-
-        // Go back in history if we added a state (check to avoid double back)
-        if (window.history.state && window.history.state.modalOpen) {
-            window.history.back();
+        if (window.lenis && typeof window.lenis.start === 'function') {
+            window.lenis.start();
         }
     }
 }
 
-// Handle Back Button Event
-window.addEventListener('popstate', function (event) {
-    const overlay = document.getElementById('mobile-modal-overlay');
-    if (overlay && overlay.classList.contains('active')) {
-        // Just close visually, don't call history.back() again
-        overlay.classList.remove('active');
-        document.getElementById('mobile-modal-preview').src = '';
-        document.body.style.overflow = '';
-        if (window.lenis) window.lenis.start();
-    }
-});
+// Ensure popstate is not causing issues - removing the listener if it was added
+window.onpopstate = null;
 
 // ============================================
 // FEATURED SLIDESHOW
