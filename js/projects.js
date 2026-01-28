@@ -106,15 +106,10 @@ function openMobileModal(title, filename, description) {
     document.getElementById('mobile-modal-desc').textContent = description || '';
     document.getElementById('mobile-modal-download-btn').href = filePath;
 
-    overlay.classList.add('active');
+    // Lock background scroll
+    document.body.style.overflow = 'hidden';
 
-    // Scroll to modal so user can see it
-    const modalBox = document.getElementById('mobile-modal-box');
-    if (modalBox) {
-        setTimeout(() => {
-            modalBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 100);
-    }
+    overlay.classList.add('active');
 }
 
 function closeMobileModal() {
@@ -122,6 +117,8 @@ function closeMobileModal() {
     if (overlay) {
         overlay.classList.remove('active');
         document.getElementById('mobile-modal-preview').src = '';
+        // Restore background scroll
+        document.body.style.overflow = '';
     }
 }
 
