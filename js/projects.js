@@ -363,21 +363,9 @@ function openModal(title, filename) {
 
     document.getElementById('modalTitle').textContent = title;
 
-    document.getElementById('modalTitle').textContent = title;
-
-    // Unified handling: Always use the modal
-    // Determine the viewer URL based on environment
-    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-
-    if (isLocalhost) {
-        document.getElementById('pdfViewer').src = filePath;
-    } else {
-        // For GitHub Pages / Production: Use Google Docs Viewer for best cross-device compatibility
-        // This works better on mobile Android/iOS than direct iframe in many cases
-        const fullUrl = window.location.origin + window.location.pathname.replace('projects.html', '') + filePath;
-        const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
-        document.getElementById('pdfViewer').src = viewerUrl;
-    }
+    // Direct embed for all devices (modern browsers handle PDF in iframe well)
+    // This avoids Google Docs Viewer issues with large files or mobile compatibility
+    document.getElementById('pdfViewer').src = filePath;
 
 
 
@@ -462,7 +450,7 @@ function toggleProjectCard(card, event) {
                     width="100%" 
                     height="180px" 
                     loading="lazy"
-                    style="border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: white;">
+                    style="border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: white; pointer-events: none;">
                 </iframe>
             `;
 
