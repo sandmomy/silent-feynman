@@ -1421,4 +1421,52 @@ html.lenis {
     .slide-btn {
         width: 100%;
     }
+
+    /* 4. Project Card Mobile Optimization */
+    .project-card {
+        border-radius: var(--radius-lg);
+    }
+
+    .project-preview {
+        aspect-ratio: 16/9;
+        /* More compact preview */
+    }
+
+    .project-content {
+        padding: 1.25rem;
+        /* Reduced padding */
+    }
+
+    .project-title {
+        font-size: 1.25rem;
+    }
+
+    .project-meta {
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.25rem 1rem;
+    }
+
+    .meta-filename {
+        word-break: break-all;
+        /* Prevent long filenames breaking layout */
+        font-size: 0.75rem;
+        opacity: 0.7;
+    }
+
+    .project-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .project-btn {
+        width: 100%;
+        padding: 0.85rem;
+        /* Better touch target */
+        justify-content: center;
+        display: flex;
+        align-items: center;
+    }
 }
