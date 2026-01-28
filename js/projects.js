@@ -107,6 +107,14 @@ function openMobileModal(title, filename, description) {
     document.getElementById('mobile-modal-download-btn').href = filePath;
 
     overlay.classList.add('active');
+
+    // Scroll to modal so user can see it
+    const modalBox = document.getElementById('mobile-modal-box');
+    if (modalBox) {
+        setTimeout(() => {
+            modalBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+    }
 }
 
 function closeMobileModal() {
