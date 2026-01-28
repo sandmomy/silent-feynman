@@ -440,6 +440,18 @@ function initModal() {
 }
 
 function openModal(title, filename) {
+    // REDIRECT TO MOBILE MODAL IF ON MOBILE
+    if (window.innerWidth < 992) {
+        // Try to find description from data if available
+        let desc = '';
+        if (typeof DOCUMENTS_DATA !== 'undefined') {
+            const doc = DOCUMENTS_DATA.find(d => d.filename === filename);
+            if (doc) desc = doc.description;
+        }
+        openMobileModal(title, filename, desc);
+        return;
+    }
+
     const modal = document.getElementById('pdfModal');
     const filePath = DOCUMENTS_BASE_PATH + filename;
 
