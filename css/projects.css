@@ -1556,8 +1556,7 @@ html.lenis {
     }
 
     .hero-separator {
-        width: 2px;
-        margin: 1.25rem auto;
+        display: none;
     }
 
     .hero-keywords {
