@@ -3,6 +3,28 @@
    Strictly scoped to Handheld Devices (max-width: 992px)
    ============================================================ */
 
+/* Keyframes outside media query for better browser support */
+@keyframes linePulseMove {
+    0% {
+        left: 5px;
+    }
+    50% {
+        left: calc(100% - 11px);
+    }
+    100% {
+        left: 5px;
+    }
+}
+
+/* Hide connecting line on desktop */
+.mobile-connecting-line {
+    display: none;
+}
+
+.line-pulse {
+    display: none;
+}
+
 @media (max-width: 992px) {
 
     /* --- Global Section Scaling --- */
@@ -186,6 +208,58 @@
         height: 3px !important;
         background: #0ea5e9 !important;
         box-shadow: 0 0 6px rgba(14, 165, 233, 0.7) !important;
+    }
+
+    /* Connecting line between globe and slider */
+    .mobile-connecting-line {
+        display: block !important;
+        position: absolute !important;
+        top: calc(50% + 110px) !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 35px !important;
+        height: 2px !important;
+        background: linear-gradient(90deg, #0ea5e9, #38a169) !important;
+        z-index: 20 !important;
+        overflow: visible !important;
+    }
+
+    .mobile-connecting-line::before,
+    .mobile-connecting-line::after {
+        content: '' !important;
+        position: absolute !important;
+        width: 6px !important;
+        height: 6px !important;
+        background: #0ea5e9 !important;
+        border-radius: 50% !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+    }
+
+    .mobile-connecting-line::before {
+        left: -3px !important;
+        box-shadow: 0 0 8px #0ea5e9 !important;
+    }
+
+    .mobile-connecting-line::after {
+        right: -3px !important;
+        background: #38a169 !important;
+        box-shadow: 0 0 8px #38a169 !important;
+    }
+
+    .mobile-connecting-line .line-pulse {
+        display: block !important;
+        position: absolute !important;
+        width: 6px !important;
+        height: 6px !important;
+        background: #00ff00 !important;
+        background-color: #00ff00 !important;
+        border-radius: 50% !important;
+        top: 50% !important;
+        margin-top: -3px !important;
+        animation: linePulseMove 1.5s ease-in-out infinite !important;
+        box-shadow: 0 0 8px #00ff00 !important;
+        filter: none !important;
     }
 
     /* Row 6: Stats - Nudged even further to the right */

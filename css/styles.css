@@ -792,6 +792,238 @@ img {
 
 /* End of bio-extended styles */
 
+/* ============================================
+   ABOUT SECTION - VISUAL ENHANCEMENTS
+   ============================================ */
+
+/* Floating decorative circles */
+.about-floating-elements {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.floating-circle {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(72, 187, 120, 0.15);
+    animation: floatCircle 20s ease-in-out infinite;
+}
+
+.circle-1 {
+    width: 300px;
+    height: 300px;
+    top: 10%;
+    left: -5%;
+    animation-delay: 0s;
+}
+
+.circle-2 {
+    width: 200px;
+    height: 200px;
+    top: 60%;
+    right: -3%;
+    animation-delay: -7s;
+    border-color: rgba(49, 130, 206, 0.12);
+}
+
+.circle-3 {
+    width: 150px;
+    height: 150px;
+    bottom: 10%;
+    left: 20%;
+    animation-delay: -14s;
+    border-color: rgba(72, 187, 120, 0.1);
+}
+
+@keyframes floatCircle {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0.3;
+    }
+    25% {
+        transform: translate(20px, -20px) rotate(90deg);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translate(0, -40px) rotate(180deg);
+        opacity: 0.4;
+    }
+    75% {
+        transform: translate(-20px, -20px) rotate(270deg);
+        opacity: 0.6;
+    }
+}
+
+/* Photo container with decorative rings */
+.compact-img-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.img-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(72, 187, 120, 0.3);
+    animation: ringPulse 4s ease-in-out infinite;
+}
+
+.ring-outer {
+    width: 100%;
+    height: 100%;
+    animation-delay: 0s;
+}
+
+.ring-inner {
+    width: 115%;
+    height: 115%;
+    border-color: rgba(49, 130, 206, 0.2);
+    animation-delay: -2s;
+}
+
+@keyframes ringPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.6;
+    }
+}
+
+/* Header separator with icon */
+.header-separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 300px;
+}
+
+.separator-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(72, 187, 120, 0.4), transparent);
+}
+
+.separator-icon {
+    color: var(--color-green-light);
+    opacity: 0.7;
+    animation: iconRotate 10s linear infinite;
+}
+
+@keyframes iconRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Philosophy badges */
+.philosophy-badges {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin: 1.5rem 0;
+}
+
+.philosophy-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(72, 187, 120, 0.1);
+    border: 1px solid rgba(72, 187, 120, 0.25);
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-green-light);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.philosophy-badge:hover {
+    background: rgba(72, 187, 120, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(72, 187, 120, 0.2);
+}
+
+.philosophy-badge svg {
+    opacity: 0.8;
+}
+
+/* News columns with icons */
+.news-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.column-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: rgba(72, 187, 120, 0.1);
+    border: 1px solid rgba(72, 187, 120, 0.2);
+    border-radius: 12px;
+    color: var(--color-green-light);
+    margin-bottom: 0.5rem;
+}
+
+.column-icon svg {
+    opacity: 0.8;
+}
+
+/* Enhanced text-orb with subtle icon */
+.text-orb::before {
+    content: attr(data-icon);
+    margin-right: 0.25rem;
+    font-size: 0.8em;
+    opacity: 0.7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 868px) {
+    .philosophy-badges {
+        gap: 0.5rem;
+    }
+
+    .philosophy-badge {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.7rem;
+    }
+
+    .floating-circle {
+        display: none;
+    }
+
+    .header-separator {
+        max-width: 200px;
+    }
+
+    .column-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .column-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
 /* Responsive Mirror */
 @media (max-width: 1024px) {
     .about-bio-extended {
@@ -1009,4 +1241,15 @@ img {
     .contact-card {
         padding: 2.5rem;
     }
+}
+
+/* Mobile Connecting Line - Pulse must be BRIGHT GREEN */
+.line-pulse,
+div.line-pulse,
+.mobile-connecting-line .line-pulse,
+.mobile-connecting-line > .line-pulse,
+.hero-col-center .mobile-connecting-line .line-pulse {
+    background: #00ff00 !important;
+    background-color: #00ff00 !important;
+    filter: none !important;
 }

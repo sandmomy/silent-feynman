@@ -87,7 +87,7 @@ function initHeroGlobe() {
     ];
 
     // Natural Earth texture: localized for reliability
-    const earthTexture = 'assets/earth-day.jpg';
+    const earthTexture = 'assets/optimized/earth-day.480w.webp';
 
     // Initialize Globe - responsive sizing from container
     const rect = globeContainer.getBoundingClientRect();
@@ -498,19 +498,19 @@ function initCountrySlider() {
 
     const countryImages = {
         Indonesia: [
-            'assets/karangasem-water-temple-palace-bali.jpg', // Karangasem water temple, Bali
-            'assets/bali-pagoda-indonesia.jpg', // Bali pagoda temple
-            'assets/pexels-maxravier-2253818.jpg'  // Third temple image
+            'assets/optimized/karangasem-water-temple-palace-bali.800w.webp', // Karangasem water temple, Bali
+            'assets/optimized/bali-pagoda-indonesia.800w.webp', // Bali pagoda temple
+            'assets/optimized/pexels-maxravier-2253818.800w.webp'  // Third temple image
         ],
         Nigeria: [
-            'assets/ahmad-jaafar-toQTkWFvWyo-unsplash.jpg', // Mosque in Nigeria
-            'assets/muhammed-a-mustapha-aaIsU06zWrg-unsplash.jpg', // Islamic architecture
-            'assets/ovinuchi-ejiohuo-q4U9Pyfz-vQ-unsplash.jpg'  // Mosque
+            'assets/optimized/ahmad-jaafar-toQTkWFvWyo-unsplash.800w.webp', // Mosque in Nigeria
+            'assets/optimized/muhammed-a-mustapha-aaIsU06zWrg-unsplash.800w.webp', // Islamic architecture
+            'assets/optimized/ovinuchi-ejiohuo-q4U9Pyfz-vQ-unsplash.800w.webp'  // Mosque
         ],
         Kenya: [
-            'assets/ahmed-qinawy-9Ia_6613pYk-unsplash.jpg', // Church in Kenya
-            'assets/murad-swaleh-7tDidSXbgD8-unsplash.jpg', // Church building
-            'assets/ab-saf-sgFNwIc51lM-unsplash.jpg'  // Church interior
+            'assets/optimized/ahmed-qinawy-9Ia_6613pYk-unsplash.800w.webp', // Church in Kenya
+            'assets/optimized/murad-swaleh-7tDidSXbgD8-unsplash.800w.webp', // Church building
+            'assets/optimized/ab-saf-sgFNwIc51lM-unsplash.800w.webp'  // Church interior
         ]
     };
 
@@ -606,6 +606,7 @@ function initFadeAnimations() {
 
 // Initialize fade animations
 document.addEventListener('DOMContentLoaded', initFadeAnimations);
+
 
 
 

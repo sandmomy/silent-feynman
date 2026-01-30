@@ -19,16 +19,16 @@
         content="Frequency practitioner and Director of International Relationships at the SBDI Foundation, advancing holistic sustainability.">
     <meta property="og:site_name" content="Eugene Mierak Portfolio">
     <meta property="og:locale" content="en_US">
-    <meta property="og:image" content="assets/og-image.jpg">
+    <meta property="og:image" content="assets/optimized/og-image.480w.webp">
     <meta property="og:url" content="https://sandmomy.github.io/silent-feynman/">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Eugene Mierak - Sustainable Development & Innovation">
     <meta name="twitter:description"
         content="Frequency practitioner and Director of International Relationships at the SBDI Foundation, advancing holistic sustainability.">
-    <meta name="twitter:image" content="https://sandmomy.github.io/silent-feynman/assets/og-image.jpg">
+    <meta name="twitter:image" content="https://sandmomy.github.io/silent-feynman/assets/optimized/og-image.480w.webp">
     <meta name="theme-color" content="#080c14">
     <link rel="canonical" href="https://sandmomy.github.io/silent-feynman/">
-    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="icon" type="image/webp" href="assets/optimized/favicon.480w.webp">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://unpkg.com">
@@ -38,8 +38,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="preload" as="image" href="assets/eugene-mierak.png">
-    <link rel="preload" as="image" href="assets/earth-day.jpg">
+    <link rel="preload" as="image" href="assets/optimized/hero-pose.1600w.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="assets/optimized/eugene-mierak.400w.webp">
+    <link rel="preload" as="image" href="assets/optimized/earth-day.480w.webp">
 
     <!-- Styles -->
     <link rel="stylesheet" href="css/styles.min.css">
@@ -78,7 +79,7 @@
                     <span class="partnerships-label">Trusted Partner</span>
                     <div class="partner-list">
                         <span class="partner-tag partner-logo-main"><img src="assets/logo-sbdi.webp" alt="SBDI"
-                                class="partner-logo-main-img"></span>
+                                class="partner-logo-main-img" width="117" height="60" loading="lazy" decoding="async"></span>
                     </div>
                 </div>
             </div>
@@ -107,6 +108,10 @@
                         <span></span>
                     </div>
                 </div>
+                <!-- Connecting line between globe and slider (mobile only) -->
+                <div class="mobile-connecting-line">
+                    <div class="line-pulse" style="background: #00ff00 !important; background-color: #00ff00 !important; filter: none !important;"></div>
+                </div>
             </div>
 
             <!-- RIGHT: Context & Proof -->
@@ -117,19 +122,22 @@
                 <!-- Country Photos Slider -->
                 <div class="country-slider">
                     <div class="country-slide active">
-                        <img src="assets/karangasem-water-temple-palace-bali.jpg" alt="Indonesia Temple">
+                        <img src="assets/optimized/karangasem-water-temple-palace-bali.800w.webp" alt="Indonesia Temple"
+                            width="200" height="340" loading="eager" fetchpriority="high" decoding="async">
                         <div class="country-label">
                             <div class="country-label-sub">Indonesia</div>
                         </div>
                     </div>
                     <div class="country-slide">
-                        <img src="assets/ahmad-jaafar-toQTkWFvWyo-unsplash.jpg" alt="Nigeria Mosque">
+                        <img src="assets/optimized/ahmad-jaafar-toQTkWFvWyo-unsplash.800w.webp" alt="Nigeria Mosque"
+                            width="200" height="340" loading="lazy" decoding="async">
                         <div class="country-label">
                             <div class="country-label-sub">Nigeria</div>
                         </div>
                     </div>
                     <div class="country-slide">
-                        <img src="assets/ahmed-qinawy-9Ia_6613pYk-unsplash.jpg" alt="Kenya Church">
+                        <img src="assets/optimized/ahmed-qinawy-9Ia_6613pYk-unsplash.800w.webp" alt="Kenya Church"
+                            width="200" height="340" loading="lazy" decoding="async">
                         <div class="country-label">
                             <div class="country-label-sub">Kenya</div>
                         </div>
@@ -164,6 +172,13 @@
 
     <!-- About Section: Compact Layout + Narrative Footer -->
     <section class="about-vertical fade-section" id="about">
+        <!-- Decorative floating elements -->
+        <div class="about-floating-elements">
+            <div class="floating-circle circle-1"></div>
+            <div class="floating-circle circle-2"></div>
+            <div class="floating-circle circle-3"></div>
+        </div>
+
         <div class="container">
 
             <!-- NEWSPAPER LAYOUT CARD -->
@@ -171,10 +186,26 @@
 
                 <!-- HEADER: Photo & Identity Centered -->
                 <div class="newspaper-header">
-                    <div class="compact-img-wrapper">
-                        <img src="assets/eugene-mierak.png" alt="Eugene Mierak" class="compact-img" loading="lazy">
+                    <!-- Decorative rings around photo -->
+                    <div class="compact-img-container">
+                        <div class="img-ring ring-outer"></div>
+                        <div class="img-ring ring-inner"></div>
+                        <div class="compact-img-wrapper">
+                            <img src="assets/optimized/eugene-mierak.400w.webp" alt="Eugene Mierak" class="compact-img"
+                                loading="lazy" decoding="async" width="80" height="80">
+                        </div>
                     </div>
                     <h2 class="compact-name">Eugene Mierak</h2>
+                    <!-- Decorative separator -->
+                    <div class="header-separator">
+                        <span class="separator-line"></span>
+                        <svg class="separator-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/>
+                            <circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+                            <circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+                        </svg>
+                        <span class="separator-line"></span>
+                    </div>
                 </div>
 
                 <!-- BODY: Content Flow -->
@@ -182,10 +213,10 @@
                     <!-- Paragraph 1: Full Width Intro - Split into sentences -->
                     <div class="news-intro">
                         <p class="news-sentence">
-                            I'm Eugene Mierak, a <span class="text-orb">frequency practitioner</span> specializing in
-                            <span class="text-orb">alignment caching</span>, coherence training, and energetic training,
+                            I'm Eugene Mierak, a <span class="text-orb" data-icon="◈">frequency practitioner</span> specializing in
+                            <span class="text-orb" data-icon="⟡">alignment caching</span>, coherence training, and energetic training,
                             working through integrative coherence methodologies to support clarity, stability, and <span
-                                class="text-orb">conscious evolution</span>.
+                                class="text-orb" data-icon="✧">conscious evolution</span>.
                         </p>
                         <p class="news-sentence">
                             My work bridges subtle frequency sciences with
@@ -196,26 +227,67 @@
                         </p>
                     </div>
 
+                    <!-- Philosophy badges -->
+                    <div class="philosophy-badges">
+                        <span class="philosophy-badge">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 2v20M2 12h20"/>
+                            </svg>
+                            Balance
+                        </span>
+                        <span class="philosophy-badge">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                            </svg>
+                            Resonance
+                        </span>
+                        <span class="philosophy-badge">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24"/>
+                            </svg>
+                            Coherence
+                        </span>
+                    </div>
+
                     <!-- Bottom Columns: Split Text -->
                     <div class="news-columns">
                         <!-- Paragraph 2: Left -->
-                        <p>
-                            As Director of International Relationships for the SBDI Foundation, I foster <span
-                                class="text-orb">global partnerships</span> that support holistic sustainability
-                            initiatives, regenerative development, and conscious collaboration across cultures. My
-                            approach is grounded in systems thinking, emphasizing resonance, long-term balance, and
-                            alignment between human potential and ecological and social responsibility—so initiatives
-                            move from vision to <span class="text-orb">coherent execution</span>.
-                        </p>
+                        <div class="news-column">
+                            <div class="column-icon">
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                                </svg>
+                            </div>
+                            <p>
+                                As Director of International Relationships for the SBDI Foundation, I foster <span
+                                    class="text-orb">global partnerships</span> that support holistic sustainability
+                                initiatives, regenerative development, and conscious collaboration across cultures. My
+                                approach is grounded in systems thinking, emphasizing resonance, long-term balance, and
+                                alignment between human potential and ecological and social responsibility—so initiatives
+                                move from vision to <span class="text-orb">coherent execution</span>.
+                            </p>
+                        </div>
 
                         <!-- Paragraph 3: Right -->
-                        <p>
-                            My mission is to support the emergence of coherent, sustainable projects through <span
-                                class="text-orb">frequency awareness</span>, <span class="text-orb">strategic
-                                alignment</span>, and conscious
-                            international cooperation—creating meaningful, lasting impact for communities and the
-                            planet.
-                        </p>
+                        <div class="news-column">
+                            <div class="column-icon">
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                    <path d="M2 17l10 5 10-5"/>
+                                    <path d="M2 12l10 5 10-5"/>
+                                </svg>
+                            </div>
+                            <p>
+                                My mission is to support the emergence of coherent, sustainable projects through <span
+                                    class="text-orb">frequency awareness</span>, <span class="text-orb">strategic
+                                    alignment</span>, and conscious
+                                international cooperation—creating meaningful, lasting impact for communities and the
+                                planet.
+                            </p>
+                        </div>
                     </div>
                 </div>
 

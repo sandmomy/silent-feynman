@@ -27,19 +27,14 @@
 </head>
 
 <body class="showcase-page">
-    <!-- Background Particles -->
-    <div class="confetti-bg">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
+    <!-- Matrix Rain Background -->
+    <div class="matrix-bg">
+        <canvas id="matrixCanvas"></canvas>
+        <div class="matrix-overlay"></div>
     </div>
+
+    <!-- Scan Lines Effect -->
+    <div class="scanlines"></div>
     <!-- Hero Split Layout -->
     <div class="hero-split-wrapper">
         <a href="index.html" class="projects-back-btn" aria-label="Back to Eugene Mierak landing page">
@@ -72,7 +67,7 @@
                     </div>
                     <div class="hero-actions">
                         <button class="btn-scroll" aria-label="Scroll to project categories"
-                            onclick="document.querySelector('.category-tabs-section').scrollIntoView({behavior: 'smooth'})">EXPLORE</button>
+                            onclick="document.getElementById('projectsDashboard').scrollIntoView({behavior: 'smooth'})">EXPLORE</button>
                     </div>
                 </div>
             </div>
@@ -80,7 +75,6 @@
             <!-- Right Side: PDF Slider (Interesting Projects) -->
             <div class="hero-right">
                 <section class="featured-section">
-                    <span class="featured-label">⭐ Featured Insights</span>
                     <div class="slideshow-container" id="slideshow">
                         <!-- Slides will be injected via JS -->
                     </div>
@@ -89,28 +83,64 @@
         </div>
     </div>
 
-    <!-- Category Tabs Section -->
-    <section class="category-tabs-section">
-        <!-- Tabs Bar -->
-        <div class="category-tabs" id="categoryTabs">
-            <!-- Tabs inserted by JavaScript -->
-        </div>
+    <!-- Projects Gallery Section - Professional Dashboard -->
+    <section class="projects-dashboard" id="projectsDashboard">
+        <div class="dashboard-container">
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-tabs" id="filterTabs">
+                    <!-- Tabs inserted by JavaScript -->
+                </div>
+                <div class="view-controls">
+                    <button class="view-btn active" data-view="grid" title="Grid View">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+                            <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+                        </svg>
+                    </button>
+                    <button class="view-btn" data-view="list" title="List View">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/>
+                            <line x1="3" y1="18" x2="21" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
 
-        <!-- Category Content -->
-        <div id="categoryContents">
-            <!-- Content for each category -->
+            <!-- Projects Grid -->
+            <div class="projects-gallery" id="projectsGallery">
+                <!-- Projects inserted by JavaScript -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-icon">📂</div>
+                <h3>No projects found</h3>
+                <p>Try selecting a different category</p>
+            </div>
         </div>
     </section>
-    <!-- PDF Viewer Modal (The Visor) -->
+    <!-- PDF Viewer Modal - Professional Design -->
     <div class="modal" id="pdfModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="modalTitle">Document Viewer</h3>
+                <div class="modal-header-left">
+                    <div class="modal-icon">📄</div>
+                    <div class="modal-title-group">
+                        <span class="modal-label">Document Viewer</span>
+                        <h3 class="modal-title" id="modalTitle">Document</h3>
+                    </div>
+                </div>
                 <div class="modal-actions">
-                    <a href="#" class="btn-modal-action" id="modalDownloadBtn" download>
-                        <span>⬇️ Download</span>
+                    <a href="#" class="modal-btn modal-btn-download" id="modalDownloadBtn" download>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Download
                     </a>
-                    <button class="modal-close" id="modalClose" aria-label="Close document modal">&times;</button>
+                    <button class="modal-btn modal-btn-close" id="modalClose" aria-label="Close">&times;</button>
                 </div>
             </div>
             <div class="modal-body">

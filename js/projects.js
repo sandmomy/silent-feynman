@@ -1,5 +1,5 @@
 /**
- * Projects Page - Slideshow + Category Tabs + Sequential Project View
+ * Projects Page - Slideshow + Projects Dashboard
  */
 
 // Featured projects IDs (the 4 most important)
@@ -7,8 +7,6 @@ const FEATURED_IDS = [4, 11, 18, 26];
 
 let currentSlide = 0;
 let slideInterval = null;
-let currentCategory = 'sustainability';
-let categoryProjectIndex = {};
 
 const CATEGORY_INFO = {
     sustainability: {
@@ -44,9 +42,8 @@ const CATEGORY_INFO = {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-    // initSmoothScroll(); // Now handled globally in main.js
     initSlideshow();
-    initCategoryTabs();
+    initProjectsDashboard();
     initModal();
     initNavbar();
     initMobileScrollLock();
@@ -113,12 +110,8 @@ function openMobileModal(title, filename, description) {
         document.getElementById('mobile-modal-preview').src = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
     }
 
-    // Lock background scroll - DISABLED to prevent blocking issues
-    // document.body.style.overflow = 'hidden';
-    // document.documentElement.style.overflow = 'hidden';
-    // if (window.lenis) {
-    //     try { window.lenis.stop(); } catch (e) { }
-    // }
+    // Scroll to top so modal is visible
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
     overlay.classList.add('active');
 }
@@ -193,6 +186,36 @@ function initSlideshow() {
 
     container.innerHTML = slidesHTML + controlsHTML;
     startSlideshow();
+    initTouchSwipe(container);
+}
+
+// Touch swipe support for mobile
+function initTouchSwipe(container) {
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const minSwipeDistance = 50;
+
+    container.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    container.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+        const distance = touchEndX - touchStartX;
+        if (Math.abs(distance) < minSwipeDistance) return;
+
+        if (distance > 0) {
+            // Swipe right - previous slide
+            changeSlide(-1);
+        } else {
+            // Swipe left - next slide
+            changeSlide(1);
+        }
+    }
 }
 
 function startSlideshow() {
@@ -252,16 +275,20 @@ function initNavbar() {
 }
 
 // ============================================
-// CATEGORY TABS
+// PROJECTS DASHBOARD
 // ============================================
-function initCategoryTabs() {
+let currentFilter = 'all';
+let currentView = 'grid';
+
+function initProjectsDashboard() {
     if (typeof DOCUMENTS_DATA === 'undefined') return;
 
-    const tabsContainer = document.getElementById('categoryTabs');
-    const contentsContainer = document.getElementById('categoryContents');
-    if (!tabsContainer || !contentsContainer) return;
+    const filterTabs = document.getElementById('filterTabs');
+    const gallery = document.getElementById('projectsGallery');
 
-    // Group documents
+    if (!filterTabs || !gallery) return;
+
+    // Group documents by category
     const grouped = {};
     DOCUMENTS_DATA.forEach(doc => {
         if (!grouped[doc.category]) grouped[doc.category] = [];
@@ -269,138 +296,138 @@ function initCategoryTabs() {
     });
 
     const categoryOrder = ['sustainability', 'food', 'realestate', 'investment', 'technology', 'research'];
+    const defaultCategory = categoryOrder[0];
 
-    // Init project indices
-    categoryOrder.forEach(cat => categoryProjectIndex[cat] = 0);
-
-    // Render tabs
-    tabsContainer.innerHTML = categoryOrder.map(cat => {
+    // Render filter tabs (no "All" option - show one category at a time)
+    filterTabs.innerHTML = categoryOrder.map(cat => {
         const info = CATEGORY_INFO[cat];
-        const docs = grouped[cat] || [];
-        if (docs.length === 0) return '';
+        const count = grouped[cat]?.length || 0;
+
+        if (count === 0) return '';
 
         return `
-            <button class="category-tab ${cat === 'sustainability' ? 'active' : ''}" 
-                    data-category="${cat}" 
-                    onclick="selectCategory('${cat}')">
-                <span class="category-tab-icon">${info.icon}</span>
+            <button class="filter-tab ${cat === defaultCategory ? 'active' : ''}"
+                    data-filter="${cat}"
+                    onclick="filterProjects('${cat}')">
+                <span class="filter-tab-icon">${info.icon}</span>
                 <span>${info.name}</span>
+                <span class="filter-tab-count">${count}</span>
             </button>
         `;
     }).join('');
 
-    // Render content for each category
-    contentsContainer.innerHTML = categoryOrder.map(cat => {
-        const info = CATEGORY_INFO[cat];
-        const docs = grouped[cat] || [];
-        if (docs.length === 0) return '';
+    // Initial render - show first category only
+    currentFilter = defaultCategory;
+    renderProjects(grouped[defaultCategory] || []);
 
-        return `
-            <div class="category-content ${cat === 'sustainability' ? 'active' : ''}" data-category="${cat}">
-                <!-- Category Description -->
-                <div class="category-description">
-                    <div class="category-desc-header">
-                        <span class="category-desc-icon">${info.icon}</span>
-                        <h3 class="category-desc-title">${info.name}</h3>
-                    </div>
-                    <p class="category-desc-text">${info.description}</p>
-                    <span class="category-project-count">${docs.length} Projects</span>
+    // View toggle
+    document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentView = btn.dataset.view;
+            gallery.classList.toggle('list-view', currentView === 'list');
+        });
+    });
+}
+
+function filterProjects(category) {
+    currentFilter = category;
+
+    // Update tabs
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.filter === category);
+    });
+
+    // Filter and render
+    const filtered = DOCUMENTS_DATA.filter(doc => doc.category === category);
+    renderProjects(filtered);
+}
+
+function renderProjects(projects) {
+    const gallery = document.getElementById('projectsGallery');
+    const emptyState = document.getElementById('emptyState');
+
+    if (!gallery) return;
+
+    if (projects.length === 0) {
+        gallery.innerHTML = '';
+        if (emptyState) emptyState.style.display = 'block';
+        return;
+    }
+
+    if (emptyState) emptyState.style.display = 'none';
+
+    gallery.innerHTML = projects.map(doc => `
+        <div class="project-card" data-title="${escapeQuotes(doc.title)}" onclick="openProjectModal('${escapeQuotes(doc.title)}', '${escapeQuotes(doc.filename)}')">
+            <div class="project-thumbnail">
+                ${doc.thumbnail
+                    ? `<img src="${doc.thumbnail}" alt="${escapeQuotes(doc.title)}" loading="lazy">`
+                    : `<span class="project-thumbnail-icon">${getDocIcon(doc.type)}</span>`
+                }
+                <div class="project-badge">
+                    <span class="badge-dot"></span>
+                    ${doc.type}
                 </div>
-                
-                <!-- Projects Grid - All visible -->
-                <div class="projects-grid">
-                    ${docs.map(doc => `
-                        <div class="project-card" onclick="toggleProjectCard(this, event)" 
-                             data-title="${escapeQuotes(doc.title)}" 
-                             data-filename="${escapeQuotes(doc.filename)}"
-                             data-description="${escapeQuotes(doc.description || '')}"
-                             style="${doc.thumbnail ? `--project-bg: url('../${doc.thumbnail}')` : ''}">
-                            <div class="project-overlay"></div>
-                            
-                            <!-- Floating Title Tab (Mobile Only) -->
-                            <div class="project-title-tab">${doc.title}</div>
-
-                            <div class="project-preview">
-                                ${doc.thumbnail ? `<img src="${doc.thumbnail}" class="project-thumb-img" alt="${doc.title}">` : `<span class="project-preview-icon">${getDocIcon(doc.type)}</span>`}
-                                <span class="project-type-badge">${doc.type}</span>
-                            </div>
-
-                            <div class="project-header-mobile-trigger">
-                                <span class="mobile-open-icon">+</span>
-                            </div>
-
-                            <div class="project-content">
-                                <div class="project-header-mobile">
-                                    <span class="mobile-chevron">✕</span>
-                                </div>
-                                <div class="project-modal-title">${doc.title}</div>
-
-                                <div id="viewer-target-${doc.id}" class="project-viewer-target"></div>
-
-                                <div class="project-meta">
-                                    <div class="meta-label">Type</div>
-                                    <div class="meta-value">${doc.type}</div>
-                                    <div class="meta-label">File</div>
-                                    <div class="meta-value meta-filename">${doc.filename}</div>
-                                </div>
-                                
-                                <h4 class="project-title desktop-only">${doc.title}</h4>
-                                
-                                <div class="project-details-wrapper">
-                                    <p class="project-description">${doc.description}</p>
-                                    <div class="project-actions">
-                                        <button class="project-btn project-btn-view" onclick="event.stopPropagation(); handleViewPdf('${escapeQuotes(doc.filename)}', '${escapeQuotes(doc.title)}')">
-                                            👁️ View PDF
-                                        </button>
-                                        <a href="${DOCUMENTS_BASE_PATH}${doc.filename}" class="project-btn project-btn-download" download onclick="event.stopPropagation()">
-                                            ⬇️ Download
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `).join('')}
+                <div class="project-thumbnail-overlay">
+                    <div class="thumbnail-actions">
+                        <button class="thumb-btn thumb-btn-primary" onclick="event.stopPropagation(); openModal('${escapeQuotes(doc.title)}', '${escapeQuotes(doc.filename)}')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                            View
+                        </button>
+                        <a href="${DOCUMENTS_BASE_PATH}${doc.filename}" class="thumb-btn thumb-btn-secondary" download onclick="event.stopPropagation()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
             </div>
-        `;
-    }).join('');
+            <div class="project-body">
+                <div class="project-category">${CATEGORY_INFO[doc.category]?.name || doc.category}</div>
+                <h3 class="project-title">${doc.title}</h3>
+                <p class="project-description">${doc.description || ''}</p>
+            </div>
+            <div class="project-footer">
+                <div class="project-meta">
+                    <div class="meta-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                        </svg>
+                        ${doc.type}
+                    </div>
+                </div>
+                <div class="project-actions">
+                    <button class="action-btn" onclick="event.stopPropagation(); openModal('${escapeQuotes(doc.title)}', '${escapeQuotes(doc.filename)}')" title="View">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </button>
+                    <a href="${DOCUMENTS_BASE_PATH}${doc.filename}" class="action-btn" download onclick="event.stopPropagation()" title="Download">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    // Apply current view
+    gallery.classList.toggle('list-view', currentView === 'list');
 }
 
-function selectCategory(category) {
-    // Update tabs
-    document.querySelectorAll('.category-tab').forEach(tab => {
-        tab.classList.toggle('active', tab.dataset.category === category);
-    });
-
-    // Update content
-    document.querySelectorAll('.category-content').forEach(content => {
-        content.classList.toggle('active', content.dataset.category === category);
-    });
-
-    currentCategory = category;
-}
-
-function changeProjectSlide(category, direction) {
-    const viewer = document.getElementById(`viewer-${category}`);
-    if (!viewer) return;
-
-    const slides = viewer.querySelectorAll('.project-slide');
-    const currentIndex = categoryProjectIndex[category];
-
-    // Remove active
-    slides[currentIndex].classList.remove('active');
-
-    // Calculate new index
-    let newIndex = currentIndex + direction;
-    if (newIndex < 0) newIndex = slides.length - 1;
-    if (newIndex >= slides.length) newIndex = 0;
-
-    // Set active
-    slides[newIndex].classList.add('active');
-    categoryProjectIndex[category] = newIndex;
-
-    // Update counter
-    document.getElementById(`counter-${category}`).textContent = newIndex + 1;
+function openProjectModal(title, filename) {
+    openModal(title, filename);
 }
 
 // ============================================
@@ -441,8 +468,7 @@ function initModal() {
 
 function openModal(title, filename) {
     // REDIRECT TO MOBILE MODAL IF ON MOBILE
-    if (window.innerWidth < 992) {
-        // Try to find description from data if available
+    if (window.innerWidth < 768) {
         let desc = '';
         if (typeof DOCUMENTS_DATA !== 'undefined') {
             const doc = DOCUMENTS_DATA.find(d => d.filename === filename);
@@ -457,32 +483,22 @@ function openModal(title, filename) {
 
     document.getElementById('modalTitle').textContent = title;
 
-    // Unified handling: Always use the modal
     // Determine the viewer URL based on environment
     const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
     if (isLocalhost) {
         document.getElementById('pdfViewer').src = filePath;
     } else {
-        // For GitHub Pages / Production: Use Google Docs Viewer for best cross-device compatibility
-        // This keeps the user IN the modal instead of opening a new tab/screen
         const fullUrl = new URL(filePath, window.location.href).href;
         const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
         document.getElementById('pdfViewer').src = viewerUrl;
     }
 
     document.getElementById('modalDownloadBtn').href = filePath;
-    // Use class activation instead of just inline style for consistency
-    modal.classList.add('project-modal-active');
-    modal.style.display = 'flex'; // Keep as fallback
 
-    // Lock background scroll - DISABLED to prevent blocking issues
-    // document.body.style.overflow = 'hidden';
-    // document.documentElement.style.overflow = 'hidden';
-
-    // if (window.lenis) {
-    //     try { window.lenis.stop(); } catch (e) { }
-    // }
+    // Show modal
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
 
     clearInterval(slideInterval);
 }
@@ -490,18 +506,10 @@ function openModal(title, filename) {
 function closeModal() {
     const modal = document.getElementById('pdfModal');
     if (modal) {
-        modal.style.display = 'none';
-        modal.classList.remove('project-modal-active');
+        modal.classList.remove('active');
     }
     document.getElementById('pdfViewer').src = '';
-
-    // Restore background scroll
-    // document.body.style.overflow = '';
-    // document.documentElement.style.overflow = '';
-
-    // if (window.lenis) {
-    //     try { window.lenis.start(); } catch (e) { }
-    // }
+    document.body.style.overflow = '';
 
     startSlideshow();
 }
@@ -522,30 +530,3 @@ function handleViewPdf(filename, title) {
     }
 }
 
-function toggleProjectCard(card, event) {
-    // Prevent expansion if clicking buttons/links
-    if (event.target.closest('.project-btn') || event.target.tagName === 'A') {
-        return;
-    }
-
-    // Desktop: Open full-screen modal directly
-    if (window.innerWidth >= 992) {
-        const title = card.getAttribute('data-title');
-        const filename = card.getAttribute('data-filename');
-        if (title && filename) {
-            openModal(title, filename);
-        }
-        return;
-    }
-
-    // Mobile: Accordion Behavior (In-place expansion)
-    // Close other expanded cards
-    document.querySelectorAll('.project-card.expanded').forEach(c => {
-        if (c !== card) c.classList.remove('expanded');
-    });
-
-    // Toggle current
-    card.classList.toggle('expanded');
-
-    // NO AUTO-SCROLL requested by user
-}
