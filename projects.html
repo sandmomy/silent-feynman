@@ -20,10 +20,10 @@
         rel="stylesheet">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.min.css">
     <!-- Custom Styles for Projects Page -->
-    <link rel="stylesheet" href="css/projects.css?v=unified_modal_fix">
-    <link rel="stylesheet" href="css/mobile-modal.css">
+    <link rel="stylesheet" href="css/projects.min.css">
+    <link rel="stylesheet" href="css/mobile-modal.min.css">
 </head>
 
 <body class="showcase-page">
@@ -42,7 +42,7 @@
     </div>
     <!-- Hero Split Layout -->
     <div class="hero-split-wrapper">
-        <a href="index.html" class="projects-back-btn" aria-label="Back to landing page">
+        <a href="index.html" class="projects-back-btn" aria-label="Back to Eugene Mierak landing page">
             ← Back to Home
         </a>
         <video class="hero-wrapper-video" autoplay muted loop playsinline>
@@ -71,7 +71,7 @@
                         <span class="hero-keyword">Breath</span>
                     </div>
                     <div class="hero-actions">
-                        <button class="btn-scroll"
+                        <button class="btn-scroll" aria-label="Scroll to project categories"
                             onclick="document.querySelector('.category-tabs-section').scrollIntoView({behavior: 'smooth'})">EXPLORE</button>
                     </div>
                 </div>
@@ -110,11 +110,11 @@
                     <a href="#" class="btn-modal-action" id="modalDownloadBtn" download>
                         <span>⬇️ Download</span>
                     </a>
-                    <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
+                    <button class="modal-close" id="modalClose" aria-label="Close document modal">&times;</button>
                 </div>
             </div>
             <div class="modal-body">
-                <iframe id="pdfViewer" src="" frameborder="0" title="PDF Viewer" scrolling="yes"></iframe>
+                <iframe id="pdfViewer" src="" frameborder="0" title="PDF Viewer" scrolling="yes" loading="lazy"></iframe>
             </div>
         </div>
     </div>
@@ -123,13 +123,13 @@
     <!-- MOBILE MODAL -->
     <div id="mobile-modal-overlay">
         <div id="mobile-modal-box">
-            <button id="mobile-modal-close-btn">✕</button>
+            <button id="mobile-modal-close-btn" aria-label="Close mobile document modal">✕</button>
             <h3 id="mobile-modal-name">Title</h3>
-            <iframe id="mobile-modal-preview" src=""></iframe>
+            <iframe id="mobile-modal-preview" src="" loading="lazy"></iframe>
             <p id="mobile-modal-desc">Description</p>
             <div class="mobile-modal-btns">
-                <button id="mobile-modal-view-btn">👁️ View PDF</button>
-                <a id="mobile-modal-download-btn" href="#" download>⬇️ Download</a>
+                <button id="mobile-modal-view-btn" aria-label="View document PDF">👁️ View PDF</button>
+                <a id="mobile-modal-download-btn" href="#" download aria-label="Download document PDF">⬇️ Download</a>
             </div>
         </div>
     </div>
@@ -138,9 +138,9 @@
     <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
 
     <!-- Scripts -->
-    <script src="js/documents-data.js?v=definitive" defer></script>
-    <script src="js/main.js?v=definitive" defer></script>
-    <script src="js/projects.js?v=definitive" defer></script>
+    <script src="js/documents-data.min.js" defer></script>
+    <script src="js/main.min.js" defer></script>
+    <script src="js/projects.min.js" defer></script>
 </body>
 
 </html>

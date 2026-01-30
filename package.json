@@ -1,0 +1,29 @@
+{
+  "name": "silent-feynman",
+  "version": "1.0.0",
+  "description": "A high-end, high-performance executive landing page and project portal. Designed for maximum information density and premium visual impact, optimized for strategic consulting and global impact storytelling.",
+  "main": "index.js",
+  "scripts": {
+    "minify:css": "postcss css/styles.css -o css/styles.min.css --use cssnano && postcss css/projects.css -o css/projects.min.css --use cssnano && postcss css/mobile-overrides.css -o css/mobile-overrides.min.css --use cssnano && postcss css/mobile-modal.css -o css/mobile-modal.min.css --use cssnano",
+    "minify:js": "terser js/main.js -o js/main.min.js -c -m && terser js/projects.js -o js/projects.min.js -c -m && terser js/documents-data.js -o js/documents-data.min.js -c -m",
+    "build": "npm run minify:css && npm run minify:js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sandmomy/silent-feynman.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/sandmomy/silent-feynman/issues"
+  },
+  "homepage": "https://github.com/sandmomy/silent-feynman#readme",
+  "devDependencies": {
+    "cssnano": "^7.1.2",
+    "postcss-cli": "^11.0.1",
+    "terser": "^5.46.0"
+  }
+}
