@@ -116,7 +116,8 @@ img {
 /* --- Hero Section (The Stage) --- */
 .hero {
     position: relative;
-    min-height: 100vh;
+    min-height: calc(100vh - 48px);
+    margin-top: 48px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -250,8 +251,20 @@ img {
 }
 
 .partner-logo-main-img {
-    height: 60px;
+    height: 40px;
+    width: auto;
     filter: brightness(1.2);
+}
+
+/* RIGHT: Events & Stats - Shifted up to align with globe center */
+.hero-col-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-right: 80px;
+    margin-top: -80px;
+    /* Move content up to align with globe */
 }
 
 /* CENTER: Globe & Buttons */
@@ -279,7 +292,7 @@ img {
     padding: var(--spacing-3) var(--spacing-8);
     font-size: var(--font-size-base);
     font-weight: 600;
-    border-radius: var(--radius-full);
+    border-radius: 8px;
     transition: all 0.3s ease;
 }
 
@@ -839,18 +852,23 @@ img {
 }
 
 @keyframes floatCircle {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translate(0, 0) rotate(0deg);
         opacity: 0.3;
     }
+
     25% {
         transform: translate(20px, -20px) rotate(90deg);
         opacity: 0.5;
     }
+
     50% {
         transform: translate(0, -40px) rotate(180deg);
         opacity: 0.4;
     }
+
     75% {
         transform: translate(-20px, -20px) rotate(270deg);
         opacity: 0.6;
@@ -889,10 +907,13 @@ img {
 }
 
 @keyframes ringPulse {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: scale(1);
         opacity: 0.3;
     }
+
     50% {
         transform: scale(1.05);
         opacity: 0.6;
@@ -923,8 +944,13 @@ img {
 }
 
 @keyframes iconRotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* Philosophy badges */
@@ -1247,9 +1273,170 @@ img {
 .line-pulse,
 div.line-pulse,
 .mobile-connecting-line .line-pulse,
-.mobile-connecting-line > .line-pulse,
+.mobile-connecting-line>.line-pulse,
 .hero-col-center .mobile-connecting-line .line-pulse {
     background: #00ff00 !important;
     background-color: #00ff00 !important;
     filter: none !important;
+}
+
+/* ============================================
+   DESKTOP-ONLY / MOBILE-ONLY VISIBILITY
+   ============================================ */
+.desktop-only {
+    display: block;
+}
+
+.mobile-only {
+    display: none;
+}
+
+/* Inline elements with desktop-only class */
+a.desktop-only,
+span.desktop-only,
+button.desktop-only {
+    display: inline-flex;
+}
+
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none !important;
+    }
+
+    .mobile-only {
+        display: flex !important;
+    }
+}
+
+/* ============================================
+   VEGAQURA PARTNER BADGE
+   ============================================ */
+.partner-list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: nowrap;
+}
+
+.partner-tag.partner-logo-main {
+    display: inline-flex;
+    align-items: center;
+}
+
+.partner-vegaqura {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: transparent;
+    border: none;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.partner-vegaqura:hover {
+    transform: translateY(-2px);
+}
+
+.partner-logo-vegaqura-img {
+    height: 30px;
+    width: auto;
+    filter: brightness(1.1);
+    transition: all 0.3s ease;
+}
+
+.partner-vegaqura:hover .partner-logo-vegaqura-img {
+    filter: brightness(1.3);
+}
+
+/* Vegaqura Button - Turquoise */
+.btn-vegaqura {
+    background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+    color: white;
+    border: none;
+}
+
+.btn-vegaqura:hover {
+    background: linear-gradient(135deg, #0284c7 0%, #0891b2 100%);
+    box-shadow: 0 8px 25px rgba(14, 165, 233, 0.35);
+}
+
+/* ============================================
+   TOP NAVIGATION BANNER
+   ============================================ */
+.top-nav-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    background: rgba(8, 12, 20, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+}
+
+.top-nav-container {
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.top-nav-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: white;
+    font-weight: 500;
+}
+
+.top-nav-links {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.top-nav-link {
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.top-nav-link:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.top-nav-vegaqura {
+    background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+    color: white;
+}
+
+.top-nav-vegaqura:hover {
+    background: linear-gradient(135deg, #0284c7 0%, #0891b2 100%);
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+}
+
+/* Add padding to body to account for fixed navbar */
+
+@media (max-width: 768px) {
+    .top-nav-banner {
+        display: none;
+    }
+
+    .hero {
+        min-height: 100vh;
+        margin-top: 0;
+    }
 }

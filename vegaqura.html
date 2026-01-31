@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vegaqura in Ibiza - Eugene Mierak</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Vegaqura in Ibiza - Official product information and brand resources. Request brochures and distribution details.">
+    <meta name="keywords" content="Vegaqura, Ibiza, wellness, holistic health, distribution, Eugene Mierak">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Vegaqura in Ibiza - Eugene Mierak">
+    <meta property="og:description" content="Official product information and brand resources — always up to date.">
+    <meta property="og:site_name" content="Eugene Mierak Portfolio">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:image" content="assets/optimized/og-image.480w.webp">
+    <meta name="theme-color" content="#080c14">
+    <link rel="icon" type="image/webp" href="assets/optimized/favicon.480w.webp">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.min.css">
+    <link rel="stylesheet" href="css/mobile-overrides.min.css">
+
+    <style>
+        /* ============================================
+           VEGAQURA PAGE - PREMIUM STYLES
+           ============================================ */
+
+        /* Desktop-only / Mobile-only visibility */
+        .desktop-only {
+            display: block !important;
+        }
+
+        .mobile-only,
+        .mobile-only-message.mobile-only {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .desktop-only {
+                display: none !important;
+            }
+
+            .mobile-only,
+            .mobile-only-message.mobile-only {
+                display: flex !important;
+            }
+        }
+
+        /* Mobile-only message */
+        .mobile-only-message {
+            min-height: 100vh;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #080c14 0%, #1a365d 100%);
+        }
+
+        .mobile-only-message .icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .mobile-only-message h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: #48bb78;
+        }
+
+        .mobile-only-message p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 300px;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .mobile-only-message .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-only-message .btn-back:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Page Container */
+        .vq-page {
+            min-height: 100vh;
+            background:
+                linear-gradient(180deg,
+                    rgba(8, 12, 20, 0.70) 0%,
+                    rgba(13, 19, 33, 0.65) 30%,
+                    rgba(26, 54, 93, 0.60) 60%,
+                    rgba(8, 12, 20, 0.80) 100%),
+                url('assets/ibiza-background.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .vq-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background:
+                radial-gradient(ellipse 100% 80% at 50% 0%, rgba(72, 187, 120, 0.12) 0%, transparent 40%),
+                radial-gradient(ellipse 80% 60% at 80% 30%, rgba(49, 130, 206, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 40% at 20% 70%, rgba(72, 187, 120, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            animation: bgGlow 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgGlow {
+            0% {
+                opacity: 0.7;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .vq-container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Back Link */
+        .vq-back-link {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            z-index: 100;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 999px;
+            backdrop-filter: blur(10px);
+        }
+
+        .vq-back-link:hover {
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            transform: translateX(-3px);
+        }
+
+        .vq-back-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .vq-hero {
+            padding: 8rem 0 5rem;
+            text-align: center;
+        }
+
+        .vq-logo {
+            margin-bottom: 2rem;
+        }
+
+        .vq-logo img {
+            height: 60px;
+            width: auto;
+            filter: brightness(1.1);
+        }
+
+        .vq-hero-badge {
+            display: inline-block;
+            background: rgba(72, 187, 120, 0.12);
+            border: 1px solid rgba(72, 187, 120, 0.25);
+            padding: 0.5rem 1.25rem;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #48bb78;
+            margin-bottom: 1.5rem;
+        }
+
+        .vq-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-style: italic;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 30px rgba(255, 255, 255, 0.15);
+            line-height: 1.1;
+        }
+
+        .vq-hero-subtitle {
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.65);
+            max-width: 550px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.6;
+        }
+
+        .vq-hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .vq-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.75rem;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .vq-btn-primary {
+            background: #48bb78;
+            color: #080c14;
+        }
+
+        .vq-btn-primary:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(72, 187, 120, 0.25);
+        }
+
+        .vq-btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .vq-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.35);
+            transform: translateY(-2px);
+        }
+
+        .vq-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ===== SECTION STYLES ===== */
+        .vq-section {
+            padding: 4rem 0;
+        }
+
+        .vq-section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .vq-section-label {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 0.75rem;
+        }
+
+        .vq-section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-style: italic;
+            color: white;
+        }
+
+        /* Separator */
+        .vq-separator {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            margin: 2rem 0;
+        }
+
+        /* ===== CARDS GRID ===== */
+        .vq-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .vq-card {
+            background: rgba(8, 12, 20, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .vq-card:hover {
+            background: rgba(8, 12, 20, 0.95);
+            border-color: rgba(72, 187, 120, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .vq-card-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(72, 187, 120, 0.1);
+            border: 1px solid rgba(72, 187, 120, 0.2);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+            color: #48bb78;
+        }
+
+        .vq-card-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .vq-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-style: italic;
+            color: white;
+            margin-bottom: 0.75rem;
+        }
+
+        .vq-card p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.55);
+            line-height: 1.6;
+        }
+
+        /* ===== STEPS SECTION ===== */
+        .vq-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            position: relative;
+        }
+
+        .vq-steps::before {
+            content: '';
+            position: absolute;
+            top: 28px;
+            left: calc(16.66% + 28px);
+            right: calc(16.66% + 28px);
+            height: 2px;
+            background: linear-gradient(90deg, rgba(72, 187, 120, 0.3), rgba(49, 130, 206, 0.3));
+            z-index: 0;
+        }
+
+        .vq-step {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .vq-step-number {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #080c14;
+            box-shadow: 0 8px 25px rgba(72, 187, 120, 0.25);
+        }
+
+        .vq-step h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .vq-step p {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.5;
+        }
+
+        /* ===== FAQ SECTION ===== */
+        .vq-faq-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .vq-faq-item {
+            background: rgba(8, 12, 20, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 1.75rem;
+        }
+
+        .vq-faq-question {
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .vq-faq-question::before {
+            content: 'Q';
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            min-width: 24px;
+            background: rgba(72, 187, 120, 0.15);
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #48bb78;
+        }
+
+        .vq-faq-answer {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.55);
+            line-height: 1.6;
+            padding-left: 2.25rem;
+        }
+
+        /* ===== FOOTER CTA ===== */
+        .vq-footer-cta {
+            padding: 4rem 0 5rem;
+            text-align: center;
+        }
+
+        .vq-footer-card {
+            background: rgba(8, 12, 20, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(72, 187, 120, 0.25);
+            border-radius: 24px;
+            padding: 3rem;
+        }
+
+        .vq-footer-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-style: italic;
+            color: white;
+            margin-bottom: 0.75rem;
+        }
+
+        .vq-footer-card p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 2rem;
+        }
+
+        .vq-footer-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ===== COPYRIGHT ===== */
+        .vq-copyright {
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.35);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Mobile-Only Message -->
+    <div class="mobile-only-message mobile-only">
+        <div class="icon">🖥️</div>
+        <h1>Desktop Only</h1>
+        <p>This partnership page is optimized for desktop viewing. Please visit on a larger screen for the best
+            experience.</p>
+        <a href="index.html" class="btn-back">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            Back to Home
+        </a>
+    </div>
+
+    <!-- Desktop Content -->
+    <div class="vq-page desktop-only">
+
+        <!-- Back Link -->
+        <a href="index.html" class="vq-back-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            Home
+        </a>
+
+        <!-- HERO SECTION -->
+        <section class="vq-hero">
+            <div class="vq-container">
+                <div class="vq-logo">
+                    <img src="assets/logo-vegaqura.png" alt="Vegaqura" loading="eager">
+                </div>
+                <span class="vq-hero-badge">Official Partner</span>
+                <h1>Vegaqura in Ibiza</h1>
+                <p class="vq-hero-subtitle">
+                    Official product information and brand resources — always up to date.
+                </p>
+                <div class="vq-hero-cta">
+                    <a href="https://vegaqura.com/en/" target="_blank" rel="noopener noreferrer"
+                        class="vq-btn vq-btn-primary" aria-label="View official products">
+                        View Official Products
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M7 17L17 7M17 7H7M17 7v10" />
+                        </svg>
+                    </a>
+                    <a href="mailto:info@vegaqura.com" class="vq-btn vq-btn-secondary"
+                        aria-label="Request brochure or distribution info">
+                        Request Brochure / Distribution Info
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <div class="vq-container">
+            <div class="vq-separator"></div>
+        </div>
+
+        <!-- WHAT YOU'LL FIND SECTION -->
+        <section class="vq-section">
+            <div class="vq-container">
+                <div class="vq-section-header">
+                    <span class="vq-section-label">Resources</span>
+                    <h2 class="vq-section-title">What You'll Find</h2>
+                </div>
+                <div class="vq-cards-grid">
+                    <div class="vq-card">
+                        <div class="vq-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4" />
+                                <circle cx="12" cy="12" r="10" />
+                            </svg>
+                        </div>
+                        <h3>Official Information</h3>
+                        <p>Access verified product details directly from the source, ensuring accuracy and reliability.
+                        </p>
+                    </div>
+                    <div class="vq-card">
+                        <div class="vq-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                <polyline points="14 2 14 8 20 8" />
+                                <line x1="16" y1="13" x2="8" y2="13" />
+                                <line x1="16" y1="17" x2="8" y2="17" />
+                            </svg>
+                        </div>
+                        <h3>Brochure Material</h3>
+                        <p>Request professional marketing materials and product catalogs for your business needs.</p>
+                    </div>
+                    <div class="vq-card">
+                        <div class="vq-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                <circle cx="9" cy="7" r="4" />
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                            </svg>
+                        </div>
+                        <h3>Distribution Inquiries</h3>
+                        <p>Connect directly for partnership opportunities and regional distribution arrangements.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="vq-container">
+            <div class="vq-separator"></div>
+        </div>
+
+        <!-- HOW IT WORKS SECTION -->
+        <section class="vq-section">
+            <div class="vq-container">
+                <div class="vq-section-header">
+                    <span class="vq-section-label">Process</span>
+                    <h2 class="vq-section-title">How It Works</h2>
+                </div>
+                <div class="vq-steps">
+                    <div class="vq-step">
+                        <div class="vq-step-number">1</div>
+                        <h3>Visit Official Products</h3>
+                        <p>Browse the complete catalog on the official website</p>
+                    </div>
+                    <div class="vq-step">
+                        <div class="vq-step-number">2</div>
+                        <h3>Request Information</h3>
+                        <p>Email for brochures, pricing, or specific inquiries</p>
+                    </div>
+                    <div class="vq-step">
+                        <div class="vq-step-number">3</div>
+                        <h3>Coordinate Details</h3>
+                        <p>Finalize distribution or partnership arrangements</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="vq-container">
+            <div class="vq-separator"></div>
+        </div>
+
+        <!-- FAQ SECTION -->
+        <section class="vq-section">
+            <div class="vq-container">
+                <div class="vq-section-header">
+                    <span class="vq-section-label">FAQ</span>
+                    <h2 class="vq-section-title">Common Questions</h2>
+                </div>
+                <div class="vq-faq-grid">
+                    <div class="vq-faq-item">
+                        <div class="vq-faq-question">Do you keep stock in Ibiza?</div>
+                        <p class="vq-faq-answer">Available on request. Contact us for current availability and delivery
+                            options.</p>
+                    </div>
+                    <div class="vq-faq-item">
+                        <div class="vq-faq-question">Why aren't all product texts listed here?</div>
+                        <p class="vq-faq-answer">To ensure information remains official, accurate, and up to date —
+                            avoiding duplicated or outdated content.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER CTA -->
+        <section class="vq-footer-cta">
+            <div class="vq-container">
+                <div class="vq-footer-card">
+                    <h2>Ready to Connect?</h2>
+                    <p>Reach out through official channels for the most current information.</p>
+                    <div class="vq-footer-links">
+                        <a href="https://vegaqura.com/en/contact/" target="_blank" rel="noopener noreferrer"
+                            class="vq-btn vq-btn-primary" aria-label="Official contact page">
+                            Official Contact Page
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7v10" />
+                            </svg>
+                        </a>
+                        <a href="mailto:info@vegaqura.com" class="vq-btn vq-btn-secondary" aria-label="Send email">
+                            ✉️ info@vegaqura.com
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COPYRIGHT -->
+        <div class="vq-copyright">
+            <div class="vq-container">
+                <p>© 2026 Eugene Mierak. Vegaqura is a registered trademark of its respective owner.</p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

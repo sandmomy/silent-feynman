@@ -53,7 +53,16 @@
 
 <body>
 
-
+    <!-- Top Navigation Banner (Fixed) -->
+    <nav class="top-nav-banner">
+        <div class="top-nav-container">
+            <div class="top-nav-links">
+                <a href="projects.html" class="top-nav-link">Explore Projects</a>
+                <a href="#contact" class="top-nav-link">Get in Touch</a>
+                <a href="vegaqura.html" class="top-nav-link top-nav-vegaqura desktop-only">Vegaqura</a>
+            </div>
+        </div>
+    </nav>
 
     <!-- Hero Section -->
     <header class="hero home-hero" id="hero">
@@ -79,18 +88,18 @@
                     <span class="partnerships-label">Trusted Partner</span>
                     <div class="partner-list">
                         <span class="partner-tag partner-logo-main"><img src="assets/logo-sbdi.webp" alt="SBDI"
-                                class="partner-logo-main-img" width="117" height="60" loading="lazy" decoding="async"></span>
+                                class="partner-logo-main-img" width="117" height="60" loading="lazy"
+                                decoding="async"></span>
+                        <a href="vegaqura.html" class="partner-tag partner-vegaqura" aria-label="Vegaqura Partnership">
+                            <img src="assets/logo-vegaqura.png" alt="Vegaqura" class="partner-logo-vegaqura-img"
+                                loading="lazy" decoding="async">
+                        </a>
                     </div>
                 </div>
             </div>
 
             <!-- CENTER: The World (Visual Anchor) -->
             <div class="hero-col-center">
-                <!-- Buttons Moved Here (Above Globe) -->
-                <div class="hero-cta">
-                    <a href="projects.html" class="btn btn-primary" aria-label="Explore Eugene Mierak's projects">Explore Projects</a>
-                    <a href="#contact" class="btn btn-secondary" aria-label="Get in touch with Eugene Mierak">Get in Touch</a>
-                </div>
                 <div class="globe-wrapper-center">
                     <div id="hero-globe"></div>
                     <!-- Simple Orbital Dots (User Preference) -->
@@ -110,7 +119,9 @@
                 </div>
                 <!-- Connecting line between globe and slider (mobile only) -->
                 <div class="mobile-connecting-line">
-                    <div class="line-pulse" style="background: #00ff00 !important; background-color: #00ff00 !important; filter: none !important;"></div>
+                    <div class="line-pulse"
+                        style="background: #00ff00 !important; background-color: #00ff00 !important; filter: none !important;">
+                    </div>
                 </div>
             </div>
 
@@ -200,9 +211,9 @@
                     <div class="header-separator">
                         <span class="separator-line"></span>
                         <svg class="separator-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/>
-                            <circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="1" opacity="0.5"/>
-                            <circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" />
+                            <circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="1" opacity="0.5" />
+                            <circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="0.5" opacity="0.3" />
                         </svg>
                         <span class="separator-line"></span>
                     </div>
@@ -213,10 +224,12 @@
                     <!-- Paragraph 1: Full Width Intro - Split into sentences -->
                     <div class="news-intro">
                         <p class="news-sentence">
-                            I'm Eugene Mierak, a <span class="text-orb" data-icon="◈">frequency practitioner</span> specializing in
-                            <span class="text-orb" data-icon="⟡">alignment caching</span>, coherence training, and energetic training,
+                            I'm Eugene Mierak, a <span class="text-orb">frequency practitioner</span>
+                            specializing in
+                            <span class="text-orb">alignment caching</span>, coherence training, and
+                            energetic training,
                             working through integrative coherence methodologies to support clarity, stability, and <span
-                                class="text-orb" data-icon="✧">conscious evolution</span>.
+                                class="text-orb">conscious evolution</span>.
                         </p>
                         <p class="news-sentence">
                             My work bridges subtle frequency sciences with
@@ -227,59 +240,25 @@
                         </p>
                     </div>
 
-                    <!-- Philosophy badges -->
-                    <div class="philosophy-badges">
-                        <span class="philosophy-badge">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"/>
-                                <path d="M12 2v20M2 12h20"/>
-                            </svg>
-                            Balance
-                        </span>
-                        <span class="philosophy-badge">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                            </svg>
-                            Resonance
-                        </span>
-                        <span class="philosophy-badge">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="3"/>
-                                <path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24"/>
-                            </svg>
-                            Coherence
-                        </span>
-                    </div>
+
 
                     <!-- Bottom Columns: Split Text -->
                     <div class="news-columns">
                         <!-- Paragraph 2: Left -->
                         <div class="news-column">
-                            <div class="column-icon">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <circle cx="12" cy="12" r="10"/>
-                                    <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-                                </svg>
-                            </div>
                             <p>
                                 As Director of International Relationships for the SBDI Foundation, I foster <span
                                     class="text-orb">global partnerships</span> that support holistic sustainability
                                 initiatives, regenerative development, and conscious collaboration across cultures. My
                                 approach is grounded in systems thinking, emphasizing resonance, long-term balance, and
-                                alignment between human potential and ecological and social responsibility—so initiatives
+                                alignment between human potential and ecological and social responsibility—so
+                                initiatives
                                 move from vision to <span class="text-orb">coherent execution</span>.
                             </p>
                         </div>
 
                         <!-- Paragraph 3: Right -->
                         <div class="news-column">
-                            <div class="column-icon">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                                    <path d="M2 17l10 5 10-5"/>
-                                    <path d="M2 12l10 5 10-5"/>
-                                </svg>
-                            </div>
                             <p>
                                 My mission is to support the emergence of coherent, sustainable projects through <span
                                     class="text-orb">frequency awareness</span>, <span class="text-orb">strategic
@@ -309,11 +288,13 @@
                         <h3>Reach Out</h3>
                     </div>
                     <div class="contact-links-list">
-                        <a href="mailto:contact@eugenemierak.com" class="compact-contact-item" aria-label="Send email to Eugene Mierak">
+                        <a href="mailto:contact@eugenemierak.com" class="compact-contact-item"
+                            aria-label="Send email to Eugene Mierak">
                             <span class="icon-circle">✉️</span>
                             <span class="contact-text">Email Eugene</span>
                         </a>
-                        <a href="tel:+1234567890" class="compact-contact-item" aria-label="Book a call with Eugene Mierak">
+                        <a href="tel:+1234567890" class="compact-contact-item"
+                            aria-label="Book a call with Eugene Mierak">
                             <span class="icon-circle">📞</span>
                             <span class="contact-text">Book a Call</span>
                         </a>
