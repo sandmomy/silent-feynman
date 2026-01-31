@@ -138,7 +138,7 @@ function initHeroGlobe() {
 
             // Or use SVG inside
             pin.innerHTML = `
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="#ef4444" stroke="white" stroke-width="1.5" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); display: block;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="#ef4444" stroke="white" stroke-width="1.5" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); display: block;">
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                     <circle cx="12" cy="9" r="2.5" fill="white"/>
                 </svg>
@@ -607,7 +607,397 @@ function initFadeAnimations() {
 // Initialize fade animations
 document.addEventListener('DOMContentLoaded', initFadeAnimations);
 
+// ============================================
+// Event Carousel
+// ============================================
+function initEventCarousel() {
+    const carousel = document.getElementById('eventCarousel');
+    if (!carousel) return;
+
+    const slides = carousel.querySelectorAll('.carousel-slide');
+    const dots = carousel.querySelectorAll('.dot');
+    let currentIndex = 0;
+    let autoPlayInterval;
+
+    function showSlide(index) {
+        if (index >= slides.length) index = 0;
+        if (index < 0) index = slides.length - 1;
+        currentIndex = index;
+
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+        });
+
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
+        });
+    }
+
+    function nextSlide() {
+        showSlide(currentIndex + 1);
+    }
+
+    function startAutoPlay() {
+        stopAutoPlay();
+        autoPlayInterval = setInterval(nextSlide, 4000);
+    }
+
+    function stopAutoPlay() {
+        if (autoPlayInterval) clearInterval(autoPlayInterval);
+    }
+
+    dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            stopAutoPlay();
+            showSlide(parseInt(dot.dataset.slide));
+            startAutoPlay();
+        });
+    });
+
+    // Pause on interaction
+    carousel.addEventListener('mouseenter', stopAutoPlay);
+    carousel.addEventListener('mouseleave', startAutoPlay);
+    carousel.addEventListener('touchstart', stopAutoPlay, { passive: true });
+    carousel.addEventListener('touchend', startAutoPlay, { passive: true });
+
+    startAutoPlay();
+}
+
+// ============================================
+// Country Flags Slider
+// ============================================
+function initCountrySlider() {
+    const slider = document.querySelector('.country-slider');
+    if (!slider) return;
+
+    const slides = slider.querySelectorAll('.country-slide');
+    if (slides.length === 0) return;
+
+    const countryImages = {
+        Indonesia: [
+            'assets/optimized/karangasem-water-temple-palace-bali.800w.webp',
+            'assets/optimized/bali-pagoda-indonesia.800w.webp',
+            'assets/optimized/pexels-maxravier-2253818.800w.webp'
+        ],
+        Nigeria: [
+            'assets/optimized/ahmad-jaafar-toQTkWFvWyo-unsplash.800w.webp',
+            'assets/optimized/muhammed-a-mustapha-aaIsU06zWrg-unsplash.800w.webp',
+            'assets/optimized/ovinuchi-ejiohuo-q4U9Pyfz-vQ-unsplash.800w.webp'
+        ],
+        Kenya: [
+            'assets/optimized/ahmed-qinawy-9Ia_6613pYk-unsplash.800w.webp',
+            'assets/optimized/murad-swaleh-7tDidSXbgD8-unsplash.800w.webp',
+            'assets/optimized/ab-saf-sgFNwIc51lM-unsplash.800w.webp'
+        ]
+    };
+
+    function preloadImages() {
+        const allImages = Object.values(countryImages).flat();
+        allImages.forEach(url => {
+            const img = new Image();
+            img.src = url;
+        });
+    }
+
+    preloadImages();
+
+    let currentCountryIndex = 0;
+    let currentImageIndex = 0;
+
+    function getCountryName(slide) {
+        const labelSub = slide.querySelector('.country-label-sub');
+        return (labelSub ? labelSub.textContent : '').trim();
+    }
+
+    function setSlideImage(slide, imageIndex) {
+        const img = slide.querySelector('img');
+        if (!img) return;
+
+        const country = getCountryName(slide);
+        const images = countryImages[country];
+        if (!images || images.length === 0) return;
+
+        const url = images[imageIndex % images.length];
+        img.src = url;
+        img.alt = `${country} - Events`;
+    }
+
+    function showCountry(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+        });
+        setSlideImage(slides[index], currentImageIndex);
+    }
+
+    function nextFrame() {
+        currentCountryIndex = (currentCountryIndex + 1) % slides.length;
+        if (currentCountryIndex === 0) {
+            currentImageIndex = (currentImageIndex + 1) % 3;
+        }
+        showCountry(currentCountryIndex);
+    }
+
+    showCountry(currentCountryIndex);
+
+    let rotateInterval;
+    const startRotate = () => { rotateInterval = setInterval(nextFrame, 3000); };
+    const stopRotate = () => { clearInterval(rotateInterval); };
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) stopRotate();
+        else startRotate();
+    });
+
+    startRotate();
+}
+
+// Initialize Sliders
+document.addEventListener('DOMContentLoaded', () => {
+    initEventCarousel();
+    initCountrySlider();
+});
+
+/* Partners Dropdown Interaction */
+document.addEventListener('DOMContentLoaded', () => {
+    const partnersBtn = document.getElementById('partnersBtn');
+    const partnersDropdown = document.getElementById('partnersDropdown');
+
+    if (partnersBtn && partnersDropdown) {
+        // Toggle dropdown
+        partnersBtn.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const isExpanded = partnersBtn.getAttribute('aria-expanded') === 'true';
+            partnersBtn.setAttribute('aria-expanded', !isExpanded);
+            partnersDropdown.classList.toggle('active');
+        });
+
+        // Close when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!partnersDropdown.contains(event.target) && !partnersBtn.contains(event.target)) {
+                partnersBtn.setAttribute('aria-expanded', 'false');
+                partnersDropdown.classList.remove('active');
+            }
+        });
+
+        // Close on ESC key
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && partnersDropdown.classList.contains('active')) {
+                partnersBtn.setAttribute('aria-expanded', 'false');
+                partnersDropdown.classList.remove('active');
+                partnersBtn.focus();
+            }
+        });
+    }
+});
+function initEventCarousel() {
+    const carousel = document.getElementById('eventCarousel');
+    if (!carousel) return;
+
+    const slides = carousel.querySelectorAll('.carousel-slide');
+    const dots = carousel.querySelectorAll('.dot');
+    let currentIndex = 0;
+    let autoPlayInterval;
+
+    function showSlide(index) {
+        if (index >= slides.length) index = 0;
+        if (index < 0) index = slides.length - 1;
+        currentIndex = index;
+
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+        });
+
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
+        });
+    }
+
+    function nextSlide() {
+        showSlide(currentIndex + 1);
+    }
+
+    function startAutoPlay() {
+        stopAutoPlay();
+        autoPlayInterval = setInterval(nextSlide, 4000);
+    }
+
+    function stopAutoPlay() {
+        if (autoPlayInterval) clearInterval(autoPlayInterval);
+    }
+
+    dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            stopAutoPlay();
+            showSlide(parseInt(dot.dataset.slide));
+            startAutoPlay();
+        });
+    });
+
+    // Pause on interaction
+    carousel.addEventListener('mouseenter', stopAutoPlay);
+    carousel.addEventListener('mouseleave', startAutoPlay);
+    carousel.addEventListener('touchstart', stopAutoPlay, { passive: true });
+    carousel.addEventListener('touchend', startAutoPlay, { passive: true });
+
+    startAutoPlay();
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', initEventCarousel);
+
+// ============================================
+// Country Flags Slider
+// ============================================
+function initCountrySlider() {
+    const slider = document.querySelector('.country-slider');
+    if (!slider) return;
+
+    const slides = slider.querySelectorAll('.country-slide');
+    if (slides.length === 0) return;
+
+    const countryImages = {
+        Indonesia: [
+            'assets/optimized/karangasem-water-temple-palace-bali.800w.webp', // Karangasem water temple, Bali
+            'assets/optimized/bali-pagoda-indonesia.800w.webp', // Bali pagoda temple
+            'assets/optimized/pexels-maxravier-2253818.800w.webp'  // Third temple image
+        ],
+        Nigeria: [
+            'assets/optimized/ahmad-jaafar-toQTkWFvWyo-unsplash.800w.webp', // Mosque in Nigeria
+            'assets/optimized/muhammed-a-mustapha-aaIsU06zWrg-unsplash.800w.webp', // Islamic architecture
+            'assets/optimized/ovinuchi-ejiohuo-q4U9Pyfz-vQ-unsplash.800w.webp'  // Mosque
+        ],
+        Kenya: [
+            'assets/optimized/ahmed-qinawy-9Ia_6613pYk-unsplash.800w.webp', // Church in Kenya
+            'assets/optimized/murad-swaleh-7tDidSXbgD8-unsplash.800w.webp', // Church building
+            'assets/optimized/ab-saf-sgFNwIc51lM-unsplash.800w.webp'  // Church interior
+        ]
+    };
+
+    function preloadImages() {
+        const allImages = Object.values(countryImages).flat();
+        allImages.forEach(url => {
+            const img = new Image();
+            img.src = url;
+        });
+    }
+
+    preloadImages();
+
+    let currentCountryIndex = 0;
+    let currentImageIndex = 0;
+
+    function getCountryName(slide) {
+        const labelSub = slide.querySelector('.country-label-sub');
+        return (labelSub ? labelSub.textContent : '').trim();
+    }
+
+    function setSlideImage(slide, imageIndex) {
+        const img = slide.querySelector('img');
+        if (!img) return;
+
+        const country = getCountryName(slide);
+        const images = countryImages[country];
+        if (!images || images.length === 0) return;
+
+        const url = images[imageIndex % images.length];
+        img.src = url;
+        img.alt = `${country} - Events`;
+    }
+
+    function showCountry(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+        });
+        setSlideImage(slides[index], currentImageIndex);
+    }
+
+    function nextFrame() {
+        // Change country every frame
+        currentCountryIndex = (currentCountryIndex + 1) % slides.length;
+
+        // When we've shown all countries for the current image, move to next image
+        if (currentCountryIndex === 0) {
+            currentImageIndex = (currentImageIndex + 1) % 3;
+        }
+
+        showCountry(currentCountryIndex);
+    }
+
+    showCountry(currentCountryIndex);
+
+    let rotateInterval;
+    const startRotate = () => { rotateInterval = setInterval(nextFrame, 3000); };
+    const stopRotate = () => { clearInterval(rotateInterval); };
+
+    // Efficiency: pause on tab hidden
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) stopRotate();
+        else startRotate();
+    });
+
+    startRotate();
+}
+
+// ============================================
+// SECTION FADE ANIMATIONS
+// ============================================
+function initFadeAnimations() {
+    const fadeElements = document.querySelectorAll('.fade-section, .fade-scale, .fade-left, .fade-right');
+
+    if (fadeElements.length === 0) return;
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -100px 0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, observerOptions);
+
+    fadeElements.forEach(el => observer.observe(el));
+}
+
+// Initialize fade animations
+document.addEventListener('DOMContentLoaded', initFadeAnimations);
 
 
 
 
+/* Partners Dropdown Interaction */
+document.addEventListener('DOMContentLoaded', () => {
+    const partnersBtn = document.getElementById('partnersBtn');
+    const partnersDropdown = document.getElementById('partnersDropdown');
+
+    if (partnersBtn && partnersDropdown) {
+        // Toggle dropdown
+        partnersBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isExpanded = partnersBtn.getAttribute('aria-expanded') === 'true';
+            partnersBtn.setAttribute('aria-expanded', !isExpanded);
+            partnersDropdown.classList.toggle('active');
+        });
+
+        // Close when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!partnersDropdown.contains(e.target) && !partnersBtn.contains(e.target)) {
+                partnersBtn.setAttribute('aria-expanded', 'false');
+                partnersDropdown.classList.remove('active');
+            }
+        });
+
+        // Close on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && partnersDropdown.classList.contains('active')) {
+                partnersBtn.setAttribute('aria-expanded', 'false');
+                partnersDropdown.classList.remove('active');
+                partnersBtn.focus();
+            }
+        });
+    }
+});

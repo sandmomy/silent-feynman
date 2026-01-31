@@ -71,7 +71,7 @@
         /* Center the wider element */
     }
 
-    /* MASTER GRID */
+    /* MASTER GRID - Story-first order (Variante A) */
     .hero-central-layout {
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
@@ -80,11 +80,10 @@
             "desc desc"
             "buttons buttons"
             "globe slider"
-            "stats stats" !important;
-        gap: 0.6rem !important;
-        /* Slightly more compact to allow larger font */
-        padding: 100px 15px 20px !important;
-        /* More top space for the larger vertical banner */
+            "partners partners"
+            "scroll scroll" !important;
+        gap: 0.8rem !important;
+        padding: 90px 15px 20px !important;
         width: 100% !important;
         align-items: center !important;
         text-align: center !important;
@@ -138,7 +137,6 @@
     .hero-description {
         grid-area: desc !important;
         font-size: 0.88rem !important;
-        /* Compact text */
         line-height: 1.4 !important;
         max-width: 100% !important;
         margin: 0 auto !important;
@@ -146,6 +144,7 @@
         opacity: 0.9 !important;
     }
 
+    /* CTA Buttons - Explore Projects + Contact Me */
     .hero-cta {
         grid-area: buttons !important;
         display: flex !important;
@@ -165,26 +164,29 @@
     /* Row 5: Interaction Row (Globe & Slider) */
     .globe-wrapper-center {
         grid-area: globe !important;
-        width: 125px !important;
-        /* Scale down globe */
-        height: 125px !important;
-        justify-self: center !important;
-        margin-right: 15px !important;
+        width: 160px !important;
+        height: 160px !important;
+        justify-self: end !important;
+        align-self: center !important;
+        margin-right: 10px !important;
+        margin-top: -15px !important;
         position: relative !important;
     }
 
     #hero-globe {
-        width: 125px !important;
-        height: 125px !important;
+        width: 160px !important;
+        height: 160px !important;
+        transform: scale(1.15) !important;
+        transform-origin: center center !important;
     }
 
     .country-slider {
         grid-area: slider !important;
-        width: 100px !important;
-        /* Scale down slider */
+        width: 110px !important;
         height: 140px !important;
-        justify-self: center !important;
-        margin-left: 15px !important;
+        justify-self: start !important;
+        align-self: center !important;
+        margin-left: 20px !important;
         border-radius: 12px !important;
         z-index: 10 !important;
     }
@@ -194,15 +196,15 @@
         flex-direction: row !important;
         position: absolute !important;
         left: 50% !important;
-        top: calc(50% + 180px) !important;
+        top: 68% !important;
         transform: translate(-50%, -50%) !important;
-        width: 30px !important;
+        width: 25px !important;
         height: 6px !important;
-        gap: 3px !important;
+        gap: 4px !important;
         justify-content: center !important;
         align-items: center !important;
         pointer-events: none !important;
-        z-index: 5 !important;
+        z-index: 25 !important;
     }
 
     .orbital-dots-bridge span {
@@ -216,10 +218,10 @@
     .mobile-connecting-line {
         display: block !important;
         position: absolute !important;
-        top: calc(50% + 180px) !important;
+        top: 68% !important;
         left: 50% !important;
-        transform: translateX(-50%) !important;
-        width: 35px !important;
+        transform: translate(-50%, -50%) !important;
+        width: 25px !important;
         height: 2px !important;
         background: linear-gradient(90deg, #0ea5e9, #38a169) !important;
         z-index: 20 !important;
@@ -264,19 +266,22 @@
         filter: none !important;
     }
 
-    /* Row 6: Stats - Nudged even further to the right */
+    .connecting-line-label {
+        position: absolute !important;
+        top: -18px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        font-size: 0.55rem !important;
+        font-weight: 600 !important;
+        letter-spacing: 1px !important;
+        text-transform: uppercase !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+        white-space: nowrap !important;
+    }
+
+    /* Stats - Hidden on mobile */
     .hero-stats-column {
-        grid-area: stats !important;
-        display: flex !important;
-        flex-direction: row !important;
-        justify-content: center !important;
-        align-items: center !important;
-        gap: 2.2rem !important;
-        /* Balanced spacing */
-        margin-top: 1rem !important;
-        width: 100% !important;
-        padding-left: 100px !important;
-        /* Even more significant nudge */
+        display: none !important;
     }
 
     .stat-item {
@@ -422,34 +427,60 @@
     }
 
     /* --- Hide PC-Only Items --- */
-    .hero-scroll,
     .section-label-floating {
         display: none !important;
     }
 
+    /* --- Show ABOUT ME scroll button at bottom --- */
+    .hero-scroll {
+        grid-area: scroll !important;
+        display: flex !important;
+        justify-content: center !important;
+        margin-top: 0.5rem !important;
+    }
+
+    .scroll-about-btn {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        padding: 0.6rem 1.5rem !important;
+        border-radius: 8px !important;
+        font-size: 0.75rem !important;
+        font-weight: 600 !important;
+        letter-spacing: 1px !important;
+        color: white !important;
+        backdrop-filter: blur(10px) !important;
+    }
+
     /* --- Partnerships Section - Mobile Styling --- */
     .hero-partnerships {
+        grid-area: partners !important;
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
         justify-content: center !important;
-        margin-top: 1rem !important;
+        gap: 0.5rem !important;
+        margin-top: 0.5rem !important;
         padding: 0.5rem !important;
         width: 100% !important;
     }
 
     .partnerships-label {
-        font-size: 0.65rem !important;
+        order: 2 !important;
+        font-size: 0.55rem !important;
         text-transform: uppercase !important;
         letter-spacing: 1.5px !important;
-        color: rgba(255, 255, 255, 0.6) !important;
-        margin-bottom: 0.4rem !important;
+        color: rgba(255, 255, 255, 0.5) !important;
+        margin: 0 !important;
+        white-space: nowrap !important;
     }
 
     .partner-list {
+        order: 1 !important;
         display: flex !important;
+        flex-direction: row !important;
         justify-content: center !important;
         align-items: center !important;
+        gap: 0.8rem !important;
     }
 
     .partner-logo-main-img {
@@ -467,6 +498,30 @@
 
     .partner-logo-vegaqura-img {
         max-height: 35px !important;
+        width: auto !important;
+        opacity: 0.9 !important;
+        object-fit: contain !important;
+    }
+
+    .partner-wiseuse {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 4px !important;
+        padding: 0 !important;
+        background: transparent !important;
+        border: none !important;
+    }
+
+    .partner-logo-wiseuse-pyramid {
+        max-height: 35px !important;
+        width: auto !important;
+        opacity: 0.9 !important;
+        object-fit: contain !important;
+    }
+
+    .partner-logo-wiseuse-text {
+        max-height: 20px !important;
         width: auto !important;
         opacity: 0.9 !important;
         object-fit: contain !important;
