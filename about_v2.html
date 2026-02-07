@@ -1,0 +1,2431 @@
+<!DOCTYPE html>
+<!-- Cache bust: 2026-02-07-v2 - Three.js Sacred Geometry Experience -->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Frequency Practitioner</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&family=Syne:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500&family=Raleway:wght@200;300;400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #030305;
+            --accent: #8b5cf6;
+            --accent-light: #c4b5fd;
+            --accent-dark: #6d28d9;
+        }
+
+        html,
+        body {
+            background: var(--bg);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            /* Hide scrollbar when embedded in iframe */
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            /* IE/Edge */
+        }
+
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+            display: none;
+            /* Chrome/Safari/Opera */
+        }
+
+        /* Imagen de fondo */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('./assets/meditation-bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        .scroll-container {
+            height: 200vh;
+            /* Menos scroll necesario */
+            position: relative;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 24px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: var(--accent-light);
+            text-decoration: none;
+            letter-spacing: 0.08em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 36px;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-light);
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-dark), var(--accent), var(--accent-light));
+            width: 0%;
+            z-index: 1000;
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        /* Section indicators */
+        .section-indicator {
+            position: fixed;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            z-index: 100;
+        }
+
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            background: transparent;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .indicator-dot:hover {
+            border-color: var(--accent);
+            transform: scale(1.3);
+        }
+
+        .indicator-dot.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.6);
+            transform: scale(1.3);
+        }
+
+        /* Page counter */
+        .page-counter {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            font-family: 'Cormorant Garamond', serif;
+            z-index: 100;
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .page-counter__current {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--accent-light);
+            text-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .page-counter__total {
+            font-size: 1rem;
+            color: rgba(139, 92, 246, 0.5);
+        }
+
+        /* Section name */
+        .section-name {
+            position: fixed;
+            top: 50%;
+            left: 40px;
+            transform: translateY(-50%) rotate(-90deg);
+            transform-origin: left center;
+            font-size: 0.6rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.25);
+            z-index: 100;
+            transition: color 0.5s ease;
+        }
+
+        /* Scroll hint */
+        .scroll-hint {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.5;
+            transition: opacity 0.4s ease;
+        }
+
+        .scroll-hint span {
+            font-size: 0.55rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .scroll-hint__line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(180deg, var(--accent), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                height: 40px;
+            }
+
+            50% {
+                opacity: 0.3;
+                height: 25px;
+            }
+        }
+
+        /* Corner accents */
+        .corner-accent {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .corner-accent--tl {
+            top: 20px;
+            left: 20px;
+            border-left: 1px solid rgba(139, 92, 246, 0.2);
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .corner-accent--br {
+            bottom: 20px;
+            right: 20px;
+            border-right: 1px solid rgba(139, 92, 246, 0.2);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            nav {
+                padding: 20px;
+            }
+
+            .section-indicator {
+                right: 15px;
+            }
+
+            .page-counter {
+                left: 20px;
+                bottom: 20px;
+            }
+
+            .section-name {
+                display: none;
+            }
+
+            .corner-accent {
+                width: 30px;
+                height: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Progress bar -->
+    <div class="progress-bar" id="progressBar"></div>
+    <div
+        style="position: fixed; top: 10px; left: 50%; transform: translateX(-50%); color: red; font-weight: bold; z-index: 9999; background: rgba(0,0,0,0.8); padding: 5px 10px; border-radius: 4px;">
+        DEBUG V2 - IFRAME LOADED</div>
+
+    <!-- Corner accents -->
+    <div class="corner-accent corner-accent--tl"></div>
+    <div class="corner-accent corner-accent--br"></div>
+
+    <!-- Back navigation -->
+    <a href="index.html" class="back-nav" style="
+        position: fixed;
+        top: 28px;
+        left: 40px;
+        z-index: 101;
+        color: rgba(255,255,255,0.6);
+        text-decoration: none;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        transition: color 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    " onmouseover="this.style.color='#c4b5fd'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        Back
+    </a>
+
+
+    <!-- Section indicators -->
+    <div class="section-indicator" id="sectionIndicator">
+        <div class="indicator-dot active" data-index="0"></div>
+        <div class="indicator-dot" data-index="1"></div>
+        <div class="indicator-dot" data-index="2"></div>
+        <div class="indicator-dot" data-index="3"></div>
+    </div>
+
+    <!-- Page counter -->
+    <div class="page-counter">
+        <span class="page-counter__current" id="pageNum">01</span>
+        <span class="page-counter__total">/ 04</span>
+    </div>
+
+    <!-- Section name -->
+    <div class="section-name" id="sectionName">INTRODUCTION</div>
+
+    <!-- Scroll hint -->
+    <div class="scroll-hint" id="scrollHint">
+        <span>Scroll</span>
+        <div class="scroll-hint__line"></div>
+    </div>
+
+    <!-- Three.js container -->
+    <div id="canvas-container"></div>
+
+    <!-- Scroll container -->
+    <div class="scroll-container"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Post Processing -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+
+    <script>
+        document.fonts.ready.then(() => init());
+
+        function init() {
+            gsap.registerPlugin(ScrollTrigger);
+
+            const container = document.getElementById('canvas-container');
+            const progressBar = document.getElementById('progressBar');
+            const dots = document.querySelectorAll('.indicator-dot');
+            const pageNum = document.getElementById('pageNum');
+            const sectionNameEl = document.getElementById('sectionName');
+            const scrollHint = document.getElementById('scrollHint');
+
+            // Variables globales para interacción
+            let mouseX = 0;
+            let mouseY = 0;
+            let windowHalfX = window.innerWidth / 2;
+            let windowHalfY = window.innerHeight / 2;
+
+            function onDocumentMouseMove(event) {
+                mouseX = (event.clientX - windowHalfX);
+                mouseY = (event.clientY - windowHalfY);
+            }
+
+            function onDocumentTouchMove(event) {
+                if (event.touches.length === 1) {
+                    event.preventDefault();
+                    mouseX = event.touches[0].pageX - windowHalfX;
+                    mouseY = event.touches[0].pageY - windowHalfY;
+                }
+            }
+
+            function onWindowResize() {
+                windowHalfX = window.innerWidth / 2;
+                windowHalfY = window.innerHeight / 2;
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                composer.setSize(window.innerWidth, window.innerHeight);
+            }
+
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
+            document.addEventListener('touchmove', onDocumentTouchMove, { passive: false });
+            window.addEventListener('resize', onWindowResize, false);
+
+            // --- CONFIGURACIÓN DE ESCENA THREE.JS ---
+            // Scene
+            const scene = new THREE.Scene();
+            // Fondo transparente para ver la imagen de fondo
+            scene.background = null;
+            // Sin fog para mantener transparencia
+
+            // Camera (FOV amplio para ver paneles y símbolos)
+            const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 500);
+            camera.position.set(0, 0, 25); // Posición inicial
+
+            // Renderer
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            // Post-processing (sin bloom para partículas más limpias)
+            const composer = new THREE.EffectComposer(renderer);
+            composer.addPass(new THREE.RenderPass(scene, camera));
+
+            // Colors
+            const accentColor = new THREE.Color(0x8b5cf6);
+            const accentLight = new THREE.Color(0xc4b5fd);
+
+            // ============================================
+            // PANEL CONTENT
+            // ============================================
+            const panelContents = [
+                {
+                    label: '',
+                    title: '',
+                    body: '',
+                    symbol: 'merkaba',
+                    type: 'intro' // Ghost slide
+                },
+                {
+                    label: 'INTRODUCTION',
+                    title: "Eugene\nMierak",
+                    body: "A frequency practitioner\nspecializing in alignment coaching,\ncoherence training,\nand energetic training,\nworking through integrative\ncoherence methodologies to support\nclarity, stability,\nand conscious evolution.",
+                    symbol: 'merkaba'
+                },
+                {
+                    label: 'THE WORK',
+                    title: 'Bridging\nWorlds',
+                    body: "My work bridges subtle\nfrequency sciences with practical\nframeworks for personal,\norganizational, and planetary\nalignment, helping individuals\ncultivate resonance in real-world\ndecisions, leadership dynamics,\nand long-term projects.",
+                    symbol: 'flowerOfLife'
+                },
+                {
+                    label: 'SBDI & MISSION',
+                    title: 'Global\nImpact',
+                    body: "As Director of International\nRelationships for the SBDI\nFoundation, I foster global\npartnerships that support holistic\nsustainability and regenerative\ndevelopment across cultures.\n\nMy mission: coherent, sustainable\nprojects through frequency\nawareness and conscious\ninternational cooperation—\ncreating lasting impact\nfor communities and the planet.",
+                    symbol: 'torus'
+                }
+            ];
+
+            // Panel 3D positions - CENTRADO para evitar cortes
+            const aspect = window.innerWidth / window.innerHeight;
+            // Panel centrado (X=0) - el símbolo queda detrás a la derecha
+            const panelX = 0;
+
+            const panelPositions = [
+                { pos: new THREE.Vector3(0, 0, 80), rot: new THREE.Vector3(0, 0, 0) }, // Intro (Invisible)
+                { pos: new THREE.Vector3(panelX, 0, -3), rot: new THREE.Vector3(0, 0.1, 0) },
+                { pos: new THREE.Vector3(panelX, 0, -63), rot: new THREE.Vector3(0, 0.1, 0) },
+                { pos: new THREE.Vector3(panelX, 0, -123), rot: new THREE.Vector3(0, 0.1, 0) }
+            ];
+
+            // Symbol base offset (all symbols generated at origin, positioned via camera movement)
+            const symbolBaseOffset = new THREE.Vector3(0, 0, 0);
+
+            // ============================================
+            // CREATE TEXT PANEL TEXTURE
+            // ============================================
+            function createPanelTexture(content, width = 900, height = 850) {
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+
+                // Background base — deep space
+                ctx.fillStyle = 'rgba(3, 2, 12, 0.98)';
+                ctx.fillRect(0, 0, width, height);
+
+                // Nebula layer 1 — large purple cloud (upper left)
+                const neb1 = ctx.createRadialGradient(width * 0.25, height * 0.3, 0, width * 0.25, height * 0.3, width * 0.7);
+                neb1.addColorStop(0, 'rgba(120, 40, 200, 0.28)');
+                neb1.addColorStop(0.3, 'rgba(90, 30, 170, 0.15)');
+                neb1.addColorStop(0.6, 'rgba(60, 20, 130, 0.06)');
+                neb1.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                ctx.fillStyle = neb1;
+                ctx.fillRect(0, 0, width, height);
+
+                // Nebula layer 2 — deep blue mass (lower right)
+                const neb2 = ctx.createRadialGradient(width * 0.8, height * 0.72, 0, width * 0.8, height * 0.72, width * 0.6);
+                neb2.addColorStop(0, 'rgba(25, 60, 180, 0.22)');
+                neb2.addColorStop(0.35, 'rgba(20, 40, 140, 0.12)');
+                neb2.addColorStop(0.7, 'rgba(15, 25, 100, 0.05)');
+                neb2.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                ctx.fillStyle = neb2;
+                ctx.fillRect(0, 0, width, height);
+
+                // Nebula layer 3 — hot violet core (center-left)
+                const neb3 = ctx.createRadialGradient(width * 0.4, height * 0.5, 0, width * 0.4, height * 0.5, width * 0.4);
+                neb3.addColorStop(0, 'rgba(160, 80, 255, 0.15)');
+                neb3.addColorStop(0.4, 'rgba(120, 50, 220, 0.07)');
+                neb3.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                ctx.fillStyle = neb3;
+                ctx.fillRect(0, 0, width, height);
+
+                // Nebula layer 4 — cyan wisp (top right)
+                const neb4 = ctx.createRadialGradient(width * 0.85, height * 0.12, 0, width * 0.85, height * 0.12, width * 0.4);
+                neb4.addColorStop(0, 'rgba(40, 160, 210, 0.16)');
+                neb4.addColorStop(0.4, 'rgba(30, 110, 170, 0.07)');
+                neb4.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                ctx.fillStyle = neb4;
+                ctx.fillRect(0, 0, width, height);
+
+                // Nebula layer 5 — magenta streak (bottom left)
+                const neb5 = ctx.createRadialGradient(width * 0.1, height * 0.85, 0, width * 0.1, height * 0.85, width * 0.45);
+                neb5.addColorStop(0, 'rgba(180, 40, 120, 0.13)');
+                neb5.addColorStop(0.4, 'rgba(140, 30, 90, 0.06)');
+                neb5.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                ctx.fillStyle = neb5;
+                ctx.fillRect(0, 0, width, height);
+
+                // Nebula layer 6 — warm gold hint (center right)
+                const neb6 = ctx.createRadialGradient(width * 0.7, height * 0.4, 0, width * 0.7, height * 0.4, width * 0.3);
+                neb6.addColorStop(0, 'rgba(200, 160, 60, 0.06)');
+                neb6.addColorStop(0.5, 'rgba(180, 130, 40, 0.02)');
+                neb6.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                ctx.fillStyle = neb6;
+                ctx.fillRect(0, 0, width, height);
+
+                // Cosmic dust — fine scattered particles
+                const dustCount = 180;
+                for (let s = 0; s < dustCount; s++) {
+                    const sx = Math.random() * width;
+                    const sy = Math.random() * height;
+                    const sr = Math.random() * 0.8 + 0.2;
+                    const sa = Math.random() * 0.25 + 0.03;
+                    ctx.beginPath();
+                    ctx.arc(sx, sy, sr, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(180, 180, 220, ${sa})`;
+                    ctx.fill();
+                }
+
+                // Bright stars — fewer but more visible
+                const starCount = 25;
+                for (let s = 0; s < starCount; s++) {
+                    const sx = Math.random() * width;
+                    const sy = Math.random() * height;
+                    const sr = Math.random() * 1.5 + 0.5;
+                    const sa = Math.random() * 0.5 + 0.2;
+                    // Star glow
+                    const glow = ctx.createRadialGradient(sx, sy, 0, sx, sy, sr * 4);
+                    glow.addColorStop(0, `rgba(220, 210, 255, ${sa})`);
+                    glow.addColorStop(0.3, `rgba(180, 160, 240, ${sa * 0.3})`);
+                    glow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                    ctx.fillStyle = glow;
+                    ctx.fillRect(sx - sr * 4, sy - sr * 4, sr * 8, sr * 8);
+                    // Star core
+                    ctx.beginPath();
+                    ctx.arc(sx, sy, sr, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255, 255, 255, ${sa + 0.1})`;
+                    ctx.fill();
+                }
+
+                // Nebula filaments — subtle curved streaks
+                ctx.globalCompositeOperation = 'screen';
+                for (let f = 0; f < 5; f++) {
+                    const fx = Math.random() * width;
+                    const fy = Math.random() * height;
+                    const fLen = 80 + Math.random() * 150;
+                    const fAngle = Math.random() * Math.PI * 2;
+                    const filGrad = ctx.createLinearGradient(
+                        fx, fy,
+                        fx + Math.cos(fAngle) * fLen,
+                        fy + Math.sin(fAngle) * fLen
+                    );
+                    filGrad.addColorStop(0, 'rgba(0, 0, 0, 0)');
+                    filGrad.addColorStop(0.3, `rgba(${100 + Math.random() * 80}, ${50 + Math.random() * 60}, ${180 + Math.random() * 75}, 0.04)`);
+                    filGrad.addColorStop(0.7, `rgba(${100 + Math.random() * 80}, ${50 + Math.random() * 60}, ${180 + Math.random() * 75}, 0.04)`);
+                    filGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                    ctx.strokeStyle = filGrad;
+                    ctx.lineWidth = 15 + Math.random() * 25;
+                    ctx.beginPath();
+                    ctx.moveTo(fx, fy);
+                    ctx.quadraticCurveTo(
+                        fx + Math.cos(fAngle + 0.5) * fLen * 0.6,
+                        fy + Math.sin(fAngle + 0.5) * fLen * 0.6,
+                        fx + Math.cos(fAngle) * fLen,
+                        fy + Math.sin(fAngle) * fLen
+                    );
+                    ctx.stroke();
+                }
+                ctx.globalCompositeOperation = 'source-over';
+
+                // Vignette — dark edges for depth
+                const vignette = ctx.createRadialGradient(width / 2, height / 2, width * 0.2, width / 2, height / 2, width * 0.7);
+                vignette.addColorStop(0, 'rgba(0, 0, 0, 0)');
+                vignette.addColorStop(1, 'rgba(0, 0, 0, 0.5)');
+                ctx.fillStyle = vignette;
+                ctx.fillRect(0, 0, width, height);
+
+                // Left border accent — glow line
+                const gradient = ctx.createLinearGradient(0, 0, 0, height);
+                gradient.addColorStop(0, 'rgba(139, 92, 246, 0)');
+                gradient.addColorStop(0.2, 'rgba(100, 60, 200, 0.4)');
+                gradient.addColorStop(0.5, 'rgba(139, 92, 246, 0.7)');
+                gradient.addColorStop(0.8, 'rgba(100, 60, 200, 0.4)');
+                gradient.addColorStop(1, 'rgba(139, 92, 246, 0)');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, 2, height);
+                // Left border soft glow
+                const leftGlow = ctx.createLinearGradient(0, 0, 20, 0);
+                leftGlow.addColorStop(0, 'rgba(139, 92, 246, 0.1)');
+                leftGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                ctx.fillStyle = leftGlow;
+                ctx.fillRect(0, 0, 20, height);
+
+                // Top line with glow
+                const topGradient = ctx.createLinearGradient(0, 0, width, 0);
+                topGradient.addColorStop(0, 'rgba(139, 92, 246, 0)');
+                topGradient.addColorStop(0.2, 'rgba(139, 92, 246, 0.5)');
+                topGradient.addColorStop(0.8, 'rgba(139, 92, 246, 0.5)');
+                topGradient.addColorStop(1, 'rgba(139, 92, 246, 0)');
+                ctx.fillStyle = topGradient;
+                ctx.fillRect(0, 0, width, 1);
+
+                // Corner accents
+                ctx.strokeStyle = 'rgba(139, 92, 246, 0.2)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(width - 35, 8);
+                ctx.lineTo(width - 8, 8);
+                ctx.lineTo(width - 8, 35);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(8, height - 35);
+                ctx.lineTo(8, height - 8);
+                ctx.lineTo(35, height - 8);
+                ctx.stroke();
+
+                // Calculate layout - centrado vertical
+                const titleLines = content.title.split('\n');
+                const bodyLines = content.body.split('\n');
+
+                ctx.textAlign = 'center';
+                const centerX = width / 2;
+
+                const labelSize = 20;
+                const titleSize = 78;
+                const bodySize = 27;
+                const titleLineHeight = 86;
+                const bodyLineHeight = 40;
+
+                // Calcular altura total del contenido (sin label)
+                const titleBlock = titleLines.length * titleLineHeight;
+                const lineBlock = 25;
+                const bodyBlock = bodyLines.length * bodyLineHeight;
+                const gaps = 15; // gap después de título
+                const totalContentHeight = titleBlock + lineBlock + bodyBlock + gaps;
+
+                // Centro vertical de la tarjeta
+                const centerY = height / 2;
+                const startY = Math.max(90, centerY - (totalContentHeight / 2));
+
+                // Title
+                ctx.fillStyle = '#e2e0ff';
+                ctx.font = `600 ${titleSize}px Syne, sans-serif`;
+                const titleY = startY;
+                titleLines.forEach((line, i) => {
+                    ctx.fillText(line, centerX, titleY + (i * titleLineHeight));
+                });
+
+                // Body text
+                const lineY = titleY + (titleLines.length * titleLineHeight) + 5;
+                ctx.fillStyle = 'rgba(220, 220, 230, 0.85)';
+                ctx.font = `200 ${bodySize}px Raleway, sans-serif`;
+                ctx.letterSpacing = '3px';
+                const bodyY = lineY + 20;
+                bodyLines.forEach((line, i) => {
+                    ctx.fillText(line, centerX, bodyY + (i * bodyLineHeight));
+                });
+                ctx.letterSpacing = '0px';
+
+                const texture = new THREE.CanvasTexture(canvas);
+                texture.needsUpdate = true;
+                return texture;
+            }
+
+            // Create panels
+            const panels = [];
+            panelContents.forEach((content, i) => {
+                if (content.type === 'intro') {
+                    // Panel fantasma para el intro - no visual
+                    panels.push(null);
+                    return;
+                }
+
+                const texture = createPanelTexture(content);
+                const geometry = new THREE.PlaneGeometry(15, 14);
+
+                const material = new THREE.ShaderMaterial({
+                    uniforms: {
+                        map: { value: texture },
+                        opacity: { value: 0.95 }
+                    },
+                    vertexShader: `
+                        varying vec2 vUv;
+                        void main() {
+                            vUv = uv;
+                            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                        }
+                    `,
+                    fragmentShader: `
+                        uniform sampler2D map;
+                        uniform float opacity;
+                        varying vec2 vUv;
+                        void main() {
+                            vec4 texColor = texture2D(map, vUv);
+                            gl_FragColor = vec4(texColor.rgb, texColor.a * opacity);
+                        }
+                    `,
+                    transparent: true,
+                    side: THREE.DoubleSide
+                });
+
+                const panel = new THREE.Mesh(geometry, material);
+                panel.position.copy(panelPositions[i].pos);
+                panel.rotation.set(
+                    panelPositions[i].rot.x,
+                    panelPositions[i].rot.y,
+                    panelPositions[i].rot.z
+                );
+                scene.add(panel);
+                panels.push(panel);
+            });
+
+            // ============================================
+            // SACRED GEOMETRY PARTICLES (estilo arena/fondo)
+            // ============================================
+            const PARTICLE_COUNT = 50000;
+
+            function createParticleTexture() {
+                const canvas = document.createElement('canvas');
+                canvas.width = canvas.height = 32;
+                const ctx = canvas.getContext('2d');
+                // Partícula brillante con núcleo intenso
+                const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+                gradient.addColorStop(0, 'rgba(255,255,255,1.0)');
+                gradient.addColorStop(0.15, 'rgba(255,255,255,0.9)');
+                gradient.addColorStop(0.35, 'rgba(255,255,255,0.5)');
+                gradient.addColorStop(0.6, 'rgba(255,255,255,0.2)');
+                gradient.addColorStop(1, 'rgba(255,255,255,0)');
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(16, 16, 16, 0, Math.PI * 2);
+                ctx.fill();
+                return new THREE.CanvasTexture(canvas);
+            }
+
+            // ============================================
+            // GENERADORES DE GEOMETRÍA SAGRADA - Alta Definición
+            // ============================================
+            const SymbolGenerators = {
+
+                // MERKABA - Star Tetrahedron 3D con geometría correcta
+                // Dos tetraedros regulares interpenetrados centrados en el origen
+                merkaba(count) {
+                    const points = [];
+                    const scale = 2.8;
+
+                    // =============================================
+                    // GEOMETRÍA 3D DEL STAR TETRAHEDRON - CORRECTO
+                    // Tetraedro regular: altura = sqrt(2/3) * edge
+                    // Centro geométrico a 1/4 de altura desde la base
+                    // =============================================
+
+                    const h = scale; // Altura desde centro hasta apex
+                    const r = scale * 0.82; // Radio de la base (para tetraedro regular)
+
+                    // Tetraedro SUPERIOR (apex arriba, base abajo)
+                    // Base es triángulo equilátero en Y = -h/3
+                    const upVerts = [
+                        { x: 0, y: h, z: 0 },                                  // Apex arriba
+                        { x: r * Math.cos(0), y: -h * 0.33, z: r * Math.sin(0) },           // Base 0°
+                        { x: r * Math.cos(2.094), y: -h * 0.33, z: r * Math.sin(2.094) },   // Base 120°
+                        { x: r * Math.cos(4.189), y: -h * 0.33, z: r * Math.sin(4.189) }    // Base 240°
+                    ];
+
+                    // Tetraedro INFERIOR (apex abajo, base arriba)
+                    // Base es triángulo equilátero en Y = +h/3, rotado 60° respecto al superior
+                    const downVerts = [
+                        { x: 0, y: -h, z: 0 },                                  // Apex abajo
+                        { x: r * Math.cos(1.047), y: h * 0.33, z: r * Math.sin(1.047) },    // Base 60°
+                        { x: r * Math.cos(3.142), y: h * 0.33, z: r * Math.sin(3.142) },    // Base 180°
+                        { x: r * Math.cos(5.236), y: h * 0.33, z: r * Math.sin(5.236) }     // Base 300°
+                    ];
+
+                    // Aristas de cada tetraedro (6 aristas por tetraedro)
+                    const edgePairs = [[0, 1], [0, 2], [0, 3], [1, 2], [2, 3], [3, 1]];
+
+                    // Caras de cada tetraedro (4 caras triangulares)
+                    const faces = [[0, 1, 2], [0, 2, 3], [0, 3, 1], [1, 3, 2]];
+
+                    // Función: punto en arista 3D
+                    const pointOnEdge3D = (v1, v2, thickness) => {
+                        const t = Math.random();
+                        return {
+                            x: v1.x + (v2.x - v1.x) * t + (Math.random() - 0.5) * thickness,
+                            y: v1.y + (v2.y - v1.y) * t + (Math.random() - 0.5) * thickness,
+                            z: v1.z + (v2.z - v1.z) * t + (Math.random() - 0.5) * thickness,
+                            size: 0.5 + Math.random() * 0.4
+                        };
+                    };
+
+                    // Función: punto dentro de cara triangular (para el relleno brillante)
+                    const pointInFace3D = (v0, v1, v2) => {
+                        // Coordenadas baricéntricas aleatorias
+                        let a = Math.random();
+                        let b = Math.random();
+                        if (a + b > 1) { a = 1 - a; b = 1 - b; }
+                        const c = 1 - a - b;
+                        return {
+                            x: v0.x * a + v1.x * b + v2.x * c,
+                            y: v0.y * a + v1.y * b + v2.y * c,
+                            z: v0.z * a + v1.z * b + v2.z * c,
+                            size: 0.2 + Math.random() * 0.3
+                        };
+                    };
+
+                    // Función: línea radial desde centro de cara hacia vértice
+                    const pointOnRadial3D = (center, vertex, density) => {
+                        const t = Math.random();
+                        return {
+                            x: center.x + (vertex.x - center.x) * t,
+                            y: center.y + (vertex.y - center.y) * t,
+                            z: center.z + (vertex.z - center.z) * t,
+                            size: 0.15 + Math.random() * 0.2
+                        };
+                    };
+
+                    // =============================================
+                    // DISTRIBUCIÓN DE PARTÍCULAS
+                    // 30% aristas tetraedro UP (más definición)
+                    // 30% aristas tetraedro DOWN (más definición)
+                    // 8% relleno caras UP (menos denso)
+                    // 8% relleno caras DOWN (menos denso)
+                    // 24% líneas radiales internas (más visibles)
+                    // =============================================
+
+                    for (let i = 0; i < count; i++) {
+                        const r = Math.random();
+                        let p;
+
+                        if (r < 0.30) {
+                            // Aristas del tetraedro SUPERIOR
+                            const pair = edgePairs[Math.floor(Math.random() * edgePairs.length)];
+                            p = pointOnEdge3D(upVerts[pair[0]], upVerts[pair[1]], 0.04);
+                            p.type = 'tetraUp';
+                            p.subType = 'edge';
+                            p.color = 'gold';
+                        } else if (r < 0.60) {
+                            // Aristas del tetraedro INFERIOR
+                            const pair = edgePairs[Math.floor(Math.random() * edgePairs.length)];
+                            p = pointOnEdge3D(downVerts[pair[0]], downVerts[pair[1]], 0.04);
+                            p.type = 'tetraDown';
+                            p.subType = 'edge';
+                            p.color = 'gold';
+                        } else if (r < 0.68) {
+                            // Relleno de caras tetraedro SUPERIOR (muy sutil)
+                            const face = faces[Math.floor(Math.random() * faces.length)];
+                            p = pointInFace3D(upVerts[face[0]], upVerts[face[1]], upVerts[face[2]]);
+                            p.size = 0.1 + Math.random() * 0.15; // Más pequeñas
+                            p.type = 'tetraUp';
+                            p.subType = 'face';
+                            p.color = 'gold';
+                        } else if (r < 0.76) {
+                            // Relleno de caras tetraedro INFERIOR (muy sutil)
+                            const face = faces[Math.floor(Math.random() * faces.length)];
+                            p = pointInFace3D(downVerts[face[0]], downVerts[face[1]], downVerts[face[2]]);
+                            p.size = 0.1 + Math.random() * 0.15; // Más pequeñas
+                            p.type = 'tetraDown';
+                            p.subType = 'face';
+                            p.color = 'gold';
+                        } else {
+                            // Líneas radiales internas (desde centro de cara hacia vértices)
+                            const verts = Math.random() < 0.5 ? upVerts : downVerts;
+                            const tetraType = verts === upVerts ? 'tetraUp' : 'tetraDown';
+                            const face = faces[Math.floor(Math.random() * faces.length)];
+                            const center = {
+                                x: (verts[face[0]].x + verts[face[1]].x + verts[face[2]].x) / 3,
+                                y: (verts[face[0]].y + verts[face[1]].y + verts[face[2]].y) / 3,
+                                z: (verts[face[0]].z + verts[face[1]].z + verts[face[2]].z) / 3
+                            };
+                            const vertex = verts[face[Math.floor(Math.random() * 3)]];
+                            p = pointOnRadial3D(center, vertex, 12);
+                            p.type = tetraType;
+                            p.subType = 'radial';
+                            p.color = 'gold';
+                        }
+
+                        points.push(p);
+                    }
+
+                    return points;
+                },
+
+                // FLOR DE LA VIDA - Diseño clásico 19 círculos con CAPAS
+                flowerOfLife(count) {
+                    const points = [];
+                    const r = 1.6; // Radio de cada círculo
+
+                    // 19 centros con sus capas: {pos, layer}
+                    const centers = [];
+                    centers.push({ pos: [0, 0], layer: 0 }); // Centro - Capa 0
+
+                    // Primera capa: 6 círculos (Semilla de la Vida) - Capa 1
+                    for (let i = 0; i < 6; i++) {
+                        const a = (i / 6) * Math.PI * 2;
+                        centers.push({ pos: [Math.cos(a) * r, Math.sin(a) * r], layer: 1 });
+                    }
+                    // Segunda capa: 6 círculos en los vértices - Capa 2
+                    for (let i = 0; i < 6; i++) {
+                        const a = (i / 6) * Math.PI * 2 + Math.PI / 6;
+                        centers.push({ pos: [Math.cos(a) * r * Math.sqrt(3), Math.sin(a) * r * Math.sqrt(3)], layer: 2 });
+                    }
+                    // Tercera capa: 6 círculos externos - Capa 3
+                    for (let i = 0; i < 6; i++) {
+                        const a = (i / 6) * Math.PI * 2;
+                        centers.push({ pos: [Math.cos(a) * r * 2, Math.sin(a) * r * 2], layer: 3 });
+                    }
+
+                    for (let i = 0; i < count; i++) {
+                        const centerData = centers[Math.floor(Math.random() * centers.length)];
+                        const center = centerData.pos;
+                        const layer = centerData.layer;
+                        const angle = Math.random() * Math.PI * 2;
+                        const radius = r * (0.98 + Math.random() * 0.04);
+                        points.push({
+                            x: center[0] + Math.cos(angle) * radius,
+                            y: center[1] + Math.sin(angle) * radius,
+                            z: (Math.random() - 0.5) * 0.1,
+                            size: 0.5 + Math.random() * 0.4,
+                            subType: 'edge',
+                            layer: layer // Guardamos la capa
+                        });
+                    }
+                    return points;
+                },
+
+                // TORUS - Campo toroidal vórtex
+                torus(count) {
+                    const points = [];
+                    const R = 3.0, r = 1.15;
+
+                    // Inclinación baked
+                    const tiltX = -0.85, tiltZ = 0.17;
+                    const cosTX = Math.cos(tiltX), sinTX = Math.sin(tiltX);
+                    const cosTZ = Math.cos(tiltZ), sinTZ = Math.sin(tiltZ);
+                    function tilt(bx, by, bz) {
+                        const ry = by * cosTX - bz * sinTX;
+                        const rz = by * sinTX + bz * cosTX;
+                        return { x: bx * cosTZ - ry * sinTZ, y: bx * sinTZ + ry * cosTZ, z: rz };
+                    }
+
+                    // === 1. SUPERFICIE (7%) — silueta exterior del torus ===
+                    const surfaceCount = Math.floor(count * 0.07);
+                    for (let i = 0; i < surfaceCount; i++) {
+                        const phi = Math.random() * Math.PI * 2;
+                        const theta = Math.random() * Math.PI * 2;
+                        const rVar = r * (0.98 + Math.random() * 0.04);
+                        const bx = (R + rVar * Math.cos(theta)) * Math.cos(phi);
+                        const by = rVar * Math.sin(theta);
+                        const bz = (R + rVar * Math.cos(theta)) * Math.sin(phi);
+                        const p = tilt(bx, by, bz);
+                        points.push({
+                            x: p.x, y: p.y, z: p.z,
+                            size: 0.18 + Math.random() * 0.15,
+                            type: 'torus', subType: 'surface',
+                            torusFlow: { phi, theta }
+                        });
+                    }
+
+                    // === 2. ESPIRALES (8%) — 3 líneas de energía limpias ===
+                    const spiralCount = Math.floor(count * 0.08);
+                    const numSpirals = 3;
+                    const ptsPerSpiral = Math.floor(spiralCount / numSpirals);
+                    for (let s = 0; s < numSpirals; s++) {
+                        const spiralOffset = (s / numSpirals) * Math.PI * 2;
+                        for (let j = 0; j < ptsPerSpiral; j++) {
+                            const t = j / ptsPerSpiral;
+                            const phi = t * Math.PI * 2 + spiralOffset;
+                            const theta = t * Math.PI * 2 * 3;
+                            const bx = (R + r * Math.cos(theta)) * Math.cos(phi);
+                            const by = r * Math.sin(theta);
+                            const bz = (R + r * Math.cos(theta)) * Math.sin(phi);
+                            const p = tilt(bx, by, bz);
+                            points.push({
+                                x: p.x, y: p.y, z: p.z,
+                                size: 0.35 + Math.random() * 0.15,
+                                type: 'torus', subType: 'spiral',
+                                torusFlow: { phi, theta }
+                            });
+                        }
+                    }
+
+                    // === 3. ANILLOS (5%) — 8 anillos bien definidos ===
+                    const ringCount = Math.floor(count * 0.05);
+                    const numRings = 8;
+                    const ptsPerRing = Math.floor(ringCount / numRings);
+                    for (let m = 0; m < numRings; m++) {
+                        const theta = (m / numRings) * Math.PI * 2;
+                        for (let j = 0; j < ptsPerRing; j++) {
+                            const phi = (j / ptsPerRing) * Math.PI * 2;
+                            const bx = (R + r * Math.cos(theta)) * Math.cos(phi);
+                            const by = r * Math.sin(theta);
+                            const bz = (R + r * Math.cos(theta)) * Math.sin(phi);
+                            const p = tilt(bx, by, bz);
+                            points.push({
+                                x: p.x, y: p.y, z: p.z,
+                                size: 0.45 + Math.random() * 0.2,
+                                type: 'torus', subType: 'ring',
+                                torusFlow: { phi, theta }
+                            });
+                        }
+                    }
+
+                    // === 4. MERIDIANOS (4%) — líneas alrededor del tubo para definir 3D ===
+                    const meridianCount = Math.floor(count * 0.04);
+                    const numMeridians = 10;
+                    const ptsPerMeridian = Math.floor(meridianCount / numMeridians);
+                    for (let m = 0; m < numMeridians; m++) {
+                        const phi = (m / numMeridians) * Math.PI * 2;
+                        for (let j = 0; j < ptsPerMeridian; j++) {
+                            const theta = (j / ptsPerMeridian) * Math.PI * 2;
+                            const bx = (R + r * Math.cos(theta)) * Math.cos(phi);
+                            const by = r * Math.sin(theta);
+                            const bz = (R + r * Math.cos(theta)) * Math.sin(phi);
+                            const p = tilt(bx, by, bz);
+                            points.push({
+                                x: p.x, y: p.y, z: p.z,
+                                size: 0.3 + Math.random() * 0.15,
+                                type: 'torus', subType: 'meridian',
+                                torusFlow: { phi, theta }
+                            });
+                        }
+                    }
+
+                    // === 5. VÓRTEX INTERIOR (5%) — flujo concentrado por el agujero ===
+                    const innerCount = Math.floor(count * 0.05);
+                    for (let i = 0; i < innerCount; i++) {
+                        const phi = Math.random() * Math.PI * 2;
+                        const theta = Math.PI + (Math.random() - 0.5) * 1.0;
+                        const bx = (R + r * Math.cos(theta)) * Math.cos(phi);
+                        const by = r * Math.sin(theta);
+                        const bz = (R + r * Math.cos(theta)) * Math.sin(phi);
+                        const p = tilt(bx, by, bz);
+                        points.push({
+                            x: p.x, y: p.y, z: p.z,
+                            size: 0.55 + Math.random() * 0.3,
+                            type: 'torus', subType: 'inner',
+                            torusFlow: { phi, theta }
+                        });
+                    }
+
+                    // === 6. CENTRO (3%) — núcleo brillante del agujero ===
+                    const centerCount = Math.floor(count * 0.03);
+                    for (let i = 0; i < centerCount; i++) {
+                        const phi = Math.random() * Math.PI * 2;
+                        const coreR = 0.1 + Math.random() * 0.2;
+                        const theta = Math.PI + (Math.random() - 0.5) * 0.4;
+                        const bx = (R + coreR * Math.cos(theta)) * Math.cos(phi);
+                        const by = coreR * Math.sin(theta);
+                        const bz = (R + coreR * Math.cos(theta)) * Math.sin(phi);
+                        const p = tilt(bx, by, bz);
+                        points.push({
+                            x: p.x, y: p.y, z: p.z,
+                            size: 0.4 + Math.random() * 0.35,
+                            type: 'torus', subType: 'center',
+                            torusFlow: { phi, theta }
+                        });
+                    }
+
+                    // === 7. POLVO AMBIENTE — relleno casi invisible ===
+                    const dustCount = count - points.length;
+                    for (let i = 0; i < dustCount; i++) {
+                        const phi = Math.random() * Math.PI * 2;
+                        const theta = Math.random() * Math.PI * 2;
+                        const rVar = r * (0.75 + Math.random() * 0.5);
+                        const bx = (R + rVar * Math.cos(theta)) * Math.cos(phi);
+                        const by = rVar * Math.sin(theta);
+                        const bz = (R + rVar * Math.cos(theta)) * Math.sin(phi);
+                        const p = tilt(bx, by, bz);
+                        points.push({
+                            x: p.x, y: p.y, z: p.z,
+                            size: 0.02 + Math.random() * 0.03,
+                            type: 'torus', subType: 'dust',
+                            torusFlow: { phi, theta }
+                        });
+                    }
+
+                    return points;
+                }
+            };
+
+            function createSymbolBuffer(points, count, offset) {
+                const positions = new Float32Array(count * 3);
+                const sizes = new Float32Array(count);
+                const types = new Array(count);
+                const subTypes = new Array(count);
+                const colors = new Array(count);
+                const orbitalData = new Array(count);
+                const layers = new Array(count); // NUEVO: capas para Flor de la Vida
+                for (let i = 0; i < count; i++) {
+                    const p = points[i % points.length];
+                    const i3 = i * 3;
+                    positions[i3] = p.x + offset.x;
+                    positions[i3 + 1] = p.y + offset.y;
+                    positions[i3 + 2] = p.z + offset.z;
+                    sizes[i] = p.size || 1.0;
+                    types[i] = p.type || 'inner';
+                    subTypes[i] = p.subType || null;
+                    colors[i] = p.color || 'gold';
+                    layers[i] = p.layer !== undefined ? p.layer : -1; // Guardar capa
+                    if (p.type === 'nebula') {
+                        orbitalData[i] = {
+                            baseAngle: p.baseAngle || 0,
+                            baseRadius: p.baseRadius || 0,
+                            baseZ: p.z
+                        };
+                    } else if (p.torusFlow) {
+                        orbitalData[i] = p.torusFlow;
+                    }
+                }
+                return { positions, sizes, types, subTypes, colors, orbitalData, layers };
+            }
+
+            // Colores para gradiente dorado de Merkaba (estilo imagen referencia)
+            const goldColors = {
+                white: new THREE.Color(1.0, 1.0, 0.95),       // Blanco brillante (centro)
+                bright: new THREE.Color(1.0, 0.92, 0.55),     // Dorado brillante (aristas)
+                medium: new THREE.Color(1.0, 0.82, 0.25),     // Dorado intenso
+                warm: new THREE.Color(0.95, 0.7, 0.12),       // Dorado cálido
+                dark: new THREE.Color(0.8, 0.55, 0.08),       // Dorado oscuro (anillos)
+                trail: new THREE.Color(0.9, 0.65, 0.18),      // Estela
+                blue: new THREE.Color(0.4, 0.6, 0.95),        // Azul plateado para triDown
+                blueLight: new THREE.Color(0.6, 0.75, 1.0),   // Azul claro
+                default: new THREE.Color(0.7, 0.68, 0.75)     // Gris lavanda para otros símbolos
+            };
+
+            // Función para calcular color dorado basado en distancia
+            function getGoldGradientColor(x, y, z, maxDist) {
+                const dist = Math.sqrt(x * x + y * y + z * z);
+                const t = Math.min(dist / maxDist, 1);
+
+                const color = new THREE.Color();
+                if (t < 0.1) {
+                    // Centro: blanco brillante
+                    color.copy(goldColors.white);
+                } else if (t < 0.3) {
+                    // Aristas cercanas: dorado brillante
+                    color.lerpColors(goldColors.white, goldColors.bright, (t - 0.1) / 0.2);
+                } else if (t < 0.55) {
+                    // Estructura: dorado medio
+                    color.lerpColors(goldColors.bright, goldColors.medium, (t - 0.3) / 0.25);
+                } else if (t < 0.8) {
+                    // Anillos: dorado cálido
+                    color.lerpColors(goldColors.medium, goldColors.warm, (t - 0.55) / 0.25);
+                } else {
+                    // Exterior/estela: dorado oscuro
+                    color.lerpColors(goldColors.warm, goldColors.dark, (t - 0.8) / 0.2);
+                }
+                return color;
+            }
+
+            // Create symbol shapes for each section
+            const symbolShapes = [];
+            const symbolSizes = [];
+            const symbolTypes = [];
+            const symbolSubTypes = [];
+            const symbolColors = [];
+            const symbolOrbitalData = [];
+            const symbolLayers = []; // NUEVO: capas
+            panelContents.forEach((content, i) => {
+                // Si es el mismo símbolo que el anterior, reutilizamos los datos EXACTOS
+                if (i > 0 && content.symbol === panelContents[i - 1].symbol) {
+                    symbolShapes.push(symbolShapes[i - 1]);
+                    symbolSizes.push(symbolSizes[i - 1]);
+                    symbolTypes.push(symbolTypes[i - 1]);
+                    symbolSubTypes.push(symbolSubTypes[i - 1]);
+                    symbolColors.push(symbolColors[i - 1]);
+                    symbolOrbitalData.push(symbolOrbitalData[i - 1]);
+                    symbolLayers.push(symbolLayers[i - 1]);
+                } else {
+                    // Generar nuevos puntos
+                    const pts = SymbolGenerators[content.symbol](PARTICLE_COUNT);
+                    const { positions, sizes, types, subTypes, colors, orbitalData, layers } = createSymbolBuffer(pts, PARTICLE_COUNT, symbolBaseOffset);
+                    symbolShapes.push(positions);
+                    symbolSizes.push(sizes);
+                    symbolTypes.push(types);
+                    symbolSubTypes.push(subTypes);
+                    symbolColors.push(colors);
+                    symbolOrbitalData.push(orbitalData);
+                    symbolLayers.push(layers);
+                }
+            });
+
+            // Particle system con tamaños variables
+            const particleGeometry = new THREE.BufferGeometry();
+            const particlePositions = new Float32Array(PARTICLE_COUNT * 3);
+            const particleColors = new Float32Array(PARTICLE_COUNT * 3);
+            const particleSizesAttr = new Float32Array(PARTICLE_COUNT);
+
+            // Inicializar con primera forma (Merkaba)
+            const merkabaDist = 3.5 * Math.sqrt(2 / 3) * 2.0;
+            for (let i = 0; i < PARTICLE_COUNT; i++) {
+                const i3 = i * 3;
+                const x = symbolShapes[0][i3];
+                const y = symbolShapes[0][i3 + 1];
+                const z = symbolShapes[0][i3 + 2];
+
+                particlePositions[i3] = x;
+                particlePositions[i3 + 1] = y;
+                particlePositions[i3 + 2] = z;
+
+                // Tamaño variable
+                particleSizesAttr[i] = symbolSizes[0][i];
+
+                // Color dorado basado en distancia
+                const color = getGoldGradientColor(x, y, z, merkabaDist);
+                particleColors[i3] = color.r;
+                particleColors[i3 + 1] = color.g;
+                particleColors[i3 + 2] = color.b;
+            }
+            particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+            particleGeometry.setAttribute('color', new THREE.BufferAttribute(particleColors, 3));
+
+            // Shader material personalizado para tamaños variables
+            const particleMaterial = new THREE.ShaderMaterial({
+                uniforms: {
+                    pointTexture: { value: createParticleTexture() },
+                    baseSize: { value: 5.0 },
+                    opacity: { value: 0.9 }
+                },
+                vertexShader: `
+                    attribute float size;
+                    attribute vec3 color;
+                    varying vec3 vColor;
+                    uniform float baseSize;
+                    void main() {
+                        vColor = color;
+                        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                        gl_PointSize = size * baseSize * (300.0 / -mvPosition.z);
+                        gl_PointSize = clamp(gl_PointSize, 1.0, 15.0);
+                        gl_Position = projectionMatrix * mvPosition;
+                    }
+                `,
+                fragmentShader: `
+                    uniform sampler2D pointTexture;
+                    uniform float opacity;
+                    varying vec3 vColor;
+                    void main() {
+                        vec4 texColor = texture2D(pointTexture, gl_PointCoord);
+                        if (texColor.a < 0.1) discard;
+                        gl_FragColor = vec4(vColor * 1.0, texColor.a * opacity * 0.8);
+                    }
+                `,
+                blending: THREE.NormalBlending,
+                depthWrite: false,
+                transparent: true
+            });
+
+            // Añadir atributo de tamaño
+            particleGeometry.setAttribute('size', new THREE.BufferAttribute(particleSizesAttr, 1));
+
+            const particles = new THREE.Points(particleGeometry, particleMaterial);
+
+            // Grupo para mover el símbolo completo
+            const symbolGroup = new THREE.Group();
+            symbolGroup.add(particles);
+            symbolGroup.position.set(15, 0, 0); // Posición inicial a la derecha
+            scene.add(symbolGroup);
+
+            // ============================================
+            // CUADRADO DE LÍNEA/CUERDA (alrededor de Flor de la Vida)
+            // Gira en sentido contrario - LÍNEA VIOLETA
+            // ============================================
+            const squareLineSize = 5.5; // Más grande para no tocar el símbolo
+            const squareLineGeo = new THREE.BufferGeometry();
+
+            // Vertices del cuadrado (4 esquinas + cerrar)
+            const squareVertices = new Float32Array([
+                -squareLineSize, -squareLineSize, 0.3,  // Esquina inferior izquierda
+                squareLineSize, -squareLineSize, 0.3,  // Esquina inferior derecha
+                squareLineSize, squareLineSize, 0.3,  // Esquina superior derecha
+                -squareLineSize, squareLineSize, 0.3,  // Esquina superior izquierda
+            ]);
+            squareLineGeo.setAttribute('position', new THREE.BufferAttribute(squareVertices, 3));
+
+            // Material de línea VIOLETA
+            const squareLineMaterial = new THREE.LineBasicMaterial({
+                color: 0x9933ff,  // Violeta brillante
+                linewidth: 2,
+                transparent: true,
+                opacity: 0.9
+            });
+
+            const squareLine = new THREE.LineLoop(squareLineGeo, squareLineMaterial);
+            squareLine.visible = false;
+            symbolGroup.add(squareLine);
+
+            // ============================================
+            // GALAXIA ESPIRAL dentro del cuadrado (Flor de la Vida)
+            // Partículas formando brazos espirales como una galaxia
+            // ============================================
+            const galaxyCount = 4000;
+            const galaxyGeo = new THREE.BufferGeometry();
+            const galaxyPositions = new Float32Array(galaxyCount * 3);
+            const galaxyColors = new Float32Array(galaxyCount * 3);
+            const galaxySizes = new Float32Array(galaxyCount);
+
+            const galaxyRadius = 5.2; // Radio máximo de la galaxia
+            const galaxyArms = 3;     // Número de brazos espirales
+            const galaxySpin = 2.5;   // Cuánto se enrollan los brazos
+
+            for (let i = 0; i < galaxyCount; i++) {
+                const i3 = i * 3;
+
+                // Distribución espiral tipo galaxia
+                const armIndex = i % galaxyArms;
+                const armAngle = (armIndex / galaxyArms) * Math.PI * 2;
+
+                // Radio con distribución exponencial (más denso cerca del centro)
+                const radiusRandom = Math.pow(Math.random(), 0.6);
+                const radius = 4.2 + radiusRandom * (galaxyRadius - 4.2); // Más afuera del símbolo
+
+                // Ángulo con espiral
+                const spinAngle = radius * galaxySpin / galaxyRadius;
+                const randomOffset = (Math.random() - 0.5) * 0.8;
+                const angle = armAngle + spinAngle + randomOffset;
+
+                // Dispersión perpendicular a los brazos
+                const scatter = (Math.random() - 0.5) * 0.6;
+
+                const px = Math.cos(angle) * radius + Math.cos(angle + Math.PI / 2) * scatter;
+                const py = Math.sin(angle) * radius + Math.sin(angle + Math.PI / 2) * scatter;
+                const pz = (Math.random() - 0.5) * 0.3; // Ligeramente plano como una galaxia
+
+                galaxyPositions[i3] = px;
+                galaxyPositions[i3 + 1] = py;
+                galaxyPositions[i3 + 2] = pz;
+
+                // Colores: mezcla de violeta, azul y estrellas blancas
+                const distFromCenter = radius / galaxyRadius;
+                const colorType = Math.random();
+
+                if (colorType < 0.15) {
+                    // Estrellas brillantes blancas/azules
+                    const bright = 0.8 + Math.random() * 0.2;
+                    galaxyColors[i3] = bright * 0.9;
+                    galaxyColors[i3 + 1] = bright * 0.9;
+                    galaxyColors[i3 + 2] = bright;
+                    galaxySizes[i] = 0.06 + Math.random() * 0.08;
+                } else if (colorType < 0.5) {
+                    // Polvo violeta/púrpura
+                    const bright = 0.3 + Math.random() * 0.4;
+                    galaxyColors[i3] = bright * 0.7;
+                    galaxyColors[i3 + 1] = bright * 0.2;
+                    galaxyColors[i3 + 2] = bright * 1.0;
+                    galaxySizes[i] = 0.04 + Math.random() * 0.04;
+                } else {
+                    // Azul nebuloso
+                    const bright = 0.2 + Math.random() * 0.4;
+                    galaxyColors[i3] = bright * 0.3;
+                    galaxyColors[i3 + 1] = bright * 0.5;
+                    galaxyColors[i3 + 2] = bright * 1.0;
+                    galaxySizes[i] = 0.03 + Math.random() * 0.05;
+                }
+            }
+
+            galaxyGeo.setAttribute('position', new THREE.BufferAttribute(galaxyPositions, 3));
+            galaxyGeo.setAttribute('color', new THREE.BufferAttribute(galaxyColors, 3));
+
+            const flowerNebulaMaterial = new THREE.PointsMaterial({
+                size: 0.15,
+                map: createParticleTexture(),
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.85,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false,
+                sizeAttenuation: true
+            });
+
+            const flowerNebulaParticles = new THREE.Points(galaxyGeo, flowerNebulaMaterial);
+            flowerNebulaParticles.visible = false;
+            symbolGroup.add(flowerNebulaParticles);
+
+            // ============================================
+            // ESTELAS DE GALAXIA (capa secundaria de trails)
+            // Partículas más pequeñas siguiendo a las principales
+            // ============================================
+            const trailCount = 2500;
+            const trailGeo = new THREE.BufferGeometry();
+            const trailPositions = new Float32Array(trailCount * 3);
+            const trailColors = new Float32Array(trailCount * 3);
+
+            // Copiar posiciones de galaxia con offset para crear estela
+            for (let i = 0; i < trailCount; i++) {
+                const srcIdx = i % galaxyCount;
+                const i3 = i * 3;
+                const src3 = srcIdx * 3;
+
+                // Offset aleatorio hacia atrás (estela)
+                const trailOffset = 0.3 + Math.random() * 0.5;
+                const angle = Math.atan2(galaxyPositions[src3 + 1], galaxyPositions[src3]);
+
+                trailPositions[i3] = galaxyPositions[src3] - Math.cos(angle) * trailOffset;
+                trailPositions[i3 + 1] = galaxyPositions[src3 + 1] - Math.sin(angle) * trailOffset;
+                trailPositions[i3 + 2] = galaxyPositions[src3 + 2] + (Math.random() - 0.5) * 0.2;
+
+                // Color más tenue (estela desvanecida)
+                trailColors[i3] = galaxyColors[src3] * 0.5;
+                trailColors[i3 + 1] = galaxyColors[src3 + 1] * 0.5;
+                trailColors[i3 + 2] = galaxyColors[src3 + 2] * 0.7;
+            }
+
+            trailGeo.setAttribute('position', new THREE.BufferAttribute(trailPositions, 3));
+            trailGeo.setAttribute('color', new THREE.BufferAttribute(trailColors, 3));
+
+            const trailMaterial = new THREE.PointsMaterial({
+                size: 0.08,
+                map: createParticleTexture(),
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.4,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
+            });
+
+            const trailParticles = new THREE.Points(trailGeo, trailMaterial);
+            trailParticles.visible = false;
+            symbolGroup.add(trailParticles);
+
+            // Guardar datos de velocidad angular para cada partícula de galaxia
+            const galaxyAngularData = [];
+            for (let i = 0; i < galaxyCount; i++) {
+                const i3 = i * 3;
+                const px = galaxyPositions[i3];
+                const py = galaxyPositions[i3 + 1];
+                const radius = Math.sqrt(px * px + py * py);
+                const angle = Math.atan2(py, px);
+
+                // Velocidad angular: las partículas exteriores se mueven más rápido (efecto cometa)
+                const speed = 0.08 + (radius / galaxyRadius) * 0.25;  // Más rápido
+
+                galaxyAngularData.push({
+                    baseAngle: angle,
+                    radius: radius,
+                    speed: speed,
+                    baseZ: galaxyPositions[i3 + 2]
+                });
+            }
+
+            // Variables para reiniciar animación al entrar en sección
+            let wasInFlowerSection = false;
+            let galaxyStartTime = 0;
+
+            // ============================================
+            // PARTÍCULAS CONECTORAS (fluyen entre secciones)
+            // Siempre visibles, conectan los 3 símbolos
+            // ============================================
+            const connectorCount = 800;
+            const connectorGeo = new THREE.BufferGeometry();
+            const connectorPositions = new Float32Array(connectorCount * 3);
+            const connectorColors = new Float32Array(connectorCount * 3);
+            const connectorVelocities = [];
+
+            for (let i = 0; i < connectorCount; i++) {
+                const i3 = i * 3;
+
+                // Distribuir en línea horizontal (flujo entre secciones)
+                connectorPositions[i3] = (Math.random() - 0.5) * 80; // X: todo el recorrido
+                connectorPositions[i3 + 1] = (Math.random() - 0.5) * 20; // Y: altura
+                connectorPositions[i3 + 2] = -3 + Math.random() * 6; // Z: profundidad
+
+                // Velocidad horizontal principalmente
+                connectorVelocities.push({
+                    vx: 0.02 + Math.random() * 0.03,
+                    vy: (Math.random() - 0.5) * 0.005,
+                    vz: (Math.random() - 0.5) * 0.005
+                });
+
+                // Color dorado/violeta suave
+                const colorMix = Math.random();
+                const bright = 0.3 + Math.random() * 0.3;
+                if (colorMix < 0.5) {
+                    // Dorado
+                    connectorColors[i3] = bright * 1.0;
+                    connectorColors[i3 + 1] = bright * 0.7;
+                    connectorColors[i3 + 2] = bright * 0.2;
+                } else {
+                    // Violeta tenue
+                    connectorColors[i3] = bright * 0.5;
+                    connectorColors[i3 + 1] = bright * 0.3;
+                    connectorColors[i3 + 2] = bright * 0.8;
+                }
+            }
+
+            connectorGeo.setAttribute('position', new THREE.BufferAttribute(connectorPositions, 3));
+            connectorGeo.setAttribute('color', new THREE.BufferAttribute(connectorColors, 3));
+
+            const connectorMaterial = new THREE.PointsMaterial({
+                size: 0.05,
+                map: createParticleTexture(),
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.35,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
+            });
+
+            const connectorParticles = new THREE.Points(connectorGeo, connectorMaterial);
+            scene.add(connectorParticles); // Añadir a scene, no a symbolGroup
+
+            // ============================================
+            // STAR TETRAHEDRON 3D (Merkaba Real) - CORRECTO
+            // ============================================
+            const tetraScale = 2.8;
+            const h = tetraScale;
+            const r = tetraScale * 0.82;
+
+            // Tetraedro SUPERIOR (apex arriba, base abajo)
+            const upVerts = [
+                new THREE.Vector3(0, h, 0),
+                new THREE.Vector3(r * Math.cos(0), -h * 0.33, r * Math.sin(0)),
+                new THREE.Vector3(r * Math.cos(2.094), -h * 0.33, r * Math.sin(2.094)),
+                new THREE.Vector3(r * Math.cos(4.189), -h * 0.33, r * Math.sin(4.189))
+            ];
+
+            // Tetraedro INFERIOR (apex abajo, base arriba) - rotado 60°
+            const downVerts = [
+                new THREE.Vector3(0, -h, 0),
+                new THREE.Vector3(r * Math.cos(1.047), h * 0.33, r * Math.sin(1.047)),
+                new THREE.Vector3(r * Math.cos(3.142), h * 0.33, r * Math.sin(3.142)),
+                new THREE.Vector3(r * Math.cos(5.236), h * 0.33, r * Math.sin(5.236))
+            ];
+
+            // Función para crear edges de un tetraedro
+            function createTetraEdges(verts) {
+                const edges = [];
+                // 6 edges: conectar cada vértice con los otros 3
+                const pairs = [[0, 1], [0, 2], [0, 3], [1, 2], [2, 3], [3, 1]];
+                pairs.forEach(([a, b]) => {
+                    edges.push(verts[a].x, verts[a].y, verts[a].z);
+                    edges.push(verts[b].x, verts[b].y, verts[b].z);
+                });
+                return new Float32Array(edges);
+            }
+
+            // Función para crear líneas radiales dentro de cada cara
+            function createRadialLines(verts, density = 8) {
+                const lines = [];
+                // 4 caras triangulares, cada una con líneas desde el centro hacia los vértices
+                const faces = [[0, 1, 2], [0, 2, 3], [0, 3, 1], [1, 3, 2]];
+                faces.forEach(face => {
+                    const v0 = verts[face[0]];
+                    const v1 = verts[face[1]];
+                    const v2 = verts[face[2]];
+                    // Centro de la cara
+                    const center = new THREE.Vector3(
+                        (v0.x + v1.x + v2.x) / 3,
+                        (v0.y + v1.y + v2.y) / 3,
+                        (v0.z + v1.z + v2.z) / 3
+                    );
+                    // Líneas desde centro a cada vértice
+                    [v0, v1, v2].forEach(v => {
+                        // Múltiples líneas radiales
+                        for (let i = 0; i < density; i++) {
+                            const t = i / density;
+                            const mid = new THREE.Vector3().lerpVectors(center, v, t);
+                            lines.push(center.x, center.y, center.z);
+                            lines.push(mid.x, mid.y, mid.z);
+                        }
+                    });
+                });
+                return new Float32Array(lines);
+            }
+
+            // Material para líneas doradas - MÁS BRILLANTE
+            const goldLineMaterial = new THREE.LineBasicMaterial({
+                color: 0xFFE135,
+                linewidth: 3,
+                transparent: true,
+                opacity: 1.0
+            });
+
+            // Material para líneas radiales - más visible
+            const radialLineMaterial = new THREE.LineBasicMaterial({
+                color: 0xDDA520, // Dorado fuerte
+                linewidth: 1,
+                transparent: true,
+                opacity: 0.65
+            });
+
+            // Grupo para tetraedro superior (gira antihorario)
+            const tetraUpGroup = new THREE.Group();
+            const upEdgesGeom = new THREE.BufferGeometry();
+            upEdgesGeom.setAttribute('position', new THREE.BufferAttribute(createTetraEdges(upVerts), 3));
+            tetraUpGroup.add(new THREE.LineSegments(upEdgesGeom, goldLineMaterial));
+            // Líneas radiales
+            const upRadialGeom = new THREE.BufferGeometry();
+            upRadialGeom.setAttribute('position', new THREE.BufferAttribute(createRadialLines(upVerts, 12), 3));
+            tetraUpGroup.add(new THREE.LineSegments(upRadialGeom, radialLineMaterial));
+
+            // Grupo para tetraedro inferior (gira horario)
+            const tetraDownGroup = new THREE.Group();
+            const downEdgesGeom = new THREE.BufferGeometry();
+            downEdgesGeom.setAttribute('position', new THREE.BufferAttribute(createTetraEdges(downVerts), 3));
+            tetraDownGroup.add(new THREE.LineSegments(downEdgesGeom, goldLineMaterial.clone()));
+            // Líneas radiales
+            const downRadialGeom = new THREE.BufferGeometry();
+            downRadialGeom.setAttribute('position', new THREE.BufferAttribute(createRadialLines(downVerts, 12), 3));
+            tetraDownGroup.add(new THREE.LineSegments(downRadialGeom, radialLineMaterial.clone()));
+
+            // Agregar ambos tetraedros al grupo principal
+            symbolGroup.add(tetraUpGroup);
+            symbolGroup.add(tetraDownGroup);
+
+            // Círculos de fondo (arcos sutiles)
+            function createCircleArc(radius, startAngle, endAngle, segments = 64) {
+                const points = [];
+                for (let i = 0; i <= segments; i++) {
+                    const angle = startAngle + (endAngle - startAngle) * (i / segments);
+                    points.push(new THREE.Vector3(
+                        Math.cos(angle) * radius,
+                        Math.sin(angle) * radius,
+                        0 // Centrado perfecto (antes -1)
+                    ));
+                }
+                return new THREE.BufferGeometry().setFromPoints(points);
+            }
+
+            const circleLineMaterial = new THREE.LineBasicMaterial({
+                color: 0xFFFFFF, // WHITE AURA
+                transparent: true,
+                opacity: 0.5
+            });
+
+            // Función auxiliar para crear anillos segmentados (para notar rotación)
+            function createSegmentedRing(radius, segments, gapPercentage) {
+                const group = new THREE.Group();
+                const arcLen = (Math.PI * 2) / segments;
+                const drawLen = arcLen * (1 - gapPercentage);
+
+                for (let i = 0; i < segments; i++) {
+                    const start = i * arcLen;
+                    const end = start + drawLen;
+                    const geometry = createCircleArc(radius, start, end, 32);
+                    const line = new THREE.Line(geometry, circleLineMaterial.clone());
+                    group.add(line);
+                }
+                return group;
+            }
+
+            // Círculo Interior: Segmentado (3 arcos) y un poco más grande
+            // Radio: 1.6x -> Brecha reducida al 5% (más cerrado)
+            const innerCircle = createSegmentedRing(tetraScale * 1.6, 3, 0.05);
+            symbolGroup.add(innerCircle);
+
+            // Círculo Exterior: Segmentado (2 arcos grandes) y MUCHO más grande
+            // Radio: 2.2x -> Brecha reducida al 8% (más cerrado)
+            const outerCircle = createSegmentedRing(tetraScale * 2.2, 2, 0.08);
+            symbolGroup.add(outerCircle);
+
+            // ============================================
+            // NEBULA AURA (Nube de partículas finas alrededor del globo)
+            // ============================================
+            const nebulaCount = 2000;
+            const nebulaPositions = new Float32Array(nebulaCount * 3);
+            const nebulaSizes = new Float32Array(nebulaCount);
+            const nebulaColors = new Float32Array(nebulaCount * 3);
+            const nebulaOpacities = new Float32Array(nebulaCount);
+            const nebulaSpeeds = new Float32Array(nebulaCount);
+            const nebulaOffsets = new Float32Array(nebulaCount);
+
+            // Distribución esférica "nubosa" alrededor del Merkaba
+            for (let i = 0; i < nebulaCount; i++) {
+
+                // Radio aleatorio entre 3.5 y 7.0 (envolviendo el Merkaba de radio ~2.8)
+                const radius = 3.5 + Math.random() * 3.5;
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos((Math.random() * 2) - 1);
+
+                const x = radius * Math.sin(phi) * Math.cos(theta);
+                const y = radius * Math.sin(phi) * Math.sin(theta);
+                const z = radius * Math.cos(phi);
+
+                nebulaPositions[i * 3] = x;
+                nebulaPositions[i * 3 + 1] = y;
+                nebulaPositions[i * 3 + 2] = z;
+
+                // Tamaños muy finos (0.1 - 0.4)
+                nebulaSizes[i] = 0.1 + Math.random() * 0.3;
+
+                // Colores: Mezcla sutil de blanco, dorado pálido y azul etéreo
+                const colorMix = Math.random();
+                if (colorMix > 0.6) {
+                    // Dorado pálido
+                    nebulaColors[i * 3] = 1.0;
+                    nebulaColors[i * 3 + 1] = 0.9;
+                    nebulaColors[i * 3 + 2] = 0.6;
+                } else if (colorMix > 0.3) {
+                    // Blanco puro
+                    nebulaColors[i * 3] = 0.95;
+                    nebulaColors[i * 3 + 1] = 0.95;
+                    nebulaColors[i * 3 + 2] = 1.0;
+                } else {
+                    // Azul etéreo muy suave
+                    nebulaColors[i * 3] = 0.6;
+                    nebulaColors[i * 3 + 1] = 0.8;
+                    nebulaColors[i * 3 + 2] = 1.0;
+                }
+
+                nebulaOpacities[i] = 0.1 + Math.random() * 0.4;
+                nebulaSpeeds[i] = 0.001 + Math.random() * 0.002;
+                nebulaOffsets[i] = Math.random() * 100; // Desfase para movimiento sinusoidal
+            }
+
+            const nebulaGeometry = new THREE.BufferGeometry();
+            nebulaGeometry.setAttribute('position', new THREE.BufferAttribute(nebulaPositions, 3));
+            nebulaGeometry.setAttribute('size', new THREE.BufferAttribute(nebulaSizes, 1));
+            nebulaGeometry.setAttribute('color', new THREE.BufferAttribute(nebulaColors, 3));
+            nebulaGeometry.setAttribute('aOpacity', new THREE.BufferAttribute(nebulaOpacities, 1));
+            nebulaGeometry.setAttribute('offset', new THREE.BufferAttribute(nebulaOffsets, 1));
+
+            const nebulaMaterial = new THREE.ShaderMaterial({
+                uniforms: {
+                    pointTexture: { value: createParticleTexture() },
+                    baseSize: { value: 3.0 },
+                    globalTime: { value: 0 },
+                    opacity: { value: 0.6 }
+                },
+                vertexShader: `
+                    attribute float size;
+                    attribute vec3 color;
+                    attribute float aOpacity;
+                    attribute float offset;
+                    varying vec3 vColor;
+                    varying float vOpacity;
+                    uniform float baseSize;
+                    uniform float globalTime;
+                    
+                    void main() {
+                        vColor = color;
+                        vOpacity = aOpacity;
+                        
+                        // Movimiento sutil "nebuloso" (respiración + flotación leve)
+                        vec3 pos = position;
+                        
+                        // Movimiento radial lento (respiración)
+                        float breathe = sin(globalTime * 0.5 + offset) * 0.1;
+                        pos += normalize(pos) * breathe;
+                        
+                        vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+                        gl_PointSize = size * baseSize * (200.0 / -mvPosition.z);
+                        gl_Position = projectionMatrix * mvPosition;
+                    }
+                `,
+                fragmentShader: `
+                    uniform sampler2D pointTexture;
+                    uniform float opacity;
+                    varying vec3 vColor;
+                    varying float vOpacity;
+                    void main() {
+                        vec4 texColor = texture2D(pointTexture, gl_PointCoord);
+                        if (texColor.a < 0.05) discard;
+                        // Bordes suaves
+                        float alpha = texColor.a * vOpacity * opacity;
+                        gl_FragColor = vec4(vColor, alpha);
+                    }
+                `,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false,
+                transparent: true
+            });
+
+            const nebulaParticles = new THREE.Points(nebulaGeometry, nebulaMaterial);
+            symbolGroup.add(nebulaParticles);
+
+            // Variables para animación de tetraedros
+            let tetraUpRotation = 0;
+            let tetraDownRotation = 0;
+
+            // ============================================
+            // AMBIENT PARTICLES (polvo flotante de fondo)
+            // ============================================
+            const ambientGeo = new THREE.BufferGeometry();
+            const ambientCount = 1500;
+            const ambientPos = new Float32Array(ambientCount * 3);
+            for (let i = 0; i < ambientCount * 3; i += 3) {
+                ambientPos[i] = (Math.random() - 0.5) * 180;
+                ambientPos[i + 1] = (Math.random() - 0.5) * 100;
+                ambientPos[i + 2] = -Math.random() * 280;
+            }
+            ambientGeo.setAttribute('position', new THREE.BufferAttribute(ambientPos, 3));
+            const ambientMat = new THREE.PointsMaterial({
+                size: 0.15, // Bigger for debug
+                map: createParticleTexture(),
+                color: 0xFF0000, // RED for debug
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.NormalBlending, // Normal blending to rule out additive issue
+                depthWrite: false
+            });
+            const ambientParticles = new THREE.Points(ambientGeo, ambientMat);
+            scene.add(ambientParticles);
+
+            // ============================================
+            // CAMERA & PANEL LAYOUT
+            // ============================================
+            // Posiciones Z compactas para menos scroll y mejor alineación
+            const cameraZPositions = [35, 20, 5, -10];
+            const panelViewDistance = 16;
+
+            // ============================================
+            // HELPER: Calculate Color Logic (Global Optimized)
+            // ============================================
+            function calculateSymbolColor(idx, i, y, seed, time) {
+                const sColors = symbolColors[idx] || [];
+                const sSubTypes = symbolSubTypes[idx];
+                const sSubType = sSubTypes ? sSubTypes[i] : null;
+
+                // FLOR DE LA VIDA (idx 2): Colores por CAPA del círculo
+                if (idx === 2) {
+                    const sLayers = symbolLayers[idx];
+                    if (sLayers) {
+                        const layer = sLayers[i];
+
+                        // CAPAS DEFINIDAS por círculo, no por distancia
+                        if (layer === 0) {
+                            // CAPA 0: Centro Absoluto = VERDE CAMPO
+                            return { r: 0.35, g: 0.8, b: 0.2 };
+                        } else if (layer === 1) {
+                            // CAPA 1: Semilla de la Vida (rodeando) = AMARILLO BRILLANTE
+                            return { r: 1.0, g: 0.9, b: 0.1 };
+                        } else if (layer === 2) {
+                            // CAPA 2: Círculos intermedios = Gris plateado
+                            return { r: 0.6, g: 0.6, b: 0.55 };
+                        } else {
+                            // CAPA 3: Círculos exteriores = Marrón tierra
+                            return { r: 0.5, g: 0.35, b: 0.25 };
+                        }
+                    }
+                }
+
+                // TORUS (idx 3): Campo toroidal vórtex
+                if (idx === 3 && sSubType) {
+                    if (sSubType === 'center') {
+                        // Centro del vórtex: blanco-cyan brillante
+                        return { r: 0.7, g: 0.95, b: 1.0 };
+                    } else if (sSubType === 'inner') {
+                        // Vórtex interior: gradiente cyan → dorado por posición
+                        const t = (seed * 50000 + time * 0.02) % 1.0;
+                        return {
+                            r: 0.3 + t * 0.7,
+                            g: 0.8 - t * 0.1,
+                            b: 1.0 - t * 0.7
+                        };
+                    } else if (sSubType === 'spiral') {
+                        // Espirales: cyan energético
+                        return { r: 0.2, g: 0.75, b: 0.95 };
+                    } else if (sSubType === 'ring') {
+                        // Anillos: dorado brillante
+                        return { r: 1.0, g: 0.85, b: 0.3 };
+                    } else if (sSubType === 'meridian') {
+                        // Meridianos: dorado suave, más tenue que anillos
+                        return { r: 0.8, g: 0.65, b: 0.2 };
+                    } else if (sSubType === 'dust') {
+                        // Polvo ambiente: gris cálido muy tenue
+                        return { r: 0.3, g: 0.25, b: 0.18 };
+                    } else {
+                        // Superficie: dorado cálido
+                        return { r: 0.95, g: 0.75, b: 0.2 };
+                    }
+                }
+
+                // Default to explicit color if subType logic isn't applicable
+                if (!sSubType && sColors[i]) return new THREE.Color(sColors[i]); // fallback
+                if (sColors[i] === 'gold' && !sSubType) {
+                    // Default gold fallback
+                    return goldColors.medium;
+                }
+
+                // Structure vs Energy Logic
+                if (sSubType === 'edge') return goldColors.medium;
+                if (sSubType === 'vertex') return goldColors.bright;
+
+                // Vibrant Energy
+                const hNorm = (y + 10) / 20;
+                const hue = (hNorm * 0.8 + time * 0.05) % 1.0;
+                const r = Math.sin(hue * 6.28 + 0) * 0.5 + 0.5;
+                const g = Math.sin(hue * 6.28 + 2.09) * 0.5 + 0.5;
+                const b = Math.sin(hue * 6.28 + 4.18) * 0.5 + 0.5;
+                const mixGold = 0.3;
+                return {
+                    r: r * (1 - mixGold) + 1.0 * mixGold,
+                    g: g * (1 - mixGold) + 0.8 * mixGold,
+                    b: b * (1 - mixGold) + 0.2 * mixGold
+                };
+            }
+
+            // SCROLL ANIMATION
+            // ============================================
+            let scrollProgress = { value: 0 };
+            let currentSection = 0;
+            let time = 0;
+
+            gsap.to(scrollProgress, {
+                value: 1,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '.scroll-container',
+                    start: 'top top',
+                    end: 'bottom bottom',
+                    scrub: 1.2, // Más suave para evitar saltos
+                    onUpdate: (self) => {
+                        progressBar.style.width = (self.progress * 100) + '%';
+
+                        const sectionIndex = Math.min(Math.floor(self.progress * panelContents.length), panelContents.length - 1);
+
+                        if (sectionIndex !== currentSection) {
+                            currentSection = sectionIndex;
+                            pageNum.textContent = (sectionIndex + 1).toString().padStart(2, '0');
+                            sectionNameEl.textContent = panelContents[sectionIndex].label;
+
+                            dots.forEach((dot, i) => {
+                                dot.classList.toggle('active', i === sectionIndex);
+                            });
+
+                            // Hide scroll hint
+                            if (sectionIndex > 0) {
+                                scrollHint.style.opacity = '0';
+                            }
+                        }
+                    }
+                }
+            });
+
+            // ============================================
+            // ANIMATION LOOP
+            // ============================================
+            function animate() {
+                requestAnimationFrame(animate);
+                time += 0.012;
+
+                const t = scrollProgress.value;
+
+                // Section progress
+                const sectionProgress = t * (panelContents.length - 1);
+                const currentIdx = Math.min(Math.floor(sectionProgress), panelContents.length - 1);
+                const nextIdx = Math.min(currentIdx + 1, panelContents.length - 1);
+                const mix = sectionProgress - currentIdx;
+                const safeNextIdx = symbolShapes[nextIdx] ? nextIdx : currentIdx;
+
+                // Camera — linear interpolation between section Z positions
+                const camZ0 = cameraZPositions[currentIdx];
+                const camZ1 = cameraZPositions[Math.min(nextIdx, cameraZPositions.length - 1)];
+                // Easing suave para la transición de cámara
+                const easedMix = mix * mix * (3 - 2 * mix); // smoothstep
+                const targetCamZ = camZ0 + (camZ1 - camZ0) * easedMix;
+                camera.position.z += (targetCamZ - camera.position.z) * 0.08; // Lerp más lento = más suave
+                camera.lookAt(0, 0, camera.position.z - 100);
+
+                // Timelines
+                let symbolMix = 0;
+                let cardMix = 0;
+                const smoothStep = (x) => x * x * (3 - 2 * x);
+
+                if (currentIdx === 0) {
+                    symbolMix = 0;
+                    cardMix = smoothStep(mix);
+                } else {
+                    symbolMix = smoothStep(Math.min(Math.max(mix / 0.6, 0), 1));
+                    cardMix = smoothStep(Math.min(Math.max((mix - 0.4) / 0.6, 0), 1));
+                }
+
+                // Merkaba intensity
+                let merkabaMix = 0;
+                if (currentIdx === 0) merkabaMix = 1.0;
+                else if (currentIdx === 1) merkabaMix = 1.0 - symbolMix;
+
+                // Opacidad constante - sin cambios de tamaño para evitar zoom
+                particleMaterial.uniforms.opacity.value = 0.9;
+                particleMaterial.uniforms.baseSize.value = 5.5; // Tamaño fijo, sin zoom
+
+                const buf = particles.geometry.attributes.position.array;
+                const colorBuf = particles.geometry.attributes.color.array;
+                const sizeBuf = particles.geometry.attributes.size.array;
+
+                const current = symbolShapes[currentIdx];
+                const next = symbolShapes[safeNextIdx];
+                const currentSizes = symbolSizes[currentIdx];
+                const nextSizes = symbolSizes[safeNextIdx];
+
+                // Obtener tipos, subtipos y datos orbitales para el símbolo actual
+                const currentTypes = symbolTypes[currentIdx];
+                const currentSubTypes = symbolSubTypes[currentIdx];
+                const currentOrbital = symbolOrbitalData[currentIdx];
+
+                for (let i = 0; i < PARTICLE_COUNT; i++) {
+                    const i3 = i * 3;
+                    const seed = i * 0.0001;
+                    const pType = currentTypes[i];
+
+                    // Distancia de la partícula al centro (para ola radial)
+                    const cx = current[i3], cy = current[i3 + 1], cz = current[i3 + 2];
+                    const dist = Math.sqrt(cx * cx + cy * cy + cz * cz);
+                    const normalizedDist = Math.min(dist / 5.0, 1.0);
+
+                    // Ola radial: centro morfea primero, bordes después
+                    // Spread = cuánto se desfasa el morph (0.35 = ola suave)
+                    const waveOffset = normalizedDist * 0.35;
+                    const particleMix = (currentIdx === 0)
+                        ? symbolMix
+                        : Math.max(0, Math.min(1, (symbolMix - waveOffset) / (1.0 - waveOffset)));
+                    const easedMix = particleMix * particleMix * (3.0 - 2.0 * particleMix);
+
+                    let x = current[i3] + (next[i3] - current[i3]) * easedMix;
+                    let y = current[i3 + 1] + (next[i3 + 1] - current[i3 + 1]) * easedMix;
+                    let z = current[i3 + 2] + (next[i3 + 2] - current[i3 + 2]) * easedMix;
+
+                    // Merkaba: contra-rotación MUY lenta de tetraedros (suave y elegante)
+                    if (merkabaMix > 0.01) {
+                        let rotY = 0;
+                        if (pType === 'tetraUp') rotY = -time * 0.03;       // Antes 0.12
+                        else if (pType === 'tetraDown') rotY = time * 0.03; // Antes 0.12
+                        rotY *= merkabaMix;
+                        if (rotY !== 0) {
+                            const cosY = Math.cos(rotY);
+                            const sinY = Math.sin(rotY);
+                            const newX = x * cosY + z * sinY;
+                            const newZ = -x * sinY + z * cosY;
+                            x = newX;
+                            z = newZ;
+                        }
+                    }
+
+                    // === TORUS VÓRTEX COMPLETO ===
+                    const torusIdx = 3;
+                    const torusSubTypes = symbolSubTypes[torusIdx];
+                    const torusOrbital = symbolOrbitalData[torusIdx];
+                    const isTorusVisible = (currentIdx === torusIdx) || (safeNextIdx === torusIdx);
+                    const tSub = torusSubTypes ? torusSubTypes[i] : null;
+                    if (isTorusVisible && tSub && torusOrbital[i] && torusOrbital[i].phi !== undefined) {
+                        const od = torusOrbital[i];
+                        const TR = 3.0, Tr = 1.15;
+                        const _tX = -0.85, _tZ = 0.17;
+                        const _cTX = Math.cos(_tX), _sTX = Math.sin(_tX);
+                        const _cTZ = Math.cos(_tZ), _sTZ = Math.sin(_tZ);
+                        let flowPhi = od.phi, flowTh = od.theta, flowR = Tr;
+
+                        if (tSub === 'inner' || tSub === 'center') {
+                            // Vórtex helicoidal: flujo elegante por el agujero
+                            const phiSpeed = 0.35 + Math.abs(Math.sin(seed * 54321)) * 0.3;
+                            flowPhi = od.phi + time * phiSpeed;
+                            flowTh = od.theta + time * 0.6;
+                            if (tSub === 'center') flowR = 0.1 + Math.abs(Math.sin(seed * 12345)) * 0.2;
+                        } else if (tSub === 'spiral') {
+                            // Espirales: flujo suave a lo largo de su trayectoria
+                            flowPhi = od.phi + time * 0.2;
+                            flowTh = od.theta + time * 0.6;
+                        } else if (tSub === 'ring') {
+                            // Anillos: onda theta lenta
+                            flowTh = od.theta + time * 0.15;
+                        } else if (tSub === 'meridian') {
+                            // Meridianos: flujo phi suave
+                            flowPhi = od.phi + time * 0.1;
+                        } else if (tSub === 'surface') {
+                            // Superficie: drift toroidal sutil
+                            flowTh = od.theta + time * 0.05;
+                        } else if (tSub === 'dust') {
+                            // Polvo: drift mínimo
+                            flowTh = od.theta + time * 0.02;
+                        }
+
+                        const bx2 = (TR + flowR * Math.cos(flowTh)) * Math.cos(flowPhi);
+                        const by2 = flowR * Math.sin(flowTh);
+                        const bz2 = (TR + flowR * Math.cos(flowTh)) * Math.sin(flowPhi);
+                        const fry = by2 * _cTX - bz2 * _sTX;
+                        const frz = by2 * _sTX + bz2 * _cTX;
+                        const tx = bx2 * _cTZ - fry * _sTZ;
+                        const ty = bx2 * _sTZ + fry * _cTZ;
+                        const tz = frz;
+                        const torusFactor = (currentIdx === torusIdx) ? 1.0 : easedMix;
+                        x = x + (tx - x) * torusFactor;
+                        y = y + (ty - y) * torusFactor;
+                        z = z + (tz - z) * torusFactor;
+                    }
+
+                    buf[i3] = x;
+                    buf[i3 + 1] = y;
+                    buf[i3 + 2] = z;
+
+                    // Tamaño: interpolación limpia, sin melt
+                    const sizeA = currentSizes[i] || 1.0;
+                    const sizeB = nextSizes[i] || 1.0;
+                    let finalSize = sizeA + (sizeB - sizeA) * easedMix;
+                    // Pulso de tamaño para partículas del vórtex interior
+                    if (isTorusVisible && (tSub === 'inner' || tSub === 'center') && torusOrbital[i]) {
+                        const wSpeed = 0.5 + Math.abs(Math.sin(seed * 54321)) * 0.3;
+                        const wA = ((torusOrbital[i].phi + time * wSpeed) * 3.0) % (Math.PI * 2);
+                        finalSize *= (0.7 + Math.sin(wA) * 0.5);
+                    }
+                    sizeBuf[i] = finalSize;
+
+                    // Color interpolation
+                    const c1 = calculateSymbolColor(currentIdx, i, y, seed, time);
+                    const c2 = calculateSymbolColor(safeNextIdx, i, y, seed, time);
+                    colorBuf[i3] = c1.r + (c2.r - c1.r) * easedMix;
+                    colorBuf[i3 + 1] = c1.g + (c2.g - c1.g) * easedMix;
+                    colorBuf[i3 + 2] = c1.b + (c2.b - c1.b) * easedMix;
+                }
+                particles.geometry.attributes.position.needsUpdate = true;
+                particles.geometry.attributes.color.needsUpdate = true;
+                particles.geometry.attributes.size.needsUpdate = true;
+
+                // Mover el grupo del símbolo para que siga a la cámara (lerp suave)
+                // A la derecha (+8) - Balance entre espacio y presencia
+                const targetX = camera.position.x + 8;
+                const targetY = camera.position.y; // Centrado de nuevo
+                const targetZ = camera.position.z - 15;
+
+                symbolGroup.scale.set(0.75, 0.75, 0.75);
+
+                symbolGroup.position.x += (targetX - symbolGroup.position.x) * 0.15;
+                symbolGroup.position.y += (targetY - symbolGroup.position.y) * 0.15;
+                symbolGroup.position.z += (targetZ - symbolGroup.position.z) * 0.15;
+
+                // Rotaciones diferenciadas:
+                // - Merkaba: SIN rotación de grupo (las partículas interiores rotan individualmente)
+                // - Otros símbolos: rotación normal del grupo
+                // Rotaciones por seccion - MUY SUAVES Y UNIFORMES
+                // Velocidad reducida para movimiento elegante, no caótico
+                const baseRotSpeed = 0.008; // Muy lenta
+                const rotations = [
+                    { x: 0, y: time * baseRotSpeed, z: 0 },           // Intro
+                    { x: 0, y: time * baseRotSpeed, z: 0 },           // Merkaba
+                    { x: 0, y: 0, z: 0 },                             // Flor de la Vida - ESTÁTICA
+                    { x: 0, y: time * baseRotSpeed * 1.2, z: 0 }      // Torus
+                ];
+
+                if (merkabaMix > 0.01) {
+                    // Merkaba active rules
+
+                    // Interpolamos hacia 0 si estamos saliendo (transition_out)
+                    const rotFactor = 1.0 - merkabaMix;
+
+                    // Solo aplicamos rotación de grupo si estamos saliendo
+                    if (rotFactor > 0.01) {
+                        const rTarget = rotations[nextIdx] || rotations[rotations.length - 1];
+                        symbolGroup.rotation.x = rTarget.x * rotFactor;
+                        symbolGroup.rotation.y = rTarget.y * rotFactor;
+                        symbolGroup.rotation.z = rTarget.z * rotFactor;
+                    } else {
+                        symbolGroup.rotation.set(0, 0, 0);
+                    }
+
+                    // Animar tetraedros 3D (contra-rotación MUY lenta)
+                    tetraUpGroup.rotation.y = -time * 0.025;   // Antes 0.1
+                    tetraDownGroup.rotation.y = time * 0.025;  // Antes 0.1
+
+                    // Nebula aura y circulos
+                    nebulaMaterial.uniforms.globalTime.value = time;
+                    nebulaParticles.rotation.y = time * 0.02;
+                    nebulaParticles.rotation.z = Math.sin(time * 0.08) * 0.03;
+
+                    // Circulos (contra-rotación muy suave)
+                    innerCircle.rotation.z = -time * 0.012;   // Antes 0.04
+                    outerCircle.rotation.z = time * 0.008;    // Antes 0.02
+
+                    // Hacer visible el wireframe 3D y nebula
+                    tetraUpGroup.visible = true;
+                    tetraDownGroup.visible = true;
+                    innerCircle.visible = true;
+                    outerCircle.visible = true;
+                    nebulaParticles.visible = true;
+
+                    // Fade all Merkaba elements with merkabaMix
+                    nebulaMaterial.uniforms.opacity.value = 0.6 * merkabaMix;
+                    [tetraUpGroup, tetraDownGroup].forEach(group => {
+                        group.children.forEach(child => {
+                            child.material.opacity = merkabaMix;
+                        });
+                    });
+                    innerCircle.children.forEach(child => {
+                        child.material.opacity = 0.5 * merkabaMix;
+                    });
+                    outerCircle.children.forEach(child => {
+                        child.material.opacity = 0.5 * merkabaMix;
+                    });
+
+                } else {
+                    // Ocultar wireframe Merkaba (ya con opacidad ~0 al llegar aqui)
+                    tetraUpGroup.visible = false;
+                    tetraDownGroup.visible = false;
+                    innerCircle.visible = false;
+                    outerCircle.visible = false;
+                    nebulaParticles.visible = false;
+
+                    // Rotaciones normales: siempre mezclar de r1 → r2
+                    const r1 = rotations[currentIdx] || rotations[rotations.length - 1];
+                    const r2 = rotations[nextIdx] || rotations[rotations.length - 1];
+
+                    if (r1 && r2) {
+                        symbolGroup.rotation.x = r1.x + (r2.x - r1.x) * symbolMix;
+                        symbolGroup.rotation.y = r1.y + (r2.y - r1.y) * symbolMix;
+                        symbolGroup.rotation.z = r1.z + (r2.z - r1.z) * symbolMix;
+                    }
+                }
+
+                // ========================================
+                // GALAXIA ESPIRAL (alrededor de Flor de la Vida)
+                // ========================================
+                const isFlowerSection = (currentIdx === 2) || (currentIdx === 1 && symbolMix > 0.3);
+
+                // YA NO REINICIAMOS EL TIEMPO - Usamos tiempo continuo para evitar saltos
+
+                if (isFlowerSection) {
+                    // Calculo de intensidad (Fade In / Fade Out)
+                    let flowerIntensity = 0;
+
+                    if (currentIdx === 1) {
+                        // FADE IN (entrando desde Merkaba)
+                        flowerIntensity = Math.max(0, (symbolMix - 0.3) / 0.7);
+                    } else if (currentIdx === 2) {
+                        // SECTION 2 (Flor de la vida) -> Transición a 3 (Torus)
+                        // Mantener visible al principio, desvanecer al final de la transición
+                        // mix va de 0 a 1. Fade out empieza en 0.5
+                        const fadeStart = 0.5;
+                        if (mix > fadeStart) {
+                            flowerIntensity = 1.0 - (mix - fadeStart) / (1.0 - fadeStart);
+                        } else {
+                            flowerIntensity = 1.0;
+                        }
+                    } else {
+                        flowerIntensity = 0;
+                    }
+
+                    // Usamos el tiempo global 'time' para continuidad perfecta
+                    const galaxyTime = time;
+
+                    // EXPANSIÓN durante transición de salida (2 -> 3)
+                    let expansion = 1.0;
+                    if (currentIdx === 2 && mix > 0.1) {
+                        // Expandir sutilmente al irse
+                        expansion = 1.0 + (mix - 0.1) * 0.8;
+                    }
+
+                    // GALAXIA - visible y animada con movimiento de partículas
+                    flowerNebulaParticles.visible = true;
+                    flowerNebulaMaterial.opacity = 0.85 * flowerIntensity;
+
+                    // Mover cada partícula individualmente (efecto cometa + expansión)
+                    const galPos = flowerNebulaParticles.geometry.attributes.position.array;
+                    for (let i = 0; i < galaxyCount; i++) {
+                        const i3 = i * 3;
+                        const data = galaxyAngularData[i];
+
+                        // Nuevo ángulo basado en tiempo global continuo
+                        const newAngle = data.baseAngle + galaxyTime * data.speed;
+
+                        // Aplicar expansión
+                        const r = data.radius * expansion;
+
+                        galPos[i3] = Math.cos(newAngle) * r;
+                        galPos[i3 + 1] = Math.sin(newAngle) * r;
+                        galPos[i3 + 2] = data.baseZ * expansion; // Expandir también en Z
+                    }
+                    flowerNebulaParticles.geometry.attributes.position.needsUpdate = true;
+
+                    // ESTELAS - visible y siguiendo a la galaxia
+                    trailParticles.visible = true;
+                    trailMaterial.opacity = 0.4 * flowerIntensity;
+
+                    // Mover estelas ligeramente atrás de las partículas principales
+                    const tPos = trailParticles.geometry.attributes.position.array;
+                    for (let i = 0; i < trailCount; i++) {
+                        const srcIdx = i % galaxyCount;
+                        const data = galaxyAngularData[srcIdx];
+                        const i3 = i * 3;
+
+                        // Ángulo ligeramente atrás (estela)
+                        const trailLag = 0.15 + (i % 10) * 0.02;
+                        const newAngle = data.baseAngle + galaxyTime * data.speed - trailLag;
+                        const r = (data.radius - 0.1) * expansion;
+
+                        tPos[i3] = Math.cos(newAngle) * r;
+                        tPos[i3 + 1] = Math.sin(newAngle) * r;
+                    }
+                    trailParticles.geometry.attributes.position.needsUpdate = true;
+
+                } else {
+                    flowerNebulaParticles.visible = false;
+                    trailParticles.visible = false;
+                }
+
+                // ========================================
+                // PARTÍCULAS CONECTORAS (siempre activas, fluyen entre secciones)
+                // ========================================
+                const conPos = connectorParticles.geometry.attributes.position.array;
+                for (let i = 0; i < connectorCount; i++) {
+                    const i3 = i * 3;
+                    const vel = connectorVelocities[i];
+
+                    // Mover horizontalmente
+                    conPos[i3] += vel.vx;
+                    conPos[i3 + 1] += Math.sin(time * 0.5 + i * 0.1) * vel.vy;
+                    conPos[i3 + 2] += Math.cos(time * 0.3 + i * 0.15) * vel.vz;
+
+                    // Reiniciar cuando salen del área
+                    if (conPos[i3] > 45) {
+                        conPos[i3] = -45;
+                        conPos[i3 + 1] = (Math.random() - 0.5) * 20;
+                    }
+                }
+                connectorParticles.geometry.attributes.position.needsUpdate = true;
+
+                // Ambient particles
+                ambientParticles.rotation.y += 0.0003;
+
+                // ========================================
+                // ANIMACIÓN DE PANELES (Chain System)
+                // ========================================
+
+                // Ocultar paneles que no son actuales
+                panels.forEach((panel, idx) => {
+                    if (panel && idx !== currentIdx && idx !== nextIdx) {
+                        panel.visible = false;
+                    }
+                });
+
+                // Panel Z siempre relativo a la camara
+                const panelZ = camera.position.z - panelViewDistance;
+
+                // 1. Panel Entrando — desliza desde detras del simbolo hacia la izquierda
+                if (nextIdx !== currentIdx && panels[nextIdx]) {
+                    const ease = cardMix * cardMix * (3.0 - 2.0 * cardMix);
+                    panels[nextIdx].position.set(8.0 + (-4.5 - 8.0) * ease, 0, panelZ);
+                    panels[nextIdx].rotation.set(0, 0.1, 0);
+                    panels[nextIdx].scale.set(1, 1, 1);
+                    panels[nextIdx].material.uniforms.opacity.value = 0.95 * ease;
+                    panels[nextIdx].visible = true;
+                }
+
+                // 2. Panel Saliendo — fade out suave (sin corte brusco)
+                if (panels[currentIdx] && currentIdx > 0) {
+                    if (nextIdx === currentIdx) {
+                        panels[currentIdx].position.set(-4.5, 0, panelZ);
+                        panels[currentIdx].rotation.set(0, 0.1, 0);
+                        panels[currentIdx].scale.set(1, 1, 1);
+                        panels[currentIdx].material.uniforms.opacity.value = 0.95;
+                        panels[currentIdx].visible = true;
+                    } else {
+                        // Easing más suave (smoothstep en lugar de cuadrático)
+                        const exitEase = mix * mix * (3.0 - 2.0 * mix);
+                        // Movimiento vertical muy reducido (antes 3.0, ahora 0.8)
+                        panels[currentIdx].position.set(-4.5, -exitEase * 0.8, panelZ);
+                        panels[currentIdx].rotation.set(0, 0.1, 0);
+                        panels[currentIdx].scale.set(1, 1, 1);
+                        // Fade out más gradual (comienza más tarde en la transición)
+                        const opacityFade = Math.max(0, 1.0 - exitEase * 1.3);
+                        panels[currentIdx].material.uniforms.opacity.value = 0.95 * opacityFade;
+                        panels[currentIdx].visible = opacityFade > 0.01;
+                    }
+                }
+
+                composer.render();
+            }
+
+            animate();
+
+            // Resize manejado por onWindowResize arriba
+
+            // Click dots
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const idx = parseInt(dot.dataset.index);
+                    const target = (idx / (panelContents.length - 1)) * (document.documentElement.scrollHeight - window.innerHeight);
+                    window.scrollTo({ top: target, behavior: 'smooth' });
+                });
+            });
+
+            // Listen for scroll messages from parent (when embedded in iframe)
+            window.addEventListener('message', function (event) {
+                if (event.data && event.data.type === 'parentScroll') {
+                    const progress = event.data.progress;
+                    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                    const targetScroll = progress * maxScroll;
+                    window.scrollTo({ top: targetScroll, behavior: 'instant' });
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
