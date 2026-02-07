@@ -12,6 +12,7 @@
     <meta name="keywords"
         content="Eugene Mierak, frequency practitioner, alignment, sustainability, SBDI Foundation, global partnerships">
     <!-- Force Update: 2026-02-07 22:38 -->
+    <script>if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; window.scrollTo(0, 0);</script>
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
@@ -215,7 +216,7 @@
 
         <!-- "About Me" Link to full experience -->
         <div class="hero-scroll">
-            <a href="about.html" class="scroll-about-btn" aria-label="Go to About Me experience">ABOUT ME</a>
+            <a href="#about" class="scroll-about-btn" aria-label="Go to About Me experience">ABOUT ME</a>
         </div>
     </header>
 
@@ -223,9 +224,9 @@
     <section class="about-particle-experience" id="about" style="
         position: relative;
         width: 100%;
-        height: 200vh;
+        height: 500vh;
         overflow: visible;
-        contain: layout style;
+        z-index: 1;
     ">
         <iframe id="aboutIframe" src="about_v2.html" scrolling="no" style="
                 position: sticky;
@@ -242,39 +243,63 @@
     </section>
 
     <script>
-        // Sync parent scroll with iframe (RAF throttled for performance)
+        // Scroll sync + Auto-play first card
         (function () {
             const aboutSection = document.getElementById('about');
             const iframe = document.getElementById('aboutIframe');
-            let ticking = false;
+
+            let autoProgress = 0;
+            let autoDone = false;
+            let lastSentProgress = -1;
+            let sectionActive = false;
+
+            const autoSpeed = 0.0005;
+            const autoLimit = 0.333;
+
+            function sendProgress(progress) {
+                if (Math.abs(progress - lastSentProgress) > 0.0001 && iframe.contentWindow) {
+                    lastSentProgress = progress;
+                    iframe.contentWindow.postMessage({
+                        type: 'parentScroll',
+                        progress: progress
+                    }, '*');
+                }
+            }
 
             window.addEventListener('scroll', function () {
-                if (!ticking) {
-                    requestAnimationFrame(function () {
-                        const rect = aboutSection.getBoundingClientRect();
-                        const sectionHeight = aboutSection.offsetHeight;
-                        const viewportHeight = window.innerHeight;
+                const rect = aboutSection.getBoundingClientRect();
+                const sectionHeight = aboutSection.offsetHeight;
+                const viewportHeight = window.innerHeight;
 
-                        // Calculate how far through the About section we've scrolled
-                        if (rect.top <= 0 && rect.bottom >= viewportHeight) {
-                            const scrolled = Math.abs(rect.top);
-                            const maxScroll = sectionHeight - viewportHeight;
-                            const progress = scrolled / maxScroll;
+                if (rect.top <= 0 && rect.bottom >= viewportHeight) {
+                    sectionActive = true;
+                    const scrolled = Math.abs(rect.top);
+                    const maxScroll = sectionHeight - viewportHeight;
+                    const scrollProgress = Math.max(0, Math.min(1, scrolled / maxScroll));
 
-                            // Send scroll progress to iframe
-                            if (iframe.contentWindow) {
-                                iframe.contentWindow.postMessage({
-                                    type: 'parentScroll',
-                                    progress: progress,
-                                    scrollY: scrolled
-                                }, '*');
-                            }
-                        }
-                        ticking = false;
-                    });
-                    ticking = true;
+                    // Remap: scroll range maps to remaining animation after auto-play
+                    // scroll 0 = autoLimit (first card), scroll 1 = 1.0 (end)
+                    const remapped = autoLimit + scrollProgress * (1 - autoLimit);
+                    const progress = Math.max(remapped, autoProgress);
+                    sendProgress(progress);
+                } else if (rect.top > 0) {
+                    sectionActive = false;
+                    autoProgress = 0;
+                    autoDone = false;
+                    sendProgress(0);
                 }
             }, { passive: true });
+
+            // Auto-play: animates first card without moving page
+            function autoPlayLoop() {
+                if (sectionActive && autoProgress < autoLimit) {
+                    autoProgress += autoSpeed;
+                    autoProgress = Math.min(autoLimit, autoProgress);
+                    sendProgress(autoProgress);
+                }
+                requestAnimationFrame(autoPlayLoop);
+            }
+            requestAnimationFrame(autoPlayLoop);
         })();
     </script>
 

@@ -30,9 +30,9 @@ function initSmoothScroll() {
     try {
         // Initialize Lenis - balanced smooth scroll
         const lenis = new Lenis({
-            lerp: 0.15,  // 0.15 = more responsive (was 0.1 = too slow)
-            wheelMultiplier: 1.2,  // Slightly faster wheel response
-            touchMultiplier: 2,
+            lerp: 0.09,  // Suave pero sin atascos en bordes de sección
+            wheelMultiplier: 0.8,  // Scroll pausado
+            touchMultiplier: 1.4,
             smoothWheel: true,
             syncTouch: false,
         });
