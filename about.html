@@ -1899,37 +1899,49 @@
             let scrollProgress = { value: 0 };
             let currentSection = 0;
             let time = 0;
+            let isInsideIframe = (window.parent !== window);
 
-            gsap.to(scrollProgress, {
-                value: 1,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: '.scroll-container',
-                    start: 'top top',
-                    end: 'bottom bottom',
-                    scrub: 1.2, // Más suave para evitar saltos
-                    onUpdate: (self) => {
-                        progressBar.style.width = (self.progress * 100) + '%';
-
-                        const sectionIndex = Math.min(Math.floor(self.progress * panelContents.length), panelContents.length - 1);
-
-                        if (sectionIndex !== currentSection) {
-                            currentSection = sectionIndex;
-                            pageNum.textContent = (sectionIndex + 1).toString().padStart(2, '0');
-                            sectionNameEl.textContent = panelContents[sectionIndex].label;
-
-                            dots.forEach((dot, i) => {
-                                dot.classList.toggle('active', i === sectionIndex);
-                            });
-
-                            // Hide scroll hint
-                            if (sectionIndex > 0) {
-                                scrollHint.style.opacity = '0';
-                            }
-                        }
+            function updateUI(progress) {
+                progressBar.style.width = (progress * 100) + '%';
+                const sectionIndex = Math.min(Math.floor(progress * panelContents.length), panelContents.length - 1);
+                if (sectionIndex !== currentSection) {
+                    currentSection = sectionIndex;
+                    pageNum.textContent = (sectionIndex + 1).toString().padStart(2, '0');
+                    sectionNameEl.textContent = panelContents[sectionIndex].label;
+                    dots.forEach((dot, i) => {
+                        dot.classList.toggle('active', i === sectionIndex);
+                    });
+                    if (sectionIndex > 0) {
+                        scrollHint.style.opacity = '0';
                     }
                 }
-            });
+            }
+
+            if (isInsideIframe) {
+                // Dentro de iframe: recibir scroll del padre via postMessage
+                window.addEventListener('message', function(e) {
+                    if (e.data && e.data.type === 'parentScroll') {
+                        const p = Math.max(0, Math.min(1, e.data.progress));
+                        scrollProgress.value = p;
+                        updateUI(p);
+                    }
+                });
+            } else {
+                // Standalone: usar ScrollTrigger normal
+                gsap.to(scrollProgress, {
+                    value: 1,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: '.scroll-container',
+                        start: 'top top',
+                        end: 'bottom bottom',
+                        scrub: 1.2,
+                        onUpdate: (self) => {
+                            updateUI(self.progress);
+                        }
+                    }
+                });
+            }
 
             // ============================================
             // ANIMATION LOOP
