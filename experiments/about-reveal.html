@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Frequency Architect</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #070809;
+            --gold: #c9a55c;
+            --text: #f0ede6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Cormorant Garamond', serif;
+            overflow: hidden;
+            height: 100vh;
+            cursor: none;
+        }
+
+        /* CURSOR */
+        .cursor {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.15s;
+            opacity: 0.6;
+        }
+
+        .cursor-dot {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
+
+        /* BACKGROUND */
+        .bg-img {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+        }
+
+        .bg-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            background:
+                radial-gradient(ellipse at 65% 50%, transparent 20%, rgba(7,8,9,0.4) 50%, rgba(7,8,9,0.9) 100%),
+                linear-gradient(90deg, rgba(7,8,9,0.85) 0%, rgba(7,8,9,0.3) 40%, transparent 60%);
+        }
+
+        /* GRID EFFECT OVERLAY */
+        .grid-effect {
+            position: fixed;
+            inset: 0;
+            z-index: 5;
+            display: grid;
+            grid-template-columns: repeat(20, 1fr);
+            grid-template-rows: repeat(12, 1fr);
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .grid-tile {
+            background: var(--gold);
+            opacity: 0;
+        }
+
+        /* PARTICLES */
+        #particles {
+            position: fixed;
+            inset: 0;
+            z-index: 6;
+            pointer-events: none;
+        }
+
+        /* NOISE */
+        .noise {
+            position: fixed;
+            inset: 0;
+            z-index: 7;
+            pointer-events: none;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* CONTENT */
+        .content {
+            position: fixed;
+            inset: 0;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            padding: 0 10%;
+        }
+
+        .panel {
+            position: absolute;
+            opacity: 0;
+            visibility: hidden;
+            width: 100%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            padding: 0 5%;
+        }
+
+        .panel.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Alternate layout */
+        .panel:nth-child(even) {
+            direction: rtl;
+        }
+        .panel:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        /* TEXT SIDE */
+        .panel-text {
+            position: relative;
+        }
+
+        .p-num {
+            font-size: 10rem;
+            font-weight: 300;
+            color: rgba(201, 165, 92, 0.06);
+            position: absolute;
+            top: -100px;
+            left: -40px;
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .p-label {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .p-label-bar {
+            width: 50px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        .p-label-text {
+            font-size: 0.85rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        .p-title {
+            font-size: clamp(3.5rem, 7vw, 5.5rem);
+            font-weight: 300;
+            line-height: 1;
+            letter-spacing: -3px;
+            margin-bottom: 36px;
+            overflow: hidden;
+        }
+
+        .p-title .char {
+            display: inline-block;
+            opacity: 0;
+        }
+
+        .p-body {
+            font-size: 1.25rem;
+            line-height: 1.85;
+            color: rgba(255,255,255,0.7);
+            max-width: 480px;
+        }
+
+        .p-body .word {
+            display: inline-block;
+            opacity: 0;
+            margin-right: 0.3em;
+        }
+
+        .hl {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        /* VISUAL SIDE */
+        .panel-visual {
+            position: relative;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Decorative elements */
+        .deco-circle {
+            position: absolute;
+            border: 1px solid rgba(201, 165, 92, 0.15);
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        .deco-circle:nth-child(1) { width: 300px; height: 300px; }
+        .deco-circle:nth-child(2) { width: 200px; height: 200px; }
+        .deco-circle:nth-child(3) { width: 100px; height: 100px; }
+
+        .deco-line {
+            position: absolute;
+            background: rgba(201, 165, 92, 0.2);
+            opacity: 0;
+        }
+
+        .deco-line.h { width: 150px; height: 1px; }
+        .deco-line.v { width: 1px; height: 150px; }
+
+        /* NAV */
+        .nav {
+            position: fixed;
+            top: 40px;
+            right: 50px;
+            z-index: 100;
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav a {
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: color 0.4s;
+        }
+
+        .nav a:hover { color: var(--gold); }
+
+        /* PROGRESS */
+        .progress {
+            position: fixed;
+            left: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .prog-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            opacity: 0.3;
+            transition: opacity 0.4s;
+        }
+
+        .prog-item.active { opacity: 1; }
+        .prog-item:hover { opacity: 0.7; }
+
+        .prog-num {
+            font-size: 0.8rem;
+            color: var(--gold);
+            width: 24px;
+        }
+
+        .prog-line {
+            width: 30px;
+            height: 1px;
+            background: rgba(255,255,255,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .prog-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gold);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s;
+        }
+
+        .prog-item.active .prog-fill {
+            transform: scaleX(1);
+        }
+
+        /* SCROLL HINT */
+        .scroll-hint {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .scroll-text {
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 50px;
+            background: rgba(255,255,255,0.15);
+            position: relative;
+        }
+
+        .scroll-dot {
+            position: absolute;
+            top: 0;
+            left: -2px;
+            width: 5px;
+            height: 5px;
+            background: var(--gold);
+            border-radius: 50%;
+        }
+
+        @media (max-width: 1024px) {
+            .panel {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .panel-visual { display: none; }
+            .panel:nth-child(even) { direction: ltr; }
+        }
+
+        @media (max-width: 768px) {
+            .content { padding: 0 5%; }
+            .p-title { font-size: 3rem; }
+            .p-body { font-size: 1.1rem; }
+            .progress { left: 20px; }
+            .nav { right: 20px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+    <div class="noise"></div>
+
+    <div class="bg-img">
+        <img src="assets/meditation-bg.png" alt="">
+    </div>
+    <div class="bg-overlay"></div>
+
+    <!-- GRID EFFECT (for transitions) -->
+    <div class="grid-effect" id="grid"></div>
+
+    <canvas id="particles"></canvas>
+
+    <nav class="nav">
+        <a href="index.html">Index</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <div class="progress">
+        <div class="prog-item active" data-idx="0">
+            <span class="prog-num">01</span>
+            <div class="prog-line"><div class="prog-fill"></div></div>
+        </div>
+        <div class="prog-item" data-idx="1">
+            <span class="prog-num">02</span>
+            <div class="prog-line"><div class="prog-fill"></div></div>
+        </div>
+        <div class="prog-item" data-idx="2">
+            <span class="prog-num">03</span>
+            <div class="prog-line"><div class="prog-fill"></div></div>
+        </div>
+        <div class="prog-item" data-idx="3">
+            <span class="prog-num">04</span>
+            <div class="prog-line"><div class="prog-fill"></div></div>
+        </div>
+        <div class="prog-item" data-idx="4">
+            <span class="prog-num">05</span>
+            <div class="prog-line"><div class="prog-fill"></div></div>
+        </div>
+    </div>
+
+    <div class="scroll-hint">
+        <span class="scroll-text">Scroll</span>
+        <div class="scroll-line">
+            <div class="scroll-dot"></div>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <!-- PANEL 1 -->
+        <article class="panel active" data-idx="0">
+            <div class="panel-text">
+                <div class="p-num">01</div>
+                <div class="p-label">
+                    <div class="p-label-bar"></div>
+                    <span class="p-label-text">Identity</span>
+                </div>
+                <h2 class="p-title">Frequency Practitioner</h2>
+                <p class="p-body">I'm Eugene Mierak, specializing in <span class="hl">alignment caching</span>, coherence training, and energetic training to support clarity, stability, and <span class="hl">conscious evolution</span>.</p>
+            </div>
+            <div class="panel-visual">
+                <div class="deco-circle"></div>
+                <div class="deco-circle"></div>
+                <div class="deco-circle"></div>
+                <div class="deco-line h" style="top: 30%; left: 10%;"></div>
+                <div class="deco-line v" style="top: 20%; right: 20%;"></div>
+            </div>
+        </article>
+
+        <!-- PANEL 2 -->
+        <article class="panel" data-idx="1">
+            <div class="panel-text">
+                <div class="p-num">02</div>
+                <div class="p-label">
+                    <div class="p-label-bar"></div>
+                    <span class="p-label-text">The Bridge</span>
+                </div>
+                <h2 class="p-title">Resonance & Alignment</h2>
+                <p class="p-body">Bridging <span class="hl">subtle frequency sciences</span> with practical frameworks for personal, organizational, and planetary alignment—cultivating <span class="hl">resonance</span> in real-world decisions.</p>
+            </div>
+            <div class="panel-visual">
+                <div class="deco-circle"></div>
+                <div class="deco-circle"></div>
+                <div class="deco-circle"></div>
+                <div class="deco-line h" style="bottom: 30%; right: 10%;"></div>
+                <div class="deco-line v" style="bottom: 20%; left: 20%;"></div>
+            </div>
+        </article>
+
+        <!-- PANEL 3 -->
+        <article class="panel" data-idx="2">
+            <div class="panel-text">
+                <div class="p-num">03</div>
+                <div class="p-label">
+                    <div class="p-label-bar"></div>
+                    <span class="p-label-text">Global Impact</span>
+                </div>
+                <h2 class="p-title">SBDI Foundation</h2>
+                <p class="p-body">As Director of International Relationships, fostering global partnerships for <span class="hl">holistic sustainability</span> and regenerative development across cultures.</p>
+            </div>
+            <div class="panel-visual">
+                <div class="deco-circle"></div>
+                <div class="deco-circle"></div>
+                <div class="deco-circle"></div>
+                <div class="deco-line h" style="top: 40%; left: 5%;"></div>
+                <div class="deco-line v" style="top: 10%; right: 25%;"></div>
+            </div>
+        </article>
+
+        <!-- PANEL 4 -->
+        <article class="panel" data-idx="3">
+            <div class="panel-text">
+                <div class="p-num">04</div>
+                <div class="p-label">
+                    <div class="p-label-bar"></div>
+                    <span class="p-label-text">Philosophy</span>
+                </div>
+                <h2 class="p-title">Systems Thinking</h2>
+                <p class="p-body">Grounded in <span class="hl">systems thinking</span>, emphasizing resonance, long-term balance, and alignment between human potential and ecological responsibility.</p>
+            </div>
+            <div class="panel-visual">
+                <div class="deco-circle"></div>
+                <div class="deco-circle"></div>
+                <div class="deco-circle"></div>
+                <div class="deco-line h" style="bottom: 35%; right: 15%;"></div>
+                <div class="deco-line v" style="bottom: 25%; left: 15%;"></div>
+            </div>
+        </article>
+
+        <!-- PANEL 5 -->
+        <article class="panel" data-idx="4">
+            <div class="panel-text">
+                <div class="p-num">05</div>
+                <div class="p-label">
+                    <div class="p-label-bar"></div>
+                    <span class="p-label-text">Mission</span>
+                </div>
+                <h2 class="p-title">Conscious Impact</h2>
+                <p class="p-body">Supporting the emergence of sustainable projects through <span class="hl">frequency awareness</span> and strategic alignment—creating lasting impact for <span class="hl">the planet</span>.</p>
+            </div>
+            <div class="panel-visual">
+                <div class="deco-circle"></div>
+                <div class="deco-circle"></div>
+                <div class="deco-circle"></div>
+                <div class="deco-line h" style="top: 45%; left: 10%;"></div>
+                <div class="deco-line v" style="top: 15%; right: 30%;"></div>
+            </div>
+        </article>
+
+    </div>
+
+    <script src="js/anime.umd.min.js"></script>
+    <script>
+        const { animate, stagger, createTimeline, utils } = anime;
+
+        // === STATE ===
+        let current = 0;
+        const total = 5;
+        let animating = false;
+        let lastWheel = 0;
+        const cooldown = 1400;
+
+        let mx = window.innerWidth / 2;
+        let my = window.innerHeight / 2;
+
+        // === SETUP GRID ===
+        const grid = document.getElementById('grid');
+        const cols = 20;
+        const rows = 12;
+        for (let i = 0; i < cols * rows; i++) {
+            const tile = document.createElement('div');
+            tile.classList.add('grid-tile');
+            grid.appendChild(tile);
+        }
+        const tiles = document.querySelectorAll('.grid-tile');
+
+        // === SPLIT TEXT INTO CHARS/WORDS ===
+        document.querySelectorAll('.p-title').forEach(title => {
+            const text = title.textContent;
+            title.innerHTML = text.split('').map(char =>
+                char === ' ' ? ' ' : `<span class="char">${char}</span>`
+            ).join('');
+        });
+
+        document.querySelectorAll('.p-body').forEach(body => {
+            const html = body.innerHTML;
+            // Wrap words but preserve HTML tags
+            const wrapped = html.replace(/(\S+)/g, '<span class="word">$1</span>');
+            body.innerHTML = wrapped;
+        });
+
+        // === CURSOR ===
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+        let cx = mx, cy = my;
+
+        document.addEventListener('mousemove', e => {
+            mx = e.clientX;
+            my = e.clientY;
+            cursorDot.style.left = mx + 'px';
+            cursorDot.style.top = my + 'px';
+        });
+
+        (function tick() {
+            cx += (mx - cx) * 0.12;
+            cy += (my - cy) * 0.12;
+            cursor.style.left = cx + 'px';
+            cursor.style.top = cy + 'px';
+            requestAnimationFrame(tick);
+        })();
+
+        // === PARTICLES ===
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            const count = Math.floor((canvas.width * canvas.height) / 18000);
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    r: Math.random() * 1.5 + 0.5,
+                    a: Math.random() * 0.4 + 0.1,
+                    p: Math.random() * Math.PI * 2,
+                    s: Math.random() * 0.02 + 0.01
+                });
+            }
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.p += p.s;
+                const pulse = 0.5 + Math.sin(p.p) * 0.5;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(201,165,92,${p.a * pulse})`;
+                ctx.fill();
+            });
+            requestAnimationFrame(drawParticles);
+        }
+        drawParticles();
+
+        // === SCROLL DOT ===
+        animate('.scroll-dot', {
+            translateY: [0, 40],
+            opacity: [1, 0],
+            duration: 1500,
+            loop: true,
+            ease: 'inOut(2)'
+        });
+
+        // === PANEL ANIMATIONS ===
+        const panels = document.querySelectorAll('.panel');
+        const progItems = document.querySelectorAll('.prog-item');
+
+        // Stagger origins for variety
+        const staggerOrigins = ['center', 'first', 'last', 'center', 'first'];
+
+        function animateGridReveal(fromCenter = true) {
+            grid.style.opacity = '1';
+
+            // Calculate center tile index
+            const centerCol = Math.floor(cols / 2);
+            const centerRow = Math.floor(rows / 2);
+            const centerIdx = centerRow * cols + centerCol;
+
+            animate(tiles, {
+                opacity: [0, 0.08, 0],
+                scale: [0.8, 1, 0.8],
+                duration: 800,
+                delay: stagger(15, {
+                    grid: [cols, rows],
+                    from: fromCenter ? centerIdx : 'first'
+                }),
+                ease: 'out(2)',
+                onComplete: () => grid.style.opacity = '0'
+            });
+        }
+
+        function animateIn(panel, origin = 'center') {
+            const chars = panel.querySelectorAll('.char');
+            const words = panel.querySelectorAll('.word');
+            const label = panel.querySelector('.p-label');
+            const labelBar = panel.querySelector('.p-label-bar');
+            const num = panel.querySelector('.p-num');
+            const circles = panel.querySelectorAll('.deco-circle');
+            const lines = panel.querySelectorAll('.deco-line');
+
+            panel.classList.add('active');
+
+            // Reset
+            utils.set(chars, { opacity: 0, translateY: 40, rotate: 10 });
+            utils.set(words, { opacity: 0, translateY: 20 });
+            utils.set(label, { opacity: 0, translateX: -30 });
+            utils.set(labelBar, { scaleX: 0 });
+            utils.set(num, { opacity: 0 });
+            utils.set(circles, { opacity: 0, scale: 0.5 });
+            utils.set(lines, { opacity: 0, scaleX: 0, scaleY: 0 });
+
+            const tl = createTimeline();
+
+            tl.add(num, {
+                opacity: 1,
+                duration: 600,
+                ease: 'out(2)'
+            }, 0);
+
+            tl.add(label, {
+                opacity: 1,
+                translateX: 0,
+                duration: 500,
+                ease: 'out(3)'
+            }, 100);
+
+            tl.add(labelBar, {
+                scaleX: 1,
+                duration: 700,
+                ease: 'out(3)'
+            }, 200);
+
+            // Chars with stagger from origin
+            tl.add(chars, {
+                opacity: 1,
+                translateY: 0,
+                rotate: 0,
+                duration: 600,
+                delay: stagger(25, { from: origin }),
+                ease: 'out(3)'
+            }, 250);
+
+            // Words
+            tl.add(words, {
+                opacity: 1,
+                translateY: 0,
+                duration: 500,
+                delay: stagger(20, { from: origin }),
+                ease: 'out(3)'
+            }, 500);
+
+            // Decorative
+            tl.add(circles, {
+                opacity: 1,
+                scale: 1,
+                duration: 800,
+                delay: stagger(100, { from: 'center' }),
+                ease: 'out(3)'
+            }, 400);
+
+            tl.add(lines, {
+                opacity: 1,
+                scaleX: 1,
+                scaleY: 1,
+                duration: 600,
+                delay: stagger(80),
+                ease: 'out(3)'
+            }, 500);
+        }
+
+        function animateOut(panel) {
+            const chars = panel.querySelectorAll('.char');
+            const words = panel.querySelectorAll('.word');
+            const label = panel.querySelector('.p-label');
+            const num = panel.querySelector('.p-num');
+            const circles = panel.querySelectorAll('.deco-circle');
+            const lines = panel.querySelectorAll('.deco-line');
+
+            const tl = createTimeline({
+                onComplete: () => panel.classList.remove('active')
+            });
+
+            tl.add(words, {
+                opacity: 0,
+                translateY: -15,
+                duration: 300,
+                delay: stagger(10, { from: 'last' }),
+                ease: 'in(2)'
+            }, 0);
+
+            tl.add(chars, {
+                opacity: 0,
+                translateY: -30,
+                duration: 350,
+                delay: stagger(15, { from: 'last' }),
+                ease: 'in(2)'
+            }, 0);
+
+            tl.add(label, {
+                opacity: 0,
+                translateX: -20,
+                duration: 250,
+                ease: 'in(2)'
+            }, 50);
+
+            tl.add(num, {
+                opacity: 0,
+                duration: 200
+            }, 0);
+
+            tl.add(circles, {
+                opacity: 0,
+                scale: 0.8,
+                duration: 300,
+                delay: stagger(50),
+                ease: 'in(2)'
+            }, 0);
+
+            tl.add(lines, {
+                opacity: 0,
+                duration: 200
+            }, 0);
+        }
+
+        function goTo(idx) {
+            if (animating || idx === current || idx < 0 || idx >= total) return;
+            animating = true;
+
+            // Update progress
+            progItems.forEach((item, i) => item.classList.toggle('active', i === idx));
+
+            // Grid reveal effect
+            animateGridReveal(idx > current);
+
+            // Animate out current
+            animateOut(panels[current]);
+
+            // Animate in next (delayed)
+            setTimeout(() => {
+                animateIn(panels[idx], staggerOrigins[idx]);
+                current = idx;
+                setTimeout(() => animating = false, 700);
+            }, 400);
+        }
+
+        // === EVENTS ===
+        window.addEventListener('wheel', e => {
+            const now = Date.now();
+            if (now - lastWheel < cooldown || animating) return;
+            if (Math.abs(e.deltaY) < 30) return;
+            lastWheel = now;
+            goTo(e.deltaY > 0 ? current + 1 : current - 1);
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') goTo(current + 1);
+            if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') goTo(current - 1);
+        });
+
+        progItems.forEach(item => {
+            item.addEventListener('click', () => goTo(+item.dataset.idx));
+        });
+
+        // === INITIAL LOAD ===
+        window.addEventListener('load', () => {
+            // Fade in background
+            animate('.bg-img img', {
+                scale: [1.05, 1],
+                opacity: [0, 1],
+                duration: 1500,
+                ease: 'out(3)'
+            });
+
+            // UI
+            animate('.nav a', {
+                opacity: [0, 0.5],
+                translateY: [-15, 0],
+                duration: 600,
+                delay: stagger(80, { start: 500 }),
+                ease: 'out(2)'
+            });
+
+            animate('.prog-item', {
+                opacity: [0, 0.3],
+                translateX: [-20, 0],
+                duration: 500,
+                delay: stagger(50, { start: 600 }),
+                ease: 'out(2)'
+            });
+
+            animate('.scroll-hint', {
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 600,
+                delay: 800,
+                ease: 'out(2)'
+            });
+
+            // First panel
+            setTimeout(() => {
+                progItems[0].classList.add('active');
+                animateIn(panels[0], 'center');
+            }, 600);
+        });
+
+    </script>
+</body>
+
+</html>

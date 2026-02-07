@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Eugene Mierak - Coherence & Strategy</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Eugene Mierak — Frequency practitioner and Director of International Relationships at the SBDI Foundation.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;1,400;1,600&display=swap"
+        rel="stylesheet">
+
+    <!-- Standard Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/mobile-overrides.css">
+
+    <!-- Page Specific Styles -->
+    <style>
+        /* OVERRIDES FOR IMMERSIVE PAGE */
+        body {
+            background-color: #030407;
+            /* Match deep space */
+            overflow-x: hidden;
+        }
+
+        /* Nav Transparent Override */
+        .top-nav-banner {
+            background: rgba(3, 4, 7, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* LAYERS */
+        #canvas-flow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        #webgl-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* SCROLL CONTENT WRAPPER */
+        #immersive-scroll-wrap {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            padding-top: 80px;
+            /* Nav spacing */
+        }
+
+        .imm-section {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .imm-card {
+            max-width: 900px;
+            text-align: center;
+            /* Glass bg for readability over 3D */
+            background: rgba(3, 4, 7, 0.3);
+            backdrop-filter: blur(5px);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            /* Transform for entrance */
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s, transform 1s;
+        }
+
+        .imm-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* TYPOGRAPHY OVERRIDES */
+        .hero-title-lg {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            color: white;
+            text-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
+            margin: 0;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle-lg {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-style: italic;
+            color: #d4af37;
+            margin-top: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .bio-text-lg {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            line-height: 1.8;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .highlight-gold {
+            color: #d4af37;
+            font-weight: 500;
+        }
+
+        .highlight-ether {
+            color: #48bb78;
+            font-weight: 500;
+        }
+
+        /* FOOTER ADJUSTMENT */
+        .integrated-footer {
+            position: relative;
+            z-index: 20;
+            background: #030407;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 1. NAVIGATION (Standard) -->
+    <nav class="top-nav-banner">
+        <div class="top-nav-container">
+            <div class="top-nav-links">
+                <a href="index.html" class="top-nav-link">Home</a>
+                <a href="projects.html" class="top-nav-link">Projects</a>
+                <div class="partners-dropdown-container desktop-only">
+                    <button class="top-nav-link top-nav-partners-btn" id="partnersBtn">
+                        PARTNERS
+                    </button>
+                </div>
+                <a href="#contact" class="top-nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. BACKGROUNDS -->
+    <canvas id="canvas-flow"></canvas>
+    <div id="webgl-container"></div>
+
+    <!-- 3. MAIN CONTENT -->
+    <main id="immersive-scroll-wrap">
+
+        <!-- INTRO -->
+        <section class="imm-section">
+            <div class="imm-card visible" style="background:none; border:none; backdrop-filter:none;">
+                <h1 class="hero-title-lg" id="title-anim">Eugene Mierak</h1>
+                <div class="hero-subtitle-lg">Frequency Practitioner & Strategic Advisor</div>
+            </div>
+        </section>
+
+        <!-- BIO 1 -->
+        <section class="imm-section">
+            <div class="imm-card scroll-reveal">
+                <p class="bio-text-lg" id="text1">
+                    I'm Eugene Mierak, a <span class="highlight-ether">frequency practitioner</span> specializing in
+                    alignment caching, coherence training, and energetic training. My work bridges subtle frequency
+                    sciences with practical frameworks for personal, organizational, and planetary alignment—supporting
+                    clarity, stability, and <span class="highlight-gold">conscious evolution</span>.
+                </p>
+            </div>
+        </section>
+
+        <!-- BIO 2 -->
+        <section class="imm-section">
+            <div class="imm-card scroll-reveal" style="margin-left:auto; margin-right: 5%;">
+                <p class="bio-text-lg" id="text2">
+                    As Director of International Relationships for the SBDI Foundation, I foster <span
+                        class="highlight-ether">global partnerships</span> that support holistic sustainability &
+                    regenerative development. My approach is grounded in systems thinking, ensuring initiatives move
+                    from vision to <span class="highlight-gold">coherent execution</span>.
+                </p>
+            </div>
+        </section>
+
+        <!-- BIO 3 -->
+        <section class="imm-section">
+            <div class="imm-card scroll-reveal">
+                <p class="bio-text-lg" id="text3" style="font-size: 1.6rem; font-family: 'Playfair Display', serif;">
+                    My mission is to support the emergence of coherent, sustainable projects through <span
+                        class="highlight-ether">frequency awareness</span> and <span class="highlight-gold">strategic
+                        alignment</span>—creating meaningful, lasting impact for communities and the planet.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 4. FOOTER (Standard) -->
+    <div class="integrated-footer">
+        <p>&copy; 2026 Eugene Mierak. Strategic Advisor & Project Director.</p>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+    <script>
+        // === I. CANVAS PARTICLES (Flow) ===
+        const cvs = document.getElementById('canvas-flow');
+        const ctx = cvs.getContext('2d');
+        let cw, ch;
+        let parts = [];
+
+        function initCvs() {
+            cw = cvs.width = window.innerWidth;
+            ch = cvs.height = window.innerHeight;
+            parts = Array.from({ length: 100 }, () => new Particle());
+        }
+
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * cw;
+                this.y = Math.random() * ch;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.r = Math.random() * 2;
+                this.a = Math.random() * 0.5;
+            }
+            update() {
+                this.x += this.vx; this.y += this.vy;
+                if (this.x < 0 || this.x > cw || this.y < 0 || this.y > ch) this.reset();
+            }
+            draw() {
+                ctx.globalAlpha = this.a;
+                ctx.fillStyle = '#48bb78';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function loopCvs() {
+            ctx.clearRect(0, 0, cw, ch);
+            parts.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(loopCvs);
+        }
+
+        window.addEventListener('resize', initCvs);
+        initCvs();
+        loopCvs();
+
+        // === II. THREE.JS (Torus Knot) ===
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x030407, 0.02);
+
+        const cam = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+        cam.position.z = 12;
+
+        const ren = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        ren.setSize(window.innerWidth, window.innerHeight);
+        ren.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        document.getElementById('webgl-container').appendChild(ren.domElement);
+
+        // Geometries
+        const knotGeo = new THREE.TorusKnotGeometry(3.5, 0.6, 120, 20);
+        const knotMat = new THREE.MeshBasicMaterial({ color: 0x48bb78, wireframe: true, transparent: true, opacity: 0.12 });
+        const knot = new THREE.Mesh(knotGeo, knotMat);
+        scene.add(knot);
+
+        const coreGeo = new THREE.IcosahedronGeometry(1.5, 1);
+        const coreMat = new THREE.MeshBasicMaterial({ color: 0xd4af37, wireframe: true, transparent: true, opacity: 0.25 });
+        const core = new THREE.Mesh(coreGeo, coreMat);
+        scene.add(core);
+
+        function loop3D() {
+            requestAnimationFrame(loop3D);
+
+            // Animation
+            const t = Date.now() * 0.0005;
+            knot.rotation.y = t * 0.2;
+            core.rotation.x = -t * 0.4;
+
+            // Scroll INTERACTION
+            const scrollMax = document.body.scrollHeight - window.innerHeight;
+            const s = window.scrollY / (scrollMax || 1);
+
+            // Camera Zoom
+            cam.position.z = 12 - s * 6; // Zoom in
+            cam.rotation.z = s * 0.2;
+
+            // Color Morph
+            const hue = 0.35 + s * 0.25; // Green -> Cyan/Blue
+            knotMat.color.setHSL(hue, 0.6, 0.5);
+
+            ren.render(scene, cam);
+        }
+        loop3D();
+
+        window.addEventListener('resize', () => {
+            cam.aspect = window.innerWidth / window.innerHeight;
+            cam.updateProjectionMatrix();
+            ren.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // === III. TEXT REVEAL (Observer + Anime) ===
+
+        // 1. Initial Title
+        anime({
+            targets: '.hero-title-lg',
+            opacity: [0, 1],
+            scale: [0.9, 1],
+            filter: ['blur(15px)', 'blur(0px)'],
+            duration: 2000,
+            easing: 'easeOutExpo'
+        });
+
+        // 2. Scroll Observer
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    // Trigger text word effect inside?
+                    // Simplified for standard perf: just nice fade up
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.scroll-reveal').forEach(el => obs.observe(el));
+
+    </script>
+</body>
+
+</html>

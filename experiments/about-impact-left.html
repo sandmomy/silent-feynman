@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Impact Flow</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@1,400;1,600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #030304;
+            --text: #e1e1e1;
+            --gold: #d4af37;
+            --gold-dim: #5c4d1a;
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+        }
+
+        .noise {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        #webgl-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+        }
+
+        /* --- LEFT PANEL --- */
+        .left-stage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50vw;
+            height: 100vh;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            padding-left: 8vw;
+            background: linear-gradient(90deg, #030304 60%, transparent 100%);
+        }
+
+        /* DECORATIONS (Static & Dynamic) */
+        .decor-line-vert {
+            position: absolute;
+            top: 0;
+            left: 6vw;
+            width: 1px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 10;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 0;
+            left: 6vw;
+            width: 1px;
+            height: 0%;
+            background: var(--gold);
+            z-index: 11;
+            transition: height 0.5s;
+        }
+
+        /* PANEL CONTENT WRAPPER */
+        .panel-wrap {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+        }
+
+        /* WATERMARK (Huge Number) */
+        .watermark {
+            position: absolute;
+            top: -120px;
+            left: -100px;
+            font-family: 'Cinzel';
+            font-size: 15rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.02);
+            z-index: -1;
+            line-height: 1;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+
+        /* PANEL ITEMS */
+        .panel {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .panel.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* TEXT STYLING */
+        /* Split components */
+        .box-label {
+            display: inline-block;
+            font-family: 'Inter';
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .box-label::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 30px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        .hero-head {
+            font-family: 'Cinzel';
+            font-size: 4.5rem;
+            line-height: 0.9;
+            margin-bottom: 2.5rem;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.8);
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-head span {
+            display: block;
+            color: white;
+            -webkit-text-stroke: 0;
+        }
+
+        .desc-text {
+            font-family: 'Inter';
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #aaa;
+            border-left: 1px solid var(--border);
+            padding-left: 2rem;
+            margin-left: 5px;
+        }
+
+        .highlight {
+            color: white;
+            text-decoration: underline;
+            text-decoration-color: var(--gold);
+            text-underline-offset: 4px;
+        }
+
+
+        /* 3D OVERLAYS (Right Side) */
+        /* To add visual impact, we add a floating 'glitch' title on the right or similar? */
+        /* For now let's stick to Cleaner 3D */
+
+        /* NAV */
+        .nav-top {
+            position: fixed;
+            top: 50px;
+            right: 50px;
+            z-index: 100;
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-link {
+            position: relative;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-family: 'Cinzel';
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover {
+            color: white;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background: var(--gold);
+            transition: 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="noise"></div>
+    <div id="webgl-bg"></div>
+
+    <nav class="nav-top">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="projects.html" class="nav-link">Work</a>
+        <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+
+    <!-- DECORATIVE LINE -->
+    <div class="decor-line-vert"></div>
+    <div class="progress-line" id="progLine"></div>
+
+    <div class="left-stage">
+        <div class="panel-wrap">
+
+            <!-- Shared Watermark Container (Updated via JS) -->
+            <div class="watermark" id="bgNum">01</div>
+
+            <!-- PANEL 0 -->
+            <div class="panel active" id="p0">
+                <div class="box-label">Identity</div>
+                <h2 class="hero-head">Frequency<br><span>Architect</span></h2>
+                <div class="desc-text">
+                    I'm Eugene Mierak, a frequency practitioner specializing in alignment caching and conscious
+                    evolution. My work bridges subtle frequency sciences with practical frameworks for stability in
+                    chaos.
+                </div>
+            </div>
+
+            <!-- PANEL 1 -->
+            <div class="panel" id="p1">
+                <div class="box-label">Connection</div>
+                <h2 class="hero-head">Coherent<br><span>Dynamics</span></h2>
+                <div class="desc-text">
+                    Helping individuals and teams cultivate resonance in real-world decisions. Bridging internal
+                    alignment with external leadership dynamics for long-term projects.
+                </div>
+            </div>
+
+            <!-- PANEL 2 -->
+            <div class="panel" id="p2">
+                <div class="box-label">Impact</div>
+                <h2 class="hero-head">SBDI<br><span>Foundation</span></h2>
+                <div class="desc-text">
+                    As Director of Int. Relationships, I foster global partnerships for holistic sustainability. Moving
+                    initiatives from vision to <span class="highlight">coherent execution</span>.
+                </div>
+            </div>
+
+            <!-- PANEL 3 -->
+            <div class="panel" id="p3">
+                <div class="box-label">Vision</div>
+                <h2 class="hero-head">Future<br><span>Reality</span></h2>
+                <div class="desc-text" style="border:none; border-bottom:1px solid var(--gold); padding:0 0 20px 0;">
+                    Supporting the emergence of coherent, sustainable projects through frequency awareness and strategic
+                    alignment.
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <script>
+        // LOGIC
+        let current = 0;
+        const total = 4;
+        let isAnim = false;
+        let lastScroll = 0;
+        const scrollCooldown = 1200;
+
+        // THREE.JS
+        const scene = new THREE.Scene();
+        const cam = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        cam.position.z = 15;
+        // Shift camera to right visually by moving objects right
+
+        const ren = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        ren.setSize(window.innerWidth, window.innerHeight);
+        ren.setPixelRatio(window.devicePixelRatio); // Sharpness
+        document.getElementById('webgl-bg').appendChild(ren.domElement);
+
+        const objects = [];
+        const xPos = 4;
+
+        // 0: Complex Icosa group
+        const group0 = new THREE.Group();
+        const g0 = new THREE.IcosahedronGeometry(4, 1);
+        const m0 = new THREE.MeshBasicMaterial({ color: 0x48bb78, wireframe: true, transparent: true, opacity: 0.15 });
+        const mesh0 = new THREE.Mesh(g0, m0);
+        const mesh0b = new THREE.Mesh(new THREE.IcosahedronGeometry(2, 0), new THREE.MeshBasicMaterial({ color: 0xd4af37, wireframe: true }));
+        group0.add(mesh0); group0.add(mesh0b);
+        group0.position.x = xPos;
+        scene.add(group0); objects.push(group0);
+
+        // 1: Torus Knot + Particles
+        const group1 = new THREE.Group();
+        const t1 = new THREE.Mesh(new THREE.TorusKnotGeometry(2.5, 0.2, 120, 20), new THREE.MeshBasicMaterial({ color: 0xd4af37, wireframe: true, opacity: 0 }));
+        group1.add(t1);
+        group1.position.x = xPos;
+        scene.add(group1); objects.push(group1);
+
+        // 2: Sphere Network
+        const group2 = new THREE.Group();
+        const s2 = new THREE.Mesh(new THREE.SphereGeometry(3.5, 30, 30), new THREE.MeshBasicMaterial({ color: 0x48bb78, wireframe: true, opacity: 0 }));
+        group2.add(s2);
+        group2.position.x = xPos;
+        scene.add(group2); objects.push(group2);
+
+        // 3: Crystal
+        const group3 = new THREE.Group();
+        const c3 = new THREE.Mesh(new THREE.OctahedronGeometry(3, 0), new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, opacity: 0 }));
+        group3.add(c3);
+        group3.position.x = xPos;
+        scene.add(group3); objects.push(group3);
+
+
+        // UI UPDATE
+        function updateUI(idx) {
+            // Update watermark
+            const wm = document.getElementById('bgNum');
+            gsap.to(wm, {
+                opacity: 0, duration: 0.3, onComplete: () => {
+                    wm.innerText = `0${idx + 1}`;
+                    gsap.to(wm, { opacity: 1, duration: 0.5 });
+                }
+            });
+
+            // Progress Bar
+            const h = ((idx + 1) / total) * 100;
+            document.getElementById('progLine').style.height = `${h}%`;
+        }
+
+        // Initial
+        updateUI(0);
+
+        // TRANSITION
+        function go(nextIdx) {
+            if (isAnim || nextIdx === current) return;
+            isAnim = true;
+
+            const currPanel = document.getElementById(`p${current}`);
+            const nextPanel = document.getElementById(`p${nextIdx}`);
+            const currObj = objects[current]; // Group
+            const nextObj = objects[nextIdx]; // Group
+
+            // --- SPLIT ANIMATION --- 
+            // Elements: Label, Head, Desc
+            const cL = currPanel.querySelector('.box-label');
+            const cH = currPanel.querySelector('.hero-head');
+            const cD = currPanel.querySelector('.desc-text');
+
+            const nL = nextPanel.querySelector('.box-label');
+            const nH = nextPanel.querySelector('.hero-head');
+            const nD = nextPanel.querySelector('.desc-text');
+
+            // Set Initial Next State (Exploded)
+            gsap.set(nL, { y: -30, opacity: 0 });
+            gsap.set(nH, { x: -80, opacity: 0, scale: 1.1 }); // Big slide
+            gsap.set(nD, { x: 80, opacity: 0 });
+            nextPanel.classList.add('active');
+
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    currPanel.classList.remove('active');
+                    isAnim = false;
+                }
+            });
+
+            // EXIT Current (Explode Out)
+            tl.to(cL, { y: -30, opacity: 0, duration: 0.5, ease: 'power2.in' }, 0);
+            tl.to(cH, { x: -100, opacity: 0, duration: 0.5, ease: 'power2.in' }, 0.05);
+            tl.to(cD, { x: 100, opacity: 0, duration: 0.5, ease: 'power2.in' }, 0.1);
+
+            // ENTER Next (Snap In)
+            // Staggered entry for impact
+            tl.to(nL, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 0.4);
+            tl.to(nH, { x: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'power3.out' }, 0.5);
+            tl.to(nD, { x: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 0.6);
+
+            // BG 3D TRANSITION
+            // Fade out children materials
+            currObj.children.forEach(c => {
+                gsap.to(c.material, { opacity: 0, duration: 0.5 });
+            });
+
+            // Fade in children materials
+            nextObj.children.forEach(c => {
+                gsap.to(c.material, { opacity: 0.2, duration: 0.8, delay: 0.3 });
+            });
+
+            // Movement: Rotate next into view
+            gsap.fromTo(nextObj.rotation, { y: -1 }, { y: 0, duration: 1.5, ease: 'expo.out' }, 0);
+
+            updateUI(nextIdx);
+            current = nextIdx;
+        }
+
+        function next() { go((current + 1) % total); }
+        function prev() { go((current - 1 + total) % total); }
+
+        window.addEventListener('wheel', (e) => {
+            const now = Date.now();
+            if (now - lastScroll < scrollCooldown) return;
+            if (isAnim) return;
+            if (Math.abs(e.deltaY) < 30) return;
+
+            if (e.deltaY > 0) { next(); lastScroll = now; }
+            else { prev(); lastScroll = now; }
+        });
+
+        // LOOP
+        function loop() {
+            requestAnimationFrame(loop);
+            if (objects[current]) {
+                objects[current].rotation.y += 0.002;
+                objects[current].rotation.x += 0.001;
+            }
+            ren.render(scene, cam);
+        }
+        loop();
+
+        window.addEventListener('resize', () => {
+            cam.aspect = window.innerWidth / window.innerHeight; cam.updateProjectionMatrix(); ren.setSize(window.innerWidth, window.innerHeight);
+        });
+
+    </script>
+</body>
+
+</html>

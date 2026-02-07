@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Frequency Practitioner</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #030305;
+            --accent: #8b5cf6;
+            --accent-light: #c4b5fd;
+            --accent-dark: #6d28d9;
+        }
+
+        html, body {
+            background: var(--bg);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Imagen de fondo */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/meditation-bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        .scroll-container {
+            height: 220vh;
+            position: relative;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 24px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: var(--accent-light);
+            text-decoration: none;
+            letter-spacing: 0.08em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 36px;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-light);
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-dark), var(--accent), var(--accent-light));
+            width: 0%;
+            z-index: 1000;
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        /* Section indicators */
+        .section-indicator {
+            position: fixed;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            z-index: 100;
+        }
+
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            background: transparent;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .indicator-dot:hover {
+            border-color: var(--accent);
+            transform: scale(1.3);
+        }
+
+        .indicator-dot.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.6);
+            transform: scale(1.3);
+        }
+
+        /* Page counter */
+        .page-counter {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            font-family: 'Cormorant Garamond', serif;
+            z-index: 100;
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .page-counter__current {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--accent-light);
+            text-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .page-counter__total {
+            font-size: 1rem;
+            color: rgba(139, 92, 246, 0.5);
+        }
+
+        /* Section name */
+        .section-name {
+            position: fixed;
+            top: 50%;
+            left: 40px;
+            transform: translateY(-50%) rotate(-90deg);
+            transform-origin: left center;
+            font-size: 0.6rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.25);
+            z-index: 100;
+            transition: color 0.5s ease;
+        }
+
+        /* Scroll hint */
+        .scroll-hint {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.5;
+            transition: opacity 0.4s ease;
+        }
+
+        .scroll-hint span {
+            font-size: 0.55rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .scroll-hint__line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(180deg, var(--accent), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 1; height: 40px; }
+            50% { opacity: 0.3; height: 25px; }
+        }
+
+        /* Corner accents */
+        .corner-accent {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .corner-accent--tl {
+            top: 20px;
+            left: 20px;
+            border-left: 1px solid rgba(139, 92, 246, 0.2);
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .corner-accent--br {
+            bottom: 20px;
+            right: 20px;
+            border-right: 1px solid rgba(139, 92, 246, 0.2);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            nav { padding: 20px; }
+            .section-indicator { right: 15px; }
+            .page-counter { left: 20px; bottom: 20px; }
+            .section-name { display: none; }
+            .corner-accent { width: 30px; height: 30px; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Progress bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Corner accents -->
+    <div class="corner-accent corner-accent--tl"></div>
+    <div class="corner-accent corner-accent--br"></div>
+
+
+    <!-- Section indicators -->
+    <div class="section-indicator" id="sectionIndicator">
+        <div class="indicator-dot active" data-index="0"></div>
+        <div class="indicator-dot" data-index="1"></div>
+        <div class="indicator-dot" data-index="2"></div>
+    </div>
+
+    <!-- Page counter -->
+    <div class="page-counter">
+        <span class="page-counter__current" id="pageNum">01</span>
+        <span class="page-counter__total">/ 03</span>
+    </div>
+
+    <!-- Section name -->
+    <div class="section-name" id="sectionName">INTRODUCTION</div>
+
+    <!-- Scroll hint -->
+    <div class="scroll-hint" id="scrollHint">
+        <span>Scroll</span>
+        <div class="scroll-hint__line"></div>
+    </div>
+
+    <!-- Three.js container -->
+    <div id="canvas-container"></div>
+
+    <!-- Scroll container -->
+    <div class="scroll-container"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Post Processing -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+
+    <script>
+        document.fonts.ready.then(() => init());
+
+        function init() {
+            gsap.registerPlugin(ScrollTrigger);
+
+            const container = document.getElementById('canvas-container');
+            const progressBar = document.getElementById('progressBar');
+            const dots = document.querySelectorAll('.indicator-dot');
+            const pageNum = document.getElementById('pageNum');
+            const sectionNameEl = document.getElementById('sectionName');
+            const scrollHint = document.getElementById('scrollHint');
+
+            // Scene
+            const scene = new THREE.Scene();
+            // Fondo transparente para ver la imagen de fondo
+            scene.background = null;
+            // Sin fog para mantener transparencia
+
+            // Camera (FOV amplio para ver paneles y símbolos)
+            const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 500);
+            camera.position.set(0, 0, 25); // Posición inicial
+
+            // Renderer
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            // Post-processing (sin bloom para partículas más limpias)
+            const composer = new THREE.EffectComposer(renderer);
+            composer.addPass(new THREE.RenderPass(scene, camera));
+
+            // Colors
+            const accentColor = new THREE.Color(0x8b5cf6);
+            const accentLight = new THREE.Color(0xc4b5fd);
+
+            // ============================================
+            // PANEL CONTENT
+            // ============================================
+            const panelContents = [
+                {
+                    label: 'INTRODUCTION',
+                    title: "I'm Eugene\nMierak",
+                    body: "A frequency practitioner specializing in alignment\ncaching, coherence training, and energetic training,\nworking through integrative coherence methodologies\nto support clarity, stability, and conscious evolution.",
+                    symbol: 'merkaba'
+                },
+                {
+                    label: 'THE WORK',
+                    title: 'Bridging\nWorlds',
+                    body: "My work bridges subtle frequency sciences with\npractical frameworks for personal, organizational,\nand planetary alignment, helping individuals and\nteams cultivate resonance in real-world decisions,\nleadership dynamics, and long-term projects.",
+                    symbol: 'flowerOfLife'
+                },
+                {
+                    label: 'SBDI & MISSION',
+                    title: 'Global\nImpact',
+                    body: "As Director of International Relationships for the\nSBDI Foundation, I foster global partnerships that\nsupport holistic sustainability, regenerative development,\nand conscious collaboration across cultures.\n\nMy mission: coherent, sustainable projects through\nfrequency awareness and conscious international\ncooperation—creating lasting impact for communities\nand the planet.",
+                    symbol: 'torus'
+                }
+            ];
+
+            // Panel 3D positions (a la izquierda, delante de los símbolos) - 3 paneles
+            // Espaciado uniforme para mejor sincronización con scroll
+            const panelPositions = [
+                { pos: new THREE.Vector3(-8, 0, 5), rot: new THREE.Vector3(0, 0.1, 0) },
+                { pos: new THREE.Vector3(-8, 0, -55), rot: new THREE.Vector3(0, 0.1, 0) },
+                { pos: new THREE.Vector3(-8, 0, -115), rot: new THREE.Vector3(0, 0.1, 0) }
+            ];
+
+            // Symbol base offset (all symbols generated at origin, positioned via camera movement)
+            const symbolBaseOffset = new THREE.Vector3(0, 0, 0);
+
+            // ============================================
+            // CREATE TEXT PANEL TEXTURE
+            // ============================================
+            function createPanelTexture(content, width = 620, height = 480) {
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+
+                // Background
+                ctx.fillStyle = 'rgba(8, 8, 12, 0.95)';
+                ctx.fillRect(0, 0, width, height);
+
+                // Subtle gradient
+                const bgGradient = ctx.createRadialGradient(width/2, height/2, 0, width/2, height/2, width/2);
+                bgGradient.addColorStop(0, 'rgba(139, 92, 246, 0.06)');
+                bgGradient.addColorStop(1, 'rgba(0,0,0,0)');
+                ctx.fillStyle = bgGradient;
+                ctx.fillRect(0, 0, width, height);
+
+                // Left border accent
+                const gradient = ctx.createLinearGradient(0, 0, 0, height);
+                gradient.addColorStop(0, 'rgba(139, 92, 246, 0)');
+                gradient.addColorStop(0.3, 'rgba(139, 92, 246, 0.8)');
+                gradient.addColorStop(0.7, 'rgba(139, 92, 246, 0.8)');
+                gradient.addColorStop(1, 'rgba(139, 92, 246, 0)');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, 2, height);
+
+                // Top line
+                const topGradient = ctx.createLinearGradient(0, 0, width, 0);
+                topGradient.addColorStop(0, 'rgba(139, 92, 246, 0)');
+                topGradient.addColorStop(0.2, 'rgba(139, 92, 246, 0.6)');
+                topGradient.addColorStop(0.8, 'rgba(139, 92, 246, 0.6)');
+                topGradient.addColorStop(1, 'rgba(139, 92, 246, 0)');
+                ctx.fillStyle = topGradient;
+                ctx.fillRect(0, 0, width, 1);
+
+                // Corner accents
+                ctx.strokeStyle = 'rgba(139, 92, 246, 0.25)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(width - 35, 8);
+                ctx.lineTo(width - 8, 8);
+                ctx.lineTo(width - 8, 35);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(8, height - 35);
+                ctx.lineTo(8, height - 8);
+                ctx.lineTo(35, height - 8);
+                ctx.stroke();
+
+                // Calculate layout - centrado vertical
+                const titleLines = content.title.split('\n');
+                const bodyLines = content.body.split('\n');
+
+                ctx.textAlign = 'center';
+                const centerX = width / 2;
+
+                // Tamaños más grandes y legibles
+                const labelSize = 14;
+                const titleSize = 52;
+                const bodySize = 16;
+                const titleLineHeight = 58;
+                const bodyLineHeight = 26;
+
+                // Calcular altura total del contenido (sin label)
+                const titleBlock = titleLines.length * titleLineHeight;
+                const lineBlock = 25;
+                const bodyBlock = bodyLines.length * bodyLineHeight;
+                const gaps = 15; // gap después de título
+                const totalContentHeight = titleBlock + lineBlock + bodyBlock + gaps;
+
+                // Centro vertical de la tarjeta
+                const centerY = height / 2;
+                const startY = centerY - (totalContentHeight / 2);
+
+                // Title
+                ctx.fillStyle = '#e2e0ff';
+                ctx.font = `300 ${titleSize}px Cormorant Garamond, serif`;
+                const titleY = startY;
+                titleLines.forEach((line, i) => {
+                    ctx.fillText(line, centerX, titleY + (i * titleLineHeight));
+                });
+
+                // Body text
+                const lineY = titleY + (titleLines.length * titleLineHeight) + 5;
+                ctx.fillStyle = 'rgba(220, 220, 230, 0.85)';
+                ctx.font = `300 ${bodySize}px Inter, sans-serif`;
+                const bodyY = lineY + 20;
+                bodyLines.forEach((line, i) => {
+                    ctx.fillText(line, centerX, bodyY + (i * bodyLineHeight));
+                });
+
+                const texture = new THREE.CanvasTexture(canvas);
+                texture.needsUpdate = true;
+                return texture;
+            }
+
+            // Create panels
+            const panels = [];
+            panelContents.forEach((content, i) => {
+                const texture = createPanelTexture(content);
+                const geometry = new THREE.PlaneGeometry(14, 11);
+                const material = new THREE.MeshBasicMaterial({
+                    map: texture,
+                    side: THREE.DoubleSide,
+                    transparent: true,
+                    opacity: 0.95
+                });
+
+                const panel = new THREE.Mesh(geometry, material);
+                panel.position.copy(panelPositions[i].pos);
+                panel.rotation.set(
+                    panelPositions[i].rot.x,
+                    panelPositions[i].rot.y,
+                    panelPositions[i].rot.z
+                );
+                scene.add(panel);
+                panels.push(panel);
+            });
+
+            // ============================================
+            // SACRED GEOMETRY PARTICLES (estilo arena/fondo)
+            // ============================================
+            const PARTICLE_COUNT = 35000;
+
+            function createParticleTexture() {
+                const canvas = document.createElement('canvas');
+                canvas.width = canvas.height = 16;
+                const ctx = canvas.getContext('2d');
+                // Partícula difusa tipo arena/polvo
+                const gradient = ctx.createRadialGradient(8, 8, 0, 8, 8, 8);
+                gradient.addColorStop(0, 'rgba(255,255,255,0.6)');
+                gradient.addColorStop(0.4, 'rgba(255,255,255,0.3)');
+                gradient.addColorStop(0.7, 'rgba(255,255,255,0.1)');
+                gradient.addColorStop(1, 'rgba(255,255,255,0)');
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(8, 8, 8, 0, Math.PI * 2);
+                ctx.fill();
+                return new THREE.CanvasTexture(canvas);
+            }
+
+            // ============================================
+            // GENERADORES DE GEOMETRÍA SAGRADA - Alta Definición
+            // ============================================
+            const SymbolGenerators = {
+
+                // MERKABA - Estrella Tetraédrica 3D
+                // Dos tetraedros perfectamente entrelazados
+                merkaba(count) {
+                    const points = [];
+                    const s = 4;
+                    const h = s * Math.sqrt(2/3);
+
+                    // Tetraedro 1: Punta hacia arriba (masculino/sol)
+                    const t1 = [
+                        [0, h, 0],
+                        [-s/2, -h/3, -s * Math.sqrt(3)/6],
+                        [s/2, -h/3, -s * Math.sqrt(3)/6],
+                        [0, -h/3, s * Math.sqrt(3)/3]
+                    ];
+
+                    // Tetraedro 2: Punta hacia abajo (femenino/luna), rotado 60°
+                    const t2 = [
+                        [0, -h, 0],
+                        [-s/2, h/3, s * Math.sqrt(3)/6],
+                        [s/2, h/3, s * Math.sqrt(3)/6],
+                        [0, h/3, -s * Math.sqrt(3)/3]
+                    ];
+
+                    const edges = [[0,1], [0,2], [0,3], [1,2], [2,3], [3,1]];
+
+                    // Función para crear punto en línea con grosor
+                    const pointOnEdge = (verts, e, thickness) => {
+                        const t = Math.random();
+                        const a = verts[e[0]], b = verts[e[1]];
+                        return {
+                            x: a[0] + (b[0]-a[0])*t + (Math.random()-0.5)*thickness,
+                            y: a[1] + (b[1]-a[1])*t + (Math.random()-0.5)*thickness,
+                            z: a[2] + (b[2]-a[2])*t + (Math.random()-0.5)*thickness
+                        };
+                    };
+
+                    // Distribuir partículas: 45% tetra1, 45% tetra2, 10% centro energético
+                    for (let i = 0; i < count; i++) {
+                        const r = Math.random();
+                        if (r < 0.45) {
+                            const edge = edges[Math.floor(Math.random() * 6)];
+                            points.push(pointOnEdge(t1, edge, 0.06));
+                        } else if (r < 0.9) {
+                            const edge = edges[Math.floor(Math.random() * 6)];
+                            points.push(pointOnEdge(t2, edge, 0.06));
+                        } else {
+                            // Centro energético - esfera pequeña en el centro
+                            const phi = Math.random() * Math.PI * 2;
+                            const theta = Math.acos(2 * Math.random() - 1);
+                            const cr = Math.random() * 0.8;
+                            points.push({
+                                x: cr * Math.sin(theta) * Math.cos(phi),
+                                y: cr * Math.sin(theta) * Math.sin(phi),
+                                z: cr * Math.cos(theta)
+                            });
+                        }
+                    }
+                    return points;
+                },
+
+                // FLOR DE LA VIDA - Patrón sagrado completo
+                // 19 círculos entrelazados con geometría perfecta
+                flowerOfLife(count) {
+                    const points = [];
+                    const r = 1.4; // Radio ajustado para mejor transición
+
+                    // Generar centros de los 19 círculos de la Flor de la Vida
+                    const centers = [];
+
+                    // Centro
+                    centers.push([0, 0]);
+
+                    // Primer anillo: 6 círculos
+                    for (let i = 0; i < 6; i++) {
+                        const a = (i / 6) * Math.PI * 2 - Math.PI/2;
+                        centers.push([Math.cos(a) * r, Math.sin(a) * r]);
+                    }
+
+                    // Segundo anillo: 6 círculos en las intersecciones
+                    for (let i = 0; i < 6; i++) {
+                        const a = (i / 6) * Math.PI * 2 - Math.PI/2 + Math.PI/6;
+                        centers.push([Math.cos(a) * r * Math.sqrt(3), Math.sin(a) * r * Math.sqrt(3)]);
+                    }
+
+                    // Tercer anillo: 6 círculos exteriores
+                    for (let i = 0; i < 6; i++) {
+                        const a = (i / 6) * Math.PI * 2 - Math.PI/2;
+                        centers.push([Math.cos(a) * r * 2, Math.sin(a) * r * 2]);
+                    }
+
+                    // Círculo exterior contenedor
+                    const outerRadius = r * 3;
+
+                    for (let i = 0; i < count; i++) {
+                        const type = Math.random();
+
+                        if (type < 0.85) {
+                            // 85% en los círculos internos
+                            const center = centers[Math.floor(Math.random() * centers.length)];
+                            const angle = Math.random() * Math.PI * 2;
+                            // Línea del círculo muy definida
+                            const radius = r * (0.98 + Math.random() * 0.04);
+                            points.push({
+                                x: center[0] + Math.cos(angle) * radius,
+                                y: center[1] + Math.sin(angle) * radius,
+                                z: (Math.random() - 0.5) * 0.15
+                            });
+                        } else if (type < 0.95) {
+                            // 10% círculo exterior
+                            const angle = Math.random() * Math.PI * 2;
+                            points.push({
+                                x: Math.cos(angle) * outerRadius,
+                                y: Math.sin(angle) * outerRadius,
+                                z: (Math.random() - 0.5) * 0.1
+                            });
+                        } else {
+                            // 5% segundo círculo exterior
+                            const angle = Math.random() * Math.PI * 2;
+                            points.push({
+                                x: Math.cos(angle) * (outerRadius + r * 0.5),
+                                y: Math.sin(angle) * (outerRadius + r * 0.5),
+                                z: (Math.random() - 0.5) * 0.1
+                            });
+                        }
+                    }
+                    return points;
+                },
+
+                // TORUS - Campo toroidal de energía
+                // Representación del campo energético del corazón
+                torus(count) {
+                    const points = [];
+                    const R = 3; // Radio mayor reducido para mejor transición
+                    const r = 1.2; // Radio menor reducido
+
+                    for (let i = 0; i < count; i++) {
+                        const type = Math.random();
+
+                        if (type < 0.7) {
+                            // 70% superficie del torus
+                            const u = Math.random() * Math.PI * 2;
+                            const v = Math.random() * Math.PI * 2;
+                            points.push({
+                                x: (R + r * Math.cos(v)) * Math.cos(u),
+                                y: r * Math.sin(v),
+                                z: (R + r * Math.cos(v)) * Math.sin(u)
+                            });
+                        } else if (type < 0.85) {
+                            // 15% líneas de flujo meridionales (de arriba a abajo)
+                            const u = (Math.floor(Math.random() * 24) / 24) * Math.PI * 2;
+                            const v = Math.random() * Math.PI * 2;
+                            points.push({
+                                x: (R + r * Math.cos(v)) * Math.cos(u),
+                                y: r * Math.sin(v),
+                                z: (R + r * Math.cos(v)) * Math.sin(u)
+                            });
+                        } else if (type < 0.95) {
+                            // 10% líneas de flujo ecuatoriales
+                            const u = Math.random() * Math.PI * 2;
+                            const vFixed = (Math.floor(Math.random() * 12) / 12) * Math.PI * 2;
+                            points.push({
+                                x: (R + r * Math.cos(vFixed)) * Math.cos(u),
+                                y: r * Math.sin(vFixed),
+                                z: (R + r * Math.cos(vFixed)) * Math.sin(u)
+                            });
+                        } else {
+                            // 5% centro energético (eje vertical)
+                            const y = (Math.random() - 0.5) * r * 2;
+                            const angle = Math.random() * Math.PI * 2;
+                            const axisR = Math.random() * 0.4;
+                            points.push({
+                                x: Math.cos(angle) * axisR,
+                                y: y,
+                                z: Math.sin(angle) * axisR
+                            });
+                        }
+                    }
+                    return points;
+                }
+            };
+
+            function createSymbolBuffer(points, count, offset) {
+                const buffer = new Float32Array(count * 3);
+                for (let i = 0; i < count; i++) {
+                    const p = points[i % points.length];
+                    const i3 = i * 3;
+                    buffer[i3] = p.x + offset.x;
+                    buffer[i3 + 1] = p.y + offset.y;
+                    buffer[i3 + 2] = p.z + offset.z;
+                }
+                return buffer;
+            }
+
+            // Create symbol shapes for each section (all centered at origin)
+            const symbolShapes = [];
+            panelContents.forEach((content, i) => {
+                const pts = SymbolGenerators[content.symbol](PARTICLE_COUNT);
+                symbolShapes.push(createSymbolBuffer(pts, PARTICLE_COUNT, symbolBaseOffset));
+            });
+
+            // Particle system con grupo para posicionamiento
+            const particleGeometry = new THREE.BufferGeometry();
+            const particlePositions = new Float32Array(PARTICLE_COUNT * 3);
+            // Inicializar con primera forma centrada en origen
+            for (let i = 0; i < PARTICLE_COUNT; i++) {
+                const i3 = i * 3;
+                particlePositions[i3] = symbolShapes[0][i3];
+                particlePositions[i3 + 1] = symbolShapes[0][i3 + 1];
+                particlePositions[i3 + 2] = symbolShapes[0][i3 + 2];
+            }
+            particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+
+            const particleMaterial = new THREE.PointsMaterial({
+                size: 0.12,
+                map: createParticleTexture(),
+                color: 0xa098b0, // Gris lavanda suave
+                transparent: true,
+                opacity: 0.4,
+                blending: THREE.NormalBlending,
+                depthWrite: false,
+                sizeAttenuation: true
+            });
+
+            const particles = new THREE.Points(particleGeometry, particleMaterial);
+
+            // Grupo para mover el símbolo completo
+            const symbolGroup = new THREE.Group();
+            symbolGroup.add(particles);
+            symbolGroup.position.set(15, 0, 0); // Posición inicial a la derecha
+            scene.add(symbolGroup);
+
+            // ============================================
+            // AMBIENT PARTICLES (polvo flotante de fondo)
+            // ============================================
+            const ambientGeo = new THREE.BufferGeometry();
+            const ambientCount = 1500;
+            const ambientPos = new Float32Array(ambientCount * 3);
+            for (let i = 0; i < ambientCount * 3; i += 3) {
+                ambientPos[i] = (Math.random() - 0.5) * 180;
+                ambientPos[i + 1] = (Math.random() - 0.5) * 100;
+                ambientPos[i + 2] = -Math.random() * 280;
+            }
+            ambientGeo.setAttribute('position', new THREE.BufferAttribute(ambientPos, 3));
+            const ambientMat = new THREE.PointsMaterial({
+                size: 0.08,
+                map: createParticleTexture(),
+                color: 0x706880,
+                transparent: true,
+                opacity: 0.2,
+                blending: THREE.NormalBlending,
+                depthWrite: false
+            });
+            const ambientParticles = new THREE.Points(ambientGeo, ambientMat);
+            scene.add(ambientParticles);
+
+            // ============================================
+            // CAMERA PATH
+            // ============================================
+            const cameraPath = new THREE.CatmullRomCurve3([
+                new THREE.Vector3(0, 0, 25),
+                new THREE.Vector3(0, 0, -35),
+                new THREE.Vector3(0, 0, -95)
+            ], false);
+
+            // LookAt centrado en los paneles
+            const lookAtPath = new THREE.CatmullRomCurve3([
+                new THREE.Vector3(0, 0, 0),
+                new THREE.Vector3(0, 0, -60),
+                new THREE.Vector3(0, 0, -120)
+            ], false);
+
+            // ============================================
+            // SCROLL ANIMATION
+            // ============================================
+            let scrollProgress = { value: 0 };
+            let currentSection = 0;
+            let time = 0;
+
+            gsap.to(scrollProgress, {
+                value: 1,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '.scroll-container',
+                    start: 'top top',
+                    end: 'bottom bottom',
+                    scrub: 0.5,
+                    onUpdate: (self) => {
+                        progressBar.style.width = (self.progress * 100) + '%';
+
+                        const sectionIndex = Math.min(Math.floor(self.progress * panelContents.length), panelContents.length - 1);
+
+                        if (sectionIndex !== currentSection) {
+                            currentSection = sectionIndex;
+                            pageNum.textContent = (sectionIndex + 1).toString().padStart(2, '0');
+                            sectionNameEl.textContent = panelContents[sectionIndex].label;
+
+                            dots.forEach((dot, i) => {
+                                dot.classList.toggle('active', i === sectionIndex);
+                            });
+
+                            // Hide scroll hint
+                            if (sectionIndex > 0) {
+                                scrollHint.style.opacity = '0';
+                            }
+                        }
+                    }
+                }
+            });
+
+            // ============================================
+            // ANIMATION LOOP
+            // ============================================
+            function animate() {
+                requestAnimationFrame(animate);
+                time += 0.012;
+
+                const t = scrollProgress.value;
+
+                // Camera movement
+                const cameraPos = cameraPath.getPoint(t);
+                const lookAtPos = lookAtPath.getPoint(t);
+                camera.position.lerp(cameraPos, 0.12);
+
+                const targetQuat = new THREE.Quaternion();
+                const tempCamera = camera.clone();
+                tempCamera.lookAt(lookAtPos);
+                targetQuat.copy(tempCamera.quaternion);
+                camera.quaternion.slerp(targetQuat, 0.05);
+
+                // Symbol morphing - transiciones fluidas con fade
+                const sectionProgress = t * (panelContents.length - 1);
+                const currentIdx = Math.floor(sectionProgress);
+                const nextIdx = Math.min(currentIdx + 1, panelContents.length - 1);
+                const mix = sectionProgress - currentIdx;
+
+                // Easing muy suave (smootherstep)
+                const smoothMix = mix * mix * mix * (mix * (mix * 6 - 15) + 10);
+
+                // Opacidad constante - sin fade para transición más fluida
+                particleMaterial.opacity = 0.4;
+
+                const buf = particles.geometry.attributes.position.array;
+                const current = symbolShapes[currentIdx];
+                const next = symbolShapes[nextIdx];
+
+                for (let i = 0; i < PARTICLE_COUNT; i++) {
+                    const i3 = i * 3;
+                    const seed = i * 0.0001;
+
+                    // Movimiento orgánico constante (como polvo flotando)
+                    const organicX = Math.sin(seed * 100 + time * 0.7) * 0.12;
+                    const organicY = Math.cos(seed * 150 + time * 0.6) * 0.12;
+                    const organicZ = Math.sin(seed * 200 + time * 0.5) * 0.1;
+
+                    // Interpolación suave con easing personalizado
+                    const easedMix = smoothMix < 0.5
+                        ? 4 * smoothMix * smoothMix * smoothMix
+                        : 1 - Math.pow(-2 * smoothMix + 2, 3) / 2;
+
+                    let x = current[i3] + (next[i3] - current[i3]) * easedMix;
+                    let y = current[i3 + 1] + (next[i3 + 1] - current[i3 + 1]) * easedMix;
+                    let z = current[i3 + 2] + (next[i3 + 2] - current[i3 + 2]) * easedMix;
+
+                    // Aplicar movimiento orgánico siempre
+                    x += organicX;
+                    y += organicY;
+                    z += organicZ;
+
+                    buf[i3] = x;
+                    buf[i3 + 1] = y;
+                    buf[i3 + 2] = z;
+                }
+                particles.geometry.attributes.position.needsUpdate = true;
+
+                // Mover el grupo del símbolo para que siga a la cámara (lerp suave)
+                const targetX = camera.position.x + 5; // A la derecha
+                const targetY = camera.position.y;
+                const targetZ = camera.position.z - 15;
+
+                symbolGroup.position.x += (targetX - symbolGroup.position.x) * 0.15;
+                symbolGroup.position.y += (targetY - symbolGroup.position.y) * 0.15;
+                symbolGroup.position.z += (targetZ - symbolGroup.position.z) * 0.15;
+
+                // Rotaciones con transición suave entre símbolos
+                // Definir rotaciones para cada símbolo
+                const rotations = [
+                    { x: Math.sin(time * 0.3) * 0.1, y: time * 0.3, z: 0 },      // Merkaba
+                    { x: 0, y: 0, z: time * 0.4 },                                // Flor de la Vida
+                    { x: Math.sin(time * 0.3) * 0.1, y: time * 0.3, z: 0 }       // Torus
+                ];
+
+                // Obtener rotaciones actual y siguiente
+                const currentRot = rotations[currentIdx];
+                const nextRot = rotations[nextIdx];
+
+                // Interpolar suavemente entre rotaciones
+                symbolGroup.rotation.x = currentRot.x + (nextRot.x - currentRot.x) * smoothMix;
+                symbolGroup.rotation.y = currentRot.y + (nextRot.y - currentRot.y) * smoothMix;
+                symbolGroup.rotation.z = currentRot.z + (nextRot.z - currentRot.z) * smoothMix;
+
+                // Ambient particles
+                ambientParticles.rotation.y += 0.0003;
+
+                composer.render();
+            }
+
+            animate();
+
+            // Resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                composer.setSize(window.innerWidth, window.innerHeight);
+            });
+
+            // Click dots
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const idx = parseInt(dot.dataset.index);
+                    const target = (idx / (panelContents.length - 1)) * (document.documentElement.scrollHeight - window.innerHeight);
+                    window.scrollTo({ top: target, behavior: 'smooth' });
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>

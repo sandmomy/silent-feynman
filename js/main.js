@@ -28,17 +28,13 @@ function initSmoothScroll() {
     }
 
     try {
-        // Initialize Lenis - same config as projects.js for consistency
+        // Initialize Lenis - balanced smooth scroll
         const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            direction: 'vertical',
-            gestureDirection: 'vertical',
-            smooth: true,
-            mouseMultiplier: 1,
-            smoothTouch: false,
+            lerp: 0.15,  // 0.15 = more responsive (was 0.1 = too slow)
+            wheelMultiplier: 1.2,  // Slightly faster wheel response
             touchMultiplier: 2,
-            infinite: false,
+            smoothWheel: true,
+            syncTouch: false,
         });
 
         // Sync Lenis with Three.js - share the same RAF loop

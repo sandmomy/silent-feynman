@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Elegant Flow</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@1,300;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #050608;
+            --text: #e1e1e1;
+            --gold: #d4af37;
+            --line: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+        }
+
+        /* Subtle Noise */
+        .noise {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* 3D BG */
+        #webgl-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+        }
+
+        /* NAV */
+        .nav-top {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 50px;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Cinzel';
+            font-size: 1rem;
+            color: white;
+            letter-spacing: 2px;
+        }
+
+        .menu-link {
+            font-family: 'Inter';
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            position: relative;
+        }
+
+        .menu-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .menu-link:hover {
+            color: white;
+        }
+
+        .menu-link:hover::after {
+            width: 100%;
+            left: 0;
+            right: auto;
+        }
+
+
+        /* --- LEFT CONTENT STAGE --- */
+        .stage-left {
+            position: relative;
+            width: 45vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-left: 10vw;
+            z-index: 10;
+        }
+
+        /* The Content "Frame" */
+        .content-wrap {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* Single Page (Absolute stack) */
+        .page-node {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            pointer-events: none;
+        }
+
+        .page-node.active {
+            pointer-events: auto;
+        }
+
+        /* Typography & Masking */
+        /* We use overflow:hidden divs to reveal text from */
+        .mask-line {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .label {
+            display: inline-block;
+            font-family: 'Inter';
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            transform: translateY(105%);
+            will-change: transform;
+        }
+
+        .head-line {
+            font-family: 'Playfair Display';
+            font-size: 3.5rem;
+            line-height: 1.1;
+            color: white;
+            transform: translateY(105%);
+            will-change: transform;
+        }
+
+        .body-text {
+            display: block;
+            margin-top: 2.5rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+            transform: translateY(20px);
+            opacity: 0;
+            will-change: transform, opacity;
+            border-left: 1px solid var(--line);
+            padding-left: 2rem;
+        }
+
+        .highlight {
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 2px;
+        }
+
+        /* Progress Line */
+        .track-line {
+            position: fixed;
+            left: 6vw;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 200px;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .fill-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background: var(--gold);
+            transition: height 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* Indicators */
+        .pg-num {
+            position: fixed;
+            left: 5.2vw;
+            top: calc(50% - 130px);
+            font-family: 'Inter';
+            font-size: 0.7rem;
+            color: var(--text);
+            opacity: 0.5;
+        }
+
+        .pg-tot {
+            position: fixed;
+            left: 5.2vw;
+            top: calc(50% + 115px);
+            font-family: 'Inter';
+            font-size: 0.7rem;
+            color: var(--text);
+            opacity: 0.3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="noise"></div>
+    <div id="webgl-bg"></div>
+
+    <nav class="nav-top">
+        <div class="logo">EUGENE MIERAK</div>
+        <a href="#contact" class="menu-link">Connect</a>
+    </nav>
+
+    <!-- Side Indicators -->
+    <div class="pg-num" id="currPg">01</div>
+    <div class="track-line">
+        <div class="fill-line" id="progFill"></div>
+    </div>
+    <div class="pg-tot">04</div>
+
+    <!-- CONTENT -->
+    <div class="stage-left">
+        <div class="content-wrap">
+
+            <!-- PAGE 1 -->
+            <div class="page-node active" id="p0">
+                <div class="mask-line"><span class="label">Identity</span></div>
+                <div class="mask-line">
+                    <h2 class="head-line">Frequency</h2>
+                </div>
+                <div class="mask-line">
+                    <h2 class="head-line" style="font-style:italic;">Architect</h2>
+                </div>
+                <p class="body-text">
+                    I'm Eugene Mierak, a frequency practitioner specializing in alignment caching and conscious
+                    evolution. Bridging subtle sciences with practical frameworks for stability.
+                </p>
+            </div>
+
+            <!-- PAGE 2 -->
+            <div class="page-node" id="p1">
+                <div class="mask-line"><span class="label">The Bridge</span></div>
+                <div class="mask-line">
+                    <h2 class="head-line">Coherent</h2>
+                </div>
+                <div class="mask-line">
+                    <h2 class="head-line" style="font-style:italic;">Dynamics</h2>
+                </div>
+                <p class="body-text">
+                    Helping individuals and teams cultivate resonance in real-world decisions. Bridging internal
+                    alignment with external leadership dynamics.
+                </p>
+            </div>
+
+            <!-- PAGE 3 -->
+            <div class="page-node" id="p2">
+                <div class="mask-line"><span class="label">Global Impact</span></div>
+                <div class="mask-line">
+                    <h2 class="head-line">SBDI</h2>
+                </div>
+                <div class="mask-line">
+                    <h2 class="head-line" style="font-style:italic;">Foundation</h2>
+                </div>
+                <p class="body-text">
+                    As Director of Int. Relationships, I foster global partnerships for holistic sustainability. Moving
+                    initiatives from vision to <span class="highlight">coherent execution</span>.
+                </p>
+            </div>
+
+            <!-- PAGE 4 -->
+            <div class="page-node" id="p3">
+                <div class="mask-line"><span class="label">Mission</span></div>
+                <div class="mask-line">
+                    <h2 class="head-line">Future</h2>
+                </div>
+                <div class="mask-line">
+                    <h2 class="head-line" style="font-style:italic;">Reality</h2>
+                </div>
+                <p class="body-text" style="color:white; font-size:1.3rem; border:none; padding-left:0;">
+                    Supporting the emergence of coherent, sustainable projects through frequency awareness and strategic
+                    alignment.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <script>
+        // LOGIC
+        let current = 0;
+        const total = 4;
+        let isAnim = false;
+        let lastScroll = 0;
+        const scrollCooldown = 1400; // Slower pace for elegance
+
+        // THREE.JS
+        const scene = new THREE.Scene();
+        const cam = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        cam.position.z = 18;
+
+        const ren = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        ren.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('webgl-bg').appendChild(ren.domElement);
+
+        // OBJECTS (Refined, more subtle)
+        const objects = [];
+        const xPos = 5.5;
+
+        // 0: Elegant Icosa
+        const g0 = new THREE.IcosahedronGeometry(4.5, 1);
+        const m0 = new THREE.MeshBasicMaterial({ color: 0x48bb78, wireframe: true, transparent: true, opacity: 0.08 }); // Very subtle
+        const o0 = new THREE.Mesh(g0, m0);
+        o0.position.x = xPos; scene.add(o0); objects.push(o0);
+
+        // 1: Torus (Thinner)
+        const g1 = new THREE.TorusKnotGeometry(3, 0.15, 150, 20); // Thin lines
+        const m1 = new THREE.MeshBasicMaterial({ color: 0xd4af37, wireframe: true, transparent: true, opacity: 0 });
+        const o1 = new THREE.Mesh(g1, m1);
+        o1.position.x = xPos; scene.add(o1); objects.push(o1);
+
+        // 2: Sphere (Points?)
+        const g2 = new THREE.SphereGeometry(4, 48, 48);
+        const m2 = new THREE.MeshBasicMaterial({ color: 0x48bb78, wireframe: true, transparent: true, opacity: 0 });
+        const o2 = new THREE.Mesh(g2, m2);
+        o2.position.x = xPos; scene.add(o2); objects.push(o2);
+
+        // 3: Octa (Crystal)
+        const g3 = new THREE.OctahedronGeometry(4, 0);
+        const m3 = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0 });
+        const o3 = new THREE.Mesh(g3, m3);
+        o3.position.x = xPos; scene.add(o3); objects.push(o3);
+
+
+        // ENTER ANIMATION (Initial)
+        function enter(idx) {
+            const node = document.getElementById(`p${idx}`);
+            if (!node) return;
+
+            const labels = node.querySelectorAll('.label');
+            const heads = node.querySelectorAll('.head-line');
+            const body = node.querySelectorAll('.body-text');
+
+            const tl = gsap.timeline();
+
+            // Mask Reveal Up
+            tl.to(labels, { y: '0%', duration: 1, ease: 'power3.out' }, 0);
+            tl.to(heads, { y: '0%', duration: 1.2, stagger: 0.1, ease: 'power3.out' }, 0.1);
+            tl.to(body, { y: 0, opacity: 1, duration: 1, ease: 'power2.out' }, 0.4);
+
+            // Update Bar
+            const pct = ((idx + 1) / total) * 100;
+            document.getElementById('progFill').style.height = `${pct}%`;
+            document.getElementById('currPg').innerText = `0${idx + 1}`;
+        }
+
+        // Initial call
+        enter(0);
+
+
+        // TRANSITION
+        function go(nextIdx) {
+            if (isAnim || nextIdx === current) return;
+            isAnim = true;
+
+            const currNode = document.getElementById(`p${current}`);
+            const nextNode = document.getElementById(`p${nextIdx}`);
+            const currObj = objects[current];
+            const nextObj = objects[nextIdx];
+
+            // OUT: Smooth slide UP and fade
+            const cLabels = currNode.querySelectorAll('.label');
+            const cHeads = currNode.querySelectorAll('.head-line');
+            const cBody = currNode.querySelectorAll('.body-text');
+
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    currNode.classList.remove('active');
+                    nextNode.classList.add('active');
+                    isAnim = false;
+                }
+            });
+
+            // EXIT TIMELINE
+            tl.to(cLabels, { y: '-105%', duration: 0.8, ease: 'power3.inOut' }, 0);
+            tl.to(cHeads, { y: '-105%', duration: 0.8, stagger: 0.05, ease: 'power3.inOut' }, 0.05);
+            tl.to(cBody, { opacity: 0, y: -20, duration: 0.6, ease: 'power2.in' }, 0);
+
+            // PREPARE NEXT (Hidden Down)
+            const nLabels = nextNode.querySelectorAll('.label');
+            const nHeads = nextNode.querySelectorAll('.head-line');
+            const nBody = nextNode.querySelectorAll('.body-text');
+
+            gsap.set(nLabels, { y: '105%' });
+            gsap.set(nHeads, { y: '105%' });
+            gsap.set(nBody, { y: 30, opacity: 0 });
+
+            // ENTER TIMELINE (Delayed slightly)
+            tl.to(nLabels, { y: '0%', duration: 1, ease: 'power3.out' }, 0.7);
+            tl.to(nHeads, { y: '0%', duration: 1.2, stagger: 0.1, ease: 'power3.out' }, 0.8);
+            tl.to(nBody, { y: 0, opacity: 1, duration: 1, ease: 'power2.out' }, 1.0);
+
+            // BG TRANSFORM
+            gsap.to(currObj.material, { opacity: 0, duration: 1 });
+            gsap.to(currObj.rotation, { y: currObj.rotation.y + 0.5, duration: 1.5 }); // Slow drift away
+
+            gsap.to(nextObj.material, { opacity: 0.1, duration: 1.5, delay: 0.5 }); // Slow fade in
+            gsap.fromTo(nextObj.rotation, { x: 0.5, y: 0 }, { x: 0, y: 0, duration: 2, ease: 'power2.out' }, 0.5);
+
+            // UI
+            const pct = ((nextIdx + 1) / total) * 100;
+            document.getElementById('progFill').style.height = `${pct}%`;
+            document.getElementById('currPg').innerText = `0${nextIdx + 1}`;
+
+            current = nextIdx;
+        }
+
+        function next() { go((current + 1) % total); }
+        function prev() { go((current - 1 + total) % total); }
+
+        window.addEventListener('wheel', (e) => {
+            const now = Date.now();
+            if (now - lastScroll < scrollCooldown) return;
+            if (isAnim) return;
+            if (Math.abs(e.deltaY) < 30) return;
+
+            if (e.deltaY > 0) { next(); lastScroll = now; }
+            else { prev(); lastScroll = now; }
+        });
+
+        // LOOP
+        function loop() {
+            requestAnimationFrame(loop);
+            if (objects[current]) {
+                objects[current].rotation.y += 0.0005; // Very slow rotation
+            }
+            ren.render(scene, cam);
+        }
+        loop();
+
+        window.addEventListener('resize', () => {
+            cam.aspect = window.innerWidth / window.innerHeight; cam.updateProjectionMatrix(); ren.setSize(window.innerWidth, window.innerHeight);
+        });
+
+    </script>
+</body>
+
+</html>

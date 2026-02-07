@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Frequency Architect - GSAP Showcase</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0a0b0d;
+            --bg-light: #12141a;
+            --gold: #c9a55c;
+            --gold-light: #e8d48a;
+            --gold-dark: #8b6914;
+            --accent: #7c5ce7;
+            --text: #f5f3ef;
+            --text-muted: rgba(245, 243, 239, 0.65);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Montserrat', sans-serif;
+            cursor: none;
+        }
+
+        /* ============================================
+           CUSTOM CURSOR
+        ============================================ */
+        .cursor {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(201, 165, 92, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease, border-color 0.3s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-dot {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .cursor.hover {
+            transform: scale(1.5);
+            border-color: var(--gold);
+        }
+
+        @media (max-width: 900px) {
+
+            .cursor,
+            .cursor-dot {
+                display: none;
+            }
+
+            body {
+                cursor: auto;
+            }
+        }
+
+        /* ============================================
+           NOISE OVERLAY
+        ============================================ */
+        .noise {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            pointer-events: none;
+            opacity: 0.035;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* ============================================
+           GRADIENT OVERLAYS
+        ============================================ */
+        .gradient-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .gradient-orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(201, 165, 92, 0.12) 0%, transparent 70%);
+            top: -200px;
+            right: -100px;
+            animation: floatOrb 20s ease-in-out infinite;
+        }
+
+        .gradient-orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(124, 92, 231, 0.08) 0%, transparent 70%);
+            bottom: -100px;
+            left: -150px;
+            animation: floatOrb 25s ease-in-out infinite reverse;
+        }
+
+        @keyframes floatOrb {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate(30px, -20px) rotate(5deg);
+            }
+
+            50% {
+                transform: translate(-20px, 30px) rotate(-3deg);
+            }
+
+            75% {
+                transform: translate(-30px, -10px) rotate(3deg);
+            }
+        }
+
+        /* ============================================
+           SECTIONS / PANELS
+        ============================================ */
+        .panel {
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 80px 5%;
+        }
+
+        .panel-hero {
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        /* ============================================
+           HERO SECTION
+        ============================================ */
+        .hero-container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 1000px;
+            padding: 0 20px;
+        }
+
+        .hero-eyebrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .hero-eyebrow-line {
+            width: 60px;
+            height: 1px;
+            background: var(--gold);
+            transform-origin: left;
+        }
+
+        .hero-eyebrow-text {
+            font-size: 0.8rem;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 300;
+        }
+
+        .hero-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(4rem, 12vw, 9rem);
+            font-weight: 300;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+
+        .hero-name .char {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(100%);
+        }
+
+        .hero-title {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            font-weight: 300;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .hero-scroll-cue {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .scroll-text {
+            font-size: 0.65rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            position: relative;
+        }
+
+        .scroll-line::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -3px;
+            width: 7px;
+            height: 7px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+
+            0%,
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateY(15px);
+                opacity: 0.3;
+            }
+        }
+
+        /* ============================================
+           CONTENT PANELS
+        ============================================ */
+        .content-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            max-width: 1400px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .content-panel.reverse {
+            direction: rtl;
+        }
+
+        .content-panel.reverse>* {
+            direction: ltr;
+        }
+
+        .panel-visual {
+            position: relative;
+            aspect-ratio: 4/5;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .panel-visual-inner {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            transform: scale(1);
+        }
+
+        .panel-visual-bg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.6) saturate(1.2);
+            transition: transform 1.5s cubic-bezier(0.215, 0.610, 0.355, 1);
+        }
+
+        .panel-visual:hover .panel-visual-bg {
+            transform: scale(1.08);
+        }
+
+        .panel-visual-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(10, 11, 13, 0.3), transparent 60%);
+            pointer-events: none;
+        }
+
+        .panel-visual-frame {
+            position: absolute;
+            inset: 15px;
+            border: 1px solid rgba(201, 165, 92, 0.2);
+            pointer-events: none;
+            transition: border-color 0.5s ease;
+        }
+
+        .panel-visual:hover .panel-visual-frame {
+            border-color: rgba(201, 165, 92, 0.4);
+        }
+
+        .panel-text {
+            position: relative;
+        }
+
+        .panel-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 10rem;
+            font-weight: 300;
+            color: rgba(201, 165, 92, 0.05);
+            position: absolute;
+            top: -60px;
+            left: -30px;
+            line-height: 1;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .panel-label {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .panel-label-line {
+            width: 45px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        .panel-label-text {
+            font-size: 0.75rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 400;
+        }
+
+        .panel-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.8rem, 5vw, 4.2rem);
+            font-weight: 300;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 30px;
+        }
+
+        .panel-title .word {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: top;
+            margin-right: 0.25em;
+        }
+
+        .panel-title .word-inner {
+            display: block;
+        }
+
+        .panel-body {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: var(--text-muted);
+            max-width: 500px;
+        }
+
+        .panel-body .highlight {
+            color: var(--gold);
+            font-weight: 400;
+        }
+
+        .panel-cta {
+            margin-top: 35px;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            padding: 16px 32px;
+            background: transparent;
+            border: 1px solid rgba(201, 165, 92, 0.4);
+            color: var(--gold);
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+        }
+
+        .panel-cta:hover {
+            background: var(--gold);
+            color: var(--bg);
+            border-color: var(--gold);
+        }
+
+        .panel-cta svg {
+            transition: transform 0.3s ease;
+        }
+
+        .panel-cta:hover svg {
+            transform: translateX(5px);
+        }
+
+        /* ============================================
+           NAVIGATION SIDEBAR
+        ============================================ */
+        .nav-sidebar {
+            position: fixed;
+            left: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+        }
+
+        .nav-dot::before {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            background: var(--gold);
+            border-radius: 50%;
+            transform: scale(0);
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .nav-dot.active {
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(201, 165, 92, 0.4);
+        }
+
+        .nav-dot.active::before {
+            transform: scale(1);
+        }
+
+        .nav-dot:hover {
+            transform: scale(1.3);
+            border-color: var(--gold);
+        }
+
+        /* ============================================
+           SECTION COUNTER
+        ============================================ */
+        .section-counter {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            z-index: 100;
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+        }
+
+        .counter-current {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.8rem;
+            font-weight: 300;
+            color: var(--gold);
+        }
+
+        .counter-total {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ============================================
+           TOP NAV
+        ============================================ */
+        .top-nav {
+            position: fixed;
+            top: 35px;
+            right: 50px;
+            z-index: 100;
+            display: flex;
+            gap: 45px;
+        }
+
+        .top-nav a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .top-nav a:hover {
+            color: var(--gold);
+        }
+
+        /* ============================================
+           HORIZONTAL DIVIDER
+        ============================================ */
+        .section-divider {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        .divider-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(201, 165, 92, 0.3), transparent);
+        }
+
+        /* ============================================
+           FINAL CTA SECTION
+        ============================================ */
+        .panel-cta-section {
+            text-align: center;
+            max-width: 800px;
+        }
+
+        .cta-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 300;
+            line-height: 1.15;
+            margin-bottom: 25px;
+        }
+
+        .cta-subtitle {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 18px 40px;
+            background: var(--gold);
+            color: var(--bg);
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--gold-light);
+            box-shadow: 0 10px 40px rgba(201, 165, 92, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            padding: 18px 40px;
+            background: transparent;
+            color: var(--text);
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text);
+        }
+
+        /* ============================================
+           RESPONSIVE
+        ============================================ */
+        @media (max-width: 1000px) {
+            .content-panel {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+
+            .content-panel.reverse {
+                direction: ltr;
+            }
+
+            .panel-visual {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .nav-sidebar {
+                left: 20px;
+            }
+
+            .section-counter {
+                left: 20px;
+            }
+
+            .top-nav {
+                right: 20px;
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .panel {
+                padding: 60px 20px;
+            }
+
+            .hero-name {
+                font-size: 3.5rem;
+            }
+
+            .panel-number {
+                font-size: 6rem;
+                top: -40px;
+                left: -10px;
+            }
+
+            .nav-sidebar,
+            .section-counter {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+
+    <!-- Noise Overlay -->
+    <div class="noise"></div>
+
+    <!-- Gradient Orbs -->
+    <div class="gradient-orb gradient-orb-1"></div>
+    <div class="gradient-orb gradient-orb-2"></div>
+
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <a href="index.html">Home</a>
+        <a href="projects.html">My Work</a>
+        <a href="#contact">Connect</a>
+    </nav>
+
+    <!-- Navigation Sidebar -->
+    <div class="nav-sidebar">
+        <div class="nav-dot active" data-index="0"></div>
+        <div class="nav-dot" data-index="1"></div>
+        <div class="nav-dot" data-index="2"></div>
+        <div class="nav-dot" data-index="3"></div>
+        <div class="nav-dot" data-index="4"></div>
+        <div class="nav-dot" data-index="5"></div>
+    </div>
+
+    <!-- Section Counter -->
+    <div class="section-counter">
+        <span class="counter-current">01</span>
+        <span class="counter-total">/ 06</span>
+    </div>
+
+    <!-- ============================================
+         HERO SECTION
+    ============================================ -->
+    <section class="panel panel-hero" data-index="0">
+        <div class="hero-container">
+            <div class="hero-eyebrow">
+                <div class="hero-eyebrow-line"></div>
+                <span class="hero-eyebrow-text">Frequency Practitioner</span>
+                <div class="hero-eyebrow-line" style="transform-origin: right;"></div>
+            </div>
+
+            <h1 class="hero-name" id="heroName">Eugene Mierak</h1>
+
+            <p class="hero-title">Alignment · Coherence · Conscious Evolution</p>
+        </div>
+
+        <div class="hero-scroll-cue">
+            <span class="scroll-text">Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 1: IDENTITY
+    ============================================ -->
+    <section class="panel" data-index="1">
+        <div class="content-panel">
+            <div class="panel-visual">
+                <div class="panel-visual-inner">
+                    <img class="panel-visual-bg" src="assets/meditation-bg.png" alt="Frequency Work">
+                    <div class="panel-visual-overlay"></div>
+                    <div class="panel-visual-frame"></div>
+                </div>
+            </div>
+
+            <div class="panel-text">
+                <span class="panel-number">01</span>
+                <div class="panel-label">
+                    <div class="panel-label-line"></div>
+                    <span class="panel-label-text">Identity</span>
+                </div>
+                <h2 class="panel-title">
+                    <span class="word"><span class="word-inner">Frequency</span></span>
+                    <span class="word"><span class="word-inner">Practitioner</span></span>
+                </h2>
+                <p class="panel-body">
+                    I'm Eugene Mierak, a frequency practitioner specializing in <span class="highlight">alignment
+                        caching</span>,
+                    <span class="highlight">coherence training</span>, and energetic training, working through
+                    integrative
+                    coherence methodologies to support clarity, stability, and <span class="highlight">conscious
+                        evolution</span>.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="section-divider">
+        <div class="divider-line"></div>
+    </div>
+
+    <!-- ============================================
+         SECTION 2: THE BRIDGE
+    ============================================ -->
+    <section class="panel" data-index="2">
+        <div class="content-panel reverse">
+            <div class="panel-visual">
+                <div class="panel-visual-inner">
+                    <img class="panel-visual-bg" src="assets/optimized/pexels-maxravier-2253818.800w.webp"
+                        alt="Bridging Sciences">
+                    <div class="panel-visual-overlay"></div>
+                    <div class="panel-visual-frame"></div>
+                </div>
+            </div>
+
+            <div class="panel-text">
+                <span class="panel-number">02</span>
+                <div class="panel-label">
+                    <div class="panel-label-line"></div>
+                    <span class="panel-label-text">The Bridge</span>
+                </div>
+                <h2 class="panel-title">
+                    <span class="word"><span class="word-inner">Subtle</span></span>
+                    <span class="word"><span class="word-inner">Frequency</span></span>
+                    <span class="word"><span class="word-inner">Sciences</span></span>
+                </h2>
+                <p class="panel-body">
+                    My work bridges <span class="highlight">subtle frequency sciences</span> with practical frameworks
+                    for
+                    personal, organizational, and planetary alignment, helping individuals and teams cultivate
+                    <span class="highlight">resonance</span> in real-world decisions, leadership dynamics, and long-term
+                    projects.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="section-divider">
+        <div class="divider-line"></div>
+    </div>
+
+    <!-- ============================================
+         SECTION 3: GLOBAL IMPACT
+    ============================================ -->
+    <section class="panel" data-index="3">
+        <div class="content-panel">
+            <div class="panel-visual">
+                <div class="panel-visual-inner">
+                    <img class="panel-visual-bg" src="assets/optimized/karangasem-water-temple-palace-bali.800w.webp"
+                        alt="Global Partnerships">
+                    <div class="panel-visual-overlay"></div>
+                    <div class="panel-visual-frame"></div>
+                </div>
+            </div>
+
+            <div class="panel-text">
+                <span class="panel-number">03</span>
+                <div class="panel-label">
+                    <div class="panel-label-line"></div>
+                    <span class="panel-label-text">Global Impact</span>
+                </div>
+                <h2 class="panel-title">
+                    <span class="word"><span class="word-inner">SBDI</span></span>
+                    <span class="word"><span class="word-inner">Foundation</span></span>
+                </h2>
+                <p class="panel-body">
+                    As Director of International Relationships for the <span class="highlight">SBDI Foundation</span>, I
+                    foster
+                    global partnerships that support holistic sustainability initiatives, <span
+                        class="highlight">regenerative development</span>,
+                    and conscious collaboration across cultures.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="section-divider">
+        <div class="divider-line"></div>
+    </div>
+
+    <!-- ============================================
+         SECTION 4: SYSTEMS APPROACH
+    ============================================ -->
+    <section class="panel" data-index="4">
+        <div class="content-panel reverse">
+            <div class="panel-visual">
+                <div class="panel-visual-inner">
+                    <img class="panel-visual-bg" src="assets/optimized/bali-pagoda-indonesia.800w.webp"
+                        alt="Systems Thinking">
+                    <div class="panel-visual-overlay"></div>
+                    <div class="panel-visual-frame"></div>
+                </div>
+            </div>
+
+            <div class="panel-text">
+                <span class="panel-number">04</span>
+                <div class="panel-label">
+                    <div class="panel-label-line"></div>
+                    <span class="panel-label-text">Philosophy</span>
+                </div>
+                <h2 class="panel-title">
+                    <span class="word"><span class="word-inner">Systems</span></span>
+                    <span class="word"><span class="word-inner">Thinking</span></span>
+                </h2>
+                <p class="panel-body">
+                    My approach is grounded in <span class="highlight">systems thinking</span>, emphasizing resonance,
+                    long-term balance,
+                    and alignment between human potential and ecological and social responsibility—so initiatives move
+                    from
+                    <span class="highlight">vision to coherent execution</span>.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="section-divider">
+        <div class="divider-line"></div>
+    </div>
+
+    <!-- ============================================
+         SECTION 5: MISSION
+    ============================================ -->
+    <section class="panel" data-index="5">
+        <div class="panel-cta-section">
+            <div class="panel-label" style="justify-content: center; margin-bottom: 30px;">
+                <div class="panel-label-line"></div>
+                <span class="panel-label-text">Mission</span>
+                <div class="panel-label-line"></div>
+            </div>
+
+            <h2 class="cta-title">Conscious Impact</h2>
+
+            <p class="cta-subtitle">
+                My mission is to support the emergence of coherent, sustainable projects through frequency awareness,
+                strategic alignment, and conscious international cooperation—creating meaningful, lasting impact
+                for communities and the planet.
+            </p>
+
+            <div class="cta-buttons">
+                <a href="#contact" class="btn-primary">Get in Touch</a>
+                <a href="projects.html" class="btn-secondary">View Projects</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         GSAP + PLUGINS
+    ============================================ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+
+    <script>
+        // ============================================
+        // GSAP Registration
+        // ============================================
+        gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+        // ============================================
+        // Custom Cursor
+        // ============================================
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+
+        if (cursor && cursorDot && window.innerWidth > 900) {
+            let mouseX = 0, mouseY = 0;
+            let cursorX = 0, cursorY = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+
+                gsap.to(cursorDot, {
+                    x: mouseX - 3,
+                    y: mouseY - 3,
+                    duration: 0.1
+                });
+            });
+
+            gsap.ticker.add(() => {
+                cursorX += (mouseX - cursorX) * 0.15;
+                cursorY += (mouseY - cursorY) * 0.15;
+                gsap.set(cursor, { x: cursorX - 20, y: cursorY - 20 });
+            });
+
+            // Hover effects
+            const hoverables = document.querySelectorAll('a, button, .nav-dot, .panel-visual');
+            hoverables.forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+            });
+        }
+
+        // ============================================
+        // Hero Name - Letter Animation
+        // ============================================
+        const heroName = document.getElementById('heroName');
+        if (heroName) {
+            const text = heroName.textContent;
+            heroName.innerHTML = '';
+
+            text.split('').forEach((char, i) => {
+                const span = document.createElement('span');
+                span.className = 'char';
+                span.textContent = char === ' ' ? '\u00A0' : char;
+                heroName.appendChild(span);
+            });
+
+            // Initial animation
+            gsap.to('.hero-name .char', {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.04,
+                ease: 'power3.out',
+                delay: 0.5
+            });
+
+            // Eyebrow animation
+            gsap.from('.hero-eyebrow-line', {
+                scaleX: 0,
+                duration: 1,
+                ease: 'power3.out',
+                delay: 0.3
+            });
+
+            gsap.from('.hero-eyebrow-text', {
+                opacity: 0,
+                y: 20,
+                duration: 0.8,
+                ease: 'power3.out',
+                delay: 0.5
+            });
+
+            gsap.from('.hero-title', {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
+                ease: 'power3.out',
+                delay: 1.2
+            });
+
+            gsap.from('.hero-scroll-cue', {
+                opacity: 0,
+                y: 20,
+                duration: 0.8,
+                ease: 'power3.out',
+                delay: 1.5
+            });
+        }
+
+        // ============================================
+        // Scroll-Triggered Panel Animations
+        // ============================================
+        const panels = gsap.utils.toArray('.panel');
+        const dots = document.querySelectorAll('.nav-dot');
+        const counterCurrent = document.querySelector('.counter-current');
+
+        panels.forEach((panel, index) => {
+            if (index === 0) return; // Skip hero
+
+            const isReverse = panel.querySelector('.content-panel.reverse');
+
+            // Create timeline for this panel
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: panel,
+                    start: 'top 80%',
+                    end: 'top 30%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+
+            // Panel number
+            const panelNum = panel.querySelector('.panel-number');
+            if (panelNum) {
+                tl.from(panelNum, {
+                    opacity: 0,
+                    scale: 0.5,
+                    duration: 0.8,
+                    ease: 'power3.out'
+                }, 0);
+            }
+
+            // Label
+            const label = panel.querySelector('.panel-label');
+            if (label) {
+                tl.from(label.querySelector('.panel-label-line'), {
+                    scaleX: 0,
+                    duration: 0.6,
+                    ease: 'power3.out'
+                }, 0.1);
+
+                tl.from(label.querySelector('.panel-label-text'), {
+                    opacity: 0,
+                    x: -20,
+                    duration: 0.5,
+                    ease: 'power3.out'
+                }, 0.2);
+            }
+
+            // Title words
+            const words = panel.querySelectorAll('.word-inner');
+            if (words.length) {
+                tl.from(words, {
+                    y: '100%',
+                    duration: 0.8,
+                    stagger: 0.1,
+                    ease: 'power3.out'
+                }, 0.2);
+            }
+
+            // CTA title (for final section)
+            const ctaTitle = panel.querySelector('.cta-title');
+            if (ctaTitle) {
+                tl.from(ctaTitle, {
+                    opacity: 0,
+                    y: 50,
+                    duration: 0.8,
+                    ease: 'power3.out'
+                }, 0.2);
+            }
+
+            // Body text
+            const body = panel.querySelector('.panel-body, .cta-subtitle');
+            if (body) {
+                tl.from(body, {
+                    opacity: 0,
+                    y: 30,
+                    duration: 0.7,
+                    ease: 'power3.out'
+                }, 0.4);
+            }
+
+            // CTA button
+            const cta = panel.querySelector('.panel-cta');
+            if (cta) {
+                tl.from(cta, {
+                    opacity: 0,
+                    y: 20,
+                    duration: 0.6,
+                    ease: 'power3.out'
+                }, 0.6);
+            }
+
+            // Buttons
+            const buttons = panel.querySelectorAll('.cta-buttons a');
+            if (buttons.length) {
+                tl.from(buttons, {
+                    opacity: 0,
+                    y: 20,
+                    duration: 0.5,
+                    stagger: 0.1,
+                    ease: 'power3.out'
+                }, 0.6);
+            }
+
+            // Visual panel - Clip path reveal
+            const visual = panel.querySelector('.panel-visual-inner');
+            if (visual) {
+                const direction = isReverse ? '100% 0%' : '0% 0%';
+                gsap.from(visual, {
+                    clipPath: isReverse ? 'inset(0 0 0 100%)' : 'inset(0 100% 0 0)',
+                    duration: 1.2,
+                    ease: 'power3.inOut',
+                    scrollTrigger: {
+                        trigger: panel,
+                        start: 'top 70%',
+                        end: 'top 30%',
+                        toggleActions: 'play none none reverse'
+                    }
+                });
+            }
+        });
+
+        // ============================================
+        // Update Navigation on Scroll
+        // ============================================
+        panels.forEach((panel, index) => {
+            ScrollTrigger.create({
+                trigger: panel,
+                start: 'top center',
+                end: 'bottom center',
+                onEnter: () => updateNav(index),
+                onEnterBack: () => updateNav(index)
+            });
+        });
+
+        function updateNav(index) {
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+
+            if (counterCurrent) {
+                gsap.to(counterCurrent, {
+                    opacity: 0,
+                    y: -10,
+                    duration: 0.2,
+                    onComplete: () => {
+                        counterCurrent.textContent = String(index + 1).padStart(2, '0');
+                        gsap.to(counterCurrent, {
+                            opacity: 1,
+                            y: 0,
+                            duration: 0.2
+                        });
+                    }
+                });
+            }
+        }
+
+        // ============================================
+        // Navigation Dot Clicks
+        // ============================================
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                gsap.to(window, {
+                    scrollTo: { y: panels[i], autoKill: false },
+                    duration: 1.2,
+                    ease: 'power3.inOut'
+                });
+            });
+        });
+
+        // ============================================
+        // Keyboard Navigation
+        // ============================================
+        let currentPanelIndex = 0;
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' && currentPanelIndex < panels.length - 1) {
+                e.preventDefault();
+                currentPanelIndex++;
+                gsap.to(window, {
+                    scrollTo: { y: panels[currentPanelIndex], autoKill: false },
+                    duration: 1,
+                    ease: 'power3.inOut'
+                });
+            }
+
+            if (e.key === 'ArrowUp' && currentPanelIndex > 0) {
+                e.preventDefault();
+                currentPanelIndex--;
+                gsap.to(window, {
+                    scrollTo: { y: panels[currentPanelIndex], autoKill: false },
+                    duration: 1,
+                    ease: 'power3.inOut'
+                });
+            }
+        });
+
+        // Update currentPanelIndex on scroll
+        panels.forEach((panel, i) => {
+            ScrollTrigger.create({
+                trigger: panel,
+                start: 'top center',
+                end: 'bottom center',
+                onEnter: () => currentPanelIndex = i,
+                onEnterBack: () => currentPanelIndex = i
+            });
+        });
+
+        // ============================================
+        // Parallax on Visual Elements
+        // ============================================
+        gsap.utils.toArray('.panel-visual-bg').forEach(bg => {
+            gsap.to(bg, {
+                y: '15%',
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: bg.closest('.panel'),
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 1
+                }
+            });
+        });
+
+        // ============================================
+        // Divider Lines Animation
+        // ============================================
+        gsap.utils.toArray('.divider-line').forEach(line => {
+            gsap.from(line, {
+                scaleX: 0,
+                duration: 1,
+                ease: 'power3.inOut',
+                scrollTrigger: {
+                    trigger: line,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+        });
+
+        // ============================================
+        // Gradient Orbs Parallax
+        // ============================================
+        gsap.to('.gradient-orb-1', {
+            y: '-20%',
+            ease: 'none',
+            scrollTrigger: {
+                trigger: 'body',
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: 2
+            }
+        });
+
+        gsap.to('.gradient-orb-2', {
+            y: '30%',
+            ease: 'none',
+            scrollTrigger: {
+                trigger: 'body',
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: 2
+            }
+        });
+
+        console.log('🎨 GSAP Showcase initialized');
+    </script>
+</body>
+
+</html>

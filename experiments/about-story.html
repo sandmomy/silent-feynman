@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | About</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --text: #E6E6E1;
+            --accent: #4169e1;
+            --muted: rgba(230, 230, 225, 0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ABOUT SECTION */
+        #about {
+            position: relative;
+            min-height: 400vh;
+        }
+
+        /* SVG THREAD PATH */
+        #thread {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.35;
+            pointer-events: none;
+            color: var(--accent);
+        }
+
+        /* DOT FOLLOWER */
+        #dot {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border-radius: 999px;
+            transform: translate(-50%, -50%);
+            background: var(--accent);
+            pointer-events: none;
+            box-shadow: 0 0 20px var(--accent);
+            z-index: 10;
+        }
+
+        /* CONTENT BLOCKS */
+        .block {
+            position: relative;
+            z-index: 1;
+            padding: 90px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .block.hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-top: 120px;
+        }
+
+        .hero-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 40px;
+            border: 3px solid var(--accent);
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 400;
+            font-style: italic;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero .tagline {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--muted);
+            max-width: 600px;
+        }
+
+        .block.bio h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .bio-short {
+            font-size: 1.4rem;
+            color: var(--accent);
+            margin-bottom: 40px;
+            font-weight: 500;
+        }
+
+        .bio-long {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--muted);
+            max-width: 800px;
+        }
+
+        .bio-long p {
+            margin-bottom: 20px;
+        }
+
+        /* Q/A SLIDER */
+        .qa {
+            padding: 120px 0;
+        }
+
+        .qa h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            text-align: center;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .qa-subtitle {
+            text-align: center;
+            color: var(--muted);
+            margin-bottom: 60px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.9rem;
+        }
+
+        .qa-header {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .qa-header button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            background: transparent;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .qa-header button:hover {
+            background: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .qa-track {
+            display: flex;
+            gap: 24px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            padding: 10px 5%;
+            scrollbar-width: none;
+        }
+
+        .qa-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .qa-card {
+            flex: 0 0 min(560px, 85vw);
+            scroll-snap-align: start;
+            border-radius: 24px;
+            padding: 40px;
+            background: rgba(65, 105, 225, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(65, 105, 225, 0.3);
+        }
+
+        .qa-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+            font-style: italic;
+        }
+
+        .qa-card p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--muted);
+        }
+
+        /* CTA */
+        .cta {
+            text-align: center;
+            padding: 150px 5%;
+        }
+
+        .cta h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 18px 48px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(65, 105, 225, 0.4);
+        }
+
+        /* NAVIGATION */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 10, 0.8);
+        }
+
+        nav .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-style: italic;
+        }
+
+        nav .links {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .qa-card {
+                flex: 0 0 min(400px, 90vw);
+            }
+
+            nav .links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">Eugene Mierak</div>
+        <div class="links">
+            <a href="index.html">Home</a>
+            <a href="#about">About</a>
+            <a href="projects.html">Projects</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- ABOUT SECTION -->
+    <section id="about">
+        <!-- SVG THREAD PATH -->
+        <svg id="thread" viewBox="0 0 1000 3000" preserveAspectRatio="none" aria-hidden="true">
+            <path id="threadPath" d="M 120 80 C 420 180, 140 420, 520 540
+                   S 860 920, 520 1120
+                   S 160 1520, 520 1700
+                   S 880 2120, 520 2400
+                   S 180 2800, 520 2920" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
+        </svg>
+
+        <!-- DOT FOLLOWER -->
+        <div id="dot" aria-hidden="true"></div>
+
+        <!-- HERO BLOCK -->
+        <div class="block hero">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop"
+                alt="Eugene Mierak" class="hero-photo">
+            <h1>Eugene Mierak</h1>
+            <p class="tagline">Frequency Practitioner bridging Systems Thinking with Human Potential.</p>
+        </div>
+
+        <!-- BIO SHORT BLOCK -->
+        <div class="block bio">
+            <h2>About Me</h2>
+            <p class="bio-short">
+                I specialize in alignment caching, coherence training, and energetic development through integrative
+                methodologies.
+            </p>
+            <div class="bio-long">
+                <p>
+                    My work bridges subtle frequency sciences with practical frameworks for personal, organizational,
+                    and planetary alignment. I help individuals and teams cultivate resonance in real-world decisions
+                    and leadership dynamics.
+                </p>
+                <p>
+                    As Director of International Relationships for the SBDI Foundation, I foster global partnerships
+                    that support holistic sustainability initiatives, regenerative development, and conscious
+                    collaboration across cultures.
+                </p>
+            </div>
+        </div>
+
+        <!-- Q/A SLIDER BLOCK -->
+        <div class="block qa">
+            <h2>In Conversation</h2>
+            <p class="qa-subtitle">Deep Questions • Real Answers</p>
+
+            <div class="qa-header">
+                <button data-dir="-1" aria-label="Previous">←</button>
+                <button data-dir="1" aria-label="Next">→</button>
+            </div>
+
+            <div class="qa-track" id="qaTrack">
+                <article class="qa-card">
+                    <h3>What hypothesis are you testing?</h3>
+                    <p>
+                        I'm testing that combining rigorous systems thinking with subtle energetic coherence can unlock
+                        unprecedented clarity in leadership. My journey has proven that an interdisciplinary approach
+                        leads to breakthroughs traditional logic often misses.
+                    </p>
+                </article>
+
+                <article class="qa-card">
+                    <h3>What is your core philosophy?</h3>
+                    <p>
+                        Alignment is not static; it's a dynamic resonance. We must move from vision to coherent
+                        execution by understanding the interconnectedness of all parts. Balance, flow, and
+                        intentionality are the foundations.
+                    </p>
+                </article>
+
+                <article class="qa-card">
+                    <h3>How do you approach complexity?</h3>
+                    <p>
+                        Like a complex circuit, I look for nodes of resistance and flow. My background allows me to see
+                        the "invisible architecture" of a problem, applying pressure exactly where it's needed to
+                        restore balance.
+                    </p>
+                </article>
+
+                <article class="qa-card">
+                    <h3>What drives your curiosity?</h3>
+                    <p>
+                        The potential to bridge scientific discovery with personal growth. As technology advances, we
+                        must also evolve our inner selves. That intersection is where transformation happens.
+                    </p>
+                </article>
+
+                <article class="qa-card">
+                    <h3>What's your vision for the future?</h3>
+                    <p>
+                        A future where human potential and ecological responsibility are seamlessly integrated. Where
+                        initiatives move from vision to coherent execution through resonance, not force.
+                    </p>
+                </article>
+
+                <article class="qa-card">
+                    <h3>What lesson keeps repeating?</h3>
+                    <p>
+                        Trust your intuition. Whenever I've ignored it, I've ended up backtracking. That inner voice has
+                        proven to be one of the most dependable guides on my journey.
+                    </p>
+                </article>
+            </div>
+        </div>
+
+        <!-- CTA BLOCK -->
+        <div class="block cta">
+            <h2>Ready to Align?</h2>
+            <a href="#contact" class="cta-button">Work With Me</a>
+        </div>
+    </section>
+
+    <!-- GSAP + Plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+
+        const path = document.querySelector("#threadPath");
+        const dot = document.querySelector("#dot");
+
+        // Draw the SVG path with scroll
+        const length = path.getTotalLength();
+        gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+
+        gsap.to(path, {
+            strokeDashoffset: 0,
+            ease: "none",
+            scrollTrigger: {
+                trigger: "#about",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: true
+            }
+        });
+
+        // Move dot along the path
+        gsap.to(dot, {
+            ease: "none",
+            motionPath: {
+                path: path,
+                align: path,
+                alignOrigin: [0.5, 0.5]
+            },
+            scrollTrigger: {
+                trigger: "#about",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: true
+            }
+        });
+
+        // Animate blocks entrance
+        gsap.utils.toArray('.block').forEach((block, i) => {
+            gsap.from(block.children, {
+                opacity: 0,
+                y: 50,
+                stagger: 0.1,
+                duration: 1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: block,
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                }
+            });
+        });
+
+        // Q/A slider controls
+        const track = document.querySelector("#qaTrack");
+        document.querySelectorAll("[data-dir]").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const dir = Number(btn.dataset.dir);
+                track.scrollBy({
+                    left: dir * (track.clientWidth * 0.9),
+                    behavior: "smooth"
+                });
+            });
+        });
+
+        // Respect prefers-reduced-motion
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            ScrollTrigger.getAll().forEach(st => st.kill());
+        }
+    </script>
+</body>
+
+</html>

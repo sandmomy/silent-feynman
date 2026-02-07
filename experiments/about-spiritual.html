@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Frequency Architect</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #050608;
+            --text: #e8e6e3;
+            --gold: #d4af37;
+            --gold-light: #f4d678;
+            --violet: #9f7aea;
+            --emerald: #48bb78;
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* CANVAS LAYERS */
+        #particles-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        #sacred-geometry {
+            position: fixed;
+            top: 50%;
+            right: 10%;
+            transform: translate(0, -50%);
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        /* FREQUENCY WAVES */
+        .frequency-waves {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.15;
+        }
+
+        .frequency-waves svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* BREATHING AURA */
+        .aura {
+            position: fixed;
+            top: 50%;
+            right: 15%;
+            transform: translate(50%, -50%);
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+            filter: blur(60px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .aura-inner {
+            position: fixed;
+            top: 50%;
+            right: 15%;
+            transform: translate(50%, -50%);
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(159, 122, 234, 0.1) 0%, transparent 70%);
+            filter: blur(40px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* NOISE TEXTURE */
+        .noise {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.035;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* NAV */
+        .nav-top {
+            position: fixed;
+            top: 40px;
+            right: 50px;
+            z-index: 200;
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            font-family: 'Cinzel';
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.75rem;
+            transition: all 0.5s ease;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: width 0.4s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--gold);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* LEFT CONTENT */
+        .content-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50vw;
+            height: 100vh;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            padding-left: 8vw;
+            background: linear-gradient(to right,
+                rgba(5, 6, 8, 0.95) 0%,
+                rgba(5, 6, 8, 0.8) 60%,
+                rgba(5, 6, 8, 0) 100%);
+        }
+
+        .panel-wrap {
+            position: relative;
+            width: 100%;
+            max-width: 550px;
+        }
+
+        .panel {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            transform: translateY(-50%);
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        .panel.active {
+            opacity: 1;
+            pointer-events: auto;
+            visibility: visible;
+        }
+
+        /* PANEL ELEMENTS */
+        .p-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 8rem;
+            font-weight: 300;
+            color: rgba(212, 175, 55, 0.08);
+            position: absolute;
+            top: -80px;
+            left: -20px;
+            line-height: 1;
+            z-index: -1;
+        }
+
+        .p-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            font-family: 'Inter';
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 0.7rem;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .p-label-line {
+            width: 40px;
+            height: 1px;
+            background: var(--gold);
+            transform-origin: left;
+        }
+
+        .p-label-text {
+            display: inline-block;
+        }
+
+        .p-head {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4.5rem;
+            font-weight: 300;
+            line-height: 1.1;
+            color: white;
+            margin-bottom: 2.5rem;
+            letter-spacing: -1px;
+        }
+
+        .p-head .word {
+            display: inline-block;
+            overflow: hidden;
+        }
+
+        .p-head .char {
+            display: inline-block;
+        }
+
+        .p-body {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 420px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .p-body::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            bottom: 5px;
+            width: 1px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+        }
+
+        .p-body .line {
+            display: block;
+            overflow: hidden;
+        }
+
+        .p-body .line-inner {
+            display: block;
+        }
+
+        .highlight {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        /* SCROLL INDICATOR */
+        .scroll-hint {
+            position: fixed;
+            bottom: 50px;
+            left: 8vw;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .scroll-line {
+            width: 60px;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-line-inner {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gold);
+            transform: translateX(-100%);
+        }
+
+        /* PANEL INDICATOR */
+        .panel-indicator {
+            position: fixed;
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .indicator-dot.active {
+            background: var(--gold);
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .indicator-dot:hover {
+            border-color: var(--gold);
+        }
+
+        /* CONNECTION LINES (SVG) */
+        .connection-lines {
+            position: fixed;
+            inset: 0;
+            z-index: 3;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        /* ENERGY PARTICLES */
+        .energy-particle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 4;
+            box-shadow: 0 0 10px var(--gold), 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="noise"></div>
+    <div class="aura"></div>
+    <div class="aura-inner"></div>
+
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- SACRED GEOMETRY SVG -->
+    <svg id="sacred-geometry" width="500" height="500" viewBox="0 0 500 500">
+        <defs>
+            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#d4af37;stop-opacity:0.6" />
+                <stop offset="100%" style="stop-color:#9f7aea;stop-opacity:0.3" />
+            </linearGradient>
+        </defs>
+        <g class="flower-of-life" fill="none" stroke="url(#goldGrad)" stroke-width="0.5">
+            <!-- Central circle -->
+            <circle class="sacred-circle" cx="250" cy="250" r="80" />
+            <!-- Surrounding circles (Flower of Life pattern) -->
+            <circle class="sacred-circle" cx="250" cy="170" r="80" />
+            <circle class="sacred-circle" cx="250" cy="330" r="80" />
+            <circle class="sacred-circle" cx="319" cy="210" r="80" />
+            <circle class="sacred-circle" cx="319" cy="290" r="80" />
+            <circle class="sacred-circle" cx="181" cy="210" r="80" />
+            <circle class="sacred-circle" cx="181" cy="290" r="80" />
+            <!-- Outer ring -->
+            <circle class="sacred-outer" cx="250" cy="250" r="160" stroke-dasharray="5,10" />
+        </g>
+        <!-- Connection nodes -->
+        <g class="sacred-nodes" fill="var(--gold)">
+            <circle class="node" cx="250" cy="250" r="3" />
+            <circle class="node" cx="250" cy="170" r="2" />
+            <circle class="node" cx="250" cy="330" r="2" />
+            <circle class="node" cx="319" cy="210" r="2" />
+            <circle class="node" cx="319" cy="290" r="2" />
+            <circle class="node" cx="181" cy="210" r="2" />
+            <circle class="node" cx="181" cy="290" r="2" />
+        </g>
+    </svg>
+
+    <!-- FREQUENCY WAVES -->
+    <div class="frequency-waves">
+        <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
+            <path class="wave wave-1" fill="none" stroke="rgba(212, 175, 55, 0.3)" stroke-width="1"
+                d="M0,100 Q360,50 720,100 T1440,100" />
+            <path class="wave wave-2" fill="none" stroke="rgba(159, 122, 234, 0.2)" stroke-width="1"
+                d="M0,120 Q360,70 720,120 T1440,120" />
+            <path class="wave wave-3" fill="none" stroke="rgba(72, 187, 120, 0.15)" stroke-width="1"
+                d="M0,140 Q360,90 720,140 T1440,140" />
+        </svg>
+    </div>
+
+    <!-- CONNECTION LINES -->
+    <svg class="connection-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <line class="conn-line" x1="45" y1="50" x2="75" y2="30" stroke="var(--gold)" stroke-width="0.1" />
+        <line class="conn-line" x1="45" y1="50" x2="80" y2="50" stroke="var(--gold)" stroke-width="0.1" />
+        <line class="conn-line" x1="45" y1="50" x2="75" y2="70" stroke="var(--gold)" stroke-width="0.1" />
+    </svg>
+
+    <nav class="nav-top">
+        <a href="index.html" class="nav-link">Index</a>
+        <a href="#" class="nav-link">Contact</a>
+    </nav>
+
+    <div class="scroll-hint">
+        <div class="scroll-line">
+            <div class="scroll-line-inner"></div>
+        </div>
+        <span>Scroll to explore</span>
+    </div>
+
+    <div class="panel-indicator">
+        <div class="indicator-dot active" data-panel="0"></div>
+        <div class="indicator-dot" data-panel="1"></div>
+        <div class="indicator-dot" data-panel="2"></div>
+        <div class="indicator-dot" data-panel="3"></div>
+        <div class="indicator-dot" data-panel="4"></div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content-frame">
+        <div class="panel-wrap">
+
+            <!-- PANEL 0: Identity -->
+            <div class="panel active" id="p0">
+                <div class="p-number">01</div>
+                <div class="p-label">
+                    <div class="p-label-line"></div>
+                    <span class="p-label-text">Identity</span>
+                </div>
+                <h2 class="p-head">Frequency<br>Practitioner</h2>
+                <div class="p-body">
+                    <span class="line"><span class="line-inner">I'm Eugene Mierak, specializing in <span class="highlight">alignment</span></span></span>
+                    <span class="line"><span class="line-inner"><span class="highlight">caching</span>, coherence training, and energetic</span></span>
+                    <span class="line"><span class="line-inner">training through integrative coherence</span></span>
+                    <span class="line"><span class="line-inner">methodologies to support clarity, stability,</span></span>
+                    <span class="line"><span class="line-inner">and <span class="highlight">conscious evolution</span>.</span></span>
+                </div>
+            </div>
+
+            <!-- PANEL 1: The Bridge -->
+            <div class="panel" id="p1">
+                <div class="p-number">02</div>
+                <div class="p-label">
+                    <div class="p-label-line"></div>
+                    <span class="p-label-text">The Bridge</span>
+                </div>
+                <h2 class="p-head">Resonance<br>& Alignment</h2>
+                <div class="p-body">
+                    <span class="line"><span class="line-inner">My work bridges <span class="highlight">subtle frequency sciences</span></span></span>
+                    <span class="line"><span class="line-inner">with practical frameworks for personal,</span></span>
+                    <span class="line"><span class="line-inner">organizational, and planetary alignment—</span></span>
+                    <span class="line"><span class="line-inner">helping individuals and teams cultivate</span></span>
+                    <span class="line"><span class="line-inner"><span class="highlight">resonance</span> in real-world decisions.</span></span>
+                </div>
+            </div>
+
+            <!-- PANEL 2: SBDI Foundation -->
+            <div class="panel" id="p2">
+                <div class="p-number">03</div>
+                <div class="p-label">
+                    <div class="p-label-line"></div>
+                    <span class="p-label-text">Global Impact</span>
+                </div>
+                <h2 class="p-head">SBDI<br>Foundation</h2>
+                <div class="p-body">
+                    <span class="line"><span class="line-inner">As Director of International Relationships,</span></span>
+                    <span class="line"><span class="line-inner">I foster global partnerships for <span class="highlight">holistic</span></span></span>
+                    <span class="line"><span class="line-inner"><span class="highlight">sustainability</span>, regenerative development,</span></span>
+                    <span class="line"><span class="line-inner">and conscious collaboration across cultures—</span></span>
+                    <span class="line"><span class="line-inner">moving initiatives from vision to execution.</span></span>
+                </div>
+            </div>
+
+            <!-- PANEL 3: Systems Philosophy -->
+            <div class="panel" id="p3">
+                <div class="p-number">04</div>
+                <div class="p-label">
+                    <div class="p-label-line"></div>
+                    <span class="p-label-text">Philosophy</span>
+                </div>
+                <h2 class="p-head">Systems<br>Thinking</h2>
+                <div class="p-body">
+                    <span class="line"><span class="line-inner">Grounded in <span class="highlight">systems thinking</span>, emphasizing</span></span>
+                    <span class="line"><span class="line-inner">resonance, long-term balance, and alignment</span></span>
+                    <span class="line"><span class="line-inner">between human potential and ecological</span></span>
+                    <span class="line"><span class="line-inner">and social responsibility.</span></span>
+                </div>
+            </div>
+
+            <!-- PANEL 4: Mission -->
+            <div class="panel" id="p4">
+                <div class="p-number">05</div>
+                <div class="p-label">
+                    <div class="p-label-line"></div>
+                    <span class="p-label-text">Mission</span>
+                </div>
+                <h2 class="p-head">Conscious<br>Impact</h2>
+                <div class="p-body">
+                    <span class="line"><span class="line-inner">Supporting the emergence of coherent,</span></span>
+                    <span class="line"><span class="line-inner">sustainable projects through <span class="highlight">frequency</span></span></span>
+                    <span class="line"><span class="line-inner"><span class="highlight">awareness</span>, strategic alignment, and</span></span>
+                    <span class="line"><span class="line-inner">conscious international cooperation—creating</span></span>
+                    <span class="line"><span class="line-inner">lasting impact for communities and the planet.</span></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="js/anime.umd.min.js"></script>
+    <script>
+        // ========================================
+        // ANIME.JS V4 - SPIRITUAL FREQUENCY PAGE
+        // ========================================
+
+        const { animate, stagger, createTimeline, createTimer, utils } = anime;
+
+        // State
+        let current = 0;
+        const total = 5;
+        let isAnimating = false;
+        let lastScroll = 0;
+        const scrollCooldown = 1400;
+
+        // ========================================
+        // PARTICLE SYSTEM (Canvas)
+        // ========================================
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const particleCount = 80;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.opacity = Math.random() * 0.5 + 0.1;
+                this.pulse = Math.random() * Math.PI * 2;
+                this.pulseSpeed = Math.random() * 0.02 + 0.01;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.pulse += this.pulseSpeed;
+
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                const glowOpacity = this.opacity * (0.5 + Math.sin(this.pulse) * 0.5);
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(212, 175, 55, ${glowOpacity})`;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = 'rgba(212, 175, 55, 0.5)';
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 150) {
+                        const opacity = (1 - dist / 150) * 0.15;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(212, 175, 55, ${opacity})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            drawConnections();
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // ========================================
+        // SACRED GEOMETRY ANIMATION
+        // ========================================
+        const sacredCircles = document.querySelectorAll('.sacred-circle');
+        const sacredNodes = document.querySelectorAll('.node');
+        const sacredOuter = document.querySelector('.sacred-outer');
+
+        // Initial draw animation
+        sacredCircles.forEach((circle, i) => {
+            const length = circle.getTotalLength();
+            circle.style.strokeDasharray = length;
+            circle.style.strokeDashoffset = length;
+        });
+
+        // Draw the sacred geometry
+        animate('.sacred-circle', {
+            strokeDashoffset: 0,
+            duration: 2500,
+            delay: stagger(150),
+            ease: 'out(3)'
+        });
+
+        // Continuous rotation
+        animate('#sacred-geometry', {
+            rotate: 360,
+            duration: 120000,
+            loop: true,
+            ease: 'linear'
+        });
+
+        // Breathing pulse on nodes
+        animate('.node', {
+            scale: [1, 1.5, 1],
+            opacity: [0.6, 1, 0.6],
+            duration: 3000,
+            delay: stagger(200),
+            loop: true,
+            ease: 'inOut(2)'
+        });
+
+        // Outer ring pulse
+        animate('.sacred-outer', {
+            opacity: [0.3, 0.6, 0.3],
+            scale: [1, 1.02, 1],
+            duration: 4000,
+            loop: true,
+            ease: 'inOut(1.5)'
+        });
+
+        // ========================================
+        // AURA BREATHING
+        // ========================================
+        animate('.aura', {
+            scale: [1, 1.1, 1],
+            opacity: [0.6, 1, 0.6],
+            duration: 6000,
+            loop: true,
+            ease: 'inOut(1.5)'
+        });
+
+        animate('.aura-inner', {
+            scale: [1, 1.15, 1],
+            opacity: [0.5, 0.8, 0.5],
+            duration: 4500,
+            loop: true,
+            ease: 'inOut(2)'
+        });
+
+        // ========================================
+        // FREQUENCY WAVES
+        // ========================================
+        animate('.wave-1', {
+            translateX: [-50, 50],
+            duration: 8000,
+            loop: true,
+            alternate: true,
+            ease: 'inOut(1.5)'
+        });
+
+        animate('.wave-2', {
+            translateX: [30, -30],
+            duration: 6000,
+            loop: true,
+            alternate: true,
+            ease: 'inOut(2)'
+        });
+
+        animate('.wave-3', {
+            translateX: [-20, 40],
+            duration: 7000,
+            loop: true,
+            alternate: true,
+            ease: 'inOut(1.8)'
+        });
+
+        // ========================================
+        // SCROLL INDICATOR
+        // ========================================
+        animate('.scroll-line-inner', {
+            translateX: ['0%', '200%'],
+            duration: 2000,
+            loop: true,
+            ease: 'inOut(2)'
+        });
+
+        // ========================================
+        // CONNECTION LINES
+        // ========================================
+        animate('.conn-line', {
+            opacity: [0.2, 0.6, 0.2],
+            duration: 3000,
+            delay: stagger(500),
+            loop: true,
+            ease: 'inOut(2)'
+        });
+
+        // ========================================
+        // PANEL TRANSITIONS
+        // ========================================
+        function animatePanel(panel, direction = 'in') {
+            const label = panel.querySelector('.p-label');
+            const labelLine = panel.querySelector('.p-label-line');
+            const labelText = panel.querySelector('.p-label-text');
+            const number = panel.querySelector('.p-number');
+            const head = panel.querySelector('.p-head');
+            const bodyLines = panel.querySelectorAll('.line-inner');
+
+            if (direction === 'in') {
+                panel.classList.add('active');
+
+                const tl = createTimeline({
+                    defaults: { ease: 'out(3)' }
+                });
+
+                // Number fade in
+                tl.add(number, {
+                    opacity: [0, 0.08],
+                    translateY: [30, 0],
+                    duration: 1000
+                }, 0);
+
+                // Label line draws
+                tl.add(labelLine, {
+                    scaleX: [0, 1],
+                    duration: 600
+                }, 100);
+
+                // Label text slides in
+                tl.add(labelText, {
+                    opacity: [0, 1],
+                    translateX: [-20, 0],
+                    duration: 500
+                }, 300);
+
+                // Heading - character by character feel
+                tl.add(head, {
+                    opacity: [0, 1],
+                    translateY: [60, 0],
+                    duration: 900,
+                    ease: 'out(4)'
+                }, 200);
+
+                // Body lines stagger in
+                tl.add(bodyLines, {
+                    opacity: [0, 1],
+                    translateY: [30, 0],
+                    duration: 700,
+                    delay: stagger(80)
+                }, 500);
+
+            } else {
+                const tl = createTimeline({
+                    defaults: { ease: 'in(2)' },
+                    onComplete: () => panel.classList.remove('active')
+                });
+
+                tl.add(bodyLines, {
+                    opacity: 0,
+                    translateY: -20,
+                    duration: 300,
+                    delay: stagger(30)
+                }, 0);
+
+                tl.add(head, {
+                    opacity: 0,
+                    translateY: -40,
+                    duration: 400
+                }, 100);
+
+                tl.add([labelLine, labelText], {
+                    opacity: 0,
+                    duration: 300
+                }, 150);
+
+                tl.add(number, {
+                    opacity: 0,
+                    duration: 200
+                }, 200);
+            }
+        }
+
+        function changeSlide(nextIdx) {
+            if (isAnimating || nextIdx === current || nextIdx < 0 || nextIdx >= total) return;
+            isAnimating = true;
+
+            const currPanel = document.getElementById(`p${current}`);
+            const nextPanel = document.getElementById(`p${nextIdx}`);
+
+            // Update indicators
+            document.querySelectorAll('.indicator-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === nextIdx);
+            });
+
+            // Morph sacred geometry based on panel
+            morphSacredGeometry(nextIdx);
+
+            // Animate out current
+            animatePanel(currPanel, 'out');
+
+            // Animate in next after delay
+            setTimeout(() => {
+                animatePanel(nextPanel, 'in');
+                current = nextIdx;
+                setTimeout(() => isAnimating = false, 800);
+            }, 400);
+        }
+
+        function morphSacredGeometry(idx) {
+            const colors = [
+                { stroke: 'url(#goldGrad)', node: '#d4af37' },           // Identity - Gold
+                { stroke: 'rgba(159, 122, 234, 0.5)', node: '#9f7aea' }, // Bridge - Violet
+                { stroke: 'rgba(72, 187, 120, 0.5)', node: '#48bb78' },  // SBDI - Emerald
+                { stroke: 'rgba(100, 180, 255, 0.5)', node: '#64b4ff' }, // Systems - Blue
+                { stroke: 'rgba(255, 200, 120, 0.5)', node: '#ffc878' }  // Mission - Warm Gold
+            ];
+
+            animate('.sacred-circle', {
+                stroke: colors[idx].stroke,
+                duration: 1000,
+                ease: 'out(2)'
+            });
+
+            animate('.node', {
+                fill: colors[idx].node,
+                duration: 800
+            });
+
+            // Scale effect
+            animate('#sacred-geometry', {
+                scale: [1, 1.05, 1],
+                duration: 1200,
+                ease: 'inOut(2)'
+            });
+        }
+
+        // ========================================
+        // EVENT LISTENERS
+        // ========================================
+        window.addEventListener('wheel', (e) => {
+            const now = Date.now();
+            if (now - lastScroll < scrollCooldown || isAnimating) return;
+            if (Math.abs(e.deltaY) < 40) return;
+
+            if (e.deltaY > 0) {
+                changeSlide(current + 1);
+            } else {
+                changeSlide(current - 1);
+            }
+            lastScroll = now;
+        });
+
+        // Indicator clicks
+        document.querySelectorAll('.indicator-dot').forEach(dot => {
+            dot.addEventListener('click', () => {
+                const idx = parseInt(dot.dataset.panel);
+                changeSlide(idx);
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                changeSlide(current + 1);
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                changeSlide(current - 1);
+            }
+        });
+
+        // ========================================
+        // INITIAL ANIMATION
+        // ========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fade in nav
+            animate('.nav-link', {
+                opacity: [0, 0.4],
+                translateY: [-20, 0],
+                duration: 800,
+                delay: stagger(100, { start: 500 })
+            });
+
+            // Animate first panel
+            setTimeout(() => {
+                animatePanel(document.getElementById('p0'), 'in');
+            }, 300);
+
+            // Fade in indicators
+            animate('.indicator-dot', {
+                opacity: [0, 1],
+                scale: [0.5, 1],
+                duration: 600,
+                delay: stagger(100, { start: 800 })
+            });
+        });
+
+    </script>
+</body>
+
+</html>

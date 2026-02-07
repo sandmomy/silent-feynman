@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Frequency Architect</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #070809;
+            --gold: #c9a55c;
+            --gold-soft: rgba(201, 165, 92, 0.7);
+            --text: #f0ede6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Cormorant Garamond', serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            cursor: none;
+        }
+
+        /* CURSOR */
+        .cursor {
+            position: fixed;
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.2s, width 0.3s, height 0.3s;
+            opacity: 0.7;
+        }
+
+        .cursor-dot {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 12px rgba(201, 165, 92, 0.6);
+        }
+
+        .cursor.expand {
+            width: 55px;
+            height: 55px;
+            opacity: 0.4;
+        }
+
+        /* BACKGROUND */
+        .bg-layer {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+        }
+
+        .bg-layer img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            background: radial-gradient(ellipse at 70% 50%,
+                rgba(7, 8, 9, 0.3) 0%,
+                rgba(7, 8, 9, 0.6) 50%,
+                rgba(7, 8, 9, 0.85) 100%
+            );
+        }
+
+        /* PARTICLES */
+        #particles {
+            position: fixed;
+            inset: 0;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        /* NOISE */
+        .noise {
+            position: fixed;
+            inset: 0;
+            z-index: 4;
+            pointer-events: none;
+            opacity: 0.035;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* SACRED GEOMETRY - Centered on Eugene */
+        .sacred-geo {
+            position: fixed;
+            top: 50%;
+            left: 55%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+            z-index: 5;
+            pointer-events: none;
+            opacity: 0.2;
+        }
+
+        .sacred-geo svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .sacred-geo svg * {
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 0.5;
+        }
+
+        .sacred-geo .node {
+            fill: var(--gold);
+            stroke: none;
+        }
+
+        /* PANELS - Positioned as Collage */
+        .panel {
+            position: fixed;
+            z-index: 20;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            max-width: 500px;
+        }
+
+        .panel.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        /* POSITION VARIATIONS */
+        .panel[data-pos="top-left"] {
+            top: 12%;
+            left: 8%;
+        }
+
+        .panel[data-pos="center-left"] {
+            top: 50%;
+            left: 6%;
+            transform: translateY(-50%);
+        }
+
+        .panel[data-pos="bottom-left"] {
+            bottom: 12%;
+            left: 8%;
+        }
+
+        .panel[data-pos="top-right"] {
+            top: 15%;
+            right: 8%;
+            text-align: right;
+        }
+
+        .panel[data-pos="bottom-right"] {
+            bottom: 15%;
+            right: 6%;
+            text-align: right;
+        }
+
+        .panel[data-pos="center"] {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .panel[data-pos="top-center"] {
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+
+        .panel[data-pos="bottom-center"] {
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+
+        /* PANEL CONTENT */
+        .p-num {
+            font-size: 9rem;
+            font-weight: 300;
+            color: rgba(201, 165, 92, 0.08);
+            line-height: 1;
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .panel[data-pos="top-left"] .p-num,
+        .panel[data-pos="center-left"] .p-num,
+        .panel[data-pos="bottom-left"] .p-num {
+            top: -80px;
+            left: -30px;
+        }
+
+        .panel[data-pos="top-right"] .p-num,
+        .panel[data-pos="bottom-right"] .p-num {
+            top: -80px;
+            right: -30px;
+        }
+
+        .panel[data-pos="center"] .p-num,
+        .panel[data-pos="top-center"] .p-num,
+        .panel[data-pos="bottom-center"] .p-num {
+            top: -90px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .p-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .panel[data-pos="top-right"] .p-label,
+        .panel[data-pos="bottom-right"] .p-label {
+            flex-direction: row-reverse;
+        }
+
+        .panel[data-pos="center"] .p-label,
+        .panel[data-pos="top-center"] .p-label,
+        .panel[data-pos="bottom-center"] .p-label {
+            justify-content: center;
+        }
+
+        .p-label-bar {
+            width: 40px;
+            height: 1px;
+            background: var(--gold);
+            transform-origin: left;
+        }
+
+        .panel[data-pos="top-right"] .p-label-bar,
+        .panel[data-pos="bottom-right"] .p-label-bar {
+            transform-origin: right;
+        }
+
+        .p-label-text {
+            font-size: 0.8rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        .p-title {
+            font-size: clamp(3rem, 6vw, 4.5rem);
+            font-weight: 300;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+
+        .p-title .line {
+            display: block;
+            overflow: hidden;
+        }
+
+        .p-title .word {
+            display: inline-block;
+        }
+
+        .p-body {
+            font-size: 1.15rem;
+            line-height: 1.85;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 420px;
+            font-weight: 300;
+        }
+
+        .panel[data-pos="top-right"] .p-body,
+        .panel[data-pos="bottom-right"] .p-body {
+            margin-left: auto;
+        }
+
+        .panel[data-pos="center"] .p-body,
+        .panel[data-pos="top-center"] .p-body,
+        .panel[data-pos="bottom-center"] .p-body {
+            margin: 0 auto;
+        }
+
+        .p-body .txt-line {
+            display: block;
+            overflow: hidden;
+        }
+
+        .p-body .txt-inner {
+            display: block;
+        }
+
+        .hl {
+            color: var(--gold);
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        /* BORDER ACCENT */
+        .p-accent {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: 1px solid rgba(201, 165, 92, 0.2);
+            pointer-events: none;
+        }
+
+        .panel[data-pos="top-left"] .p-accent {
+            bottom: -20px;
+            right: -20px;
+            border-top: none;
+            border-left: none;
+        }
+
+        .panel[data-pos="center-left"] .p-accent {
+            top: -20px;
+            right: -20px;
+            border-bottom: none;
+            border-left: none;
+        }
+
+        .panel[data-pos="bottom-left"] .p-accent {
+            top: -20px;
+            right: -20px;
+            border-bottom: none;
+            border-left: none;
+        }
+
+        .panel[data-pos="top-right"] .p-accent {
+            bottom: -20px;
+            left: -20px;
+            border-top: none;
+            border-right: none;
+        }
+
+        .panel[data-pos="bottom-right"] .p-accent {
+            top: -20px;
+            left: -20px;
+            border-bottom: none;
+            border-right: none;
+        }
+
+        /* NAV */
+        .nav {
+            position: fixed;
+            top: 40px;
+            right: 50px;
+            z-index: 100;
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: color 0.4s;
+        }
+
+        .nav a:hover {
+            color: var(--gold);
+        }
+
+        /* PROGRESS - Corner */
+        .progress {
+            position: fixed;
+            top: 40px;
+            left: 50px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .progress-num {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--gold);
+            min-width: 60px;
+        }
+
+        .progress-num span {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.3);
+        }
+
+        .progress-bar {
+            width: 100px;
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+            position: relative;
+        }
+
+        .progress-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: var(--gold);
+            width: 20%;
+            transition: width 0.6s ease;
+        }
+
+        /* SCROLL HINT */
+        .scroll-hint {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+        }
+
+        .scroll-icon {
+            width: 24px;
+            height: 38px;
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .scroll-dot {
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 2px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .panel {
+                max-width: 400px;
+            }
+            .p-title {
+                font-size: 3rem;
+            }
+            .panel[data-pos="top-right"],
+            .panel[data-pos="bottom-right"] {
+                right: 5%;
+            }
+            .sacred-geo {
+                opacity: 0.1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .panel {
+                max-width: 90%;
+                left: 5% !important;
+                right: auto !important;
+                text-align: left !important;
+                transform: none !important;
+            }
+            .panel[data-pos="top-left"],
+            .panel[data-pos="top-right"],
+            .panel[data-pos="top-center"] {
+                top: 15%;
+            }
+            .panel[data-pos="center-left"],
+            .panel[data-pos="center"] {
+                top: 30%;
+            }
+            .panel[data-pos="bottom-left"],
+            .panel[data-pos="bottom-right"],
+            .panel[data-pos="bottom-center"] {
+                bottom: auto;
+                top: 25%;
+            }
+            .p-body {
+                margin-left: 0 !important;
+            }
+            .p-label {
+                flex-direction: row !important;
+            }
+            .sacred-geo {
+                display: none;
+            }
+            .progress {
+                left: 20px;
+            }
+            .nav {
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+    <div class="noise"></div>
+
+    <!-- BACKGROUND -->
+    <div class="bg-layer">
+        <img src="assets/meditation-bg.png" alt="">
+    </div>
+    <div class="bg-overlay"></div>
+
+    <!-- PARTICLES -->
+    <canvas id="particles"></canvas>
+
+    <!-- SACRED GEOMETRY -->
+    <div class="sacred-geo">
+        <svg viewBox="0 0 400 400" id="geo-svg">
+            <g class="geo-g">
+                <circle cx="200" cy="200" r="50"/>
+                <circle cx="200" cy="150" r="50"/>
+                <circle cx="200" cy="250" r="50"/>
+                <circle cx="243" cy="175" r="50"/>
+                <circle cx="243" cy="225" r="50"/>
+                <circle cx="157" cy="175" r="50"/>
+                <circle cx="157" cy="225" r="50"/>
+                <circle cx="200" cy="200" r="100" stroke-dasharray="4,6"/>
+                <circle cx="200" cy="200" r="140" stroke-dasharray="2,8" opacity="0.4"/>
+                <circle class="node" cx="200" cy="200" r="4"/>
+            </g>
+        </svg>
+    </div>
+
+    <!-- NAV -->
+    <nav class="nav">
+        <a href="index.html">Index</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <!-- PROGRESS -->
+    <div class="progress">
+        <div class="progress-num">
+            <span id="curr">01</span> <span>/ 05</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+    </div>
+
+    <!-- SCROLL HINT -->
+    <div class="scroll-hint">
+        <div class="scroll-icon">
+            <div class="scroll-dot"></div>
+        </div>
+        <span>Scroll to explore</span>
+    </div>
+
+    <!-- PANELS - COLLAGE POSITIONS -->
+
+    <!-- 01: TOP LEFT -->
+    <article class="panel active" data-idx="0" data-pos="top-left">
+        <div class="p-num">01</div>
+        <div class="p-accent"></div>
+        <div class="p-label">
+            <div class="p-label-bar"></div>
+            <span class="p-label-text">Identity</span>
+        </div>
+        <h2 class="p-title">
+            <span class="line"><span class="word">Frequency</span></span>
+            <span class="line"><span class="word">Practitioner</span></span>
+        </h2>
+        <div class="p-body">
+            <span class="txt-line"><span class="txt-inner">I'm Eugene Mierak, specializing in <span class="hl">alignment</span></span></span>
+            <span class="txt-line"><span class="txt-inner"><span class="hl">caching</span>, coherence training, and energetic</span></span>
+            <span class="txt-line"><span class="txt-inner">training to support clarity, stability, and</span></span>
+            <span class="txt-line"><span class="txt-inner"><span class="hl">conscious evolution</span>.</span></span>
+        </div>
+    </article>
+
+    <!-- 02: BOTTOM RIGHT -->
+    <article class="panel" data-idx="1" data-pos="bottom-right">
+        <div class="p-num">02</div>
+        <div class="p-accent"></div>
+        <div class="p-label">
+            <div class="p-label-bar"></div>
+            <span class="p-label-text">The Bridge</span>
+        </div>
+        <h2 class="p-title">
+            <span class="line"><span class="word">Resonance &</span></span>
+            <span class="line"><span class="word">Alignment</span></span>
+        </h2>
+        <div class="p-body">
+            <span class="txt-line"><span class="txt-inner">Bridging <span class="hl">subtle frequency sciences</span></span></span>
+            <span class="txt-line"><span class="txt-inner">with practical frameworks for personal,</span></span>
+            <span class="txt-line"><span class="txt-inner">organizational, and planetary alignment—</span></span>
+            <span class="txt-line"><span class="txt-inner">cultivating <span class="hl">resonance</span> in real-world decisions.</span></span>
+        </div>
+    </article>
+
+    <!-- 03: CENTER LEFT -->
+    <article class="panel" data-idx="2" data-pos="center-left">
+        <div class="p-num">03</div>
+        <div class="p-accent"></div>
+        <div class="p-label">
+            <div class="p-label-bar"></div>
+            <span class="p-label-text">Global Impact</span>
+        </div>
+        <h2 class="p-title">
+            <span class="line"><span class="word">SBDI</span></span>
+            <span class="line"><span class="word">Foundation</span></span>
+        </h2>
+        <div class="p-body">
+            <span class="txt-line"><span class="txt-inner">As Director of International Relationships,</span></span>
+            <span class="txt-line"><span class="txt-inner">fostering global partnerships for <span class="hl">holistic</span></span></span>
+            <span class="txt-line"><span class="txt-inner"><span class="hl">sustainability</span> and regenerative development</span></span>
+            <span class="txt-line"><span class="txt-inner">across cultures.</span></span>
+        </div>
+    </article>
+
+    <!-- 04: TOP RIGHT -->
+    <article class="panel" data-idx="3" data-pos="top-right">
+        <div class="p-num">04</div>
+        <div class="p-accent"></div>
+        <div class="p-label">
+            <div class="p-label-bar"></div>
+            <span class="p-label-text">Philosophy</span>
+        </div>
+        <h2 class="p-title">
+            <span class="line"><span class="word">Systems</span></span>
+            <span class="line"><span class="word">Thinking</span></span>
+        </h2>
+        <div class="p-body">
+            <span class="txt-line"><span class="txt-inner">Grounded in <span class="hl">systems thinking</span>,</span></span>
+            <span class="txt-line"><span class="txt-inner">emphasizing resonance, long-term balance,</span></span>
+            <span class="txt-line"><span class="txt-inner">and alignment between human potential</span></span>
+            <span class="txt-line"><span class="txt-inner">and ecological responsibility.</span></span>
+        </div>
+    </article>
+
+    <!-- 05: BOTTOM LEFT -->
+    <article class="panel" data-idx="4" data-pos="bottom-left">
+        <div class="p-num">05</div>
+        <div class="p-accent"></div>
+        <div class="p-label">
+            <div class="p-label-bar"></div>
+            <span class="p-label-text">Mission</span>
+        </div>
+        <h2 class="p-title">
+            <span class="line"><span class="word">Conscious</span></span>
+            <span class="line"><span class="word">Impact</span></span>
+        </h2>
+        <div class="p-body">
+            <span class="txt-line"><span class="txt-inner">Supporting the emergence of coherent,</span></span>
+            <span class="txt-line"><span class="txt-inner">sustainable projects through <span class="hl">frequency</span></span></span>
+            <span class="txt-line"><span class="txt-inner"><span class="hl">awareness</span> and strategic alignment—</span></span>
+            <span class="txt-line"><span class="txt-inner">creating lasting impact for <span class="hl">the planet</span>.</span></span>
+        </div>
+    </article>
+
+    <script src="js/anime.umd.min.js"></script>
+    <script>
+        const { animate, stagger, createTimeline, utils } = anime;
+
+        // State
+        let current = 0;
+        const total = 5;
+        let animating = false;
+        let lastWheel = 0;
+        const cooldown = 1200;
+
+        // Mouse
+        let mx = window.innerWidth / 2;
+        let my = window.innerHeight / 2;
+
+        // Panel positions for animation directions
+        const positions = {
+            'top-left': { x: -100, y: -60 },
+            'top-right': { x: 100, y: -60 },
+            'center-left': { x: -100, y: 0 },
+            'center': { x: 0, y: 60 },
+            'bottom-left': { x: -100, y: 60 },
+            'bottom-right': { x: 100, y: 60 },
+            'top-center': { x: 0, y: -60 },
+            'bottom-center': { x: 0, y: 60 }
+        };
+
+        // ========================================
+        // CURSOR
+        // ========================================
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+        let cx = mx, cy = my;
+
+        document.addEventListener('mousemove', e => {
+            mx = e.clientX;
+            my = e.clientY;
+            cursorDot.style.left = mx + 'px';
+            cursorDot.style.top = my + 'px';
+        });
+
+        (function tick() {
+            cx += (mx - cx) * 0.12;
+            cy += (my - cy) * 0.12;
+            cursor.style.left = cx + 'px';
+            cursor.style.top = cy + 'px';
+            requestAnimationFrame(tick);
+        })();
+
+        document.querySelectorAll('a').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
+        });
+
+        // ========================================
+        // PARTICLES
+        // ========================================
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.floor((canvas.width * canvas.height) / 20000);
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    bx: 0, by: 0,
+                    r: Math.random() * 1.5 + 0.5,
+                    a: Math.random() * 0.4 + 0.1,
+                    p: Math.random() * Math.PI * 2,
+                    s: Math.random() * 0.02 + 0.01
+                });
+                particles[i].bx = particles[i].x;
+                particles[i].by = particles[i].y;
+            }
+        }
+
+        resize();
+        window.addEventListener('resize', resize);
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const d = Math.sqrt(dx*dx + dy*dy);
+                    if (d < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(201,165,92,${(1 - d/100) * 0.07})`;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            particles.forEach(p => {
+                const dx = mx - p.x;
+                const dy = my - p.y;
+                const d = Math.sqrt(dx*dx + dy*dy);
+                if (d < 120) {
+                    const f = (120 - d) / 120;
+                    p.x -= (dx / d) * f * 2;
+                    p.y -= (dy / d) * f * 2;
+                } else {
+                    p.x += (p.bx - p.x) * 0.025;
+                    p.y += (p.by - p.y) * 0.025;
+                }
+
+                p.p += p.s;
+                const pulse = 0.5 + Math.sin(p.p) * 0.5;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(201,165,92,${p.a * pulse})`;
+                ctx.fill();
+            });
+
+            requestAnimationFrame(drawParticles);
+        }
+        drawParticles();
+
+        // ========================================
+        // SACRED GEOMETRY
+        // ========================================
+        animate('#geo-svg .geo-g', {
+            rotate: 360,
+            duration: 100000,
+            loop: true,
+            ease: 'linear'
+        });
+
+        animate('#geo-svg .node', {
+            scale: [1, 1.5, 1],
+            opacity: [0.6, 1, 0.6],
+            duration: 3000,
+            loop: true,
+            ease: 'inOut(2)'
+        });
+
+        // Scroll dot
+        animate('.scroll-dot', {
+            translateY: [0, 15, 0],
+            opacity: [1, 0.3, 1],
+            duration: 1800,
+            loop: true,
+            ease: 'inOut(2)'
+        });
+
+        // ========================================
+        // PANEL TRANSITIONS
+        // ========================================
+        const panels = document.querySelectorAll('.panel');
+
+        function goTo(idx) {
+            if (animating || idx === current || idx < 0 || idx >= total) return;
+            animating = true;
+
+            const outPanel = panels[current];
+            const inPanel = panels[idx];
+            const outPos = positions[outPanel.dataset.pos];
+            const inPos = positions[inPanel.dataset.pos];
+
+            // Update progress
+            document.getElementById('curr').textContent = String(idx + 1).padStart(2, '0');
+            document.querySelector('.progress-fill').style.width = `${((idx + 1) / total) * 100}%`;
+
+            // Geometry pulse
+            animate('#geo-svg .geo-g', {
+                scale: [1, 1.1, 1],
+                opacity: [0.2, 0.4, 0.2],
+                duration: 800,
+                ease: 'inOut(2)'
+            });
+
+            // === EXIT ===
+            const outTl = createTimeline({
+                onComplete: () => outPanel.classList.remove('active')
+            });
+
+            outTl.add(outPanel.querySelectorAll('.txt-inner'), {
+                translateY: outPos.y * 0.4,
+                translateX: outPos.x * 0.3,
+                opacity: 0,
+                duration: 350,
+                delay: stagger(25),
+                ease: 'in(2)'
+            }, 0);
+
+            outTl.add(outPanel.querySelectorAll('.word'), {
+                translateY: outPos.y * 0.6,
+                translateX: outPos.x * 0.4,
+                opacity: 0,
+                duration: 400,
+                delay: stagger(40),
+                ease: 'in(3)'
+            }, 0);
+
+            outTl.add(outPanel.querySelector('.p-label'), {
+                translateX: outPos.x * 0.5,
+                opacity: 0,
+                duration: 300,
+                ease: 'in(2)'
+            }, 0);
+
+            outTl.add(outPanel.querySelector('.p-num'), {
+                opacity: 0,
+                scale: 0.9,
+                duration: 250
+            }, 0);
+
+            outTl.add(outPanel.querySelector('.p-accent'), {
+                opacity: 0,
+                scale: 0.8,
+                duration: 300
+            }, 0);
+
+            // === ENTER ===
+            setTimeout(() => {
+                inPanel.classList.add('active');
+
+                const lines = inPanel.querySelectorAll('.txt-inner');
+                const words = inPanel.querySelectorAll('.word');
+                const label = inPanel.querySelector('.p-label');
+                const bar = inPanel.querySelector('.p-label-bar');
+                const num = inPanel.querySelector('.p-num');
+                const accent = inPanel.querySelector('.p-accent');
+
+                // Set initial positions (from opposite direction)
+                utils.set(lines, { translateY: -inPos.y * 0.4, translateX: -inPos.x * 0.3, opacity: 0 });
+                utils.set(words, { translateY: -inPos.y * 0.6, translateX: -inPos.x * 0.4, opacity: 0 });
+                utils.set(label, { translateX: -inPos.x * 0.5, opacity: 0 });
+                utils.set(bar, { scaleX: 0 });
+                utils.set(num, { opacity: 0, scale: 1.1 });
+                utils.set(accent, { opacity: 0, scale: 1.2 });
+
+                const inTl = createTimeline({
+                    onComplete: () => {
+                        current = idx;
+                        animating = false;
+                    }
+                });
+
+                inTl.add(num, {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 600,
+                    ease: 'out(3)'
+                }, 0);
+
+                inTl.add(accent, {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 700,
+                    ease: 'out(3)'
+                }, 100);
+
+                inTl.add(label, {
+                    translateX: 0,
+                    opacity: 1,
+                    duration: 500,
+                    ease: 'out(3)'
+                }, 100);
+
+                inTl.add(bar, {
+                    scaleX: 1,
+                    duration: 600,
+                    ease: 'out(3)'
+                }, 150);
+
+                inTl.add(words, {
+                    translateY: 0,
+                    translateX: 0,
+                    opacity: 1,
+                    duration: 700,
+                    delay: stagger(60),
+                    ease: 'out(4)'
+                }, 200);
+
+                inTl.add(lines, {
+                    translateY: 0,
+                    translateX: 0,
+                    opacity: 1,
+                    duration: 550,
+                    delay: stagger(40),
+                    ease: 'out(3)'
+                }, 400);
+
+            }, 420);
+        }
+
+        // ========================================
+        // EVENTS
+        // ========================================
+        window.addEventListener('wheel', e => {
+            const now = Date.now();
+            if (now - lastWheel < cooldown || animating) return;
+            if (Math.abs(e.deltaY) < 30) return;
+
+            lastWheel = now;
+            goTo(e.deltaY > 0 ? current + 1 : current - 1);
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') goTo(current + 1);
+            if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') goTo(current - 1);
+        });
+
+        // ========================================
+        // INITIAL LOAD
+        // ========================================
+        window.addEventListener('load', () => {
+            const first = panels[0];
+            const pos = positions[first.dataset.pos];
+
+            utils.set(first.querySelectorAll('.txt-inner'), { translateY: -pos.y * 0.4, translateX: -pos.x * 0.3, opacity: 0 });
+            utils.set(first.querySelectorAll('.word'), { translateY: -pos.y * 0.6, translateX: -pos.x * 0.4, opacity: 0 });
+            utils.set(first.querySelector('.p-label'), { translateX: -pos.x * 0.5, opacity: 0 });
+            utils.set(first.querySelector('.p-label-bar'), { scaleX: 0 });
+            utils.set(first.querySelector('.p-num'), { opacity: 0, scale: 1.1 });
+            utils.set(first.querySelector('.p-accent'), { opacity: 0, scale: 1.2 });
+
+            setTimeout(() => {
+                const tl = createTimeline();
+
+                tl.add(first.querySelector('.p-num'), {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 700,
+                    ease: 'out(3)'
+                }, 0);
+
+                tl.add(first.querySelector('.p-accent'), {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 800,
+                    ease: 'out(3)'
+                }, 150);
+
+                tl.add(first.querySelector('.p-label'), {
+                    translateX: 0,
+                    opacity: 1,
+                    duration: 600,
+                    ease: 'out(3)'
+                }, 200);
+
+                tl.add(first.querySelector('.p-label-bar'), {
+                    scaleX: 1,
+                    duration: 700,
+                    ease: 'out(3)'
+                }, 300);
+
+                tl.add(first.querySelectorAll('.word'), {
+                    translateY: 0,
+                    translateX: 0,
+                    opacity: 1,
+                    duration: 800,
+                    delay: stagger(80),
+                    ease: 'out(4)'
+                }, 350);
+
+                tl.add(first.querySelectorAll('.txt-inner'), {
+                    translateY: 0,
+                    translateX: 0,
+                    opacity: 1,
+                    duration: 650,
+                    delay: stagger(50),
+                    ease: 'out(3)'
+                }, 550);
+            }, 400);
+
+            // UI fade in
+            animate('.nav a', {
+                opacity: [0, 0.5],
+                translateY: [-15, 0],
+                duration: 600,
+                delay: stagger(80, { start: 600 }),
+                ease: 'out(2)'
+            });
+
+            animate('.progress', {
+                opacity: [0, 1],
+                translateY: [-15, 0],
+                duration: 600,
+                delay: 700,
+                ease: 'out(2)'
+            });
+
+            animate('.scroll-hint', {
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 600,
+                delay: 900,
+                ease: 'out(2)'
+            });
+
+            // Image
+            animate('.bg-layer img', {
+                scale: [1.05, 1],
+                opacity: [0, 1],
+                duration: 1500,
+                ease: 'out(3)'
+            });
+
+            animate('.sacred-geo', {
+                opacity: [0, 0.2],
+                scale: [0.9, 1],
+                duration: 1200,
+                delay: 500,
+                ease: 'out(3)'
+            });
+        });
+
+    </script>
+</body>
+
+</html>

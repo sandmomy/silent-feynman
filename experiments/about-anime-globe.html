@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Global Resonance</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500;700&family=Playfair+Display:ital,wght@1,400;1,600&display=swap"
+        rel="stylesheet">
+
+    <!-- CORE DEPENDENCIES -->
+    <script src="https://unpkg.com/three"></script>
+    <script src="https://unpkg.com/globe.gl"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+    <style>
+        :root {
+            --bg: #030406;
+            --gold: #d4af37;
+            --text-gray: #bbbbbb;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .grain {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* GLOBE CONTAINER */
+        #globe-viz {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 70vw;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        .text-stage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 45vw;
+            height: 100vh;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(90deg, var(--bg) 30%, transparent 100%);
+        }
+
+        .content-wrapper {
+            position: relative;
+            width: 80%;
+            max-width: 500px;
+            padding-left: 5vw;
+        }
+
+        .panel {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .label-wrap {
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .label-line {
+            height: 1px;
+            width: 30px;
+            background: var(--gold);
+        }
+
+        .label-txt {
+            font-family: 'Inter';
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display';
+            font-size: 3.5rem;
+            line-height: 1.0;
+            margin-bottom: 2rem;
+            color: white;
+        }
+
+        .letter {
+            display: inline-block;
+            transform-origin: center;
+            will-change: transform, opacity;
+        }
+
+        .desc {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-gray);
+            font-weight: 300;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .desc-border {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1px;
+            height: 100%;
+            background: var(--gold);
+            opacity: 0.3;
+        }
+
+        .nav-ui {
+            position: fixed;
+            top: 40px;
+            right: 50px;
+            z-index: 100;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            font-family: 'Cinzel';
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .progress-c {
+            position: fixed;
+            bottom: 40px;
+            left: 6vw;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .p-dot {
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .p-dot.active {
+            background: var(--gold);
+            transform: scale(2);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="grain"></div>
+    <div id="globe-viz"></div>
+
+    <div class="nav-ui">
+        <a href="index.html" class="nav-link">Back</a>
+    </div>
+
+    <!-- UI DOTS -->
+    <div class="progress-c" id="dotsCtx">
+        <div class="p-dot active"></div>
+        <div class="p-dot"></div>
+        <div class="p-dot"></div>
+        <div class="p-dot"></div>
+    </div>
+
+
+    <!-- CONTENT -->
+    <div class="text-stage">
+        <div class="content-wrapper">
+
+            <!-- P0 -->
+            <div class="panel" id="p0">
+                <div class="label-wrap">
+                    <div class="label-line"></div><span class="label-txt">Identity</span>
+                </div>
+                <h1 class="hero-title">Frequency<br>Architect</h1>
+                <div class="desc">
+                    <div class="desc-border"></div><span class="d-text">I'm Eugene Mierak, a frequency practitioner
+                        specializing in alignment caching and conscious evolution.</span>
+                </div>
+            </div>
+
+            <!-- P1 -->
+            <div class="panel" id="p1">
+                <div class="label-wrap">
+                    <div class="label-line"></div><span class="label-txt">Bridge</span>
+                </div>
+                <h1 class="hero-title">Coherent<br>Dynamics</h1>
+                <div class="desc">
+                    <div class="desc-border"></div><span class="d-text">Bridging internal alignment with external
+                        leadership dynamics for long-term projects.</span>
+                </div>
+            </div>
+
+            <!-- P2 -->
+            <div class="panel" id="p2">
+                <div class="label-wrap">
+                    <div class="label-line"></div><span class="label-txt">Global</span>
+                </div>
+                <h1 class="hero-title">SBDI<br>Foundation</h1>
+                <div class="desc">
+                    <div class="desc-border"></div><span class="d-text">Director of Int. Relationships. Fostering global
+                        partnerships for holistic sustainability.</span>
+                </div>
+            </div>
+
+            <!-- P3 -->
+            <div class="panel" id="p3">
+                <div class="label-wrap">
+                    <div class="label-line"></div><span class="label-txt">Vision</span>
+                </div>
+                <h1 class="hero-title">Future<br>Reality</h1>
+                <div class="desc">
+                    <div class="desc-border"></div><span class="d-text">Supporting the emergence of coherent,
+                        sustainable projects through frequency awareness.</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const globeContainer = document.getElementById('globe-viz');
+            const earthTexture = 'assets/optimized/earth-day.480w.webp';
+
+            const pointsData = [
+                { lat: -6.2, lng: 106.8, color: '#ef4444' },
+                { lat: -8.4, lng: 115.2, color: '#ef4444' },
+                { lat: 9.0, lng: 8.0, color: '#ef4444' },
+                { lat: -1.3, lng: 36.8, color: '#ef4444' }
+            ];
+
+            // --- GLOBE ---
+            const world = Globe()
+                (globeContainer)
+                .backgroundColor('rgba(0,0,0,0)')
+                .globeImageUrl(earthTexture)
+                .showAtmosphere(true)
+                .atmosphereColor('#48bb78')
+                .atmosphereAltitude(0.12)
+                .htmlElementsData(pointsData)
+                .htmlLat('lat')
+                .htmlLng('lng')
+                .htmlElement(d => {
+                    const el = document.createElement('div');
+                    el.style.width = '12px';
+                    el.style.height = '12px';
+                    el.style.background = d.color;
+                    el.style.borderRadius = '50%';
+                    el.style.boxShadow = `0 0 10px ${d.color}`;
+                    return el;
+                });
+
+            // Set dimensions
+            world.width(window.innerWidth * 0.70);
+            world.height(window.innerHeight);
+
+            const controls = world.controls();
+            controls.autoRotate = true;
+            controls.autoRotateSpeed = 0.8;
+            controls.enableZoom = false;
+
+            // Viewport init
+            world.pointOfView({ lat: 5, lng: 100, altitude: 2.3 }, 0);
+
+            window.addEventListener('resize', () => {
+                world.width(window.innerWidth * 0.70);
+                world.height(window.innerHeight);
+            });
+
+            // --- ANIME.JS MASTERPIECE ---
+            function splitTextNodes(node) {
+                if (node.nodeType === 3) {
+                    const text = node.textContent;
+                    if (!text.trim()) return;
+                    const fragment = document.createDocumentFragment();
+                    text.split('').forEach(char => {
+                        const span = document.createElement('span');
+                        span.className = char === ' ' ? '' : 'letter';
+                        span.textContent = char;
+                        fragment.appendChild(span);
+                    });
+                    node.parentNode.replaceChild(fragment, node);
+                } else if (node.nodeType === 1 && node.tagName !== 'BR') {
+                    Array.from(node.childNodes).forEach(splitTextNodes);
+                }
+            }
+
+            document.querySelectorAll('.hero-title').forEach(el => splitTextNodes(el));
+
+            let current = 0;
+            let isAnim = false;
+            let lastScroll = 0;
+            const scrollCooldown = 1500;
+
+            function enter(idx) {
+                const el = document.getElementById(`p${idx}`);
+                if (!el) return;
+                el.style.opacity = 1;
+
+                const line = el.querySelector('.label-line');
+                const label = el.querySelector('.label-txt');
+                const letters = el.querySelectorAll('.letter');
+                const border = el.querySelector('.desc-border');
+                const desc = el.querySelector('.d-text');
+
+                const tl = anime.timeline({ easing: 'easeOutExpo' });
+
+                tl.add({ targets: line, scaleX: [0, 1], duration: 800 })
+                    .add({ targets: label, opacity: [0, 1], translateX: [-20, 0], duration: 800 }, '-=600')
+                    .add({ targets: letters, opacity: [0, 1], translateY: [40, 0], rotateZ: [10, 0], duration: 1200, delay: anime.stagger(40) }, '-=600')
+                    .add({ targets: border, scaleY: [0, 1], duration: 1000 }, '-=1000')
+                    .add({ targets: desc, opacity: [0, 1], translateX: [10, 0], duration: 800 }, '-=800');
+
+                // Move Globe camera
+                let targetCoords = { lat: 5, lng: 100, altitude: 2.3 };
+                if (idx === 1) targetCoords = { lat: 15, lng: 80, altitude: 2.0 };
+                else if (idx === 2) targetCoords = { lat: 0, lng: 20, altitude: 2.5 };
+                else if (idx === 3) targetCoords = { lat: 30, lng: -20, altitude: 3.0 };
+
+                world.pointOfView(targetCoords, 2000);
+
+                document.querySelectorAll('.p-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+            }
+
+            enter(0);
+
+            function transition(nextIdx) {
+                if (isAnim || nextIdx === current) return;
+                isAnim = true;
+
+                const currEl = document.getElementById(`p${current}`);
+                const letters = currEl.querySelectorAll('.letter');
+                const others = currEl.querySelectorAll('.label-wrap, .desc');
+
+                const tl = anime.timeline({
+                    easing: 'easeInExpo',
+                    complete: () => {
+                        currEl.style.opacity = 0;
+                        isAnim = false;
+                    }
+                });
+
+                tl.add({ targets: letters, opacity: 0, translateY: -40, rotateZ: -10, duration: 600, delay: anime.stagger(20, { direction: 'reverse' }) })
+                    .add({ targets: others, opacity: 0, duration: 500 }, '-=400');
+
+                setTimeout(() => { enter(nextIdx); }, 700);
+                current = nextIdx;
+            }
+
+            window.addEventListener('wheel', (e) => {
+                const now = Date.now();
+                if (now - lastScroll < scrollCooldown || isAnim || Math.abs(e.deltaY) < 40) return;
+
+                const nextIdx = e.deltaY > 0 ? (current + 1) % 4 : (current - 1 + 4) % 4;
+                transition(nextIdx);
+                lastScroll = now;
+            });
+        });
+    </script>
+</body>
+
+</html>

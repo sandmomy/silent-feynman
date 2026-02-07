@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak - Frequency Practitioner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #c9a227;
+            --gold-light: #d4af37;
+            --dark: #0a0a0a;
+            --darker: #050505;
+            --text: #e8e8e8;
+            --skew: 12deg;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--darker);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Header Hero */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero__bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('meditation-bg.png') center/cover;
+            filter: brightness(0.4);
+            transform: scale(1.1);
+        }
+
+        .hero__content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero__title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 300;
+            color: var(--gold);
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeUp 1s ease forwards 0.3s;
+        }
+
+        .hero__subtitle {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 0.6s;
+        }
+
+        .hero__line {
+            width: 100px;
+            height: 1px;
+            background: var(--gold);
+            margin: 2rem auto;
+            opacity: 0;
+            transform: scaleX(0);
+            animation: lineExpand 1s ease forwards 0.9s;
+        }
+
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes lineExpand {
+            to { opacity: 1; transform: scaleX(1); }
+        }
+
+        /* Skewed Sections Container */
+        .skewed-sections {
+            position: relative;
+            padding: 5rem 0;
+        }
+
+        /* Individual Skewed Panel */
+        .skw-panel {
+            display: flex;
+            min-height: 70vh;
+            position: relative;
+            overflow: hidden;
+            margin: -3rem 0;
+        }
+
+        .skw-panel:first-child {
+            margin-top: 0;
+        }
+
+        .skw-panel:last-child {
+            margin-bottom: 0;
+        }
+
+        .skw-panel__half {
+            width: 50%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skw-panel__skewed {
+            position: absolute;
+            width: 120%;
+            height: 100%;
+            left: -10%;
+            overflow: hidden;
+            transform: skewX(calc(var(--skew) * -1));
+            background: var(--dark);
+        }
+
+        .skw-panel__half--right .skw-panel__skewed {
+            transform: skewX(var(--skew));
+        }
+
+        /* Content inside panels */
+        .skw-panel__content {
+            position: absolute;
+            width: 83.33%;
+            height: 100%;
+            left: 8.33%;
+            padding: 4rem 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transform: skewX(var(--skew));
+            opacity: 0;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .skw-panel__half--right .skw-panel__content {
+            transform: skewX(calc(var(--skew) * -1));
+        }
+
+        .skw-panel.visible .skw-panel__content {
+            opacity: 1;
+        }
+
+        /* Background image */
+        .skw-panel__bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transform: skewX(var(--skew)) scale(1.3);
+            filter: brightness(0.6) contrast(1.1);
+        }
+
+        .skw-panel__half--right .skw-panel__bg {
+            transform: skewX(calc(var(--skew) * -1)) scale(1.3);
+        }
+
+        /* Text styles */
+        .skw-panel__number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 8rem;
+            font-weight: 300;
+            color: var(--gold);
+            opacity: 0.1;
+            position: absolute;
+            top: 50%;
+            right: 2rem;
+            transform: translateY(-50%);
+            line-height: 1;
+        }
+
+        .skw-panel__heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 300;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+            transform: translateY(30px);
+            transition: transform 0.8s ease 0.2s;
+        }
+
+        .skw-panel.visible .skw-panel__heading {
+            transform: translateY(0);
+        }
+
+        .skw-panel__line {
+            width: 50px;
+            height: 1px;
+            background: linear-gradient(90deg, var(--gold), transparent);
+            margin: 1rem 0;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.8s ease 0.4s;
+        }
+
+        .skw-panel.visible .skw-panel__line {
+            transform: scaleX(1);
+        }
+
+        .skw-panel__text {
+            font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+            font-weight: 300;
+            line-height: 1.9;
+            color: rgba(232, 232, 232, 0.85);
+            max-width: 450px;
+            transform: translateY(30px);
+            transition: transform 0.8s ease 0.3s;
+        }
+
+        .skw-panel.visible .skw-panel__text {
+            transform: translateY(0);
+        }
+
+        /* Alternate layout */
+        .skw-panel--reverse {
+            flex-direction: row-reverse;
+        }
+
+        /* Decorative elements */
+        .sacred-symbol {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            opacity: 0.03;
+            pointer-events: none;
+        }
+
+        .sacred-symbol--1 { top: 10%; left: 5%; }
+        .sacred-symbol--2 { top: 40%; right: 5%; }
+        .sacred-symbol--3 { bottom: 20%; left: 10%; }
+
+        /* Footer CTA */
+        .footer-cta {
+            text-align: center;
+            padding: 8rem 2rem;
+            position: relative;
+        }
+
+        .footer-cta__title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 300;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-cta__text {
+            font-size: 1.1rem;
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+            opacity: 0.8;
+        }
+
+        .footer-cta__btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+        }
+
+        .footer-cta__btn:hover {
+            background: var(--gold);
+            color: var(--dark);
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .scroll-indicator__dot {
+            width: 8px;
+            height: 8px;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .scroll-indicator__dot.active {
+            background: var(--gold);
+            transform: scale(1.4);
+        }
+
+        /* Mobile */
+        @media (max-width: 900px) {
+            .skw-panel {
+                flex-direction: column !important;
+                min-height: auto;
+                margin: 0;
+            }
+
+            .skw-panel__half {
+                width: 100%;
+                min-height: 50vh;
+            }
+
+            .skw-panel__skewed {
+                width: 100%;
+                left: 0;
+                transform: skewY(-6deg);
+            }
+
+            .skw-panel__half--right .skw-panel__skewed {
+                transform: skewY(6deg);
+            }
+
+            .skw-panel__content {
+                transform: skewY(6deg);
+                padding: 3rem 2rem;
+            }
+
+            .skw-panel__half--right .skw-panel__content {
+                transform: skewY(-6deg);
+            }
+
+            .skw-panel__bg {
+                transform: skewY(6deg) scale(1.3);
+            }
+
+            .skw-panel__half--right .skw-panel__bg {
+                transform: skewY(-6deg) scale(1.3);
+            }
+
+            .skw-panel__number {
+                font-size: 5rem;
+                right: 1rem;
+            }
+
+            .scroll-indicator {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Indicator -->
+    <nav class="scroll-indicator">
+        <div class="scroll-indicator__dot active" data-section="hero"></div>
+        <div class="scroll-indicator__dot" data-section="panel-1"></div>
+        <div class="scroll-indicator__dot" data-section="panel-2"></div>
+        <div class="scroll-indicator__dot" data-section="panel-3"></div>
+        <div class="scroll-indicator__dot" data-section="panel-4"></div>
+        <div class="scroll-indicator__dot" data-section="panel-5"></div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero__bg"></div>
+        <div class="hero__content">
+            <h1 class="hero__title">Eugene Mierak</h1>
+            <div class="hero__line"></div>
+            <p class="hero__subtitle">Frequency Practitioner</p>
+        </div>
+    </section>
+
+    <!-- Skewed Sections -->
+    <div class="skewed-sections">
+        <!-- Sacred geometry decorations -->
+        <svg class="sacred-symbol sacred-symbol--1" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#c9a227" stroke-width="0.5"/>
+            <circle cx="50" cy="50" r="30" fill="none" stroke="#c9a227" stroke-width="0.5"/>
+            <circle cx="50" cy="50" r="15" fill="none" stroke="#c9a227" stroke-width="0.5"/>
+        </svg>
+
+        <!-- Panel 1: Identity -->
+        <section class="skw-panel" id="panel-1">
+            <div class="skw-panel__half skw-panel__half--left">
+                <div class="skw-panel__skewed">
+                    <div class="skw-panel__content">
+                        <span class="skw-panel__number">01</span>
+                        <h2 class="skw-panel__heading">Identidad</h2>
+                        <div class="skw-panel__line"></div>
+                        <p class="skw-panel__text">
+                            Practicante de frecuencias, consultor espiritual y facilitador de energía cuántica.
+                            Reconocido internacionalmente por su enfoque revolucionario hacia la sanación
+                            vibracional y la transformación consciente.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="skw-panel__half skw-panel__half--right">
+                <div class="skw-panel__skewed">
+                    <div class="skw-panel__bg" style="background-image: url('meditation-bg.png');"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Panel 2: The Bridge -->
+        <section class="skw-panel skw-panel--reverse" id="panel-2">
+            <div class="skw-panel__half skw-panel__half--left">
+                <div class="skw-panel__skewed">
+                    <div class="skw-panel__bg" style="background-image: url('meditation-bg.png'); background-position: 30% center;"></div>
+                </div>
+            </div>
+            <div class="skw-panel__half skw-panel__half--right">
+                <div class="skw-panel__skewed">
+                    <div class="skw-panel__content">
+                        <span class="skw-panel__number">02</span>
+                        <h2 class="skw-panel__heading">El Puente</h2>
+                        <div class="skw-panel__line"></div>
+                        <p class="skw-panel__text">
+                            Su trabajo crea puentes entre la sabiduría ancestral y la ciencia moderna,
+                            integrando conocimientos de física cuántica, medicina energética y tradiciones
+                            espirituales milenarias en un sistema coherente de transformación.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Panel 3: Global Impact -->
+        <section class="skw-panel" id="panel-3">
+            <div class="skw-panel__half skw-panel__half--left">
+                <div class="skw-panel__skewed">
+                    <div class="skw-panel__content">
+                        <span class="skw-panel__number">03</span>
+                        <h2 class="skw-panel__heading">Impacto Global</h2>
+                        <div class="skw-panel__line"></div>
+                        <p class="skw-panel__text">
+                            Ha guiado a miles de personas en más de 30 países a través de sesiones individuales,
+                            retiros transformacionales y programas de formación. Su metodología ha sido
+                            adoptada por profesionales del bienestar en todo el mundo.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="skw-panel__half skw-panel__half--right">
+                <div class="skw-panel__skewed">
+                    <div class="skw-panel__bg" style="background-image: url('meditation-bg.png'); background-position: 70% center;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Panel 4: Philosophy -->
+        <section class="skw-panel skw-panel--reverse" id="panel-4">
+            <div class="skw-panel__half skw-panel__half--left">
+                <div class="skw-panel__skewed">
+                    <div class="skw-panel__bg" style="background-image: url('meditation-bg.png'); background-position: 40% center;"></div>
+                </div>
+            </div>
+            <div class="skw-panel__half skw-panel__half--right">
+                <div class="skw-panel__skewed">
+                    <div class="skw-panel__content">
+                        <span class="skw-panel__number">04</span>
+                        <h2 class="skw-panel__heading">Filosofía</h2>
+                        <div class="skw-panel__line"></div>
+                        <p class="skw-panel__text">
+                            "Cada ser humano es un instrumento de frecuencia perfectamente afinado.
+                            Mi trabajo es ayudar a eliminar las interferencias que impiden que esa
+                            frecuencia natural fluya hacia la manifestación de su máximo potencial."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Panel 5: Mission -->
+        <section class="skw-panel" id="panel-5">
+            <div class="skw-panel__half skw-panel__half--left">
+                <div class="skw-panel__skewed">
+                    <div class="skw-panel__content">
+                        <span class="skw-panel__number">05</span>
+                        <h2 class="skw-panel__heading">Misión</h2>
+                        <div class="skw-panel__line"></div>
+                        <p class="skw-panel__text">
+                            Elevar la consciencia colectiva del planeta, una frecuencia a la vez.
+                            Despertar el sanador interior que reside en cada persona y crear una red
+                            global de seres conscientes comprometidos con la evolución espiritual.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="skw-panel__half skw-panel__half--right">
+                <div class="skw-panel__skewed">
+                    <div class="skw-panel__bg" style="background-image: url('meditation-bg.png');"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer CTA -->
+    <section class="footer-cta">
+        <h2 class="footer-cta__title">Inicia Tu Transformación</h2>
+        <p class="footer-cta__text">
+            Descubre cómo las frecuencias pueden ayudarte a alcanzar tu máximo potencial
+            y conectar con tu verdadera esencia.
+        </p>
+        <a href="#" class="footer-cta__btn">Contactar</a>
+    </section>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const panels = document.querySelectorAll('.skw-panel');
+        const dots = document.querySelectorAll('.scroll-indicator__dot');
+
+        const observerOptions = {
+            threshold: 0.3,
+            rootMargin: '0px'
+        };
+
+        const panelObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+
+                    // Update scroll indicator
+                    const panelId = entry.target.id;
+                    dots.forEach(dot => {
+                        dot.classList.toggle('active', dot.dataset.section === panelId);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        panels.forEach(panel => panelObserver.observe(panel));
+
+        // Hero observer
+        const heroObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    dots.forEach(dot => {
+                        dot.classList.toggle('active', dot.dataset.section === 'hero');
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+
+        heroObserver.observe(document.querySelector('.hero'));
+
+        // Click on dots to scroll
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const targetId = dot.dataset.section;
+                const target = document.getElementById(targetId);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Parallax effect on hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero__bg');
+            if (hero && scrolled < window.innerHeight) {
+                hero.style.transform = `scale(1.1) translateY(${scrolled * 0.3}px)`;
+            }
+        });
+    </script>
+</body>
+</html>

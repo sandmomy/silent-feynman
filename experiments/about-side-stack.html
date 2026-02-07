@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Side Stack Flow</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@1,300;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #050608;
+            --text: #e1e1e1;
+            --gold: #d4af37;
+            --card-bg: rgba(20, 20, 25, 0.4);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            /* We will position elements absolutely mostly, but flex for nav */
+        }
+
+        /* NOISE & 3D BG */
+        .noise {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        #webgl-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 60vw;
+            height: 100vh;
+            z-index: 0;
+        }
+
+        /* 3D mostly on LEFT */
+
+        /* NAV */
+        .nav-side {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 0;
+            z-index: 100;
+            border-right: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .brand-vert {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-family: 'Cinzel';
+            letter-spacing: 4px;
+            transform: rotate(180deg);
+            opacity: 0.7;
+        }
+
+        .page-counter {
+            font-family: 'Inter';
+            font-variant-numeric: tabular-nums;
+            opacity: 0.5;
+            font-size: 0.8rem;
+        }
+
+        /* --- THE STACK CONTAINER (RIGHT SIDE) --- */
+        .stack-wrap {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 45vw;
+            height: 100vh;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-right: 5vw;
+        }
+
+        /* CARD STYLE */
+        .card {
+            position: absolute;
+            width: 35vw;
+            padding: 4rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            will-change: transform, opacity;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            /* Default state: hidden downwards effectively */
+        }
+
+        .card.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Typography */
+        .meta-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            font-family: 'Inter';
+            font-size: 0.75rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .meta-line span {
+            display: block;
+        }
+
+        .divider {
+            height: 1px;
+            width: 40px;
+            background: var(--gold);
+        }
+
+        .head {
+            font-family: 'Playfair Display';
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            line-height: 1.1;
+            color: white;
+        }
+
+        .body {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .highlight {
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="noise"></div>
+    <!-- 3D Background Container -->
+    <div id="webgl-bg"></div>
+
+    <!-- Navigation / Sidebar -->
+    <nav class="nav-side">
+        <div class="brand-vert">EUGENE MIERAK</div>
+        <div class="page-counter"><span id="currIdx">01</span> / 04</div>
+    </nav>
+
+    <!-- CONTENT STACK -->
+    <div class="stack-wrap">
+
+        <!-- CARD 1 -->
+        <div class="card active" id="card0">
+            <div class="meta-line">
+                <span>01 &middot; Perception</span>
+                <div class="divider"></div>
+            </div>
+            <h2 class="head">Frequency<br>Architect</h2>
+            <p class="body">
+                I'm Eugene Mierak, a frequency practitioner specializing in alignment caching and conscious evolution.
+                My work bridges subtle frequency sciences with practical frameworks for stability in chaos.
+            </p>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="card" id="card1">
+            <div class="meta-line">
+                <span>02 &middot; The Bridge</span>
+                <div class="divider"></div>
+            </div>
+            <h2 class="head">Coherent<br>Dynamics</h2>
+            <p class="body">
+                Helping individuals and teams cultivate resonance in real-world decisions. Bridging internal alignment
+                with external leadership dynamics for long-term projects.
+            </p>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="card" id="card2">
+            <div class="meta-line">
+                <span>03 &middot; Global Impact</span>
+                <div class="divider"></div>
+            </div>
+            <h2 class="head">SBDI<br>Foundation</h2>
+            <p class="body">
+                As Director of Int. Relationships, I foster global partnerships for holistic sustainability. Moving
+                initiatives from vision to <span class="highlight" style="color:var(--gold)">coherent execution</span>
+                through systems thinking.
+            </p>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="card" id="card3">
+            <div class="meta-line">
+                <span>04 &middot; The Goal</span>
+                <div class="divider"></div>
+            </div>
+            <h2 class="head" style="font-size: 2.5rem;">Mission<br>Statement</h2>
+            <p class="body" style="font-family:'Playfair Display'; font-size:1.4rem; color:white;">
+                Supporting the emergence of coherent, sustainable projects through frequency awareness and strategic
+                alignment.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Scroll Hint -->
+    <div
+        style="position:fixed; bottom:30px; left:40px; color:rgba(255,255,255,0.3); font-size:0.7rem; letter-spacing:2px; font-family:'Inter'; text-transform:uppercase;">
+        Scroll to Explore
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <script>
+        // --- LOGIC: Side Stack Sequence ---
+        let current = 0;
+        const total = 4;
+        let isAnim = false;
+        let lastScroll = 0;
+        const scrollCooldown = 1200;
+
+        // THREE.JS SETUP
+        const scene = new THREE.Scene();
+        // Camera slightly offset to focus on Left side open space
+        const cam = new THREE.PerspectiveCamera(45, (window.innerWidth * 0.6) / window.innerHeight, 0.1, 100);
+        cam.position.z = 12;
+
+        // We render to the specific container which is 60vw wide
+        const container = document.getElementById('webgl-bg');
+        const ren = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        ren.setSize(container.clientWidth, container.clientHeight);
+        container.appendChild(ren.domElement);
+
+        // OBJECTS
+        const objects = [];
+
+        // 0: Icosahedron
+        const mBase = new THREE.MeshBasicMaterial({ color: 0x48bb78, wireframe: true, transparent: true, opacity: 0.15 });
+        const o0 = new THREE.Mesh(new THREE.IcosahedronGeometry(4, 1), mBase.clone());
+        scene.add(o0); objects.push(o0);
+
+        // 1: Torus
+        const o1 = new THREE.Mesh(new THREE.TorusKnotGeometry(2.5, 0.3, 100, 16), new THREE.MeshBasicMaterial({ color: 0xd4af37, wireframe: true, transparent: true, opacity: 0 }));
+        scene.add(o1); objects.push(o1);
+
+        // 2: Sphere
+        const o2 = new THREE.Mesh(new THREE.SphereGeometry(4, 32, 32), mBase.clone());
+        o2.material.opacity = 0;
+        scene.add(o2); objects.push(o2);
+
+        // 3: Crystal (Cone/Cylinder)
+        const o3 = new THREE.Mesh(new THREE.OctahedronGeometry(3.5, 0), new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0 }));
+        scene.add(o3); objects.push(o3);
+
+
+        // ANIMATION SEQ
+        function transition(nextIdx) {
+            if (isAnim || nextIdx === current) return;
+            isAnim = true;
+
+            const currCard = document.getElementById(`card${current}`);
+            const nextCard = document.getElementById(`card${nextIdx}`);
+            const currObj = objects[current];
+            const nextObj = objects[nextIdx];
+
+            // Determines direction (Up or Down?)
+            // If next > current, we are going DOWN via scroll (Next Item) -> Slide OLD UP, New UP
+            // If next < current, we are going UP via scroll (Prev Item) -> Slide OLD DOWN, New DOWN
+            // Let's stick to a consistent "Stack" feel.
+            // Next Slide: 
+            // Current Card moves UP and Fades Out.
+            // Next Card moves UP from Bottom and Fades In.
+
+            const dir = nextIdx > current ? 1 : -1;
+            // Loop adjustment: 3 -> 0 = dir 1 (Forward loop)
+            if (current === 3 && nextIdx === 0) dir = 1;
+            if (current === 0 && nextIdx === 3) dir = -1;
+
+            const yExit = -100 * dir; // If fwd, exit up (-100). If back, exit down (+100)
+            const yEnter = 100 * dir;  // If fwd, enter from bottom (+100). If back, enter from top (-100)
+
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    currCard.classList.remove('active');
+                    nextCard.classList.add('active');
+                    setTimeout(() => { isAnim = false; }, 100);
+                }
+            });
+
+            // 1. CARD ANIMATION
+            // Force set start pos for next
+            gsap.set(nextCard, { y: yEnter + '%', opacity: 0, scale: 0.9, zIndex: 10 });
+            gsap.set(currCard, { zIndex: 1 });
+
+            // Animate
+            tl.to(currCard, { y: yExit + '%', opacity: 0, scale: 0.9, duration: 0.8, ease: 'power3.inOut' }, 0);
+            tl.to(nextCard, { y: '0%', opacity: 1, scale: 1, duration: 0.8, ease: 'power3.inOut' }, 0.1);
+
+            // 2. BG OBJECT ANIMATION
+            gsap.to(currObj.material, { opacity: 0, duration: 0.8 });
+            gsap.to(currObj.rotation, { y: currObj.rotation.y + 1, duration: 0.8 }); // Spin out
+
+            gsap.to(nextObj.material, { opacity: 0.15, duration: 0.8, delay: 0.2 });
+            gsap.fromTo(nextObj.scale, { x: 0.5, y: 0.5, z: 0.5 }, { x: 1, y: 1, z: 1, duration: 1, ease: 'back.out(1.2)' }, 0);
+
+            // 3. UPDATE COUNTER
+            document.getElementById('currIdx').innerText = `0${nextIdx + 1}`;
+
+            current = nextIdx;
+        }
+
+        function nextSlide() { transition((current + 1) % total); }
+        function prevSlide() { transition((current - 1 + total) % total); }
+
+        window.addEventListener('wheel', (e) => {
+            const now = Date.now();
+            if (now - lastScroll < scrollCooldown) return;
+            if (isAnim) return;
+            if (Math.abs(e.deltaY) < 30) return;
+
+            if (e.deltaY > 0) { nextSlide(); lastScroll = now; }
+            else { prevSlide(); lastScroll = now; }
+        });
+
+        // BG LOOP
+        function loop() {
+            requestAnimationFrame(loop);
+            if (objects[current]) {
+                objects[current].rotation.y += 0.002;
+                objects[current].rotation.x += 0.001;
+            }
+            ren.render(scene, cam);
+        }
+        loop();
+
+        window.addEventListener('resize', () => {
+            // Resize logic mostly for left panel
+            const w = container.clientWidth;
+            const h = container.clientHeight;
+            ren.setSize(w, h);
+            cam.aspect = w / h;
+            cam.updateProjectionMatrix();
+        });
+
+    </script>
+</body>
+
+</html>

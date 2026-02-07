@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Compact Pinned</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@1,300;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #050608;
+            --text: #e1e1e1;
+            --gold: #d4af37;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* NOISE & BG */
+        .noise {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        #webgl-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* NAV */
+        .nav-float {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 100;
+            mix-blend-mode: difference;
+        }
+
+        .nav-float a {
+            color: white;
+            text-decoration: none;
+            font-family: 'Inter';
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            margin-left: 20px;
+            opacity: 0.7;
+        }
+
+        /* HEADER & FOOTER (Context) */
+        .spacer-section {
+            height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-h1 {
+            font-family: 'Cinzel';
+            font-size: 4rem;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
+        }
+
+
+        /* === PINNED CONTAINER === */
+        /* This container will be PINNED for X scroll distance */
+        .scrolly-container {
+            width: 100%;
+            height: 100vh;
+            /* Fits in one screen */
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* STAGES */
+        .stage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            /* Hidden by default, controlled by GSAP */
+            pointer-events: none;
+            /* Let scroll pass */
+        }
+
+        .split-content {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5vw;
+        }
+
+        .block {
+            width: 45%;
+        }
+
+        /* TYPOGRAPHY */
+        .label {
+            font-family: 'Inter';
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: block;
+            font-size: 0.75rem;
+            padding-left: 10px;
+            border-left: 2px solid var(--gold);
+        }
+
+        .head {
+            font-family: 'Playfair Display';
+            font-size: 3rem;
+            line-height: 1.1;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .body {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .highlight {
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* CENTERED LAST STAGE */
+        .center-stage {
+            text-align: center;
+            width: 70%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="noise"></div>
+    <div id="webgl-bg"></div>
+
+    <nav class="nav-float">
+        <a href="index.html">Index</a>
+        <a href="projects.html">Work</a>
+    </nav>
+
+    <!-- SPACER TOP -->
+    <header class="spacer-section">
+        <h1 class="hero-h1">EUGENE MIERAK</h1>
+    </header>
+
+    <!-- PINNED SCROLL AREA -->
+    <!-- The user scrolls past this "invisible height", but visually it stays put -->
+    <div class="scrolly-wrap"> <!-- Trigger -->
+        <div class="scrolly-container">
+
+            <!-- PROGRESS BAR -->
+            <div
+                style="position:absolute; top:50%; right:20px; height:100px; width:2px; background:rgba(255,255,255,0.1);">
+                <div id="progBar" style="width:100%; height:0%; background:var(--gold);"></div>
+            </div>
+
+            <!-- STAGE 1: IDENTITY -->
+            <div class="stage" id="stage1">
+                <div class="split-content">
+                    <div class="block left">
+                        <span class="label">01 // Identity</span>
+                        <h2 class="head">Frequency<br>Architect</h2>
+                    </div>
+                    <div class="block right">
+                        <p class="body">
+                            I'm Eugene Mierak, a frequency practitioner specializing in alignment caching and <span
+                                class="highlight">conscious evolution</span>. My work bridges subtle frequency sciences
+                            with practical frameworks.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STAGE 2: BRIDGE -->
+            <div class="stage" id="stage2">
+                <div class="split-content" style="flex-direction:row-reverse;">
+                    <div class="block right">
+                        <span class="label">02 // The Bridge</span>
+                        <h2 class="head">Coherent<br>Dynamics</h2>
+                    </div>
+                    <div class="block left" style="text-align:right;">
+                        <p class="body">
+                            Helping individuals and teams cultivate resonance in real-world decisions. Bridging internal
+                            alignment with external leadership dynamics for long-term projects.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STAGE 3: IMPACT -->
+            <div class="stage" id="stage3">
+                <div class="split-content">
+                    <div class="block left">
+                        <span class="label">03 // Global Impact</span>
+                        <h2 class="head">SBDI<br>Foundation</h2>
+                    </div>
+                    <div class="block right">
+                        <p class="body">
+                            As Director of Int. Relationships, I foster global partnerships for holistic sustainability.
+                            Moving initiatives from vision to <span class="highlight">coherent execution</span>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STAGE 4: MISSION -->
+            <div class="stage" id="stage4">
+                <div class="center-stage">
+                    <span class="label"
+                        style="display:inline-block; border:none; border-bottom:2px solid var(--gold); padding:0 0 5px 0;">04
+                        &middot; The Mission</span>
+                    <p class="body"
+                        style="font-family:'Playfair Display'; font-size:2.5rem; margin-top:30px; color:white;">
+                        Supporting the emergence of coherent, sustainable projects through frequency awareness and
+                        strategic alignment.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SPACER BOTTOM -->
+    <footer class="spacer-section" style="height:30vh; background: #020202;">
+        <a href="#" style="color:white; font-family:'Cinzel'; text-decoration:none;">Initialize Contact</a>
+    </footer>
+
+
+    <!-- SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 1. SMOOTH SCROLL
+        const lenis = new Lenis({ smooth: true, lerp: 0.08 });
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => { lenis.raf(time * 1000) });
+        gsap.ticker.lagSmoothing(0);
+
+        // 2. PINNED TIMELINE ANIMATION
+        // We pin the container for X height. The sequence plays based on scroll.
+
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".scrolly-wrap",
+                start: "top top",
+                end: "+=3000", // Scroll distance to play animation (adjust for speed)
+                scrub: 1, // Smooth interaction
+                pin: true,
+                onUpdate: (self) => {
+                    document.getElementById('progBar').style.height = (self.progress * 100) + '%';
+                }
+            }
+        });
+
+        // ANIMATION HELPER
+        // Enter: Split In (Left from -x, Right from +x)
+        // Exit: Split Out (Left to -x, Right to +x)
+
+        function addStage(id, timeIn, timeOut) {
+            const el = document.getElementById(id);
+            const left = el.querySelector('.left');
+            const right = el.querySelector('.right');
+            const center = el.querySelector('.center-stage');
+
+            // ENTER
+            tl.to(el, { opacity: 1, duration: 0.1 }, timeIn);
+            if (left) tl.fromTo(left, { x: -200, opacity: 0 }, { x: 0, opacity: 1, duration: 1, ease: 'power2.out' }, timeIn);
+            if (right) tl.fromTo(right, { x: 200, opacity: 0 }, { x: 0, opacity: 1, duration: 1, ease: 'power2.out' }, timeIn);
+            if (center) tl.fromTo(center, { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 1, ease: 'back.out(1)' }, timeIn);
+
+            // EXIT (Skip for last if wanted)
+            if (timeOut) {
+                if (left) tl.to(left, { x: -250, opacity: 0, duration: 0.8, ease: 'power2.in' }, timeOut);
+                if (right) tl.to(right, { x: 250, opacity: 0, duration: 0.8, ease: 'power2.in' }, timeOut);
+                if (center) tl.to(center, { scale: 1.1, opacity: 0, duration: 0.8 }, timeOut);
+                tl.to(el, { opacity: 0, duration: 0.1 }, timeOut + 0.8);
+            }
+        }
+
+        // SEQUENCE
+        // Timeline goes from 0 to X.
+        addStage('stage1', 0, 2);      // 0-2
+        addStage('stage2', 3, 5);      // 3-5 (Overlap slightly?) No, let's keep clean.
+        addStage('stage3', 6, 8);      // 6-8
+        addStage('stage4', 9, null);   // 9-end (Stays visible)
+
+        // 3. THREE.JS (Ambient)
+        const scene = new THREE.Scene();
+        const cam = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        cam.position.z = 20;
+        const ren = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        ren.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('webgl-bg').appendChild(ren.domElement);
+
+        const geo = new THREE.TorusKnotGeometry(5, 0.6, 150, 20);
+        const mat = new THREE.MeshBasicMaterial({ color: 0x48bb78, wireframe: true, transparent: true, opacity: 0.06 });
+        const mesh = new THREE.Mesh(geo, mat);
+        scene.add(mesh);
+
+        function anim() {
+            requestAnimationFrame(anim);
+            mesh.rotation.y += 0.001; mesh.rotation.z += 0.0005;
+            ren.render(scene, cam);
+        }
+        anim();
+        window.addEventListener('resize', () => {
+            cam.aspect = window.innerWidth / window.innerHeight; cam.updateProjectionMatrix(); ren.setSize(window.innerWidth, window.innerHeight);
+        });
+
+    </script>
+</body>
+
+</html>

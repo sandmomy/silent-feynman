@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="es">
+<!-- 
+    PREMIUM ABOUT ME 3D v2.0
+    Created by: Antigravity Agent
+    Stack: Three.js r128 + GSAP 3 + ScrollTrigger
+-->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | About Me</title>
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@200;300;400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <style>
+        :root {
+            --accent: #2c73d2;
+            /* Clean Blue */
+            --accent-glow: rgba(44, 115, 210, 0.4);
+            --bg-dark: #05070a;
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --radius-stage: 32px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            /* Smooth scroll handled by GSAP/Native */
+        }
+
+        /* --- BACKGROUND ATMOSPHERE --- */
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #0b1016 0%, #000000 100%);
+            overflow: hidden;
+        }
+
+        .ambient-blob {
+            position: absolute;
+            width: 60vw;
+            height: 60vw;
+            background: var(--accent);
+            opacity: 0.08;
+            filter: blur(100px);
+            border-radius: 50%;
+            animation: breathe 10s ease-in-out infinite alternate;
+        }
+
+        .blob-1 {
+            top: -20%;
+            left: -20%;
+        }
+
+        .blob-2 {
+            bottom: -20%;
+            right: -20%;
+            animation-delay: -5s;
+        }
+
+        @keyframes breathe {
+            0% {
+                transform: scale(1);
+                opacity: 0.05;
+            }
+
+            100% {
+                transform: scale(1.1);
+                opacity: 0.1;
+            }
+        }
+
+        /* --- STAGE (The "Hero Card") --- */
+        .stage-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            pointer-events: none;
+            /* Let scroll pass through to spacer */
+        }
+
+        .stage-container {
+            position: relative;
+            width: 90vw;
+            height: 85vh;
+            max-width: 1600px;
+            background: rgba(10, 15, 20, 0.4);
+            border-radius: var(--radius-stage);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            pointer-events: auto;
+            transition: transform 0.1s linear;
+            /* For subtle parallax if needed */
+        }
+
+        /* --- 3D CANVAS --- */
+        #webgl-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            outline: none;
+        }
+
+        /* --- UI OVERLAY --- */
+        .ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 3rem;
+        }
+
+        /* Navbar / Header UI (Inside Stage) */
+        .ui-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            opacity: 0;
+            /* Fade in on load */
+            animation: fadeInUI 1s ease 0.5s forwards;
+        }
+
+        .brand-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            color: var(--text-main);
+            text-transform: uppercase;
+        }
+
+        .chapter-indicator {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: border-color 0.3s;
+        }
+
+        .chapter-indicator span {
+            color: var(--accent);
+            margin-right: 5px;
+        }
+
+        /* Slides Container */
+        .slides-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 8%;
+            /* Left aligned cinematic look */
+            transform: translateY(-50%);
+            width: 45%;
+            height: auto;
+            pointer-events: none;
+        }
+
+        .slide {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 100%;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Typography */
+        .slide-tag {
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            display: block;
+            font-weight: 600;
+        }
+
+        .slide-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 5vw, 5rem);
+            line-height: 0.95;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            color: white;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .slide-title span {
+            display: block;
+            font-style: italic;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        .slide-body {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            max-width: 450px;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+
+        .btn-pill {
+            display: inline-block;
+            padding: 12px 32px;
+            border-radius: 50px;
+            background: white;
+            color: black;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            pointer-events: auto;
+            /* Buttons need pointer events */
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-pill.outline {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            box-shadow: none;
+        }
+
+        .btn-pill.outline:hover {
+            border-color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Progress Bar */
+        .progress-bar-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        /* Scroll Spacer (The tall element that drives the animation) */
+        .scroll-driver {
+            height: 600vh;
+            /* Adjust for speed */
+            width: 100%;
+        }
+
+        /* Mobile specific */
+        @media (max-width: 768px) {
+            .stage-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                border: none;
+            }
+
+            .slides-wrapper {
+                width: 85%;
+                left: 7.5%;
+            }
+
+            .slide-title {
+                font-size: 2.5rem;
+            }
+
+            .ui-header {
+                padding: 1.5rem;
+            }
+        }
+
+        @keyframes fadeInUI {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Loading Overlay */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader-text {
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 0.3em;
+            font-size: 0.8rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            50% {
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-text">Loading Experience...</div>
+    </div>
+
+    <!-- Background Elements -->
+    <div class="ambient-bg">
+        <div class="ambient-blob blob-1"></div>
+        <div class="ambient-blob blob-2"></div>
+    </div>
+
+    <!-- Scroll Driver -->
+    <div class="scroll-driver"></div>
+
+    <!-- Fixed Stage wrapper (Pinned) -->
+    <div class="stage-wrapper">
+        <div class="stage-container">
+
+            <!-- 3D Scene -->
+            <canvas id="webgl-canvas"></canvas>
+
+            <!-- UI Overlay -->
+            <div class="ui-layer">
+                <div class="ui-header">
+                    <div class="brand-logo">Eugene Mierak</div>
+                    <div class="chapter-indicator" id="chapter-indicator"><span>01</span> Identity</div>
+                </div>
+
+                <div class="slides-wrapper">
+                    <!-- SLIDE 1: Identity -->
+                    <div class="slide" id="slide-0">
+                        <span class="slide-tag">Chapter 01</span>
+                        <h1 class="slide-title">Digital<br><span>Alchemist</span></h1>
+                        <p class="slide-body">Bridging the gap between sacred geometry and digital experiences. I craft
+                            web interfaces that feel alive, blending code with frequency.</p>
+                        <a href="#" class="btn-pill">Explore</a>
+                    </div>
+
+                    <!-- SLIDE 2: What I Do -->
+                    <div class="slide" id="slide-1">
+                        <span class="slide-tag">Chapter 02</span>
+                        <h1 class="slide-title">Creative<br><span>Engineering</span></h1>
+                        <p class="slide-body">My toolkit is vast but my focus is singular: Immersion. From Three.js
+                            environments to buttery smooth GSAP animations.</p>
+                    </div>
+
+                    <!-- SLIDE 3: How I Work -->
+                    <div class="slide" id="slide-2">
+                        <span class="slide-tag">Chapter 03</span>
+                        <h1 class="slide-title">The<br><span>Process</span></h1>
+                        <p class="slide-body">Design driven by intuition, executed with precision. Every pixel has a
+                            purpose, every motion tells a story.</p>
+                        <a href="#" class="btn-pill outline">View Case Studies</a>
+                    </div>
+
+                    <!-- SLIDE 4: Projects -->
+                    <div class="slide" id="slide-3">
+                        <span class="slide-tag">Chapter 04</span>
+                        <h1 class="slide-title">Selected<br><span>Works</span></h1>
+                        <p class="slide-body">A curation of experiments and client successes. Exploring the limits of
+                            WebGL performance.</p>
+                    </div>
+
+                    <!-- SLIDE 5: Contact -->
+                    <div class="slide" id="slide-4">
+                        <span class="slide-tag">Chapter 05</span>
+                        <h1 class="slide-title">Let's<br><span>Connect</span></h1>
+                        <p class="slide-body">Ready to elevate your digital presence? I am currently accepting new
+                            commissions for Q3 2026.</p>
+                        <a href="mailto:hello@example.com" class="btn-pill">Get in Touch</a>
+                    </div>
+                </div>
+
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts: Three.js, GSAP, ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        // --- 0. PRELOADER ---
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            loader.style.opacity = '0';
+            setTimeout(() => loader.remove(), 500);
+            initExperience();
+        });
+
+        function initExperience() {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // --- 1. CONFIGURATION ---
+            const config = {
+                debug: false,
+                colors: {
+                    bg: 0x05070a,
+                    fog: 0x05070a,
+                    light: 0xddeeff,
+                    accent: 0x2c73d2,
+                    glass: 0xffffff
+                },
+                slides: 5
+            };
+
+            // --- 2. THREE.JS SETUP ---
+            const canvas = document.querySelector('#webgl-canvas');
+            const scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(config.colors.fog, 0.035);
+
+            const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+            camera.position.set(0, 2, 8); // Initial pos
+
+            const renderer = new THREE.WebGLRenderer({
+                canvas: canvas,
+                antialias: true,
+                alpha: true
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.2;
+
+            // HANDLE RESIZE
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+
+                // Keep stage consistent if needed
+                if (window.innerWidth < 768) {
+                    camera.fov = 60;
+                } else {
+                    camera.fov = 45;
+                }
+                camera.updateProjectionMatrix();
+            });
+
+            // --- 3. SCENE OBJECTS (CLEAN BLUE WORLD) ---
+
+            // LIGHTING
+            const ambientLight = new THREE.AmbientLight(0x404040, 2);
+            scene.add(ambientLight);
+
+            const dirLight = new THREE.DirectionalLight(config.colors.light, 3);
+            dirLight.position.set(10, 10, 5);
+            scene.add(dirLight);
+
+            const blueLight = new THREE.PointLight(config.colors.accent, 2, 20);
+            blueLight.position.set(-5, 2, -5);
+            scene.add(blueLight);
+
+            // FLOOR (Subtle Grid)
+            const gridHelper = new THREE.GridHelper(60, 60, 0x112233, 0x0a111a);
+            gridHelper.position.y = -2;
+            scene.add(gridHelper);
+
+            // GLASS CUBES SYSTEM
+            const glassMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0xffffff,
+                metalness: 0,
+                roughness: 0,
+                transmission: 0.95, // Glass effect
+                thickness: 0.5,
+                opacity: 1,
+                transparent: true,
+                clearcoat: 1,
+                clearcoatRoughness: 0.1,
+                ior: 1.5,
+            });
+
+            const wireMaterial = new THREE.LineBasicMaterial({ color: config.colors.accent, transparent: true, opacity: 0.3 });
+
+            // Main Hero Cube (The "Protagonist")
+            const mainCubeGeo = new THREE.BoxGeometry(2, 2, 2);
+            const mainCube = new THREE.Mesh(mainCubeGeo, glassMaterial);
+            mainCube.position.set(2, -0.5, 0);
+            scene.add(mainCube);
+
+            // Inner wireframe for main cube
+            const edges = new THREE.EdgesGeometry(mainCubeGeo);
+            const line = new THREE.LineSegments(edges, wireMaterial);
+            mainCube.add(line);
+
+            // Secondary Abstract Shapes (Floating around)
+            const shapesGroup = new THREE.Group();
+            scene.add(shapesGroup);
+
+            const shapesData = [];
+            for (let i = 0; i < 8; i++) {
+                const s = Math.random() * 1 + 0.5;
+                const geo = new THREE.IcosahedronGeometry(s, 0);
+                const mesh = new THREE.Mesh(geo, glassMaterial);
+
+                // Random positions scattered
+                mesh.position.set(
+                    (Math.random() - 0.5) * 15,
+                    (Math.random() - 0.5) * 8,
+                    (Math.random() - 0.5) * 8 - 5
+                );
+
+                // Add inner wire
+                const e = new THREE.EdgesGeometry(geo);
+                const l = new THREE.LineSegments(e, wireMaterial.clone());
+                l.material.opacity = 0.15;
+                mesh.add(l);
+
+                shapesGroup.add(mesh);
+                shapesData.push({
+                    mesh: mesh,
+                    rotSpeed: { x: Math.random() * 0.01, y: Math.random() * 0.01 },
+                    initialPos: mesh.position.clone()
+                });
+            }
+
+
+            // --- 4. ANIMATION LOGIC (GSAP + SCROLLTRIGGER) ---
+
+            // Camera "Poses" for each slide
+            // [x, y, z, lookAtX, lookAtY, lookAtZ]
+            const cameraPoses = [
+                { pos: new THREE.Vector3(0, 0, 8), target: new THREE.Vector3(0, 0, 0) },        // Slide 0: Front
+                { pos: new THREE.Vector3(4, 2, 6), target: new THREE.Vector3(1, 0, 0) },        // Slide 1: Side Angle
+                { pos: new THREE.Vector3(2, 4, 3), target: new THREE.Vector3(2, -1, 0) },       // Slide 2: Top Angle
+                { pos: new THREE.Vector3(-3, 0, 7), target: new THREE.Vector3(0, 0, 0) },       // Slide 3: Left Angle
+                { pos: new THREE.Vector3(0, 0, 5), target: new THREE.Vector3(0, 0, 0) }         // Slide 4: Close Up
+            ];
+
+            // Chapter Titles
+            const chapterTitles = ["Identity", "What I Do", "The Process", "Latest Work", "Contact"];
+            const indicatorText = document.querySelector('#chapter-indicator');
+            const progressFill = document.querySelector('#progress-fill');
+
+            // --- MAIN TIMELINE ---
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: ".scroll-driver",
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: 1.5, /* Smooth catching up */
+                    onUpdate: (self) => {
+                        // Update progress bar
+                        gsap.to(progressFill, { width: (self.progress * 100) + "%", duration: 0.1 });
+                    }
+                }
+            });
+
+            /* 
+               We divide the total scroll distance (100%) by number of slides (5).
+               Each slide gets a slot (e.g., 0-20%, 20-40%, etc.).
+               Inside that slot:
+               0-10%: Transition IN logic
+               10-90%: HOLD logic (micro movement)
+               90-100%: Transition OUT logic
+            */
+
+            const slides = document.querySelectorAll('.slide');
+            const numSlides = slides.length;
+            const durationPerSlide = 1 / numSlides;
+
+            slides.forEach((slide, index) => {
+                const pose = cameraPoses[index];
+                const nextPose = cameraPoses[(index + 1) % numSlides]; // Wrap around for safety, though last slide stops
+
+                // Labels for timing
+                const startProgress = index * durationPerSlide; // e.g. 0.0
+                const midProgress = startProgress + (durationPerSlide * 0.15); // e.g. 0.03 (Enter done)
+                const endProgress = startProgress + durationPerSlide;   // e.g. 0.2
+
+                // --- ENTER PHASE ---
+                // 1. Text Animation: Slide in from left + Fade + Blur removal
+                tl.fromTo(slide,
+                    { x: -50, autoAlpha: 0, filter: "blur(10px)" },
+                    { x: 0, autoAlpha: 1, filter: "blur(0px)", duration: durationPerSlide * 0.2, ease: "power2.out" },
+                    startProgress
+                );
+
+                // 2. Camera Move (Dolly / Pan to pose)
+                // We animate a dummy object 'camVal' to interpolate opacity or explicit pos
+                // But for pure scrub, we can animate camera directly
+                // Note: To avoid conflict, we structure the timeline sequentially
+
+                // Important: Camera movement is continuous across the whole timeline to avoid jumps
+                // but we can add keyframes at specific spots.
+
+                // Set active chapter indicator
+                tl.call(() => {
+                    const num = String(index + 1).padStart(2, '0');
+                    indicatorText.innerHTML = `<span>${num}</span> ${chapterTitles[index]}`;
+                }, null, startProgress);
+
+
+                // --- HOLD PHASE (Micro animation) ---
+                // We do a small drift during the middle of the slide visibility
+                // This is implicit if we simply animate TO the Next Pose slowly over the duration
+
+                // --- EXIT PHASE ---
+                // Text fades out and blurs slightly, moves Up
+                tl.to(slide,
+                    { y: -30, autoAlpha: 0, filter: "blur(5px)", duration: durationPerSlide * 0.15, ease: "power2.in" },
+                    endProgress - (durationPerSlide * 0.15)
+                );
+            });
+
+            // CAMERA ANIMATION SEPARATE TIMELINE (Synced)
+            // This ensures smooth traversal between poses
+            // We use keyframes on the camera position
+            cameraPoses.forEach((pose, i) => {
+                if (i === 0) return; // Started there
+
+                // Animate from prev pose to current pose
+                const prev = cameraPoses[i - 1];
+                const startTime = (i - 1) * durationPerSlide;
+                const endTime = ((i) * durationPerSlide);
+
+                // We need to animate camera.position AND camera.lookAt (via a proxy)
+                // However, standard GSAP scrub is easier with specific 'to' calls
+            });
+
+            // Simplified Camera Tweening for the whole scroll
+            // We just animate an index float 0 -> 4
+            const camProgress = { value: 0 };
+            tl.to(camProgress, {
+                value: numSlides - 1,
+                ease: "none", // Linear mapping to scroll
+                duration: 1, // Full timeline duration relative
+                onUpdate: () => {
+                    const idx = camProgress.value;
+                    const i = Math.floor(idx); // Current slide index
+                    const t = idx - i; // Decimal progress between i and i+1
+
+                    if (i < cameraPoses.length - 1) {
+                        const p1 = cameraPoses[i].pos;
+                        const p2 = cameraPoses[i + 1].pos;
+                        const t1 = cameraPoses[i].target;
+                        const t2 = cameraPoses[i + 1].target;
+
+                        // Cubic interpolation for smoother path than lerp
+                        camera.position.lerpVectors(p1, p2, t);
+
+                        const currentTarget = new THREE.Vector3().lerpVectors(t1, t2, t);
+                        camera.lookAt(currentTarget);
+
+                        // Cube Rotation based on scroll speed helps dynamism
+                        mainCube.rotation.y = idx * 0.5;
+                        mainCube.rotation.z = idx * 0.2;
+                    }
+                }
+            }, 0);
+
+
+            // --- 5. RENDER LOOP ---
+            const clock = new THREE.Clock();
+
+            function animate() {
+                const time = clock.getElapsedTime();
+
+                // Gentle float for shapes
+                shapesData.forEach(d => {
+                    d.mesh.rotation.x += d.rotSpeed.x;
+                    d.mesh.rotation.y += d.rotSpeed.y;
+
+                    // Bobbing
+                    d.mesh.position.y = d.initialPos.y + Math.sin(time + d.mesh.position.x) * 0.5;
+                });
+
+                // Main cube "Breathing"
+                const breathe = 1 + Math.sin(time * 0.5) * 0.02;
+                mainCube.scale.set(breathe, breathe, breathe);
+
+                renderer.render(scene, camera);
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+    </script>
+</body>
+
+</html>

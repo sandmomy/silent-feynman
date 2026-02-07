@@ -69,6 +69,21 @@ body {
     color: white;
     overflow-x: hidden;
     line-height: 1.6;
+    /* GPU acceleration for smooth scroll */
+    transform: translateZ(0);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Reduced motion for accessibility and performance */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }
 
 a {
@@ -124,6 +139,7 @@ img {
     align-items: center;
     color: var(--color-white);
     overflow: hidden;
+    will-change: transform;
 }
 
 .hero-bg {

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Panel Flow</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@1,300;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #050608;
+            --text: #e1e1e1;
+            --gold: #d4af37;
+            --panel-bg: rgba(10, 10, 14, 0.85);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+        }
+
+        /* --- NOISE & BACKGROUND --- */
+        .noise {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* 3D Container: Full Screen but shapes positioned Right */
+        #webgl-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+        }
+
+        /* --- LEFT PANEL CONTAINER --- */
+        .panel-stage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50vw;
+            height: 100vh;
+            z-index: 20;
+            /* Container for the sliding panels */
+            overflow: hidden;
+            /* Mask incoming panels from left edge */
+        }
+
+        /* THE PANEL ITSELF */
+        .content-panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 10vh 5vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            background: var(--panel-bg);
+            backdrop-filter: blur(15px);
+            border-right: 1px solid var(--border);
+
+            transform: translateX(-101%);
+            /* Start hidden ONLY to the left */
+            will-change: transform;
+
+            /* Shadow to separate from BG */
+            box-shadow: 10px 0 50px rgba(0, 0, 0, 0.8);
+        }
+
+        .content-panel.active {
+            transform: translateX(0%);
+        }
+
+        /* Nav (Floating Top Right) */
+        .nav-float {
+            position: fixed;
+            top: 40px;
+            right: 50px;
+            z-index: 100;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-family: 'Cinzel';
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: white;
+        }
+
+        /* TYPOGRAPHY */
+        .label {
+            font-family: 'Inter';
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 2rem;
+            display: block;
+            font-size: 0.8rem;
+            padding-left: 15px;
+            border-left: 2px solid var(--gold);
+        }
+
+        .head {
+            font-family: 'Playfair Display';
+            font-size: 4rem;
+            line-height: 1.0;
+            margin-bottom: 2rem;
+            color: white;
+        }
+
+        .body {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 500px;
+        }
+
+        .highlight {
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* DECORATION */
+        .stripe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gold);
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.8s 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .content-panel.active .stripe {
+            transform: scaleY(1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="noise"></div>
+    <div id="webgl-bg"></div>
+
+    <nav class="nav-float">
+        <a href="index.html" class="nav-link">Index</a>
+        <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+
+    <!-- LEFT STAGE -->
+    <div class="panel-stage">
+
+        <!-- PANEL 1 -->
+        <div class="content-panel active" id="p0">
+            <div class="stripe"></div>
+            <span class="label">01 // Identity</span>
+            <h2 class="head">Frequency<br>Architect</h2>
+            <p class="body">
+                I'm Eugene Mierak, a frequency practitioner specializing in alignment caching and conscious evolution.
+                My work bridges subtle frequency sciences with practical frameworks for stability in chaos.
+            </p>
+        </div>
+
+        <!-- PANEL 2 -->
+        <div class="content-panel" id="p1">
+            <div class="stripe"></div>
+            <span class="label">02 // The Bridge</span>
+            <h2 class="head">Coherent<br>Dynamics</h2>
+            <p class="body">
+                Helping individuals and teams cultivate resonance in real-world decisions. Bridging internal alignment
+                with external leadership dynamics for long-term projects.
+            </p>
+        </div>
+
+        <!-- PANEL 3 -->
+        <div class="content-panel" id="p2">
+            <div class="stripe"></div>
+            <span class="label">03 // Global Impact</span>
+            <h2 class="head">SBDI<br>Foundation</h2>
+            <p class="body">
+                As Director of Int. Relationships, I foster global partnerships for holistic sustainability. Moving
+                initiatives from vision to <span class="highlight" style="color:var(--gold)">coherent execution</span>.
+            </p>
+        </div>
+
+        <!-- PANEL 4 -->
+        <div class="content-panel" id="p3">
+            <div class="stripe"></div>
+            <span class="label">04 // Mission</span>
+            <h2 class="head" style="font-size:3rem; font-family:'Cinzel';">The<br>Vision</h2>
+            <p class="body" style="font-size:1.5rem; color:white; font-family:'Playfair Display'; line-height:1.4;">
+                Supporting the emergence of coherent, sustainable projects through frequency awareness and strategic
+                alignment.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Scroll Hint -->
+    <div
+        style="position:fixed; bottom:40px; left:40px; z-index:100; font-family:'Inter'; text-transform:uppercase; font-size:0.7rem; color:rgba(255,255,255,0.4); letter-spacing:2px;">
+        Scroll / Swipe to Slide
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <script>
+        // LOGIC
+        let current = 0;
+        const total = 4;
+        let isAnim = false;
+        let lastScroll = 0;
+        const scrollCooldown = 1200;
+
+        // THREE.JS (RIGHT SIDE FOCUS)
+        const scene = new THREE.Scene();
+        const startX = window.innerWidth * 0.25; // Shift center to Right side of screen (screen width is full, center is 0. 0.25 * width is approx 25% to right)
+        // Wait, default cam looks at 0,0,0.
+        // Screen width ratio: 0 is center. Left edge is -approx_aspect*dist. Right edge is +approx...
+        // We want objects at X > 0.
+
+        const cam = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        cam.position.z = 20;
+        // We will move objects to X = 5 or 6
+
+        const ren = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        ren.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('webgl-bg').appendChild(ren.domElement);
+
+        const objects = [];
+        const xPos = 6; // Position on the Right
+
+        // 0: Icosahedron
+        const mBase = new THREE.MeshBasicMaterial({ color: 0x48bb78, wireframe: true, transparent: true, opacity: 0.12 });
+        const o0 = new THREE.Mesh(new THREE.IcosahedronGeometry(5, 1), mBase.clone());
+        o0.position.x = xPos;
+        scene.add(o0); objects.push(o0);
+
+        // 1: Torus
+        const o1 = new THREE.Mesh(new THREE.TorusKnotGeometry(3.5, 0.4, 100, 16), new THREE.MeshBasicMaterial({ color: 0xd4af37, wireframe: true, transparent: true, opacity: 0 }));
+        o1.position.x = xPos;
+        scene.add(o1); objects.push(o1);
+
+        // 2: Sphere
+        const o2 = new THREE.Mesh(new THREE.SphereGeometry(5, 32, 32), mBase.clone());
+        o2.material.opacity = 0;
+        o2.position.x = xPos;
+        scene.add(o2); objects.push(o2);
+
+        // 3: Octahedron
+        const o3 = new THREE.Mesh(new THREE.OctahedronGeometry(4.5, 0), new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0 }));
+        o3.position.x = xPos;
+        scene.add(o3); objects.push(o3);
+
+
+        // TRANSITIONS
+        function go(nextIdx) {
+            if (isAnim || nextIdx === current) return;
+            isAnim = true;
+
+            const currPanel = document.getElementById(`p${current}`);
+            const nextPanel = document.getElementById(`p${nextIdx}`);
+            const currObj = objects[current];
+            const nextObj = objects[nextIdx];
+
+            // Direction? Actually let's do a consistent "Cover" effect.
+            // New panel ALWAYS slides in from LEFT (-100% -> 0%).
+            // Old panel? It gets covered. Or it slides away?
+            // "Van entrando dentro la página" implies entering.
+            // Let's try: Old panel fades/scales down slightly. New panel slides Over from Left.
+
+            // However, rolling back (scrolling up) usually implies Reverse.
+            // Let's implement directionality.
+            // Next (Down): New panel slides IN from Left.
+            // Prev (Up): Current panel slides OUT to Left (Revealing previous? No, prev is gone).
+
+            // Better Logic:
+            // "Deck of Cards" but Horizontal.
+
+            // Going Forward (0 -> 1): Panel 1 slides IN from Left (-100 to 0). Covering Panel 0.
+            // Going Back (1 -> 0): Panel 1 slides OUT to Left (0 to -100). Revealing Panel 0. (Wait, panel 0 is underneath?)
+            // We need to manage z-indices dynamically or keep them all stacked?
+            // Let's stack them. 
+            // 0: z=1, 1: z=2, 2: z=3...
+            // Scroll Down -> Activate next index (slide in).
+            // Scroll Up -> Deactivate current index (slide out).
+
+            const moveForward = nextIdx > current; // 0->1
+
+            // Special case loop 3->0: Reset all? Or slide 0 over 3?
+            // Let's slide 0 over 3. (Infinite cover).
+            // Z-Index trick: bring next to top.
+
+            // Reset z-indexes
+            document.querySelectorAll('.content-panel').forEach(p => p.style.zIndex = 1);
+
+            if (moveForward) {
+                // NEXT on Top.
+                nextPanel.style.zIndex = 10;
+                currPanel.style.zIndex = 1;
+
+                // Set start pos
+                gsap.fromTo(nextPanel,
+                    { xPercent: -100 },
+                    { xPercent: 0, duration: 0.8, ease: 'expo.out', onComplete: finalize }
+                );
+
+                // Old one stays? Or fades slightly?
+                gsap.to(currPanel, { opacity: 0.5, duration: 0.8 });
+
+            } else {
+                // BACKWARDS:
+                // Current slides OUT to Left? No, that reveals what's underneath.
+                // If we went 0->1, 1 is on top. To go 1->0, we slide 1 Away (to left? or retract?)
+                // If 1 slides away to left (-100%), it reveals 0 (if 0 is there).
+                // Let's assume we keep history.
+
+                currPanel.style.zIndex = 10;
+                nextPanel.style.zIndex = 1;
+                gsap.set(nextPanel, { opacity: 1, xPercent: 0 }); // Ensure it's there
+
+                // Slide OUT current to Left
+                gsap.to(currPanel,
+                    { xPercent: -100, duration: 0.8, ease: 'expo.inOut', onComplete: finalize }
+                );
+            }
+
+            // BG ANIMATION (Simple Crossfade)
+            gsap.to(currObj.material, { opacity: 0, duration: 0.6 });
+            gsap.to(nextObj.material, { opacity: 0.15, duration: 1, delay: 0.2 });
+            gsap.fromTo(nextObj.rotation, { x: 0, y: 0 }, { x: 0.2, y: 0.2, duration: 1 });
+
+            function finalize() {
+                isAnim = false;
+                currPanel.classList.remove('active');
+                nextPanel.classList.add('active');
+                // Cleanup opacity
+                gsap.set(currPanel, { opacity: 1 });
+            }
+
+            current = nextIdx;
+        }
+
+        function next() {
+            if (current < total - 1) go(current + 1);
+            else {
+                // Loop? If loop, simple slide 0 over 3.
+                // Reset stack visually difficult... 
+                // Simple loop: Slide 0 IN from left.
+                // Treat like forward.
+                go(0);
+            }
+        }
+
+        function prev() {
+            if (current > 0) go(current - 1);
+            else go(total - 1); // Loop back
+        }
+
+        window.addEventListener('wheel', (e) => {
+            const now = Date.now();
+            if (now - lastScroll < scrollCooldown) return;
+            if (isAnim) return;
+            if (Math.abs(e.deltaY) < 30) return;
+
+            if (e.deltaY > 0) { next(); lastScroll = now; }
+            else { prev(); lastScroll = now; }
+        });
+
+        // BG LOOP
+        function anim() {
+            requestAnimationFrame(anim);
+            if (objects[current]) {
+                objects[current].rotation.y += 0.001;
+            }
+            ren.render(scene, cam);
+        }
+        anim();
+
+        window.addEventListener('resize', () => {
+            cam.aspect = window.innerWidth / window.innerHeight; cam.updateProjectionMatrix(); ren.setSize(window.innerWidth, window.innerHeight);
+        });
+
+    </script>
+</body>
+
+</html>

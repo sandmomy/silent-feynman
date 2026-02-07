@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak - About | Premium Scroll Prototype</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- GSAP + ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <style>
+        /* ============================================
+           DESIGN TOKENS
+        ============================================ */
+        :root {
+            /* Colors - Coherent with existing site */
+            --color-bg: #0a0a0a;
+            --color-bg-elevated: #111111;
+            --color-bg-card: rgba(18, 18, 18, 0.85);
+            --color-bg-card-hover: rgba(24, 24, 24, 0.9);
+
+            --color-text: #f5f5f5;
+            --color-text-muted: rgba(245, 245, 245, 0.7);
+            --color-text-subtle: rgba(245, 245, 245, 0.5);
+
+            --color-accent: #c9a227;
+            --color-accent-light: #e8d48a;
+            --color-accent-dark: #8b6914;
+            --color-accent-glow: rgba(201, 162, 39, 0.15);
+
+            --color-border: rgba(201, 162, 39, 0.12);
+            --color-border-hover: rgba(201, 162, 39, 0.25);
+
+            /* Typography */
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+            /* Spacing (8px system) */
+            --space-1: 8px;
+            --space-2: 16px;
+            --space-3: 24px;
+            --space-4: 32px;
+            --space-5: 40px;
+            --space-6: 48px;
+            --space-8: 64px;
+            --space-10: 80px;
+            --space-12: 96px;
+
+            /* Grid */
+            --grid-columns: 12;
+            --grid-gap: 24px;
+            --container-max: 1280px;
+            --container-padding: 24px;
+
+            /* Transitions */
+            --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+            --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+            --duration-fast: 180ms;
+            --duration-normal: 240ms;
+            --duration-slow: 400ms;
+
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 40px var(--color-accent-glow);
+
+            /* Border radius */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-full: 9999px;
+        }
+
+        /* ============================================
+           RESET & BASE
+        ============================================ */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--color-text);
+            background: var(--color-bg);
+            min-height: 100vh;
+        }
+
+        /* ============================================
+           BACKGROUND
+        ============================================ */
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background:
+                radial-gradient(ellipse at 20% 0%, rgba(201, 162, 39, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 100%, rgba(201, 162, 39, 0.04) 0%, transparent 50%),
+                var(--color-bg);
+            pointer-events: none;
+        }
+
+        .bg-gradient::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            opacity: 0.02;
+            pointer-events: none;
+        }
+
+        /* ============================================
+           SECTION - ABOUT
+        ============================================ */
+        .about-section {
+            position: relative;
+            min-height: 100vh;
+            padding: var(--space-12) 0;
+        }
+
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 var(--container-padding);
+        }
+
+        /* ============================================
+           HEADER
+        ============================================ */
+        .about-header {
+            margin-bottom: var(--space-8);
+            max-width: 720px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-accent);
+            margin-bottom: var(--space-3);
+            opacity: 0;
+        }
+
+        .eyebrow::before {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--color-accent);
+        }
+
+        .headline {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: var(--space-3);
+            background: linear-gradient(135deg, var(--color-text) 0%, var(--color-text-muted) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+        }
+
+        .subheadline {
+            font-size: clamp(1rem, 1.5vw, 1.25rem);
+            font-weight: 400;
+            color: var(--color-text-muted);
+            max-width: 560px;
+            opacity: 0;
+        }
+
+        /* ============================================
+           LAYOUT - 2 COLUMN GRID
+        ============================================ */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: var(--space-8);
+            align-items: start;
+        }
+
+        /* ============================================
+           PROFILE CARD (Left Column)
+        ============================================ */
+        .profile-column {
+            position: relative;
+        }
+
+        .profile-card {
+            background: var(--color-bg-card);
+            backdrop-filter: blur(20px) saturate(1.2);
+            -webkit-backdrop-filter: blur(20px) saturate(1.2);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-5);
+            box-shadow: var(--shadow-md);
+            opacity: 0;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 20%;
+            right: 20%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+            opacity: 0.5;
+        }
+
+        .portrait-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4/5;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: var(--space-4);
+        }
+
+        .portrait {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            filter: brightness(1.02) contrast(1.02);
+            transition: transform 6s var(--ease-out-expo);
+        }
+
+        .portrait-wrapper:hover .portrait {
+            transform: scale(1.03);
+        }
+
+        .portrait-shadow {
+            position: absolute;
+            inset: 0;
+            box-shadow: inset 0 -80px 60px -40px rgba(0, 0, 0, 0.6);
+            pointer-events: none;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            margin-bottom: var(--space-1);
+        }
+
+        .profile-role {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-4);
+        }
+
+        /* Chips */
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-1);
+            margin-bottom: var(--space-4);
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--color-text-muted);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-full);
+            opacity: 0;
+            transition: all var(--duration-fast) ease;
+        }
+
+        .chip:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .chip-icon {
+            font-size: 0.85rem;
+        }
+
+        /* Partner badge */
+        .partner-badge {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            background: var(--color-accent-glow);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            margin-top: var(--space-4);
+            opacity: 0;
+        }
+
+        .partner-badge-text {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--color-accent-light);
+            letter-spacing: 0.02em;
+        }
+
+        .partner-logo {
+            height: 22px;
+            width: auto;
+            opacity: 0.9;
+        }
+
+        /* ============================================
+           CONTENT CARDS (Right Column)
+        ============================================ */
+        .cards-column {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+
+        .content-card {
+            background: var(--color-bg-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: var(--space-4) var(--space-5);
+            opacity: 0;
+            transition:
+                transform var(--duration-normal) var(--ease-out-expo),
+                border-color var(--duration-normal) ease,
+                box-shadow var(--duration-normal) ease;
+        }
+
+        .content-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--color-border-hover);
+            box-shadow: var(--shadow-md), var(--shadow-glow);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            margin-bottom: var(--space-2);
+        }
+
+        .card-icon {
+            font-size: 1.25rem;
+            opacity: 0.8;
+        }
+
+        .card-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: var(--color-accent-light);
+        }
+
+        .card-text {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--color-text-muted);
+        }
+
+        .card-list {
+            list-style: none;
+            margin-top: var(--space-2);
+        }
+
+        .card-list li {
+            position: relative;
+            padding-left: var(--space-3);
+            margin-bottom: var(--space-1);
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+        }
+
+        .card-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 6px;
+            height: 6px;
+            background: var(--color-accent);
+            border-radius: 50%;
+            opacity: 0.6;
+        }
+
+        /* ============================================
+           VALUES PILLS
+        ============================================ */
+        .values-grid {
+            display: flex;
+            gap: var(--space-2);
+            flex-wrap: wrap;
+            margin-top: var(--space-2);
+        }
+
+        .value-pill {
+            flex: 1;
+            min-width: 140px;
+            padding: var(--space-3) var(--space-4);
+            text-align: center;
+            background: linear-gradient(135deg, rgba(201, 162, 39, 0.08) 0%, rgba(201, 162, 39, 0.03) 100%);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            opacity: 0;
+            transition: all var(--duration-fast) ease;
+        }
+
+        .value-pill:hover {
+            background: linear-gradient(135deg, rgba(201, 162, 39, 0.12) 0%, rgba(201, 162, 39, 0.06) 100%);
+            border-color: var(--color-border-hover);
+        }
+
+        .value-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-accent-light);
+            letter-spacing: 0.02em;
+        }
+
+        /* ============================================
+           CTA CARD
+        ============================================ */
+        .cta-buttons {
+            display: flex;
+            gap: var(--space-2);
+            margin-top: var(--space-3);
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-1);
+            padding: 14px 28px;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition:
+                transform var(--duration-normal) var(--ease-out-expo),
+                box-shadow var(--duration-normal) ease,
+                background var(--duration-fast) ease;
+            opacity: 0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+            color: #0a0a0a;
+            border: none;
+            box-shadow: var(--shadow-sm), 0 0 20px rgba(201, 162, 39, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md), 0 0 30px rgba(201, 162, 39, 0.3);
+        }
+
+        .btn-primary:focus-visible {
+            outline: 2px solid var(--color-accent-light);
+            outline-offset: 2px;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            border-color: var(--color-border-hover);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .location-info {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            margin-top: var(--space-3);
+            font-size: 0.85rem;
+            color: var(--color-text-subtle);
+        }
+
+        .location-info span {
+            color: var(--color-accent);
+        }
+
+        /* ============================================
+           RESPONSIVE - TABLET
+        ============================================ */
+        @media (max-width: 1024px) {
+            .about-grid {
+                grid-template-columns: 320px 1fr;
+                gap: var(--space-6);
+            }
+
+            .profile-card {
+                padding: var(--space-4);
+            }
+        }
+
+        /* ============================================
+           RESPONSIVE - MOBILE
+        ============================================ */
+        @media (max-width: 768px) {
+            :root {
+                --container-padding: 20px;
+            }
+
+            .about-section {
+                padding: var(--space-8) 0;
+            }
+
+            .about-header {
+                margin-bottom: var(--space-6);
+                text-align: center;
+            }
+
+            .eyebrow::before {
+                display: none;
+            }
+
+            .subheadline {
+                margin: 0 auto;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-5);
+            }
+
+            .profile-column {
+                max-width: 340px;
+                margin: 0 auto;
+            }
+
+            .profile-card {
+                text-align: center;
+            }
+
+            .chips {
+                justify-content: center;
+            }
+
+            .partner-badge {
+                justify-content: center;
+            }
+
+            .cards-column {
+                gap: var(--space-3);
+            }
+
+            .content-card {
+                padding: var(--space-3) var(--space-4);
+            }
+
+            .values-grid {
+                flex-direction: column;
+            }
+
+            .value-pill {
+                min-width: 100%;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .location-info {
+                justify-content: center;
+            }
+        }
+
+        /* ============================================
+           REDUCED MOTION
+        ============================================ */
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .portrait-wrapper:hover .portrait {
+                transform: none;
+            }
+        }
+
+        /* ============================================
+           SPACER (Demo purposes)
+        ============================================ */
+        .demo-spacer {
+            height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-subtle);
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .demo-spacer--end {
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background -->
+    <div class="bg-gradient" data-parallax-bg></div>
+
+    <!-- Demo spacer before section -->
+    <div class="demo-spacer">
+        <span>↓ Scroll to reveal About section ↓</span>
+    </div>
+
+    <!-- ABOUT SECTION -->
+    <section class="about-section" id="about">
+        <div class="container">
+
+            <!-- Section Header -->
+            <header class="about-header">
+                <div class="eyebrow" data-animate="eyebrow">About</div>
+                <h1 class="headline" data-animate="headline">Eugene Mierak</h1>
+                <p class="subheadline" data-animate="subheadline">
+                    Frequency practitioner and strategic alignment specialist—bridging subtle energetics with conscious
+                    action for individuals, organizations, and global initiatives.
+                </p>
+            </header>
+
+            <!-- 2-Column Grid -->
+            <div class="about-grid">
+
+                <!-- LEFT: Profile Card (Pinned on desktop) -->
+                <div class="profile-column">
+                    <div class="profile-card" data-animate="profile-card">
+                        <div class="portrait-wrapper" data-parallax-portrait>
+                            <img src="assets/eugene-mierak.png" alt="Eugene Mierak - Frequency Practitioner"
+                                class="portrait" loading="eager">
+                            <div class="portrait-shadow"></div>
+                        </div>
+
+                        <h2 class="profile-name">Eugene Mierak</h2>
+                        <p class="profile-role">Alignment Specialist & Coherence Practitioner</p>
+
+                        <div class="chips">
+                            <span class="chip" data-animate="chip">
+                                <span class="chip-icon">✦</span>
+                                Frequency Work
+                            </span>
+                            <span class="chip" data-animate="chip">
+                                <span class="chip-icon">◎</span>
+                                Ibiza · Indonesia
+                            </span>
+                            <span class="chip" data-animate="chip">
+                                <span class="chip-icon">●</span>
+                                Available Remotely
+                            </span>
+                        </div>
+
+                        <div class="partner-badge" data-animate="badge">
+                            <span class="partner-badge-text">Director of International Relationships</span>
+                            <img src="assets/logo-sbdi.webp" alt="SBDI Foundation" class="partner-logo">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Content Cards -->
+                <div class="cards-column">
+
+                    <!-- Card 1: Who I Am -->
+                    <article class="content-card" data-animate="card" data-direction="bottom">
+                        <div class="card-header">
+                            <span class="card-icon">◈</span>
+                            <h3 class="card-title">Who I Am</h3>
+                        </div>
+                        <p class="card-text">
+                            Specializing in alignment caching, coherence training, and energetic attunement—I work
+                            through integrative methodologies to support clarity, stability, and conscious evolution in
+                            people and projects alike.
+                        </p>
+                    </article>
+
+                    <!-- Card 2: What I Do -->
+                    <article class="content-card" data-animate="card" data-direction="right">
+                        <div class="card-header">
+                            <span class="card-icon">◇</span>
+                            <h3 class="card-title">What I Do</h3>
+                        </div>
+                        <p class="card-text">
+                            Bridging subtle frequency sciences with practical frameworks for personal, organizational,
+                            and planetary alignment.
+                        </p>
+                        <ul class="card-list">
+                            <li>Cultivating resonance in real-world decisions</li>
+                            <li>Supporting leadership dynamics and team coherence</li>
+                            <li>Long-term project alignment and strategic clarity</li>
+                        </ul>
+                    </article>
+
+                    <!-- Card 3: How I Work -->
+                    <article class="content-card" data-animate="card" data-direction="bottom">
+                        <div class="card-header">
+                            <span class="card-icon">⬡</span>
+                            <h3 class="card-title">How I Work</h3>
+                        </div>
+                        <p class="card-text">
+                            Grounded in systems thinking—emphasizing resonance, long-term balance, and alignment between
+                            human potential and ecological responsibility. I help initiatives move from vision to
+                            coherent execution, ensuring every action is intentional and sustainable.
+                        </p>
+                    </article>
+
+                    <!-- Card 4: Impact & Mission -->
+                    <article class="content-card" data-animate="card" data-direction="right">
+                        <div class="card-header">
+                            <span class="card-icon">✧</span>
+                            <h3 class="card-title">Impact & Mission</h3>
+                        </div>
+                        <p class="card-text">
+                            Fostering global partnerships through the SBDI Foundation that support holistic
+                            sustainability, regenerative development, and conscious collaboration across
+                            cultures—creating meaningful, lasting impact for communities and the planet.
+                        </p>
+                    </article>
+
+                    <!-- Card 5: Values -->
+                    <article class="content-card" data-animate="card" data-direction="bottom">
+                        <div class="card-header">
+                            <span class="card-icon">◆</span>
+                            <h3 class="card-title">Core Values</h3>
+                        </div>
+                        <p class="card-text">
+                            Every collaboration is guided by three fundamental principles:
+                        </p>
+                        <div class="values-grid">
+                            <div class="value-pill" data-animate="pill">
+                                <span class="value-name">Balance</span>
+                            </div>
+                            <div class="value-pill" data-animate="pill">
+                                <span class="value-name">Resonance</span>
+                            </div>
+                            <div class="value-pill" data-animate="pill">
+                                <span class="value-name">Coherence</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 6: CTA -->
+                    <article class="content-card" data-animate="card" data-direction="bottom">
+                        <div class="card-header">
+                            <span class="card-icon">→</span>
+                            <h3 class="card-title">Let's Connect</h3>
+                        </div>
+                        <p class="card-text">
+                            Ready to explore how frequency-aware alignment can support your project, organization, or
+                            personal evolution?
+                        </p>
+                        <div class="cta-buttons">
+                            <a href="#" class="btn btn-primary" data-animate="btn">
+                                Book a Session
+                            </a>
+                            <a href="mailto:contact@eugenemierak.com" class="btn btn-secondary" data-animate="btn">
+                                Send an Email
+                            </a>
+                        </div>
+                        <div class="location-info">
+                            <span>📍</span> Ibiza · Indonesia · Remote Worldwide
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo spacer after section -->
+    <div class="demo-spacer demo-spacer--end">
+        <span>End of About Section</span>
+    </div>
+
+    <!-- GSAP Animations -->
+    <script>
+        (function () {
+            'use strict';
+
+            // Check for reduced motion preference
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const isMobile = window.innerWidth < 768;
+
+            // Register GSAP plugins
+            gsap.registerPlugin(ScrollTrigger);
+
+            // ============================================
+            // ANIMATION SETTINGS (easy to adjust)
+            // ============================================
+            const config = {
+                // Durations (seconds)
+                duration: {
+                    eyebrow: 0.65,
+                    headline: 0.75,
+                    subheadline: 0.65,
+                    profileCard: 0.85,
+                    chip: 0.45,
+                    card: 0.7,
+                    pill: 0.5,
+                    button: 0.6
+                },
+                // Stagger delays (seconds)
+                stagger: {
+                    header: 0.1,
+                    chips: 0.08,
+                    cards: 0.12,
+                    pills: 0.08,
+                    buttons: 0.1
+                },
+                // Movement (pixels)
+                movement: {
+                    eyebrowY: 12,
+                    headlineX: -18,
+                    subheadlineY: 10,
+                    profileCardY: 20,
+                    cardY: 30,
+                    cardX: 25,
+                    pillScale: 0.98,
+                    buttonY: 10
+                },
+                // Easing
+                ease: 'expo.out', // GSAP equivalent of cubic-bezier(0.22, 1, 0.36, 1)
+                // Pin duration (% of section scroll)
+                pinDuration: 0.7
+            };
+
+            // ============================================
+            // REDUCED MOTION FALLBACK
+            // ============================================
+            if (prefersReducedMotion) {
+                // Simple fade-in for all animated elements
+                gsap.set('[data-animate]', { opacity: 1 });
+                console.log('Reduced motion detected: animations disabled');
+                return;
+            }
+
+            // ============================================
+            // HEADER ANIMATIONS
+            // ============================================
+            const headerTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: '.about-section',
+                    start: 'top 80%',
+                    end: 'top 20%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+
+            headerTl
+                // Eyebrow
+                .fromTo('[data-animate="eyebrow"]',
+                    { opacity: 0, y: config.movement.eyebrowY },
+                    { opacity: 1, y: 0, duration: config.duration.eyebrow, ease: config.ease }
+                )
+                // Headline
+                .fromTo('[data-animate="headline"]',
+                    { opacity: 0, x: config.movement.headlineX },
+                    { opacity: 1, x: 0, duration: config.duration.headline, ease: config.ease },
+                    `-=${config.duration.eyebrow - config.stagger.header}`
+                )
+                // Subheadline
+                .fromTo('[data-animate="subheadline"]',
+                    { opacity: 0, y: config.movement.subheadlineY },
+                    { opacity: 1, y: 0, duration: config.duration.subheadline, ease: config.ease },
+                    `-=${config.duration.headline - config.stagger.header}`
+                );
+
+            // ============================================
+            // PROFILE CARD ANIMATION
+            // ============================================
+            const profileTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: '.profile-card',
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+
+            profileTl
+                // Card container
+                .fromTo('[data-animate="profile-card"]',
+                    { opacity: 0, y: config.movement.profileCardY },
+                    { opacity: 1, y: 0, duration: config.duration.profileCard, ease: config.ease }
+                )
+                // Chips with stagger
+                .fromTo('[data-animate="chip"]',
+                    { opacity: 0, scale: 0.95 },
+                    {
+                        opacity: 1,
+                        scale: 1,
+                        duration: config.duration.chip,
+                        ease: config.ease,
+                        stagger: config.stagger.chips
+                    },
+                    '-=0.4'
+                )
+                // Partner badge
+                .fromTo('[data-animate="badge"]',
+                    { opacity: 0, y: 8 },
+                    { opacity: 1, y: 0, duration: 0.5, ease: config.ease },
+                    '-=0.2'
+                );
+
+            // ============================================
+            // PROFILE CARD PINNING (Desktop only)
+            // ============================================
+            if (!isMobile) {
+                ScrollTrigger.create({
+                    trigger: '.profile-column',
+                    start: 'top 120px',
+                    end: () => {
+                        const cardsColumn = document.querySelector('.cards-column');
+                        return `+=${cardsColumn.offsetHeight - document.querySelector('.profile-card').offsetHeight}`;
+                    },
+                    pin: '.profile-card',
+                    pinSpacing: false,
+                    anticipatePin: 1 // Prevents layout shift
+                });
+            }
+
+            // ============================================
+            // CONTENT CARDS ANIMATION
+            // ============================================
+            const cards = document.querySelectorAll('[data-animate="card"]');
+
+            cards.forEach((card, index) => {
+                const direction = card.dataset.direction;
+                const fromProps = {
+                    opacity: 0,
+                    y: direction === 'bottom' ? config.movement.cardY : 0,
+                    x: direction === 'right' ? config.movement.cardX : 0
+                };
+
+                gsap.fromTo(card,
+                    fromProps,
+                    {
+                        opacity: 1,
+                        y: 0,
+                        x: 0,
+                        duration: config.duration.card,
+                        ease: config.ease,
+                        scrollTrigger: {
+                            trigger: card,
+                            start: 'top 85%',
+                            toggleActions: 'play none none reverse'
+                        }
+                    }
+                );
+
+                // Animate pills inside values card
+                const pills = card.querySelectorAll('[data-animate="pill"]');
+                if (pills.length) {
+                    gsap.fromTo(pills,
+                        { opacity: 0, scale: config.movement.pillScale },
+                        {
+                            opacity: 1,
+                            scale: 1,
+                            duration: config.duration.pill,
+                            ease: config.ease,
+                            stagger: config.stagger.pills,
+                            scrollTrigger: {
+                                trigger: card,
+                                start: 'top 75%',
+                                toggleActions: 'play none none reverse'
+                            }
+                        }
+                    );
+                }
+
+                // Animate buttons inside CTA card
+                const buttons = card.querySelectorAll('[data-animate="btn"]');
+                if (buttons.length) {
+                    gsap.fromTo(buttons,
+                        { opacity: 0, y: config.movement.buttonY },
+                        {
+                            opacity: 1,
+                            y: 0,
+                            duration: config.duration.button,
+                            ease: config.ease,
+                            stagger: config.stagger.buttons,
+                            scrollTrigger: {
+                                trigger: card,
+                                start: 'top 75%',
+                                toggleActions: 'play none none reverse'
+                            }
+                        }
+                    );
+                }
+            });
+
+            // ============================================
+            // PARALLAX EFFECTS (Desktop only)
+            // ============================================
+            if (!isMobile && !prefersReducedMotion) {
+                // Portrait parallax (moves slower)
+                gsap.to('[data-parallax-portrait]', {
+                    yPercent: -8,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: '.about-section',
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: 1
+                    }
+                });
+
+                // Background gradient parallax (very subtle)
+                gsap.to('[data-parallax-bg]', {
+                    yPercent: 3,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: '.about-section',
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: 2
+                    }
+                });
+            }
+
+            // ============================================
+            // BREATHING SHADOW ON PORTRAIT
+            // ============================================
+            if (!prefersReducedMotion) {
+                gsap.to('.portrait-wrapper', {
+                    '--shadow-intensity': 0.7,
+                    duration: 3,
+                    ease: 'sine.inOut',
+                    repeat: -1,
+                    yoyo: true,
+                    onUpdate: function () {
+                        const intensity = this.targets()[0].style.getPropertyValue('--shadow-intensity') || 0.6;
+                        document.querySelector('.portrait-shadow').style.boxShadow =
+                            `inset 0 -80px 60px -40px rgba(0, 0, 0, ${intensity})`;
+                    }
+                });
+            }
+
+            // ============================================
+            // REFRESH SCROLLTRIGGER ON RESIZE
+            // ============================================
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    ScrollTrigger.refresh();
+                }, 250);
+            });
+
+            console.log('✓ About section animations initialized');
+
+        })();
+    </script>
+</body>
+
+</html>

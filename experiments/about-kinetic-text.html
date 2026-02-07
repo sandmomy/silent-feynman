@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Kinetic Resonance</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;700&family=Playfair+Display:ital,wght@1,400;1,700&display=swap"
+        rel="stylesheet">
+
+    <!-- DEPENDENCIES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+    <style>
+        :root {
+            --bg: #030406;
+            --gold: #d4af37;
+            --text-dim: rgba(255, 255, 255, 0.4);
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg);
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* NOISE GRAIN */
+        .grain {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* BACKGROUND VIGNETTE */
+        .vignette {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+        }
+
+        /* MAIN CONTAINER */
+        .stage {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .content-container {
+            width: 90%;
+            max-width: 1200px;
+            position: relative;
+        }
+
+        /* SECTIONS */
+        .section {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-50%);
+            top: 50%;
+        }
+
+        /* TYPOGRAPHY */
+        .word-meta {
+            font-family: 'Cinzel';
+            font-size: 0.8rem;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .word-meta::after {
+            content: '';
+            height: 1px;
+            flex-grow: 1;
+            background: rgba(212, 175, 55, 0.2);
+        }
+
+        .headline {
+            font-family: 'Playfair Display';
+            font-size: 8vw;
+            line-height: 0.9;
+            margin: 0;
+            padding: 0;
+            font-weight: 700;
+            font-style: italic;
+            overflow: visible;
+            white-space: nowrap;
+        }
+
+        .subline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-dim);
+            margin-top: 3rem;
+            max-width: 600px;
+            line-height: 1.6;
+            align-self: flex-end;
+            text-align: right;
+        }
+
+        /* ANIME CLASSES */
+        .letter {
+            display: inline-block;
+            transform-origin: center bottom;
+            will-change: transform, opacity;
+        }
+
+        .word {
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        /* UI ELEMENTS */
+        .nav-link {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            z-index: 200;
+            font-family: 'Cinzel';
+            color: white;
+            text-decoration: none;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            opacity: 0.5;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover {
+            opacity: 1;
+            color: var(--gold);
+        }
+
+        .progress {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: flex-end;
+        }
+
+        .dot {
+            width: 40px;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .dot.active {
+            background: var(--gold);
+            width: 80px;
+        }
+
+        .scroll-hint {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            z-index: 200;
+            font-family: 'Cinzel';
+            font-size: 0.6rem;
+            letter-spacing: 4px;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="grain"></div>
+    <div class="vignette"></div>
+
+    <a href="index.html" class="nav-link">RETURN</a>
+
+    <div class="scroll-hint">SCROLL TO RESONATE</div>
+
+    <div class="progress" id="progressUI">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+
+    <div class="stage">
+        <div class="content-container">
+
+            <!-- CONCEPT 1 -->
+            <div class="section" id="s0">
+                <div class="word-meta">01 / IDENTITY</div>
+                <h1 class="headline kinetic-text">Frequency</h1>
+                <h1 class="headline kinetic-text" style="padding-left: 10vw;">Architect.</h1>
+                <p class="subline">Pioneering the alignment of conscious intention with high-performance execution.</p>
+            </div>
+
+            <!-- CONCEPT 2 -->
+            <div class="section" id="s1">
+                <div class="word-meta">02 / BRIDGE</div>
+                <h1 class="headline kinetic-text">Coherent</h1>
+                <h1 class="headline kinetic-text" style="padding-left: 5vw;">Dynamics.</h1>
+                <p class="subline">Translating internal resonance into external leadership frameworks.</p>
+            </div>
+
+            <!-- CONCEPT 3 -->
+            <div class="section" id="s2">
+                <div class="word-meta">03 / IMPACT</div>
+                <h1 class="headline kinetic-text">Global</h1>
+                <h1 class="headline kinetic-text" style="padding-left: 15vw;">Action.</h1>
+                <p class="subline">Structuring sustainable partnerships that serve the collective evolution.</p>
+            </div>
+
+            <!-- CONCEPT 4 -->
+            <div class="section" id="s3">
+                <div class="word-meta">04 / MISSION</div>
+                <h1 class="headline kinetic-text">Infinite</h1>
+                <h1 class="headline kinetic-text" style="padding-left: 8vw;">Future.</h1>
+                <p class="subline">Supporting the emergence of reality-architecture through frequency awareness.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // --- TEXT SPLITTING ENGINE ---
+        function splitKineticText(selector) {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach(el => {
+                const text = el.textContent;
+                el.innerHTML = '';
+                const words = text.split(' ');
+                words.forEach((word, wordIndex) => {
+                    const wordSpan = document.createElement('span');
+                    wordSpan.className = 'word';
+                    const chars = word.split('');
+                    chars.forEach(char => {
+                        const charSpan = document.createElement('span');
+                        charSpan.className = 'letter';
+                        charSpan.textContent = char;
+                        wordSpan.appendChild(charSpan);
+                    });
+                    el.appendChild(wordSpan);
+                    if (wordIndex < words.length - 1) {
+                        el.appendChild(document.createTextNode(' '));
+                    }
+                });
+            });
+        }
+
+        splitKineticText('.kinetic-text');
+
+        // --- STATE MANAGEMENT ---
+        let current = 0;
+        const total = 4;
+        let isTransitioning = false;
+        let lastScroll = 0;
+        const cooldown = 1800; // Time between full cycles
+
+        function enterSection(idx) {
+            const section = document.getElementById(`s${idx}`);
+            section.style.opacity = 1;
+
+            const meta = section.querySelector('.word-meta');
+            const letters = section.querySelectorAll('.letter');
+            const subline = section.querySelector('.subline');
+
+            // Reset UI
+            document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+
+            const tl = anime.timeline({ easing: 'easeOutExpo' });
+
+            tl.add({
+                targets: meta,
+                opacity: [0, 1],
+                translateX: [-50, 0],
+                duration: 1000
+            })
+                .add({
+                    targets: letters,
+                    opacity: [0, 1],
+                    translateY: [100, 0],
+                    rotateZ: [15, 0],
+                    filter: ['blur(10px)', 'blur(0px)'],
+                    duration: 1500,
+                    delay: anime.stagger(50)
+                }, '-=800')
+                .add({
+                    targets: subline,
+                    opacity: [0, 1],
+                    translateY: [20, 0],
+                    duration: 1000
+                }, '-=1000');
+        }
+
+        function exitSection(idx, callback) {
+            const section = document.getElementById(`s${idx}`);
+            const letters = section.querySelectorAll('.letter');
+            const meta = section.querySelector('.word-meta');
+            const subline = section.querySelector('.subline');
+
+            const tl = anime.timeline({
+                easing: 'easeInExpo',
+                complete: () => {
+                    section.style.opacity = 0;
+                    if (callback) callback();
+                }
+            });
+
+            tl.add({
+                targets: letters,
+                opacity: 0,
+                translateY: -100,
+                rotateZ: -10,
+                filter: 'blur(10px)',
+                duration: 600,
+                delay: anime.stagger(20, { direction: 'reverse' })
+            })
+                .add({
+                    targets: [meta, subline],
+                    opacity: 0,
+                    duration: 400
+                }, '-=500');
+        }
+
+        function transitionTo(next) {
+            if (isTransitioning || next === current) return;
+            isTransitioning = true;
+
+            exitSection(current, () => {
+                current = next;
+                enterSection(current);
+                setTimeout(() => { isTransitioning = false; }, 500);
+            });
+        }
+
+        // --- INIT ---
+        enterSection(0);
+
+        // --- SCROLL HANDLER ---
+        window.addEventListener('wheel', (e) => {
+            const now = Date.now();
+            if (now - lastScroll < cooldown || isTransitioning) return;
+            if (Math.abs(e.deltaY) < 50) return;
+
+            const direction = e.deltaY > 0 ? 1 : -1;
+            let next = current + direction;
+            if (next >= total) next = 0;
+            if (next < 0) next = total - 1;
+
+            transitionTo(next);
+            lastScroll = now;
+        });
+
+        // Click on dots
+        document.querySelectorAll('.dot').forEach((dot, btnIdx) => {
+            dot.style.cursor = 'pointer';
+            dot.addEventListener('click', () => {
+                transitionTo(btnIdx);
+            });
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Split Frequency</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@1,300;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #050608;
+            --text: #e1e1e1;
+            --gold: #d4af37;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+        }
+
+        /* NOISE */
+        .noise {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* 3D BG (Full Screen, Visuals on Right) */
+        #webgl-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+        }
+
+        /* --- LEFT CONTENT AREA --- */
+        .content-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 45vw;
+            height: 100vh;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* No background here, letting 3D bleed if needed, or minimal darkening */
+            background: linear-gradient(to right, rgba(5, 6, 8, 0.9), rgba(5, 6, 8, 0));
+            padding-left: 5vw;
+        }
+
+        .panel-wrap {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        /* THE PANELS */
+        .panel {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+            /* Hidden */
+        }
+
+        .panel.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* ELEMENTS TO ANIMATE SEPARATELY (Split) */
+        .p-label {
+            font-family: 'Inter';
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.8rem;
+            border-left: 2px solid var(--gold);
+            padding-left: 15px;
+            margin-bottom: 2rem;
+            will-change: transform, opacity;
+        }
+
+        .p-head {
+            font-family: 'Playfair Display';
+            font-size: 4rem;
+            line-height: 1;
+            color: white;
+            margin-bottom: 2rem;
+            will-change: transform, opacity;
+        }
+
+        .p-body {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.8);
+            border-top: 1px solid var(--border);
+            padding-top: 2rem;
+            will-change: transform, opacity;
+        }
+
+        .highlight {
+            color: var(--gold);
+        }
+
+        /* NAV */
+        .nav-top {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            z-index: 100;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-family: 'Cinzel';
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover {
+            color: white;
+        }
+
+        /* INDICATOR */
+        .indicator {
+            position: fixed;
+            bottom: 40px;
+            left: 5vw;
+            z-index: 100;
+            font-family: 'Inter';
+            color: var(--gold);
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="noise"></div>
+    <div id="webgl-bg"></div>
+
+    <nav class="nav-top">
+        <a href="index.html" class="nav-link">Index</a>
+        <a href="#" class="nav-link">Contact</a>
+    </nav>
+
+    <div class="indicator">
+        <span id="currNum">01</span> &mdash; <span id="totNum">04</span>
+    </div>
+
+    <!-- LEFT CONTENT -->
+    <div class="content-frame">
+        <div class="panel-wrap">
+
+            <!-- PANEL 0 -->
+            <div class="panel active" id="p0">
+                <div class="p-label">01 / Identity</div>
+                <h2 class="p-head">Frequency<br>Architect</h2>
+                <div class="p-body">
+                    I'm Eugene Mierak, a frequency practitioner specializing in alignment caching and conscious
+                    evolution. My work bridges subtle frequency sciences with practical frameworks.
+                </div>
+            </div>
+
+            <!-- PANEL 1 -->
+            <div class="panel" id="p1">
+                <div class="p-label">02 / The Bridge</div>
+                <h2 class="p-head">Coherent<br>Dynamics</h2>
+                <div class="p-body">
+                    Helping individuals and teams cultivate resonance in real-world decisions. Bridging internal
+                    alignment with external leadership dynamics for long-term projects.
+                </div>
+            </div>
+
+            <!-- PANEL 2 -->
+            <div class="panel" id="p2">
+                <div class="p-label">03 / Global Impact</div>
+                <h2 class="p-head">SBDI<br>Foundation</h2>
+                <div class="p-body">
+                    As Director of Int. Relationships, I foster global partnerships for holistic sustainability. Moving
+                    initiatives from vision to <span class="highlight">coherent execution</span>.
+                </div>
+            </div>
+
+            <!-- PANEL 3 -->
+            <div class="panel" id="p3">
+                <div class="p-label">04 / Mission</div>
+                <h2 class="p-head" style="font-size:3rem;">Visionary<br>Future</h2>
+                <div class="p-body"
+                    style="font-family:'Playfair Display'; font-size:1.5rem; color:white; line-height:1.4;">
+                    Supporting the emergence of coherent, sustainable projects through frequency awareness and strategic
+                    alignment.
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <script>
+        // LOGIC
+        let current = 0;
+        const total = 4;
+        let isAnim = false;
+        let lastScroll = 0;
+        const scrollCooldown = 1200;
+
+        // THREE.JS (RIGHT SIDE)
+        const scene = new THREE.Scene();
+        const cam = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        cam.position.z = 20;
+
+        const ren = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        ren.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('webgl-bg').appendChild(ren.domElement);
+
+        const objects = [];
+        const xPos = 6; // Right side
+
+        // 0: Icosahedron
+        const mBase = new THREE.MeshBasicMaterial({ color: 0x48bb78, wireframe: true, transparent: true, opacity: 0.12 });
+        const o0 = new THREE.Mesh(new THREE.IcosahedronGeometry(5, 1), mBase.clone());
+        o0.position.x = xPos; scene.add(o0); objects.push(o0);
+
+        // 1: Torus
+        const o1 = new THREE.Mesh(new THREE.TorusKnotGeometry(3, 0.4, 100, 16), new THREE.MeshBasicMaterial({ color: 0xd4af37, wireframe: true, transparent: true, opacity: 0 }));
+        o1.position.x = xPos; scene.add(o1); objects.push(o1);
+
+        // 2: Sphere
+        const o2 = new THREE.Mesh(new THREE.SphereGeometry(4.5, 32, 32), mBase.clone());
+        o2.material.opacity = 0; o2.position.x = xPos; scene.add(o2); objects.push(o2);
+
+        // 3: Octahedron
+        const o3 = new THREE.Mesh(new THREE.OctahedronGeometry(4.5, 0), new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0 }));
+        o3.position.x = xPos; scene.add(o3); objects.push(o3);
+
+
+        // TRANSITION LOGIC (The Split)
+        function changeSlide(nextIdx) {
+            if (isAnim || nextIdx === current) return;
+            isAnim = true;
+
+            const currPanel = document.getElementById(`p${current}`);
+            const nextPanel = document.getElementById(`p${nextIdx}`);
+            const currObj = objects[current];
+            const nextObj = objects[nextIdx];
+
+            // SELECT PARTS
+            // We split the panel: 
+            // Label exits Up (or Left).
+            // Head exits Left.
+            // Body exits Right or Down.
+
+            const cLabel = currPanel.querySelector('.p-label');
+            const cHead = currPanel.querySelector('.p-head');
+            const cBody = currPanel.querySelector('.p-body');
+
+            const nLabel = nextPanel.querySelector('.p-label');
+            const nHead = nextPanel.querySelector('.p-head');
+            const nBody = nextPanel.querySelector('.p-body');
+
+            // PREPARE NEXT (Start Split Apart)
+            // They will "Snap" together (Integrate)
+            gsap.set(nLabel, { y: -50, opacity: 0 });
+            gsap.set(nHead, { x: -100, opacity: 0 }); // Coming from left
+            gsap.set(nBody, { x: 100, opacity: 0 });  // Coming from right (Split feel)
+            nextPanel.classList.add('active'); // Activate invisibly
+
+
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    currPanel.classList.remove('active');
+                    isAnim = false;
+                }
+            });
+
+            // EXIT TIMELINE (Deconstruct)
+            tl.to(cLabel, { y: -50, opacity: 0, duration: 0.6, ease: 'power2.in' }, 0);
+            tl.to(cHead, { x: -100, opacity: 0, duration: 0.6, ease: 'power2.in' }, 0);
+            tl.to(cBody, { x: 100, opacity: 0, duration: 0.6, ease: 'power2.in' }, 0);
+
+            // ENTER TIMELINE (Reconstruct / Magnetic Snap)
+            tl.to(nLabel, { y: 0, opacity: 1, duration: 0.8, ease: 'back.out(1)' }, 0.4);
+            tl.to(nHead, { x: 0, opacity: 1, duration: 0.8, ease: 'power2.out' }, 0.5);
+            tl.to(nBody, { x: 0, opacity: 1, duration: 0.8, ease: 'power2.out' }, 0.6);
+
+            // BG ANIM
+            gsap.to(currObj.material, { opacity: 0, duration: 0.6 });
+            gsap.to(nextObj.material, { opacity: 0.15, duration: 1, delay: 0.3 });
+            gsap.fromTo(nextObj.rotation, { x: 0, y: 0 }, { x: 0.2, y: 0.2, duration: 1 });
+
+            document.getElementById('currNum').innerText = `0${nextIdx + 1}`;
+            current = nextIdx;
+        }
+
+        function next() { changeSlide((current + 1) % total); }
+        function prev() { changeSlide((current - 1 + total) % total); }
+
+        window.addEventListener('wheel', (e) => {
+            const now = Date.now();
+            if (now - lastScroll < scrollCooldown) return;
+            if (isAnim) return;
+            if (Math.abs(e.deltaY) < 30) return;
+
+            if (e.deltaY > 0) { next(); lastScroll = now; }
+            else { prev(); lastScroll = now; }
+        });
+
+        function anim() {
+            requestAnimationFrame(anim);
+            if (objects[current]) {
+                objects[current].rotation.y += 0.001;
+            }
+            ren.render(scene, cam);
+        }
+        anim();
+
+        window.addEventListener('resize', () => {
+            cam.aspect = window.innerWidth / window.innerHeight; cam.updateProjectionMatrix(); ren.setSize(window.innerWidth, window.innerHeight);
+        });
+
+    </script>
+</body>
+
+</html>

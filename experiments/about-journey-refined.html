@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | The Journey Refined</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Montserrat:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            /* Hide scrollbar but keep scroll functionality */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        .scroll-container {
+            height: 1200vh;
+            /* Longer for smoother color transitions */
+            position: relative;
+            z-index: 0;
+        }
+
+        /* UI Overlay */
+        .ui-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 30px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: auto;
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: 2px;
+            mix-blend-mode: difference;
+        }
+
+        .timeline {
+            position: fixed;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 40vh;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .timeline-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            height: 0%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .chapter-indicator {
+            position: fixed;
+            left: 40px;
+            bottom: 40px;
+            font-family: 'Cinzel', serif;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1rem;
+            letter-spacing: 3px;
+            transition: color 0.5s ease;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-family: 'Cinzel', serif;
+            pointer-events: none;
+            transition: opacity 1.5s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+        }
+
+        /* Current Scene Hint (Center Screen Fading text) */
+        .scene-title-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Cinzel', serif;
+            font-size: 10vw;
+            opacity: 0;
+            color: rgba(255, 255, 255, 0.05);
+            white-space: nowrap;
+            letter-spacing: 1vw;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="loader" id="loader">INITIALIZING JOURNEY...</div>
+
+    <div id="canvas-container"></div>
+
+    <div class="ui-layer">
+        <nav>
+            <a href="#" class="logo">EUGENE MIERAK</a>
+            <div class="nav-links">
+                <!-- Links here -->
+            </div>
+        </nav>
+
+        <div class="timeline">
+            <div class="timeline-fill" id="progressFill"></div>
+        </div>
+
+        <div class="chapter-indicator">
+            <span id="chapterName">I. ORIGIN</span>
+        </div>
+
+        <!-- Big background titles for mood -->
+        <div class="scene-title-overlay" id="sceneTitle">CHAOS</div>
+    </div>
+
+    <div class="scroll-container"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- SETUP ---
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+
+        // Dynamic fog - starts dark
+        const fogColor = new THREE.Color(0x050505);
+        scene.fog = new THREE.FogExp2(fogColor, 0.02);
+        scene.background = fogColor;
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+        // Tone mapping for better light
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.2;
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+
+        // --- ASSETS: TEXT PANELS ---
+        // Same content, better look
+        const panelContents = [
+            {
+                label: 'IDENTITY',
+                title: 'Eugene\nMierak',
+                body: 'Frequency practitioner specializing in\nalignment caching, coherence training,\nand energetic methodologies.'
+            },
+            {
+                label: 'THE WORK',
+                title: 'Integrative\nCoherence',
+                body: 'Working through integrative systems\nto support clarity, stability,\nand conscious evolution.'
+            },
+            {
+                label: 'APPROACH',
+                title: 'Frequency\n& Frameworks',
+                body: 'Bridging subtle frequency sciences with\npractical frameworks for personal\nand planetary alignment.'
+            },
+            {
+                label: 'GLOBAL',
+                title: 'SBDI\nFoundation',
+                body: 'Director of International Relations.\nFostering global partnerships for\nholistic sustainability.'
+            },
+            {
+                label: 'MISSION',
+                title: 'Coherent\nImpact',
+                body: 'Creating lasting, regenerative impact\nfor communities through conscious\ninternational cooperation.'
+            }
+        ];
+
+        // Increased Z spacing for smoother travel
+        const panelPositions = [
+            new THREE.Vector3(0, 0, -30),    // Chaos
+            new THREE.Vector3(20, 5, -180),  // Order
+            new THREE.Vector3(-20, -5, -350),// Resonance
+            new THREE.Vector3(0, 10, -550),  // Global
+            new THREE.Vector3(0, 0, -750)    // Impact
+        ];
+
+        function createTextTexture(content) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 1024;
+            canvas.height = 768;
+            const ctx = canvas.getContext('2d');
+
+            // Slightly cleaner glass
+            // Subtle Gradient
+            const grad = ctx.createLinearGradient(0, 0, 1024, 768);
+            grad.addColorStop(0, 'rgba(15, 20, 25, 0.9)');
+            grad.addColorStop(1, 'rgba(5, 5, 8, 0.85)');
+            ctx.fillStyle = grad;
+            // Draw rounded rect manually or just fill
+            ctx.fillRect(0, 0, 1024, 768);
+
+            // Accent Line
+            ctx.strokeStyle = '#c9a227';
+            ctx.lineWidth = 6;
+            ctx.strokeRect(20, 20, 984, 728);
+
+            // Text
+            ctx.fillStyle = '#c9a227';
+            ctx.font = '600 28px Montserrat';
+            ctx.letterSpacing = '6px';
+            ctx.fillText(content.label, 80, 100);
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '400 100px Cinzel';
+            const titleLines = content.title.split('\n');
+            titleLines.forEach((line, i) => {
+                ctx.fillText(line, 80, 240 + i * 120);
+            });
+
+            ctx.fillStyle = '#cccccc';
+            ctx.font = '300 36px Montserrat';
+            const bodyLines = content.body.split('\n');
+            bodyLines.forEach((line, i) => {
+                ctx.fillText(line, 80, 260 + (titleLines.length * 120) + i * 50);
+            });
+
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        const panels = [];
+        panelContents.forEach((c, i) => {
+            const tex = createTextTexture(c);
+            const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, side: THREE.DoubleSide });
+            const geo = new THREE.PlaneGeometry(35, 25);
+            const mesh = new THREE.Mesh(geo, mat);
+            mesh.position.copy(panelPositions[i]);
+            mesh.lookAt(0, 0, 0); // Roughly face center, will update in loop
+            scene.add(mesh);
+            panels.push(mesh);
+        });
+
+
+        // === SCENES (Refined) ===
+        // Using Groups to manage visibility/fades
+
+        // 1. CHAOS: Dark Void, Asteroids, Dust
+        const groupChaos = new THREE.Group();
+        const rockGeo = new THREE.DodecahedronGeometry(1, 0);
+        const rockMat = new THREE.MeshStandardMaterial({ color: 0x333333, roughness: 0.9 });
+        for (let i = 0; i < 300; i++) {
+            const m = new THREE.Mesh(rockGeo, rockMat);
+            m.position.set(
+                (Math.random() - 0.5) * 150,
+                (Math.random() - 0.5) * 100,
+                (Math.random() - 0.5) * 100 - 30
+            );
+            m.rotation.set(Math.random() * 3, Math.random() * 3, 0);
+            m.scale.setScalar(Math.random() * 2 + 0.5);
+            groupChaos.add(m);
+        }
+        scene.add(groupChaos);
+
+        // 2. ORDER: Crystal Tunnel (Blue)
+        const groupOrder = new THREE.Group();
+        const crystGeo = new THREE.CylinderGeometry(0, 1, 4, 3); // Spikes
+        const crystMat = new THREE.MeshPhysicalMaterial({
+            color: 0x2244ff, metalness: 0.2, roughness: 0.1, transmission: 0.2, transparent: true
+        });
+        // Create a tunnel
+        for (let i = 0; i < 80; i++) {
+            const angle = (i / 80) * Math.PI * 10;
+            const radius = 25 + Math.sin(i * 0.2) * 5;
+            const m = new THREE.Mesh(crystGeo, crystMat);
+            // Arrange along Z
+            const z = -120 - (i * 2);
+            m.position.set(Math.cos(angle) * radius, Math.sin(angle) * radius, z);
+            m.lookAt(0, 0, z); // Point inward
+            m.scale.setScalar(Math.random() * 2 + 1);
+            groupOrder.add(m);
+        }
+        scene.add(groupOrder);
+
+        // 3. RESONANCE: Pulsing Golden Tori (Gold)
+        const groupRes = new THREE.Group();
+        const torusGeo = new THREE.TorusGeometry(30, 0.2, 16, 100);
+        const torusMat = new THREE.MeshBasicMaterial({ color: 0xffaa00, transparent: true, opacity: 0.2 });
+        for (let i = 0; i < 15; i++) {
+            const t = new THREE.Mesh(torusGeo, torusMat);
+            t.position.z = -300 - (i * 15);
+            t.userData.baseScale = 1 + (i * 0.1);
+            t.scale.setScalar(t.userData.baseScale);
+            groupRes.add(t);
+        }
+        scene.add(groupRes);
+
+        // 4. GLOBAL: Network Cloud (Cyan/Teal)
+        const groupGlob = new THREE.Group();
+        // A cloud of connections
+        const nodeGeo = new THREE.IcosahedronGeometry(0.5, 0);
+        const nodeMat = new THREE.MeshBasicMaterial({ color: 0x00ffff });
+        // Create random nodes
+        const nodeCount = 100;
+        const nodes = [];
+        for (let i = 0; i < nodeCount; i++) {
+            const m = new THREE.Mesh(nodeGeo, nodeMat);
+            m.position.set(
+                (Math.random() - 0.5) * 80,
+                (Math.random() - 0.5) * 60,
+                -550 + (Math.random() - 0.5) * 100
+            );
+            groupGlob.add(m);
+            nodes.push(m.position);
+        }
+        // Lines
+        const lineMat = new THREE.LineBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.15 });
+        const lineGeo = new THREE.BufferGeometry();
+        const linePos = [];
+        // Connect nearby nodes
+        for (let i = 0; i < nodeCount; i++) {
+            for (let j = i + 1; j < nodeCount; j++) {
+                if (nodes[i].distanceTo(nodes[j]) < 25) {
+                    linePos.push(nodes[i].x, nodes[i].y, nodes[i].z);
+                    linePos.push(nodes[j].x, nodes[j].y, nodes[j].z);
+                }
+            }
+        }
+        lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePos, 3));
+        const lines = new THREE.LineSegments(lineGeo, lineMat);
+        groupGlob.add(lines);
+        scene.add(groupGlob);
+
+        // 5. IMPACT: The Core (White/Gold)
+        const groupImp = new THREE.Group();
+        const coreM = new THREE.Mesh(
+            new THREE.SphereGeometry(3, 32, 32),
+            new THREE.MeshBasicMaterial({ color: 0xffffff })
+        );
+        groupImp.add(coreM);
+        // Rings around core
+        const coreRing = new THREE.Mesh(
+            new THREE.TorusGeometry(8, 0.1, 16, 100),
+            new THREE.MeshBasicMaterial({ color: 0xffd700 })
+        );
+        coreRing.rotation.x = Math.PI / 2;
+        groupImp.add(coreRing);
+        groupImp.position.z = -750;
+        scene.add(groupImp);
+
+        // CONNECTING STREAM (Starfield/Particels)
+        const starGeo = new THREE.BufferGeometry();
+        const starCount = 2000;
+        const starPos = [];
+        for (let i = 0; i < starCount; i++) {
+            starPos.push((Math.random() - 0.5) * 300); // x
+            starPos.push((Math.random() - 0.5) * 300); // y
+            starPos.push(-Math.random() * 800);      // z (full length)
+        }
+        starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starPos, 3));
+        const starMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.4, transparent: true, opacity: 0.4 });
+        const starField = new THREE.Points(starGeo, starMat);
+        scene.add(starField);
+
+        // LIGHTS
+        const amb = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(amb);
+        const pLight = new THREE.PointLight(0xffffff, 1, 50);
+        scene.add(pLight);
+
+        // CAMERA PATH
+        const route = [
+            new THREE.Vector3(0, 0, 10),      // Start
+            new THREE.Vector3(5, 2, -180),    // Order
+            new THREE.Vector3(-5, -2, -350),  // Resonance
+            new THREE.Vector3(0, 0, -550),    // Global
+            new THREE.Vector3(0, 0, -740)     // Impact (close)
+        ];
+        // Smooth curve
+        const curve = new THREE.CatmullRomCurve3(route);
+
+
+        // === ANIMATION & SCROLL ===
+
+        let progress = { val: 0 };
+        const colorPalette = [
+            { bg: '#050505', fog: '#050505' }, // Chaos (Black)
+            { bg: '#0a1025', fog: '#0a1025' }, // Order (Deep Blue)
+            { bg: '#1a1005', fog: '#1a1005' }, // Resonance (Dark Gold)
+            { bg: '#001a1a', fog: '#001a1a' }, // Global (Dark Teal)
+            { bg: '#202020', fog: '#202020' }  // Impact (Grey/White hint)
+        ];
+
+        const chNameUI = document.getElementById('chapterName');
+        const scTitleUI = document.getElementById('sceneTitle');
+
+        gsap.to(progress, {
+            val: 1,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".scroll-container",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 0.5,
+                onUpdate: (self) => {
+                    const p = self.progress;
+                    document.getElementById('progressFill').style.height = (p * 100) + '%';
+
+                    // Color Grading Interpolation
+                    // Map p (0-1) to indices 0-4
+                    // Simple stepped approach for now or lerp
+                    const idx = Math.min(Math.floor(p * 5), 4);
+                    const nextIdx = Math.min(idx + 1, 4);
+                    const localP = (p * 5) % 1; // 0-1 within section
+
+                    const c1 = new THREE.Color(colorPalette[idx].bg);
+                    const c2 = new THREE.Color(colorPalette[nextIdx].bg);
+                    const finalC = c1.lerp(c2, localP * 0.5); // Slow blend
+
+                    scene.background.copy(finalC);
+                    scene.fog.color.copy(finalC);
+
+                    // UI Text
+                    const names = ['ORIGIN', 'STRUCTURE', 'RESONANCE', 'GLOBAL', 'IMPACT'];
+                    chNameUI.innerText = "I. " + names[idx];
+
+                    // Center Title Fade In/Out
+                    // Peak opacity in middle of section
+                    const op = Math.sin(localP * Math.PI);
+                    scTitleUI.style.opacity = op * 0.3; // subtle
+                    scTitleUI.innerText = names[idx];
+                }
+            }
+        });
+
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const t = clock.getElapsedTime();
+
+            // Camera movement
+            const point = curve.getPointAt(progress.val);
+            const lookAt = curve.getPointAt(Math.min(progress.val + 0.02, 1));
+
+            // Adding subtle noise to camera position for "handheld" feel in Chaos
+            if (progress.val < 0.2) {
+                point.x += Math.sin(t * 2) * 0.1;
+                point.y += Math.cos(t * 1.5) * 0.1;
+            }
+
+            camera.position.lerp(point, 0.1);
+            camera.lookAt(lookAt);
+
+            pLight.position.copy(camera.position);
+
+            // Panels Face Camera
+            panels.forEach(p => {
+                p.lookAt(camera.position);
+                // Slight floating
+                p.position.y += Math.sin(t + p.id) * 0.005;
+            });
+
+            // Scene Animations
+            groupChaos.rotation.y = t * 0.05;
+            groupChaos.rotation.z = t * 0.02;
+
+            groupOrder.rotation.z = t * 0.1; // Tunnel spin
+
+            // Pulse rings
+            groupRes.children.forEach((r, i) => {
+                const s = r.userData.baseScale + Math.sin(t * 2 + i) * 0.2;
+                r.scale.setScalar(s);
+            });
+
+            groupGlob.rotation.y = -t * 0.05;
+
+            // Core glow pulse
+            const s = 1 + Math.sin(t * 3) * 0.1;
+            groupImp.children[0].scale.setScalar(s); // Sphere
+            groupImp.rotation.z = t; // Ring spin
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        setTimeout(() => { document.getElementById('loader').classList.add('hidden'); }, 1000);
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+    </script>
+</body>
+
+</html>

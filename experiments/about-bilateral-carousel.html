@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Dynamic Flow</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@1,300;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #050608;
+            --text: #e1e1e1;
+            --gold: #d4af37;
+            --glass: rgba(255, 255, 255, 0.03);
+            --bg-grad: radial-gradient(circle at center, #111, #050608);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- LAYOUT --- */
+        .app-container {
+            flex: 1;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            /* Above BG */
+        }
+
+        /* --- NOISE --- */
+        .noise {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        #webgl-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* --- NAV --- */
+        .nav-top {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .brand {
+            font-family: 'Cinzel';
+            font-size: 1.2rem;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* --- CAROUSEL SLIDES --- */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            padding: 0 10vw;
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .split-content {
+            display: flex;
+            width: 100%;
+            max-width: 1300px;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .block {
+            width: 45%;
+            will-change: transform, opacity;
+        }
+
+        /* TYPOGRAPHY */
+        .label {
+            font-family: 'Inter';
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            display: block;
+            font-size: 0.8rem;
+            border-left: 2px solid var(--gold);
+            padding-left: 15px;
+        }
+
+        .head {
+            font-family: 'Playfair Display';
+            font-size: 3.5rem;
+            line-height: 1.1;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .body {
+            font-size: 1.25rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* CONTROLS */
+        .controls {
+            position: fixed;
+            bottom: 50px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .btn-ctrl {
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 10px 30px;
+            cursor: pointer;
+            pointer-events: auto;
+            font-family: 'Cinzel';
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-ctrl:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+        }
+
+        .dots {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            pointer-events: auto;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: 0.3s;
+        }
+
+        .dot.active {
+            background: var(--gold);
+            transform: scale(1.5);
+        }
+
+        /* SCROLL HINT */
+        .scroll-hint {
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: 'Inter';
+            animation: pulse 2s infinite;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.3
+            }
+
+            50% {
+                opacity: 0.6
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="noise"></div>
+    <div id="webgl-bg"></div>
+
+    <nav class="nav-top">
+        <div class="brand">EUGENE MIERAK</div>
+        <a href="#contact" class="nav-link">Initialize Contact</a>
+    </nav>
+
+    <div class="app-container">
+
+        <!-- SLIDE 0: Identity -->
+        <div class="slide active" id="slide0">
+            <div class="split-content">
+                <div class="block left">
+                    <span class="label">01 // Identity</span>
+                    <h2 class="head">Frequency<br>Architect</h2>
+                </div>
+                <div class="block right">
+                    <p class="body">
+                        I'm Eugene Mierak, a frequency practitioner specializing in alignment caching and conscious
+                        evolution. My work bridges subtle frequency sciences with practical frameworks for stability in
+                        chaos.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 1: Bridge -->
+        <div class="slide" id="slide1">
+            <div class="split-content" style="flex-direction:row-reverse;">
+                <div class="block right">
+                    <span class="label">02 // The Bridge</span>
+                    <h2 class="head">Coherent<br>Dynamics</h2>
+                </div>
+                <div class="block left" style="text-align:right;">
+                    <p class="body">
+                        Helping individuals and teams cultivate resonance in real-world decisions. Bridging internal
+                        alignment with external leadership dynamics for long-term projects.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Global -->
+        <div class="slide" id="slide2">
+            <div class="split-content">
+                <div class="block left">
+                    <span class="label">03 // Global Impact</span>
+                    <h2 class="head">SBDI<br>Foundation</h2>
+                </div>
+                <div class="block right">
+                    <p class="body">
+                        As Director of Int. Relationships, I foster global partnerships for holistic sustainability.
+                        Moving initiatives from vision to <span class="highlight" style="color:var(--gold)">coherent
+                            execution</span>.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Mission -->
+        <div class="slide" id="slide3">
+            <div class="split-content" style="justify-content:center; text-align:center;">
+                <div class="block center" style="width: 80%;">
+                    <span class="label" style="margin:0 auto 2rem auto;">04 // Mission</span>
+                    <p class="body" style="font-family:'Playfair Display'; font-size:2.5rem; color:white;">
+                        Supporting the emergence of coherent, sustainable projects through frequency awareness and
+                        strategic alignment.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="controls">
+        <button class="btn-ctrl" onclick="prevSlide()">&#8592;</button>
+        <div class="dots" id="dotsCtx">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        <button class="btn-ctrl" onclick="nextSlide()">&#8594;</button>
+    </div>
+
+    <div class="scroll-hint">Scroll to Navigate &middot; Dynamic Background</div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <script>
+        // LOGIC
+        let current = 0;
+        const total = 4;
+        let isAnim = false;
+        let lastScroll = 0;
+        const scrollCooldown = 1200;
+
+        // === THREE.JS SETUP ===
+        const scene = new THREE.Scene();
+        const cam = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        cam.position.z = 18;
+        const ren = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        ren.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('webgl-bg').appendChild(ren.domElement);
+
+        // CREATE 4 DISTINCT OBJECTS for the 4 Sections
+        const objects = [];
+
+        // 0. Identity -> Icosahedron (Structure)
+        const g0 = new THREE.IcosahedronGeometry(6, 1);
+        const m0 = new THREE.MeshBasicMaterial({ color: 0x48bb78, wireframe: true, transparent: true, opacity: 0.1 });
+        const mesh0 = new THREE.Mesh(g0, m0);
+        scene.add(mesh0);
+        objects.push(mesh0);
+
+        // 1. Bridge -> Torus Knot (Flow/Complex)
+        const g1 = new THREE.TorusKnotGeometry(4, 0.4, 120, 20);
+        const m1 = new THREE.MeshBasicMaterial({ color: 0xd4af37, wireframe: true, transparent: true, opacity: 0 }); // Hidden start
+        const mesh1 = new THREE.Mesh(g1, m1);
+        scene.add(mesh1);
+        objects.push(mesh1);
+
+        // 2. Global -> Sphere (World)
+        const g2 = new THREE.SphereGeometry(6, 32, 32);
+        const m2 = new THREE.MeshBasicMaterial({ color: 0x48bb78, wireframe: true, transparent: true, opacity: 0 }); // Hidden
+        const mesh2 = new THREE.Mesh(g2, m2);
+        scene.add(mesh2);
+        objects.push(mesh2);
+
+        // 3. Mission -> Octahedron (Diamond/Clarity)
+        const g3 = new THREE.OctahedronGeometry(5, 0);
+        const m3 = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0 }); // Hidden
+        const mesh3 = new THREE.Mesh(g3, m3);
+        scene.add(mesh3);
+        objects.push(mesh3);
+
+
+        // UI LOGIC
+        function updateDots() {
+            document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+        }
+
+        // BACKGROUND ANIMATION
+        function transitionBackground(fromIdx, toIdx) {
+            const fromObj = objects[fromIdx];
+            const toObj = objects[toIdx];
+
+            // Fade Out OUTGOING
+            gsap.to(fromObj.material, { opacity: 0, duration: 1 });
+            gsap.to(fromObj.scale, { x: 0.8, y: 0.8, z: 0.8, duration: 1 });
+
+            // Fade In INCOMING
+            // Reset scale slightly larger for effect
+            gsap.fromTo(toObj.scale, { x: 1.2, y: 1.2, z: 1.2 }, { x: 1, y: 1, z: 1, duration: 1.2, ease: 'back.out(1)' });
+            gsap.to(toObj.material, { opacity: 0.1, duration: 1 }); // Target opacity
+        }
+
+        function changeSlide(nextIndex) {
+            if (isAnim || nextIndex === current) return;
+            isAnim = true;
+
+            const currSlide = document.getElementById(`slide${current}`);
+            const nextSlide = document.getElementById(`slide${nextIndex}`);
+
+            // 1. ANIMATE CONTENT (Exit)
+            const cLeft = currSlide.querySelector('.left');
+            const cRight = currSlide.querySelector('.right');
+            const cCenter = currSlide.querySelector('.center');
+
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    currSlide.classList.remove('active');
+                    nextSlide.classList.add('active');
+                    enterNext(nextSlide);
+                }
+            });
+
+            if (cLeft) tl.to(cLeft, { x: -150, opacity: 0, duration: 0.5, ease: 'power2.in' }, 0);
+            if (cRight) tl.to(cRight, { x: 150, opacity: 0, duration: 0.5, ease: 'power2.in' }, 0);
+            if (cCenter) tl.to(cCenter, { scale: 1.2, opacity: 0, duration: 0.5, ease: 'power2.in' }, 0);
+
+            // 2. ANIMATE BACKGROUND (Parallel to content exit/enter)
+            transitionBackground(current, nextIndex);
+
+            current = nextIndex;
+            updateDots();
+        }
+
+        function enterNext(el) {
+            const nLeft = el.querySelector('.left');
+            const nRight = el.querySelector('.right');
+            const nCenter = el.querySelector('.center');
+
+            if (nLeft) gsap.set(nLeft, { x: -150, opacity: 0 });
+            if (nRight) gsap.set(nRight, { x: 150, opacity: 0 });
+            if (nCenter) gsap.set(nCenter, { scale: 0.8, opacity: 0 });
+
+            const tl = gsap.timeline({
+                onComplete: () => { setTimeout(() => { isAnim = false; }, 100); }
+            });
+
+            if (nLeft) tl.to(nLeft, { x: 0, opacity: 1, duration: 0.8, ease: 'power2.out' }, 0);
+            if (nRight) tl.to(nRight, { x: 0, opacity: 1, duration: 0.8, ease: 'power2.out' }, 0);
+            if (nCenter) tl.to(nCenter, { scale: 1, opacity: 1, duration: 0.8, ease: 'back.out(1)' }, 0);
+        }
+
+        function nextSlide() { changeSlide((current + 1) % total); }
+        function prevSlide() { changeSlide((current - 1 + total) % total); }
+
+        window.addEventListener('wheel', (e) => {
+            const now = Date.now();
+            if (now - lastScroll < scrollCooldown) return;
+            if (isAnim) return;
+            if (Math.abs(e.deltaY) < 30) return;
+
+            if (e.deltaY > 0) { nextSlide(); lastScroll = now; }
+            else { prevSlide(); lastScroll = now; }
+        });
+
+        // BG LOOP
+        function anim() {
+            requestAnimationFrame(anim);
+            // Rotate all slightly
+            objects.forEach((obj, i) => {
+                obj.rotation.y += 0.001 * (i % 2 === 0 ? 1 : -1);
+                obj.rotation.x += 0.0005;
+            });
+            ren.render(scene, cam);
+        }
+        anim();
+
+        window.addEventListener('resize', () => {
+            cam.aspect = window.innerWidth / window.innerHeight; cam.updateProjectionMatrix(); ren.setSize(window.innerWidth, window.innerHeight);
+        });
+
+    </script>
+</body>
+
+</html>

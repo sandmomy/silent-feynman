@@ -36,7 +36,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:wght@300;400;500&display=swap"
         rel="stylesheet">
     <link rel="preload" as="image" href="assets/optimized/hero-pose.1600w.webp" fetchpriority="high">
     <link rel="preload" as="image" href="assets/optimized/eugene-mierak.400w.webp">
@@ -99,7 +99,7 @@
                 <!-- <p class="hero-subtitle"> Removed </p> -->
                 <h1 class="hero-title">Eugene<br>Mierak</h1>
                 <p class="hero-description">
-                    Frequency practitioner specializing in alignment caching and coherence training.
+                    Frequency practitioner specializing in alignment coaching and coherence training.
                     Director of International Relationships for the SBDI Foundation.
                     Cultivating resonant global partnerships for planetary balance.
                 </p>
@@ -212,105 +212,70 @@
 
         </div>
 
-        <!-- "About Me" Scroll Action -->
+        <!-- "About Me" Link to full experience -->
         <div class="hero-scroll">
-            <a href="#about" class="scroll-about-btn" aria-label="Scroll to About Me section">ABOUT ME</a>
+            <a href="about.html" class="scroll-about-btn" aria-label="Go to About Me experience">ABOUT ME</a>
         </div>
     </header>
 
-    <!-- About Section: Compact Layout + Narrative Footer -->
-    <section class="about-vertical fade-section" id="about">
-        <!-- Decorative floating elements -->
-        <div class="about-floating-elements">
-            <div class="floating-circle circle-1"></div>
-            <div class="floating-circle circle-2"></div>
-            <div class="floating-circle circle-3"></div>
-        </div>
-
-        <div class="container">
-
-            <!-- NEWSPAPER LAYOUT CARD -->
-            <div class="about-newspaper-card glass-module">
-
-                <!-- HEADER: Photo & Identity Centered -->
-                <div class="newspaper-header">
-                    <!-- Decorative rings around photo -->
-                    <div class="compact-img-container">
-                        <div class="img-ring ring-outer"></div>
-                        <div class="img-ring ring-inner"></div>
-                        <div class="compact-img-wrapper">
-                            <img src="assets/optimized/eugene-mierak.400w.webp" alt="Eugene Mierak" class="compact-img"
-                                loading="lazy" decoding="async" width="80" height="80">
-                        </div>
-                    </div>
-                    <h2 class="compact-name">Eugene Mierak</h2>
-                    <!-- Decorative separator -->
-                    <div class="header-separator">
-                        <span class="separator-line"></span>
-                        <svg class="separator-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" />
-                            <circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="1" opacity="0.5" />
-                            <circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="0.5" opacity="0.3" />
-                        </svg>
-                        <span class="separator-line"></span>
-                    </div>
-                </div>
-
-                <!-- BODY: Content Flow -->
-                <div class="newspaper-body">
-                    <!-- Paragraph 1: Full Width Intro - Split into sentences -->
-                    <div class="news-intro">
-                        <p class="news-sentence">
-                            I'm Eugene Mierak, a <span class="text-orb">frequency practitioner</span>
-                            specializing in
-                            <span class="text-orb">alignment caching</span>, coherence training, and
-                            energetic training,
-                            working through integrative coherence methodologies to support clarity, stability, and <span
-                                class="text-orb">conscious evolution</span>.
-                        </p>
-                        <p class="news-sentence">
-                            My work bridges subtle frequency sciences with
-                            practical frameworks for personal, organizational, and planetary alignment, helping
-                            individuals
-                            and teams cultivate resonance in real-world decisions, leadership dynamics, and long-term
-                            projects.
-                        </p>
-                    </div>
-
-
-
-                    <!-- Bottom Columns: Split Text -->
-                    <div class="news-columns">
-                        <!-- Paragraph 2: Left -->
-                        <div class="news-column">
-                            <p>
-                                As Director of International Relationships for the SBDI Foundation, I foster <span
-                                    class="text-orb">global partnerships</span> that support holistic sustainability
-                                initiatives, regenerative development, and conscious collaboration across cultures. My
-                                approach is grounded in systems thinking, emphasizing resonance, long-term balance, and
-                                alignment between human potential and ecological and social responsibility—so
-                                initiatives
-                                move from vision to <span class="text-orb">coherent execution</span>.
-                            </p>
-                        </div>
-
-                        <!-- Paragraph 3: Right -->
-                        <div class="news-column">
-                            <p>
-                                My mission is to support the emergence of coherent, sustainable projects through <span
-                                    class="text-orb">frequency awareness</span>, <span class="text-orb">strategic
-                                    alignment</span>, and conscious
-                                international cooperation—creating meaningful, lasting impact for communities and the
-                                planet.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
+    <!-- About Section: Immersive Particle Experience with Scroll Sync -->
+    <section class="about-particle-experience" id="about" style="
+        position: relative;
+        width: 100%;
+        height: 200vh;
+        overflow: visible;
+        contain: layout style;
+    ">
+        <iframe id="aboutIframe" src="about.html" scrolling="no" style="
+                position: sticky;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                border: none;
+                overflow: hidden;
+                will-change: transform;
+                transform: translateZ(0);
+                backface-visibility: hidden;
+            " title="About Me - Sacred Geometry Experience"></iframe>
     </section>
+
+    <script>
+        // Sync parent scroll with iframe (RAF throttled for performance)
+        (function () {
+            const aboutSection = document.getElementById('about');
+            const iframe = document.getElementById('aboutIframe');
+            let ticking = false;
+
+            window.addEventListener('scroll', function () {
+                if (!ticking) {
+                    requestAnimationFrame(function () {
+                        const rect = aboutSection.getBoundingClientRect();
+                        const sectionHeight = aboutSection.offsetHeight;
+                        const viewportHeight = window.innerHeight;
+
+                        // Calculate how far through the About section we've scrolled
+                        if (rect.top <= 0 && rect.bottom >= viewportHeight) {
+                            const scrolled = Math.abs(rect.top);
+                            const maxScroll = sectionHeight - viewportHeight;
+                            const progress = scrolled / maxScroll;
+
+                            // Send scroll progress to iframe
+                            if (iframe.contentWindow) {
+                                iframe.contentWindow.postMessage({
+                                    type: 'parentScroll',
+                                    progress: progress,
+                                    scrollY: scrolled
+                                }, '*');
+                            }
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+        })();
+    </script>
 
     <!-- Contact Section: Elite Executive Hub (3-Column Layout) -->
     <section class="contact-section fade-section" id="contact">
