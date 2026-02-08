@@ -9,38 +9,24 @@ document.addEventListener('DOMContentLoaded', function () {
     initStatsAnimation();
     initHeroGlobe();
     initCountrySlider();
+    initFadeAnimations();
+    initPartnersDropdown();
 });
 
 // ============================================
 // SMOOTH SCROLL WITH LENIS
 // ============================================
 function initSmoothScroll() {
-    // Prevent multiple instances
-    if (window.lenis) {
-        console.log('Lenis already initialized, skipping');
-        return;
-    }
-
-    // Check if Lenis is available
-    if (typeof Lenis === 'undefined') {
-        console.log('Lenis not loaded, skipping smooth scroll');
-        return;
-    }
+    if (window.lenis) return;
+    if (typeof Lenis === 'undefined') return;
 
     try {
-        // Initialize Lenis - balanced smooth scroll
         const lenis = new Lenis({
-            lerp: 0.09,  // Suave pero sin atascos en bordes de sección
-            wheelMultiplier: 0.8,  // Scroll pausado
+            lerp: 0.18,
+            wheelMultiplier: 1.0,
             touchMultiplier: 1.4,
             smoothWheel: true,
             syncTouch: false,
-        });
-
-        // Sync Lenis with Three.js - share the same RAF loop
-        // This prevents conflicts between multiple animation loops
-        lenis.on('scroll', () => {
-            // Trigger scroll events for other listeners
         });
 
         function raf(time) {
@@ -49,12 +35,8 @@ function initSmoothScroll() {
         }
         requestAnimationFrame(raf);
 
-        // Store lenis instance globally for globe sync
         window.lenisInstance = lenis;
-
-        // Expose lenis to window for debugging
         window.lenis = lenis;
-        console.log('Lenis smooth scroll initialized');
     } catch (error) {
         console.error('Error initializing Lenis:', error);
     }
@@ -64,17 +46,11 @@ function initSmoothScroll() {
 // Hero Globe (WebGL Earth)
 // ============================================
 function initHeroGlobe() {
-    console.log('Initializing Hero Globe (HTML/SVG Markers)...');
-
     const globeContainer = document.getElementById('hero-globe');
     if (!globeContainer) return;
 
-    // NOTE: Layout is now handled by CSS Grid - no JS calculations needed
-
-    // Countries with active projects (will be BLUE)
     const activeCountries = ['Indonesia', 'Nigeria', 'Kenya'];
 
-    // Project locations
     const pointsData = [
         { lat: -6.2, lng: 106.8, name: 'Jakarta', color: '#ef4444' },
         { lat: -8.4, lng: 115.2, name: 'Bali', color: '#ef4444' },
@@ -82,12 +58,9 @@ function initHeroGlobe() {
         { lat: -1.3, lng: 36.8, name: 'Kenya', color: '#ef4444' }
     ];
 
-    // Natural Earth texture: localized for reliability
     const earthTexture = 'assets/optimized/earth-day.480w.webp';
 
-    // Initialize Globe - responsive sizing from container
     const rect = globeContainer.getBoundingClientRect();
-    // Use minimum size of 140px for mobile, or container size for desktop
     const isMobile = window.innerWidth <= 992;
     const mobileSize = 165;
     const initialSize = isMobile ? mobileSize : Math.max(Math.min(rect.width, rect.height || 400), 150);
@@ -101,16 +74,10 @@ function initHeroGlobe() {
         .atmosphereColor('#48bb78')
         .atmosphereAltitude(0.12);
 
-    // Auto-resize logic handled by syncGlobeSizeToContainer below
-
-    // --- LAYER 1: HTML MARKERS (SVG Google Pins) ---
-    // --- LAYER 1: HTML MARKERS (CSS Pins) ---
-    // Use DOCUMENTS_DATA if available, filtering for items with coordinates
     let globeData = [];
     if (typeof DOCUMENTS_DATA !== 'undefined') {
         globeData = DOCUMENTS_DATA.filter(d => d.lat !== undefined && d.lng !== undefined);
     } else {
-        // Fallback or dev data
         globeData = pointsData;
     }
 
@@ -127,29 +94,23 @@ function initHeroGlobe() {
             el.style.cursor = 'pointer';
             el.style.pointerEvents = 'auto';
 
-            // Pin Icon (CSS)
             const pin = document.createElement('div');
             pin.className = 'map-pin small-ping';
-            pin.style.background = 'transparent'; // Transparent background, only SVG visible
-
-            // Or use SVG inside
+            pin.style.background = 'transparent';
             pin.innerHTML = `
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="#ef4444" stroke="white" stroke-width="1.5" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); display: block;">
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                     <circle cx="12" cy="9" r="2.5" fill="white"/>
                 </svg>
             `;
-
             el.appendChild(pin);
 
-            // Tooltip (Hidden by default, shown on hover/click)
             const tooltip = document.createElement('div');
             tooltip.className = 'globe-tooltip';
             tooltip.innerHTML = `
                 <div class="tooltip-category">${d.categoryLabel || 'Project'}</div>
                 <div class="tooltip-title">${d.title}</div>
             `;
-            // Inline styles for tooltip (or move to CSS)
             Object.assign(tooltip.style, {
                 position: 'absolute',
                 bottom: '120%',
@@ -171,48 +132,35 @@ function initHeroGlobe() {
                 minWidth: '150px'
             });
 
-            // Tooltip Text Styles
-            const titleStyle = `font-size: 12px; font-weight: 700; color: #1a202c; display: block; margin-top: 2px;`;
-            const catStyle = `font-size: 10px; font-weight: 600; color: #38a169; text-transform: uppercase; letter-spacing: 0.5px;`;
-
-            tooltip.querySelector('.tooltip-title').style.cssText = titleStyle;
-            tooltip.querySelector('.tooltip-category').style.cssText = catStyle;
+            tooltip.querySelector('.tooltip-title').style.cssText = 'font-size: 12px; font-weight: 700; color: #1a202c; display: block; margin-top: 2px;';
+            tooltip.querySelector('.tooltip-category').style.cssText = 'font-size: 10px; font-weight: 600; color: #38a169; text-transform: uppercase; letter-spacing: 0.5px;';
 
             el.appendChild(tooltip);
 
-            // Event Listeners for Interaction
-            // Hover
             el.addEventListener('mouseenter', () => {
                 tooltip.style.opacity = '1';
                 tooltip.style.transform = 'translateX(-50%) translateY(-5px)';
                 pin.style.transform = 'scale(1.2) translateY(-2px)';
-                globe.controls().autoRotate = false; // Pause rotation
+                globe.controls().autoRotate = false;
             });
 
             el.addEventListener('mouseleave', () => {
                 tooltip.style.opacity = '0';
                 tooltip.style.transform = 'translateX(-50%) translateY(0)';
                 pin.style.transform = 'scale(1) translateY(0)';
-                globe.controls().autoRotate = true; // Resume rotation
+                globe.controls().autoRotate = true;
             });
 
-            // Click -> Open Modal (Reuse openModal from projects.js if available globally, otherwise alert)
             el.addEventListener('click', (e) => {
-                e.stopPropagation(); // Prevent drag
+                e.stopPropagation();
                 if (typeof openModal === 'function') {
                     openModal(d.title, d.filename);
-                } else {
-                    // Fallback if openModal isn't global yet (it might need to be exposed)
-                    alert(`${d.title}\n\n${d.description}`);
                 }
             });
 
             return el;
         });
 
-    // Mount to DOM
-
-    // Mount to DOM
     globe(globeContainer);
 
     const syncGlobeSizeToContainer = () => {
@@ -232,31 +180,24 @@ function initHeroGlobe() {
         globe.height(h);
     };
 
-    // Ensure WebGL canvas matches responsive CSS size
     syncGlobeSizeToContainer();
-
-    // Initial View - Set transition to 0 to prevent "zoom in" glitch on load
     globe.pointOfView({ lat: 0, lng: 10, altitude: 2.5 }, 0);
 
-    // Controls - Optimized for performance
     const controls = globe.controls();
     controls.autoRotate = true;
-    controls.autoRotateSpeed = -1.5;  // Slower rotation = less GPU usage
+    controls.autoRotateSpeed = -1.5;
     controls.enableZoom = false;
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
 
-    // Reduce render quality for performance
     const renderer = globe.renderer();
     if (renderer) {
         renderer.setPixelRatio(1);
     }
 
-    // Animation state
     let animationId = null;
     let isGlobeActive = false;
 
-    // Set initial state - visible immediately for reliable rendering
     globeContainer.style.opacity = '1';
     globeContainer.style.transform = 'scale(1)';
     globeContainer.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
@@ -283,11 +224,8 @@ function initHeroGlobe() {
         if (!isGlobeActive) {
             isGlobeActive = true;
             startRendering();
-            // Animate in
             requestAnimationFrame(() => {
                 globeContainer.style.opacity = '1';
-                // Removed scale transform to prevent layout thrashing
-                // globeContainer.style.transform = 'scale(1)';
             });
             controls.autoRotate = true;
         }
@@ -297,68 +235,45 @@ function initHeroGlobe() {
         if (isGlobeActive) {
             isGlobeActive = false;
             controls.autoRotate = false;
-            // Animate out
-            // Animate out
             globeContainer.style.opacity = '0';
-            // globeContainer.style.transform = 'scale(0.8)';
-            // Stop rendering after animation completes
             setTimeout(() => {
-                if (!isGlobeActive) {
-                    stopRendering();
-                }
+                if (!isGlobeActive) stopRendering();
             }, 600);
         }
     }
 
-    // Use IntersectionObserver to show/hide globe with animation
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                showGlobe();
-            } else {
-                hideGlobe();
-            }
+            if (entry.isIntersecting) showGlobe();
+            else hideGlobe();
         });
-    }, {
-        threshold: 0.2
-    });
+    }, { threshold: 0.2 });
 
     observer.observe(globeContainer);
 
-    // Start immediately - don't wait for observer
     isGlobeActive = true;
     startRendering();
 
-    // Sync globe size on resize with debounce
     let resizeTimeout;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            syncGlobeSizeToContainer();
-        }, 150);
+        resizeTimeout = setTimeout(syncGlobeSizeToContainer, 150);
     });
     setTimeout(syncGlobeSizeToContainer, 50);
     setTimeout(syncGlobeSizeToContainer, 300);
     setTimeout(syncGlobeSizeToContainer, 1000);
 
-    // Scroll listener removed to prevent state glitches. 
-    // IntersectionObserver handles start/stop efficiently enough.
-
-    // Interaction Logic: Pause on interaction, resume after 3s
     let resumeTimeout;
-
     controls.addEventListener('start', () => {
         clearTimeout(resumeTimeout);
         controls.autoRotate = false;
     });
-
     controls.addEventListener('end', () => {
         resumeTimeout = setTimeout(() => {
             controls.autoRotate = true;
-        }, 3000); // 3 seconds wait
+        }, 3000);
     });
 
-    // Load ONLY active countries from localized GeoJSON
     fetch('assets/countries.geojson')
         .then(res => res.json())
         .then(countries => {
@@ -366,7 +281,6 @@ function initHeroGlobe() {
                 const name = d.properties.ADMIN || d.properties.name;
                 return activeCountries.includes(name);
             });
-
             globe
                 .polygonsData(activeOnly)
                 .polygonCapColor(() => '#4299e1')
@@ -378,13 +292,15 @@ function initHeroGlobe() {
 }
 
 // ============================================
-// Navigation & Effects
+// Navigation
 // ============================================
-// Navigation logic removed to restore original clean aesthetic
 function initNavigation() {
-    console.log('Mobile navigation removed per user request');
+    // Mobile navigation removed per user request
 }
 
+// ============================================
+// Scroll Effects
+// ============================================
 function initScrollEffects() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
@@ -396,8 +312,10 @@ function initScrollEffects() {
     });
 }
 
+// ============================================
+// Stats Animation
+// ============================================
 function initStatsAnimation() {
-    // Target the new hero stats row in the diagram
     const stats = document.querySelector('.hero-stats-row');
     if (!stats) return;
     const observer = new IntersectionObserver((entries) => {
@@ -421,242 +339,6 @@ function initStatsAnimation() {
         }
     }, { threshold: 0.5 });
     observer.observe(stats);
-}
-
-// ============================================
-// Event Carousel
-// ============================================
-function initEventCarousel() {
-    const carousel = document.getElementById('eventCarousel');
-    if (!carousel) return;
-
-    const slides = carousel.querySelectorAll('.carousel-slide');
-    const dots = carousel.querySelectorAll('.dot');
-    let currentIndex = 0;
-    let autoPlayInterval;
-
-    function showSlide(index) {
-        if (index >= slides.length) index = 0;
-        if (index < 0) index = slides.length - 1;
-        currentIndex = index;
-
-        slides.forEach((slide, i) => {
-            slide.classList.toggle('active', i === index);
-        });
-
-        dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === index);
-        });
-    }
-
-    function nextSlide() {
-        showSlide(currentIndex + 1);
-    }
-
-    function startAutoPlay() {
-        stopAutoPlay();
-        autoPlayInterval = setInterval(nextSlide, 4000);
-    }
-
-    function stopAutoPlay() {
-        if (autoPlayInterval) clearInterval(autoPlayInterval);
-    }
-
-    dots.forEach(dot => {
-        dot.addEventListener('click', () => {
-            stopAutoPlay();
-            showSlide(parseInt(dot.dataset.slide));
-            startAutoPlay();
-        });
-    });
-
-    // Pause on interaction
-    carousel.addEventListener('mouseenter', stopAutoPlay);
-    carousel.addEventListener('mouseleave', startAutoPlay);
-    carousel.addEventListener('touchstart', stopAutoPlay, { passive: true });
-    carousel.addEventListener('touchend', startAutoPlay, { passive: true });
-
-    startAutoPlay();
-}
-
-// Initialize on load
-document.addEventListener('DOMContentLoaded', initEventCarousel);
-
-// ============================================
-// Country Flags Slider
-// ============================================
-function initCountrySlider() {
-    const slider = document.querySelector('.country-slider');
-    if (!slider) return;
-
-    const slides = slider.querySelectorAll('.country-slide');
-    if (slides.length === 0) return;
-
-    const countryImages = {
-        Indonesia: [
-            'assets/optimized/karangasem-water-temple-palace-bali.800w.webp', // Karangasem water temple, Bali
-            'assets/optimized/bali-pagoda-indonesia.800w.webp', // Bali pagoda temple
-            'assets/optimized/pexels-maxravier-2253818.800w.webp'  // Third temple image
-        ],
-        Nigeria: [
-            'assets/optimized/ahmad-jaafar-toQTkWFvWyo-unsplash.800w.webp', // Mosque in Nigeria
-            'assets/optimized/muhammed-a-mustapha-aaIsU06zWrg-unsplash.800w.webp', // Islamic architecture
-            'assets/optimized/ovinuchi-ejiohuo-q4U9Pyfz-vQ-unsplash.800w.webp'  // Mosque
-        ],
-        Kenya: [
-            'assets/optimized/ahmed-qinawy-9Ia_6613pYk-unsplash.800w.webp', // Church in Kenya
-            'assets/optimized/murad-swaleh-7tDidSXbgD8-unsplash.800w.webp', // Church building
-            'assets/optimized/ab-saf-sgFNwIc51lM-unsplash.800w.webp'  // Church interior
-        ]
-    };
-
-    function preloadImages() {
-        const allImages = Object.values(countryImages).flat();
-        allImages.forEach(url => {
-            const img = new Image();
-            img.src = url;
-        });
-    }
-
-    preloadImages();
-
-    let currentCountryIndex = 0;
-    let currentImageIndex = 0;
-
-    function getCountryName(slide) {
-        const labelSub = slide.querySelector('.country-label-sub');
-        return (labelSub ? labelSub.textContent : '').trim();
-    }
-
-    function setSlideImage(slide, imageIndex) {
-        const img = slide.querySelector('img');
-        if (!img) return;
-
-        const country = getCountryName(slide);
-        const images = countryImages[country];
-        if (!images || images.length === 0) return;
-
-        const url = images[imageIndex % images.length];
-        img.src = url;
-        img.alt = `${country} - Events`;
-    }
-
-    function showCountry(index) {
-        slides.forEach((slide, i) => {
-            slide.classList.toggle('active', i === index);
-        });
-        setSlideImage(slides[index], currentImageIndex);
-    }
-
-    function nextFrame() {
-        // Change country every frame
-        currentCountryIndex = (currentCountryIndex + 1) % slides.length;
-
-        // When we've shown all countries for the current image, move to next image
-        if (currentCountryIndex === 0) {
-            currentImageIndex = (currentImageIndex + 1) % 3;
-        }
-
-        showCountry(currentCountryIndex);
-    }
-
-    showCountry(currentCountryIndex);
-
-    let rotateInterval;
-    const startRotate = () => { rotateInterval = setInterval(nextFrame, 3000); };
-    const stopRotate = () => { clearInterval(rotateInterval); };
-
-    // Efficiency: pause on tab hidden
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) stopRotate();
-        else startRotate();
-    });
-
-    startRotate();
-}
-
-// ============================================
-// SECTION FADE ANIMATIONS
-// ============================================
-function initFadeAnimations() {
-    const fadeElements = document.querySelectorAll('.fade-section, .fade-scale, .fade-left, .fade-right');
-
-    if (fadeElements.length === 0) return;
-
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px 0px -100px 0px',
-        threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, observerOptions);
-
-    fadeElements.forEach(el => observer.observe(el));
-}
-
-// Initialize fade animations
-document.addEventListener('DOMContentLoaded', initFadeAnimations);
-
-// ============================================
-// Event Carousel
-// ============================================
-function initEventCarousel() {
-    const carousel = document.getElementById('eventCarousel');
-    if (!carousel) return;
-
-    const slides = carousel.querySelectorAll('.carousel-slide');
-    const dots = carousel.querySelectorAll('.dot');
-    let currentIndex = 0;
-    let autoPlayInterval;
-
-    function showSlide(index) {
-        if (index >= slides.length) index = 0;
-        if (index < 0) index = slides.length - 1;
-        currentIndex = index;
-
-        slides.forEach((slide, i) => {
-            slide.classList.toggle('active', i === index);
-        });
-
-        dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === index);
-        });
-    }
-
-    function nextSlide() {
-        showSlide(currentIndex + 1);
-    }
-
-    function startAutoPlay() {
-        stopAutoPlay();
-        autoPlayInterval = setInterval(nextSlide, 4000);
-    }
-
-    function stopAutoPlay() {
-        if (autoPlayInterval) clearInterval(autoPlayInterval);
-    }
-
-    dots.forEach(dot => {
-        dot.addEventListener('click', () => {
-            stopAutoPlay();
-            showSlide(parseInt(dot.dataset.slide));
-            startAutoPlay();
-        });
-    });
-
-    // Pause on interaction
-    carousel.addEventListener('mouseenter', stopAutoPlay);
-    carousel.addEventListener('mouseleave', startAutoPlay);
-    carousel.addEventListener('touchstart', stopAutoPlay, { passive: true });
-    carousel.addEventListener('touchend', startAutoPlay, { passive: true });
-
-    startAutoPlay();
 }
 
 // ============================================
@@ -687,15 +369,11 @@ function initCountrySlider() {
         ]
     };
 
-    function preloadImages() {
-        const allImages = Object.values(countryImages).flat();
-        allImages.forEach(url => {
-            const img = new Image();
-            img.src = url;
-        });
-    }
-
-    preloadImages();
+    // Preload images
+    Object.values(countryImages).flat().forEach(url => {
+        const img = new Image();
+        img.src = url;
+    });
 
     let currentCountryIndex = 0;
     let currentImageIndex = 0;
@@ -708,13 +386,10 @@ function initCountrySlider() {
     function setSlideImage(slide, imageIndex) {
         const img = slide.querySelector('img');
         if (!img) return;
-
         const country = getCountryName(slide);
         const images = countryImages[country];
         if (!images || images.length === 0) return;
-
-        const url = images[imageIndex % images.length];
-        img.src = url;
+        img.src = images[imageIndex % images.length];
         img.alt = `${country} - Events`;
     }
 
@@ -747,206 +422,12 @@ function initCountrySlider() {
     startRotate();
 }
 
-// Initialize Sliders
-document.addEventListener('DOMContentLoaded', () => {
-    initEventCarousel();
-    initCountrySlider();
-});
-
-/* Partners Dropdown Interaction */
-document.addEventListener('DOMContentLoaded', () => {
-    const partnersBtn = document.getElementById('partnersBtn');
-    const partnersDropdown = document.getElementById('partnersDropdown');
-
-    if (partnersBtn && partnersDropdown) {
-        // Toggle dropdown
-        partnersBtn.addEventListener('click', (event) => {
-            event.stopPropagation();
-            const isExpanded = partnersBtn.getAttribute('aria-expanded') === 'true';
-            partnersBtn.setAttribute('aria-expanded', !isExpanded);
-            partnersDropdown.classList.toggle('active');
-        });
-
-        // Close when clicking outside
-        document.addEventListener('click', (event) => {
-            if (!partnersDropdown.contains(event.target) && !partnersBtn.contains(event.target)) {
-                partnersBtn.setAttribute('aria-expanded', 'false');
-                partnersDropdown.classList.remove('active');
-            }
-        });
-
-        // Close on ESC key
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && partnersDropdown.classList.contains('active')) {
-                partnersBtn.setAttribute('aria-expanded', 'false');
-                partnersDropdown.classList.remove('active');
-                partnersBtn.focus();
-            }
-        });
-    }
-});
-function initEventCarousel() {
-    const carousel = document.getElementById('eventCarousel');
-    if (!carousel) return;
-
-    const slides = carousel.querySelectorAll('.carousel-slide');
-    const dots = carousel.querySelectorAll('.dot');
-    let currentIndex = 0;
-    let autoPlayInterval;
-
-    function showSlide(index) {
-        if (index >= slides.length) index = 0;
-        if (index < 0) index = slides.length - 1;
-        currentIndex = index;
-
-        slides.forEach((slide, i) => {
-            slide.classList.toggle('active', i === index);
-        });
-
-        dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === index);
-        });
-    }
-
-    function nextSlide() {
-        showSlide(currentIndex + 1);
-    }
-
-    function startAutoPlay() {
-        stopAutoPlay();
-        autoPlayInterval = setInterval(nextSlide, 4000);
-    }
-
-    function stopAutoPlay() {
-        if (autoPlayInterval) clearInterval(autoPlayInterval);
-    }
-
-    dots.forEach(dot => {
-        dot.addEventListener('click', () => {
-            stopAutoPlay();
-            showSlide(parseInt(dot.dataset.slide));
-            startAutoPlay();
-        });
-    });
-
-    // Pause on interaction
-    carousel.addEventListener('mouseenter', stopAutoPlay);
-    carousel.addEventListener('mouseleave', startAutoPlay);
-    carousel.addEventListener('touchstart', stopAutoPlay, { passive: true });
-    carousel.addEventListener('touchend', startAutoPlay, { passive: true });
-
-    startAutoPlay();
-}
-
-// Initialize on load
-document.addEventListener('DOMContentLoaded', initEventCarousel);
-
 // ============================================
-// Country Flags Slider
-// ============================================
-function initCountrySlider() {
-    const slider = document.querySelector('.country-slider');
-    if (!slider) return;
-
-    const slides = slider.querySelectorAll('.country-slide');
-    if (slides.length === 0) return;
-
-    const countryImages = {
-        Indonesia: [
-            'assets/optimized/karangasem-water-temple-palace-bali.800w.webp', // Karangasem water temple, Bali
-            'assets/optimized/bali-pagoda-indonesia.800w.webp', // Bali pagoda temple
-            'assets/optimized/pexels-maxravier-2253818.800w.webp'  // Third temple image
-        ],
-        Nigeria: [
-            'assets/optimized/ahmad-jaafar-toQTkWFvWyo-unsplash.800w.webp', // Mosque in Nigeria
-            'assets/optimized/muhammed-a-mustapha-aaIsU06zWrg-unsplash.800w.webp', // Islamic architecture
-            'assets/optimized/ovinuchi-ejiohuo-q4U9Pyfz-vQ-unsplash.800w.webp'  // Mosque
-        ],
-        Kenya: [
-            'assets/optimized/ahmed-qinawy-9Ia_6613pYk-unsplash.800w.webp', // Church in Kenya
-            'assets/optimized/murad-swaleh-7tDidSXbgD8-unsplash.800w.webp', // Church building
-            'assets/optimized/ab-saf-sgFNwIc51lM-unsplash.800w.webp'  // Church interior
-        ]
-    };
-
-    function preloadImages() {
-        const allImages = Object.values(countryImages).flat();
-        allImages.forEach(url => {
-            const img = new Image();
-            img.src = url;
-        });
-    }
-
-    preloadImages();
-
-    let currentCountryIndex = 0;
-    let currentImageIndex = 0;
-
-    function getCountryName(slide) {
-        const labelSub = slide.querySelector('.country-label-sub');
-        return (labelSub ? labelSub.textContent : '').trim();
-    }
-
-    function setSlideImage(slide, imageIndex) {
-        const img = slide.querySelector('img');
-        if (!img) return;
-
-        const country = getCountryName(slide);
-        const images = countryImages[country];
-        if (!images || images.length === 0) return;
-
-        const url = images[imageIndex % images.length];
-        img.src = url;
-        img.alt = `${country} - Events`;
-    }
-
-    function showCountry(index) {
-        slides.forEach((slide, i) => {
-            slide.classList.toggle('active', i === index);
-        });
-        setSlideImage(slides[index], currentImageIndex);
-    }
-
-    function nextFrame() {
-        // Change country every frame
-        currentCountryIndex = (currentCountryIndex + 1) % slides.length;
-
-        // When we've shown all countries for the current image, move to next image
-        if (currentCountryIndex === 0) {
-            currentImageIndex = (currentImageIndex + 1) % 3;
-        }
-
-        showCountry(currentCountryIndex);
-    }
-
-    showCountry(currentCountryIndex);
-
-    let rotateInterval;
-    const startRotate = () => { rotateInterval = setInterval(nextFrame, 3000); };
-    const stopRotate = () => { clearInterval(rotateInterval); };
-
-    // Efficiency: pause on tab hidden
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) stopRotate();
-        else startRotate();
-    });
-
-    startRotate();
-}
-
-// ============================================
-// SECTION FADE ANIMATIONS
+// Section Fade Animations
 // ============================================
 function initFadeAnimations() {
     const fadeElements = document.querySelectorAll('.fade-section, .fade-scale, .fade-left, .fade-right');
-
     if (fadeElements.length === 0) return;
-
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px 0px -100px 0px',
-        threshold: 0.1
-    };
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -954,46 +435,43 @@ function initFadeAnimations() {
                 entry.target.classList.add('visible');
             }
         });
-    }, observerOptions);
+    }, {
+        root: null,
+        rootMargin: '0px 0px -100px 0px',
+        threshold: 0.1
+    });
 
     fadeElements.forEach(el => observer.observe(el));
 }
 
-// Initialize fade animations
-document.addEventListener('DOMContentLoaded', initFadeAnimations);
-
-
-
-
-/* Partners Dropdown Interaction */
-document.addEventListener('DOMContentLoaded', () => {
+// ============================================
+// Partners Dropdown
+// ============================================
+function initPartnersDropdown() {
     const partnersBtn = document.getElementById('partnersBtn');
     const partnersDropdown = document.getElementById('partnersDropdown');
 
-    if (partnersBtn && partnersDropdown) {
-        // Toggle dropdown
-        partnersBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const isExpanded = partnersBtn.getAttribute('aria-expanded') === 'true';
-            partnersBtn.setAttribute('aria-expanded', !isExpanded);
-            partnersDropdown.classList.toggle('active');
-        });
+    if (!partnersBtn || !partnersDropdown) return;
 
-        // Close when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!partnersDropdown.contains(e.target) && !partnersBtn.contains(e.target)) {
-                partnersBtn.setAttribute('aria-expanded', 'false');
-                partnersDropdown.classList.remove('active');
-            }
-        });
+    partnersBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isExpanded = partnersBtn.getAttribute('aria-expanded') === 'true';
+        partnersBtn.setAttribute('aria-expanded', !isExpanded);
+        partnersDropdown.classList.toggle('active');
+    });
 
-        // Close on ESC key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && partnersDropdown.classList.contains('active')) {
-                partnersBtn.setAttribute('aria-expanded', 'false');
-                partnersDropdown.classList.remove('active');
-                partnersBtn.focus();
-            }
-        });
-    }
-});
+    document.addEventListener('click', (e) => {
+        if (!partnersDropdown.contains(e.target) && !partnersBtn.contains(e.target)) {
+            partnersBtn.setAttribute('aria-expanded', 'false');
+            partnersDropdown.classList.remove('active');
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && partnersDropdown.classList.contains('active')) {
+            partnersBtn.setAttribute('aria-expanded', 'false');
+            partnersDropdown.classList.remove('active');
+            partnersBtn.focus();
+        }
+    });
+}

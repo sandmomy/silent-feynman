@@ -34,10 +34,10 @@
             overflow-x: hidden;
         }
 
-        /* Imagen de fondo */
+        /* Imagen de fondo — absolute en vez de fixed para evitar repaints */
         body::before {
             content: '';
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
@@ -48,6 +48,7 @@
             background-repeat: no-repeat;
             z-index: 0;
             opacity: 0.6;
+            pointer-events: none;
         }
 
         #canvas-container {
@@ -327,7 +328,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
     <!-- Post Processing -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
@@ -341,7 +341,7 @@
         document.fonts.ready.then(() => init());
 
         function init() {
-            gsap.registerPlugin(ScrollTrigger);
+            // ScrollTrigger eliminado — se usa postMessage desde el padre
 
             const container = document.getElementById('canvas-container');
             const progressBar = document.getElementById('progressBar');
@@ -380,7 +380,13 @@
 
             document.addEventListener('mousemove', onDocumentMouseMove, false);
             document.addEventListener('touchmove', onDocumentTouchMove, { passive: false });
-            window.addEventListener('resize', onWindowResize, false);
+            let resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    onWindowResize();
+                }, 150);
+            }, false);
 
             // --- CONFIGURACIÓN DE ESCENA THREE.JS ---
             // Scene
@@ -1803,8 +1809,8 @@
             // ============================================
             // CAMERA & PANEL LAYOUT
             // ============================================
-            // Posiciones Z compactas para menos scroll y mejor alineación
-            const cameraZPositions = [35, 20, 5, -10];
+            // Camera Z fija - sin zoom durante scroll
+            const fixedCamZ = 25;
             const panelViewDistance = 16;
 
             // ============================================
@@ -1927,20 +1933,14 @@
                     }
                 });
             } else {
-                // Standalone: usar ScrollTrigger normal
-                gsap.to(scrollProgress, {
-                    value: 1,
-                    ease: 'none',
-                    scrollTrigger: {
-                        trigger: '.scroll-container',
-                        start: 'top top',
-                        end: 'bottom bottom',
-                        scrub: 1.2,
-                        onUpdate: (self) => {
-                            updateUI(self.progress);
-                        }
-                    }
-                });
+                // Standalone: scroll nativo sin ScrollTrigger
+                window.addEventListener('scroll', function() {
+                    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+                    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                    const p = Math.max(0, Math.min(1, scrollTop / maxScroll));
+                    scrollProgress.value = p;
+                    updateUI(p);
+                }, { passive: true });
             }
 
             // ============================================
@@ -1948,6 +1948,7 @@
             // ============================================
             function animate() {
                 requestAnimationFrame(animate);
+
                 time += 0.012;
 
                 const t = scrollProgress.value;
@@ -1959,14 +1960,9 @@
                 const mix = sectionProgress - currentIdx;
                 const safeNextIdx = symbolShapes[nextIdx] ? nextIdx : currentIdx;
 
-                // Camera — linear interpolation between section Z positions
-                const camZ0 = cameraZPositions[currentIdx];
-                const camZ1 = cameraZPositions[Math.min(nextIdx, cameraZPositions.length - 1)];
-                // Easing suave para la transición de cámara
-                const easedMix = mix * mix * (3 - 2 * mix); // smoothstep
-                const targetCamZ = camZ0 + (camZ1 - camZ0) * easedMix;
-                camera.position.z += (targetCamZ - camera.position.z) * 0.08; // Lerp más lento = más suave
-                camera.lookAt(0, 0, camera.position.z - 100);
+                // Camera fija - sin zoom
+                camera.position.z = fixedCamZ;
+                camera.lookAt(0, 0, 0);
 
                 // Timelines
                 let symbolMix = 0;
@@ -2121,11 +2117,10 @@
                 particles.geometry.attributes.color.needsUpdate = true;
                 particles.geometry.attributes.size.needsUpdate = true;
 
-                // Mover el grupo del símbolo para que siga a la cámara (lerp suave)
-                // A la derecha (+8) - Balance entre espacio y presencia
-                const targetX = camera.position.x + 8;
-                const targetY = camera.position.y; // Centrado de nuevo
-                const targetZ = camera.position.z - 15;
+                // Posición del símbolo fija relativa a la cámara
+                const targetX = 8;
+                const targetY = 0;
+                const targetZ = fixedCamZ - 15;
 
                 symbolGroup.scale.set(0.75, 0.75, 0.75);
 
@@ -2336,15 +2331,27 @@
                     }
                 });
 
-                // Panel Z siempre relativo a la camara
-                const panelZ = camera.position.z - panelViewDistance;
+                // Panel Z fijo
+                const panelZ = fixedCamZ - panelViewDistance;
 
-                // 1. Panel Entrando — desliza desde detras del simbolo hacia la izquierda
+                // 1. Panel Entrando
                 if (nextIdx !== currentIdx && panels[nextIdx]) {
                     const ease = cardMix * cardMix * (3.0 - 2.0 * cardMix);
-                    panels[nextIdx].position.set(8.0 + (-4.5 - 8.0) * ease, 0, panelZ);
+
+                    if (nextIdx === 1) {
+                        // Primera tarjeta: slide-in suave desde la izquierda
+                        const startX = -12;
+                        const endX = -4.5;
+                        const scaleIn = 0.95 + 0.05 * ease;
+                        panels[nextIdx].position.set(startX + (endX - startX) * ease, (1.0 - ease) * 0.5, panelZ);
+                        panels[nextIdx].scale.set(scaleIn, scaleIn, scaleIn);
+                    } else {
+                        // Resto de tarjetas: entrada normal desde la derecha
+                        panels[nextIdx].position.set(8.0 + (-4.5 - 8.0) * ease, 0, panelZ);
+                        panels[nextIdx].scale.set(1, 1, 1);
+                    }
+
                     panels[nextIdx].rotation.set(0, 0.1, 0);
-                    panels[nextIdx].scale.set(1, 1, 1);
                     panels[nextIdx].material.uniforms.opacity.value = 0.95 * ease;
                     panels[nextIdx].visible = true;
                 }

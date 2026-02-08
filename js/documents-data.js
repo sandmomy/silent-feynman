@@ -114,6 +114,19 @@ const DOCUMENTS_DATA = [
         thumbnail: "assets/thumbnails/remote_farming.png",
         description: "Smart farming solutions for remote and rural communities."
     },
+    {
+        id: 10,
+        title: "Eko Vitaris - Premium Tropical Products",
+        filename: "Eko_Vitaris_EN.pdf",
+        category: "food",
+        categoryId: "food",
+        categoryLabel: "🍴 Food Security",
+        type: "PDF",
+        thumbnail: "assets/logo-eko-vitaris.svg",
+        description: "Expert in premium tropical products: coconuts, Modified Cassava Flour (Mocaf), and specialty coffee from Indonesia.",
+        lat: -7.2575,
+        lng: 112.7521 // Java, Indonesia
+    },
 
     // 🏨 Real Estate
     {
