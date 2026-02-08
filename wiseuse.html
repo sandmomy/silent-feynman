@@ -4,669 +4,1078 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WiseUse International - Sustainable Futures</title>
-
-    <!-- SEO Meta Tags -->
+    <title>Wise Use International | Strategic Partner</title>
     <meta name="description"
-        content="WiseUse International - Promoting sustainable development and wise resource management for a better future.">
-    <meta name="keywords" content="WiseUse, Sustainability, Environment, CSR, Eugene Mierak, Resources">
+        content="Wise Use International B.V. - 30 years pioneering 100% natural biological solutions for agriculture, water management, and sustainable development.">
 
-    <!-- Open Graph / Social Media -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="WiseUse International - Sustainable Futures">
-    <meta property="og:description"
-        content="Promoting sustainable development and wise resource management for a better future.">
-    <meta property="og:site_name" content="Eugene Mierak Portfolio">
-    <meta property="og:locale" content="en_US">
-    <meta property="og:image" content="assets/optimized/og-image.480w.webp">
-    <meta name="theme-color" content="#080c14">
-    <link rel="icon" type="image/webp" href="assets/optimized/favicon.480w.webp">
-
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:wght@300;400;600&display=swap"
         rel="stylesheet">
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="css/styles.min.css">
-    <link rel="stylesheet" href="css/mobile-overrides.min.css">
-
     <style>
-        /* ============================================
-           WISEUSE PAGE - PREMIUM STYLES
-           ============================================ */
+        :root {
+            --wu-dark: #08110b;
+            --wu-deep: #0e1f14;
+            --wu-olive: #6b8e23;
+            --wu-olive-light: #8fbc8f;
+            --wu-teal: #2e8b7d;
+            --wu-teal-deep: #1a5c52;
+            --wu-cream: #f0f5ed;
+            --wu-text: #e8efe8;
+            --wu-muted: #9aad9a;
+        }
 
-        /* Page Container */
-        .vq-page {
-            min-height: 100vh;
-            background:
-                linear-gradient(180deg,
-                    rgba(8, 12, 20, 0.80) 0%,
-                    rgba(20, 25, 10, 0.75) 30%,
-                    /* Deep green/dark tint */
-                    rgba(30, 40, 20, 0.60) 60%,
-                    rgba(8, 12, 20, 0.90) 100%),
-                url('assets/ibiza-background.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            position: relative;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--wu-dark);
+            color: var(--wu-text);
             overflow-x: hidden;
         }
 
-        .vq-page::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            background:
-                radial-gradient(ellipse 100% 80% at 50% 0%, rgba(251, 191, 36, 0.08) 0%, transparent 40%),
-                radial-gradient(ellipse 80% 60% at 80% 30%, rgba(245, 158, 11, 0.1) 0%, transparent 50%),
-                radial-gradient(ellipse 60% 40% at 20% 70%, rgba(251, 191, 36, 0.05) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-            animation: bgGlow 8s ease-in-out infinite alternate;
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+
+        /* ===== TOP NAV BANNER (same as index.html) ===== */
+        .top-nav-banner {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 48px;
+            background: rgba(8, 12, 20, 0.97);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            overflow: visible !important;
         }
-
-        @keyframes bgGlow {
-            0% {
-                opacity: 0.7;
-            }
-
-            100% {
-                opacity: 1;
-            }
-        }
-
-        .vq-container {
-            max-width: 1100px;
+        .top-nav-container {
+            max-width: 1400px;
             width: 100%;
             margin: 0 auto;
             padding: 0 2rem;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            overflow: visible !important;
+        }
+        .top-nav-links {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .top-nav-link {
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        .top-nav-link:hover {
+            color: white;
+            background: rgba(255,255,255,0.1);
+        }
+        .partners-dropdown-container { position: relative; }
+        .top-nav-partners-btn {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .top-nav-partners-btn:hover,
+        .top-nav-partners-btn[aria-expanded="true"] {
+            background: linear-gradient(135deg, #0284c7 0%, #0891b2 100%);
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+            color: white;
+        }
+        .partners-dropdown-menu {
+            position: absolute;
+            top: 100%; right: 0;
+            margin-top: 12px;
+            width: 240px;
+            background: #0f172a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            padding: 6px;
+            display: none;
+            flex-direction: column;
+            gap: 2px;
+            z-index: 1010;
+            animation: dropdownPop 0.2s cubic-bezier(0.16,1,0.3,1);
+        }
+        .partners-dropdown-menu.active { display: flex; }
+        @keyframes dropdownPop {
+            from { opacity: 0; transform: scale(0.95) translateY(-5px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .partners-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .partners-dropdown-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transform: translateX(2px);
+        }
+        .partner-icon-img {
+            height: 28px;
+            width: auto;
+            max-width: 40px;
+            object-fit: contain;
+            filter: brightness(1.1);
+        }
+        @media (max-width: 768px) {
+            .top-nav-banner { display: none; }
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            padding: 0 5%;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 65% 50%, rgba(46, 139, 125, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 20% 30%, rgba(107, 142, 35, 0.06) 0%, transparent 50%),
+                var(--wu-dark);
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 3rem;
+            padding: 6rem 0;
+        }
+
+        .hero-content {
+            position: relative;
+        }
+
+        .hero-eyebrow {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--wu-teal);
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 0.3s;
+        }
+
+        .hero-line {
+            width: 50px;
+            height: 2px;
+            background: var(--wu-olive);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 0.4s;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 6vw, 4.5rem);
+            line-height: 1;
+            color: #fff;
+            letter-spacing: -1px;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 0.6s;
+        }
+
+        .hero-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: 1.3rem;
+            color: var(--wu-olive-light);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 0.7s;
+        }
+
+        .hero-desc {
+            font-size: 1rem;
+            color: var(--wu-muted);
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+            max-width: 480px;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 0.9s;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 1.1s;
+        }
+
+        /* Right side: Pyramid visual */
+        .hero-visual {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            min-height: 400px;
+        }
+
+        .hero-pyramid-glow {
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(46, 139, 125, 0.2) 0%, rgba(107, 142, 35, 0.08) 40%, transparent 70%);
+            filter: blur(40px);
+            opacity: 0;
+            animation: glowIn 2s ease forwards 0.8s;
+        }
+
+        @keyframes glowIn {
+            from { opacity: 0; transform: scale(0.7); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .hero-pyramid {
+            position: relative;
+            height: 280px;
+            opacity: 0;
+            filter: drop-shadow(0 0 60px rgba(46, 139, 125, 0.3)) drop-shadow(0 0 120px rgba(107, 142, 35, 0.15));
+            animation: pyramidIn 1.5s ease forwards 0.5s;
+        }
+
+        @keyframes pyramidIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.9); }
+            to { opacity: 0.85; transform: translateY(0) scale(1); }
+        }
+
+        .hero-pyramid-ring {
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            border: 1px solid rgba(46, 139, 125, 0.12);
+            border-radius: 50%;
+            opacity: 0;
+            animation: ringIn 2s ease forwards 1s;
+        }
+
+        .hero-pyramid-ring:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            border-color: rgba(107, 142, 35, 0.06);
+            animation-delay: 1.3s;
+        }
+
+        @keyframes ringIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .hero-badge {
+            position: absolute;
+            bottom: 15%;
+            right: 10%;
+            background: rgba(14, 31, 20, 0.8);
+            border: 1px solid rgba(107, 142, 35, 0.2);
+            border-radius: 12px;
+            padding: 12px 18px;
+            text-align: center;
+            opacity: 0;
+            animation: fadeUp 1s ease forwards 1.4s;
+        }
+
+        .hero-badge-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--wu-olive-light);
+            font-weight: 600;
+            line-height: 1;
+        }
+
+        .hero-badge-label {
+            font-size: 0.6rem;
+            color: var(--wu-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 100px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--wu-olive);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: var(--wu-olive-light);
+            color: var(--wu-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--wu-text);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--wu-teal);
+            color: var(--wu-teal);
+        }
+
+        /* ===== STATS BAR ===== */
+        .stats-bar {
+            background: var(--wu-deep);
+            border-top: 1px solid rgba(107, 142, 35, 0.15);
+            border-bottom: 1px solid rgba(107, 142, 35, 0.15);
+            padding: 3rem 0;
+        }
+
+        .stats-row {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--wu-olive-light);
+            font-weight: 600;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--wu-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        .stat-divider {
+            width: 1px;
+            height: 50px;
+            background: rgba(255,255,255,0.08);
+        }
+
+        /* ===== PHILOSOPHY ===== */
+        .philosophy {
+            padding: 8rem 5%;
+            position: relative;
+        }
+
+        .philosophy-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .philosophy-text h2 {
+            font-size: 2.8rem;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            line-height: 1.15;
+        }
+
+        .philosophy-text p {
+            font-size: 1rem;
+            color: var(--wu-muted);
+            line-height: 1.8;
+            margin-bottom: 1.2rem;
+        }
+
+        .quote-card {
+            background: linear-gradient(135deg, var(--wu-teal-deep) 0%, rgba(26, 92, 82, 0.6) 100%);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(46, 139, 125, 0.2);
+            position: relative;
+        }
+
+        .quote-mark {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            color: var(--wu-teal);
+            opacity: 0.3;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            line-height: 1;
+        }
+
+        .quote-card p {
+            font-style: italic;
+            color: rgba(255,255,255,0.9);
+            font-size: 1.05rem;
+            line-height: 1.8;
             position: relative;
             z-index: 1;
         }
 
-        /* Back Link */
-        .vq-back-link {
-            position: fixed;
-            top: 1.5rem;
-            left: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.85rem;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            z-index: 100;
-            padding: 0.5rem 1rem;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 999px;
-            backdrop-filter: blur(10px);
+        .quote-author {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.15);
         }
 
-        .vq-back-link:hover {
-            color: white;
-            background: rgba(0, 0, 0, 0.5);
-            transform: translateX(-3px);
+        .quote-author strong {
+            color: #fff;
+            display: block;
+            font-size: 0.95rem;
         }
 
-        .vq-back-link svg {
-            width: 16px;
-            height: 16px;
+        .quote-author span {
+            color: var(--wu-muted);
+            font-size: 0.8rem;
         }
 
-        /* ===== HERO SECTION ===== */
-        .vq-hero {
-            padding: 8rem 0 5rem;
+        /* ===== PRODUCTS ===== */
+        .products {
+            padding: 8rem 5%;
+            background: var(--wu-deep);
+        }
+
+        .section-header {
             text-align: center;
-        }
-
-        .vq-logo {
-            margin-bottom: 2rem;
-        }
-
-        .vq-logo img {
-            height: 80px;
-            width: auto;
-            filter: brightness(1.1);
-        }
-
-        .vq-hero-badge {
-            display: inline-block;
-            background: rgba(251, 191, 36, 0.12);
-            border: 1px solid rgba(251, 191, 36, 0.25);
-            padding: 0.5rem 1.25rem;
-            border-radius: 999px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: #fbbf24;
-            margin-bottom: 1.5rem;
-        }
-
-        .vq-hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            font-style: italic;
-            color: white;
-            margin-bottom: 1rem;
-            text-shadow: 0 4px 30px rgba(255, 255, 255, 0.15);
-            line-height: 1.1;
-        }
-
-        .vq-hero-subtitle {
-            font-size: 1.15rem;
-            color: rgba(255, 255, 255, 0.65);
             max-width: 600px;
-            margin: 0 auto 2.5rem;
-            line-height: 1.6;
-            padding: 0 1rem;
+            margin: 0 auto 4rem;
         }
 
-        .vq-hero-cta {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .vq-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.875rem 1.75rem;
-            border-radius: 999px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .vq-btn-primary {
-            background: #d97706;
-            /* Amber/Gold */
-            color: white;
-        }
-
-        .vq-btn-primary:hover {
-            background: #b45309;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
-        }
-
-        .vq-btn-secondary {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-        }
-
-        .vq-btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.35);
-            transform: translateY(-2px);
-        }
-
-        .vq-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        /* ===== SECTION STYLES ===== */
-        .vq-section {
-            padding: 4rem 0;
-        }
-
-        .vq-section-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .vq-section-label {
-            display: inline-block;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 2px;
+        .section-eyebrow {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            color: var(--wu-olive);
+            letter-spacing: 3px;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.4);
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.8rem;
         }
 
-        .vq-section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            font-style: italic;
-            color: white;
+        .section-title {
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 1rem;
         }
 
-        /* Separator */
-        .vq-separator {
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            margin: 2rem 0;
-        }
-
-        /* ===== CARDS GRID ===== */
-        .vq-cards-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
-        .vq-card {
-            background: rgba(8, 12, 20, 0.85);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.4s ease;
-        }
-
-        .vq-card:hover {
-            background: rgba(8, 12, 20, 0.95);
-            border-color: rgba(251, 191, 36, 0.2);
-            transform: translateY(-5px);
-        }
-
-        .vq-card-icon {
-            width: 56px;
-            height: 56px;
-            background: rgba(251, 191, 36, 0.1);
-            border: 1px solid rgba(251, 191, 36, 0.2);
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.25rem;
-            color: #fbbf24;
-        }
-
-        .vq-card-icon svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        .vq-card h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.2rem;
-            font-style: italic;
-            color: white;
-            margin-bottom: 0.75rem;
-        }
-
-        .vq-card p {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.55);
+        .section-desc {
+            color: var(--wu-muted);
+            font-size: 0.95rem;
             line-height: 1.6;
         }
 
-        /* ===== STEPS SECTION ===== */
-        .vq-steps {
+        .products-grid {
+            max-width: 1100px;
+            margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
-            position: relative;
         }
 
-        .vq-steps::before {
-            content: '';
-            position: absolute;
-            top: 28px;
-            left: calc(16.66% + 28px);
-            right: calc(16.66% + 28px);
-            height: 2px;
-            background: linear-gradient(90deg, rgba(251, 191, 36, 0.3), rgba(245, 158, 11, 0.3));
-            z-index: 0;
-        }
-
-        .vq-step {
+        .product-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
             text-align: center;
-            position: relative;
-            z-index: 1;
+            transition: all 0.4s;
         }
 
-        .vq-step-number {
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+        .product-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--wu-olive);
+            background: rgba(107, 142, 35, 0.05);
+        }
+
+        .product-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, var(--wu-olive) 0%, var(--wu-teal) 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.25rem;
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #080c14;
-            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.25);
+            font-size: 2rem;
         }
 
-        .vq-step h3 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: white;
+        .product-card h3 {
+            font-size: 1.4rem;
+            color: #fff;
             margin-bottom: 0.5rem;
         }
 
-        .vq-step p {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.5);
-            line-height: 1.5;
+        .product-tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            color: var(--wu-olive-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
         }
 
-        /* ===== FAQ SECTION ===== */
-        .vq-faq-grid {
+        .product-card p {
+            color: var(--wu-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* ===== CASE STUDIES ===== */
+        .cases {
+            padding: 8rem 5%;
+        }
+
+        .cases-grid {
+            max-width: 1100px;
+            margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
         }
 
-        .vq-faq-item {
-            background: rgba(8, 12, 20, 0.85);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+        .case-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
             border-radius: 16px;
-            padding: 1.75rem;
+            padding: 2rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
         }
 
-        .vq-faq-question {
-            font-size: 1rem;
-            font-weight: 600;
-            color: white;
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
+        .case-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--wu-teal);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
-        .vq-faq-question::before {
-            content: 'Q';
+        .case-card:hover {
+            border-color: rgba(46, 139, 125, 0.3);
+            transform: translateX(4px);
+        }
+
+        .case-card:hover::before { opacity: 1; }
+
+        .case-top {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            width: 24px;
-            height: 24px;
-            min-width: 24px;
-            background: rgba(251, 191, 36, 0.15);
-            border-radius: 6px;
+            margin-bottom: 0.8rem;
+        }
+
+        .case-card h3 {
+            font-size: 1.1rem;
+            color: #fff;
+        }
+
+        .case-year {
             font-size: 0.75rem;
-            font-weight: 700;
-            color: #fbbf24;
+            color: var(--wu-olive-light);
+            font-weight: 600;
+            background: rgba(107, 142, 35, 0.1);
+            padding: 4px 12px;
+            border-radius: 100px;
         }
 
-        .vq-faq-answer {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.55);
+        .case-card p {
+            color: var(--wu-muted);
+            font-size: 0.88rem;
             line-height: 1.6;
-            padding-left: 2.25rem;
         }
 
-        /* ===== FOOTER CTA ===== */
-        .vq-footer-cta {
-            padding: 4rem 0 5rem;
+        /* ===== SDG SECTION ===== */
+        .sdg {
+            padding: 5rem 5%;
+            background: linear-gradient(135deg, var(--wu-teal-deep) 0%, rgba(14, 31, 20, 0.9) 100%);
             text-align: center;
         }
 
-        .vq-footer-card {
-            background: rgba(8, 12, 20, 0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(251, 191, 36, 0.25);
-            border-radius: 24px;
-            padding: 3rem;
+        .sdg h2 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
         }
 
-        .vq-footer-card h2 {
+        .sdg > .sdg-inner > p {
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 2.5rem;
+            font-size: 0.95rem;
+        }
+
+        .sdg-inner {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .sdg-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .sdg-pill {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 12px 16px;
+            min-width: 70px;
+            transition: all 0.3s;
+        }
+
+        .sdg-pill:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-3px);
+        }
+
+        .sdg-pill .num {
             font-family: 'Playfair Display', serif;
-            font-size: 1.75rem;
-            font-style: italic;
-            color: white;
-            margin-bottom: 0.75rem;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--wu-olive-light);
+            display: block;
         }
 
-        .vq-footer-card p {
+        .sdg-pill .lbl {
+            font-size: 0.6rem;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== CTA / FOOTER ===== */
+        .cta-footer {
+            padding: 8rem 5%;
+            text-align: center;
+            position: relative;
+        }
+
+        .cta-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--wu-olive), transparent);
+        }
+
+        .cta-footer h2 {
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .cta-footer p {
+            color: var(--wu-muted);
+            max-width: 500px;
+            margin: 0 auto 2.5rem;
             font-size: 1rem;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 2rem;
+            line-height: 1.7;
         }
 
-        .vq-footer-links {
+        .cta-actions {
             display: flex;
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
+            margin-bottom: 5rem;
         }
 
-        /* ===== COPYRIGHT ===== */
-        .vq-copyright {
-            text-align: center;
-            padding: 2rem 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .footer-bottom p {
+            color: rgba(255,255,255,0.3);
             font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.35);
         }
 
-        /* ============================================
-           RESPONSIVE ADJUSTMENTS
-           ============================================ */
+        .footer-bottom a {
+            color: var(--wu-muted);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: color 0.3s;
+        }
+
+        .footer-bottom a:hover { color: var(--wu-olive-light); }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
-            .vq-cards-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .hero-inner { grid-template-columns: 1fr; text-align: center; }
+            .hero-desc { margin-left: auto; margin-right: auto; }
+            .hero-actions { justify-content: center; }
+            .hero-line { margin: 0 auto 1.5rem; }
+            .hero-visual { min-height: 280px; }
+            .hero-pyramid { height: 200px; }
+            .hero-pyramid-glow { width: 250px; height: 250px; }
+            .hero-pyramid-ring { width: 240px; height: 240px; }
+            .hero-pyramid-ring:nth-child(2) { width: 300px; height: 300px; }
+            .hero-badge { bottom: 5%; right: 20%; }
+            .philosophy-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .products-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 768px) {
-            .vq-page {
-                width: 100vw;
-            }
+            .nav { padding: 1rem 1.5rem; }
+            .nav-links a:not(.nav-cta) { display: none; }
+            .hero { padding: 0 1.5rem; }
+            .hero-inner { padding: 5rem 0 3rem; }
+            .hero-title { font-size: 2.8rem; }
+            .hero-subtitle { font-size: 1rem; }
+            .hero-visual { min-height: 220px; }
+            .hero-pyramid { height: 160px; }
+            .stats-row { flex-wrap: wrap; gap: 2rem; }
+            .stat-divider { display: none; }
+            .stat-item { width: 40%; }
+            .products-grid,
+            .cases-grid { grid-template-columns: 1fr; }
+            .philosophy-text h2 { font-size: 2rem; }
+            .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+            .footer-links { justify-content: center; }
+        }
 
-            .vq-container {
-                padding: 0 1.5rem;
-            }
+        /* ===== SCROLL REVEAL ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
 
-            .vq-hero {
-                padding: 6rem 0 3rem;
-            }
-
-            .vq-hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .vq-cards-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .vq-steps {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-
-            .vq-steps::before {
-                display: none;
-            }
-
-            .vq-faq-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .vq-footer-card {
-                padding: 2rem 1.5rem;
-            }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 
 <body>
-    <!-- Main Content -->
-    <div class="vq-page">
 
-        <!-- Back Link -->
-        <a href="index.html" class="vq-back-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M19 12H5M12 19l-7-7 7-7" />
-            </svg>
-            Home
-        </a>
-
-        <!-- HERO SECTION -->
-        <section class="vq-hero">
-            <div class="vq-container">
-                <div class="vq-logo">
-                    <img src="assets/logo-wiseuse.png" alt="WiseUse International" loading="eager">
-                </div>
-                <span class="vq-hero-badge">GLOBAL INITIATIVE</span>
-                <h1>WiseUse International</h1>
-                <p class="vq-hero-subtitle">
-                    Promoting sustainable development and wise resource management.
-                    Creating a balanced future through conscious utilization of natural assets.
-                </p>
-                <div class="vq-hero-cta">
-                    <a href="#initiatives" class="vq-btn vq-btn-primary">
-                        Our Initiatives
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M19 12H5M12 19l-7-7 7-7" transform="rotate(180 12 12)" />
+    <!-- Top Navigation Banner (same as index.html) -->
+    <nav class="top-nav-banner">
+        <div class="top-nav-container">
+            <div class="top-nav-links">
+                <a href="index.html" class="top-nav-link">Home</a>
+                <a href="index.html#contact" class="top-nav-link">Get in Touch</a>
+                <div class="partners-dropdown-container">
+                    <button class="top-nav-link top-nav-partners-btn" id="partnersBtn" aria-expanded="false">
+                        PARTNERS
+                        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left: 6px;">
+                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                    </a>
-                    <a href="mailto:contact@wiseuse.org" class="vq-btn vq-btn-secondary">
-                        Get Involved
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <div class="vq-container">
-            <div class="vq-separator"></div>
-        </div>
-
-        <!-- WHAT YOU'LL FIND SECTION -->
-        <section class="vq-section" id="initiatives">
-            <div class="vq-container">
-                <div class="vq-section-header">
-                    <span class="vq-section-label">Impact</span>
-                    <h2 class="vq-section-title">Core Pillars</h2>
-                </div>
-                <div class="vq-cards-grid">
-                    <div class="vq-card">
-                        <div class="vq-card-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 2.69l5.74 5.74-5.74 5.74-5.74-5.74z" />
-                            </svg>
-                        </div>
-                        <h3>Sustainability</h3>
-                        <p>Developing long-term strategies that balance ecological health with human progress.</p>
-                    </div>
-                    <div class="vq-card">
-                        <div class="vq-card-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M17 20h5v-2a3 3 0 00-5.3-1.6M16 3.13a4 4 0 010 7.75" />
-                                <path d="M12 10a4 4 0 100-8 4 4 0 000 8z" />
-                            </svg>
-                        </div>
-                        <h3>Community</h3>
-                        <p>Empowering local communities to become stewards of their own natural environments.</p>
-                    </div>
-                    <div class="vq-card">
-                        <div class="vq-card-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                            </svg>
-                        </div>
-                        <h3>Resource Management</h3>
-                        <p>Innovative approaches to the efficient and ethical use of global resources.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="vq-container">
-            <div class="vq-separator"></div>
-        </div>
-
-        <!-- HOW IT WORKS SECTION -->
-        <section class="vq-section">
-            <div class="vq-container">
-                <div class="vq-section-header">
-                    <span class="vq-section-label">Approach</span>
-                    <h2 class="vq-section-title">Our Method</h2>
-                </div>
-                <div class="vq-steps">
-                    <div class="vq-step">
-                        <div class="vq-step-number">1</div>
-                        <h3>Education</h3>
-                        <p>Raising awareness about sustainable practices</p>
-                    </div>
-                    <div class="vq-step">
-                        <div class="vq-step-number">2</div>
-                        <h3>Implementation</h3>
-                        <p>Direct action projects on the ground</p>
-                    </div>
-                    <div class="vq-step">
-                        <div class="vq-step-number">3</div>
-                        <h3>Preservation</h3>
-                        <p>Ensuring lasting positive impact</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="vq-container">
-            <div class="vq-separator"></div>
-        </div>
-
-        <!-- FAQ SECTION -->
-        <section class="vq-section">
-            <div class="vq-container">
-                <div class="vq-section-header">
-                    <span class="vq-section-label">FAQ</span>
-                    <h2 class="vq-section-title">Learn More</h2>
-                </div>
-                <div class="vq-faq-grid">
-                    <div class="vq-faq-item">
-                        <div class="vq-faq-question">How can I support WiseUse?</div>
-                        <p class="vq-faq-answer">We welcome partnerships and support from individuals and organizations
-                            committed to sustainability.</p>
-                    </div>
-                    <div class="vq-faq-item">
-                        <div class="vq-faq-question">Where does WiseUse operate?</div>
-                        <p class="vq-faq-answer">We have projects globally, with a focus on regions where sustainable
-                            interventions can have the highest impact.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FOOTER CTA -->
-        <section class="vq-footer-cta">
-            <div class="vq-container">
-                <div class="vq-footer-card">
-                    <h2>Join the Movement</h2>
-                    <p>Be part of the solution for a sustainable future.</p>
-                    <div class="vq-footer-links">
-                        <a href="mailto:contact@wiseuse.org" class="vq-btn vq-btn-primary">
-                            Contact Us
+                    </button>
+                    <div class="partners-dropdown-menu" id="partnersDropdown">
+                        <a href="vegaqura.html" class="partners-dropdown-item">
+                            <img src="assets/logo-vegaqura.png" alt="Vegaqura" class="partner-icon-img"> Vegaqura
+                        </a>
+                        <a href="sdbi-center.html" class="partners-dropdown-item">
+                            <img src="assets/logo-sbdi.webp" alt="SBDI" class="partner-icon-img"> SBDI Center
+                        </a>
+                        <a href="wiseuse.html" class="partners-dropdown-item">
+                            <img src="assets/wiseuse-pyramid.png" alt="WiseUse" class="partner-icon-img"> WiseUse International
+                        </a>
+                        <a href="eko-vitaris.html" class="partners-dropdown-item">
+                            <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-icon-img"> Eko Vitaris
                         </a>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </nav>
 
-        <!-- COPYRIGHT -->
-        <div class="vq-copyright">
-            <div class="vq-container">
-                <p>© 2026 WiseUse International. All rights reserved.</p>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-inner">
+            <div class="hero-content">
+                <div class="hero-eyebrow">Strategic Partner</div>
+                <div class="hero-line"></div>
+                <h1 class="hero-title">Wise Use</h1>
+                <div class="hero-subtitle">International B.V.</div>
+                <p class="hero-desc">Pioneering 100% natural biological solutions for agriculture,
+                    water management, and environmental restoration. 30 years restoring
+                    balance through the intelligence of nature.</p>
+                <div class="hero-actions">
+                    <a href="#partnership" class="btn btn-primary">Partnership Opportunities</a>
+                    <a href="assets/pdfs/WiseUse_RD_Book.pdf" target="_blank" class="btn btn-outline">R&D Book ↗</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-pyramid-glow"></div>
+                <div class="hero-pyramid-ring"></div>
+                <div class="hero-pyramid-ring"></div>
+                <img src="assets/wiseuse-pyramid.png" alt="Wise Use" class="hero-pyramid">
+                <div class="hero-badge">
+                    <div class="hero-badge-num">30+</div>
+                    <div class="hero-badge-label">Years</div>
+                </div>
             </div>
         </div>
+    </section>
 
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stats-row">
+            <div class="stat-item">
+                <div class="stat-num">30+</div>
+                <div class="stat-label">Years Experience</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-num">100%</div>
+                <div class="stat-label">Natural & Biological</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-num">10</div>
+                <div class="stat-label">UN SDG Aligned</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-num">12+</div>
+                <div class="stat-label">Countries Active</div>
+            </div>
+        </div>
     </div>
+
+    <!-- Philosophy -->
+    <section class="philosophy" id="philosophy">
+        <div class="philosophy-grid">
+            <div class="philosophy-text reveal">
+                <h2>Restoring Balance Through Nature</h2>
+                <p>At Wise Use International, we believe nature knows best. Our mission is to restore
+                    vitality and balance in soil, water, plants, animals, and humans — by harnessing the
+                    power of naturally occurring microorganisms.</p>
+                <p>We develop and produce biological products that stimulate plants to grow better,
+                    fight plagues, clean water, and optimize composting. Our philosophy is to restore
+                    balance by activating existing microorganisms.</p>
+                <a href="#products" class="btn btn-primary" style="margin-top: 1rem;">Explore Products</a>
+            </div>
+            <div class="quote-card reveal">
+                <div class="quote-mark">"</div>
+                <p>From a young age, I was fascinated by the hidden intelligence of nature...
+                    This passion evolved into a deep respect for the natural world. With over 30 years
+                    of experience, I founded Wise Use International to create products that work in
+                    harmony with nature, not against it.</p>
+                <div class="quote-author">
+                    <strong>Dorotheus Wisman</strong>
+                    <span>CEO & Founder</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section class="products" id="products">
+        <div class="section-header reveal">
+            <div class="section-eyebrow">Product Portfolio</div>
+            <h2 class="section-title">Scientific Biological Solutions</h2>
+            <p class="section-desc">100% biological products, certified by Control Union and GMP+ FSA</p>
+        </div>
+        <div class="products-grid">
+            <div class="product-card reveal">
+                <div class="product-icon">🌱</div>
+                <h3>Bio-Rootz</h3>
+                <div class="product-tag">Root Development</div>
+                <p>Stimulates root development and enhances nutrient absorption for healthier, stronger plants.</p>
+            </div>
+            <div class="product-card reveal">
+                <div class="product-icon">🍃</div>
+                <h3>B'Leafz</h3>
+                <div class="product-tag">Foliar Health</div>
+                <p>Foliar application that promotes leaf health, photosynthesis, and natural pest resistance.</p>
+            </div>
+            <div class="product-card reveal">
+                <div class="product-icon">🦠</div>
+                <h3>PoCo</h3>
+                <div class="product-tag">Pollution Control</div>
+                <p>Organic Cell-Stimulator for pollution control. Cleans lagoons, ponds, and rivers effectively.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Case Studies -->
+    <section class="cases" id="projects">
+        <div class="section-header reveal">
+            <div class="section-eyebrow">Field Results</div>
+            <h2 class="section-title">International Research Projects</h2>
+            <p class="section-desc">Case studies and feasibility reports from around the globe</p>
+        </div>
+        <div class="cases-grid">
+            <div class="case-card reveal">
+                <div class="case-top">
+                    <h3>Lake Ypacarai Restoration</h3>
+                    <span class="case-year">Paraguay 2007</span>
+                </div>
+                <p>Substantial decrease in coliforms (1500→200) and cyanobacteria. Increased zooplankton indicating restored biodiversity.</p>
+            </div>
+            <div class="case-card reveal">
+                <div class="case-top">
+                    <h3>Lake Maracaibo Oil Cleanup</h3>
+                    <span class="case-year">Venezuela 2013</span>
+                </div>
+                <p>PDVSA partnership: 40-50% decrease in suspended oil. Faster spontaneous reaction demonstrated in treated samples.</p>
+            </div>
+            <div class="case-card reveal">
+                <div class="case-top">
+                    <h3>Tiscapa Lagoon Management</h3>
+                    <span class="case-year">Nicaragua 2020</span>
+                </div>
+                <p>0.4 km² lagoon almost free of blue/green algae in 3 months. Young fish spotted due to increased clarity.</p>
+            </div>
+            <div class="case-card reveal">
+                <div class="case-top">
+                    <h3>University Collaboration</h3>
+                    <span class="case-year">Indonesia 2024</span>
+                </div>
+                <p>Active collaboration with Indonesian universities to promote knowledge exchange and sustainable development.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SDG -->
+    <section class="sdg">
+        <div class="sdg-inner reveal">
+            <h2>Aligned with Global Goals</h2>
+            <p>Our work contributes to 10 United Nations Sustainable Development Goals</p>
+            <div class="sdg-row">
+                <div class="sdg-pill"><span class="num">1</span><span class="lbl">Poverty</span></div>
+                <div class="sdg-pill"><span class="num">2</span><span class="lbl">Hunger</span></div>
+                <div class="sdg-pill"><span class="num">3</span><span class="lbl">Health</span></div>
+                <div class="sdg-pill"><span class="num">6</span><span class="lbl">Water</span></div>
+                <div class="sdg-pill"><span class="num">9</span><span class="lbl">Innovation</span></div>
+                <div class="sdg-pill"><span class="num">12</span><span class="lbl">Sustain</span></div>
+                <div class="sdg-pill"><span class="num">13</span><span class="lbl">Climate</span></div>
+                <div class="sdg-pill"><span class="num">14</span><span class="lbl">Oceans</span></div>
+                <div class="sdg-pill"><span class="num">15</span><span class="lbl">Land</span></div>
+                <div class="sdg-pill"><span class="num">17</span><span class="lbl">Partners</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA / Footer -->
+    <section class="cta-footer" id="partnership">
+        <h2 class="reveal">Ready to Partner?</h2>
+        <p class="reveal">Our strategy provides a unique opportunity to co-develop and co-invest
+            in the future of sustainable biological solutions.</p>
+        <div class="cta-actions reveal">
+            <a href="mailto:info@wise-use.nl" class="btn btn-primary">Contact Us</a>
+            <a href="https://www.wise-use.com" target="_blank" class="btn btn-outline">Visit wise-use.com ↗</a>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Wise Use International B.V.</p>
+            <div class="footer-links">
+                <a href="mailto:info@wise-use.nl">info@wise-use.nl</a>
+                <a href="tel:+31621150151">+31 6 2115 0151</a>
+                <a href="https://linkedin.com/company/wise-use-international-bv" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scroll Reveal + Partners Dropdown -->
+    <script>
+        // Reveal on scroll
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+        document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+
+        // Partners dropdown
+        (function() {
+            var btn = document.getElementById('partnersBtn');
+            var dd = document.getElementById('partnersDropdown');
+            if (!btn || !dd) return;
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var open = btn.getAttribute('aria-expanded') === 'true';
+                btn.setAttribute('aria-expanded', !open);
+                dd.classList.toggle('active');
+            });
+            document.addEventListener('click', function(e) {
+                if (!dd.contains(e.target) && !btn.contains(e.target)) {
+                    btn.setAttribute('aria-expanded', 'false');
+                    dd.classList.remove('active');
+                }
+            });
+        })();
+    </script>
 
 </body>
 

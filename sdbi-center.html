@@ -4,22 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SDBI Center - Strategic Business Development</title>
-
-    <!-- SEO Meta Tags -->
+    <title>SBDI Center Partnership | Eugine - Strategic Partner</title>
     <meta name="description"
-        content="SDBI Center - Strategic Business Development and Innovation. Empowering organizations with leadership training and market strategies.">
-    <meta name="keywords" content="SDBI Center, Business Development, Strategy, Innovation, Leadership, Eugene Mierak">
-
-    <!-- Open Graph / Social Media -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="SDBI Center - Strategic Business Development">
-    <meta property="og:description" content="Empowering organizations with leadership training and market strategies.">
-    <meta property="og:site_name" content="Eugene Mierak Portfolio">
-    <meta property="og:locale" content="en_US">
-    <meta property="og:image" content="assets/optimized/og-image.480w.webp">
-    <meta name="theme-color" content="#080c14">
-    <link rel="icon" type="image/webp" href="assets/optimized/favicon.480w.webp">
+        content="Eugine is a proud strategic partner of SBDI Center, committed to improving education, entrepreneurship and social ecosystems through sustainable development.">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,651 +15,1424 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="css/styles.min.css">
-    <link rel="stylesheet" href="css/mobile-overrides.min.css">
-
     <style>
-        /* ============================================
-           SDBI PAGE - PREMIUM STYLES
-           ============================================ */
+        :root {
+            --primary: #4792e7;
+            --primary-dark: #3a7bc8;
+            --secondary: #5c7862;
+            --secondary-light: #6d8a73;
+            --cream: #f8f3ec;
+            --dark: #1a1a2e;
+            --text-dark: #2d2d2d;
+            --text-light: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.8);
+        }
 
-        /* Page Container */
-        .vq-page {
-            min-height: 100vh;
-            background:
-                linear-gradient(180deg,
-                    rgba(8, 12, 20, 0.80) 0%,
-                    rgba(15, 23, 42, 0.75) 30%,
-                    rgba(30, 58, 138, 0.60) 60%,
-                    /* Blue tint */
-                    rgba(8, 12, 20, 0.90) 100%),
-                url('assets/ibiza-background.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            position: relative;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
-        .vq-page::before {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .thin-font {
+            font-weight: 300;
+        }
+
+        .uppercase {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ===== TOP NAV BANNER (same as index.html) ===== */
+        .top-nav-banner {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 48px;
+            background: rgba(8, 12, 20, 0.97);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            overflow: visible !important;
+        }
+        .top-nav-container {
+            max-width: 1400px; width: 100%; margin: 0 auto;
+            padding: 0 2rem;
+            display: flex; justify-content: flex-end; align-items: center;
+            overflow: visible !important;
+        }
+        .top-nav-links { display: flex; gap: 0.5rem; align-items: center; }
+        .top-nav-link {
+            padding: 0.4rem 1rem; font-size: 0.8rem; font-weight: 600;
+            color: rgba(255,255,255,0.75); text-decoration: none;
+            border-radius: 6px; transition: all 0.3s ease;
+        }
+        .top-nav-link:hover { color: white; background: rgba(255,255,255,0.1); }
+        .partners-dropdown-container { position: relative; }
+        .top-nav-partners-btn {
+            display: flex; align-items: center;
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+            color: white; border: none; cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+        .top-nav-partners-btn:hover,
+        .top-nav-partners-btn[aria-expanded="true"] {
+            background: linear-gradient(135deg, #0284c7 0%, #0891b2 100%);
+            box-shadow: 0 4px 15px rgba(14,165,233,0.3); color: white;
+        }
+        .partners-dropdown-menu {
+            position: absolute; top: 100%; right: 0; margin-top: 12px;
+            width: 240px; background: #0f172a;
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            padding: 6px; display: none; flex-direction: column; gap: 2px;
+            z-index: 1010;
+            animation: dropdownPop 0.2s cubic-bezier(0.16,1,0.3,1);
+        }
+        .partners-dropdown-menu.active { display: flex; }
+        @keyframes dropdownPop {
+            from { opacity: 0; transform: scale(0.95) translateY(-5px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .partners-dropdown-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 12px; color: rgba(255,255,255,0.8);
+            text-decoration: none; font-size: 0.85rem; font-weight: 500;
+            border-radius: 8px; transition: all 0.2s ease;
+        }
+        .partners-dropdown-item:hover {
+            background: rgba(255,255,255,0.1); color: white; transform: translateX(2px);
+        }
+        .partner-icon-img {
+            height: 28px; width: auto; max-width: 40px;
+            object-fit: contain; filter: brightness(1.1);
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(71, 146, 231, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--dark);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary-light);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--dark) 0%, #16213e 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 100%;
-            background:
-                radial-gradient(ellipse 100% 80% at 50% 0%, rgba(96, 165, 250, 0.12) 0%, transparent 40%),
-                radial-gradient(ellipse 80% 60% at 80% 30%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse 60% 40% at 20% 70%, rgba(96, 165, 250, 0.08) 0%, transparent 50%);
+            bottom: 0;
+            background: url('https://sbdifoundation.org/wp-content/uploads/2023/10/Sunset-Marquez-Ranch-jpg.webp') center/cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .hero-logo-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: auto;
+            opacity: 0.05;
             pointer-events: none;
             z-index: 0;
-            animation: bgGlow 8s ease-in-out infinite alternate;
+            filter: grayscale(100%) brightness(200%);
+            animation: pulseLogo 8s ease-in-out infinite;
         }
 
-        @keyframes bgGlow {
-            0% {
-                opacity: 0.7;
-            }
+        @keyframes pulseLogo {
 
+            0%,
             100% {
-                opacity: 1;
+                opacity: 0.05;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                opacity: 0.08;
+                transform: translate(-50%, -50%) scale(1.05);
             }
         }
 
-        .vq-container {
-            max-width: 1100px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 0 2rem;
+        /* Floating Orbs */
+        .floating-orbs {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.4;
+            animation: floatOrb 15s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary);
+            top: -100px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--secondary);
+            bottom: -50px;
+            left: -50px;
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            top: 50%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        @keyframes floatOrb {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            25% {
+                transform: translate(30px, -30px) scale(1.05);
+            }
+
+            50% {
+                transform: translate(-20px, 20px) scale(0.95);
+            }
+
+            75% {
+                transform: translate(20px, 10px) scale(1.02);
+            }
+        }
+
+        .hero-content {
+            text-align: center;
             position: relative;
             z-index: 1;
+            padding: 100px 20px;
+            max-width: 900px;
+            animation: fadeInUp 1s ease-out;
         }
 
-        /* Back Link */
-        .vq-back-link {
-            position: fixed;
-            top: 1.5rem;
-            left: 1.5rem;
-            display: flex;
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .partner-badge {
+            display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.85rem;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            z-index: 100;
-            padding: 0.5rem 1rem;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 999px;
-            backdrop-filter: blur(10px);
+            gap: 10px;
+            background: rgba(71, 146, 231, 0.15);
+            border: 1px solid rgba(71, 146, 231, 0.3);
+            padding: 10px 24px;
+            border-radius: 50px;
+            margin-bottom: 30px;
         }
 
-        .vq-back-link:hover {
-            color: white;
-            background: rgba(0, 0, 0, 0.5);
-            transform: translateX(-3px);
+        .partner-badge-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
         }
 
-        .vq-back-link svg {
-            width: 16px;
-            height: 16px;
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.6;
+                transform: scale(1.2);
+            }
         }
 
-        /* ===== HERO SECTION ===== */
-        .vq-hero {
-            padding: 8rem 0 5rem;
-            text-align: center;
-        }
-
-        .vq-logo {
-            margin-bottom: 2rem;
-        }
-
-        .vq-logo img {
-            height: 70px;
-            width: auto;
-            filter: brightness(1.1);
-        }
-
-        .vq-hero-badge {
-            display: inline-block;
-            background: rgba(96, 165, 250, 0.12);
-            border: 1px solid rgba(96, 165, 250, 0.25);
-            padding: 0.5rem 1.25rem;
-            border-radius: 999px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 2px;
+        .partner-badge span {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
             text-transform: uppercase;
-            color: #60a5fa;
-            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
         }
 
-        .vq-hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            font-style: italic;
-            color: white;
-            margin-bottom: 1rem;
-            text-shadow: 0 4px 30px rgba(255, 255, 255, 0.15);
-            line-height: 1.1;
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            color: var(--text-light);
+            margin-bottom: 20px;
         }
 
-        .vq-hero-subtitle {
-            font-size: 1.15rem;
-            color: rgba(255, 255, 255, 0.65);
-            max-width: 600px;
-            margin: 0 auto 2.5rem;
-            line-height: 1.6;
-            padding: 0 1rem;
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--primary), #64b5f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .vq-hero-cta {
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            font-weight: 300;
+            animation: fadeInUp 1s ease-out 0.2s backwards;
+        }
+
+        .hero-description {
+            animation: fadeInUp 1s ease-out 0.4s backwards;
+        }
+
+        .hero-buttons {
+            animation: fadeInUp 1s ease-out 0.6s backwards;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 650px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-buttons {
             display: flex;
-            gap: 1rem;
+            gap: 20px;
             justify-content: center;
             flex-wrap: wrap;
         }
 
-        .vq-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.875rem 1.75rem;
-            border-radius: 999px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .vq-btn-primary {
-            background: #3b82f6;
-            color: white;
-        }
-
-        .vq-btn-primary:hover {
-            background: #2563eb;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
-        }
-
-        .vq-btn-secondary {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-        }
-
-        .vq-btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.35);
-            transform: translateY(-2px);
-        }
-
-        .vq-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        /* ===== SECTION STYLES ===== */
-        .vq-section {
-            padding: 4rem 0;
-        }
-
-        .vq-section-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .vq-section-label {
-            display: inline-block;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.4);
-            margin-bottom: 0.75rem;
-        }
-
-        .vq-section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            font-style: italic;
-            color: white;
-        }
-
-        /* Separator */
-        .vq-separator {
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            margin: 2rem 0;
-        }
-
-        /* ===== CARDS GRID ===== */
-        .vq-cards-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
-        .vq-card {
-            background: rgba(8, 12, 20, 0.85);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.4s ease;
-        }
-
-        .vq-card:hover {
-            background: rgba(8, 12, 20, 0.95);
-            border-color: rgba(96, 165, 250, 0.2);
-            transform: translateY(-5px);
-        }
-
-        .vq-card-icon {
-            width: 56px;
-            height: 56px;
-            background: rgba(96, 165, 250, 0.1);
-            border: 1px solid rgba(96, 165, 250, 0.2);
-            border-radius: 4px;
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.25rem;
-            color: #60a5fa;
+            gap: 10px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
         }
 
-        .vq-card-icon svg {
+        .scroll-indicator .mouse {
             width: 24px;
-            height: 24px;
-        }
-
-        .vq-card h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.2rem;
-            font-style: italic;
-            color: white;
-            margin-bottom: 0.75rem;
-        }
-
-        .vq-card p {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.55);
-            line-height: 1.6;
-        }
-
-        /* ===== STEPS SECTION ===== */
-        .vq-steps {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
+            height: 38px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
             position: relative;
         }
 
-        .vq-steps::before {
+        .scroll-indicator .mouse::before {
             content: '';
             position: absolute;
-            top: 28px;
-            left: calc(16.66% + 28px);
-            right: calc(16.66% + 28px);
-            height: 2px;
-            background: linear-gradient(90deg, rgba(96, 165, 250, 0.3), rgba(30, 58, 138, 0.3));
-            z-index: 0;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 2px;
+            animation: scrollAnim 1.5s infinite;
         }
 
-        .vq-step {
+        @keyframes scrollAnim {
+            0% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(12px);
+            }
+        }
+
+        /* Mission Section */
+        .mission {
+            background: var(--primary);
+            padding: 80px 20px;
             text-align: center;
-            position: relative;
-            z-index: 1;
         }
 
-        .vq-step-number {
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+        .mission h2 {
+            font-size: 2.2rem;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .mission h3 {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Split Section */
+        .split-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 500px;
+        }
+
+        .split-video {
+            position: relative;
+            background: var(--dark);
+        }
+
+        .split-video iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .split-content {
+            background: var(--cream);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px;
+        }
+
+        .split-content h2 {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .split-content .subtitle {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .split-content p {
+            color: #555;
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+        }
+
+        /* SDG Section */
+        .sdg-section {
+            background: var(--cream);
+            padding: 80px 20px;
+        }
+
+        .sdg-content {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .sdg-content h2 {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .sdg-content .subtitle {
+            font-size: 1.3rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        .sdg-content p {
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .sdg-icons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .sdg-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 8px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .sdg-icon:hover {
+            transform: scale(1.1);
+        }
+
+        /* Ethics Section */
+        .ethics {
+            background: var(--primary);
+            padding: 80px 20px;
+        }
+
+        .ethics-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .ethics-header h2 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .ethics-header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+        }
+
+        .ethics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .ethics-card {
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .ethics-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .ethics-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.25rem;
-            font-size: 1.25rem;
-            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .ethics-card:hover .ethics-icon {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+        }
+
+        .ethics-icon svg {
+            width: 60px;
+            height: 60px;
+            fill: white;
+            transition: transform 0.3s ease;
+        }
+
+        .ethics-card:hover .ethics-icon svg {
+            transform: scale(1.1);
+        }
+
+        .ethics-card h3 {
+            font-size: 1.5rem;
             color: white;
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+            margin-bottom: 10px;
         }
 
-        .vq-step h3 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: white;
-            margin-bottom: 0.5rem;
+        .ethics-card h3 strong {
+            color: var(--cream);
         }
 
-        .vq-step p {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.5);
-            line-height: 1.5;
+        .ethics-card p {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 300;
         }
 
-        /* ===== FAQ SECTION ===== */
-        .vq-faq-grid {
+        /* Partnership Details */
+        .partnership-details {
+            padding: 100px 20px;
+            background: white;
+        }
+
+        .partnership-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
         }
 
-        .vq-faq-item {
-            background: rgba(8, 12, 20, 0.85);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
-            padding: 1.75rem;
+        .partnership-image {
+            position: relative;
         }
 
-        .vq-faq-question {
-            font-size: 1rem;
-            font-weight: 600;
-            color: white;
-            margin-bottom: 0.75rem;
+        .partnership-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .partnership-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--primary);
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .partnership-text h2 {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        .partnership-text p {
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+
+        .partnership-list {
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .partnership-list li {
             display: flex;
             align-items: flex-start;
-            gap: 0.75rem;
+            gap: 15px;
+            margin-bottom: 15px;
         }
 
-        .vq-faq-question::before {
-            content: 'Q';
+        .partnership-list .check {
+            width: 24px;
+            height: 24px;
+            background: var(--secondary);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 24px;
-            height: 24px;
-            min-width: 24px;
-            background: rgba(96, 165, 250, 0.15);
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #60a5fa;
+            flex-shrink: 0;
+            margin-top: 2px;
         }
 
-        .vq-faq-answer {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.55);
-            line-height: 1.6;
-            padding-left: 2.25rem;
+        .partnership-list .check svg {
+            width: 14px;
+            height: 14px;
+            fill: white;
         }
 
-        /* ===== FOOTER CTA ===== */
-        .vq-footer-cta {
-            padding: 4rem 0 5rem;
+        /* Initiatives */
+        .initiatives {
+            background: var(--cream);
+            padding: 100px 20px;
+        }
+
+        .initiatives-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .initiatives-header h2 {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .initiatives-header p {
+            color: #555;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .initiatives-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .initiative-card {
+            background: white;
+            border-radius: 16px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .initiative-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .initiative-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .initiative-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(71, 146, 231, 0.15);
+            border-color: rgba(71, 146, 231, 0.1);
+        }
+
+        .initiative-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .initiative-card:hover .initiative-icon {
+            transform: scale(1.2);
+        }
+
+        .initiative-card h4 {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+
+        .initiative-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
+            padding: 100px 20px;
             text-align: center;
         }
 
-        .vq-footer-card {
-            background: rgba(8, 12, 20, 0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(96, 165, 250, 0.25);
-            border-radius: 24px;
-            padding: 3rem;
-        }
-
-        .vq-footer-card h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.75rem;
-            font-style: italic;
+        .cta h2 {
+            font-size: 2.5rem;
             color: white;
-            margin-bottom: 0.75rem;
+            margin-bottom: 15px;
         }
 
-        .vq-footer-card p {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 2rem;
+        .cta p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto 40px;
         }
 
-        .vq-footer-links {
+        .cta-buttons {
             display: flex;
-            gap: 1rem;
+            gap: 20px;
             justify-content: center;
             flex-wrap: wrap;
         }
 
-        /* ===== COPYRIGHT ===== */
-        .vq-copyright {
-            text-align: center;
-            padding: 2rem 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.35);
+        /* Footer */
+        .footer {
+            background: var(--primary);
+            padding: 50px 20px;
         }
 
-        /* ============================================
-           RESPONSIVE ADJUSTMENTS
-           ============================================ */
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .footer-logo img {
+            height: 50px;
+        }
+
+        .footer-logo span {
+            color: white;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-copy {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
         @media (max-width: 1024px) {
-            .vq-cards-grid {
+            .initiatives-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+
+            .ethics-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
             }
         }
 
         @media (max-width: 768px) {
-            .vq-page {
-                width: 100vw;
-            }
-
-            .vq-container {
-                padding: 0 1.5rem;
-            }
-
-            .vq-hero {
-                padding: 6rem 0 3rem;
-            }
-
-            .vq-hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .vq-cards-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .vq-steps {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-
-            .vq-steps::before {
+            .top-nav-banner {
                 display: none;
             }
 
-            .vq-faq-grid {
+            .split-section {
                 grid-template-columns: 1fr;
             }
 
-            .vq-footer-card {
-                padding: 2rem 1.5rem;
+            .split-video {
+                min-height: 300px;
             }
+
+            .split-content {
+                padding: 40px 30px;
+            }
+
+            .partnership-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .partnership-image::before {
+                display: none;
+            }
+
+            .initiatives-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 {
+            transition-delay: 0.1s;
+        }
+
+        .reveal-delay-2 {
+            transition-delay: 0.2s;
+        }
+
+        .reveal-delay-3 {
+            transition-delay: 0.3s;
+        }
+
+        /* Video Preview Card Styles */
+        .video-preview {
+            display: block;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 100%;
+            overflow: hidden;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .video-preview:hover .video-thumbnail {
+            transform: scale(1.08);
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .video-preview:hover .video-overlay {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .play-button {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-bottom: 12px;
+        }
+
+        .video-preview:hover .play-button {
+            transform: scale(1.15);
+            background: #fff;
+            box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.15);
+        }
+
+        .play-icon {
+            width: 24px;
+            height: 24px;
+            fill: var(--primary);
+            margin-left: 4px;
+            /* Optical centering */
+        }
+
+        .video-hint {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transform: translateY(10px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .video-preview:hover .video-hint {
+            transform: translateY(0);
+            opacity: 1;
         }
     </style>
 </head>
 
 <body>
-    <!-- Main Content -->
-    <div class="vq-page">
 
-        <!-- Back Link -->
-        <a href="index.html" class="vq-back-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M19 12H5M12 19l-7-7 7-7" />
-            </svg>
-            Home
-        </a>
-
-        <!-- HERO SECTION -->
-        <section class="vq-hero">
-            <div class="vq-container">
-                <div class="vq-logo">
-                    <img src="assets/logo-sbdi.webp" alt="SDBI Center" loading="eager">
-                </div>
-                <span class="vq-hero-badge">CENTER OF EXCELLENCE</span>
-                <h1>Strategic Business Development</h1>
-                <p class="vq-hero-subtitle">
-                    Strategic Business Development. Innovation. Training.
-                    Empowering organizations to achieve sustainable growth through visionary leadership.
-                </p>
-                <div class="vq-hero-cta">
-                    <a href="#resources" class="vq-btn vq-btn-primary">
-                        Explore Capabilities
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M19 12H5M12 19l-7-7 7-7" transform="rotate(180 12 12)" />
+    <!-- TOP NAV BANNER (same as index.html) -->
+    <nav class="top-nav-banner">
+        <div class="top-nav-container">
+            <div class="top-nav-links">
+                <a href="index.html" class="top-nav-link">Home</a>
+                <a href="index.html#contact" class="top-nav-link">Get in Touch</a>
+                <div class="partners-dropdown-container">
+                    <button class="top-nav-link top-nav-partners-btn" id="partnersBtn" aria-expanded="false">
+                        PARTNERS
+                        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left: 6px;">
+                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                    </a>
-                    <a href="mailto:contact@sdbicenter.com" class="vq-btn vq-btn-secondary">
-                        Contact Management
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <div class="vq-container">
-            <div class="vq-separator"></div>
-        </div>
-
-        <!-- WHAT YOU'LL FIND SECTION -->
-        <section class="vq-section" id="resources">
-            <div class="vq-container">
-                <div class="vq-section-header">
-                    <span class="vq-section-label">Capabilities</span>
-                    <h2 class="vq-section-title">Core Competencies</h2>
-                </div>
-                <div class="vq-cards-grid">
-                    <div class="vq-card">
-                        <div class="vq-card-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                            </svg>
-                        </div>
-                        <h3>Market Strategy</h3>
-                        <p>Data-driven insights and strategic frameworks to navigate complex market dynamics
-                            effectively.
-                        </p>
-                    </div>
-                    <div class="vq-card">
-                        <div class="vq-card-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                                <circle cx="9" cy="7" r="4" />
-                                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                            </svg>
-                        </div>
-                        <h3>Leadership Training</h3>
-                        <p>Cultivating high-performance teams through advanced leadership training and coherence
-                            coaching.
-                        </p>
-                    </div>
-                    <div class="vq-card">
-                        <div class="vq-card-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                            </svg>
-                        </div>
-                        <h3>Innovation Hub</h3>
-                        <p>Fostering cutting-edge solutions and technological integration for business modernization.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="vq-container">
-            <div class="vq-separator"></div>
-        </div>
-
-        <!-- HOW IT WORKS SECTION -->
-        <section class="vq-section">
-            <div class="vq-container">
-                <div class="vq-section-header">
-                    <span class="vq-section-label">Methodology</span>
-                    <h2 class="vq-section-title">Development Process</h2>
-                </div>
-                <div class="vq-steps">
-                    <div class="vq-step">
-                        <div class="vq-step-number">1</div>
-                        <h3>Analysis</h3>
-                        <p>Comprehensive assessment of business structures and market position</p>
-                    </div>
-                    <div class="vq-step">
-                        <div class="vq-step-number">2</div>
-                        <h3>Strategy</h3>
-                        <p>Tailored development of growth roadmaps and execution plans</p>
-                    </div>
-                    <div class="vq-step">
-                        <div class="vq-step-number">3</div>
-                        <h3>Implementation</h3>
-                        <p>Deployment of strategies with continuous monitoring and optimization</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="vq-container">
-            <div class="vq-separator"></div>
-        </div>
-
-        <!-- FAQ SECTION -->
-        <section class="vq-section">
-            <div class="vq-container">
-                <div class="vq-section-header">
-                    <span class="vq-section-label">Insights</span>
-                    <h2 class="vq-section-title">Key Information</h2>
-                </div>
-                <div class="vq-faq-grid">
-                    <div class="vq-faq-item">
-                        <div class="vq-faq-question">What industries does SDBI specialize in?</div>
-                        <p class="vq-faq-answer">We operate across diverse sectors including technology, wellness, and
-                            sustainable development, focusing on scalable innovation.</p>
-                    </div>
-                    <div class="vq-faq-item">
-                        <div class="vq-faq-question">Are training programs remote or in-person?</div>
-                        <p class="vq-faq-answer">We offer hybrid solutions, capable of delivering high-impact training
-                            globally through both digital and physical channels.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FOOTER CTA -->
-        <section class="vq-footer-cta">
-            <div class="vq-container">
-                <div class="vq-footer-card">
-                    <h2>Partner with Us</h2>
-                    <p>Elevate your business strategy with SDBI Center.</p>
-                    <div class="vq-footer-links">
-                        <a href="mailto:contact@sdbicenter.com" class="vq-btn vq-btn-primary">
-                            Inquire Now
+                    </button>
+                    <div class="partners-dropdown-menu" id="partnersDropdown">
+                        <a href="vegaqura.html" class="partners-dropdown-item">
+                            <img src="assets/logo-vegaqura.png" alt="Vegaqura" class="partner-icon-img"> Vegaqura
+                        </a>
+                        <a href="sdbi-center.html" class="partners-dropdown-item">
+                            <img src="assets/logo-sbdi.webp" alt="SBDI" class="partner-icon-img"> SBDI Center
+                        </a>
+                        <a href="wiseuse.html" class="partners-dropdown-item">
+                            <img src="assets/wiseuse-pyramid.png" alt="WiseUse" class="partner-icon-img"> WiseUse International
+                        </a>
+                        <a href="eko-vitaris.html" class="partners-dropdown-item">
+                            <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-icon-img"> Eko Vitaris
                         </a>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </nav>
 
-        <!-- COPYRIGHT -->
-        <div class="vq-copyright">
-            <div class="vq-container">
-                <p>© 2026 SDBI Center. All rights reserved.</p>
+    <!-- Hero Section -->
+    <section class="hero">
+        <img src="assets/logo-sbdi.webp" alt="" class="hero-logo-bg">
+        <div class="floating-orbs">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
+        <div class="hero-content">
+            <div class="partner-badge">
+                <svg viewBox="0 0 24 24"
+                    style="height: 24px; width: 24px; margin-right: 12px; vertical-align: middle; fill: var(--primary);">
+                    <path
+                        d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"
+                        opacity="0.3" />
+                    <path
+                        d="M12,12c2.21,0 4,-1.79 4,-4s-1.79,-4 -4,-4s-4,1.79 -4,4s1.79,4 4,4zm0,2c-2.67,0 -8,1.34 -8,4v2h16v-2c0,-2.66 -5.33,-4 -8,-4z"
+                        transform="scale(0.5) translate(12,12)" />
+                    <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+                </svg>
+                <span>Official Partner</span>
+            </div>
+            <h1>
+                Eugine × <span class="highlight">SBDI Center</span>
+            </h1>
+            <p class="hero-subtitle">Sustainable Business Development & Innovation</p>
+            <p class="hero-description">
+                Together, we're committed to improving education, entrepreneurship,
+                and social ecosystems through knowledge transfer and sustainable development.
+            </p>
+            <div class="hero-buttons">
+                <a href="#partnership" class="btn btn-primary">Learn About Our Partnership</a>
+                <a href="https://sbdifoundation.org" target="_blank" class="btn btn-outline">Visit SBDI Center</a>
             </div>
         </div>
+        <div class="scroll-indicator">
+            <div class="mouse"></div>
+            <span>Scroll to explore</span>
+        </div>
+    </section>
 
-    </div>
+    <!-- Mission Section -->
+    <section class="mission" id="mission">
+        <div class="container reveal">
+            <h2 class="uppercase"><strong>Our Shared Mission</strong></h2>
+            <h3 class="thin-font">
+                To improve the Education, Entrepreneurship & Social Ecosystem
+                through knowledge transfer & human capital development
+            </h3>
+        </div>
+    </section>
 
+    <!-- Split Section - World Divided -->
+    <section class="split-section">
+        <div class="split-video">
+            <a href="https://www.youtube.com/watch?v=Jf60NqJtq-w" target="_blank" class="video-preview"
+                aria-label="Watch Call For Unity in Diversity on YouTube">
+                <div class="video-thumbnail"
+                    style="background-image: url('https://img.youtube.com/vi/Jf60NqJtq-w/maxresdefault.jpg');"></div>
+                <div class="video-overlay">
+                    <div class="play-button">
+                        <svg class="play-icon" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                    </div>
+                    <span class="video-hint">Watch Video</span>
+                </div>
+            </a>
+        </div>
+        <div class="split-content reveal reveal-delay-2">
+            <h2><strong>A World Divided</strong></h2>
+            <p class="subtitle">Artificial Scarcity, Oligopolies, Post-Colonialism</p>
+            <p>How do we create a new future with abundance & cooperation?
+                Through sustainable business development and innovation, we bridge
+                the gap between developed and developing nations.</p>
+            <a href="#initiatives" class="btn btn-primary">Discover Our Approach</a>
+        </div>
+    </section>
+
+    <!-- Split Section - Unity -->
+    <section class="split-section">
+        <div class="split-content reveal">
+            <h2><strong>Unity in Diversity</strong></h2>
+            <p class="subtitle">For Dignity & Prosperity</p>
+            <p>Human Capital + Human Rights. We support the UN Sustainable Development Goals
+                and believe in creating a more equitable world through sustainable practices.</p>
+        </div>
+        <div class="split-video">
+            <a href="https://www.youtube.com/watch?v=g0n9aT-76jc" target="_blank" class="video-preview"
+                aria-label="Watch SBDI Food Security on YouTube">
+                <div class="video-thumbnail"
+                    style="background-image: url('https://img.youtube.com/vi/g0n9aT-76jc/maxresdefault.jpg');"></div>
+                <div class="video-overlay">
+                    <div class="play-button">
+                        <svg class="play-icon" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                    </div>
+                    <span class="video-hint">Watch Video</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- SDG Section -->
+    <section class="sdg-section">
+        <div class="sdg-content reveal">
+            <h2>UN Sustainable Development Goals</h2>
+            <p class="subtitle">We Support Global Change</p>
+            <p>Our partnership actively contributes to multiple UN SDGs,
+                working towards a more sustainable and equitable future for all.</p>
+            <div class="sdg-icons">
+                <img src="https://sbdifoundation.org/wp-content/uploads/2023/08/SDG1-No-Poverty-jpg.webp"
+                    alt="SDG 1 - No Poverty" class="sdg-icon">
+                <img src="https://sbdifoundation.org/wp-content/uploads/2023/08/SDG2-Zero-Hunger-jpg.webp"
+                    alt="SDG 2 - Zero Hunger" class="sdg-icon">
+                <img src="https://sbdifoundation.org/wp-content/uploads/2023/08/SDG3-Good-Health-Well-Being-jpg.webp"
+                    alt="SDG 3 - Good Health" class="sdg-icon">
+                <img src="https://sbdifoundation.org/wp-content/uploads/2023/08/SDG4-Quality-Education-jpg.webp"
+                    alt="SDG 4 - Quality Education" class="sdg-icon">
+                <img src="https://sbdifoundation.org/wp-content/uploads/2023/08/SDG13-Climate-Action-jpg.webp"
+                    alt="SDG 13 - Climate Action" class="sdg-icon">
+                <img src="https://sbdifoundation.org/wp-content/uploads/2023/08/SDG17-Partnerships-for-the-Goals-jpg.webp"
+                    alt="SDG 17 - Partnerships" class="sdg-icon">
+            </div>
+        </div>
+    </section>
+
+    <!-- Ethics Section -->
+    <section class="ethics">
+        <div class="container">
+            <div class="ethics-header reveal">
+                <h2 class="uppercase"><strong>Ethics</strong></h2>
+                <p class="thin-font">Every Civilization Starts with Shared Ethics</p>
+            </div>
+            <div class="ethics-grid">
+                <div class="ethics-card">
+                    <div class="ethics-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+                        </svg>
+                    </div>
+                    <h3>Care for <strong>People</strong></h3>
+                    <p class="thin-font">Support local communities,<br>Education + Human Capital</p>
+                </div>
+                <div class="ethics-card">
+                    <div class="ethics-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+                        </svg>
+                    </div>
+                    <h3>Care for <strong>Planet</strong></h3>
+                    <p class="thin-font">Regenerate Nature's Cycles,<br>Restore the Garden of EDEN</p>
+                </div>
+                <div class="ethics-card">
+                    <div class="ethics-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z" />
+                        </svg>
+                    </div>
+                    <h3>Care for <strong>Fair Profit</strong></h3>
+                    <p class="thin-font">Equitable access to<br>resources & knowledge</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partnership Details -->
+    <section class="partnership-details" id="partnership">
+        <div class="partnership-grid reveal">
+            <div class="partnership-image">
+                <img src="https://sbdifoundation.org/wp-content/uploads/2023/08/Rwanda-The-Land-of-a-thousand-hills-600x600-1.jpg"
+                    alt="SBDI Center Partnership">
+            </div>
+            <div class="partnership-text">
+                <h2>Our Partnership with SBDI</h2>
+                <p>
+                    As a strategic partner of SBDI Center, Eugine is committed to
+                    supporting sustainable business development initiatives across
+                    developing regions. Together, we're building a more equitable
+                    and sustainable future.
+                </p>
+                <ul class="partnership-list">
+                    <li>
+                        <span class="check"><svg viewBox="0 0 24 24">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                            </svg></span>
+                        <span>Knowledge transfer and capacity building programs</span>
+                    </li>
+                    <li>
+                        <span class="check"><svg viewBox="0 0 24 24">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                            </svg></span>
+                        <span>Supporting sustainable start-ups in developing countries</span>
+                    </li>
+                    <li>
+                        <span class="check"><svg viewBox="0 0 24 24">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                            </svg></span>
+                        <span>Education and entrepreneurship ecosystem development</span>
+                    </li>
+                    <li>
+                        <span class="check"><svg viewBox="0 0 24 24">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                            </svg></span>
+                        <span>Contributing to UN Sustainable Development Goals</span>
+                    </li>
+                </ul>
+                <a href="https://sbdifoundation.org" target="_blank" class="btn btn-secondary">Learn More About SBDI</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Initiatives Section -->
+    <section class="initiatives" id="initiatives">
+        <div class="initiatives-header reveal">
+            <h2>Key Focus Areas</h2>
+            <p>Our partnership spans multiple sectors critical to sustainable development</p>
+        </div>
+        <div class="initiatives-grid reveal reveal-delay-2">
+            <div class="initiative-card">
+                <div class="initiative-icon">⚡</div>
+                <h4>Energy</h4>
+                <p>Renewable solutions, solar, wind, and sustainable power infrastructure</p>
+            </div>
+            <div class="initiative-card">
+                <div class="initiative-icon">🌱</div>
+                <h4>Agriculture</h4>
+                <p>Regenerative farming, agroforestry, and sustainable food systems</p>
+            </div>
+            <div class="initiative-card">
+                <div class="initiative-icon">🌍</div>
+                <h4>Environment</h4>
+                <p>Conservation, restoration, and climate action initiatives</p>
+            </div>
+            <div class="initiative-card">
+                <div class="initiative-icon">🏙️</div>
+                <h4>Sustainable Living</h4>
+                <p>Green cities, eco-villages, and sustainable urban development</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta reveal" id="contact">
+        <h2>Join Our Mission</h2>
+        <p>
+            Together with SBDI Center, we're building bridges between developed
+            and developing nations. Get in touch to learn how you can be part of this change.
+        </p>
+        <div class="cta-buttons">
+            <a href="mailto:contact@eugine.com" class="btn btn-primary">Contact Eugine</a>
+            <a href="https://sbdifoundation.org/contact" target="_blank" class="btn btn-outline">Contact SBDI Center</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer reveal">
+        <div class="footer-inner">
+            <div class="footer-logo">
+                <img src="assets/logo-sbdi.webp" alt="SBDI Center"
+                    style="height: 40px; margin-right: 15px; background: white; border-radius: 50%;">
+                <span>Eugine × SBDI Center</span>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="#mission">Mission</a>
+                <a href="#partnership">Partnership</a>
+                <a href="https://sbdifoundation.org" target="_blank">SBDI Official</a>
+            </div>
+            <p class="footer-copy">© 2026 Eugine. Strategic Partner of SBDI Center.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Partners dropdown
+        (function() {
+            var btn = document.getElementById('partnersBtn');
+            var dd = document.getElementById('partnersDropdown');
+            if (!btn || !dd) return;
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var open = btn.getAttribute('aria-expanded') === 'true';
+                btn.setAttribute('aria-expanded', !open);
+                dd.classList.toggle('active');
+            });
+            document.addEventListener('click', function(e) {
+                if (!dd.contains(e.target) && !btn.contains(e.target)) {
+                    btn.setAttribute('aria-expanded', 'false');
+                    dd.classList.remove('active');
+                }
+            });
+        })();
+
+        // Scroll Reveal Animation
+        document.addEventListener('DOMContentLoaded', function () {
+            const reveals = document.querySelectorAll('.reveal');
+
+            const revealOnScroll = function () {
+                const windowHeight = window.innerHeight;
+                const elementVisible = 150;
+
+                reveals.forEach((reveal) => {
+                    const elementTop = reveal.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - elementVisible) {
+                        reveal.classList.add('active');
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll(); // Trigger once on load
+        });
+    </script>
 </body>
 
 </html>
