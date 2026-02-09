@@ -229,12 +229,10 @@
         </div>
     </header>
 
-    <!-- About Section: Immersive Particle Experience with Scroll Sync (Updated) -->
+    <!-- About Section: 4 snap positions with sticky iframe overlay -->
     <section class="about-particle-experience" id="about" style="
         position: relative;
         width: 100%;
-        height: 500vh;
-        overflow: visible;
         z-index: 1;
     ">
         <iframe id="aboutIframe" src="about_v2.html" scrolling="no" style="
@@ -245,86 +243,188 @@
                 height: 100vh;
                 border: none;
                 overflow: hidden;
+                pointer-events: none;
+                z-index: 2;
             " title="About Me - Sacred Geometry Experience"></iframe>
+        <!-- 3 spacers give the section 400vh total (iframe 100vh + 300vh) -->
+        <div style="height: 100vh;"></div>
+        <div style="height: 100vh;"></div>
+        <div style="height: 100vh;"></div>
     </section>
 
     <script>
-        // Scroll sync via Lenis (60fps interpolado) + Auto-play primera tarjeta
+        // Full-page snap: 6 positions, own smooth scroll (no Lenis dependency)
         (function () {
-            const aboutSection = document.getElementById('about');
-            const iframe = document.getElementById('aboutIframe');
-            const sectionHeight = aboutSection.offsetHeight;
-            const viewportHeight = window.innerHeight;
+            var aboutSection = document.getElementById('about');
+            var iframe = document.getElementById('aboutIframe');
+            var lastSlide = -1;
+            var isSnapping = false;
 
-            let autoProgress = 0;
-            let lastSentProgress = -1;
-            let sectionActive = false;
-            let currentProgress = 0;
+            // Cached positions — invalidated on resize
+            var posCache = null;
 
-            const autoSpeed = 0.0008;
-            const autoLimit = 0.333;
+            // Kill Lenis — it conflicts with snap navigation
+            function killLenis() {
+                if (window.lenis && typeof window.lenis.destroy === 'function') {
+                    try { window.lenis.destroy(); } catch (e) { }
+                }
+                window.lenis = null;
+                if (window.lenisInstance && typeof window.lenisInstance.destroy === 'function') {
+                    try { window.lenisInstance.destroy(); } catch (e) { }
+                }
+                window.lenisInstance = null;
+            }
 
-            function sendProgress(progress) {
-                if (Math.abs(progress - lastSentProgress) > 0.0005 && iframe.contentWindow) {
-                    lastSentProgress = progress;
-                    iframe.contentWindow.postMessage({
-                        type: 'parentScroll',
-                        progress: progress
-                    }, '*');
+            // Block Lenis creation immediately (before main.min.js runs)
+            // main.min.js checks `if (window.lenis) return;`
+            window.lenis = true;
+
+            // 6 snap positions (cached)
+            function getPositions() {
+                if (posCache) return posCache;
+                var vh = window.innerHeight;
+                var at = aboutSection.offsetTop;
+                var ct = document.getElementById('contact');
+                posCache = [0, at, at + vh, at + 2 * vh, at + 3 * vh, ct ? ct.offsetTop : at + 4 * vh];
+                return posCache;
+            }
+
+            function invalidateCache() { posCache = null; }
+
+            function getClosestIndex() {
+                var pos = getPositions();
+                var sy = window.scrollY;
+                var best = 0, min = 1e9;
+                for (var i = 0; i < pos.length; i++) {
+                    var d = Math.abs(sy - pos[i]);
+                    if (d < min) { min = d; best = i; }
+                }
+                return best;
+            }
+
+            // Smooth scroll with easeInOutQuad — lands exactly on target
+            function smoothScroll(target, duration) {
+                var start = window.scrollY;
+                var dist = target - start;
+                if (Math.abs(dist) < 2) { window.scrollTo(0, target); isSnapping = false; return; }
+                var t0 = performance.now();
+
+                function step(now) {
+                    var p = Math.min((now - t0) / duration, 1);
+                    var ease = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+                    window.scrollTo(0, Math.round(start + dist * ease));
+                    checkSlide();
+                    if (p < 1) {
+                        requestAnimationFrame(step);
+                    } else {
+                        window.scrollTo(0, target); // exact landing
+                        checkSlide();
+                        isSnapping = false;
+                    }
+                }
+                requestAnimationFrame(step);
+            }
+
+            function snapTo(dir) {
+                if (isSnapping) return;
+                var pos = getPositions();
+                var cur = getClosestIndex();
+                var next = Math.max(0, Math.min(pos.length - 1, cur + dir));
+                if (next === cur) return;
+                isSnapping = true;
+                smoothScroll(pos[next], 1200);
+            }
+
+            // Navigate to a specific snap index (for "About Me" button etc.)
+            function snapToIndex(index) {
+                if (isSnapping) return;
+                var pos = getPositions();
+                index = Math.max(0, Math.min(pos.length - 1, index));
+                isSnapping = true;
+                smoothScroll(pos[index], 1200);
+            }
+
+            // Send slide index to iframe
+            function checkSlide() {
+                if (!iframe || !iframe.contentWindow) return;
+                var at = aboutSection.offsetTop;
+                var sy = window.scrollY;
+                var vh = window.innerHeight;
+                var off = sy - at;
+                if (off >= -10 && off < aboutSection.offsetHeight - vh + 10) {
+                    var idx = Math.min(3, Math.max(0, Math.floor(off / vh + 0.2)));
+                    if (idx !== lastSlide) {
+                        lastSlide = idx;
+                        iframe.contentWindow.postMessage({ type: 'goToSlide', index: idx }, '*');
+                    }
                 }
             }
 
-            // Usar Lenis scroll event — se dispara cada frame a 60fps con valores ya interpolados
-            function onLenisReady() {
-                window.lenis.on('scroll', function (e) {
-                    const rect = aboutSection.getBoundingClientRect();
+            function boot() {
+                // Kill any Lenis that may have been created despite our block
+                killLenis();
+                // Keep blocking future attempts
+                window.lenis = true;
 
-                    if (rect.top <= 0 && rect.bottom >= viewportHeight) {
-                        sectionActive = true;
-                        const scrolled = Math.abs(rect.top);
-                        const maxScroll = sectionHeight - viewportHeight;
-                        const scrollProgress = Math.max(0, Math.min(1, scrolled / maxScroll));
+                // Wheel
+                window.addEventListener('wheel', function (e) {
+                    e.preventDefault();
+                    snapTo(e.deltaY > 0 ? 1 : -1);
+                }, { passive: false });
 
-                        const remapped = autoLimit + scrollProgress * (1 - autoLimit);
-                        currentProgress = Math.max(remapped, autoProgress);
-                        sendProgress(currentProgress);
-                    } else if (rect.top > 0) {
-                        sectionActive = false;
-                        autoProgress = 0;
-                        currentProgress = 0;
-                        sendProgress(0);
-                    }
+                // Touch
+                var ty = 0;
+                window.addEventListener('touchstart', function (e) { ty = e.touches[0].clientY; }, { passive: true });
+                window.addEventListener('touchend', function (e) {
+                    var dy = ty - e.changedTouches[0].clientY;
+                    if (Math.abs(dy) > 50) snapTo(dy > 0 ? 1 : -1);
                 });
-            }
 
-            // Esperar a que Lenis esté inicializado
-            function waitForLenis() {
-                if (window.lenis) {
-                    onLenisReady();
-                } else {
-                    requestAnimationFrame(waitForLenis);
+                // Keyboard — skip Space if user is in a form field
+                window.addEventListener('keydown', function (e) {
+                    var tag = document.activeElement && document.activeElement.tagName;
+                    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+                    if (e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); snapTo(1); }
+                    else if (e.key === 'ArrowUp') { e.preventDefault(); snapTo(-1); }
+                });
+
+                // Scrollbar drag → send slide to iframe
+                window.addEventListener('scroll', checkSlide, { passive: true });
+
+                // Invalidate position cache on resize
+                window.addEventListener('resize', invalidateCache);
+
+                // Intercept "ABOUT ME" anchor to use snap instead of native scroll
+                var aboutBtn = document.querySelector('a[href="#about"]');
+                if (aboutBtn) {
+                    aboutBtn.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        snapToIndex(1); // position 1 = about section top
+                    });
                 }
             }
-            waitForLenis();
 
-            // Auto-play loop (primera tarjeta)
-            function autoPlayLoop() {
-                if (sectionActive && autoProgress < autoLimit) {
-                    autoProgress += autoSpeed;
-                    autoProgress = Math.min(autoLimit, autoProgress);
-                    if (autoProgress > currentProgress) {
-                        currentProgress = autoProgress;
-                        sendProgress(currentProgress);
-                    }
-                }
-                requestAnimationFrame(autoPlayLoop);
+            // Retry Lenis kill — covers async script loading race conditions
+            function ensureLenisDead() {
+                killLenis();
+                window.lenis = true;
             }
-            requestAnimationFrame(autoPlayLoop);
+
+            if (document.readyState === 'complete') {
+                setTimeout(boot, 50);
+            } else {
+                window.addEventListener('load', function () { setTimeout(boot, 50); });
+            }
+            // Extra kill passes to catch late Lenis instantiation
+            setTimeout(ensureLenisDead, 200);
+            setTimeout(ensureLenisDead, 500);
+            setTimeout(ensureLenisDead, 1000);
         })();
     </script>
 
     <!-- Contact Section: Elite Executive Hub (3-Column Layout) -->
-    <section class="contact-section fade-section" id="contact">
+    <section class="contact-section fade-section" id="contact" style="position: relative; z-index: 3;">
         <div class="container">
 
             <div class="contact-grid-layout">

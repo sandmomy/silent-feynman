@@ -31,7 +31,7 @@
             background: var(--bg);
             color: #fff;
             font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
+            overflow: hidden;
         }
 
         /* Imagen de fondo — absolute en vez de fixed para evitar repaints */
@@ -61,8 +61,7 @@
         }
 
         .scroll-container {
-            height: 200vh;
-            /* Menos scroll necesario */
+            height: 100vh;
             position: relative;
         }
 
@@ -363,7 +362,6 @@
 
             function onDocumentTouchMove(event) {
                 if (event.touches.length === 1) {
-                    event.preventDefault();
                     mouseX = event.touches[0].pageX - windowHalfX;
                     mouseY = event.touches[0].pageY - windowHalfY;
                 }
@@ -711,6 +709,7 @@
                         }
                     `,
                     transparent: true,
+                    depthWrite: false,
                     side: THREE.DoubleSide
                 });
 
@@ -728,7 +727,7 @@
             // ============================================
             // SACRED GEOMETRY PARTICLES (estilo arena/fondo)
             // ============================================
-            const PARTICLE_COUNT = 50000;
+            const PARTICLE_COUNT = 35000;
 
             function createParticleTexture() {
                 const canvas = document.createElement('canvas');
@@ -938,7 +937,7 @@
                     return points;
                 },
 
-                // TORUS - Campo toroidal vórtex
+                // TORUS - Campo toroidal energético limpio
                 torus(count) {
                     const points = [];
                     const R = 3.0, r = 1.15;
@@ -953,138 +952,124 @@
                         return { x: bx * cosTZ - ry * sinTZ, y: bx * sinTZ + ry * cosTZ, z: rz };
                     }
 
-                    // === 1. SUPERFICIE (7%) — silueta exterior del torus ===
-                    const surfaceCount = Math.floor(count * 0.07);
-                    for (let i = 0; i < surfaceCount; i++) {
-                        const phi = Math.random() * Math.PI * 2;
-                        const theta = Math.random() * Math.PI * 2;
-                        const rVar = r * (0.98 + Math.random() * 0.04);
-                        const bx = (R + rVar * Math.cos(theta)) * Math.cos(phi);
-                        const by = rVar * Math.sin(theta);
-                        const bz = (R + rVar * Math.cos(theta)) * Math.sin(phi);
-                        const p = tilt(bx, by, bz);
-                        points.push({
-                            x: p.x, y: p.y, z: p.z,
-                            size: 0.18 + Math.random() * 0.15,
-                            type: 'torus', subType: 'surface',
-                            torusFlow: { phi, theta }
-                        });
-                    }
-
-                    // === 2. ESPIRALES (8%) — 3 líneas de energía limpias ===
-                    const spiralCount = Math.floor(count * 0.08);
-                    const numSpirals = 3;
+                    // === 1. ESPIRALES (58%) — 7 líneas de flujo nítidas, 5 vueltas ===
+                    const spiralCount = Math.floor(count * 0.58);
+                    const numSpirals = 7;
                     const ptsPerSpiral = Math.floor(spiralCount / numSpirals);
                     for (let s = 0; s < numSpirals; s++) {
                         const spiralOffset = (s / numSpirals) * Math.PI * 2;
                         for (let j = 0; j < ptsPerSpiral; j++) {
                             const t = j / ptsPerSpiral;
                             const phi = t * Math.PI * 2 + spiralOffset;
-                            const theta = t * Math.PI * 2 * 3;
-                            const bx = (R + r * Math.cos(theta)) * Math.cos(phi);
-                            const by = r * Math.sin(theta);
-                            const bz = (R + r * Math.cos(theta)) * Math.sin(phi);
+                            const theta = t * Math.PI * 2 * 5;
+                            const thick = (Math.random() - 0.5) * 0.025;
+                            const bx = (R + (r + thick) * Math.cos(theta)) * Math.cos(phi);
+                            const by = (r + thick) * Math.sin(theta);
+                            const bz = (R + (r + thick) * Math.cos(theta)) * Math.sin(phi);
                             const p = tilt(bx, by, bz);
                             points.push({
                                 x: p.x, y: p.y, z: p.z,
-                                size: 0.35 + Math.random() * 0.15,
+                                size: 0.15 + Math.random() * 0.10,
                                 type: 'torus', subType: 'spiral',
                                 torusFlow: { phi, theta }
                             });
                         }
                     }
 
-                    // === 3. ANILLOS (5%) — 8 anillos bien definidos ===
-                    const ringCount = Math.floor(count * 0.05);
-                    const numRings = 8;
+                    // === 2. ANILLOS (12%) — 16 secciones transversales finas ===
+                    const ringCount = Math.floor(count * 0.12);
+                    const numRings = 16;
                     const ptsPerRing = Math.floor(ringCount / numRings);
                     for (let m = 0; m < numRings; m++) {
-                        const theta = (m / numRings) * Math.PI * 2;
+                        const phi = (m / numRings) * Math.PI * 2;
                         for (let j = 0; j < ptsPerRing; j++) {
-                            const phi = (j / ptsPerRing) * Math.PI * 2;
-                            const bx = (R + r * Math.cos(theta)) * Math.cos(phi);
-                            const by = r * Math.sin(theta);
-                            const bz = (R + r * Math.cos(theta)) * Math.sin(phi);
+                            const theta = (j / ptsPerRing) * Math.PI * 2;
+                            const thick = (Math.random() - 0.5) * 0.015;
+                            const bx = (R + (r + thick) * Math.cos(theta)) * Math.cos(phi);
+                            const by = (r + thick) * Math.sin(theta);
+                            const bz = (R + (r + thick) * Math.cos(theta)) * Math.sin(phi);
                             const p = tilt(bx, by, bz);
                             points.push({
                                 x: p.x, y: p.y, z: p.z,
-                                size: 0.45 + Math.random() * 0.2,
+                                size: 0.18 + Math.random() * 0.10,
                                 type: 'torus', subType: 'ring',
                                 torusFlow: { phi, theta }
                             });
                         }
                     }
 
-                    // === 4. MERIDIANOS (4%) — líneas alrededor del tubo para definir 3D ===
-                    const meridianCount = Math.floor(count * 0.04);
-                    const numMeridians = 10;
+                    // === 3. MERIDIANOS (10%) — 18 líneas longitudinales nítidas ===
+                    const meridianCount = Math.floor(count * 0.10);
+                    const numMeridians = 18;
                     const ptsPerMeridian = Math.floor(meridianCount / numMeridians);
                     for (let m = 0; m < numMeridians; m++) {
-                        const phi = (m / numMeridians) * Math.PI * 2;
+                        const theta = (m / numMeridians) * Math.PI * 2;
                         for (let j = 0; j < ptsPerMeridian; j++) {
-                            const theta = (j / ptsPerMeridian) * Math.PI * 2;
-                            const bx = (R + r * Math.cos(theta)) * Math.cos(phi);
-                            const by = r * Math.sin(theta);
-                            const bz = (R + r * Math.cos(theta)) * Math.sin(phi);
+                            const phi = (j / ptsPerMeridian) * Math.PI * 2;
+                            const thick = (Math.random() - 0.5) * 0.015;
+                            const bx = (R + (r + thick) * Math.cos(theta)) * Math.cos(phi);
+                            const by = (r + thick) * Math.sin(theta);
+                            const bz = (R + (r + thick) * Math.cos(theta)) * Math.sin(phi);
                             const p = tilt(bx, by, bz);
                             points.push({
                                 x: p.x, y: p.y, z: p.z,
-                                size: 0.3 + Math.random() * 0.15,
+                                size: 0.12 + Math.random() * 0.08,
                                 type: 'torus', subType: 'meridian',
                                 torusFlow: { phi, theta }
                             });
                         }
                     }
 
-                    // === 5. VÓRTEX INTERIOR (5%) — flujo concentrado por el agujero ===
-                    const innerCount = Math.floor(count * 0.05);
-                    for (let i = 0; i < innerCount; i++) {
-                        const phi = Math.random() * Math.PI * 2;
-                        const theta = Math.PI + (Math.random() - 0.5) * 1.0;
-                        const bx = (R + r * Math.cos(theta)) * Math.cos(phi);
-                        const by = r * Math.sin(theta);
-                        const bz = (R + r * Math.cos(theta)) * Math.sin(phi);
-                        const p = tilt(bx, by, bz);
-                        points.push({
-                            x: p.x, y: p.y, z: p.z,
-                            size: 0.55 + Math.random() * 0.3,
-                            type: 'torus', subType: 'inner',
-                            torusFlow: { phi, theta }
-                        });
-                    }
-
-                    // === 6. CENTRO (3%) — núcleo brillante del agujero ===
-                    const centerCount = Math.floor(count * 0.03);
-                    for (let i = 0; i < centerCount; i++) {
-                        const phi = Math.random() * Math.PI * 2;
-                        const coreR = 0.1 + Math.random() * 0.2;
-                        const theta = Math.PI + (Math.random() - 0.5) * 0.4;
-                        const bx = (R + coreR * Math.cos(theta)) * Math.cos(phi);
-                        const by = coreR * Math.sin(theta);
-                        const bz = (R + coreR * Math.cos(theta)) * Math.sin(phi);
-                        const p = tilt(bx, by, bz);
-                        points.push({
-                            x: p.x, y: p.y, z: p.z,
-                            size: 0.4 + Math.random() * 0.35,
-                            type: 'torus', subType: 'center',
-                            torusFlow: { phi, theta }
-                        });
-                    }
-
-                    // === 7. POLVO AMBIENTE — relleno casi invisible ===
-                    const dustCount = count - points.length;
-                    for (let i = 0; i < dustCount; i++) {
+                    // === 4. SUPERFICIE (14%) — piel definida, pegada ===
+                    const surfaceCount = Math.floor(count * 0.14);
+                    for (let i = 0; i < surfaceCount; i++) {
                         const phi = Math.random() * Math.PI * 2;
                         const theta = Math.random() * Math.PI * 2;
-                        const rVar = r * (0.75 + Math.random() * 0.5);
+                        const rVar = r * (0.99 + Math.random() * 0.02);
                         const bx = (R + rVar * Math.cos(theta)) * Math.cos(phi);
                         const by = rVar * Math.sin(theta);
                         const bz = (R + rVar * Math.cos(theta)) * Math.sin(phi);
                         const p = tilt(bx, by, bz);
                         points.push({
                             x: p.x, y: p.y, z: p.z,
-                            size: 0.02 + Math.random() * 0.03,
-                            type: 'torus', subType: 'dust',
+                            size: 0.06 + Math.random() * 0.06,
+                            type: 'torus', subType: 'surface',
+                            torusFlow: { phi, theta }
+                        });
+                    }
+
+                    // === 5. CENTRO (3%) — núcleo del agujero ===
+                    const centerCount = Math.floor(count * 0.03);
+                    for (let i = 0; i < centerCount; i++) {
+                        const phi = Math.random() * Math.PI * 2;
+                        const coreR = 0.06 + Math.random() * 0.10;
+                        const theta = Math.PI + (Math.random() - 0.5) * 0.2;
+                        const bx = (R + coreR * Math.cos(theta)) * Math.cos(phi);
+                        const by = coreR * Math.sin(theta);
+                        const bz = (R + coreR * Math.cos(theta)) * Math.sin(phi);
+                        const p = tilt(bx, by, bz);
+                        points.push({
+                            x: p.x, y: p.y, z: p.z,
+                            size: 0.18 + Math.random() * 0.14,
+                            type: 'torus', subType: 'center',
+                            torusFlow: { phi, theta }
+                        });
+                    }
+
+                    // === 7. RELLENO (~3%) — completar count, en la piel ===
+                    const fillCount = count - points.length;
+                    for (let i = 0; i < fillCount; i++) {
+                        const phi = Math.random() * Math.PI * 2;
+                        const theta = Math.random() * Math.PI * 2;
+                        const rVar = r * (0.99 + Math.random() * 0.02);
+                        const bx = (R + rVar * Math.cos(theta)) * Math.cos(phi);
+                        const by = rVar * Math.sin(theta);
+                        const bz = (R + rVar * Math.cos(theta)) * Math.sin(phi);
+                        const p = tilt(bx, by, bz);
+                        points.push({
+                            x: p.x, y: p.y, z: p.z,
+                            size: 0.05 + Math.random() * 0.05,
+                            type: 'torus', subType: 'surface',
                             torusFlow: { phi, theta }
                         });
                     }
@@ -1123,6 +1108,45 @@
                     }
                 }
                 return { positions, sizes, types, subTypes, colors, orbitalData, layers };
+            }
+
+            // ============================================
+            // ORDENAMIENTO ESPACIAL — coherencia entre símbolos
+            // Ordena partículas por ángulo XY para que índices
+            // cercanos correspondan a posiciones cercanas en todos los símbolos
+            // ============================================
+            function sortParticlesByAngle(data, count) {
+                const { positions, sizes, types, subTypes, colors, orbitalData, layers } = data;
+                const indexed = new Array(count);
+                for (let i = 0; i < count; i++) {
+                    const i3 = i * 3;
+                    indexed[i] = {
+                        idx: i,
+                        angle: Math.atan2(positions[i3 + 1], positions[i3]),
+                        dist: positions[i3] * positions[i3] + positions[i3 + 1] * positions[i3 + 1] + positions[i3 + 2] * positions[i3 + 2]
+                    };
+                }
+                indexed.sort((a, b) => {
+                    const da = (a.angle + 6.2832) % 6.2832;
+                    const db = (b.angle + 6.2832) % 6.2832;
+                    if (Math.abs(da - db) > 0.005) return da - db;
+                    return a.dist - b.dist;
+                });
+                const np = new Float32Array(count * 3);
+                const ns = new Float32Array(count);
+                const nt = new Array(count);
+                const nst = new Array(count);
+                const nc = new Array(count);
+                const no = new Array(count);
+                const nl = new Array(count);
+                for (let i = 0; i < count; i++) {
+                    const src = indexed[i].idx;
+                    const i3 = i * 3, s3 = src * 3;
+                    np[i3] = positions[s3]; np[i3 + 1] = positions[s3 + 1]; np[i3 + 2] = positions[s3 + 2];
+                    ns[i] = sizes[src]; nt[i] = types[src]; nst[i] = subTypes[src];
+                    nc[i] = colors[src]; no[i] = orbitalData[src]; nl[i] = layers[src];
+                }
+                return { positions: np, sizes: ns, types: nt, subTypes: nst, colors: nc, orbitalData: no, layers: nl };
             }
 
             // Colores para gradiente dorado de Merkaba (estilo imagen referencia)
@@ -1182,16 +1206,17 @@
                     symbolOrbitalData.push(symbolOrbitalData[i - 1]);
                     symbolLayers.push(symbolLayers[i - 1]);
                 } else {
-                    // Generar nuevos puntos
+                    // Generar nuevos puntos y ordenar espacialmente
                     const pts = SymbolGenerators[content.symbol](PARTICLE_COUNT);
-                    const { positions, sizes, types, subTypes, colors, orbitalData, layers } = createSymbolBuffer(pts, PARTICLE_COUNT, symbolBaseOffset);
-                    symbolShapes.push(positions);
-                    symbolSizes.push(sizes);
-                    symbolTypes.push(types);
-                    symbolSubTypes.push(subTypes);
-                    symbolColors.push(colors);
-                    symbolOrbitalData.push(orbitalData);
-                    symbolLayers.push(layers);
+                    const raw = createSymbolBuffer(pts, PARTICLE_COUNT, symbolBaseOffset);
+                    const sorted = sortParticlesByAngle(raw, PARTICLE_COUNT);
+                    symbolShapes.push(sorted.positions);
+                    symbolSizes.push(sorted.sizes);
+                    symbolTypes.push(sorted.types);
+                    symbolSubTypes.push(sorted.subTypes);
+                    symbolColors.push(sorted.colors);
+                    symbolOrbitalData.push(sorted.orbitalData);
+                    symbolLayers.push(sorted.layers);
                 }
             });
 
@@ -1849,14 +1874,6 @@
                     if (sSubType === 'center') {
                         // Centro del vórtex: blanco-cyan brillante
                         return { r: 0.7, g: 0.95, b: 1.0 };
-                    } else if (sSubType === 'inner') {
-                        // Vórtex interior: gradiente cyan → dorado por posición
-                        const t = (seed * 50000 + time * 0.02) % 1.0;
-                        return {
-                            r: 0.3 + t * 0.7,
-                            g: 0.8 - t * 0.1,
-                            b: 1.0 - t * 0.7
-                        };
                     } else if (sSubType === 'spiral') {
                         // Espirales: cyan energético
                         return { r: 0.2, g: 0.75, b: 0.95 };
@@ -1867,8 +1884,8 @@
                         // Meridianos: dorado suave, más tenue que anillos
                         return { r: 0.8, g: 0.65, b: 0.2 };
                     } else if (sSubType === 'dust') {
-                        // Polvo ambiente: gris cálido muy tenue
-                        return { r: 0.3, g: 0.25, b: 0.18 };
+                        // Polvo ambiente: dorado pálido (no negro)
+                        return { r: 0.7, g: 0.55, b: 0.25 };
                     } else {
                         // Superficie: dorado cálido
                         return { r: 0.95, g: 0.75, b: 0.2 };
@@ -1900,47 +1917,117 @@
                 };
             }
 
-            // SCROLL ANIMATION
+            // SLIDE NAVIGATION SYSTEM
             // ============================================
             let scrollProgress = { value: 0 };
             let currentSection = 0;
+            let currentSlide = 0;
             let time = 0;
+            let torusFlowBlend = 0;
+            let torusEntryTime = -1;
+            let isAnimating = false;
             let isInsideIframe = (window.parent !== window);
+            const totalSlides = panelContents.length; // 4
 
             function updateUI(progress) {
-                progressBar.style.width = (progress * 100) + '%';
+                if (progressBar) progressBar.style.width = (progress * 100) + '%';
                 const sectionIndex = Math.min(Math.floor(progress * panelContents.length), panelContents.length - 1);
                 if (sectionIndex !== currentSection) {
                     currentSection = sectionIndex;
-                    pageNum.textContent = (sectionIndex + 1).toString().padStart(2, '0');
-                    sectionNameEl.textContent = panelContents[sectionIndex].label;
+                    if (pageNum) pageNum.textContent = (sectionIndex + 1).toString().padStart(2, '0');
+                    if (sectionNameEl) sectionNameEl.textContent = panelContents[sectionIndex].label;
                     dots.forEach((dot, i) => {
                         dot.classList.toggle('active', i === sectionIndex);
                     });
-                    if (sectionIndex > 0) {
-                        scrollHint.style.opacity = '0';
+                    if (scrollHint) {
+                        scrollHint.style.opacity = sectionIndex > 0 ? '0' : '0.5';
                     }
                 }
             }
 
-            if (isInsideIframe) {
-                // Dentro de iframe: recibir scroll del padre via postMessage
-                window.addEventListener('message', function(e) {
-                    if (e.data && e.data.type === 'parentScroll') {
-                        const p = Math.max(0, Math.min(1, e.data.progress));
-                        scrollProgress.value = p;
-                        updateUI(p);
+            let pendingSlide = null; // queues the last requested slide during animation
+
+            function goToSlide(index) {
+                index = Math.max(0, Math.min(totalSlides - 1, index));
+                if (index === currentSlide && !isAnimating) return;
+
+                // If animating, queue this slide and it will fire on complete
+                if (isAnimating) {
+                    pendingSlide = index;
+                    return;
+                }
+
+                isAnimating = true;
+                pendingSlide = null;
+                currentSlide = index;
+                const targetProgress = index / (totalSlides - 1);
+
+                gsap.to(scrollProgress, {
+                    value: targetProgress,
+                    duration: 1.5,
+                    ease: "power2.inOut",
+                    onUpdate: () => updateUI(scrollProgress.value),
+                    onComplete: () => {
+                        isAnimating = false;
+                        // Process queued slide if any
+                        if (pendingSlide !== null && pendingSlide !== currentSlide) {
+                            var next = pendingSlide;
+                            pendingSlide = null;
+                            goToSlide(next);
+                        }
                     }
                 });
+            }
+
+            if (isInsideIframe) {
+                // Iframe mode: parent controls navigation via CSS scroll-snap
+                // Only listen for goToSlide messages
+                window.addEventListener('message', function(e) {
+                    if (e.data && e.data.type === 'goToSlide') {
+                        goToSlide(e.data.index);
+                    }
+                });
+
+                // Hide interactive nav elements (parent scrollbar handles navigation)
+                const sectionIndicator = document.getElementById('sectionIndicator');
+                if (sectionIndicator) sectionIndicator.style.display = 'none';
+                if (scrollHint) scrollHint.style.display = 'none';
+
             } else {
-                // Standalone: scroll nativo sin ScrollTrigger
-                window.addEventListener('scroll', function() {
-                    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-                    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-                    const p = Math.max(0, Math.min(1, scrollTop / maxScroll));
-                    scrollProgress.value = p;
-                    updateUI(p);
+                // Standalone mode: own wheel/touch/key handlers
+                let wheelCooldown = false;
+                window.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    if (isAnimating || wheelCooldown) return;
+                    wheelCooldown = true;
+                    setTimeout(() => { wheelCooldown = false; }, 800);
+
+                    if (e.deltaY > 0) goToSlide(currentSlide + 1);
+                    else if (e.deltaY < 0) goToSlide(currentSlide - 1);
+                }, { passive: false });
+
+                let touchStartY = 0;
+                window.addEventListener('touchstart', (e) => {
+                    touchStartY = e.touches[0].clientY;
                 }, { passive: true });
+
+                window.addEventListener('touchend', (e) => {
+                    const deltaY = touchStartY - e.changedTouches[0].clientY;
+                    if (Math.abs(deltaY) < 50 || isAnimating) return;
+                    if (deltaY > 0) goToSlide(currentSlide + 1);
+                    else goToSlide(currentSlide - 1);
+                });
+
+                window.addEventListener('keydown', (e) => {
+                    if (isAnimating) return;
+                    if (e.key === 'ArrowDown' || e.key === ' ') {
+                        e.preventDefault();
+                        goToSlide(currentSlide + 1);
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        goToSlide(currentSlide - 1);
+                    }
+                });
             }
 
             // ============================================
@@ -1971,10 +2058,10 @@
 
                 if (currentIdx === 0) {
                     symbolMix = 0;
-                    cardMix = smoothStep(mix);
+                    cardMix = mix; // no extra smoothStep — GSAP already eases
                 } else {
-                    symbolMix = smoothStep(Math.min(Math.max(mix / 0.6, 0), 1));
-                    cardMix = smoothStep(Math.min(Math.max((mix - 0.4) / 0.6, 0), 1));
+                    symbolMix = smoothStep(mix);
+                    cardMix = smoothStep(Math.min(Math.max((mix - 0.35) / 0.65, 0), 1));
                 }
 
                 // Merkaba intensity
@@ -2000,33 +2087,90 @@
                 const currentSubTypes = symbolSubTypes[currentIdx];
                 const currentOrbital = symbolOrbitalData[currentIdx];
 
+                // Constantes torus pre-calculadas fuera del bucle
+                const _torusIdx = 3;
+                const _TR = 3.0, _Tr = 1.15;
+                const _tiltX = -0.85, _tiltZ = 0.17;
+                const _cTX = Math.cos(_tiltX), _sTX = Math.sin(_tiltX);
+                const _cTZ = Math.cos(_tiltZ), _sTZ = Math.sin(_tiltZ);
+                const torusSubTypesArr = symbolSubTypes[_torusIdx];
+                const torusOrbitalArr = symbolOrbitalData[_torusIdx];
+                const isFullyTorus = (currentIdx === _torusIdx && safeNextIdx === _torusIdx);
+
+                // Smooth ramp for torus orbital flow (prevents stutter on entry)
+                if (isFullyTorus) {
+                    if (torusEntryTime < 0) torusEntryTime = time;
+                    torusFlowBlend = Math.min(1.0, torusFlowBlend + 0.025);
+                } else {
+                    torusFlowBlend = 0;
+                    torusEntryTime = -1;
+                }
+
+                // Transition flag
+                const _isMorphing = (currentIdx > 0 && mix > 0.01 && mix < 0.99);
+
                 for (let i = 0; i < PARTICLE_COUNT; i++) {
                     const i3 = i * 3;
                     const seed = i * 0.0001;
                     const pType = currentTypes[i];
 
-                    // Distancia de la partícula al centro (para ola radial)
-                    const cx = current[i3], cy = current[i3 + 1], cz = current[i3 + 2];
-                    const dist = Math.sqrt(cx * cx + cy * cy + cz * cz);
-                    const normalizedDist = Math.min(dist / 5.0, 1.0);
+                    // Easing para interpolación estándar
+                    const easedMix = symbolMix * symbolMix * (3.0 - 2.0 * symbolMix);
 
-                    // Ola radial: centro morfea primero, bordes después
-                    // Spread = cuánto se desfasa el morph (0.35 = ola suave)
-                    const waveOffset = normalizedDist * 0.35;
-                    const particleMix = (currentIdx === 0)
-                        ? symbolMix
-                        : Math.max(0, Math.min(1, (symbolMix - waveOffset) / (1.0 - waveOffset)));
-                    const easedMix = particleMix * particleMix * (3.0 - 2.0 * particleMix);
+                    // Posiciones origen y destino
+                    const sx = current[i3], sy = current[i3 + 1], sz = current[i3 + 2];
+                    const dx = next[i3], dy = next[i3 + 1], dz = next[i3 + 2];
 
-                    let x = current[i3] + (next[i3] - current[i3]) * easedMix;
-                    let y = current[i3 + 1] + (next[i3 + 1] - current[i3 + 1]) * easedMix;
-                    let z = current[i3 + 2] + (next[i3 + 2] - current[i3 + 2]) * easedMix;
+                    let x, y, z;
+                    let pArc = 0; // per-particle arc intensity (used for size/color glow)
 
-                    // Merkaba: contra-rotación MUY lenta de tetraedros (suave y elegante)
+                    // === CASCADING STARDUST TRANSITION ===
+                    // Each particle morphs at its own pace — creates organic dissolve + reform
+                    if (_isMorphing) {
+                        // Golden ratio hash: unique timing per particle (0 to 1, well distributed)
+                        const h = (i * 0.6180339887) % 1.0;
+                        const delay = h * 0.45;  // stagger: 0 to 45% of transition
+                        const pm = Math.max(0, Math.min(1, (mix - delay) / 0.55));
+
+                        // Smoothstep easing per particle
+                        const pe = pm * pm * (3.0 - 2.0 * pm);
+
+                        // Individual interpolation — each particle on its own timeline
+                        x = sx + (dx - sx) * pe;
+                        y = sy + (dy - sy) * pe;
+                        z = sz + (dz - sz) * pe;
+
+                        // Radial arc at individual midpoint
+                        if (pm > 0.01 && pm < 0.99) {
+                            pArc = Math.sin(pm * Math.PI);
+                            const r = Math.sqrt(x * x + y * y + z * z);
+                            if (r > 0.1) {
+                                // Per-particle push distance varies
+                                const pushScale = 0.8 + ((i * 31 + 3) % 127) / 127.0 * 1.4;
+                                const push = pArc * pushScale;
+                                x += (x / r) * push;
+                                y += (y / r) * push;
+                                z += (z / r) * push;
+                            }
+                            // Subtle alternating spiral twist
+                            const rot = pArc * 0.12 * ((i & 1) ? 1.0 : -1.0);
+                            const cosR = Math.cos(rot), sinR = Math.sin(rot);
+                            const nx = x * cosR - z * sinR;
+                            z = x * sinR + z * cosR;
+                            x = nx;
+                        }
+                    } else {
+                        // Standard interpolation (no morph active)
+                        x = sx + (dx - sx) * easedMix;
+                        y = sy + (dy - sy) * easedMix;
+                        z = sz + (dz - sz) * easedMix;
+                    }
+
+                    // === MERKABA: contra-rotación (solo cuando activo) ===
                     if (merkabaMix > 0.01) {
                         let rotY = 0;
-                        if (pType === 'tetraUp') rotY = -time * 0.03;       // Antes 0.12
-                        else if (pType === 'tetraDown') rotY = time * 0.03; // Antes 0.12
+                        if (pType === 'tetraUp') rotY = -time * 0.03;
+                        else if (pType === 'tetraDown') rotY = time * 0.03;
                         rotY *= merkabaMix;
                         if (rotY !== 0) {
                             const cosY = Math.cos(rotY);
@@ -2038,80 +2182,88 @@
                         }
                     }
 
-                    // === TORUS VÓRTEX COMPLETO ===
-                    const torusIdx = 3;
-                    const torusSubTypes = symbolSubTypes[torusIdx];
-                    const torusOrbital = symbolOrbitalData[torusIdx];
-                    const isTorusVisible = (currentIdx === torusIdx) || (safeNextIdx === torusIdx);
-                    const tSub = torusSubTypes ? torusSubTypes[i] : null;
-                    if (isTorusVisible && tSub && torusOrbital[i] && torusOrbital[i].phi !== undefined) {
-                        const od = torusOrbital[i];
-                        const TR = 3.0, Tr = 1.15;
-                        const _tX = -0.85, _tZ = 0.17;
-                        const _cTX = Math.cos(_tX), _sTX = Math.sin(_tX);
-                        const _cTZ = Math.cos(_tZ), _sTZ = Math.sin(_tZ);
-                        let flowPhi = od.phi, flowTh = od.theta, flowR = Tr;
+                    // === TORUS FLOW (solo cuando asentado en sección torus) ===
+                    if (isFullyTorus) {
+                        const tSub = torusSubTypesArr ? torusSubTypesArr[i] : null;
+                        if (tSub && torusOrbitalArr[i] && torusOrbitalArr[i].phi !== undefined) {
+                            const od = torusOrbitalArr[i];
+                            const tRel = time - torusEntryTime;
+                            let flowPhi = od.phi, flowTh = od.theta, flowR = _Tr;
 
-                        if (tSub === 'inner' || tSub === 'center') {
-                            // Vórtex helicoidal: flujo elegante por el agujero
-                            const phiSpeed = 0.35 + Math.abs(Math.sin(seed * 54321)) * 0.3;
-                            flowPhi = od.phi + time * phiSpeed;
-                            flowTh = od.theta + time * 0.6;
-                            if (tSub === 'center') flowR = 0.1 + Math.abs(Math.sin(seed * 12345)) * 0.2;
-                        } else if (tSub === 'spiral') {
-                            // Espirales: flujo suave a lo largo de su trayectoria
-                            flowPhi = od.phi + time * 0.2;
-                            flowTh = od.theta + time * 0.6;
-                        } else if (tSub === 'ring') {
-                            // Anillos: onda theta lenta
-                            flowTh = od.theta + time * 0.15;
-                        } else if (tSub === 'meridian') {
-                            // Meridianos: flujo phi suave
-                            flowPhi = od.phi + time * 0.1;
-                        } else if (tSub === 'surface') {
-                            // Superficie: drift toroidal sutil
-                            flowTh = od.theta + time * 0.05;
-                        } else if (tSub === 'dust') {
-                            // Polvo: drift mínimo
-                            flowTh = od.theta + time * 0.02;
+                            if (tSub === 'center') {
+                                const phiSpeed = 0.35 + Math.abs(Math.sin(seed * 54321)) * 0.3;
+                                flowPhi = od.phi + tRel * phiSpeed;
+                                flowTh = od.theta + tRel * 0.6;
+                                flowR = 0.1 + Math.abs(Math.sin(seed * 12345)) * 0.2;
+                            } else if (tSub === 'spiral') {
+                                flowPhi = od.phi + tRel * 0.2;
+                                flowTh = od.theta + tRel * 0.6;
+                            } else if (tSub === 'ring') {
+                                flowTh = od.theta + tRel * 0.15;
+                            } else if (tSub === 'meridian') {
+                                flowPhi = od.phi + tRel * 0.1;
+                            } else if (tSub === 'surface') {
+                                flowTh = od.theta + tRel * 0.05;
+                            }
+
+                            const bx2 = (_TR + flowR * Math.cos(flowTh)) * Math.cos(flowPhi);
+                            const by2 = flowR * Math.sin(flowTh);
+                            const bz2 = (_TR + flowR * Math.cos(flowTh)) * Math.sin(flowPhi);
+                            const fry = by2 * _cTX - bz2 * _sTX;
+                            const frz = by2 * _sTX + bz2 * _cTX;
+                            const fx = bx2 * _cTZ - fry * _sTZ;
+                            const fy = bx2 * _sTZ + fry * _cTZ;
+                            const fz = frz;
+                            // Blend from static torus to orbital flow
+                            x = x + (fx - x) * torusFlowBlend;
+                            y = y + (fy - y) * torusFlowBlend;
+                            z = z + (fz - z) * torusFlowBlend;
                         }
-
-                        const bx2 = (TR + flowR * Math.cos(flowTh)) * Math.cos(flowPhi);
-                        const by2 = flowR * Math.sin(flowTh);
-                        const bz2 = (TR + flowR * Math.cos(flowTh)) * Math.sin(flowPhi);
-                        const fry = by2 * _cTX - bz2 * _sTX;
-                        const frz = by2 * _sTX + bz2 * _cTX;
-                        const tx = bx2 * _cTZ - fry * _sTZ;
-                        const ty = bx2 * _sTZ + fry * _cTZ;
-                        const tz = frz;
-                        const torusFactor = (currentIdx === torusIdx) ? 1.0 : easedMix;
-                        x = x + (tx - x) * torusFactor;
-                        y = y + (ty - y) * torusFactor;
-                        z = z + (tz - z) * torusFactor;
                     }
 
                     buf[i3] = x;
                     buf[i3 + 1] = y;
                     buf[i3 + 2] = z;
 
-                    // Tamaño: interpolación limpia, sin melt
+                    // Tamaño: respiración en el punto medio de la transición
                     const sizeA = currentSizes[i] || 1.0;
                     const sizeB = nextSizes[i] || 1.0;
                     let finalSize = sizeA + (sizeB - sizeA) * easedMix;
-                    // Pulso de tamaño para partículas del vórtex interior
-                    if (isTorusVisible && (tSub === 'inner' || tSub === 'center') && torusOrbital[i]) {
-                        const wSpeed = 0.5 + Math.abs(Math.sin(seed * 54321)) * 0.3;
-                        const wA = ((torusOrbital[i].phi + time * wSpeed) * 3.0) % (Math.PI * 2);
-                        finalSize *= (0.7 + Math.sin(wA) * 0.5);
+                    if (pArc > 0.01) {
+                        // Particle glows larger at its individual transition peak
+                        finalSize *= (0.7 + 0.5 * pArc);
+                    }
+                    // Pulso vórtex (solo en torus asentado, con blend suave)
+                    if (isFullyTorus && torusFlowBlend > 0.01) {
+                        const tSub = torusSubTypesArr ? torusSubTypesArr[i] : null;
+                        if (tSub === 'center' && torusOrbitalArr[i]) {
+                            const tRel = time - torusEntryTime;
+                            const wSpeed = 0.5 + Math.abs(Math.sin(seed * 54321)) * 0.3;
+                            const wA = ((torusOrbitalArr[i].phi + tRel * wSpeed) * 3.0) % (Math.PI * 2);
+                            const pulse = 0.7 + Math.sin(wA) * 0.5;
+                            finalSize *= 1.0 + (pulse - 1.0) * torusFlowBlend;
+                        }
                     }
                     sizeBuf[i] = finalSize;
 
-                    // Color interpolation
+                    // Color
                     const c1 = calculateSymbolColor(currentIdx, i, y, seed, time);
                     const c2 = calculateSymbolColor(safeNextIdx, i, y, seed, time);
-                    colorBuf[i3] = c1.r + (c2.r - c1.r) * easedMix;
-                    colorBuf[i3 + 1] = c1.g + (c2.g - c1.g) * easedMix;
-                    colorBuf[i3 + 2] = c1.b + (c2.b - c1.b) * easedMix;
+                    let cr = c1.r + (c2.r - c1.r) * easedMix;
+                    let cg = c1.g + (c2.g - c1.g) * easedMix;
+                    let cb = c1.b + (c2.b - c1.b) * easedMix;
+
+                    // Warm glow at individual particle's transition peak
+                    if (pArc > 0.01) {
+                        const glow = pArc * 0.2;
+                        cr += (1.0 - cr) * glow;
+                        cg += (0.95 - cg) * glow;
+                        cb += (0.7 - cb) * glow;
+                    }
+
+                    colorBuf[i3] = cr;
+                    colorBuf[i3 + 1] = cg;
+                    colorBuf[i3 + 2] = cb;
                 }
                 particles.geometry.attributes.position.needsUpdate = true;
                 particles.geometry.attributes.color.needsUpdate = true;
@@ -2135,8 +2287,8 @@
                 // Velocidad reducida para movimiento elegante, no caótico
                 const baseRotSpeed = 0.008; // Muy lenta
                 const rotations = [
-                    { x: 0, y: time * baseRotSpeed, z: 0 },           // Intro
-                    { x: 0, y: time * baseRotSpeed, z: 0 },           // Merkaba
+                    { x: 0, y: 0, z: 0 },                             // Intro (Merkaba) - sin rotación grupo
+                    { x: 0, y: 0, z: 0 },                             // Merkaba - sin rotación grupo
                     { x: 0, y: 0, z: 0 },                             // Flor de la Vida - ESTÁTICA
                     { x: 0, y: 0, z: 0 }                              // Torus - estático
                 ];
@@ -2170,25 +2322,29 @@
                     innerCircle.rotation.z = -time * 0.012;   // Antes 0.04
                     outerCircle.rotation.z = time * 0.008;    // Antes 0.02
 
-                    // Hacer visible el wireframe 3D y nebula
-                    tetraUpGroup.visible = true;
-                    tetraDownGroup.visible = true;
-                    innerCircle.visible = true;
-                    outerCircle.visible = true;
-                    nebulaParticles.visible = true;
+                    // Fade agresivo: las líneas desaparecen ANTES que las partículas
+                    const wireFade = merkabaMix * merkabaMix * merkabaMix; // curva cúbica
 
-                    // Fade all Merkaba elements with merkabaMix
+                    // Hacer visible solo si la opacidad es significativa
+                    const wireVisible = wireFade > 0.02;
+                    tetraUpGroup.visible = wireVisible;
+                    tetraDownGroup.visible = wireVisible;
+                    innerCircle.visible = wireVisible;
+                    outerCircle.visible = wireVisible;
+                    nebulaParticles.visible = merkabaMix > 0.05;
+
+                    // Fade all Merkaba elements
                     nebulaMaterial.uniforms.opacity.value = 0.6 * merkabaMix;
                     [tetraUpGroup, tetraDownGroup].forEach(group => {
                         group.children.forEach(child => {
-                            child.material.opacity = merkabaMix;
+                            child.material.opacity = wireFade;
                         });
                     });
                     innerCircle.children.forEach(child => {
-                        child.material.opacity = 0.5 * merkabaMix;
+                        child.material.opacity = 0.5 * wireFade;
                     });
                     outerCircle.children.forEach(child => {
-                        child.material.opacity = 0.5 * merkabaMix;
+                        child.material.opacity = 0.5 * wireFade;
                     });
 
                 } else {
@@ -2213,12 +2369,12 @@
                 // ========================================
                 // GALAXIA ESPIRAL (alrededor de Flor de la Vida)
                 // ========================================
-                const isFlowerSection = (currentIdx === 2) || (currentIdx === 1 && symbolMix > 0.3);
+                const isFlowerSection = (currentIdx === 2) || (currentIdx === 1 && symbolMix > 0.3) || (currentIdx === 3);
 
                 // YA NO REINICIAMOS EL TIEMPO - Usamos tiempo continuo para evitar saltos
 
                 if (isFlowerSection) {
-                    // Calculo de intensidad (Fade In / Fade Out)
+                    // Calculo de intensidad (Fade In / Fade Out / Hold)
                     let flowerIntensity = 0;
 
                     if (currentIdx === 1) {
@@ -2226,14 +2382,16 @@
                         flowerIntensity = Math.max(0, (symbolMix - 0.3) / 0.7);
                     } else if (currentIdx === 2) {
                         // SECTION 2 (Flor de la vida) -> Transición a 3 (Torus)
-                        // Mantener visible al principio, desvanecer al final de la transición
-                        // mix va de 0 a 1. Fade out empieza en 0.5
+                        // Mantener visible al principio, bajar a 50% al final
                         const fadeStart = 0.5;
                         if (mix > fadeStart) {
-                            flowerIntensity = 1.0 - (mix - fadeStart) / (1.0 - fadeStart);
+                            flowerIntensity = 1.0 - (mix - fadeStart) / (1.0 - fadeStart) * 0.5;
                         } else {
                             flowerIntensity = 1.0;
                         }
+                    } else if (currentIdx === 3) {
+                        // TORUS — mantener galaxia al 50% como fondo cósmico
+                        flowerIntensity = 0.5;
                     } else {
                         flowerIntensity = 0;
                     }
@@ -2241,11 +2399,14 @@
                     // Usamos el tiempo global 'time' para continuidad perfecta
                     const galaxyTime = time;
 
-                    // EXPANSIÓN durante transición de salida (2 -> 3)
+                    // EXPANSIÓN — ceñida al torus en sección final
                     let expansion = 1.0;
                     if (currentIdx === 2 && mix > 0.1) {
-                        // Expandir sutilmente al irse
-                        expansion = 1.0 + (mix - 0.1) * 0.8;
+                        // Expansión sutil durante transición (máx 1.095)
+                        expansion = 1.0 + (mix - 0.1) * 0.106;
+                    } else if (currentIdx === 3) {
+                        // Galaxia envuelve el torus a ~0.45 unidades
+                        expansion = 1.095;
                     }
 
                     // GALAXIA - visible y animada con movimiento de partículas
@@ -2340,14 +2501,15 @@
 
                     if (nextIdx === 1) {
                         // Primera tarjeta: slide-in suave desde la izquierda
-                        const startX = -12;
+                        const startX = -8;
                         const endX = -4.5;
                         const scaleIn = 0.95 + 0.05 * ease;
                         panels[nextIdx].position.set(startX + (endX - startX) * ease, (1.0 - ease) * 0.5, panelZ);
                         panels[nextIdx].scale.set(scaleIn, scaleIn, scaleIn);
                     } else {
-                        // Resto de tarjetas: entrada normal desde la derecha
-                        panels[nextIdx].position.set(8.0 + (-4.5 - 8.0) * ease, 0, panelZ);
+                        // Resto de tarjetas: entrada desde la derecha (fuera del área del símbolo)
+                        const entryX = 18;
+                        panels[nextIdx].position.set(entryX + (-4.5 - entryX) * ease, 0, panelZ);
                         panels[nextIdx].scale.set(1, 1, 1);
                     }
 
@@ -2389,8 +2551,7 @@
             dots.forEach(dot => {
                 dot.addEventListener('click', () => {
                     const idx = parseInt(dot.dataset.index);
-                    const target = (idx / (panelContents.length - 1)) * (document.documentElement.scrollHeight - window.innerHeight);
-                    window.scrollTo({ top: target, behavior: 'smooth' });
+                    goToSlide(idx);
                 });
             });
         }
