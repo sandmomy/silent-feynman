@@ -59,16 +59,13 @@
     }
 
     .hero-bg {
-        background-position: center, 40% bottom !important;
-        background-size: cover, auto 130% !important;
-        /* Much wider for slide headroom */
+        background-position: center, 35% top !important;
+        background-size: cover, cover !important;
         transform-origin: center !important;
         animation: mobileBgSlide 6s ease-in-out infinite alternate !important;
         opacity: 1 !important;
-        width: 120% !important;
-        /* Wider than viewport to prevent black gaps */
-        left: -10% !important;
-        /* Center the wider element */
+        width: 140% !important;
+        left: -20% !important;
     }
 
     /* MASTER GRID - Story-first order (Variante A) */
@@ -440,15 +437,7 @@
     }
 
     .scroll-about-btn {
-        background: rgba(255, 255, 255, 0.1) !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-        padding: 0.6rem 1.5rem !important;
-        border-radius: 8px !important;
-        font-size: 0.75rem !important;
-        font-weight: 600 !important;
-        letter-spacing: 1px !important;
-        color: white !important;
-        backdrop-filter: blur(10px) !important;
+        display: none !important;
     }
 
     /* --- Partnerships Section - Mobile Styling --- */
@@ -531,9 +520,9 @@
     .contact-section {
         padding: 3rem 1rem !important;
         background-position: 85% center !important;
-        /* Moved significantly left (showing right side) */
-        /* Force distinct pixel shift */
         background-size: cover !important;
+        max-height: 100vh !important;
+        overflow: hidden !important;
     }
 
     .contact-section::before {
