@@ -92,66 +92,152 @@
         /* ===== TOP NAV BANNER (same as index.html) ===== */
         .top-nav-banner {
             position: fixed;
-            top: 0; left: 0; right: 0;
+            top: 0;
+            left: 0;
+            right: 0;
             height: 48px;
             background: rgba(8, 12, 20, 0.97);
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             z-index: 9999;
             display: flex;
             align-items: center;
             overflow: visible !important;
         }
+
         .top-nav-container {
-            max-width: 1400px; width: 100%; margin: 0 auto;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
             padding: 0 2rem;
-            display: flex; justify-content: flex-end; align-items: center;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
             overflow: visible !important;
         }
-        .top-nav-links { display: flex; gap: 0.5rem; align-items: center; }
-        .top-nav-link {
-            padding: 0.4rem 1rem; font-size: 0.8rem; font-weight: 600;
-            color: rgba(255,255,255,0.75); text-decoration: none;
-            border-radius: 6px; transition: all 0.3s ease;
+
+        .top-nav-links {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
         }
-        .top-nav-link:hover { color: white; background: rgba(255,255,255,0.1); }
-        .partners-dropdown-container { position: relative; }
+
+        .top-nav-link {
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .top-nav-link:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .top-nav-official {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            margin-right: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+
+        .top-nav-official:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .top-nav-sep {
+            width: 1px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            margin-right: 1rem;
+        }
+
+        .partners-dropdown-container {
+            position: relative;
+        }
+
         .top-nav-partners-btn {
-            display: flex; align-items: center;
+            display: flex;
+            align-items: center;
             background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
-            color: white; border: none; cursor: pointer;
+            color: white;
+            border: none;
+            cursor: pointer;
             font-family: 'Inter', sans-serif;
         }
+
         .top-nav-partners-btn:hover,
         .top-nav-partners-btn[aria-expanded="true"] {
             background: linear-gradient(135deg, #0284c7 0%, #0891b2 100%);
-            box-shadow: 0 4px 15px rgba(14,165,233,0.3); color: white;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+            color: white;
         }
+
         .partners-dropdown-menu {
-            position: absolute; top: 100%; right: 0; margin-top: 12px;
-            width: 240px; background: #0f172a;
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            padding: 6px; display: none; flex-direction: column; gap: 2px;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 12px;
+            width: 240px;
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            padding: 6px;
+            display: none;
+            flex-direction: column;
+            gap: 2px;
             z-index: 1010;
-            animation: dropdownPop 0.2s cubic-bezier(0.16,1,0.3,1);
+            animation: dropdownPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .partners-dropdown-menu.active { display: flex; }
+
+        .partners-dropdown-menu.active {
+            display: flex;
+        }
+
         @keyframes dropdownPop {
-            from { opacity: 0; transform: scale(0.95) translateY(-5px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(-5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
+
         .partners-dropdown-item {
-            display: flex; align-items: center; gap: 12px;
-            padding: 10px 12px; color: rgba(255,255,255,0.8);
-            text-decoration: none; font-size: 0.85rem; font-weight: 500;
-            border-radius: 8px; transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
         }
+
         .partners-dropdown-item:hover {
-            background: rgba(255,255,255,0.1); color: white; transform: translateX(2px);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(2px);
         }
+
         .partner-icon-img {
-            height: 28px; width: auto; max-width: 40px;
-            object-fit: contain; filter: brightness(1.1);
+            height: 28px;
+            width: auto;
+            max-width: 40px;
+            object-fit: contain;
+            filter: brightness(1.1);
         }
 
         .btn {
@@ -1087,13 +1173,16 @@
     <nav class="top-nav-banner">
         <div class="top-nav-container">
             <div class="top-nav-links">
+                <a href="https://sbdifoundation.org/" target="_blank" class="top-nav-official">sbdifoundation.org</a>
+                <div class="top-nav-sep"></div>
                 <a href="index.html" class="top-nav-link">Home</a>
                 <a href="index.html#contact" class="top-nav-link">Get in Touch</a>
                 <div class="partners-dropdown-container">
                     <button class="top-nav-link top-nav-partners-btn" id="partnersBtn" aria-expanded="false">
                         PARTNERS
                         <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left: 6px;">
-                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
                         </svg>
                     </button>
                     <div class="partners-dropdown-menu" id="partnersDropdown">
@@ -1104,10 +1193,12 @@
                             <img src="assets/logo-sbdi.webp" alt="SBDI" class="partner-icon-img"> SBDI Center
                         </a>
                         <a href="wiseuse.html" class="partners-dropdown-item">
-                            <img src="assets/wiseuse-pyramid.png" alt="WiseUse" class="partner-icon-img"> WiseUse International
+                            <img src="assets/wiseuse-pyramid.png" alt="WiseUse" class="partner-icon-img"> WiseUse
+                            International
                         </a>
                         <a href="eko-vitaris.html" class="partners-dropdown-item">
-                            <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-icon-img"> Eko Vitaris
+                            <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-icon-img"> Eko
+                            Vitaris
                         </a>
                     </div>
                 </div>
@@ -1395,17 +1486,17 @@
 
     <script>
         // Partners dropdown
-        (function() {
+        (function () {
             var btn = document.getElementById('partnersBtn');
             var dd = document.getElementById('partnersDropdown');
             if (!btn || !dd) return;
-            btn.addEventListener('click', function(e) {
+            btn.addEventListener('click', function (e) {
                 e.stopPropagation();
                 var open = btn.getAttribute('aria-expanded') === 'true';
                 btn.setAttribute('aria-expanded', !open);
                 dd.classList.toggle('active');
             });
-            document.addEventListener('click', function(e) {
+            document.addEventListener('click', function (e) {
                 if (!dd.contains(e.target) && !btn.contains(e.target)) {
                     btn.setAttribute('aria-expanded', 'false');
                     dd.classList.remove('active');

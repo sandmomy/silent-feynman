@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eko Vitaris | Strategic Partner</title>
+    <title>Eko Vitaris | Official Partner</title>
 
     <!-- SEO Meta Tags -->
     <meta name="description"
-        content="Eko Vitaris - Premium Agricultural and Mineral Commodities. Strategic Partner for Regenerative Sourcing.">
+        content="Eko Vitaris - Premium Tropical Products from Indonesia. Coconuts, Cassava Flour (Mocaf) & Coffee for Hotels, Manufacturers, Resorts & Wholesalers.">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,7 +65,7 @@
         /* ===== HERO: FIXED CINEMATIC (APPROVED) ===== */
         .hero-section {
             position: relative;
-            height: 100vh;
+            height: 55vh;
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -105,7 +105,7 @@
         .hero-eyebrow {
             color: #fff;
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-style: italic;
             margin-bottom: 1rem;
             letter-spacing: 1px;
@@ -118,7 +118,7 @@
         }
 
         .hero-title {
-            font-size: clamp(4rem, 10vw, 8rem);
+            font-size: clamp(3rem, 8vw, 6rem);
             line-height: 0.9;
             color: #fff;
             text-transform: uppercase;
@@ -145,7 +145,7 @@
         /* ===== SECTION 2: ORGANIC PARALLAX MISSION ===== */
         .section-mission {
             position: relative;
-            padding: 10rem 5%;
+            padding: 4rem 5%;
             z-index: 10;
             background: var(--ev-green-deep);
             overflow: hidden;
@@ -154,17 +154,17 @@
         .mission-intro {
             text-align: center;
             max-width: 800px;
-            margin: 0 auto 10rem;
+            margin: 0 auto 2.5rem;
         }
 
         .mission-intro h2 {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
+            font-size: 2.2rem;
+            margin-bottom: 0.8rem;
             color: var(--ev-cream);
         }
 
         .mission-intro p {
-            font-size: 1.2rem;
+            font-size: 1rem;
             line-height: 1.6;
             color: var(--text-muted);
         }
@@ -174,12 +174,12 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 15rem;
+            margin-bottom: 3rem;
             position: relative;
         }
 
         .organic-row:last-child {
-            margin-bottom: 5rem;
+            margin-bottom: 1rem;
         }
 
         .organic-row.reverse {
@@ -194,14 +194,14 @@
 
         .organic-num {
             font-family: 'Cormorant Garamond';
-            font-size: 5rem;
+            font-size: 3rem;
             color: var(--ev-gold);
             opacity: 0.3;
             line-height: 1;
         }
 
         .organic-title {
-            font-size: 2.5rem;
+            font-size: 1.6rem;
             margin-bottom: 1rem;
             color: #fff;
         }
@@ -214,7 +214,7 @@
 
         .organic-visual {
             width: 50%;
-            height: 60vh;
+            height: 30vh;
             position: relative;
         }
 
@@ -259,125 +259,394 @@
         }
 
 
-        /* ===== SECTION 3: HORIZONTAL GALLERY (REFINED) ===== */
-        .gallery-container {
-            height: 300vh;
-            /* Scroll distance */
+        /* ===== SECTION 3: PRODUCTS SHOWCASE ===== */
+        .products-section {
             position: relative;
+            padding: 4rem 5%;
             background: #08100a;
         }
 
-        .gallery-sticky {
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            width: 100%;
+        .products-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .products-header h2 {
+            font-size: 2.2rem;
+            color: var(--ev-cream);
+            margin-bottom: 1rem;
+        }
+
+        .products-header p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Featured product (Cassava) */
+        .product-featured {
+            position: relative;
+            display: flex;
+            align-items: stretch;
+            background: var(--ev-green-rich);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            min-height: auto;
+            border: 1px solid rgba(198, 147, 75, 0.15);
+        }
+
+        .product-featured-img {
+            width: 50%;
+            min-height: 340px;
+            position: relative;
             overflow: hidden;
             display: flex;
             align-items: center;
-        }
-
-        .gallery-track {
-            display: flex;
-            height: 100%;
-            padding-left: 10vw;
-            padding-right: 10vw;
-            align-items: center;
-            /* Center items vertically */
-        }
-
-        .gallery-card {
-            min-width: 45vw;
-            height: 55vh;
-            margin-right: 6vw;
-            position: relative;
-            display: flex;
-            flex-direction: column;
             justify-content: center;
-            padding: 0;
-            border: none;
-            background: transparent;
+            background: var(--ev-green-rich);
         }
 
-        .gallery-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .product-featured-img img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            z-index: -1;
-            filter: grayscale(100%) brightness(0.4);
-            transition: all 0.8s ease;
-            opacity: 0.6;
-            mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
-            /* Fade edges */
-            -webkit-mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+            transition: transform 0.6s ease;
         }
 
-        .gallery-card:hover .gallery-bg {
-            filter: grayscale(0) brightness(0.8);
-            opacity: 1;
-            transform: scale(1.02);
+        .product-featured:hover .product-featured-img img {
+            transform: scale(1.03);
         }
 
-        .gallery-content-wrapper {
-            position: relative;
-            z-index: 2;
-            padding: 3rem;
+        .product-featured-body {
+            width: 50%;
+            padding: 2rem 2.5rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            height: 100%;
-            text-align: left;
         }
 
-        .gallery-cat {
-            color: var(--ev-gold);
+        .product-badge {
+            display: inline-block;
+            background: var(--ev-gold);
+            color: var(--ev-green-deep);
+            font-size: 0.6rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: 0.7rem;
-            margin-bottom: 0.8rem;
-            opacity: 0.7;
-            font-weight: 300;
+            letter-spacing: 2px;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            width: fit-content;
         }
 
-        .gallery-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            line-height: 1;
-            margin-bottom: 1.5rem;
-            color: transparent;
-            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
-            transition: all 0.5s;
-        }
-
-        .gallery-card:hover .gallery-title {
+        .product-featured-title {
+            font-size: 1.8rem;
+            line-height: 1.1;
             color: #fff;
-            -webkit-text-stroke: 0;
+            margin-bottom: 0.8rem;
         }
 
-        .gallery-desc {
-            max-width: 350px;
+        .product-featured-desc {
+            font-size: 0.9rem;
             color: var(--text-muted);
             line-height: 1.6;
-            font-size: 0.9rem;
-            border-left: 1px solid var(--ev-gold);
-            padding-left: 1.5rem;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s 0.2s;
+            margin-bottom: 1.2rem;
         }
 
-        .gallery-card:hover .gallery-desc {
+        .product-specs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+        }
+
+        .spec-icon {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            margin-top: 2px;
+            color: var(--ev-gold);
+        }
+
+        .spec-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .spec-text strong {
+            color: var(--ev-cream);
+            font-weight: 500;
+        }
+
+        .product-featured.reverse {
+            flex-direction: row-reverse;
+        }
+
+        /* Secondary products: visual tiles with overlay */
+        .products-secondary {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .product-tile {
+            position: relative;
+            border-radius: 14px;
+            overflow: hidden;
+            height: 400px;
+            border: 1px solid rgba(198, 147, 75, 0.15);
+            cursor: default;
+        }
+
+        .product-tile-bg {
+            position: absolute;
+            inset: 0;
+            background: var(--ev-green-rich);
+        }
+
+        .product-tile-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center 40%;
+            transition: transform 0.6s ease;
+        }
+
+        .product-tile:hover .product-tile-bg img {
+            transform: scale(1.05);
+        }
+
+        .product-tile-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top,
+                    rgba(5, 20, 10, 0.97) 0%,
+                    rgba(5, 20, 10, 0.75) 35%,
+                    rgba(5, 20, 10, 0.1) 60%,
+                    transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.8rem;
+            transition: background 0.4s ease;
+        }
+
+        .product-tile:hover .product-tile-overlay {
+            background: linear-gradient(to top,
+                    rgba(5, 20, 10, 0.97) 0%,
+                    rgba(5, 20, 10, 0.6) 35%,
+                    rgba(5, 20, 10, 0.05) 55%,
+                    transparent 100%);
+        }
+
+        .product-tile-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: #fff;
+            margin-bottom: 0.6rem;
+            line-height: 1.15;
+        }
+
+        .product-tile-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .tile-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .tile-spec {
+            display: inline-block;
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--ev-cream);
+            background: rgba(198, 147, 75, 0.15);
+            border: 1px solid rgba(198, 147, 75, 0.25);
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            letter-spacing: 0.3px;
+        }
+
+        @media (max-width: 768px) {
+            .products-secondary {
+                grid-template-columns: 1fr;
+            }
+
+            .product-tile {
+                height: 350px;
+            }
+        }
+
+        /* ===== SECTION 4: RUMAH MOCAF VIDEO + WEBSITE ===== */
+        .section-video {
+            position: relative;
+            padding: 4rem 5%;
+            background: var(--ev-green-deep);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .video-card {
+            position: relative;
+            border-radius: 14px;
+            overflow: hidden;
+            aspect-ratio: 16 / 9;
+            cursor: pointer;
+        }
+
+        .video-card a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .video-thumb {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .video-card:hover .video-thumb {
+            transform: scale(1.06);
+        }
+
+        .video-card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.35);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .video-card:hover .video-card-overlay {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .play-btn {
+            width: 64px;
+            height: 64px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-bottom: 10px;
+        }
+
+        .video-card:hover .play-btn {
+            transform: scale(1.15);
+            background: #fff;
+            box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.15);
+        }
+
+        .play-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: var(--ev-green-rich);
+            margin-left: 3px;
+        }
+
+        .video-card-label {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: all 0.3s ease;
+        }
+
+        .video-card:hover .video-card-label {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        .video-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .video-info h2 {
+            font-size: 1.8rem;
+            color: var(--ev-cream);
+            margin-bottom: 1rem;
+        }
+
+        .video-info p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--ev-gold);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 0.7rem 1.5rem;
+            border: 1px solid rgba(198, 147, 75, 0.3);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            width: fit-content;
+            margin-bottom: 1rem;
+        }
+
+        .link-btn:hover {
+            background: rgba(198, 147, 75, 0.1);
+            border-color: var(--ev-gold);
+        }
+
+        .link-btn svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
         }
 
 
         /* ===== FOOTER ===== */
         footer {
-            padding: 4rem 5%;
+            padding: 2rem 5%;
             text-align: center;
             font-size: 0.9rem;
             color: var(--text-muted);
@@ -389,66 +658,181 @@
         /* ===== TOP NAV BANNER (same as index.html) ===== */
         .top-nav-banner {
             position: fixed;
-            top: 0; left: 0; right: 0;
+            top: 0;
+            left: 0;
+            right: 0;
             height: 48px;
             background: rgba(8, 12, 20, 0.97);
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             z-index: 9999;
             display: flex;
             align-items: center;
             overflow: visible !important;
         }
+
         .top-nav-container {
-            max-width: 1400px; width: 100%; margin: 0 auto;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
             padding: 0 2rem;
-            display: flex; justify-content: flex-end; align-items: center;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
             overflow: visible !important;
         }
-        .top-nav-links { display: flex; gap: 0.5rem; align-items: center; }
+
+        .top-nav-links {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
         .top-nav-link {
-            padding: 0.4rem 1rem; font-size: 0.8rem; font-weight: 600;
-            color: rgba(255,255,255,0.75); text-decoration: none;
-            border-radius: 6px; transition: all 0.3s ease;
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
         }
-        .top-nav-link:hover { color: white; background: rgba(255,255,255,0.1); }
-        .partners-dropdown-container { position: relative; }
+
+        .top-nav-link:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .top-nav-official {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            margin-right: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+
+        .top-nav-official:hover {
+            opacity: 1;
+            text-decoration: underline;
+            background: none;
+            color: white;
+        }
+
+        .top-nav-sep {
+            width: 1px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            margin-right: 1rem;
+        }
+
+        .partners-dropdown-container {
+            position: relative;
+        }
+
         .top-nav-partners-btn {
-            display: flex; align-items: center;
+            display: flex;
+            align-items: center;
             background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
-            color: white; border: none; cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: 'DM Sans', 'Inter', sans-serif;
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 6px;
         }
+
         .top-nav-partners-btn:hover,
         .top-nav-partners-btn[aria-expanded="true"] {
             background: linear-gradient(135deg, #0284c7 0%, #0891b2 100%);
-            box-shadow: 0 4px 15px rgba(14,165,233,0.3); color: white;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+            color: white;
         }
+
         .partners-dropdown-menu {
-            position: absolute; top: 100%; right: 0; margin-top: 12px;
-            width: 240px; background: #0f172a;
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            padding: 6px; display: none; flex-direction: column; gap: 2px;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 12px;
+            width: 240px;
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            padding: 6px;
+            display: none;
+            flex-direction: column;
+            gap: 2px;
             z-index: 1010;
-            animation: dropdownPop 0.2s cubic-bezier(0.16,1,0.3,1);
+            transform-origin: top right;
+            animation: dropdownPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .partners-dropdown-menu.active { display: flex; }
+
+        .partners-dropdown-menu.active {
+            display: flex;
+        }
+
         @keyframes dropdownPop {
-            from { opacity: 0; transform: scale(0.95) translateY(-5px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(-5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
+
         .partners-dropdown-item {
-            display: flex; align-items: center; gap: 12px;
-            padding: 10px 12px; color: rgba(255,255,255,0.8);
-            text-decoration: none; font-size: 0.85rem; font-weight: 500;
-            border-radius: 8px; transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
         }
+
+        .top-nav-official {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            margin-right: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+
+        .top-nav-official:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .top-nav-sep {
+            width: 1px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            margin-right: 1rem;
+        }
+
         .partners-dropdown-item:hover {
-            background: rgba(255,255,255,0.1); color: white; transform: translateX(2px);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(2px);
         }
+
         .partner-icon-img {
-            height: 28px; width: auto; max-width: 40px;
-            object-fit: contain; filter: brightness(1.1);
+            height: 28px;
+            width: auto;
+            max-width: 40px;
+            object-fit: contain;
+            filter: brightness(1.1);
         }
 
         @media (max-width: 768px) {
@@ -471,28 +855,36 @@
                 margin-bottom: 2rem;
             }
 
-            .gallery-container {
-                height: auto;
-            }
-
-            .gallery-sticky {
-                position: relative;
-                height: auto;
+            .product-featured,
+            .product-featured.reverse {
                 flex-direction: column;
+                min-height: auto;
             }
 
-            .gallery-track {
-                flex-direction: column;
-                padding: 0;
+            .product-featured-img,
+            .product-featured-body {
+                width: 100%;
             }
 
-            .gallery-card {
-                min-width: 100%;
-                width: 100vw;
-                margin: 0;
-                border: none;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                margin-bottom: 1rem;
+            .product-featured-img {
+                min-height: 220px;
+                height: 220px;
+            }
+
+            .product-featured-body {
+                padding: 1.5rem 1.2rem 2rem;
+            }
+
+            .product-featured-title {
+                font-size: 1.5rem;
+            }
+
+            .product-specs {
+                grid-template-columns: 1fr;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -504,13 +896,16 @@
     <nav class="top-nav-banner">
         <div class="top-nav-container">
             <div class="top-nav-links">
+                <a href="https://ekovitaris.com/" target="_blank" class="top-nav-official">ekovitaris.com</a>
+                <div class="top-nav-sep"></div>
                 <a href="index.html" class="top-nav-link">Home</a>
                 <a href="index.html#contact" class="top-nav-link">Get in Touch</a>
                 <div class="partners-dropdown-container">
                     <button class="top-nav-link top-nav-partners-btn" id="partnersBtn" aria-expanded="false">
                         PARTNERS
                         <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left: 6px;">
-                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
                         </svg>
                     </button>
                     <div class="partners-dropdown-menu" id="partnersDropdown">
@@ -521,10 +916,12 @@
                             <img src="assets/logo-sbdi.webp" alt="SBDI" class="partner-icon-img"> SBDI Center
                         </a>
                         <a href="wiseuse.html" class="partners-dropdown-item">
-                            <img src="assets/wiseuse-pyramid.png" alt="WiseUse" class="partner-icon-img"> WiseUse International
+                            <img src="assets/wiseuse-pyramid.png" alt="WiseUse" class="partner-icon-img"> WiseUse
+                            International
                         </a>
                         <a href="eko-vitaris.html" class="partners-dropdown-item">
-                            <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-icon-img"> Eko Vitaris
+                            <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-icon-img"> Eko
+                            Vitaris
                         </a>
                     </div>
                 </div>
@@ -543,7 +940,7 @@
                     <circle cx="12" cy="12" r="10"></circle>
                     <path d="M12 6v12M6 12h12"></path>
                 </svg>
-                Strategic Partner
+                Official Partner
             </span>
             <h1 class="hero-title">Eko<br>Vitaris</h1>
         </div>
@@ -552,9 +949,9 @@
     <!-- SECTION 2: ORGANIC MISSION -->
     <section class="section-mission">
         <div class="mission-intro">
-            <h2>The Synarchic Protocol</h2>
-            <p>A methodology that respects the vibrational integrity of matter. From the volcanic soils of Java to the
-                global marketplace.</p>
+            <h2>Premium Tropical Products</h2>
+            <p>From the volcanic soils of Java to the European marketplace. We build a responsible value chain that
+                protects nature, empowers farmers, and delivers full traceability from farm to final product.</p>
         </div>
 
         <!-- Item 1 -->
@@ -562,13 +959,14 @@
             <div class="organic-text">
                 <div class="organic-num">01</div>
                 <h3 class="organic-title">Regenerative Sourcing</h3>
-                <p class="organic-desc">Collaborating directly with smallholder communities. We ensure that every
-                    harvest supports soil health and provides bio-dynamic vitality.</p>
+                <p class="organic-desc">Direct relationships with Indonesian farmers and cooperatives. Every harvest
+                    supports soil restoration, biodiversity, and increases farmer income — building shared prosperity
+                    at the source.</p>
             </div>
             <div class="organic-visual float-slow">
                 <div class="organic-img-mask shape-1">
-                    <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                        alt="Sourcing" class="organic-img">
+                    <img src="assets/eko-vitaris/regenerative-sourcing.png"
+                        alt="Regenerative Sourcing - Cassava, Dried Fruits, Oils, Palm Sugar" class="organic-img">
                 </div>
             </div>
         </div>
@@ -577,63 +975,168 @@
         <div class="organic-row reverse reveal">
             <div class="organic-text">
                 <div class="organic-num">02</div>
-                <h3 class="organic-title">Ethical Processing</h3>
-                <p class="organic-desc">Non-extractive technologies. Cold-chain preservation and mercury-free
-                    purification to maintain the energetic signature of the source.</p>
+                <h3 class="organic-title">Traceability & Quality Control</h3>
+                <p class="organic-desc">Full transparency from farm to final product. Refrigerated supply chain,
+                    EU food safety standards, and rigorous quality documentation ensure consistency
+                    and compliance at every step.</p>
             </div>
             <div class="organic-visual float-slow" style="animation-delay: 1s;">
                 <div class="organic-img-mask shape-2">
-                    <img src="https://images.unsplash.com/photo-1610375461246-83df859d871d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                        alt="Processing" class="organic-img">
+                    <img src="assets/eko-vitaris/traceability-quality.png"
+                        alt="Traceability - Coffee, Tea, Fish, Spices" class="organic-img">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SECTION 3: HORIZONTAL GALLERY -->
-    <div class="gallery-container">
-        <div class="gallery-sticky">
-            <div class="gallery-track" id="galleryTrack">
+    <!-- SECTION 3: PRODUCTS SHOWCASE -->
+    <section class="products-section">
+        <div class="products-header">
+            <h2>Our Products</h2>
+            <p>For hotels, manufacturers, resorts, supermarkets and wholesalers.
+                Fully customizable branding, EU-compliant, and shipped FOB Indonesia.</p>
+        </div>
 
-                <!-- Card 1 -->
-                <div class="gallery-card">
-                    <img src="https://images.unsplash.com/photo-1610375461246-83df859d871d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"
-                        class="gallery-bg" alt="Gold">
-                    <div class="gallery-content-wrapper">
-                        <span class="gallery-cat">Precious Metals</span>
-                        <h3 class="gallery-title">Ethical<br>Gold</h3>
-                        <p class="gallery-desc">Fully traceable, mercury-free gold. A compliant store of value for the
-                            conscious investor.</p>
+        <!-- FEATURED: Cassava / Mocaf (flagship product) -->
+        <div class="product-featured reveal">
+            <div class="product-featured-img">
+                <img src="assets/eko-vitaris/cassava.png" alt="Modified Cassava Flour - Mocaf product lineup">
+            </div>
+            <div class="product-featured-body">
+                <span class="product-badge">Flagship Product — Exclusive EU Rights</span>
+                <h3 class="product-featured-title">Modified Cassava Flour (Mocaf)</h3>
+                <p class="product-featured-desc">Through our exclusive partnership with Rumah Mocaf, we bring
+                    Indonesia's most innovative gluten-free flour to European markets. A climate-smart,
+                    clean-label ingredient for the next generation of food manufacturing.</p>
+                <div class="product-specs">
+                    <div class="spec-item">
+                        <svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <span class="spec-text"><strong>Gluten-free, Non-GMO</strong><br>Clean label,
+                            pesticide-free</span>
+                    </div>
+                    <div class="spec-item">
+                        <svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <span class="spec-text"><strong>Zero-waste production</strong><br>Peel to biogas, pulp to
+                            compost</span>
+                    </div>
+                    <div class="spec-item">
+                        <svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <span class="spec-text"><strong>Fair Trade</strong><br>+40% farmer income via
+                            cooperatives</span>
+                    </div>
+                    <div class="spec-item">
+                        <svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <span class="spec-text"><strong>End products</strong><br>Bread, pasta, pancakes, cookies</span>
                     </div>
                 </div>
-
-                <!-- Card 2 -->
-                <div class="gallery-card">
-                    <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"
-                        class="gallery-bg" alt="Coconut">
-                    <div class="gallery-content-wrapper">
-                        <span class="gallery-cat">Bio-Active</span>
-                        <h3 class="gallery-title">Living<br>Lipids</h3>
-                        <p class="gallery-desc">Cold-processed coconut derivatives. High-vibration nutrition sourced
-                            from coastal ecosystems.</p>
-                    </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="gallery-card">
-                    <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"
-                        class="gallery-bg" alt="Coffee">
-                    <div class="gallery-content-wrapper">
-                        <span class="gallery-cat">Premium Roast</span>
-                        <h3 class="gallery-title">Volcanic<br>Coffee</h3>
-                        <p class="gallery-desc">High-altitude Arabica. Grown in nutrient-dense volcanic soil for clarity
-                            and grounding.</p>
-                    </div>
-                </div>
-
             </div>
         </div>
-    </div>
+
+        <!-- Secondary products: visual tiles -->
+        <div class="products-secondary">
+
+            <!-- Coconuts -->
+            <div class="product-tile reveal">
+                <div class="product-tile-bg">
+                    <img src="assets/eko-vitaris/coconut.png" alt="Sweet Baby Coconut with custom branding">
+                </div>
+                <div class="product-tile-overlay">
+                    <span class="product-badge">HACCP Certified — Java</span>
+                    <h3 class="product-tile-title">Sweet Baby Coconuts</h3>
+                    <p class="product-tile-desc">Premium ready-to-drink coconuts from Java. Eco packaging,
+                        custom branding for hotels, resorts & retail.</p>
+                    <div class="tile-specs">
+                        <span class="tile-spec">~1 kg / 500 ml</span>
+                        <span class="tile-spec">Eco wrapping</span>
+                        <span class="tile-spec">60+ days shelf life</span>
+                        <span class="tile-spec">12 per box</span>
+                        <span class="tile-spec">Min. 12,000 units</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coffee -->
+            <div class="product-tile reveal">
+                <div class="product-tile-bg">
+                    <img src="assets/eko-vitaris/coffee.png" alt="Bangelan Premium Coffee">
+                </div>
+                <div class="product-tile-overlay">
+                    <span class="product-badge">SDG Certified — Mt. Kunung Gawi</span>
+                    <h3 class="product-tile-title">Premium Coffee</h3>
+                    <p class="product-tile-desc">Grade A Robusta and custom blends from volcanic highlands.
+                        Full traceability and sustainable certification.</p>
+                    <div class="tile-specs">
+                        <span class="tile-spec">Grade A Robusta</span>
+                        <span class="tile-spec">50 mt / month</span>
+                        <span class="tile-spec">1 kg green bean</span>
+                        <span class="tile-spec">Custom branding</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 4: RUMAH MOCAF VIDEO + WEBSITE -->
+    <section class="section-video">
+        <div class="video-grid">
+            <!-- Video Preview -->
+            <div class="video-card reveal">
+                <a href="https://www.youtube.com/watch?v=PvKCyMQWTMw" target="_blank"
+                    aria-label="Watch Rumah Mocaf gluten-free recipe on YouTube">
+                    <div class="video-thumb"
+                        style="background-image: url('https://img.youtube.com/vi/PvKCyMQWTMw/maxresdefault.jpg');">
+                    </div>
+                    <div class="video-card-overlay">
+                        <div class="play-btn">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                            </svg>
+                        </div>
+                        <span class="video-card-label">Watch on YouTube</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Info -->
+            <div class="video-info reveal">
+                <h2>Rumah Mocaf</h2>
+                <p>Our exclusive cassava partner runs a YouTube channel with 30+ gluten-free recipes
+                    using Mocaf flour — from crispy fried chicken to donuts, bread and cookies.
+                    All without wheat, showcasing the versatility of Modified Cassava Flour
+                    for the European food industry.</p>
+                <a href="https://www.youtube.com/@RumahMocaf" target="_blank" class="link-btn">
+                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                        <polyline points="15 3 21 3 21 9" />
+                        <line x1="10" y1="14" x2="21" y2="3" />
+                    </svg>
+                    YouTube Channel
+                </a>
+                <a href="https://ekovitaris.com/" target="_blank" class="link-btn">
+                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="2" y1="12" x2="22" y2="12" />
+                        <path
+                            d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
+                    </svg>
+                    ekovitaris.com
+                </a>
+            </div>
+        </div>
+    </section>
 
     <footer>
         <p>Eko Vitaris x Eugene Mierak • Strategic Alliance 2026</p>
@@ -657,36 +1160,18 @@
             observer.observe(el);
         });
 
-        // Horizontal Scroll Logic
-        const galleryContainer = document.querySelector('.gallery-container');
-        const galleryTrack = document.querySelector('#galleryTrack');
-
-        if (window.innerWidth > 768) {
-            window.addEventListener('scroll', () => {
-                const offsetTop = galleryContainer.offsetTop;
-                const scrollY = window.scrollY;
-                const height = galleryContainer.offsetHeight - window.innerHeight;
-
-                if (scrollY >= offsetTop && scrollY <= offsetTop + height) {
-                    const progress = (scrollY - offsetTop) / height;
-                    const move = -(galleryTrack.scrollWidth - window.innerWidth) * progress;
-                    galleryTrack.style.transform = `translateX(${move}px)`;
-                }
-            });
-        }
-
         // Partners dropdown
-        (function() {
+        (function () {
             var btn = document.getElementById('partnersBtn');
             var dd = document.getElementById('partnersDropdown');
             if (!btn || !dd) return;
-            btn.addEventListener('click', function(e) {
+            btn.addEventListener('click', function (e) {
                 e.stopPropagation();
                 var open = btn.getAttribute('aria-expanded') === 'true';
                 btn.setAttribute('aria-expanded', !open);
                 dd.classList.toggle('active');
             });
-            document.addEventListener('click', function(e) {
+            document.addEventListener('click', function (e) {
                 if (!dd.contains(e.target) && !btn.contains(e.target)) {
                     btn.setAttribute('aria-expanded', 'false');
                     dd.classList.remove('active');

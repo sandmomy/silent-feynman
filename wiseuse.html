@@ -31,8 +31,16 @@
             --rainbow: linear-gradient(90deg, #e74c3c, #e67e22, #f1c40f, #2ecc71, #3498db, #9b59b6);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; font-size: 19px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 19px;
+        }
 
         body {
             font-family: 'DM Sans', sans-serif;
@@ -42,22 +50,32 @@
         }
 
         /* Keep nav at original scale */
-        .top-nav-banner { font-size: 16px; }
+        .top-nav-banner {
+            font-size: 16px;
+        }
 
-        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Playfair Display', serif;
+        }
 
         /* ===== TOP NAV BANNER (same as index.html) ===== */
         .top-nav-banner {
             position: fixed;
-            top: 0; left: 0; right: 0;
+            top: 0;
+            left: 0;
+            right: 0;
             height: 48px;
             background: rgba(8, 12, 20, 0.97);
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             z-index: 9999;
             display: flex;
             align-items: center;
             overflow: visible !important;
         }
+
         .top-nav-container {
             max-width: 1400px;
             width: 100%;
@@ -68,25 +86,54 @@
             align-items: center;
             overflow: visible !important;
         }
+
         .top-nav-links {
             display: flex;
             gap: 0.5rem;
             align-items: center;
         }
+
         .top-nav-link {
             padding: 6px 16px;
             font-size: 13px;
             font-weight: 600;
-            color: rgba(255,255,255,0.75);
+            color: rgba(255, 255, 255, 0.75);
             text-decoration: none;
             border-radius: 6px;
             transition: all 0.3s ease;
         }
+
         .top-nav-link:hover {
             color: white;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
         }
-        .partners-dropdown-container { position: relative; }
+
+        .top-nav-official {
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            margin-right: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+
+        .top-nav-official:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .top-nav-sep {
+            width: 1px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            margin-right: 1rem;
+        }
+
+        .partners-dropdown-container {
+            position: relative;
+        }
+
         .top-nav-partners-btn {
             display: flex;
             align-items: center;
@@ -96,50 +143,67 @@
             cursor: pointer;
             font-family: 'DM Sans', sans-serif;
         }
+
         .top-nav-partners-btn:hover,
         .top-nav-partners-btn[aria-expanded="true"] {
             background: linear-gradient(135deg, #0284c7 0%, #0891b2 100%);
             box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
             color: white;
         }
+
         .partners-dropdown-menu {
             position: absolute;
-            top: 100%; right: 0;
+            top: 100%;
+            right: 0;
             margin-top: 12px;
             width: 240px;
             background: #0f172a;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
             padding: 6px;
             display: none;
             flex-direction: column;
             gap: 2px;
             z-index: 1010;
-            animation: dropdownPop 0.2s cubic-bezier(0.16,1,0.3,1);
+            animation: dropdownPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .partners-dropdown-menu.active { display: flex; }
+
+        .partners-dropdown-menu.active {
+            display: flex;
+        }
+
         @keyframes dropdownPop {
-            from { opacity: 0; transform: scale(0.95) translateY(-5px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(-5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
+
         .partners-dropdown-item {
             display: flex;
             align-items: center;
             gap: 12px;
             padding: 10px 12px;
-            color: rgba(255,255,255,0.8);
+            color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
             border-radius: 8px;
             transition: all 0.2s ease;
         }
+
         .partners-dropdown-item:hover {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             color: white;
             transform: translateX(2px);
         }
+
         .partner-icon-img {
             height: 28px;
             width: auto;
@@ -147,8 +211,11 @@
             object-fit: contain;
             filter: brightness(1.1);
         }
+
         @media (max-width: 768px) {
-            .top-nav-banner { display: none; }
+            .top-nav-banner {
+                display: none;
+            }
         }
 
         /* ===== GLOBAL UTILITIES ===== */
@@ -159,7 +226,10 @@
             width: 100%;
         }
 
-        a { color: inherit; text-decoration: none; }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
 
         /* ===== SECTION SHARED ===== */
         .section {
@@ -197,8 +267,13 @@
             vertical-align: middle;
         }
 
-        .section-tag::before { margin-right: 14px; }
-        .section-tag::after { margin-left: 14px; }
+        .section-tag::before {
+            margin-right: 14px;
+        }
+
+        .section-tag::after {
+            margin-left: 14px;
+        }
 
         .section-title {
             font-size: clamp(2rem, 4vw, 3rem);
@@ -324,8 +399,15 @@
         }
 
         @keyframes dotPulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
+
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
         }
 
         .hero-pyramid-area {
@@ -350,8 +432,17 @@
         }
 
         @keyframes glowPulse {
-            0%, 100% { transform: scale(1); opacity: 0.7; }
-            50% { transform: scale(1.1); opacity: 1; }
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
         }
 
         .hero-ring {
@@ -361,20 +452,27 @@
         }
 
         .hero-ring:nth-child(2) {
-            width: 240px; height: 240px;
+            width: 240px;
+            height: 240px;
             animation: ringSpin 30s linear infinite;
         }
 
         .hero-ring:nth-child(3) {
-            width: 320px; height: 320px;
+            width: 320px;
+            height: 320px;
             border-style: dashed;
             border-color: rgba(196, 162, 101, 0.05);
             animation: ringSpin 50s linear infinite reverse;
         }
 
         @keyframes ringSpin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .hero-pyramid-img {
@@ -437,8 +535,15 @@
         }
 
         @keyframes heroFadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* ===== THREE PILLARS ===== */
@@ -463,7 +568,9 @@
         .pillar-card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
+            top: 0;
+            left: 0;
+            right: 0;
             height: 3px;
             background: linear-gradient(90deg, transparent, var(--wu-gold), transparent);
             opacity: 0;
@@ -476,7 +583,9 @@
             box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35), 0 0 50px rgba(196, 162, 101, 0.06);
         }
 
-        .pillar-card:hover::before { opacity: 1; }
+        .pillar-card:hover::before {
+            opacity: 1;
+        }
 
         .pillar-icon {
             width: 72px;
@@ -606,7 +715,9 @@
         .product-card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
+            top: 0;
+            left: 0;
+            right: 0;
             height: 3px;
             background: linear-gradient(90deg, var(--wu-gold-dark), var(--wu-gold-light), var(--wu-gold-dark));
             opacity: 0;
@@ -619,7 +730,9 @@
             box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3), 0 0 45px rgba(196, 162, 101, 0.06);
         }
 
-        .product-card:hover::before { opacity: 1; }
+        .product-card:hover::before {
+            opacity: 1;
+        }
 
         .product-icon-wrap {
             width: 68px;
@@ -698,7 +811,8 @@
         .case-card::after {
             content: '';
             position: absolute;
-            top: 0; left: 0;
+            top: 0;
+            left: 0;
             width: 4px;
             height: 100%;
             background: linear-gradient(180deg, var(--wu-gold-light), var(--wu-gold-dark));
@@ -712,7 +826,9 @@
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
         }
 
-        .case-card:hover::after { opacity: 1; }
+        .case-card:hover::after {
+            opacity: 1;
+        }
 
         .case-header {
             display: flex;
@@ -771,7 +887,10 @@
         .founder-card::before {
             content: '';
             position: absolute;
-            top: -1px; left: -1px; right: -1px; bottom: -1px;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
             border-radius: 28px;
             background: linear-gradient(160deg, rgba(196, 162, 101, 0.2), transparent 40%);
             z-index: -1;
@@ -867,7 +986,7 @@
             margin-bottom: 0.6rem;
         }
 
-        .sdg-inner > p {
+        .sdg-inner>p {
             color: var(--wu-muted);
             font-size: 0.95rem;
             margin-bottom: 2.5rem;
@@ -937,13 +1056,19 @@
         .stats-bar::after {
             content: '';
             position: absolute;
-            left: 0; right: 0;
+            left: 0;
+            right: 0;
             height: 1px;
             background: linear-gradient(90deg, transparent 0%, rgba(196, 162, 101, 0.18) 50%, transparent 100%);
         }
 
-        .stats-bar::before { top: 0; }
-        .stats-bar::after { bottom: 0; }
+        .stats-bar::before {
+            top: 0;
+        }
+
+        .stats-bar::after {
+            bottom: 0;
+        }
 
         .stats-grid {
             max-width: 1000px;
@@ -1022,7 +1147,7 @@
             color: var(--wu-gold-light);
         }
 
-        .cta-inner > p {
+        .cta-inner>p {
             color: var(--wu-muted);
             font-size: 1rem;
             line-height: 1.75;
@@ -1103,31 +1228,41 @@
                 max-width: 500px;
                 gap: 1.5rem;
             }
+
             .process-timeline {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 2.5rem 1.5rem;
             }
+
             .process-timeline::before {
                 display: none;
             }
+
             .process-arrow {
                 display: none;
             }
+
             .products-row {
                 grid-template-columns: repeat(2, 1fr);
             }
+
             .hero-pyramid-area {
                 width: 240px;
                 height: 240px;
             }
+
             .hero-pyramid-img {
                 height: 170px;
             }
+
             .hero-ring:nth-child(2) {
-                width: 200px; height: 200px;
+                width: 200px;
+                height: 200px;
             }
+
             .hero-ring:nth-child(3) {
-                width: 270px; height: 270px;
+                width: 270px;
+                height: 270px;
             }
         }
 
@@ -1139,63 +1274,82 @@
                 padding-top: 4rem;
                 padding-bottom: 3rem;
             }
+
             .hero-title {
                 font-size: 2.2rem;
             }
+
             .hero-pyramid-area {
                 width: 200px;
                 height: 200px;
             }
+
             .hero-pyramid-img {
                 height: 140px;
             }
+
             .hero-prism-line {
                 width: 100px;
             }
+
             .hero-ring:nth-child(2) {
-                width: 170px; height: 170px;
+                width: 170px;
+                height: 170px;
             }
+
             .hero-ring:nth-child(3) {
-                width: 220px; height: 220px;
+                width: 220px;
+                height: 220px;
             }
+
             .section {
                 padding: 5rem 1.5rem;
             }
+
             .pillars-grid {
                 grid-template-columns: 1fr;
                 max-width: 100%;
             }
+
             .process-timeline {
                 grid-template-columns: 1fr;
                 gap: 2rem;
             }
+
             .products-row,
             .cases-grid {
                 grid-template-columns: 1fr;
             }
+
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 2rem 1rem;
             }
+
             .stat-block:not(:last-child)::after {
                 display: none;
             }
+
             .stat-number {
                 font-size: 2.2rem;
             }
+
             .founder-card {
                 padding: 2.5rem 1.8rem;
             }
+
             .cta-contact-row {
                 flex-direction: column;
                 align-items: center;
                 gap: 1rem;
             }
+
             .footer-row {
                 flex-direction: column;
                 gap: 1rem;
                 text-align: center;
             }
+
             .footer-nav {
                 justify-content: center;
             }
@@ -1221,13 +1375,16 @@
     <nav class="top-nav-banner">
         <div class="top-nav-container">
             <div class="top-nav-links">
+                <a href="https://www.wise-use.com" target="_blank" class="top-nav-official">wise-use.com</a>
+                <div class="top-nav-sep"></div>
                 <a href="index.html" class="top-nav-link">Home</a>
                 <a href="index.html#contact" class="top-nav-link">Get in Touch</a>
                 <div class="partners-dropdown-container">
                     <button class="top-nav-link top-nav-partners-btn" id="partnersBtn" aria-expanded="false">
                         PARTNERS
                         <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left: 6px;">
-                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
                         </svg>
                     </button>
                     <div class="partners-dropdown-menu" id="partnersDropdown">
@@ -1238,10 +1395,12 @@
                             <img src="assets/logo-sbdi.webp" alt="SBDI" class="partner-icon-img"> SBDI Center
                         </a>
                         <a href="wiseuse.html" class="partners-dropdown-item">
-                            <img src="assets/wiseuse-pyramid.png" alt="WiseUse" class="partner-icon-img"> WiseUse International
+                            <img src="assets/wiseuse-pyramid.png" alt="WiseUse" class="partner-icon-img"> WiseUse
+                            International
                         </a>
                         <a href="eko-vitaris.html" class="partners-dropdown-item">
-                            <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-icon-img"> Eko Vitaris
+                            <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-icon-img"> Eko
+                            Vitaris
                         </a>
                     </div>
                 </div>
@@ -1261,7 +1420,8 @@
                 <div class="hero-glow"></div>
                 <div class="hero-ring"></div>
                 <div class="hero-ring"></div>
-                <img src="assets/wiseuse-pyramid.png" alt="Wise Use International pyramid logo" class="hero-pyramid-img">
+                <img src="assets/wiseuse-pyramid.png" alt="Wise Use International pyramid logo"
+                    class="hero-pyramid-img">
                 <div class="hero-prism-line"></div>
             </div>
 
@@ -1277,7 +1437,11 @@
                 <a href="#partnership" class="btn btn-gold">Explore Partnership</a>
                 <a href="assets/pdfs/WiseUse_RD_Book.pdf" target="_blank" class="btn btn-ghost">
                     R&D Book
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 17L17 7" />
+                        <path d="M7 7h10v10" />
+                    </svg>
                 </a>
             </div>
         </div>
@@ -1297,12 +1461,13 @@
         <div class="pillars-grid">
             <div class="pillar-card reveal">
                 <div class="pillar-icon">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c4a265" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 22c0-4-3-6-3-10a5 5 0 0 1 10 0c0 4-3 6-3 10"/>
-                        <path d="M10 22h4"/>
-                        <path d="M12 2v1"/>
-                        <path d="M4.93 4.93l.7.7"/>
-                        <path d="M19.07 4.93l-.7.7"/>
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c4a265" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22c0-4-3-6-3-10a5 5 0 0 1 10 0c0 4-3 6-3 10" />
+                        <path d="M10 22h4" />
+                        <path d="M12 2v1" />
+                        <path d="M4.93 4.93l.7.7" />
+                        <path d="M19.07 4.93l-.7.7" />
                     </svg>
                 </div>
                 <h3>Agriculture</h3>
@@ -1315,9 +1480,10 @@
             </div>
             <div class="pillar-card reveal">
                 <div class="pillar-icon">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c4a265" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
-                        <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c4a265" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2" />
                     </svg>
                 </div>
                 <h3>Water Management</h3>
@@ -1330,11 +1496,12 @@
             </div>
             <div class="pillar-card reveal">
                 <div class="pillar-icon">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c4a265" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 22c-4.97 0-9-2.24-9-5v-3c0-2.76 4.03-5 9-5s9 2.24 9 5v3c0 2.76-4.03 5-9 5z"/>
-                        <path d="M12 9V2"/>
-                        <path d="M8 5l4-3 4 3"/>
-                        <ellipse cx="12" cy="14" rx="9" ry="5"/>
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c4a265" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22c-4.97 0-9-2.24-9-5v-3c0-2.76 4.03-5 9-5s9 2.24 9 5v3c0 2.76-4.03 5-9 5z" />
+                        <path d="M12 9V2" />
+                        <path d="M8 5l4-3 4 3" />
+                        <ellipse cx="12" cy="14" rx="9" ry="5" />
                     </svg>
                 </div>
                 <h3>Animal Health</h3>
@@ -1365,25 +1532,38 @@
             <div class="process-step">
                 <div class="process-num">1</div>
                 <h3>Identify</h3>
-                <p>Map the existing microorganisms in soil, water, or biological systems. Understand the natural balance that has been disrupted.</p>
-                <svg class="process-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <p>Map the existing microorganisms in soil, water, or biological systems. Understand the natural balance
+                    that has been disrupted.</p>
+                <svg class="process-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.5">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
             </div>
             <div class="process-step">
                 <div class="process-num">2</div>
                 <h3>Develop</h3>
-                <p>Formulate 100% biological activators specifically designed to stimulate dormant or weakened microbial populations.</p>
-                <svg class="process-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <p>Formulate 100% biological activators specifically designed to stimulate dormant or weakened microbial
+                    populations.</p>
+                <svg class="process-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.5">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
             </div>
             <div class="process-step">
                 <div class="process-num">3</div>
                 <h3>Restore</h3>
-                <p>Apply our solutions to reactivate nature's own repair mechanisms. Microorganisms resume their ecological function.</p>
-                <svg class="process-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <p>Apply our solutions to reactivate nature's own repair mechanisms. Microorganisms resume their
+                    ecological function.</p>
+                <svg class="process-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.5">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
             </div>
             <div class="process-step">
                 <div class="process-num">4</div>
                 <h3>Sustain</h3>
-                <p>The restored balance perpetuates itself. Healthy ecosystems maintain equilibrium without ongoing chemical intervention.</p>
+                <p>The restored balance perpetuates itself. Healthy ecosystems maintain equilibrium without ongoing
+                    chemical intervention.</p>
             </div>
         </div>
     </section>
@@ -1401,14 +1581,15 @@
         <div class="products-row">
             <div class="product-card reveal">
                 <div class="product-icon-wrap">
-                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#c4a265" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 22V12"/>
-                        <path d="M12 12c-2-2-6-3-6 2"/>
-                        <path d="M12 12c2-2 6-3 6 2"/>
-                        <path d="M12 12V8"/>
-                        <path d="M9 4c0 0 1.5 2 3 2s3-2 3-2"/>
-                        <path d="M12 2v2"/>
-                        <path d="M8 22h8"/>
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#c4a265" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22V12" />
+                        <path d="M12 12c-2-2-6-3-6 2" />
+                        <path d="M12 12c2-2 6-3 6 2" />
+                        <path d="M12 12V8" />
+                        <path d="M9 4c0 0 1.5 2 3 2s3-2 3-2" />
+                        <path d="M12 2v2" />
+                        <path d="M8 22h8" />
                     </svg>
                 </div>
                 <h3>Bio-Rootz</h3>
@@ -1426,10 +1607,11 @@
             </div>
             <div class="product-card reveal">
                 <div class="product-icon-wrap">
-                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#c4a265" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 17 3.5 17 3.5s1 2 1 4.5c0 2.5-.4 5-2.5 7.5"/>
-                        <path d="M11.4 18c1.8-1.8 2.6-4.4 2.6-7"/>
-                        <path d="M14 21c-1.5 0-3-.5-4.5-1.5"/>
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#c4a265" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 17 3.5 17 3.5s1 2 1 4.5c0 2.5-.4 5-2.5 7.5" />
+                        <path d="M11.4 18c1.8-1.8 2.6-4.4 2.6-7" />
+                        <path d="M14 21c-1.5 0-3-.5-4.5-1.5" />
                     </svg>
                 </div>
                 <h3>B'Leafz</h3>
@@ -1447,10 +1629,11 @@
             </div>
             <div class="product-card reveal">
                 <div class="product-icon-wrap">
-                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#c4a265" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
-                        <path d="M12 13v4"/>
-                        <path d="M10 15h4"/>
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#c4a265" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
+                        <path d="M12 13v4" />
+                        <path d="M10 15h4" />
                     </svg>
                 </div>
                 <h3>PoCo</h3>
@@ -1613,20 +1796,38 @@
                 <a href="mailto:info@wise-use.nl" class="btn btn-gold">Contact Us</a>
                 <a href="https://www.wise-use.com" target="_blank" class="btn btn-ghost">
                     Visit wise-use.com
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 17L17 7" />
+                        <path d="M7 7h10v10" />
+                    </svg>
                 </a>
             </div>
             <div class="cta-contact-row reveal">
                 <a href="mailto:info@wise-use.nl" class="cta-contact-item">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <rect x="2" y="4" width="20" height="16" rx="2" />
+                        <path d="M22 4L12 13 2 4" />
+                    </svg>
                     info@wise-use.nl
                 </a>
                 <a href="tel:+31621150151" class="cta-contact-item">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.81.36 1.61.68 2.36a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.75.32 1.55.55 2.36.68A2 2 0 0 1 22 16.92z"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <path
+                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.81.36 1.61.68 2.36a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.75.32 1.55.55 2.36.68A2 2 0 0 1 22 16.92z" />
+                    </svg>
                     +31 6 2115 0151
                 </a>
-                <a href="https://linkedin.com/company/wise-use-international-bv" target="_blank" class="cta-contact-item">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                <a href="https://linkedin.com/company/wise-use-international-bv" target="_blank"
+                    class="cta-contact-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
+                        <rect x="2" y="9" width="4" height="12" />
+                        <circle cx="4" cy="4" r="2" />
+                    </svg>
                     LinkedIn
                 </a>
             </div>
@@ -1647,25 +1848,25 @@
     <!-- ==================== SCRIPTS ==================== -->
     <script>
         // Reveal on scroll
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(function(entry) {
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
                 if (entry.isIntersecting) entry.target.classList.add('visible');
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
-        document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+        document.querySelectorAll('.reveal').forEach(function (el) { observer.observe(el); });
 
         // Partners dropdown
-        (function() {
+        (function () {
             var btn = document.getElementById('partnersBtn');
             var dd = document.getElementById('partnersDropdown');
             if (!btn || !dd) return;
-            btn.addEventListener('click', function(e) {
+            btn.addEventListener('click', function (e) {
                 e.stopPropagation();
                 var open = btn.getAttribute('aria-expanded') === 'true';
                 btn.setAttribute('aria-expanded', !open);
                 dd.classList.toggle('active');
             });
-            document.addEventListener('click', function(e) {
+            document.addEventListener('click', function (e) {
                 if (!dd.contains(e.target) && !btn.contains(e.target)) {
                     btn.setAttribute('aria-expanded', 'false');
                     dd.classList.remove('active');
