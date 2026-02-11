@@ -231,6 +231,64 @@
             margin-right: 1rem;
         }
 
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 10001;
+            position: relative;
+        }
+
+        .mobile-menu-btn span {
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 868px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .top-nav-links {
+                display: none;
+                position: fixed;
+                top: 48px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(8, 12, 20, 0.98);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                z-index: 10000;
+                align-items: flex-start;
+                justify-content: flex-start;
+            }
+
+            .top-nav-links.active {
+                display: flex;
+            }
+
+            .top-nav-official {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+
+            .top-nav-sep {
+                display: none;
+            }
+        }
+
         .partners-dropdown-container {
             position: relative;
         }
@@ -261,12 +319,13 @@
             background: #0f172a;
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
             padding: 6px;
             display: none;
             flex-direction: column;
             gap: 2px;
             z-index: 1010;
+            transform-origin: top right;
             animation: dropdownPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -314,9 +373,89 @@
         }
 
         @media (max-width: 768px) {
-            .top-nav-banner {
+
+            .mobile-menu-btn {
+                display: flex !important;
+            }
+
+            .top-nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: #0f172a;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 1.5rem;
+                padding: 2rem;
+                transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+                z-index: 10000;
+            }
+
+            .top-nav-links.active {
+                right: 0;
+            }
+
+            .top-nav-container {
+                justify-content: space-between;
+                padding: 0 1.5rem;
+            }
+
+            .top-nav-sep {
                 display: none;
             }
+
+            .partners-dropdown-menu {
+                position: static;
+                width: 100%;
+                margin-top: 0.5rem;
+                box-shadow: none;
+                background: rgba(255, 255, 255, 0.05);
+                display: none;
+            }
+
+            .partners-dropdown-menu.active {
+                display: flex;
+            }
+        }
+
+        /* Burger Icon Styles */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 10001;
+            position: relative;
+        }
+
+        .mobile-menu-btn span {
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
         }
 
         /* ===== HERO ===== */
@@ -996,6 +1135,11 @@
     <!-- TOP NAV BANNER (same as index.html) -->
     <nav class="top-nav-banner">
         <div class="top-nav-container">
+            <button class="mobile-menu-btn" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <div class="top-nav-links">
                 <a href="https://vegaqura.com/" target="_blank" class="top-nav-official">vegaqura.com</a>
                 <div class="top-nav-sep"></div>
@@ -1367,24 +1511,7 @@
 
     <!-- JavaScript for animations and scroll effects -->
     <script>
-        // Partners dropdown
-        (function () {
-            var btn = document.getElementById('partnersBtn');
-            var dd = document.getElementById('partnersDropdown');
-            if (!btn || !dd) return;
-            btn.addEventListener('click', function (e) {
-                e.stopPropagation();
-                var open = btn.getAttribute('aria-expanded') === 'true';
-                btn.setAttribute('aria-expanded', !open);
-                dd.classList.toggle('active');
-            });
-            document.addEventListener('click', function (e) {
-                if (!dd.contains(e.target) && !btn.contains(e.target)) {
-                    btn.setAttribute('aria-expanded', 'false');
-                    dd.classList.remove('active');
-                }
-            });
-        })();
+        // Partners dropdown logic handled by main.js
 
         // Reveal on scroll
         const revealElements = document.querySelectorAll('.reveal');
@@ -1413,6 +1540,7 @@
             });
         });
     </script>
+    <script src="js/main.js" defer></script>
 
 
 </body>
