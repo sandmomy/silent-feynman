@@ -235,7 +235,7 @@
         width: 100%;
         z-index: 1;
     ">
-        <iframe id="aboutIframe" src="about_v2.html" scrolling="no" style="
+        <iframe id="aboutIframe" src="about_v3.html" scrolling="no" style="
                 position: sticky;
                 top: 0;
                 left: 0;
@@ -247,6 +247,7 @@
                 z-index: 2;
             " title="About Me - Sacred Geometry Experience"></iframe>
         <!-- 3 spacers give the section 400vh total (iframe 100vh + 300vh) -->
+        <div style="height: 100vh;"></div>
         <div style="height: 100vh;"></div>
         <div style="height: 100vh;"></div>
         <div style="height: 100vh;"></div>
@@ -285,7 +286,7 @@
                 var vh = window.innerHeight;
                 var at = aboutSection.offsetTop;
                 var ct = document.getElementById('contact');
-                posCache = [0, at, at + vh, at + 2 * vh, at + 3 * vh, ct ? ct.offsetTop : at + 4 * vh];
+                posCache = [0, at, at + vh, at + 2 * vh, at + 3 * vh, at + 4 * vh, ct ? ct.offsetTop : at + 5 * vh];
                 return posCache;
             }
 
@@ -352,7 +353,7 @@
                 var vh = window.innerHeight;
                 var off = sy - at;
                 if (off >= -10 && off < aboutSection.offsetHeight - vh + 10) {
-                    var idx = Math.min(3, Math.max(0, Math.floor(off / vh + 0.2)));
+                    var idx = Math.min(4, Math.max(0, Math.floor(off / vh + 0.2)));
                     if (idx !== lastSlide) {
                         lastSlide = idx;
                         iframe.contentWindow.postMessage({ type: 'goToSlide', index: idx }, '*');
