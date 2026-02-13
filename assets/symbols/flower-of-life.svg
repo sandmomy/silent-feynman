@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g filter="url(#glow)" transform="translate(100,100)">
+    <!-- Center circle -->
+    <circle cx="0" cy="0" r="28" stroke="#b8960c" stroke-width="0.8" opacity="0.9"/>
+    <!-- Layer 1: Seed of Life (6 circles) -->
+    <circle cx="0" cy="-28" r="28" stroke="#38a169" stroke-width="0.7" opacity="0.75"/>
+    <circle cx="24.25" cy="-14" r="28" stroke="#38a169" stroke-width="0.7" opacity="0.75"/>
+    <circle cx="24.25" cy="14" r="28" stroke="#38a169" stroke-width="0.7" opacity="0.75"/>
+    <circle cx="0" cy="28" r="28" stroke="#38a169" stroke-width="0.7" opacity="0.75"/>
+    <circle cx="-24.25" cy="14" r="28" stroke="#38a169" stroke-width="0.7" opacity="0.75"/>
+    <circle cx="-24.25" cy="-14" r="28" stroke="#38a169" stroke-width="0.7" opacity="0.75"/>
+    <!-- Layer 2: Outer vertices (6 circles at 2r) -->
+    <circle cx="0" cy="-56" r="28" stroke="#5a6738" stroke-width="0.5" opacity="0.5"/>
+    <circle cx="48.5" cy="-28" r="28" stroke="#5a6738" stroke-width="0.5" opacity="0.5"/>
+    <circle cx="48.5" cy="28" r="28" stroke="#5a6738" stroke-width="0.5" opacity="0.5"/>
+    <circle cx="0" cy="56" r="28" stroke="#5a6738" stroke-width="0.5" opacity="0.5"/>
+    <circle cx="-48.5" cy="28" r="28" stroke="#5a6738" stroke-width="0.5" opacity="0.5"/>
+    <circle cx="-48.5" cy="-28" r="28" stroke="#5a6738" stroke-width="0.5" opacity="0.5"/>
+    <!-- Outer boundary circle -->
+    <circle cx="0" cy="0" r="85" stroke="#38a169" stroke-width="0.4" opacity="0.3"/>
+  </g>
+</svg>

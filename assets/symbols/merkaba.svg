@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g filter="url(#glow)" opacity="0.9">
+    <!-- Upper tetrahedron (pointing up) -->
+    <polygon points="100,20 30,155 170,155" stroke="#b8960c" stroke-width="1.2" fill="none" opacity="0.85"/>
+    <line x1="100" y1="20" x2="100" y2="155" stroke="#b8960c" stroke-width="0.5" opacity="0.3"/>
+    <line x1="30" y1="155" x2="135" y2="87.5" stroke="#b8960c" stroke-width="0.5" opacity="0.3"/>
+    <line x1="170" y1="155" x2="65" y2="87.5" stroke="#b8960c" stroke-width="0.5" opacity="0.3"/>
+    <!-- Lower tetrahedron (pointing down) -->
+    <polygon points="100,180 30,45 170,45" stroke="#d4b96a" stroke-width="1.2" fill="none" opacity="0.7"/>
+    <line x1="100" y1="180" x2="100" y2="45" stroke="#d4b96a" stroke-width="0.5" opacity="0.25"/>
+    <line x1="30" y1="45" x2="135" y2="112.5" stroke="#d4b96a" stroke-width="0.5" opacity="0.25"/>
+    <line x1="170" y1="45" x2="65" y2="112.5" stroke="#d4b96a" stroke-width="0.5" opacity="0.25"/>
+    <!-- Central hexagon formed by intersection -->
+    <polygon points="65,87.5 100,45 135,87.5 135,112.5 100,155 65,112.5" stroke="#b8960c" stroke-width="0.6" fill="none" opacity="0.4"/>
+  </g>
+</svg>
