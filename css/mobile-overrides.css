@@ -55,10 +55,15 @@
         display: none !important;
     }
 
+    .about-particle-experience {
+        padding: 0 !important;
+        background: #030305 !important;
+    }
+
     .about-mobile {
         display: flex !important;
         flex-direction: column !important;
-        background: linear-gradient(180deg, #030305 0%, #05080f 30%, #030305 100%) !important;
+        background: #030305 !important;
     }
 
     .about-mobile-slide {
