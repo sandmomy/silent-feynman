@@ -254,17 +254,20 @@
     </section>
 
     <script>
-        // Full-page snap: 6 positions, own smooth scroll (no Lenis dependency)
+        // Snap scroll: desktop = full snap control, mobile = native scroll + passive slide sync
         (function () {
             var aboutSection = document.getElementById('about');
             var iframe = document.getElementById('aboutIframe');
             var lastSlide = -1;
             var isSnapping = false;
 
+            // Mobile detection
+            var isMobile = ('ontouchstart' in window) || window.innerWidth <= 992;
+
             // Cached positions — invalidated on resize
             var posCache = null;
 
-            // Kill Lenis — it conflicts with snap navigation
+            // Kill Lenis — it conflicts with snap navigation (desktop only)
             function killLenis() {
                 if (window.lenis && typeof window.lenis.destroy === 'function') {
                     try { window.lenis.destroy(); } catch (e) { }
@@ -276,9 +279,10 @@
                 window.lenisInstance = null;
             }
 
-            // Block Lenis creation immediately (before main.min.js runs)
-            // main.min.js checks `if (window.lenis) return;`
-            window.lenis = true;
+            // Block Lenis creation on desktop (before main.min.js runs)
+            if (!isMobile) {
+                window.lenis = true;
+            }
 
             // 6 snap positions (cached)
             function getPositions() {
@@ -327,22 +331,23 @@
             }
 
             function snapTo(dir) {
-                if (isSnapping) return;
+                // Allow interrupting current snap for snappier feel
+                isSnapping = false;
                 var pos = getPositions();
                 var cur = getClosestIndex();
                 var next = Math.max(0, Math.min(pos.length - 1, cur + dir));
                 if (next === cur) return;
                 isSnapping = true;
-                smoothScroll(pos[next], 1200);
+                smoothScroll(pos[next], 800);
             }
 
             // Navigate to a specific snap index (for "About Me" button etc.)
             function snapToIndex(index) {
-                if (isSnapping) return;
+                isSnapping = false;
                 var pos = getPositions();
                 index = Math.max(0, Math.min(pos.length - 1, index));
                 isSnapping = true;
-                smoothScroll(pos[index], 1200);
+                smoothScroll(pos[index], 800);
             }
 
             // Send slide index to iframe
@@ -361,25 +366,16 @@
                 }
             }
 
-            function boot() {
+            function bootDesktop() {
                 // Kill any Lenis that may have been created despite our block
                 killLenis();
-                // Keep blocking future attempts
                 window.lenis = true;
 
-                // Wheel
+                // Wheel — desktop snap
                 window.addEventListener('wheel', function (e) {
                     e.preventDefault();
                     snapTo(e.deltaY > 0 ? 1 : -1);
                 }, { passive: false });
-
-                // Touch
-                var ty = 0;
-                window.addEventListener('touchstart', function (e) { ty = e.touches[0].clientY; }, { passive: true });
-                window.addEventListener('touchend', function (e) {
-                    var dy = ty - e.changedTouches[0].clientY;
-                    if (Math.abs(dy) > 50) snapTo(dy > 0 ? 1 : -1);
-                });
 
                 // Keyboard — skip Space if user is in a form field
                 window.addEventListener('keydown', function (e) {
@@ -401,26 +397,38 @@
                 if (aboutBtn) {
                     aboutBtn.addEventListener('click', function (e) {
                         e.preventDefault();
-                        snapToIndex(1); // position 1 = about section top
+                        snapToIndex(1);
                     });
                 }
             }
 
-            // Retry Lenis kill — covers async script loading race conditions
+            function bootMobile() {
+                // Mobile: native scroll only, passive slide sync
+                // No wheel hijacking, no touch snap — just checkSlide on scroll
+                window.addEventListener('scroll', checkSlide, { passive: true });
+                window.addEventListener('resize', invalidateCache);
+            }
+
+            // Retry Lenis kill — desktop only
             function ensureLenisDead() {
                 killLenis();
                 window.lenis = true;
             }
 
             if (document.readyState === 'complete') {
-                setTimeout(boot, 50);
+                setTimeout(isMobile ? bootMobile : bootDesktop, 50);
             } else {
-                window.addEventListener('load', function () { setTimeout(boot, 50); });
+                window.addEventListener('load', function () {
+                    setTimeout(isMobile ? bootMobile : bootDesktop, 50);
+                });
             }
-            // Extra kill passes to catch late Lenis instantiation
-            setTimeout(ensureLenisDead, 200);
-            setTimeout(ensureLenisDead, 500);
-            setTimeout(ensureLenisDead, 1000);
+
+            // Extra Lenis kill passes — desktop only
+            if (!isMobile) {
+                setTimeout(ensureLenisDead, 200);
+                setTimeout(ensureLenisDead, 500);
+                setTimeout(ensureLenisDead, 1000);
+            }
         })();
     </script>
 

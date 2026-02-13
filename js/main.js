@@ -17,6 +17,10 @@ document.addEventListener('DOMContentLoaded', function () {
 // SMOOTH SCROLL WITH LENIS
 // ============================================
 function initSmoothScroll() {
+    // Skip Lenis on mobile — native scroll handles touch better
+    var isMobile = ('ontouchstart' in window) || window.innerWidth <= 992;
+    if (isMobile) return;
+
     if (window.lenis) return;
     if (typeof Lenis === 'undefined') return;
 
@@ -158,6 +162,26 @@ function initHeroGlobe() {
                 }
             });
 
+            // Touch events for mobile — show tooltip on tap
+            let touchTimeout;
+            el.addEventListener('touchstart', (e) => {
+                e.stopPropagation();
+                clearTimeout(touchTimeout);
+                tooltip.style.opacity = '1';
+                tooltip.style.transform = 'translateX(-50%) translateY(-5px)';
+                pin.style.transform = 'scale(1.2) translateY(-2px)';
+                globe.controls().autoRotate = false;
+            }, { passive: true });
+
+            el.addEventListener('touchend', () => {
+                touchTimeout = setTimeout(() => {
+                    tooltip.style.opacity = '0';
+                    tooltip.style.transform = 'translateX(-50%) translateY(0)';
+                    pin.style.transform = 'scale(1) translateY(0)';
+                    globe.controls().autoRotate = true;
+                }, 2000);
+            });
+
             return el;
         });
 
@@ -187,6 +211,7 @@ function initHeroGlobe() {
     controls.autoRotate = true;
     controls.autoRotateSpeed = -1.5;
     controls.enableZoom = false;
+    controls.enablePan = false;
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
 
@@ -202,10 +227,15 @@ function initHeroGlobe() {
     globeContainer.style.transform = 'scale(1)';
     globeContainer.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
 
+    const isMobileDevice = window.innerWidth <= 992;
+    let frameCount = 0;
+
     function startRendering() {
         if (!animationId && renderer) {
             function animate() {
                 animationId = requestAnimationFrame(animate);
+                // Throttle to ~30fps on mobile to save battery
+                if (isMobileDevice && ++frameCount % 2 !== 0) return;
                 controls.update();
                 renderer.render(globe.scene(), globe.camera());
             }
@@ -251,17 +281,23 @@ function initHeroGlobe() {
 
     observer.observe(globeContainer);
 
-    isGlobeActive = true;
-    startRendering();
+    // Let IntersectionObserver control rendering start
+    // Initial render only if globe is already visible
+    if (globeContainer.getBoundingClientRect().top < window.innerHeight) {
+        isGlobeActive = true;
+        startRendering();
+    }
 
     let resizeTimeout;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(syncGlobeSizeToContainer, 150);
     });
+    window.addEventListener('orientationchange', () => {
+        setTimeout(syncGlobeSizeToContainer, 300);
+    });
     setTimeout(syncGlobeSizeToContainer, 50);
     setTimeout(syncGlobeSizeToContainer, 300);
-    setTimeout(syncGlobeSizeToContainer, 1000);
 
     let resumeTimeout;
     controls.addEventListener('start', () => {

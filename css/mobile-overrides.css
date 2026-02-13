@@ -35,26 +35,26 @@
     }
 
     .hero.home-hero {
+        min-height: 100dvh !important;
         min-height: 100vh !important;
-        /* Force single viewport */
-        max-height: 100vh !important;
+        /* Allow content to expand beyond viewport on small screens */
+        max-height: none !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: center !important;
-        /* Move flex-start to center to better balance vertically */
         padding: 0 !important;
         position: relative !important;
-        overflow: hidden !important;
+        overflow: visible !important;
     }
 
     /* BACKGROUND: Slide animation - Fixed black gap issue */
     @keyframes mobileBgSlide {
         0% {
-            transform: translateX(5%);
+            transform: translateX(2%);
         }
 
         100% {
-            transform: translateX(-5%);
+            transform: translateX(-2%);
         }
     }
 
@@ -62,10 +62,11 @@
         background-position: center, 35% top !important;
         background-size: cover, cover !important;
         transform-origin: center !important;
-        animation: mobileBgSlide 6s ease-in-out infinite alternate !important;
+        animation: mobileBgSlide 8s ease-in-out infinite alternate !important;
         opacity: 1 !important;
-        width: 140% !important;
-        left: -20% !important;
+        width: 115% !important;
+        left: -7.5% !important;
+        will-change: transform !important;
     }
 
     /* MASTER GRID - Story-first order (Variante A) */
@@ -161,8 +162,8 @@
     /* Row 5: Interaction Row (Globe & Slider) */
     .globe-wrapper-center {
         grid-area: globe !important;
-        width: 160px !important;
-        height: 160px !important;
+        width: clamp(125px, 35vw, 170px) !important;
+        height: clamp(125px, 35vw, 170px) !important;
         justify-self: end !important;
         align-self: center !important;
         margin-right: 10px !important;
@@ -171,10 +172,15 @@
     }
 
     #hero-globe {
-        width: 160px !important;
-        height: 160px !important;
+        width: clamp(125px, 35vw, 170px) !important;
+        height: clamp(125px, 35vw, 170px) !important;
         transform: scale(1.15) !important;
         transform-origin: center center !important;
+    }
+
+    /* Prevent globe touch from triggering page scroll */
+    #hero-globe canvas {
+        touch-action: none !important;
     }
 
     .country-slider {
@@ -521,8 +527,8 @@
         padding: 3rem 1rem !important;
         background-position: 85% center !important;
         background-size: cover !important;
-        max-height: 100vh !important;
-        overflow: hidden !important;
+        max-height: none !important;
+        overflow: visible !important;
     }
 
     .contact-section::before {
@@ -595,12 +601,6 @@
         font-size: 1.9rem !important;
     }
 
-    .globe-wrapper-center,
-    #hero-globe {
-        width: 125px !important;
-        height: 125px !important;
-    }
-
     .country-slider {
         width: 95px !important;
         height: 135px !important;
@@ -608,5 +608,19 @@
 
     .hero-stats-column {
         padding: 0 !important;
+    }
+}
+
+/* Landscape orientation on mobile */
+@media (max-width: 992px) and (orientation: landscape) and (max-height: 500px) {
+    .hero.home-hero {
+        min-height: auto !important;
+        padding: 60px 15px 20px !important;
+    }
+
+    .globe-wrapper-center,
+    #hero-globe {
+        width: 100px !important;
+        height: 100px !important;
     }
 }
