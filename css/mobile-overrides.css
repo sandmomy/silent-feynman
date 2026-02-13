@@ -33,19 +33,29 @@
 }
 
 /* SVG symbol animations */
-@keyframes symbolRotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+@keyframes symbolFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(180deg); }
 }
 
-@keyframes symbolRotateSlow {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+@keyframes symbolFloatSlow {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-6px) rotate(180deg); }
 }
 
-@keyframes symbolPulse {
-    0%, 100% { opacity: 0.85; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.04); }
+@keyframes symbolBreath {
+    0%, 100% { opacity: 0.75; transform: scale(1) translateY(0); filter: drop-shadow(0 0 8px rgba(184, 150, 12, 0.15)); }
+    50% { opacity: 1; transform: scale(1.06) translateY(-5px); filter: drop-shadow(0 0 20px rgba(184, 150, 12, 0.3)); }
+}
+
+@keyframes symbolGlowPulse {
+    0%, 100% { filter: drop-shadow(0 0 6px rgba(56, 161, 105, 0.2)); }
+    50% { filter: drop-shadow(0 0 18px rgba(56, 161, 105, 0.45)); }
+}
+
+@keyframes aboutBgGlow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
 }
 
 @media (max-width: 992px) {
@@ -64,6 +74,22 @@
         display: flex !important;
         flex-direction: column !important;
         background: #030305 !important;
+        position: relative !important;
+        overflow: hidden !important;
+    }
+
+    /* Atmospheric background glow - matches hero/contact style */
+    .about-mobile::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(ellipse 60% 40% at 20% 30%, rgba(56, 161, 105, 0.08) 0%, transparent 70%),
+            radial-gradient(ellipse 50% 50% at 80% 70%, rgba(49, 130, 206, 0.06) 0%, transparent 70%),
+            radial-gradient(ellipse 40% 30% at 50% 50%, rgba(184, 150, 12, 0.04) 0%, transparent 60%);
+        animation: aboutBgGlow 12s ease-in-out infinite alternate;
+        pointer-events: none;
+        z-index: 0;
     }
 
     .about-mobile-slide {
@@ -74,10 +100,11 @@
         justify-content: center;
         padding: 3rem 1.5rem;
         position: relative;
+        z-index: 1;
         /* Slide-in animation: starts hidden */
         opacity: 0;
         transform: translateY(30px);
-        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        transition: opacity 0.7s ease-out, transform 0.7s ease-out;
     }
 
     .about-mobile-slide.visible {
@@ -86,17 +113,17 @@
     }
 
     .about-mobile-slide + .about-mobile-slide {
-        border-top: 1px solid rgba(184, 150, 12, 0.12);
+        border-top: 1px solid rgba(184, 150, 12, 0.08);
     }
 
     /* Symbol container */
     .about-mobile-symbol {
-        width: 120px;
-        height: 120px;
-        margin-bottom: 2rem;
+        width: 130px;
+        height: 130px;
+        margin-bottom: 2.5rem;
         opacity: 0;
         transform: translateY(20px);
-        transition: opacity 0.6s ease-out 0.15s, transform 0.6s ease-out 0.15s;
+        transition: opacity 0.7s ease-out 0.15s, transform 0.7s ease-out 0.15s;
     }
 
     .about-mobile-slide.visible .about-mobile-symbol {
@@ -109,16 +136,19 @@
         height: 100%;
     }
 
+    /* Merkaba: slow float + rotation */
     .symbol-rotate {
-        animation: symbolRotate 25s linear infinite;
+        animation: symbolFloat 30s ease-in-out infinite;
     }
 
+    /* Metatron: very slow rotation with glow */
     .symbol-rotate-slow {
-        animation: symbolRotateSlow 40s linear infinite;
+        animation: symbolFloatSlow 45s ease-in-out infinite, symbolGlowPulse 5s ease-in-out infinite;
     }
 
+    /* Flower of Life & Torus: breathing scale + glow */
     .symbol-pulse {
-        animation: symbolPulse 4s ease-in-out infinite;
+        animation: symbolBreath 5s ease-in-out infinite;
     }
 
     /* Content */
