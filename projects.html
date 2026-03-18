@@ -27,6 +27,43 @@
 </head>
 
 <body class="showcase-page">
+    <!-- Top Navigation Banner -->
+    <nav class="top-nav-banner">
+        <div class="top-nav-container">
+            <div class="top-nav-links">
+                <a href="index.html" class="top-nav-link">Home</a>
+                <a href="index.html#contact" class="top-nav-link">Get in Touch</a>
+                <div class="partners-dropdown-container desktop-only">
+                    <button class="top-nav-link top-nav-partners-btn" id="partnersBtn" aria-expanded="false">
+                        PARTNERS
+                        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left: 6px;">
+                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <div class="partners-dropdown-menu" id="partnersDropdown">
+                        <a href="vegaqura.html" class="partners-dropdown-item">
+                            <img src="assets/logo-vegaqura.png" alt="Vegaqura" class="partner-icon-img">
+                            Vegaqura
+                        </a>
+                        <a href="sdbi-center.html" class="partners-dropdown-item">
+                            <img src="assets/logo-sbdi.webp" alt="SBDI" class="partner-icon-img">
+                            SBDI Center
+                        </a>
+                        <a href="wiseuse.html" class="partners-dropdown-item">
+                            <img src="assets/wiseuse-pyramid.png" alt="WiseUse" class="partner-icon-img">
+                            WiseUse International
+                        </a>
+                        <a href="eko-vitaris.html" class="partners-dropdown-item">
+                            <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-icon-img">
+                            Eko Vitaris
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
     <!-- Matrix Rain Background -->
     <div class="matrix-bg">
         <canvas id="matrixCanvas"></canvas>
@@ -37,9 +74,6 @@
     <div class="scanlines"></div>
     <!-- Hero Split Layout -->
     <div class="hero-split-wrapper">
-        <a href="index.html" class="projects-back-btn" aria-label="Back to Eugene Mierak landing page">
-            ← Back to Home
-        </a>
         <video class="hero-wrapper-video" autoplay muted loop playsinline>
             <source src="assets/indonesia_bg_compressed.mp4" type="video/mp4">
         </video>
@@ -82,6 +116,39 @@
             </div>
         </div>
     </div>
+
+    <!-- Sustainable Mining Video Section -->
+    <section class="video-spotlight" id="videoSpotlight">
+        <div class="video-spotlight-container">
+            <div class="video-spotlight-content">
+                <span class="video-spotlight-badge">Featured Project</span>
+                <h2 class="video-spotlight-title">Ecological Sustainable Mining</h2>
+                <p class="video-spotlight-desc">Overview of eco-friendly mining practices and environmental preservation methods. Watch the introduction below and explore the full documentation.</p>
+                <div class="video-spotlight-actions">
+                    <button class="video-spotlight-btn btn-pdf" onclick="openModal('Ecological Sustainable Mining Introduction', 'Ecological_Sustainable_Mining_Introduction.pdf')">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                        </svg>
+                        View Full PDF
+                    </button>
+                    <a href="assets/pdfs/Ecological_Sustainable_Mining_Introduction.pdf" class="video-spotlight-btn btn-download" download>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Download PDF
+                    </a>
+                </div>
+            </div>
+            <div class="video-spotlight-player">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/NbaaK3jspYA" title="Ecological Sustainable Mining" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Projects Gallery Section - Professional Dashboard -->
     <section class="projects-dashboard" id="projectsDashboard">
