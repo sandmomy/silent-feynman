@@ -1,0 +1,12 @@
+{
+  "username": "lector_owned",
+  "display_name": "Library Reader",
+  "password_hash": "2ac9a6746aca543af8dff39894cfe8173afba21eb01c6fae33d52947222855ef",
+  "role": "customer",
+  "created_at": "2026-03-27T13:00:00+00:00",
+  "book_ids": [
+    "book_1d7c4e2a11",
+    "book_86f677ade3"
+  ],
+  "email": ""
+}

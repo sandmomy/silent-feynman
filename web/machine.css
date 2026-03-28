@@ -1,0 +1,117 @@
+﻿body.machine-app {
+  background:
+    radial-gradient(circle at 8% 0%, rgba(104, 215, 203, 0.14), transparent 24%),
+    radial-gradient(circle at 90% 0%, rgba(240, 190, 122, 0.1), transparent 24%),
+    linear-gradient(180deg, #05080d 0%, #0a1119 44%, #0e151d 100%);
+}
+
+body.machine-app::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 10%, rgba(104, 215, 203, 0.08), transparent 12%),
+    radial-gradient(circle at 82% 10%, rgba(240, 190, 122, 0.06), transparent 12%),
+    linear-gradient(180deg, transparent 0%, rgba(3, 7, 12, 0.28) 100%);
+}
+
+.machine-app .brand-copy strong,
+.machine-app .hero-copy h1,
+.machine-app .section-header h2,
+.machine-app .section-header h3,
+.machine-app .stage-card h2,
+.machine-app .empty-card h3,
+.machine-app .form-card h3,
+.machine-app .list-card h4 {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.machine-shell {
+  position: relative;
+  z-index: 1;
+}
+
+.machine-login-hero {
+  align-items: center;
+}
+
+.machine-app .hero-copy {
+  display: grid;
+  gap: 18px;
+}
+
+.machine-app .hero-copy h1 {
+  margin: 0;
+  font-size: clamp(3.1rem, 6vw, 5.1rem);
+  line-height: 0.88;
+  max-width: 11ch;
+}
+
+.machine-column {
+  display: grid;
+  gap: 16px;
+}
+
+.machine-block .stage-card h2 {
+  font-size: clamp(2.1rem, 4vw, 3.3rem);
+}
+
+.machine-app .list-select button {
+  padding: 16px 18px;
+}
+
+.machine-app .list-card {
+  border-radius: 22px;
+}
+
+.machine-app .section-card.machine-block {
+  position: relative;
+  overflow: hidden;
+}
+
+.machine-app .section-card.machine-block::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: linear-gradient(180deg, rgba(104, 215, 203, 0.88), rgba(240, 190, 122, 0.88));
+}
+
+.machine-app #machineRenderHint {
+  margin-top: 16px;
+}
+
+.machine-footer {
+  color: #98a8b5;
+}
+
+@media (max-width: 1440px) {
+  .machine-app .hero-copy h1 {
+    font-size: clamp(2.6rem, 4.8vw, 4rem);
+    max-width: 12ch;
+  }
+
+  .machine-block .stage-card h2 {
+    font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  }
+}
+
+@media (max-width: 1180px) {
+  .machine-login-hero {
+    align-items: start;
+  }
+
+  .machine-app .hero-copy h1 {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    line-height: 0.94;
+    max-width: 14ch;
+  }
+}
+
+@media (max-width: 720px) {
+  .machine-app .hero-copy h1,
+  .machine-block .stage-card h2 {
+    max-width: none;
+  }
+}

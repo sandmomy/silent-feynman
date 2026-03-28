@@ -1,0 +1,241 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BookVoice Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/shared.css?v=20260327audit1" />
+    <link rel="stylesheet" href="/admin.css?v=20260327audit1" />
+  </head>
+  <body class="admin-app">
+    <header class="topbar">
+      <a class="brand" href="/admin">
+        <span class="brand-mark">BV</span>
+        <span class="brand-copy">
+          <strong>BookVoice Admin</strong>
+          <span>Publishing, copy, and reader access</span>
+        </span>
+      </a>
+      <nav class="topnav">
+        <a href="/">Reader site</a>
+        <a href="/machine">Machine</a>
+        <button id="adminLogoutBtn" class="hidden" type="button">Sign out</button>
+      </nav>
+    </header>
+
+    <main class="site-shell page-stack admin-shell">
+      <section id="adminLoginGate" class="hero-panel hero-grid admin-login-hero">
+        <div class="hero-copy">
+          <span class="eyebrow">Eugene panel</span>
+          <h1>Control what goes live, what each book promises, and who can open it.</h1>
+          <p>
+            This admin surface stays narrow on purpose: publishing, storefront copy, and reader permissions. Audio generation stays separate in the machine.
+          </p>
+          <div class="pill-row">
+            <span class="pill">Publishing</span>
+            <span class="pill">Storefront copy</span>
+            <span class="pill">Reader access</span>
+          </div>
+        </div>
+
+        <aside class="form-card admin-login-card">
+          <h3>Sign in as Eugene</h3>
+          <form id="adminLoginForm">
+            <label>
+              Username
+              <input name="username" autocomplete="username" placeholder="eugene" required />
+            </label>
+            <label>
+              Password
+              <input name="password" type="password" autocomplete="current-password" placeholder="Your password" required />
+            </label>
+            <div class="actions">
+              <button class="primary" type="submit">Sign in</button>
+            </div>
+          </form>
+          <div id="adminLoginMessage" class="notice hidden"></div>
+        </aside>
+      </section>
+
+      <div id="adminApp" class="hidden page-stack">
+        <section class="section-card admin-overview">
+          <div class="section-header">
+            <div>
+              <span class="eyebrow">Overview</span>
+              <h2>The business side of the library at a glance</h2>
+            </div>
+            <span id="adminSessionPill" class="pill">Admin</span>
+          </div>
+          <div class="metric-grid">
+            <article class="metric">
+              <strong id="adminBooksMetric">0</strong>
+              <span>books in catalog</span>
+            </article>
+            <article class="metric">
+              <strong id="adminPublishedMetric">0</strong>
+              <span>live books</span>
+            </article>
+            <article class="metric">
+              <strong id="adminUsersMetric">0</strong>
+              <span>reader accounts</span>
+            </article>
+          </div>
+        </section>
+
+        <section class="section-card">
+          <div class="section-header">
+            <div>
+              <span class="eyebrow">Publishing</span>
+              <h2>Choose the title and decide what the storefront should say</h2>
+            </div>
+          </div>
+          <div class="dashboard-grid admin-grid">
+            <aside class="panel admin-column">
+              <div class="section-header compact-header">
+                <div>
+                  <span class="eyebrow">Books</span>
+                  <h3>Catalog</h3>
+                </div>
+              </div>
+              <div id="adminBookList" class="list-select"></div>
+            </aside>
+
+            <div class="stage-card admin-column">
+              <div class="section-header">
+                <div>
+                  <span class="eyebrow">Selected book</span>
+                  <h2 id="adminBookTitle">Select a book</h2>
+                </div>
+                <div class="actions">
+                  <a id="adminPublicLink" class="button-link ghost hidden" target="_blank" rel="noreferrer">Open public page</a>
+                  <button id="adminPublishBtn" class="primary" type="button">Publish</button>
+                  <button id="adminUnpublishBtn" class="danger" type="button">Hide</button>
+                </div>
+              </div>
+              <div class="pill-row">
+                <span id="adminBookStatus" class="badge">Draft</span>
+                <span id="adminBookNarrations" class="pill">0 narrations</span>
+                <span id="adminBookWorkflow" class="pill">No final audio yet</span>
+              </div>
+              <p id="adminBookMeta" class="muted"></p>
+              <p id="adminBookExcerpt" class="muted"></p>
+              <div id="adminBookMessage" class="notice hidden"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-card admin-profile-card">
+          <div class="section-header">
+            <div>
+              <span class="eyebrow">Public page</span>
+              <h2>Refine the hook, summary, status, and CTA</h2>
+            </div>
+          </div>
+          <form id="adminProfileForm">
+            <div class="inline-fields">
+              <label>
+                Hook line
+                <input id="adminHookInput" placeholder="Clear headline for the cover" />
+              </label>
+              <label>
+                Price or status
+                <input id="adminPriceInput" placeholder="Private access" />
+              </label>
+            </div>
+            <label>
+              Summary
+              <textarea id="adminSummaryInput" placeholder="Short, clear, and reader-facing"></textarea>
+            </label>
+            <div class="inline-fields">
+              <label>
+                Button label
+                <input id="adminCtaLabelInput" placeholder="Read and listen" />
+              </label>
+              <label>
+                External button URL
+                <input id="adminCtaUrlInput" placeholder="Optional external path" />
+              </label>
+            </div>
+            <label>
+              <input id="adminFeaturedInput" type="checkbox" />
+              Mark as featured on the reader site
+            </label>
+            <div class="actions">
+              <button class="primary" type="submit">Save public profile</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="section-card">
+          <div class="section-header">
+            <div>
+              <span class="eyebrow">Reader access</span>
+              <h2>Create accounts and decide which books each reader can open</h2>
+            </div>
+          </div>
+          <div class="dashboard-grid admin-grid">
+            <aside class="panel admin-column">
+              <div class="section-header compact-header">
+                <div>
+                  <span class="eyebrow">Readers</span>
+                  <h3>Accounts</h3>
+                </div>
+              </div>
+              <form id="adminCreateUserForm">
+                <div class="inline-fields">
+                  <label>
+                    Username
+                    <input name="username" placeholder="reader_anna" required />
+                  </label>
+                  <label>
+                    Display name
+                    <input name="display_name" placeholder="Anna" />
+                  </label>
+                </div>
+                <label>
+                  Initial password
+                  <input name="password" type="text" placeholder="At least 3 characters" required />
+                </label>
+                <div class="actions">
+                  <button class="primary" type="submit">Create reader</button>
+                </div>
+              </form>
+              <div id="adminUserList" class="list-select"></div>
+            </aside>
+
+            <div class="stage-card admin-column">
+              <div class="section-header">
+                <div>
+                  <span class="eyebrow">Selected reader</span>
+                  <h2 id="adminUserTitle">Select a reader</h2>
+                </div>
+                <div class="actions">
+                  <button id="adminGrantBtn" class="primary" type="button">Grant book access</button>
+                  <button id="adminRevokeBtn" class="danger" type="button">Remove access</button>
+                </div>
+              </div>
+              <p id="adminUserMeta" class="muted">This reader's access will appear here.</p>
+              <div id="adminUserAccessState" class="notice hidden"></div>
+              <div id="adminUserBooks" class="book-grid"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="footer admin-footer">
+      <span>Admin only: publishing, storefront copy, and reader permissions.</span>
+      <div class="actions">
+        <a href="/">Reader site</a>
+        <a href="/machine">Machine</a>
+      </div>
+    </footer>
+
+    <script src="/common.js?v=20260326visual1"></script>
+    <script src="/admin.js?v=20260326visual1"></script>
+  </body>
+</html>
+

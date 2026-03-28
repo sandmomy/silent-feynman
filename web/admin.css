@@ -1,0 +1,129 @@
+﻿body.admin-app {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(240, 190, 122, 0.15), transparent 22%),
+    radial-gradient(circle at 88% 0%, rgba(104, 215, 203, 0.1), transparent 24%),
+    linear-gradient(180deg, #06090e 0%, #0b1118 44%, #0e151d 100%);
+}
+
+body.admin-app::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 10%, rgba(255, 248, 233, 0.05), transparent 12%),
+    radial-gradient(circle at 82% 12%, rgba(104, 215, 203, 0.07), transparent 13%),
+    linear-gradient(180deg, transparent 0%, rgba(3, 7, 12, 0.28) 100%);
+}
+
+.admin-app .brand-copy strong,
+.admin-app .hero-copy h1,
+.admin-app .section-header h2,
+.admin-app .section-header h3,
+.admin-app .stage-card h2,
+.admin-app .book-card h3,
+.admin-app .empty-card h3,
+.admin-app .form-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.admin-shell {
+  position: relative;
+  z-index: 1;
+}
+
+.admin-login-hero {
+  align-items: center;
+}
+
+.admin-app .hero-copy {
+  display: grid;
+  gap: 18px;
+}
+
+.admin-app .hero-copy h1 {
+  margin: 0;
+  font-size: clamp(3.2rem, 6.2vw, 5.3rem);
+  line-height: 0.88;
+  max-width: 10ch;
+}
+
+.admin-login-card,
+.admin-overview,
+.admin-profile-card,
+.admin-column {
+  border-radius: 28px;
+}
+
+.admin-grid {
+  align-items: start;
+}
+
+.admin-column {
+  display: grid;
+  gap: 16px;
+}
+
+.admin-app .metric-grid {
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+.admin-app .metric {
+  background: linear-gradient(180deg, rgba(240, 190, 122, 0.08), rgba(255, 255, 255, 0.02));
+}
+
+.admin-app .list-select button {
+  padding: 16px 18px;
+}
+
+.admin-app .stage-card h2 {
+  font-size: clamp(2.1rem, 4.3vw, 3.5rem);
+}
+
+.admin-app .book-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.admin-app .book-card {
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.admin-app .compact-header {
+  margin-bottom: 12px;
+}
+
+.admin-footer {
+  color: #97a7b4;
+}
+
+@media (max-width: 1440px) {
+  .admin-app .hero-copy h1 {
+    font-size: clamp(2.6rem, 4.8vw, 4.1rem);
+    max-width: 12ch;
+  }
+
+  .admin-app .stage-card h2 {
+    font-size: clamp(1.8rem, 3.2vw, 2.7rem);
+  }
+}
+
+@media (max-width: 1180px) {
+  .admin-login-hero {
+    align-items: start;
+  }
+
+  .admin-app .hero-copy h1 {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    line-height: 0.94;
+    max-width: 14ch;
+  }
+}
+
+@media (max-width: 720px) {
+  .admin-app .hero-copy h1,
+  .admin-app .stage-card h2 {
+    max-width: none;
+  }
+}

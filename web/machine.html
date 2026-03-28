@@ -1,0 +1,237 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BookVoice Machine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/shared.css?v=20260327audit1" />
+    <link rel="stylesheet" href="/machine.css?v=20260327audit1" />
+  </head>
+  <body class="machine-app">
+    <header class="topbar">
+      <a class="brand" href="/machine">
+        <span class="brand-mark">BV</span>
+        <span class="brand-copy">
+          <strong>BookVoice Machine</strong>
+          <span>Import, clone, render, review</span>
+        </span>
+      </a>
+      <nav class="topnav">
+        <a href="/">Reader site</a>
+        <a href="/admin">Admin</a>
+        <button id="machineLogoutBtn" class="hidden" type="button">Sign out</button>
+      </nav>
+    </header>
+
+    <main class="site-shell page-stack machine-shell">
+      <section id="machineLoginGate" class="hero-panel hero-grid machine-login-hero">
+        <div class="hero-copy">
+          <span class="eyebrow">Machine</span>
+          <h1>The production desk for voice packs, narration tests, and full renders.</h1>
+          <p>
+            This is the internal workflow only. Choose a book, build the right voice pack, launch the render, and review the result before it reaches the reader site.
+          </p>
+          <div class="pill-row">
+            <span class="pill">Books</span>
+            <span class="pill">Voice packs</span>
+            <span class="pill">Renders</span>
+          </div>
+        </div>
+
+        <aside class="form-card machine-login-card">
+          <h3>Sign in to the machine</h3>
+          <form id="machineLoginForm">
+            <label>
+              Username
+              <input name="username" autocomplete="username" placeholder="eugene" required />
+            </label>
+            <label>
+              Password
+              <input name="password" type="password" autocomplete="current-password" placeholder="Your password" required />
+            </label>
+            <div class="actions">
+              <button class="primary" type="submit">Sign in</button>
+            </div>
+          </form>
+          <div id="machineLoginMessage" class="notice hidden"></div>
+        </aside>
+      </section>
+
+      <div id="machineApp" class="hidden page-stack">
+        <section class="section-card machine-block">
+          <div class="section-header">
+            <div>
+              <span class="eyebrow">Step 1</span>
+              <h2>Choose the source book</h2>
+            </div>
+            <div class="actions">
+              <button id="machineImportBtn" class="secondary" type="button">Import local PDFs</button>
+              <button id="machineRefreshBtn" class="ghost" type="button">Refresh</button>
+            </div>
+          </div>
+          <div class="machine-grid machine-main-grid">
+            <div class="panel machine-column">
+              <form id="machineUploadBookForm">
+                <label>
+                  Upload a new file
+                  <input name="file" type="file" accept=".pdf,.txt,.md,.docx" required />
+                </label>
+                <div class="actions">
+                  <button class="primary" type="submit">Upload book</button>
+                </div>
+              </form>
+              <div id="machineBookList" class="list-select"></div>
+            </div>
+            <div class="stage-card machine-column">
+              <span class="eyebrow">Selected book</span>
+              <h2 id="machineBookTitle">Select a book</h2>
+              <p id="machineBookMeta" class="muted">The key render information will appear here.</p>
+              <div class="pill-row">
+                <span id="machineBookStatus" class="badge">Draft</span>
+                <span id="machineBookNarrations" class="pill">0 narrations</span>
+              </div>
+              <p id="machineBookWorkflow" class="muted"></p>
+              <div id="machineMessage" class="notice hidden"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-card machine-block">
+          <div class="section-header">
+            <div>
+              <span class="eyebrow">Step 2</span>
+              <h2>Build the voice pack</h2>
+            </div>
+          </div>
+          <div class="machine-grid machine-main-grid">
+            <div class="panel machine-column">
+              <form id="machineVoiceForm">
+                <div class="inline-fields">
+                  <label>
+                    Voice pack name
+                    <input name="label" placeholder="Client English base" required />
+                  </label>
+                  <label>
+                    Note
+                    <input name="notes" placeholder="Optional" />
+                  </label>
+                  <label>
+                    Language
+                    <select name="language">
+                      <option value="en">English</option>
+                      <option value="es">Spanish</option>
+                    </select>
+                  </label>
+                </div>
+                <label>
+                  Voice samples (1 to 10)
+                  <input name="samples" type="file" accept="audio/*" multiple required />
+                </label>
+                <p class="muted">Upload clean clips when possible. The machine keeps the originals, creates cleaned WAVs, and grades the pack automatically.</p>
+                <div class="actions">
+                  <button class="primary" type="submit">Save voice pack</button>
+                </div>
+              </form>
+            </div>
+            <div class="stage-card machine-column">
+              <div class="section-header">
+                <div>
+                  <span class="eyebrow">Saved packs</span>
+                  <h2>Choose the base voice</h2>
+                </div>
+                <div class="actions">
+                  <button id="machineCompareVoiceBtn" class="secondary" type="button">Run A/B/C comparison</button>
+                </div>
+              </div>
+              <div id="machineVoiceList" class="list-select"></div>
+              <div id="machineVoiceSummary" class="stack-tight muted">Select the voice pack you want to use for this render.</div>
+              <div id="machineVoiceComparison" class="stack-grid"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-card machine-block">
+          <div class="section-header">
+            <div>
+              <span class="eyebrow">Step 3</span>
+              <h2>Launch the narration</h2>
+            </div>
+          </div>
+          <form id="machineRenderForm">
+            <div class="inline-fields">
+              <label>
+                Engine
+                <select id="machineEngineSelect" name="engine"></select>
+              </label>
+              <label>
+                Render type
+                <select id="machineScopeSelect" name="render_scope">
+                  <option value="demo_excerpt">Short demo</option>
+                  <option value="chapter_1">Chapter 1 only</option>
+                  <option value="full_book">Full book</option>
+                </select>
+              </label>
+              <label>
+                Language
+                <select id="machineLanguageSelect" name="language">
+                  <option value="en">English</option>
+                  <option value="es">Spanish</option>
+                </select>
+              </label>
+            </div>
+            <div class="actions">
+              <button class="primary" type="submit">Create narration</button>
+            </div>
+          </form>
+          <div id="machineRenderHint" class="notice info">
+            <p>Start with a short demo. Approve it first, then move to the full book.</p>
+          </div>
+        </section>
+
+        <section class="section-card machine-block">
+          <div class="section-header">
+            <div>
+              <span class="eyebrow">Step 4</span>
+              <h2>Monitor queue and review narrations</h2>
+            </div>
+          </div>
+          <div class="machine-grid machine-main-grid">
+            <div class="panel machine-column">
+              <div class="section-header compact-header">
+                <div>
+                  <span class="eyebrow">Jobs</span>
+                  <h3>Queue</h3>
+                </div>
+              </div>
+              <div id="machineJobList" class="list-stack"></div>
+            </div>
+            <div class="stage-card machine-column">
+              <div class="section-header compact-header">
+                <div>
+                  <span class="eyebrow">Narrations</span>
+                  <h3>Review</h3>
+                </div>
+              </div>
+              <div id="machineNarrationList" class="list-stack"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="footer machine-footer">
+      <span>Machine only: ingestion, voice packs, rendering, and review.</span>
+      <div class="actions">
+        <a href="/">Reader site</a>
+        <a href="/admin">Admin</a>
+      </div>
+    </footer>
+
+    <script src="/common.js?v=20260326visual1"></script>
+    <script src="/machine.js?v=20260326visual1"></script>
+  </body>
+</html>
+

@@ -1,0 +1,231 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BookVoice Reader</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/shared.css?v=20260327bookpage1" />
+    <link rel="stylesheet" href="/customer.css?v=20260328spread1" />
+  </head>
+  <body class="customer-app">
+    <header class="topbar reader-topbar compact-topbar">
+      <a class="brand" href="/">
+        <span class="brand-mark">BV</span>
+        <span class="brand-copy">
+          <strong>BookVoice</strong>
+          <span>Private books in text and audio</span>
+        </span>
+      </a>
+      <nav class="topnav compact-nav">
+        <span id="customerTopState" class="pill">Guest</span>
+        <button id="customerTopLogoutBtn" class="ghost hidden" type="button">Sign out</button>
+      </nav>
+    </header>
+
+    <main class="site-shell customer-shell journey-shell">
+      <section id="customerHomeView" class="page customer-home-v2">
+        <section class="section-card reader-journey-bar">
+          <div class="journey-bar-copy">
+            <span class="eyebrow">Reader journey</span>
+            <h1>From the science of frequency into everyday application.</h1>
+            <p>The chapters begin with vibration and resonance, then move into frequency memory, manifestation, planning, and living the method in real situations.</p>
+          </div>
+          <div class="journey-bar-track">
+            <button id="stagePreviewBtn" class="reader-step active" type="button" data-stage="preview">
+              <span class="reader-step-index">01</span>
+              <span class="reader-step-copy">
+                  <strong>Introduction</strong>
+                    <span>See what the chapters actually cover.</span>
+                </span>
+              </button>
+            <button id="stageLoginBtn" class="reader-step" type="button" data-stage="login">
+              <span class="reader-step-index">02</span>
+              <span class="reader-step-copy">
+                <strong>Login</strong>
+                  <span>Enter the reader website.</span>
+              </span>
+            </button>
+            <button id="stageLibraryBtn" class="reader-step" type="button" data-stage="library">
+              <span class="reader-step-index">03</span>
+              <span class="reader-step-copy">
+                <strong>Library</strong>
+                  <span>Buy or open chapters.</span>
+              </span>
+            </button>
+          </div>
+        </section>
+
+        <div id="customerMessage" class="notice hidden"></div>
+
+        <div class="reader-flow-stack">
+          <section id="stagePreview" class="section-card reader-stage-panel active">
+            <div class="stage-panel-copy">
+              <span class="eyebrow">Step 1</span>
+                <h2>What the chapters really cover</h2>
+                <p>The PDFs explain frequency as a scientific principle, then turn it into practice through memory, manifestation, planning, and daily application.</p>
+                <div id="stageOfferGrid" class="stage-offer-grid"></div>
+                <div class="stage-includes-row">
+                  <span class="stage-include-pill">Science of frequency</span>
+                  <span class="stage-include-pill">Embodied training</span>
+                  <span class="stage-include-pill">Manifestation and daily life</span>
+                </div>
+              <div class="actions preview-actions">
+                <button class="primary" type="button" data-stage-jump="login">Continue to login</button>
+              </div>
+            </div>
+            <div id="stagePreviewSpotlight" class="stage-side-card"></div>
+          </section>
+
+          <section id="stageLogin" class="section-card reader-stage-panel center-stage-panel hidden">
+            <div class="stage-panel-copy login-stage-copy">
+              <span class="eyebrow">Step 2</span>
+              <h2>Enter the reader website</h2>
+              <div class="login-stage-layout">
+                <article class="login-benefit-card login-benefit-card-side">
+                  <strong>New reader</strong>
+                  <span>Create your access once with name, email, and password, then enter the private reader website from there.</span>
+                </article>
+
+                <div class="login-center-stack">
+                  <div class="auth-mode-switch" role="tablist" aria-label="Access mode">
+                    <button class="auth-mode-button active" type="button" data-auth-mode="register">Register</button>
+                    <button class="auth-mode-button" type="button" data-auth-mode="signin">Sign in</button>
+                  </div>
+                  <button id="googleAuthButton" class="secondary auth-google-button" type="button" data-google-auth>
+                    Continue with Google
+                  </button>
+
+                  <form id="customerRegisterForm" class="reader-login-form reader-login-form-card auth-form">
+                    <div class="reader-login-form-head">
+                      <span class="eyebrow">Create your access</span>
+                      <p>Register once to enter the reader website and open the book area from inside.</p>
+                    </div>
+                    <div class="auth-form-grid">
+                      <label>
+                        Your name
+                        <input id="customerRegisterName" name="display_name" autocomplete="name" placeholder="Enter your name" required />
+                      </label>
+                      <label>
+                        Email
+                        <input id="customerRegisterEmail" name="email" type="email" autocomplete="email" placeholder="Enter your email" required />
+                      </label>
+                    </div>
+                    <label>
+                      Password
+                      <input id="customerRegisterPassword" name="password" type="password" autocomplete="new-password" placeholder="Create a password" required />
+                    </label>
+                    <div class="actions login-form-actions">
+                      <button class="primary" type="submit">Create account</button>
+                    </div>
+                  </form>
+
+                  <form id="customerLoginForm" class="reader-login-form reader-login-form-card auth-form hidden">
+                    <div class="reader-login-form-head">
+                      <span class="eyebrow">Sign in</span>
+                      <p>Use your email or username and password to enter the reader website.</p>
+                    </div>
+                    <div class="auth-form-grid">
+                      <label>
+                        Email or username
+                        <input id="customerUsername" name="username" autocomplete="username" placeholder="Enter your email or username" required />
+                      </label>
+                      <label>
+                        Password
+                        <input id="customerPassword" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required />
+                      </label>
+                    </div>
+                    <div class="actions login-form-actions">
+                      <button class="primary" type="submit">Enter the website</button>
+                      <button class="ghost" type="button" data-stage-jump="preview">Back</button>
+                    </div>
+                  </form>
+                  <div id="customerSessionCard" class="notice info hidden"></div>
+                  <div id="loginContinueWrap" class="actions login-continue-wrap hidden">
+                    <button class="primary warm" type="button" data-stage-jump="library">Go to the books</button>
+                  </div>
+                </div>
+
+                <article class="login-benefit-card login-benefit-card-side">
+                  <strong>Returning reader</strong>
+                  <span>Sign in again with your email and password to continue where you left off.</span>
+                </article>
+              </div>
+            </div>
+            <div id="stageLoginSpotlight" class="stage-side-card"></div>
+          </section>
+
+          <section id="stageLibrary" class="section-card reader-stage-panel library-stage-panel hidden">
+            <div class="library-stage-shell">
+              <div class="library-stage-head">
+                <div class="library-stage-title">
+                  <span class="eyebrow">Step 3</span>
+                  <h2>Build the collection chapter by chapter</h2>
+                  <p id="libraryStageIntro">Frequency Vibes is released chapter by chapter. Start with the introduction, then add the next parts of the method as you go.</p>
+                </div>
+                <div id="libraryLockedState" class="library-access-banner"></div>
+              </div>
+              <div class="library-shelf-panel">
+                <div class="library-shelf-head">
+                  <div>
+                    <span class="eyebrow">Chapter shelf</span>
+                    <h3>Available chapters</h3>
+                    <p id="libraryShelfCopy">Each chapter is its own paid entry into the project. Buy one, read it, then come back for the next chapter when you are ready.</p>
+                  </div>
+                </div>
+                <div id="libraryUnlockedState" class="hidden library-unlocked-wrap">
+                  <div id="customerCatalogList" class="stage-library-list"></div>
+                </div>
+              </div>
+            </div>
+            <div id="stageLibrarySpotlight" class="stage-side-card library-stage-spotlight"></div>
+          </section>
+        </div>
+      </section>
+
+      <section id="customerDetailView" class="hidden page">
+
+        <div id="bookPurchaseView" class="book-purchase-view hidden">
+          <a class="book-back-link" href="/">&#8592; Back to collection</a>
+          <div class="book-purchase-layout">
+            <div id="bookPurchaseCover" class="book-purchase-cover"></div>
+            <div id="bookPurchaseInfo" class="book-purchase-info"></div>
+          </div>
+        </div>
+
+        <div id="bookReaderView" class="book-reader-view hidden">
+          <div class="book-reader-stage-wrap">
+            <div class="book-reader-floating-header">
+              <a class="book-back-link" href="/">&#8592; Library</a>
+              <div id="bookReaderTitle" class="book-reader-title-bar"></div>
+              <div id="bookReaderNav" class="book-reader-nav"></div>
+            </div>
+            <div id="bookReaderStage" class="book-reader-3d-stage"></div>
+            <div id="bookTextScroll" class="book-text-scroll hidden"></div>
+            <div class="book-page-tabs">
+              <button id="bookTabPrev" class="book-page-tab" type="button" data-action="book-prev" title="Previous page" aria-label="Previous page">&#9664; Prev</button>
+              <button id="bookViewToggle" class="book-page-tab book-view-toggle" type="button" data-action="toggle-view">Chapter PDF</button>
+              <button id="bookTabNext" class="book-page-tab" type="button" data-action="book-next" title="Next page" aria-label="Next page">Next &#9654;</button>
+            </div>
+          </div>
+          <div id="bookReaderDock" class="book-reader-dock hidden"></div>
+        </div>
+
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <span class="site-footer-brand">BookVoice</span>
+        <span class="site-footer-sep">&middot;</span>
+        <span class="site-footer-copy">Private reading and listening editions</span>
+      </div>
+    </footer>
+
+    <script src="/page-flip.browser.js"></script>
+    <script src="/common.js?v=20260327bookpage1"></script>
+  <script src="/customer.js?v=20260328spread1"></script>
+</body>
+</html>

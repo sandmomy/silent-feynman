@@ -1,0 +1,606 @@
+﻿<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BookVoice Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page-glow" aria-hidden="true"></div>
+    <header class="site-nav">
+      <a class="brand" href="/">
+        <span class="brand-mark">BV</span>
+        <span>
+          <strong>BookVoice</strong>
+          <small>Libros en texto y audio</small>
+        </span>
+      </a>
+      <nav class="nav-links">
+        <a href="/">Inicio</a>
+        <a href="/#publicShelf">Libros publicados</a>
+        <a href="/studio">Zona privada</a>
+        <button id="logoutBtn" class="ghost-button hidden" type="button">Cerrar sesion</button>
+      </nav>
+    </header>
+
+    <main class="page-shell">
+      <section id="publicBookPage" class="public-book-page panel-card hidden">
+        <div class="section-head public-book-head">
+          <div>
+            <p class="eyebrow">Pagina del libro</p>
+            <h1 id="publicBookTitle">Cargando libro...</h1>
+            <p id="publicBookHook" class="lead-text"></p>
+          </div>
+          <div class="hero-actions compact-actions">
+            <a class="button-link ghost-link" href="/">Volver al inicio</a>
+            <button id="copyPublicUrlBtn" class="ghost-button" type="button">Copiar enlace</button>
+          </div>
+        </div>
+
+        <div id="publicBookMissing" class="empty-state content-card hidden">
+          <h3>Este libro no esta disponible</h3>
+          <p class="muted">La direccion que has abierto no corresponde a un libro publicado.</p>
+        </div>
+
+        <div id="publicBookContent" class="public-book-layout hidden">
+          <article class="content-card public-book-story">
+            <div class="public-card-top">
+              <span id="publicBookBadge" class="mini-badge featured">Publicado</span>
+              <span id="publicBookPrice" class="price-pill">Disponible</span>
+            </div>
+            <p id="publicBookSummary" class="muted"></p>
+            <p id="publicBookExcerpt" class="excerpt"></p>
+            <div class="book-meta">
+              <span id="publicBookWords"></span>
+              <span id="publicBookReadTime"></span>
+              <span id="publicBookPublishedAt"></span>
+            </div>
+            <div class="card-actions">
+              <a id="publicBookCta" class="button-link accent-link" target="_blank" rel="noreferrer">Abrir libro</a>
+              <a id="publicBookSource" class="button-link ghost-link" target="_blank" rel="noreferrer">Leer original</a>
+            </div>
+          </article>
+
+          <aside class="content-card public-book-media">
+            <div class="panel-head">
+              <div>
+                <h3>Acceso rapido</h3>
+                <p id="publicBookAudioMeta" class="muted compact-copy">Elige escuchar o leer dentro de esta misma pagina.</p>
+              </div>
+              <span id="publicBookUrlHint" class="meta-pill">Enlace para compartir</span>
+            </div>
+            <div class="card-actions">
+              <button id="publicModeListenBtn" class="ghost-button" type="button">Escuchar</button>
+              <button id="publicModeReadBtn" class="ghost-button" type="button">Leer online</button>
+              <a id="publicBookDownload" class="button-link ghost-link hidden" download>Descargar audio</a>
+            </div>
+            <p id="publicBookModeHint" class="muted compact-copy">En esta pagina podras alternar entre audio y lectura.</p>
+          </aside>
+
+          <section class="content-card public-book-experience">
+            <div class="panel-head">
+              <div>
+                <h3 id="publicExperienceTitle">Escuchar el libro</h3>
+                <p id="publicExperienceHint" class="muted compact-copy">Si hay audio publicado, puedes reproducirlo aqui mismo.</p>
+              </div>
+            </div>
+
+            <div id="publicBookAudioWrap" class="public-book-audio hidden">
+              <audio id="publicBookAudio" controls></audio>
+            </div>
+
+            <div id="publicReadPanel" class="public-read-panel hidden">
+              <div class="card-actions">
+                <button id="loadPublicTextBtn" class="ghost-button" type="button">Cargar texto completo</button>
+                <span id="publicReadStatus" class="meta-pill">Lectura online</span>
+              </div>
+              <pre id="publicBookText" class="reader public-reader">Pulsa “Cargar texto completo” para leer el libro aqui.</pre>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <div id="homeSections">
+        <div id="publicHomeSections">
+        <section class="public-hero" id="biblioteca">
+          <div class="hero-copy panel-card">
+            <p class="eyebrow">Biblioteca clara y facil de usar</p>
+            <h1>Sube un libro, revisa el audio por partes y publicalo cuando este bien.</h1>
+            <p class="lead-text">
+              Esta web esta pensada para hacerlo facil: Eugene sube un libro, genera el audio, escucha cada parte con calma y luego publica la version final para leerla o escucharla.
+            </p>
+            <div class="hero-actions">
+              <a class="button-link accent-link" href="#publicShelf">Ver libros publicados</a>
+              <a class="button-link ghost-link" href="/studio">Entrar a la zona privada</a>
+            </div>
+          </div>
+
+          <aside class="featured-panel panel-card">
+            <p class="eyebrow">Libro destacado</p>
+            <h2 id="featuredTitle">Todavia no hay libros publicados</h2>
+            <p id="featuredHook" class="featured-hook">Cuando publiques un libro aparecera aqui con su audio y su boton principal.</p>
+            <p id="featuredSummary" class="featured-summary muted">La portada publica muestra de forma clara el titulo, el resumen, el audio y el acceso al libro.</p>
+            <div class="featured-meta">
+              <span id="featuredPrice" class="price-pill">Borrador</span>
+              <span id="featuredFormat" class="meta-pill">Texto y audio</span>
+            </div>
+            <div id="featuredAudioWrap" class="featured-audio hidden">
+              <audio id="featuredAudio" controls></audio>
+            </div>
+            <div class="hero-actions compact-actions">
+              <a id="featuredCta" class="button-link accent-link disabled-link" href="/studio">Configurar acceso</a>
+              <a id="featuredSource" class="button-link ghost-link disabled-link" href="/studio">Ver pagina</a>
+            </div>
+          </aside>
+        </section>
+
+        <section class="steps-strip" aria-label="Como funciona">
+          <article class="step-card content-card">
+            <span class="step-number">1</span>
+            <h3>Subir el libro</h3>
+            <p class="muted">Importa un PDF o sube un archivo nuevo al catalogo privado.</p>
+          </article>
+          <article class="step-card content-card">
+            <span class="step-number">2</span>
+            <h3>Revisar el audio</h3>
+            <p class="muted">Escucha el audio final y tambien cada parte por separado antes de publicar.</p>
+          </article>
+          <article class="step-card content-card">
+            <span class="step-number">3</span>
+            <h3>Publicar y compartir</h3>
+            <p class="muted">Activa el libro en la web y comparte su enlace publico cuando este listo.</p>
+          </article>
+        </section>
+
+        <section class="stats-strip" aria-label="Resumen rapido">
+          <article class="metric-card content-card">
+            <span class="metric" id="booksMetric">0</span>
+            <span class="metric-label">libros en zona privada</span>
+          </article>
+          <article class="metric-card content-card">
+            <span class="metric" id="voicesMetric">0</span>
+            <span class="metric-label">voces guardadas</span>
+          </article>
+          <article class="metric-card content-card">
+            <span class="metric" id="publishedMetric">0</span>
+            <span class="metric-label">libros publicados</span>
+          </article>
+        </section>
+
+        <section class="public-shelf panel-card" id="publicShelf">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Catalogo publico</p>
+              <h2>Libros listos para leer, escuchar y compartir.</h2>
+            </div>
+            <p class="muted shelf-copy">Cada ficha publica muestra lo importante: titulo, resumen, audio y enlace principal.</p>
+          </div>
+          <div id="publishedBooksList" class="public-grid"></div>
+        </section>
+        </div>
+
+        <div id="studioSections" class="hidden">
+        <section class="studio-hero panel-card" id="studio">
+          <div>
+            <p class="eyebrow">Zona privada de trabajo</p>
+            <h2>Panel sencillo para Eugene</h2>
+          </div>
+          <p id="studioStatusText" class="muted">
+            Desde aqui se suben libros, se guardan voces, se crean audios, se revisan por partes y se publica el resultado final.
+          </p>
+        </section>
+
+        <section id="studioWizard" class="studio-wizard panel-card">
+          <div class="wizard-shell">
+            <div class="wizard-header">
+              <div class="wizard-intro">
+                <p class="eyebrow">Asistente paso a paso</p>
+                <h3>Una sola accion cada vez.</h3>
+                <p id="wizardIntroText" class="muted">
+                  Primero entramos, luego elegimos el libro, despues la voz, luego generamos el audio y al final revisamos antes de publicar.
+                </p>
+              </div>
+              <span id="wizardStepCount" class="meta-pill">Paso 1 de 5</span>
+            </div>
+
+            <div id="wizardSteps" class="wizard-steps" aria-label="Pasos del studio">
+              <button id="wizardNav1" class="wizard-step" type="button" data-step="1">
+                <span class="wizard-step-number">1</span>
+                <span>
+                  <strong>Entrar</strong>
+                  <small>Acceso privado</small>
+                </span>
+              </button>
+              <button id="wizardNav2" class="wizard-step" type="button" data-step="2">
+                <span class="wizard-step-number">2</span>
+                <span>
+                  <strong>Libro</strong>
+                  <small>Elegir uno</small>
+                </span>
+              </button>
+              <button id="wizardNav3" class="wizard-step" type="button" data-step="3">
+                <span class="wizard-step-number">3</span>
+                <span>
+                  <strong>Voz</strong>
+                  <small>Seleccionar</small>
+                </span>
+              </button>
+              <button id="wizardNav4" class="wizard-step" type="button" data-step="4">
+                <span class="wizard-step-number">4</span>
+                <span>
+                  <strong>Audio</strong>
+                  <small>Crear demo</small>
+                </span>
+              </button>
+              <button id="wizardNav5" class="wizard-step" type="button" data-step="5">
+                <span class="wizard-step-number">5</span>
+                <span>
+                  <strong>Revision</strong>
+                  <small>Aprobar y publicar</small>
+                </span>
+              </button>
+            </div>
+
+            <div class="wizard-summary">
+              <span id="summaryAuth" class="meta-pill">Sesion pendiente</span>
+              <span id="summaryBook" class="meta-pill">Sin libro</span>
+              <span id="summaryVoice" class="meta-pill">Sin voz</span>
+              <span id="summaryAudio" class="meta-pill">Sin audio</span>
+            </div>
+
+            <div class="wizard-stage">
+              <div id="wizardTrack" class="wizard-track">
+                <section id="wizardStep1" class="wizard-panel">
+                  <div class="wizard-card content-card wizard-card-tight">
+                    <div class="section-head">
+                      <div>
+                        <p class="eyebrow">Paso 1</p>
+                        <h3>Entrar al studio privado</h3>
+                      </div>
+                      <p id="authStatusText" class="muted">Solo Eugene puede ver libros privados, voces, trabajos en cola y acciones de publicacion.</p>
+                    </div>
+
+                    <div id="studioAuthReady" class="status-card hidden">
+                      <strong>Sesion iniciada</strong>
+                      <p class="muted">Ya puedes seguir con el libro, la voz y la primera prueba de audio.</p>
+                    </div>
+
+                    <form id="loginForm" class="auth-form single-row-form">
+                      <label class="field">
+                        <span>Usuario</span>
+                        <input id="loginUsernameInput" type="text" autocomplete="username" required />
+                      </label>
+                      <label class="field">
+                        <span>Contrasena</span>
+                        <input id="loginPasswordInput" type="password" autocomplete="current-password" required />
+                      </label>
+                      <button type="submit" class="accent-button">Entrar</button>
+                    </form>
+
+                    <div class="step-actions">
+                      <button id="wizardStep1Next" class="accent-button" type="button">Seguir al libro</button>
+                    </div>
+                  </div>
+                </section>
+
+                <section id="wizardStep2" class="wizard-panel">
+                  <div class="wizard-card content-card wizard-card-tight">
+                    <div class="section-head">
+                      <div>
+                        <p class="eyebrow">Paso 2</p>
+                        <h3>Elegir el libro de la prueba</h3>
+                      </div>
+                      <p class="muted">Primero decide de donde sale el libro. Solo veremos una opcion cada vez.</p>
+                    </div>
+
+                    <div class="choice-switch" id="bookModeTabs">
+                      <button class="choice-switch-btn active" type="button" data-book-mode="catalog">Elegir uno del catalogo</button>
+                      <button class="choice-switch-btn" type="button" data-book-mode="upload">Subir uno nuevo</button>
+                    </div>
+
+                    <div id="selectedBookStep2" class="status-card">
+                      <strong>Todavia no hay libro elegido</strong>
+                      <p class="muted">Selecciona uno de la lista para seguir al siguiente paso.</p>
+                    </div>
+
+                    <section id="bookModeCatalog" class="flow-panel">
+                      <div class="panel-head">
+                        <div>
+                          <h4>Elige uno del catalogo</h4>
+                          <p class="muted compact-copy">Si ya tienes PDFs en la carpeta del proyecto, importalos una vez y luego pulsa en el libro que quieras usar.</p>
+                        </div>
+                        <button id="importLocalBtn" class="ghost-button" type="button">Importar PDFs</button>
+                      </div>
+                      <div id="booksList" class="book-list"></div>
+                    </section>
+
+                    <section id="bookModeUpload" class="flow-panel hidden">
+                      <div class="panel-head">
+                        <div>
+                          <h4>Subir un libro nuevo</h4>
+                          <p class="muted compact-copy">Sube un archivo si este libro aun no esta dentro del proyecto.</p>
+                        </div>
+                      </div>
+                      <form id="uploadBookForm" class="stack-form">
+                        <label class="field">
+                          <span>Archivo del libro</span>
+                          <input type="file" id="bookFile" accept=".pdf,.txt,.md" required />
+                        </label>
+                        <button type="submit" class="accent-button">Anadir al catalogo</button>
+                      </form>
+                    </section>
+
+                    <div class="step-actions">
+                      <button class="ghost-button wizard-back" type="button" data-step-target="1">Volver</button>
+                      <button id="wizardStep2Next" class="accent-button" type="button">Seguir con este libro</button>
+                    </div>
+                  </div>
+                </section>
+
+                <section id="wizardStep3" class="wizard-panel">
+                  <div class="wizard-card content-card wizard-card-tight">
+                    <div class="section-head">
+                      <div>
+                        <p class="eyebrow">Paso 3</p>
+                        <h3>Preparar la voz para la prueba</h3>
+                      </div>
+                      <p class="muted">Aqui hacemos lo mismo: o eliges una voz guardada o creas una nueva, pero no todo a la vez.</p>
+                    </div>
+
+                    <div class="choice-switch" id="voiceModeTabs">
+                      <button class="choice-switch-btn active" type="button" data-voice-mode="saved">Elegir voz guardada</button>
+                      <button class="choice-switch-btn" type="button" data-voice-mode="new">Guardar voz nueva</button>
+                    </div>
+
+                    <div id="selectedVoiceSummary" class="status-card">
+                      <strong>Todavia no hay voz seleccionada</strong>
+                      <p class="muted">Guarda una muestra y luego pulsa en &quot;Usar esta voz&quot;.</p>
+                    </div>
+
+                    <section id="voiceModeSaved" class="flow-panel">
+                      <div class="panel-head">
+                        <div>
+                          <h4>Voces guardadas</h4>
+                          <p class="muted compact-copy">Elige la que quieres usar para esta prueba.</p>
+                        </div>
+                      </div>
+                      <div id="voicesList" class="voice-list"></div>
+                    </section>
+
+                    <section id="voiceModeNew" class="flow-panel hidden">
+                      <div class="panel-head">
+                        <div>
+                          <h4>Guardar una voz</h4>
+                          <p class="muted compact-copy">Sube una muestra limpia para la demo. Luego podras volver atras y elegirla.</p>
+                        </div>
+                      </div>
+                      <form id="voiceForm" class="stack-form">
+                        <label class="field">
+                          <span>Nombre de la voz</span>
+                          <input type="text" id="voiceLabel" placeholder="Voz demo para la prueba" required />
+                        </label>
+                        <label class="field">
+                          <span>Notas</span>
+                          <textarea id="voiceNotes" rows="3" placeholder="Por ejemplo: voz temporal para la demo"></textarea>
+                        </label>
+                        <label class="field">
+                          <span>Muestra de audio</span>
+                          <input type="file" id="voiceSample" accept=".wav,.mp3,.m4a,.flac" required />
+                        </label>
+                        <button type="submit" class="accent-button">Guardar voz</button>
+                      </form>
+                    </section>
+
+                    <div class="step-actions">
+                      <button class="ghost-button wizard-back" type="button" data-step-target="2">Volver</button>
+                      <button id="wizardStep3Next" class="accent-button" type="button">Seguir al audio</button>
+                    </div>
+                  </div>
+                </section>
+
+                <section id="wizardStep4" class="wizard-panel">
+                  <div class="wizard-card content-card wizard-card-tight">
+                    <div class="section-head">
+                      <div>
+                        <p class="eyebrow">Paso 4</p>
+                        <h3>Lanzar la narracion</h3>
+                      </div>
+                      <p class="muted">Aqui solo decidimos que audio sacar ahora: una demo, un capitulo o el libro entero.</p>
+                    </div>
+
+                    <div class="wizard-grid audio-setup-grid">
+                      <div id="selectedBookForAudio" class="status-card">
+                        <strong>Libro pendiente</strong>
+                        <p class="muted">Todavia no has elegido libro.</p>
+                      </div>
+                      <div id="selectedVoiceForAudio" class="status-card">
+                        <strong>Voz pendiente</strong>
+                        <p class="muted">Todavia no has elegido voz.</p>
+                      </div>
+                    </div>
+
+                    <form id="narrationForm" class="stack-form simple-render-form">
+                      <div class="field">
+                        <span>Que quieres generar ahora</span>
+                        <div id="renderScopeCards" class="scope-grid">
+                          <button class="scope-card active" type="button" data-scope="demo_excerpt">
+                            <strong>Demo corta</strong>
+                            <small>30-90 segundos para validar rapido</small>
+                          </button>
+                          <button class="scope-card" type="button" data-scope="chapter_1">
+                            <strong>Solo capitulo 1</strong>
+                            <small>Prueba mas larga antes del libro entero</small>
+                          </button>
+                          <button class="scope-card" type="button" data-scope="full_book">
+                            <strong>Libro completo</strong>
+                            <small>Se desbloquea cuando la muestra esta aprobada</small>
+                          </button>
+                        </div>
+                        <select id="renderScopeSelect" class="sr-only" tabindex="-1" aria-hidden="true">
+                          <option value="demo_excerpt">Demo corta (30-90 segundos)</option>
+                          <option value="chapter_1">Solo capitulo 1</option>
+                          <option value="full_book">Libro completo</option>
+                        </select>
+                      </div>
+
+                      <label class="field">
+                        <span>Idioma del texto</span>
+                        <select id="languageSelect">
+                          <option value="es">Espanol</option>
+                          <option value="en">English</option>
+                        </select>
+                      </label>
+
+                      <details class="advanced-panel">
+                        <summary>Ver ajustes avanzados</summary>
+                        <div class="grid-form compact-grid">
+                          <label class="field">
+                            <span>Motor</span>
+                            <select id="engineSelect"></select>
+                          </label>
+                          <label class="field">
+                            <span>Perfil de voz</span>
+                            <select id="voiceProfileSelect"></select>
+                          </label>
+                          <label class="field">
+                            <span>Tamano del fragmento</span>
+                            <input id="chunkSizeInput" type="number" value="2200" min="600" max="6000" />
+                          </label>
+                          <label class="field">
+                            <span>Velocidad</span>
+                            <input id="speedInput" type="number" value="1.0" min="0.6" max="1.4" step="0.05" />
+                          </label>
+                        </div>
+                      </details>
+
+                      <button type="submit" class="accent-button">Crear narracion</button>
+                    </form>
+
+                    <p id="renderScopeHint" class="muted compact-copy">
+                      Empieza con demo corta. Cuando la apruebes, el libro completo se desbloquea para esa misma voz.
+                    </p>
+
+                    <section class="jobs-panel content-card subtle-card">
+                      <div class="panel-head">
+                        <div>
+                          <h4>Estado del render</h4>
+                          <p class="muted compact-copy">Aqui solo veras si la cola esta en marcha o si la prueba ya termino.</p>
+                        </div>
+                        <button id="refreshJobsBtn" class="ghost-button" type="button">Actualizar</button>
+                      </div>
+                      <div id="jobsList" class="jobs-list"></div>
+                    </section>
+
+                    <div class="step-actions">
+                      <button class="ghost-button wizard-back" type="button" data-step-target="3">Volver</button>
+                      <button id="wizardStep4Next" class="accent-button" type="button">Ir a revisar</button>
+                    </div>
+                  </div>
+                </section>
+
+                <section id="wizardStep5" class="wizard-panel">
+                  <div id="emptyState" class="empty-state content-card">
+                    <h3>Primero necesitamos un audio</h3>
+                    <p class="muted">Cuando termine la narracion, aqui te mostrare la siguiente accion importante para revisar o publicar sin perderte.</p>
+                  </div>
+
+                  <article id="bookDetail" class="book-detail hidden">
+                    <div class="wizard-card content-card wizard-card-tight">
+                      <div class="panel-head review-top-bar">
+                        <div>
+                          <p class="eyebrow">Paso 5</p>
+                          <h2 id="bookTitle"></h2>
+                        </div>
+                        <a id="bookSourceLink" class="button-link ghost-link" target="_blank" rel="noreferrer">Abrir original</a>
+                      </div>
+
+                      <div class="book-meta">
+                        <span id="bookWords"></span>
+                        <span id="bookReadTime"></span>
+                        <span id="bookChars"></span>
+                        <span id="bookPublished"></span>
+                      </div>
+
+                      <div id="publishReadiness" class="status-card"></div>
+
+                      <p id="bookExcerpt" class="excerpt"></p>
+
+                      <section id="reviewFocus" class="content-card review-focus-card"></section>
+
+                      <section id="publicProfileSection" class="content-card public-profile-card hidden">
+                        <div class="panel-head">
+                          <div>
+                            <h3>Datos de la pagina publica</h3>
+                            <p class="muted compact-copy">Este bloque solo aparece cuando el audio ya esta listo para publicarse.</p>
+                          </div>
+                        </div>
+                        <form id="publicProfileForm" class="grid-form">
+                          <label class="field">
+                            <span>Titular corto</span>
+                            <input id="publicHookInput" type="text" maxlength="120" placeholder="Texto principal del libro" />
+                          </label>
+                          <label class="field">
+                            <span>Precio o acceso</span>
+                            <input id="publicPriceInput" type="text" maxlength="80" placeholder="Gratis / 9 EUR / acceso privado" />
+                          </label>
+                          <label class="field field-wide">
+                            <span>Resumen</span>
+                            <textarea id="publicSummaryInput" rows="4" maxlength="600" placeholder="Explica de forma sencilla de que trata el libro."></textarea>
+                          </label>
+                          <label class="field">
+                            <span>Texto del boton</span>
+                            <input id="publicCtaLabelInput" type="text" maxlength="60" placeholder="Abrir libro" />
+                          </label>
+                          <label class="field">
+                            <span>Enlace del boton</span>
+                            <input id="publicCtaUrlInput" type="url" maxlength="500" placeholder="https://..." />
+                          </label>
+                          <label class="toggle-field">
+                            <input id="publicFeaturedInput" type="checkbox" />
+                            <span>Marcar como libro destacado</span>
+                          </label>
+                          <button type="submit" class="accent-button">Guardar datos publicos</button>
+                        </form>
+
+                        <div class="step-actions top-divider">
+                          <button id="publishBtn" class="accent-button" type="button">Publicar en la web</button>
+                          <button id="unpublishBtn" class="ghost-button" type="button">Ocultar</button>
+                        </div>
+                      </section>
+
+                      <details class="review-history">
+                        <summary>Ver historial completo y audios por partes</summary>
+                        <div id="narrationsList" class="narrations"></div>
+                      </details>
+
+                      <details class="review-history">
+                        <summary>Leer texto del libro</summary>
+                        <div class="panel-head">
+                          <h3>Texto del libro</h3>
+                          <button id="loadTextBtn" class="ghost-button" type="button">Cargar texto</button>
+                        </div>
+                        <pre id="bookTextPreview" class="reader"></pre>
+                      </details>
+
+                      <div class="step-actions">
+                        <button class="ghost-button wizard-back" type="button" data-step-target="4">Volver</button>
+                      </div>
+                    </div>
+                  </article>
+                </section>
+              </div>
+            </div>
+          </div>
+        </section>
+        </div>
+      </div>
+
+      <div id="toast" class="toast hidden"></div>
+    </main>
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

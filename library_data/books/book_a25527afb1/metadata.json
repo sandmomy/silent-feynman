@@ -1,0 +1,578 @@
+{
+  "book_id": "book_a25527afb1",
+  "title": "Frequency Vibes by Eugene Mierek",
+  "slug": "frequency_vibes_by_eugene_mierek",
+  "source_name": "Frequency Vibes by Eugene Mierek.pdf",
+  "source_extension": ".pdf",
+  "source_url": "/media/books/book_a25527afb1/source/Frequency Vibes by Eugene Mierek.pdf",
+  "char_count": 44919,
+  "word_count": 6506,
+  "estimated_read_minutes": 39,
+  "excerpt": "Chapter 1     Everything Is Frequency, and Frequency Is Everything     Introduction   The statement \u201ceverything is frequency and frequency is everything\u201d is not poetry alone\u2014it is a   concise summary of how modern science describes reality. From subatomic particles to brain  waves, from sound and light to biological rhythms and planetary motion, nature organizes itself   through oscillation, vibration, and resonance...",
+  "source_fingerprint": "Frequency Vibes by Eugene Mierek.pdf:4835692:1774280382",
+  "created_at": "2026-03-23T16:14:09.917966+00:00",
+  "published": false,
+  "published_at": null,
+  "narrations": [
+    {
+      "narration_id": "nar_481d714d6c",
+      "job_id": "job_7c1879590252",
+      "engine": "openvoice_wsl",
+      "voice_profile_id": "voice_b74166611d",
+      "audio_url": "/media/jobs/job_7c1879590252/output/frequency_vibes_by_eugene_mierek_openvoice_wsl.mp3",
+      "download_url": "/media/jobs/job_7c1879590252/output/frequency_vibes_by_eugene_mierek_openvoice_wsl.mp3",
+      "created_at": "2026-03-23T22:13:56.908941+00:00",
+      "segment_count": 1,
+      "chapter_count": 1,
+      "render_scope": "demo_excerpt",
+      "render_scope_label": "Short demo",
+      "approved": false,
+      "sample_mode": "raw_single",
+      "chapters": [
+        {
+          "chapter_index": 1,
+          "title": "Short demo - Chapter 1 Everything Is Frequency, and Frequency Is Everything Introduction The statement \u201ceverything is frequency and f",
+          "excerpt": "Chapter 1     Everything Is Frequency, and Frequency Is Everything     Introduction   The statement \u201ceverything is frequency and frequency is everything\u201d is not poetry alone\u2014it is...",
+          "word_count": 165,
+          "segment_count": 1,
+          "audio_url": "/media/jobs/job_7c1879590252/output/chapters/chapter_001_short_demo_chapter_1_everything_is_frequency_and_frequency_is_everything_introduction_the_statement_everything_is_frequency_and_f.mp3",
+          "download_url": "/media/jobs/job_7c1879590252/output/chapters/chapter_001_short_demo_chapter_1_everything_is_frequency_and_frequency_is_everything_introduction_the_statement_everything_is_frequency_and_f.mp3",
+          "metadata": {
+            "engine_mode": "openvoice_wsl",
+            "audio_duration_seconds": 67.47,
+            "sample_mode": "raw_single",
+            "sample_count_used": 1,
+            "voice_sample_paths": [
+              "C:\\Users\\Usuario\\Desktop\\bussines model\\library_data\\voices\\voice_b74166611d\\samples\\client_voice_clean_v2.wav"
+            ],
+            "wsl_stdout": "Loaded checkpoint '/mnt/c/Users/Usuario/Desktop/bussines model/wsl_models/checkpoints_v2/checkpoints_v2/converter/checkpoint.pth'\nmissing/unexpected keys: [] []\n{\"output_audio_path\": \"/mnt/c/Users/Usuario/Desktop/bussines model/library_data/jobs/job_7c1879590252/output/chapters/chapter_001/book_openvoice.wav\", \"segments\": 1}"
+          },
+          "approved": false
+        }
+      ],
+      "metadata": {
+        "render_scope": "demo_excerpt",
+        "render_scope_label": "Short demo",
+        "approved": false,
+        "sample_mode": "raw_single",
+        "sample_mode_label": "Raw single sample",
+        "voice_sample_count_used": 1,
+        "voice_sample_ids": [
+          "sample_001"
+        ],
+        "voice_sample_names": [
+          "client_voice_clean_v2.wav"
+        ],
+        "chapter_count": 1,
+        "audio_duration_seconds": 67.47,
+        "chapters_review_ready": true,
+        "chapter_titles": [
+          "Short demo - Chapter 1 Everything Is Frequency, and Frequency Is Everything Introduction The statement \u201ceverything is frequency and f"
+        ],
+        "approved_chapter_count": 0,
+        "requires_chapter_approval": false,
+        "chapter_reviews_complete": true,
+        "approval_required": true,
+        "ready_for_full_render": false,
+        "ready_for_publish": false
+      }
+    },
+    {
+      "narration_id": "nar_bbc809e14c",
+      "job_id": "job_0c73e40d704f",
+      "engine": "mock_preview",
+      "voice_profile_id": "voice_0cd956d062",
+      "audio_url": "/media/jobs/job_0c73e40d704f/output/frequency_vibes_by_eugene_mierek_mock_preview.mp3",
+      "download_url": "/media/jobs/job_0c73e40d704f/output/frequency_vibes_by_eugene_mierek_mock_preview.mp3",
+      "created_at": "2026-03-23T22:10:29.920979+00:00",
+      "segment_count": 1,
+      "chapter_count": 1,
+      "render_scope": "demo_excerpt",
+      "render_scope_label": "Short demo",
+      "approved": false,
+      "sample_mode": "clean_multi",
+      "chapters": [
+        {
+          "chapter_index": 1,
+          "title": "Short demo - Chapter 1 Everything Is Frequency, and Frequency Is Everything Introduction The statement \u201ceverything is frequency and f",
+          "excerpt": "Chapter 1     Everything Is Frequency, and Frequency Is Everything     Introduction   The statement \u201ceverything is frequency and frequency is everything\u201d is not poetry alone\u2014it is...",
+          "word_count": 165,
+          "segment_count": 1,
+          "audio_url": "/media/jobs/job_0c73e40d704f/output/chapters/chapter_001_short_demo_chapter_1_everything_is_frequency_and_frequency_is_everything_introduction_the_statement_everything_is_frequency_and_f.mp3",
+          "download_url": "/media/jobs/job_0c73e40d704f/output/chapters/chapter_001_short_demo_chapter_1_everything_is_frequency_and_frequency_is_everything_introduction_the_statement_everything_is_frequency_and_f.mp3",
+          "metadata": {
+            "engine_mode": "preview",
+            "audio_duration_seconds": 25.0,
+            "notes": "Este audio es una maqueta silenciosa para probar el pipeline local completo."
+          },
+          "approved": false
+        }
+      ],
+      "metadata": {
+        "render_scope": "demo_excerpt",
+        "render_scope_label": "Short demo",
+        "approved": false,
+        "sample_mode": "clean_multi",
+        "sample_mode_label": "Clean multi-sample",
+        "voice_sample_count_used": 3,
+        "voice_sample_ids": [
+          "sample_001",
+          "sample_002",
+          "sample_003"
+        ],
+        "voice_sample_names": [
+          "client_voice_test.wav",
+          "client_voice_clean_v2.wav",
+          "WhatsApp_Ptt_2026-03-23_at_22.23.53.ogg"
+        ],
+        "chapter_count": 1,
+        "audio_duration_seconds": 25.0,
+        "chapters_review_ready": true,
+        "chapter_titles": [
+          "Short demo - Chapter 1 Everything Is Frequency, and Frequency Is Everything Introduction The statement \u201ceverything is frequency and f"
+        ],
+        "approved_chapter_count": 0,
+        "requires_chapter_approval": false,
+        "chapter_reviews_complete": true,
+        "approval_required": true,
+        "ready_for_full_render": false,
+        "ready_for_publish": false
+      }
+    },
+    {
+      "narration_id": "nar_29c06f0e42",
+      "job_id": "job_e6213bf80504",
+      "engine": "openvoice_wsl",
+      "voice_profile_id": "voice_b74166611d",
+      "audio_url": "/media/jobs/job_e6213bf80504/output/frequency_vibes_by_eugene_mierek_openvoice_wsl.mp3",
+      "download_url": "/media/jobs/job_e6213bf80504/output/frequency_vibes_by_eugene_mierek_openvoice_wsl.mp3",
+      "created_at": "2026-03-23T21:39:49.710487+00:00",
+      "segment_count": 1,
+      "chapter_count": 1,
+      "render_scope": "demo_excerpt",
+      "render_scope_label": "Short demo",
+      "approved": false,
+      "chapters": [
+        {
+          "chapter_index": 1,
+          "title": "Demo corta - Chapter 1 Everything Is Frequency, and Frequency Is Everything Introduction The statement \u201ceverything is frequency and f",
+          "excerpt": "Chapter 1     Everything Is Frequency, and Frequency Is Everything     Introduction   The statement \u201ceverything is frequency and frequency is everything\u201d is not poetry alone\u2014it is...",
+          "word_count": 142,
+          "segment_count": 1,
+          "audio_url": "/media/jobs/job_e6213bf80504/output/chapters/chapter_001_demo_corta_chapter_1_everything_is_frequency_and_frequency_is_everything_introduction_the_statement_everything_is_frequency_and_f.mp3",
+          "download_url": "/media/jobs/job_e6213bf80504/output/chapters/chapter_001_demo_corta_chapter_1_everything_is_frequency_and_frequency_is_everything_introduction_the_statement_everything_is_frequency_and_f.mp3",
+          "metadata": {
+            "engine_mode": "openvoice_wsl",
+            "audio_duration_seconds": 61.92,
+            "wsl_stdout": "Loaded checkpoint '/mnt/c/Users/Usuario/Desktop/bussines model/wsl_models/checkpoints_v2/checkpoints_v2/converter/checkpoint.pth'\nmissing/unexpected keys: [] []\n{\"output_audio_path\": \"/mnt/c/Users/Usuario/Desktop/bussines model/library_data/jobs/job_e6213bf80504/output/chapters/chapter_001/book_openvoice.wav\", \"segments\": 1}"
+          },
+          "approved": false
+        }
+      ],
+      "metadata": {
+        "render_scope": "demo_excerpt",
+        "render_scope_label": "Short demo",
+        "approved": false,
+        "chapter_count": 1,
+        "audio_duration_seconds": 61.92,
+        "chapters_review_ready": true,
+        "chapter_titles": [
+          "Demo corta - Chapter 1 Everything Is Frequency, and Frequency Is Everything Introduction The statement \u201ceverything is frequency and f"
+        ],
+        "approved_chapter_count": 0,
+        "requires_chapter_approval": false,
+        "chapter_reviews_complete": true,
+        "approval_required": true,
+        "ready_for_full_render": false,
+        "ready_for_publish": false
+      }
+    },
+    {
+      "narration_id": "nar_864ddf625e",
+      "job_id": "job_890253ab3950",
+      "engine": "openvoice_wsl",
+      "voice_profile_id": "voice_66bbc21fca",
+      "audio_url": "/media/jobs/job_890253ab3950/output/frequency_vibes_by_eugene_mierek_openvoice_wsl.mp3",
+      "download_url": "/media/jobs/job_890253ab3950/output/frequency_vibes_by_eugene_mierek_openvoice_wsl.mp3",
+      "created_at": "2026-03-23T21:33:53.067964+00:00",
+      "segment_count": 1,
+      "chapter_count": 1,
+      "render_scope": "demo_excerpt",
+      "render_scope_label": "Short demo",
+      "approved": false,
+      "chapters": [
+        {
+          "chapter_index": 1,
+          "title": "Demo corta - Chapter 1 Everything Is Frequency, and Frequency Is Everything Introduction The statement \u201ceverything is frequency and f",
+          "excerpt": "Chapter 1     Everything Is Frequency, and Frequency Is Everything     Introduction   The statement \u201ceverything is frequency and frequency is everything\u201d is not poetry alone\u2014it is...",
+          "word_count": 105,
+          "segment_count": 1,
+          "audio_url": "/media/jobs/job_890253ab3950/output/chapters/chapter_001_demo_corta_chapter_1_everything_is_frequency_and_frequency_is_everything_introduction_the_statement_everything_is_frequency_and_f.mp3",
+          "download_url": "/media/jobs/job_890253ab3950/output/chapters/chapter_001_demo_corta_chapter_1_everything_is_frequency_and_frequency_is_everything_introduction_the_statement_everything_is_frequency_and_f.mp3",
+          "metadata": {
+            "engine_mode": "openvoice_wsl",
+            "audio_duration_seconds": 51.94,
+            "wsl_stdout": "Loaded checkpoint '/mnt/c/Users/Usuario/Desktop/bussines model/wsl_models/checkpoints_v2/checkpoints_v2/converter/checkpoint.pth'\nmissing/unexpected keys: [] []\n{\"output_audio_path\": \"/mnt/c/Users/Usuario/Desktop/bussines model/library_data/jobs/job_890253ab3950/output/chapters/chapter_001/book_openvoice.wav\", \"segments\": 1}"
+          },
+          "approved": false
+        }
+      ],
+      "metadata": {
+        "render_scope": "demo_excerpt",
+        "render_scope_label": "Short demo",
+        "approved": false,
+        "chapter_count": 1,
+        "audio_duration_seconds": 51.94,
+        "chapters_review_ready": true,
+        "chapter_titles": [
+          "Demo corta - Chapter 1 Everything Is Frequency, and Frequency Is Everything Introduction The statement \u201ceverything is frequency and f"
+        ],
+        "approved_chapter_count": 0,
+        "requires_chapter_approval": false,
+        "chapter_reviews_complete": true,
+        "approval_required": true,
+        "ready_for_full_render": false,
+        "ready_for_publish": false
+      }
+    },
+    {
+      "narration_id": "nar_3ecfdae080",
+      "job_id": "job_2587f1632f9a",
+      "engine": "openvoice_wsl",
+      "voice_profile_id": "voice_66bbc21fca",
+      "audio_url": "/media/jobs/job_2587f1632f9a/output/frequency_vibes_by_eugene_mierek_openvoice_wsl.mp3",
+      "download_url": "/media/jobs/job_2587f1632f9a/output/frequency_vibes_by_eugene_mierek_openvoice_wsl.mp3",
+      "created_at": "2026-03-23T21:28:55.368435+00:00",
+      "segment_count": 1,
+      "chapter_count": 1,
+      "render_scope": "demo_excerpt",
+      "render_scope_label": "Short demo",
+      "approved": false,
+      "chapters": [
+        {
+          "chapter_index": 1,
+          "title": "Demo corta - Chapter 1 Everything Is Frequency, and Frequency Is Everything Introduction The statement \u201ceverything is frequency and f",
+          "excerpt": "Chapter 1     Everything Is Frequency, and Frequency Is Everything     Introduction   The statement \u201ceverything is frequency and frequency is everything\u201d is not poetry alone\u2014it is...",
+          "word_count": 165,
+          "segment_count": 1,
+          "audio_url": "/media/jobs/job_2587f1632f9a/output/chapters/chapter_001_demo_corta_chapter_1_everything_is_frequency_and_frequency_is_everything_introduction_the_statement_everything_is_frequency_and_f.mp3",
+          "download_url": "/media/jobs/job_2587f1632f9a/output/chapters/chapter_001_demo_corta_chapter_1_everything_is_frequency_and_frequency_is_everything_introduction_the_statement_everything_is_frequency_and_f.mp3",
+          "metadata": {
+            "engine_mode": "openvoice_wsl",
+            "audio_duration_seconds": 67.31,
+            "wsl_stdout": "Loaded checkpoint '/mnt/c/Users/Usuario/Desktop/bussines model/wsl_models/checkpoints_v2/checkpoints_v2/converter/checkpoint.pth'\nmissing/unexpected keys: [] []\n{\"output_audio_path\": \"/mnt/c/Users/Usuario/Desktop/bussines model/library_data/jobs/job_2587f1632f9a/output/chapters/chapter_001/book_openvoice.wav\", \"segments\": 1}"
+          },
+          "approved": false
+        }
+      ],
+      "metadata": {
+        "render_scope": "demo_excerpt",
+        "render_scope_label": "Short demo",
+        "approved": false,
+        "chapter_count": 1,
+        "audio_duration_seconds": 67.31,
+        "chapters_review_ready": true,
+        "chapter_titles": [
+          "Demo corta - Chapter 1 Everything Is Frequency, and Frequency Is Everything Introduction The statement \u201ceverything is frequency and f"
+        ],
+        "approved_chapter_count": 0,
+        "requires_chapter_approval": false,
+        "chapter_reviews_complete": true,
+        "approval_required": true,
+        "ready_for_full_render": false,
+        "ready_for_publish": false
+      }
+    },
+    {
+      "narration_id": "nar_eb8ef4ddec",
+      "job_id": "job_ff52304b04d5",
+      "engine": "openvoice_wsl",
+      "voice_profile_id": "voice_7eff3de003",
+      "audio_url": "/media/jobs/job_ff52304b04d5/output/frequency_vibes_by_eugene_mierek_openvoice_wsl.mp3",
+      "download_url": "/media/jobs/job_ff52304b04d5/output/frequency_vibes_by_eugene_mierek_openvoice_wsl.mp3",
+      "created_at": "2026-03-23T20:03:16.801475+00:00",
+      "segment_count": 1,
+      "chapter_count": 1,
+      "render_scope": "demo_excerpt",
+      "render_scope_label": "Short demo",
+      "approved": false,
+      "chapters": [
+        {
+          "chapter_index": 1,
+          "title": "Demo corta - Chapter 1 Everything Is Frequency, and Frequency Is Everything Introduction The statement \u201ceverything is frequency and f",
+          "excerpt": "Chapter 1     Everything Is Frequency, and Frequency Is Everything     Introduction   The statement \u201ceverything is frequency and frequency is everything\u201d is not poetry alone\u2014it is...",
+          "word_count": 105,
+          "segment_count": 1,
+          "audio_url": "/media/jobs/job_ff52304b04d5/output/chapters/chapter_001_demo_corta_chapter_1_everything_is_frequency_and_frequency_is_everything_introduction_the_statement_everything_is_frequency_and_f.mp3",
+          "download_url": "/media/jobs/job_ff52304b04d5/output/chapters/chapter_001_demo_corta_chapter_1_everything_is_frequency_and_frequency_is_everything_introduction_the_statement_everything_is_frequency_and_f.mp3",
+          "metadata": {
+            "engine_mode": "openvoice_wsl",
+            "audio_duration_seconds": 45.56,
+            "wsl_stdout": "Loaded checkpoint '/mnt/c/Users/Usuario/Desktop/bussines model/wsl_models/checkpoints_v2/checkpoints_v2/converter/checkpoint.pth'\nmissing/unexpected keys: [] []\n{\"output_audio_path\": \"/mnt/c/Users/Usuario/Desktop/bussines model/library_data/jobs/job_ff52304b04d5/output/chapters/chapter_001/book_openvoice.wav\", \"segments\": 1}"
+          },
+          "approved": false
+        }
+      ],
+      "metadata": {
+        "render_scope": "demo_excerpt",
+        "render_scope_label": "Short demo",
+        "approved": false,
+        "chapter_count": 1,
+        "audio_duration_seconds": 45.56,
+        "chapters_review_ready": true,
+        "chapter_titles": [
+          "Demo corta - Chapter 1 Everything Is Frequency, and Frequency Is Everything Introduction The statement \u201ceverything is frequency and f"
+        ],
+        "approved_chapter_count": 0,
+        "requires_chapter_approval": false,
+        "chapter_reviews_complete": true,
+        "approval_required": true,
+        "ready_for_full_render": false,
+        "ready_for_publish": false
+      }
+    },
+    {
+      "narration_id": "nar_b0d89b36ef",
+      "job_id": "job_016c5514a6f8",
+      "engine": "mock_preview",
+      "voice_profile_id": null,
+      "audio_url": "/media/jobs/job_016c5514a6f8/output/frequency_vibes_by_eugene_mierek_mock_preview.mp3",
+      "download_url": "/media/jobs/job_016c5514a6f8/output/frequency_vibes_by_eugene_mierek_mock_preview.mp3",
+      "created_at": "2026-03-23T18:39:25.102379+00:00",
+      "segment_count": 27,
+      "chapter_count": 11,
+      "chapters": [
+        {
+          "chapter_index": 1,
+          "title": "Chapter 1 Everything Is Frequency, and Frequency Is Everything Introduction The statement \u201ceverything is frequency and f",
+          "excerpt": "Chapter 1     Everything Is Frequency, and Frequency Is Everything     Introduction   The statement \u201ceverything is frequency and frequency is everything\u201d is not poetry alone\u2014it is...",
+          "word_count": 864,
+          "segment_count": 4,
+          "audio_url": "/media/jobs/job_016c5514a6f8/output/chapters/chapter_001_chapter_1_everything_is_frequency_and_frequency_is_everything_introduction_the_statement_everything_is_frequency_and_f.mp3",
+          "download_url": "/media/jobs/job_016c5514a6f8/output/chapters/chapter_001_chapter_1_everything_is_frequency_and_frequency_is_everything_introduction_the_statement_everything_is_frequency_and_f.mp3",
+          "metadata": {
+            "engine_mode": "preview",
+            "audio_duration_seconds": 100.15,
+            "notes": "Este audio es una maqueta silenciosa para probar el pipeline local completo."
+          },
+          "approved": false
+        },
+        {
+          "chapter_index": 2,
+          "title": "Chapter 2. Practical Frequency: Creating Frequency Memories Introduction Practical frequency is the applied art of learn",
+          "excerpt": "Chapter 2.    Practical Frequency: Creating Frequency Memories    Introduction  Practical frequency is the applied art of learning, storing, and reproducing frequencies  within th...",
+          "word_count": 828,
+          "segment_count": 3,
+          "audio_url": "/media/jobs/job_016c5514a6f8/output/chapters/chapter_002_chapter_2_practical_frequency_creating_frequency_memories_introduction_practical_frequency_is_the_applied_art_of_learn.mp3",
+          "download_url": "/media/jobs/job_016c5514a6f8/output/chapters/chapter_002_chapter_2_practical_frequency_creating_frequency_memories_introduction_practical_frequency_is_the_applied_art_of_learn.mp3",
+          "metadata": {
+            "engine_mode": "preview",
+            "audio_duration_seconds": 75.1,
+            "notes": "Este audio es una maqueta silenciosa para probar el pipeline local completo."
+          },
+          "approved": false
+        },
+        {
+          "chapter_index": 3,
+          "title": "Chapter 3 Life Frequency: Applying Frequency Memory in Daily Life Introduction Life Frequency means actively using learn",
+          "excerpt": "Chapter 3    Life Frequency: Applying Frequency Memory in Daily Life    Introduction  Life Frequency means actively using learned frequency memories in real-time situations.  It i...",
+          "word_count": 768,
+          "segment_count": 3,
+          "audio_url": "/media/jobs/job_016c5514a6f8/output/chapters/chapter_003_chapter_3_life_frequency_applying_frequency_memory_in_daily_life_introduction_life_frequency_means_actively_using_learn.mp3",
+          "download_url": "/media/jobs/job_016c5514a6f8/output/chapters/chapter_003_chapter_3_life_frequency_applying_frequency_memory_in_daily_life_introduction_life_frequency_means_actively_using_learn.mp3",
+          "metadata": {
+            "engine_mode": "preview",
+            "audio_duration_seconds": 75.1,
+            "notes": "Este audio es una maqueta silenciosa para probar el pipeline local completo."
+          },
+          "approved": false
+        },
+        {
+          "chapter_index": 4,
+          "title": "Chapter 4 Manifestation: True Frequency Management What Manifestation Really Is (and Is Not) Manifestation is not wishin",
+          "excerpt": "Chapter 4    Manifestation: True Frequency Management  What Manifestation Really Is (and Is Not)  Manifestation is not wishing.  It is not forcing outcomes.  It is not believing h...",
+          "word_count": 678,
+          "segment_count": 3,
+          "audio_url": "/media/jobs/job_016c5514a6f8/output/chapters/chapter_004_chapter_4_manifestation_true_frequency_management_what_manifestation_really_is_and_is_not_manifestation_is_not_wishin.mp3",
+          "download_url": "/media/jobs/job_016c5514a6f8/output/chapters/chapter_004_chapter_4_manifestation_true_frequency_management_what_manifestation_really_is_and_is_not_manifestation_is_not_wishin.mp3",
+          "metadata": {
+            "engine_mode": "preview",
+            "audio_duration_seconds": 75.1,
+            "notes": "Este audio es una maqueta silenciosa para probar el pipeline local completo."
+          },
+          "approved": false
+        },
+        {
+          "chapter_index": 5,
+          "title": "Chapter 5 The Formula of Manifestation F \u00d7 A = M Frequency \u00d7 Action = Manifestation Manifestation does not happen throug",
+          "excerpt": "Chapter 5    The Formula of Manifestation  F \u00d7 A = M  Frequency \u00d7 Action = Manifestation  Manifestation does not happen through frequency alone.  Action without frequency also fai...",
+          "word_count": 656,
+          "segment_count": 3,
+          "audio_url": "/media/jobs/job_016c5514a6f8/output/chapters/chapter_005_chapter_5_the_formula_of_manifestation_f_a_m_frequency_action_manifestation_manifestation_does_not_happen_throug.mp3",
+          "download_url": "/media/jobs/job_016c5514a6f8/output/chapters/chapter_005_chapter_5_the_formula_of_manifestation_f_a_m_frequency_action_manifestation_manifestation_does_not_happen_throug.mp3",
+          "metadata": {
+            "engine_mode": "preview",
+            "audio_duration_seconds": 75.1,
+            "notes": "Este audio es una maqueta silenciosa para probar el pipeline local completo."
+          },
+          "approved": false
+        },
+        {
+          "chapter_index": 6,
+          "title": "Chapter 6: Frequency Planner Daily Application & Training Curriculum Introduction The formula F \u00d7 A = M (Frequency \u00d7 Act",
+          "excerpt": "Chapter 6: Frequency Planner  Daily Application & Training Curriculum  Introduction  The formula F \u00d7 A = M (Frequency \u00d7 Action = Manifestation) only works when applied con- sisten...",
+          "word_count": 790,
+          "segment_count": 3,
+          "audio_url": "/media/jobs/job_016c5514a6f8/output/chapters/chapter_006_chapter_6_frequency_planner_daily_application_training_curriculum_introduction_the_formula_f_a_m_frequency_act.mp3",
+          "download_url": "/media/jobs/job_016c5514a6f8/output/chapters/chapter_006_chapter_6_frequency_planner_daily_application_training_curriculum_introduction_the_formula_f_a_m_frequency_act.mp3",
+          "metadata": {
+            "engine_mode": "preview",
+            "audio_duration_seconds": 75.1,
+            "notes": "Este audio es una maqueta silenciosa para probar el pipeline local completo."
+          },
+          "approved": false
+        },
+        {
+          "chapter_index": 7,
+          "title": "Part 1: What Is \u201cLiving in Frequency\u201d? Living in frequency means: \u2022 Observing before reacting \u2022 Feeling patterns instead",
+          "excerpt": "Part 1: What Is \u201cLiving in Frequency\u201d?  Living in frequency means:  \u2022 Observing before reacting  \u2022 Feeling patterns instead of only thinking  \u2022 Recognizing coherence vs chaos  \u2022 C...",
+          "word_count": 556,
+          "segment_count": 2,
+          "audio_url": "/media/jobs/job_016c5514a6f8/output/chapters/chapter_007_part_1_what_is_living_in_frequency_living_in_frequency_means_observing_before_reacting_feeling_patterns_instead.mp3",
+          "download_url": "/media/jobs/job_016c5514a6f8/output/chapters/chapter_007_part_1_what_is_living_in_frequency_living_in_frequency_means_observing_before_reacting_feeling_patterns_instead.mp3",
+          "metadata": {
+            "engine_mode": "preview",
+            "audio_duration_seconds": 50.05,
+            "notes": "Este audio es una maqueta silenciosa para probar el pipeline local completo."
+          },
+          "approved": false
+        },
+        {
+          "chapter_index": 8,
+          "title": "Part 4: Daily Practice \u2013 Living in Frequency Simple Exercise: 3 times per day: 1. Pause 2. Observe environment 3. Name t",
+          "excerpt": "Part 4: Daily Practice \u2013 Living in Frequency    Simple Exercise:  3 times per day:  1. Pause  2. Observe environment  3. Name the frequency  4. Adjust your own frequency    Exampl...",
+          "word_count": 236,
+          "segment_count": 1,
+          "audio_url": "/media/jobs/job_016c5514a6f8/output/chapters/chapter_008_part_4_daily_practice_living_in_frequency_simple_exercise_3_times_per_day_1_pause_2_observe_environment_3_name_t.mp3",
+          "download_url": "/media/jobs/job_016c5514a6f8/output/chapters/chapter_008_part_4_daily_practice_living_in_frequency_simple_exercise_3_times_per_day_1_pause_2_observe_environment_3_name_t.mp3",
+          "metadata": {
+            "engine_mode": "preview",
+            "audio_duration_seconds": 25.0,
+            "notes": "Este audio es una maqueta silenciosa para probar el pipeline local completo."
+          },
+          "approved": false
+        },
+        {
+          "chapter_index": 9,
+          "title": "Part 1: What Frequency Vibes Means Frequency Vibes means: You become aware of frequency, you train it, you apply it, and",
+          "excerpt": "Part 1: What Frequency Vibes Means  Frequency Vibes means:  You become aware of frequency,  you train it,  you apply it,  and you live by it.  It is:  \u2022 Awareness \u2192 seeing frequen...",
+          "word_count": 526,
+          "segment_count": 2,
+          "audio_url": "/media/jobs/job_016c5514a6f8/output/chapters/chapter_009_part_1_what_frequency_vibes_means_frequency_vibes_means_you_become_aware_of_frequency_you_train_it_you_apply_it_and.mp3",
+          "download_url": "/media/jobs/job_016c5514a6f8/output/chapters/chapter_009_part_1_what_frequency_vibes_means_frequency_vibes_means_you_become_aware_of_frequency_you_train_it_you_apply_it_and.mp3",
+          "metadata": {
+            "engine_mode": "preview",
+            "audio_duration_seconds": 50.05,
+            "notes": "Este audio es una maqueta silenciosa para probar el pipeline local completo."
+          },
+          "approved": false
+        },
+        {
+          "chapter_index": 10,
+          "title": "Part 3: Frequency Vibes as a Lifestyle Frequency Vibes is not something you do once. It becomes how you: \u2022 Wake up \u2022 Wor",
+          "excerpt": "Part 3: Frequency Vibes as a Lifestyle  Frequency Vibes is not something you do once.  It becomes how you:  \u2022 Wake up  \u2022 Work  \u2022 Communicate  \u2022 Train  \u2022 Rest    Daily Life Example...",
+          "word_count": 130,
+          "segment_count": 1,
+          "audio_url": "/media/jobs/job_016c5514a6f8/output/chapters/chapter_010_part_3_frequency_vibes_as_a_lifestyle_frequency_vibes_is_not_something_you_do_once_it_becomes_how_you_wake_up_wor.mp3",
+          "download_url": "/media/jobs/job_016c5514a6f8/output/chapters/chapter_010_part_3_frequency_vibes_as_a_lifestyle_frequency_vibes_is_not_something_you_do_once_it_becomes_how_you_wake_up_wor.mp3",
+          "metadata": {
+            "engine_mode": "preview",
+            "audio_duration_seconds": 25.0,
+            "notes": "Este audio es una maqueta silenciosa para probar el pipeline local completo."
+          },
+          "approved": false
+        },
+        {
+          "chapter_index": 11,
+          "title": "Part 3: Frequency Vibes as a Lifestyle Frequency Vibes is not something you do once. Part 5: The Deeper Impact When more",
+          "excerpt": "Part 3: Frequency Vibes as a Lifestyle  Frequency Vibes is not something you do once.  Part 5: The Deeper Impact  When more people live in frequency:  \u2022 Communication improves  \u2022...",
+          "word_count": 474,
+          "segment_count": 2,
+          "audio_url": "/media/jobs/job_016c5514a6f8/output/chapters/chapter_011_part_3_frequency_vibes_as_a_lifestyle_frequency_vibes_is_not_something_you_do_once_part_5_the_deeper_impact_when_more.mp3",
+          "download_url": "/media/jobs/job_016c5514a6f8/output/chapters/chapter_011_part_3_frequency_vibes_as_a_lifestyle_frequency_vibes_is_not_something_you_do_once_part_5_the_deeper_impact_when_more.mp3",
+          "metadata": {
+            "engine_mode": "preview",
+            "audio_duration_seconds": 50.05,
+            "notes": "Este audio es una maqueta silenciosa para probar el pipeline local completo."
+          },
+          "approved": false
+        }
+      ],
+      "metadata": {
+        "chapter_count": 11,
+        "audio_duration_seconds": 676.34,
+        "chapters_review_ready": true,
+        "chapter_titles": [
+          "Chapter 1 Everything Is Frequency, and Frequency Is Everything Introduction The statement \u201ceverything is frequency and f",
+          "Chapter 2. Practical Frequency: Creating Frequency Memories Introduction Practical frequency is the applied art of learn",
+          "Chapter 3 Life Frequency: Applying Frequency Memory in Daily Life Introduction Life Frequency means actively using learn",
+          "Chapter 4 Manifestation: True Frequency Management What Manifestation Really Is (and Is Not) Manifestation is not wishin",
+          "Chapter 5 The Formula of Manifestation F \u00d7 A = M Frequency \u00d7 Action = Manifestation Manifestation does not happen throug",
+          "Chapter 6: Frequency Planner Daily Application & Training Curriculum Introduction The formula F \u00d7 A = M (Frequency \u00d7 Act",
+          "Part 1: What Is \u201cLiving in Frequency\u201d? Living in frequency means: \u2022 Observing before reacting \u2022 Feeling patterns instead",
+          "Part 4: Daily Practice \u2013 Living in Frequency Simple Exercise: 3 times per day: 1. Pause 2. Observe environment 3. Name t",
+          "Part 1: What Frequency Vibes Means Frequency Vibes means: You become aware of frequency, you train it, you apply it, and",
+          "Part 3: Frequency Vibes as a Lifestyle Frequency Vibes is not something you do once. It becomes how you: \u2022 Wake up \u2022 Wor",
+          "Part 3: Frequency Vibes as a Lifestyle Frequency Vibes is not something you do once. Part 5: The Deeper Impact When more"
+        ],
+        "render_scope": "full_book",
+        "render_scope_label": "Full book",
+        "approved_chapter_count": 0,
+        "requires_chapter_approval": true,
+        "chapter_reviews_complete": false,
+        "approval_required": true,
+        "ready_for_full_render": false,
+        "ready_for_publish": false
+      },
+      "approved": false,
+      "render_scope": "full_book",
+      "render_scope_label": "Full book"
+    },
+    {
+      "narration_id": "nar_db8c0b14c5",
+      "job_id": "job_9490dfa57e68",
+      "engine": "mock_preview",
+      "voice_profile_id": null,
+      "audio_url": "/media/jobs/job_9490dfa57e68/output/frequency_vibes_by_eugene_mierek_mock_preview.mp3",
+      "download_url": "/media/jobs/job_9490dfa57e68/output/frequency_vibes_by_eugene_mierek_mock_preview.mp3",
+      "created_at": "2026-03-23T16:15:15.712923+00:00",
+      "segment_count": 32,
+      "metadata": {
+        "engine_mode": "preview",
+        "audio_duration_seconds": 801.59,
+        "notes": "Este audio es una maqueta silenciosa para probar el pipeline local completo.",
+        "render_scope": "full_book",
+        "render_scope_label": "Full book",
+        "approved_chapter_count": 0,
+        "requires_chapter_approval": false,
+        "chapter_reviews_complete": true,
+        "approval_required": true,
+        "ready_for_full_render": false,
+        "ready_for_publish": false
+      },
+      "chapters": [],
+      "approved": false,
+      "render_scope": "full_book",
+      "render_scope_label": "Full book"
+    }
+  ],
+  "public_profile": {
+    "hook": "Complete Frequency Vibes bundle",
+    "summary": "The full bundle will return later as a complete edition. For now, the project is sold chapter by chapter.",
+    "price_label": "EUR 33.69",
+    "cta_label": "Bundle coming later",
+    "cta_url": "",
+    "featured": false
+  },
+  "published_narration_id": null
+}

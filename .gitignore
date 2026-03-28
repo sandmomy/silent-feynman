@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Environment
+.env
+.env.local
+
+# Temp screenshots & audit artifacts
+tmp_*.png
+tmp_*.bat
+tmp/
+tmp_responsive_audit/
+tmp_responsive_audit_auth/
+server*.log
+
+# OS
+Thumbs.db
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Backups
+project_backups/
+
+# Legacy Streamlit app (not part of BookVoice reader)
+app.py
+generated_audio/
+target_se.pth
+checkpoints/
+
+# Source PDFs at project root (content — not code)
+/*.pdf
+
+# Audio jobs & voice clones (large, generated content)
+library_data/jobs/
+library_data/voices/
+
+# Book source backups
+*backup*
+
+# Voice generation labs & models (large, not needed for reader)
+vendor/
+voicebox_lab/
+wsl_models/
+wsl_segments/
+scripts/
+
+# Internal docs & notes
+CLAUDE_HANDOFF_PROMPT.md
+PROJECT_AUDIT_*.md
+modelo_negocio_eugene_audio.md
+bussines
+
+# Legacy launchers (Streamlit)
+run_app.bat
