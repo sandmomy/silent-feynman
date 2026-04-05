@@ -3,7 +3,8 @@
 A high-end, high-performance executive landing page and project portal. Designed for maximum information density and premium visual impact, optimized for strategic consulting and global impact storytelling.
 
 ## 🚀 Live Environment
-**Production:** [https://sandmomy.github.io/silent-feynman/](https://sandmomy.github.io/silent-feynman/)
+**Production:** [https://eugenemierak.com](https://eugenemierak.com)
+**Hosted on:** Netlify + Cloudflare DNS
 
 ---
 

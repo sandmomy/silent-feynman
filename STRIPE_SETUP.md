@@ -13,7 +13,7 @@ To activate Stripe in production, create these products and prices in Stripe and
   - Monthly subscription
   - Currency: `EUR`
   - Amount: choose your entry point, for example `1500.00`
-- Vercel env var: `STRIPE_PRICE_ELITE_COACHING`
+- Netlify env var: `STRIPE_PRICE_ELITE_COACHING`
 - Internal service slug: `elite-coaching`
 
 Notes:
@@ -28,7 +28,7 @@ Notes:
   - One-time
   - Currency: `EUR`
   - Amount: choose the public booking deposit or full reservation amount
-- Vercel env var: `STRIPE_PRICE_OBSIDIAN_RETREATS`
+- Netlify env var: `STRIPE_PRICE_OBSIDIAN_RETREATS`
 - Internal service slug: `obsidian-retreats`
 
 Notes:
@@ -43,7 +43,7 @@ Notes:
   - One-time
   - Currency: `EUR`
   - Amount: choose your main enrollment amount, for example `3000.00`
-- Vercel env var: `STRIPE_PRICE_CERTIFICATION`
+- Netlify env var: `STRIPE_PRICE_CERTIFICATION`
 - Internal service slug: `certification`
 
 Notes:
@@ -74,7 +74,7 @@ Add these in the Vercel project:
 Recommended production value:
 
 ```text
-PUBLIC_SITE_URL=https://silent-feynman.vercel.app
+PUBLIC_SITE_URL=https://eugenemierak.com
 ```
 
 ## Stripe Webhook
@@ -82,7 +82,7 @@ PUBLIC_SITE_URL=https://silent-feynman.vercel.app
 Create a Stripe webhook endpoint pointing to:
 
 ```text
-https://silent-feynman.vercel.app/api/stripe/webhook
+https://eugenemierak.com/api/stripe/webhook
 ```
 
 Recommended events:
@@ -100,9 +100,9 @@ STRIPE_WEBHOOK_SECRET
 ## Quick Activation Checklist
 
 1. Create the three Stripe products/prices above.
-2. Copy each generated `price_...` ID into the matching Vercel env var.
+2. Copy each generated `price_...` ID into the matching Netlify env var.
 3. Add `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET`.
-4. Redeploy the project on Vercel.
+4. Redeploy the project on Netlify.
 5. Test:
    - `GET /api/stripe/catalog`
    - Click the three Stripe-backed CTAs on `services.html`
@@ -111,6 +111,6 @@ STRIPE_WEBHOOK_SECRET
 
 ## Current Deployment
 
-- Production site: `https://silent-feynman.vercel.app`
-- Services page: `https://silent-feynman.vercel.app/services.html`
-- Stripe catalog endpoint: `https://silent-feynman.vercel.app/api/stripe/catalog`
+- Production site: `https://eugenemierak.com`
+- Services page: `https://eugenemierak.com/services.html`
+- Stripe catalog endpoint: `https://eugenemierak.com/api/stripe/catalog`
