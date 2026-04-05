@@ -825,8 +825,8 @@
 
         toggle.addEventListener('click', async function(event) {
             event.stopPropagation();
-            setOpen(true);
             if (audio.paused) {
+                setOpen(true);
                 try {
                     await audio.play();
                     setState(true);
@@ -837,20 +837,18 @@
             } else {
                 audio.pause();
                 setState(false);
-                setOpen(false);
+                setTimeout(function() { setOpen(false); }, 150);
             }
         });
 
         audio.addEventListener('pause', function() {
-            if (!audio.ended) {
-                setState(false);
-                setOpen(false);
-            }
+            setState(false);
+            setTimeout(function() { setOpen(false); }, 150);
         });
 
         audio.addEventListener('ended', function() {
             setState(false);
-            setOpen(false);
+            setTimeout(function() { setOpen(false); }, 150);
         });
 
         document.addEventListener('click', function(event) {
