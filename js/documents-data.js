@@ -122,7 +122,7 @@ const DOCUMENTS_DATA = [
         categoryId: "food",
         categoryLabel: "🍴 Food Security",
         type: "PDF",
-        thumbnail: "assets/logo-eko-vitaris.svg",
+        thumbnail: "assets/thumbnails/eko_vitaris_en.png",
         description: "Expert in premium tropical products: coconuts, Modified Cassava Flour (Mocaf), and specialty coffee from Indonesia.",
         lat: -7.2575,
         lng: 112.7521 // Java, Indonesia
@@ -229,7 +229,7 @@ const DOCUMENTS_DATA = [
         categoryId: "investment",
         categoryLabel: "💰 Investment",
         type: "PDF",
-        thumbnail: "assets/logo-sbdi.webp",
+        thumbnail: "assets/thumbnails/business_plan_sbdi_sdg.png",
         description: "Business plan aligned with UN Sustainable Development Goals."
     },
     {
@@ -240,7 +240,7 @@ const DOCUMENTS_DATA = [
         categoryId: "investment",
         categoryLabel: "💰 Investment",
         type: "PDF",
-        thumbnail: "assets/hero-pose.jpg",
+        thumbnail: "assets/thumbnails/ppp_cooperative.png",
         description: "Framework for public-private partnership in cooperative ventures."
     },
     {
@@ -251,7 +251,7 @@ const DOCUMENTS_DATA = [
         categoryId: "investment",
         categoryLabel: "💰 Investment",
         type: "PDF",
-        thumbnail: "assets/karangasem-water-temple-palace-bali.jpg",
+        thumbnail: "assets/thumbnails/exclusive_gold_investment_event.png",
         description: "Exclusive investment event details and partnership opportunities."
     },
     {
@@ -262,7 +262,7 @@ const DOCUMENTS_DATA = [
         categoryId: "investment",
         categoryLabel: "💰 Investment",
         type: "PDF",
-        thumbnail: "assets/logo-sbdi.webp",
+        thumbnail: "assets/thumbnails/sbdi_center_foundation.png",
         description: "Foundation overview and strategic development objectives."
     },
     {
@@ -273,7 +273,7 @@ const DOCUMENTS_DATA = [
         categoryId: "investment",
         categoryLabel: "💰 Investment",
         type: "PDF",
-        thumbnail: "assets/logo-sbdi.webp",
+        thumbnail: "assets/thumbnails/sbdi_foundation_roadmap.png",
         description: "Strategic roadmap for foundation growth and impact."
     },
     {
@@ -308,7 +308,7 @@ const DOCUMENTS_DATA = [
         categoryId: "technology",
         categoryLabel: "⚡ Technology",
         type: "PDF",
-        thumbnail: "assets/earth-day.jpg",
+        thumbnail: "assets/thumbnails/magnetic_vertical_wind_turbine.png",
         description: "Innovative magnetic wind turbine design for efficient energy generation."
     },
     {
@@ -319,7 +319,7 @@ const DOCUMENTS_DATA = [
         categoryId: "technology",
         categoryLabel: "⚡ Technology",
         type: "PDF",
-        thumbnail: "assets/meditation-bg.png",
+        thumbnail: "assets/thumbnails/rijnenberg_vortex_theory.png",
         description: "Groundbreaking theoretical physics research on atomic vortex dynamics."
     },
 
@@ -332,8 +332,38 @@ const DOCUMENTS_DATA = [
         categoryId: "research",
         categoryLabel: "📚 Research",
         type: "PDF",
-        thumbnail: "assets/muhammed-a-mustapha-aaIsU06zWrg-unsplash.jpg",
+        thumbnail: "assets/thumbnails/wiseuse_rd_book.png",
         description: "Comprehensive R&D documentation on sustainable resource utilization."
+    },
+
+    // 🎓 Education & Social Impact
+    {
+        id: 29,
+        title: "KNB UNISMA 2026 — Fully Funded Scholarship",
+        filename: "Booklet_KNB_UNISMA_2026.pdf",
+        category: "education",
+        categoryId: "education",
+        categoryLabel: "🎓 Education",
+        type: "PDF",
+        thumbnail: "assets/thumbnails/knb_unisma.jpg",
+        description: "Fully funded scholarship program at Universitas Islam Malang (UNISMA), Indonesia. Covers tuition, living allowance, flights, and health insurance for Undergraduate & Master degrees.",
+        lat: -7.9666,
+        lng: 112.6326 // Malang, Indonesia
+    },
+
+
+
+    // 🌿 Wellness & Holistic Health
+    {
+        id: 31,
+        title: "Biozar Original — Natural Wellness from Venezuela",
+        category: "wellness",
+        categoryId: "wellness",
+        categoryLabel: "🌿 Wellness",
+        type: "VIDEO",
+        thumbnail: "assets/biozar-thumb.jpg",
+        description: "Biozar Original: a natural health supplement supporting immune, digestive, and nervous system balance. Trusted by practitioners for holistic recovery and well-being.",
+        externalUrl: "biozar-venezuela.html"
     }
 ];
 

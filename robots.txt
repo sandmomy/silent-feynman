@@ -1,4 +1,4 @@
-User-agent: *
+﻿User-agent: *
 Allow: /
+Sitemap: https://eugenemierak.netlify.app/sitemap.xml
 
-Sitemap: https://sandmomy.github.io/silent-feynman/sitemap.xml

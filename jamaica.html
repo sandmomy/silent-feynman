@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jamaica Pilot Project — Eugene Mierak</title>
+    <meta name="description"
+        content="Eugene Mierak's Jamaica Pilot Project — empowering communities through movement, discipline, and connection. A photo documentary of community transformation in Jamaica.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ===== BASE RESET ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #080c14; }
+        ::-webkit-scrollbar-thumb { background: #d4a855; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #e0ba6a; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #080c14;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        /* ===== TOP NAV BANNER (desktop) ===== */
+        .top-nav-banner {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 48px;
+            background: rgba(8, 12, 20, 0.97);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            overflow: visible !important;
+        }
+        .top-nav-container {
+            max-width: 1400px; width: 100%; margin: 0 auto;
+            padding: 0 2rem; display: flex;
+            justify-content: space-between; align-items: center;
+            overflow: visible !important;
+        }
+        .top-nav-brand {
+            font-family: 'Playfair Display', serif; font-size: 1.1rem;
+            font-style: italic; color: white; font-weight: 500;
+            text-decoration: none; white-space: nowrap;
+        }
+        .top-nav-links { display: flex; gap: 0.5rem; align-items: center; }
+        .top-nav-link {
+            padding: 0.4rem 1rem; font-size: 0.8rem; font-weight: 600;
+            color: rgba(255, 255, 255, 0.75); text-decoration: none;
+            border-radius: 6px; transition: all 0.3s ease;
+        }
+        .top-nav-link:hover { color: white; background: rgba(255, 255, 255, 0.1); }
+
+        .partners-dropdown-container { position: relative; }
+        .top-nav-partners-btn {
+            display: flex; align-items: center;
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+            color: white; border: none; cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+        .top-nav-partners-btn:hover,
+        .top-nav-partners-btn[aria-expanded="true"] {
+            background: linear-gradient(135deg, #0284c7 0%, #0891b2 100%);
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+            color: white;
+        }
+        .partners-dropdown-menu {
+            position: absolute; top: 100%; right: 0; margin-top: 12px;
+            width: 240px; background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            padding: 6px; display: none; flex-direction: column; gap: 2px;
+            z-index: 1010; transform-origin: top right;
+            animation: dropdownPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .partners-dropdown-menu.active { display: flex; }
+        @keyframes dropdownPop {
+            from { opacity: 0; transform: scale(0.95) translateY(-5px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .partners-dropdown-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 12px; color: rgba(255, 255, 255, 0.8);
+            text-decoration: none; font-size: 0.85rem; font-weight: 500;
+            border-radius: 8px; transition: all 0.2s ease;
+        }
+        .partners-dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.1); color: white;
+            transform: translateX(2px);
+        }
+        .partner-icon-img {
+            height: 28px; width: auto; max-width: 40px;
+            object-fit: contain; filter: brightness(1.1);
+        }
+
+        /* ===== MOBILE NAVBAR ===== */
+        .mobile-nav-bar {
+            display: none; position: fixed;
+            top: 0; left: 0; right: 0; z-index: 9999;
+            background: rgba(8, 12, 20, 0.97);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            height: 48px; align-items: center;
+            justify-content: space-between; padding: 0 16px;
+        }
+        .mobile-nav-bar .nav-links { display: flex; align-items: center; gap: 4px; }
+        .mobile-nav-bar .nav-link {
+            font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,0.7);
+            padding: 6px 10px; border-radius: 6px; white-space: nowrap;
+            text-decoration: none; transition: color 0.2s, background 0.2s;
+        }
+        .mobile-nav-bar .nav-link:active { color: #fff; background: rgba(255,255,255,0.08); }
+        .mobile-nav-bar .nav-partners-btn {
+            display: flex; align-items: center; gap: 6px; padding: 6px 12px;
+            border-radius: 6px; background: linear-gradient(135deg, #38bdf8, #06b6d4);
+            border: none; color: #fff; font-family: inherit; font-size: 11px;
+            font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+            cursor: pointer; transition: opacity 0.15s, transform 0.15s;
+            -webkit-appearance: none; appearance: none;
+        }
+        .mobile-nav-bar .nav-partners-btn:active { opacity: 0.85; transform: scale(0.97); }
+        .mobile-partners-panel {
+            display: none; position: fixed; top: 48px; right: 0; width: 220px;
+            background: rgba(8, 12, 20, 0.98); backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08);
+            border-top: none; border-radius: 0 0 0 14px; padding: 8px; z-index: 9998;
+            transform: translateY(-8px); opacity: 0; pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .mobile-partners-panel.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .mobile-partners-panel a {
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+            border-radius: 8px; font-size: 12px; font-weight: 600;
+            color: rgba(255,255,255,0.75); text-decoration: none; transition: background 0.15s;
+        }
+        .mobile-partners-panel a:active { background: rgba(255,255,255,0.08); }
+        .mobile-partners-panel img { height: 22px; width: auto; object-fit: contain; filter: brightness(1.3); }
+        .mobile-partners-overlay { display: none; position: fixed; inset: 0; z-index: 9997; }
+        .mobile-partners-overlay.open { display: block; }
+
+        @media (max-width: 992px) {
+            .top-nav-banner { display: none !important; }
+            .mobile-nav-bar { display: flex; }
+            .mobile-partners-panel { display: block; }
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        .hero-img {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            will-change: transform;
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(8, 12, 20, 0.1) 0%,
+                rgba(8, 12, 20, 0.2) 40%,
+                rgba(8, 12, 20, 0.7) 75%,
+                rgba(8, 12, 20, 1) 100%
+            );
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 0 24px 80px;
+            max-width: 900px;
+            animation: heroFadeIn 1.2s ease-out;
+        }
+        @keyframes heroFadeIn {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #d4a855;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+            transition: color 0.3s;
+        }
+        .hero-back:hover { color: #e0ba6a; }
+        .hero-back svg { transition: transform 0.3s; }
+        .hero-back:hover svg { transform: translateX(-4px); }
+        .hero-label {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #d4a855;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-weight: 700;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+        .hero-scroll {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px; height: 48px;
+            margin-top: 40px;
+            border: 2px solid rgba(212, 168, 85, 0.4);
+            border-radius: 50%;
+            animation: scrollPulse 2s ease-in-out infinite;
+            cursor: pointer;
+            transition: border-color 0.3s;
+            background: none;
+            color: rgba(212, 168, 85, 0.7);
+        }
+        .hero-scroll:hover { border-color: #d4a855; color: #d4a855; }
+        @keyframes scrollPulse {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
+        }
+
+        /* ===== SECTION LAYOUT ===== */
+        .section {
+            padding: 120px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-label {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #d4a855;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 16px;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 24px;
+            line-height: 1.15;
+        }
+        .section-text {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.65);
+            font-weight: 300;
+            max-width: 680px;
+            line-height: 1.8;
+        }
+        .section-divider {
+            width: 60px;
+            height: 2px;
+            background: #d4a855;
+            margin: 32px 0;
+        }
+
+        /* ===== FADE-IN ANIMATION ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .fade-in-delay-1 { transition-delay: 0.15s; }
+        .fade-in-delay-2 { transition-delay: 0.3s; }
+        .fade-in-delay-3 { transition-delay: 0.45s; }
+
+        /* ===== QUOTE SECTION (with ambient video bg) ===== */
+        .quote-section {
+            padding: 100px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .quote-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 200px; height: 1px;
+            background: linear-gradient(90deg, transparent, #d4a855, transparent);
+        }
+        .quote-section::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 200px; height: 1px;
+            background: linear-gradient(90deg, transparent, #d4a855, transparent);
+        }
+        .quote-mark {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            color: #d4a855;
+            line-height: 1;
+            opacity: 0.5;
+        }
+        .quote-text {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(1.4rem, 3vw, 2.2rem);
+            font-weight: 400;
+            line-height: 1.5;
+            max-width: 800px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* ===== NATURE GRID (The Place) ===== */
+        .nature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 48px;
+        }
+        .nature-grid .nature-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 4/3;
+        }
+        .nature-grid .nature-item:first-child {
+            grid-column: 1 / -1;
+            aspect-ratio: 21/9;
+        }
+        .nature-item img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .nature-item:hover img { transform: scale(1.05); }
+        .nature-item .photo-caption {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 24px 20px 16px;
+            background: linear-gradient(to top, rgba(8,12,20,0.8), transparent);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.85);
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+        .nature-item:hover .photo-caption { transform: translateY(0); }
+
+        /* ===== MASONRY GALLERY (The Practice / Community) ===== */
+        .masonry-grid {
+            columns: 3;
+            column-gap: 16px;
+            margin-top: 48px;
+        }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 16px;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+        }
+        .masonry-item img {
+            width: 100%; height: auto;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+        .masonry-item:hover img { transform: scale(1.04); }
+        .masonry-item .photo-caption {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 24px 16px 12px;
+            background: linear-gradient(to top, rgba(8,12,20,0.8), transparent);
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.85);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .masonry-item:hover .photo-caption { opacity: 1; }
+
+        /* ===== FULL-BLEED IMAGE ===== */
+        .full-bleed {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .full-bleed img {
+            width: 100%;
+            height: 60vh;
+            object-fit: cover;
+            display: block;
+        }
+        .full-bleed-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(8,12,20,0.6) 0%,
+                rgba(8,12,20,0.1) 30%,
+                rgba(8,12,20,0.1) 70%,
+                rgba(8,12,20,0.6) 100%
+            );
+        }
+
+        /* ===== VIDEO SECTION ===== */
+        .video-section {
+            padding: 120px 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .video-wrapper {
+            position: relative;
+            margin-top: 48px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        .video-wrapper video {
+            width: 100%;
+            display: block;
+            background: #000;
+        }
+        .video-vertical {
+            max-width: 400px;
+            margin: 48px auto 0;
+        }
+
+        /* ===== LIGHTBOX ===== */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(8, 12, 20, 0.95);
+            z-index: 99999;
+            align-items: center;
+            justify-content: center;
+            cursor: zoom-out;
+            padding: 48px;
+        }
+        .lightbox.active { display: flex; }
+        .lightbox img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            animation: lightboxIn 0.3s ease-out;
+        }
+        @keyframes lightboxIn {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 24px; right: 24px;
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: white;
+            font-size: 1.4rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+        .lightbox-close:hover { background: rgba(255,255,255,0.2); }
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+        .lightbox-nav:hover { background: rgba(255,255,255,0.2); }
+        .lightbox-prev { left: 24px; }
+        .lightbox-next { right: 24px; }
+
+        /* ===== FOOTER ===== */
+        .page-footer {
+            padding: 60px 24px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .footer-text {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.4);
+        }
+        .footer-link {
+            color: #d4a855;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-link:hover { color: #e0ba6a; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .section { padding: 80px 20px; }
+            .nature-grid { grid-template-columns: 1fr; }
+            .nature-grid .nature-item:first-child { aspect-ratio: 16/9; }
+            .masonry-grid { columns: 2; column-gap: 10px; }
+            .masonry-item { margin-bottom: 10px; }
+            .hero-content { padding: 0 20px 60px; }
+            .quote-section { padding: 60px 20px; }
+            .video-section { padding: 80px 20px; }
+            .full-bleed img { height: 40vh; }
+            .lightbox { padding: 24px; }
+            .lightbox-prev { left: 12px; }
+            .lightbox-next { right: 12px; }
+        }
+        @media (max-width: 480px) {
+            .masonry-grid { columns: 1; }
+            .hero { min-height: 500px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ============ MOBILE NAVBAR (same as mobile.html) ============ -->
+    <nav class="mobile-nav-bar">
+        <div class="nav-links">
+            <a href="mobile.html" class="nav-link">Home</a>
+            <a href="event.html" class="nav-link">Events</a>
+            <a href="mobile.html#contact" class="nav-link">Contact</a>
+        </div>
+        <button class="nav-partners-btn" id="mobilePartnersBtn" aria-expanded="false" aria-label="Partners menu">
+            Partners
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </button>
+    </nav>
+    <div class="mobile-partners-overlay" id="mobilePartnersOverlay"></div>
+    <div class="mobile-partners-panel" id="mobilePartnersPanel">
+        <a href="vegaqura.html"><img src="assets/logo-vegaqura.png" alt="Vegaqura" loading="lazy"> Vegaqura</a>
+        <a href="sdbi-center.html"><img src="assets/logo-sbdi.webp" alt="SBDI" loading="lazy"> SBDI Center</a>
+        <a href="wiseuse.html"><img src="assets/wiseuse-pyramid.png" alt="WiseUse" loading="lazy"> WiseUse International</a>
+        <a href="eko-vitaris.html"><img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" loading="lazy"> Eko Vitaris</a>
+        <a href="mariposa-batu.html"><img src="assets/logo-mariposa-batu.png" alt="Mariposa Batu" loading="lazy" style="border-radius:4px;"> Mariposa Batu</a>
+        <a href="biozar-venezuela.html"><img src="assets/logo-biozar.png" alt="Biozar" loading="lazy"> Biozar Venezuela</a>
+    </div>
+
+    <!-- TOP NAV BANNER (desktop) -->
+    <nav class="top-nav-banner">
+        <div class="top-nav-container">
+            <a href="index.html" class="top-nav-brand">Frequency Vibes&trade;</a>
+            <div class="top-nav-links">
+                <a href="index.html" class="top-nav-link">Home</a>
+                <a href="projects.html" class="top-nav-link">Projects</a>
+                <a href="index.html#contact" class="top-nav-link">Get in Touch</a>
+                <div class="partners-dropdown-container">
+                    <button class="top-nav-link top-nav-partners-btn" id="partnersBtn" aria-expanded="false">
+                        PARTNERS
+                        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left: 6px;">
+                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <div class="partners-dropdown-menu" id="partnersDropdown">
+                        <a href="vegaqura.html" class="partners-dropdown-item">
+                            <img src="assets/logo-vegaqura.png" alt="Vegaqura" class="partner-icon-img"> Vegaqura
+                        </a>
+                        <a href="sdbi-center.html" class="partners-dropdown-item">
+                            <img src="assets/logo-sbdi.webp" alt="SBDI" class="partner-icon-img"> SBDI Center
+                        </a>
+                        <a href="wiseuse.html" class="partners-dropdown-item">
+                            <img src="assets/wiseuse-pyramid.png" alt="WiseUse" class="partner-icon-img"> WiseUse International
+                        </a>
+                        <a href="eko-vitaris.html" class="partners-dropdown-item">
+                            <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-icon-img"> Eko Vitaris
+                        </a>
+                        <a href="mariposa-batu.html" class="partners-dropdown-item">
+                            <img src="assets/logo-mariposa-batu.png" alt="Mariposa Batu" class="partner-icon-img" style="border-radius:4px;"> Mariposa Batu
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+        <img src="assets/jamaica/hero-sunset-pool.jpg" alt="Eugene looking out at sunset over the mountains of Jamaica" class="hero-img" id="heroImg" loading="eager">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <a href="projects.html" class="hero-back">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back to Projects
+            </a>
+            <div class="hero-label">Community Pilot Program</div>
+            <h1>Jamaica Pilot Project</h1>
+            <p class="hero-subtitle">Transforming communities through movement, discipline, and human connection in the heart of the Caribbean.</p>
+            <button class="hero-scroll" onclick="document.getElementById('vision').scrollIntoView({behavior:'smooth'})" aria-label="Scroll down">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <polyline points="19 12 12 19 5 12"></polyline>
+                </svg>
+            </button>
+        </div>
+    </section>
+
+    <!-- ===== THE VISION ===== -->
+    <section class="section" id="vision">
+        <div class="fade-in">
+            <span class="section-label">01 / The Vision</span>
+            <h2 class="section-title">A Blueprint for Change</h2>
+            <div class="section-divider"></div>
+            <p class="section-text">
+                The Jamaica Pilot Project is Eugene Mierak's hands-on initiative to empower underserved communities through structured physical training, mindfulness, and mentorship. Set in the mountains of Jamaica, the program brings together children, families, and local leaders to build discipline, resilience, and lasting bonds through the universal language of movement.
+            </p>
+        </div>
+    </section>
+
+    <!-- ===== FULL BLEED: Silhouette ===== -->
+    <div class="full-bleed fade-in">
+        <img src="assets/jamaica/silhouette-sunset.jpg" alt="Eugene silhouette against vibrant Jamaican sunset" loading="lazy">
+        <div class="full-bleed-overlay"></div>
+    </div>
+
+    <!-- ===== QUOTE ===== -->
+    <section class="quote-section fade-in">
+        <div class="quote-mark">&ldquo;</div>
+        <p class="quote-text">Empowering communities through movement, discipline, and connection.</p>
+    </section>
+
+    <!-- ===== THE PLACE ===== -->
+    <section class="section" id="place">
+        <div class="fade-in">
+            <span class="section-label">02 / The Place</span>
+            <h2 class="section-title">Jamaica's Natural Paradise</h2>
+            <div class="section-divider"></div>
+            <p class="section-text">
+                Nestled between lush mountains, crystal rivers, and the turquoise Caribbean Sea, Jamaica provides the perfect backdrop for transformation. Nature itself becomes part of the practice.
+            </p>
+        </div>
+        <div class="nature-grid fade-in fade-in-delay-1">
+            <div class="nature-item" data-lightbox>
+                <img src="assets/jamaica/beach-turquoise.jpg" alt="Turquoise Caribbean waters off the Jamaican coast" loading="lazy">
+                <div class="photo-caption">Caribbean Sea, Jamaica</div>
+            </div>
+            <div class="nature-item" data-lightbox>
+                <img src="assets/jamaica/waterfall.jpg" alt="Waterfall cascading through tropical jungle" loading="lazy">
+                <div class="photo-caption">Jungle Waterfall</div>
+            </div>
+            <div class="nature-item" data-lightbox>
+                <img src="assets/jamaica/crystal-river.jpg" alt="Crystal clear river through lush Jamaican forest" loading="lazy">
+                <div class="photo-caption">Mountain River</div>
+            </div>
+            <div class="nature-item" data-lightbox>
+                <img src="assets/jamaica/green-lagoon.jpg" alt="Emerald green lagoon surrounded by tropical trees" loading="lazy">
+                <div class="photo-caption">Blue Lagoon</div>
+            </div>
+            <div class="nature-item" data-lightbox>
+                <img src="assets/jamaica/beach-tree.jpg" alt="Tropical beach paradise in Jamaica" loading="lazy">
+                <div class="photo-caption">Tropical Shore</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FULL BLEED: Group Class Wide ===== -->
+    <div class="full-bleed fade-in">
+        <img src="assets/jamaica/group-class-wide.jpg" alt="Wide shot of Eugene leading a group training session in Jamaica" loading="lazy">
+        <div class="full-bleed-overlay"></div>
+    </div>
+
+    <!-- ===== THE PRACTICE ===== -->
+    <section class="section" id="practice">
+        <div class="fade-in">
+            <span class="section-label">03 / The Practice</span>
+            <h2 class="section-title">Movement as Medicine</h2>
+            <div class="section-divider"></div>
+            <p class="section-text">
+                From sunrise yoga to martial arts at sunset, each session is designed to build physical strength, mental clarity, and community trust. The open-air mountain platform becomes a dojo, a stage, and a sanctuary.
+            </p>
+        </div>
+        <div class="masonry-grid fade-in fade-in-delay-1">
+            <div class="masonry-item" data-lightbox>
+                <img src="assets/jamaica/yoga-group.jpg" alt="Group yoga class on open-air mountain platform at sunset" loading="lazy">
+                <div class="photo-caption">Sunset Yoga Session</div>
+            </div>
+            <div class="masonry-item" data-lightbox>
+                <img src="assets/jamaica/martial-arts-kick.jpg" alt="Group martial arts kicks silhouetted against sunset" loading="lazy">
+                <div class="photo-caption">Martial Arts at Sunset</div>
+            </div>
+            <div class="masonry-item" data-lightbox>
+                <img src="assets/jamaica/closeup-punch.jpg" alt="Close-up of Eugene punching with focused intensity" loading="lazy">
+                <div class="photo-caption">Focus and Power</div>
+            </div>
+            <div class="masonry-item" data-lightbox>
+                <img src="assets/jamaica/eugene-cobra.jpg" alt="Eugene performing cobra yoga pose" loading="lazy">
+                <div class="photo-caption">Cobra Pose</div>
+            </div>
+            <div class="masonry-item" data-lightbox>
+                <img src="assets/jamaica/teaching-kids.jpg" alt="Eugene teaching kids martial arts stance in the mountains" loading="lazy">
+                <div class="photo-caption">Teaching the Next Generation</div>
+            </div>
+            <div class="masonry-item" data-lightbox>
+                <img src="assets/jamaica/eugene-plank.jpg" alt="Eugene doing plank exercise" loading="lazy">
+                <div class="photo-caption">Leading by Example</div>
+            </div>
+            <div class="masonry-item" data-lightbox>
+                <img src="assets/jamaica/group-rings.jpg" alt="Training session framed through gymnastics rings" loading="lazy">
+                <div class="photo-caption">Rings Training</div>
+            </div>
+            <div class="masonry-item" data-lightbox>
+                <img src="assets/jamaica/bw-group-training.jpg" alt="Black and white silhouettes of group training at sunset" loading="lazy">
+                <div class="photo-caption">Silhouettes of Strength</div>
+            </div>
+            <div class="masonry-item" data-lightbox>
+                <img src="assets/jamaica/full-group.jpg" alt="Full group training session in Jamaica" loading="lazy">
+                <div class="photo-caption">The Full Group</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FULL BLEED: Sunset Pool Wide ===== -->
+    <div class="full-bleed fade-in">
+        <img src="assets/jamaica/sunset-pool-wide.jpg" alt="Wide sunset over the pool and mountain landscape" loading="lazy">
+        <div class="full-bleed-overlay"></div>
+    </div>
+
+    <!-- ===== THE COMMUNITY ===== -->
+    <section class="section" id="community">
+        <div class="fade-in">
+            <span class="section-label">04 / The Community</span>
+            <h2 class="section-title">Bonds That Last</h2>
+            <div class="section-divider"></div>
+            <p class="section-text">
+                At its core, the Jamaica Pilot Project is about people. Children discovering their potential, families growing stronger together, and a community finding its voice through shared practice and purpose.
+            </p>
+        </div>
+        <div class="masonry-grid fade-in fade-in-delay-1">
+            <div class="masonry-item" data-lightbox>
+                <img src="assets/jamaica/kids-meditation.jpg" alt="Children sitting in meditation circle with Eugene on the platform" loading="lazy">
+                <div class="photo-caption">Kids Meditation Circle</div>
+            </div>
+            <div class="masonry-item" data-lightbox>
+                <img src="assets/jamaica/eugene-child.jpg" alt="Eugene holding and playing with a small child" loading="lazy">
+                <div class="photo-caption">A Moment of Joy</div>
+            </div>
+            <div class="masonry-item" data-lightbox>
+                <img src="assets/jamaica/kid-smiling.jpg" alt="Close-up of a smiling child doing push-ups" loading="lazy">
+                <div class="photo-caption">Pure Determination</div>
+            </div>
+            <div class="masonry-item" data-lightbox>
+                <img src="assets/jamaica/family-training.jpg" alt="Family training together — mom, dad, and child" loading="lazy">
+                <div class="photo-caption">Family Strength</div>
+            </div>
+            <div class="masonry-item" data-lightbox>
+                <img src="assets/jamaica/stretching-kids.jpg" alt="Eugene stretching with kids on mats" loading="lazy">
+                <div class="photo-caption">Stretching Together</div>
+            </div>
+            <div class="masonry-item" data-lightbox>
+                <img src="assets/jamaica/kids-stretching.jpg" alt="Kids stretching during training" loading="lazy">
+                <div class="photo-caption">Future Leaders</div>
+            </div>
+            <div class="masonry-item" data-lightbox>
+                <img src="assets/jamaica/eugene-beach.jpg" alt="Eugene at the beach in Jamaica" loading="lazy">
+                <div class="photo-caption">Eugene in Jamaica</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== VIDEO SECTION ===== -->
+    <section class="video-section fade-in" id="video">
+        <span class="section-label">05 / In Motion</span>
+        <h2 class="section-title">Feel the Frequency</h2>
+        <div class="section-divider" style="margin: 24px auto;"></div>
+        <div class="video-wrapper">
+            <video controls preload="metadata" poster="assets/frequency-vibes-poster.jpg">
+                <source src="assets/frequency-vibes-video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="page-footer">
+        <p class="footer-text">
+            <a href="projects.html" class="footer-link">Back to Projects</a>
+            &nbsp;&middot;&nbsp;
+            <a href="index.html" class="footer-link">Home</a>
+            &nbsp;&middot;&nbsp;
+            <a href="index.html#contact" class="footer-link">Contact</a>
+        </p>
+        <p class="footer-text" style="margin-top: 16px;">
+            &copy; 2026 Eugene Mierak. All rights reserved.
+        </p>
+    </footer>
+
+    <!-- ===== LIGHTBOX ===== -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+        <button class="lightbox-nav lightbox-prev" aria-label="Previous photo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+        <img src="" alt="Full size photo" id="lightboxImg">
+        <button class="lightbox-nav lightbox-next" aria-label="Next photo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </button>
+    </div>
+
+    <script>
+        // ====== Parallax Hero ======
+        (function() {
+            var heroImg = document.getElementById('heroImg');
+            if (!heroImg) return;
+            var ticking = false;
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    requestAnimationFrame(function() {
+                        var scrollY = window.pageYOffset;
+                        if (scrollY < window.innerHeight) {
+                            heroImg.style.transform = 'translateY(' + (scrollY * 0.35) + 'px) scale(1.05)';
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+        })();
+
+        // ====== Scroll Fade-In (IntersectionObserver) ======
+        (function() {
+            var els = document.querySelectorAll('.fade-in');
+            if (!('IntersectionObserver' in window)) {
+                els.forEach(function(el) { el.classList.add('visible'); });
+                return;
+            }
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+            els.forEach(function(el) { observer.observe(el); });
+        })();
+
+        // ====== Lightbox ======
+        (function() {
+            var lightbox = document.getElementById('lightbox');
+            var lightboxImg = document.getElementById('lightboxImg');
+            var items = document.querySelectorAll('[data-lightbox] img');
+            var sources = [];
+            var currentIndex = 0;
+
+            items.forEach(function(img, i) {
+                sources.push(img.src);
+                img.parentElement.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    currentIndex = i;
+                    openLightbox(sources[currentIndex]);
+                });
+            });
+
+            function openLightbox(src) {
+                lightboxImg.src = src;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+                lightboxImg.src = '';
+            }
+
+            function navigate(dir) {
+                currentIndex = (currentIndex + dir + sources.length) % sources.length;
+                lightboxImg.src = sources[currentIndex];
+            }
+
+            lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+            lightbox.querySelector('.lightbox-prev').addEventListener('click', function(e) {
+                e.stopPropagation();
+                navigate(-1);
+            });
+            lightbox.querySelector('.lightbox-next').addEventListener('click', function(e) {
+                e.stopPropagation();
+                navigate(1);
+            });
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === lightbox) closeLightbox();
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (!lightbox.classList.contains('active')) return;
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') navigate(-1);
+                if (e.key === 'ArrowRight') navigate(1);
+            });
+        })();
+
+        // ====== Desktop Partners Dropdown ======
+        (function() {
+            var btn = document.getElementById('partnersBtn');
+            var dropdown = document.getElementById('partnersDropdown');
+            if (!btn || !dropdown) return;
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var open = dropdown.classList.toggle('active');
+                btn.setAttribute('aria-expanded', open);
+            });
+            document.addEventListener('click', function() {
+                dropdown.classList.remove('active');
+                btn.setAttribute('aria-expanded', 'false');
+            });
+        })();
+
+        // ====== Mobile Partners Dropdown ======
+        (function() {
+            var btn = document.getElementById('mobilePartnersBtn');
+            var panel = document.getElementById('mobilePartnersPanel');
+            var overlay = document.getElementById('mobilePartnersOverlay');
+            if (!btn || !panel) return;
+            function toggle() {
+                var open = panel.classList.toggle('open');
+                overlay.classList.toggle('open', open);
+                btn.setAttribute('aria-expanded', open);
+            }
+            function close() {
+                panel.classList.remove('open');
+                overlay.classList.remove('open');
+                btn.setAttribute('aria-expanded', 'false');
+            }
+            btn.addEventListener('click', toggle);
+            overlay.addEventListener('click', close);
+            panel.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', close); });
+        })();
+    </script>
+    <script src="js/main.js" defer></script>
+</body>
+
+</html>

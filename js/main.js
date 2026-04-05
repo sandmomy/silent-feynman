@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // ============================================
 function initSmoothScroll() {
     // Skip Lenis on mobile — native scroll handles touch better
-    var isMobile = ('ontouchstart' in window) || window.innerWidth <= 992;
+    var isMobile = ('ontouchstart' in window) || window.innerWidth <= 1024;
     if (isMobile) return;
 
     if (window.lenis) return;
@@ -26,9 +26,9 @@ function initSmoothScroll() {
 
     try {
         const lenis = new Lenis({
-            lerp: 0.18,
-            wheelMultiplier: 1.0,
-            touchMultiplier: 1.4,
+            lerp: 0.14,
+            wheelMultiplier: 0.92,
+            touchMultiplier: 1.2,
             smoothWheel: true,
             syncTouch: false,
         });
@@ -65,7 +65,7 @@ function initHeroGlobe() {
     const earthTexture = 'assets/optimized/earth-day.480w.webp';
 
     const rect = globeContainer.getBoundingClientRect();
-    const isMobile = window.innerWidth <= 992;
+    const isMobile = window.innerWidth <= 1024;
     const mobileSize = 165;
     const initialSize = isMobile ? mobileSize : Math.max(Math.min(rect.width, rect.height || 400), 150);
 
@@ -189,7 +189,7 @@ function initHeroGlobe() {
 
     const syncGlobeSizeToContainer = () => {
         const rect = globeContainer.getBoundingClientRect();
-        const isMobileViewport = window.innerWidth <= 992;
+        const isMobileViewport = window.innerWidth <= 1024;
 
         if (isMobileViewport) {
             const mobileSize = Math.max(150, Math.min(170, Math.round(rect.width) || 0));
@@ -227,7 +227,7 @@ function initHeroGlobe() {
     globeContainer.style.transform = 'scale(1)';
     globeContainer.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
 
-    const isMobileDevice = window.innerWidth <= 992;
+    const isMobileDevice = window.innerWidth <= 1024;
     let frameCount = 0;
 
     function startRendering() {
@@ -366,8 +366,15 @@ function initNavigation() {
 // ============================================
 function initScrollEffects() {
     const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-    }, { threshold: 0.1 });
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+        });
+    }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -48px 0px'
+    });
 
     document.querySelectorAll('.section-title, .stat-card, .project-card').forEach(el => {
         el.classList.add('fade-in');
@@ -414,70 +421,49 @@ function initCountrySlider() {
     const slides = slider.querySelectorAll('.country-slide');
     if (slides.length === 0) return;
 
-    const countryImages = {
-        Indonesia: [
-            'assets/optimized/karangasem-water-temple-palace-bali.800w.webp',
-            'assets/optimized/bali-pagoda-indonesia.800w.webp',
-            'assets/optimized/pexels-maxravier-2253818.800w.webp'
-        ],
-        Nigeria: [
-            'assets/optimized/ahmad-jaafar-toQTkWFvWyo-unsplash.800w.webp',
-            'assets/optimized/muhammed-a-mustapha-aaIsU06zWrg-unsplash.800w.webp',
-            'assets/optimized/ovinuchi-ejiohuo-q4U9Pyfz-vQ-unsplash.800w.webp'
-        ],
-        Kenya: [
-            'assets/optimized/ahmed-qinawy-9Ia_6613pYk-unsplash.800w.webp',
-            'assets/optimized/murad-swaleh-7tDidSXbgD8-unsplash.800w.webp',
-            'assets/optimized/ab-saf-sgFNwIc51lM-unsplash.800w.webp'
-        ]
-    };
+    const dots = document.querySelectorAll('.slider-dot');
+    const locationEl = document.querySelector('.slide-location');
+    const locationNames = ['Yogyakarta', 'Malang & Batu', 'Bali', 'Sumba'];
+    let currentIndex = 0;
 
-    // Preload images
-    Object.values(countryImages).flat().forEach(url => {
-        const img = new Image();
-        img.src = url;
-    });
-
-    let currentCountryIndex = 0;
-    let currentImageIndex = 0;
-
-    function getCountryName(slide) {
-        const labelSub = slide.querySelector('.country-label-sub');
-        return (labelSub ? labelSub.textContent : '').trim();
-    }
-
-    function setSlideImage(slide, imageIndex) {
-        const img = slide.querySelector('img');
-        if (!img) return;
-        const country = getCountryName(slide);
-        const images = countryImages[country];
-        if (!images || images.length === 0) return;
-        img.src = images[imageIndex % images.length];
-        img.alt = `${country} - Events`;
-    }
-
-    function showCountry(index) {
-        slides.forEach((slide, i) => {
+    function showSlide(index) {
+        slides.forEach(function(slide, i) {
             slide.classList.toggle('active', i === index);
         });
-        setSlideImage(slides[index], currentImageIndex);
-    }
-
-    function nextFrame() {
-        currentCountryIndex = (currentCountryIndex + 1) % slides.length;
-        if (currentCountryIndex === 0) {
-            currentImageIndex = (currentImageIndex + 1) % 3;
+        dots.forEach(function(dot, i) {
+            dot.classList.toggle('active', i === index);
+        });
+        if (locationEl) {
+            locationEl.style.opacity = '0';
+            setTimeout(function() {
+                locationEl.textContent = locationNames[index] || '';
+                locationEl.style.opacity = '1';
+            }, 300);
         }
-        showCountry(currentCountryIndex);
     }
 
-    showCountry(currentCountryIndex);
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % slides.length;
+        showSlide(currentIndex);
+    }
 
-    let rotateInterval;
-    const startRotate = () => { rotateInterval = setInterval(nextFrame, 3000); };
-    const stopRotate = () => { clearInterval(rotateInterval); };
+    // Click on dots to navigate
+    dots.forEach(function(dot, i) {
+        dot.addEventListener('click', function() {
+            currentIndex = i;
+            showSlide(currentIndex);
+            stopRotate();
+            startRotate();
+        });
+    });
 
-    document.addEventListener('visibilitychange', () => {
+    showSlide(currentIndex);
+
+    var rotateInterval;
+    var startRotate = function() { rotateInterval = setInterval(nextSlide, 4000); };
+    var stopRotate = function() { clearInterval(rotateInterval); };
+
+    document.addEventListener('visibilitychange', function() {
         if (document.hidden) stopRotate();
         else startRotate();
     });
@@ -496,12 +482,13 @@ function initFadeAnimations() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
             }
         });
     }, {
         root: null,
-        rootMargin: '0px 0px -100px 0px',
-        threshold: 0.1
+        rootMargin: '0px 0px -72px 0px',
+        threshold: 0.12
     });
 
     fadeElements.forEach(el => observer.observe(el));

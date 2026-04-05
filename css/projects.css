@@ -405,12 +405,14 @@ html.lenis {
 }
 
 .hero-title .word-work {
-    font-family: 'Permanent Marker', cursive;
-    font-size: clamp(3.5rem, 9vw, 6.5rem);
+    font-family: 'Tangerine', 'Cormorant Garamond', cursive;
+    font-size: clamp(5rem, 12vw, 9rem);
+    font-weight: 700;
     text-transform: none;
     letter-spacing: 0.02em;
     color: white;
     display: block;
+    line-height: 1.1;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -1354,6 +1356,246 @@ html.lenis {
 }
 
 /* ========================================
+   FEATURED CHAPTERS — Editorial Cards
+   ======================================== */
+.chapters-section {
+    background: linear-gradient(180deg, #0a0e18 0%, #0d1117 40%, #0a0e18 100%);
+    padding: 6rem 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.chapters-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(100,181,246,0.15), transparent);
+}
+
+.chapters-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+}
+
+.chapters-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.chapters-label {
+    display: inline-block;
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: .75rem;
+}
+
+.chapters-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 400;
+    color: #fff;
+    letter-spacing: -.01em;
+    margin: 0;
+}
+
+.chapters-rule {
+    width: 48px;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+    margin: 1.5rem auto 0;
+}
+
+/* --- Card --- */
+.chapter-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    margin-bottom: 4rem;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .7s ease, transform .7s ease;
+}
+
+.chapter-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.chapter-card:last-child {
+    margin-bottom: 0;
+}
+
+.chapter-card--reverse {
+    direction: rtl;
+}
+
+.chapter-card--reverse > * {
+    direction: ltr;
+}
+
+/* Media side */
+.chapter-media {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 12px 48px rgba(0,0,0,.5);
+}
+
+.chapter-video-wrap {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+}
+
+.chapter-video-wrap iframe,
+.chapter-video-wrap video {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+    display: block;
+}
+
+.chapter-img-wrap {
+    aspect-ratio: 16/10;
+    overflow: hidden;
+}
+
+.chapter-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .5s ease;
+}
+
+.chapter-card:hover .chapter-img-wrap img {
+    transform: scale(1.04);
+}
+
+/* Body side */
+.chapter-body {
+    padding: 1rem 0;
+}
+
+.chapter-num {
+    display: inline-block;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 400;
+    color: rgba(100,181,246,0.18);
+    line-height: 1;
+    margin-bottom: .75rem;
+    letter-spacing: -.02em;
+}
+
+.chapter-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+    font-weight: 500;
+    color: #fff;
+    margin: 0 0 .75rem;
+    letter-spacing: -.01em;
+}
+
+.chapter-desc {
+    color: rgba(255,255,255,0.5);
+    font-size: .88rem;
+    line-height: 1.7;
+    margin: 0 0 1.5rem;
+    max-width: 400px;
+}
+
+.chapter-actions {
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+}
+
+.chapter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 20px;
+    border-radius: 6px;
+    font-size: .8rem;
+    font-weight: 600;
+    letter-spacing: .03em;
+    cursor: pointer;
+    transition: all .25s ease;
+    text-decoration: none;
+    background: none;
+    font-family: inherit;
+}
+
+.chapter-btn--outline {
+    border: 1px solid rgba(100,181,246,0.3);
+    color: #64b5f6;
+    background: rgba(100,181,246,0.06);
+}
+
+.chapter-btn--outline:hover {
+    background: rgba(100,181,246,0.14);
+    border-color: rgba(100,181,246,0.5);
+    transform: translateY(-1px);
+}
+
+.chapter-btn--gold {
+    border: 1px solid rgba(212,168,85,0.4);
+    color: #d4a855;
+    background: rgba(212,168,85,0.08);
+}
+
+.chapter-btn--gold:hover {
+    background: rgba(212,168,85,0.18);
+    border-color: rgba(212,168,85,0.6);
+    transform: translateY(-1px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .chapters-section {
+        padding: 4rem 1.25rem;
+    }
+
+    .chapter-card,
+    .chapter-card--reverse {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        direction: ltr;
+    }
+
+    .chapter-body {
+        padding: 0;
+    }
+
+    .chapter-num {
+        font-size: 2rem;
+        margin-bottom: .5rem;
+    }
+
+    .chapter-desc {
+        max-width: 100%;
+    }
+
+    .chapters-header {
+        margin-bottom: 2.5rem;
+    }
+
+    .chapter-card {
+        margin-bottom: 3rem;
+    }
+}
+
+/* ========================================
    PROJECTS DASHBOARD - Professional Design
    ======================================== */
 .projects-dashboard {
@@ -1649,15 +1891,13 @@ html.lenis {
 }
 
 .project-title {
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     font-weight: 600;
     color: #ffffff;
     margin: 0 0 0.5rem 0;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    line-height: 1.35;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .project-description {
@@ -1984,22 +2224,17 @@ html.lenis {
         width: 100%;
     }
 
-    .hero-left,
-    .hero-right {
+    .hero-left {
         width: 100%;
         padding: 0 var(--spacing-6);
         justify-content: center;
         text-align: center;
-    }
-
-    .hero-left {
         padding-top: var(--spacing-8);
     }
 
-    .hero-right .featured-section {
-        transform: none;
-        /* Remove desktop offset */
-        max-width: 100%;
+    /* Hide PDF slider on mobile — doesn't work well at small sizes */
+    .hero-right {
+        display: none !important;
     }
 
     .hero-title {
@@ -2278,7 +2513,7 @@ html.lenis {
 
     .project-card {
         border-radius: 12px;
-        height: 70px;
+        min-height: 80px;
         overflow: hidden;
         position: relative;
         display: flex;
@@ -2332,21 +2567,28 @@ html.lenis {
         color: white;
         padding: 0.5rem 1.25rem;
         border-radius: 8px;
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        white-space: nowrap;
-        max-width: 85%;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        white-space: normal;
+        max-width: 95%;
+        text-align: center;
+        line-height: 1.2;
+        padding: 0.35rem 1.5rem;
         box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         z-index: 10;
     }
 
+    .project-card {
+        height: auto;
+        min-height: 80px;
+        padding: 0.5rem 0;
+    }
+
     .project-title {
-        font-size: 0.95rem;
-        -webkit-line-clamp: 2;
+        font-size: 0.85rem;
+        line-height: 1.3;
     }
 
     .project-description {
@@ -2437,7 +2679,7 @@ html.lenis {
     }
 
     .project-title {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
     }
 }
 
@@ -2565,9 +2807,7 @@ html.lenis {
     color: white;
     font-weight: 600;
     max-width: 500px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    word-break: break-word;
 }
 
 .modal-actions {
@@ -2737,123 +2977,114 @@ html.lenis {
    MOBILE SLIDER BANNER - Al final para máxima prioridad
    ============================================================ */
 @media screen and (max-width: 768px) {
-    /* Banner slider al fondo del hero */
     body.showcase-page .hero-split-wrapper .hero-right,
-    body.showcase-page .hero-right {
-        all: unset !important;
-        position: absolute !important;
-        bottom: -50px !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-        height: auto !important;
-        z-index: 100 !important;
-        display: block !important;
-        background: #0a0a0f !important;
-    }
-
-    body.showcase-page .hero-right .featured-section {
-        all: unset !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        width: 100% !important;
-        background: transparent !important;
-    }
-
-    body.showcase-page .hero-right .slideshow-container,
-    body.showcase-page .slideshow-container {
-        all: unset !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        width: 100% !important;
-        background: transparent !important;
-    }
-
-    body.showcase-page .hero-right .slide {
+    body.showcase-page .hero-right,
+    .hero-right {
         display: none !important;
     }
+}
 
-    body.showcase-page .hero-right .slide.active {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
-        text-align: center !important;
-        padding: 1.5rem 1.5rem !important;
-        min-height: 220px !important;
-        border-radius: 0 !important;
-        border: none !important;
-        box-shadow: none !important;
-        background-size: cover !important;
-        background-position: center !important;
-        position: relative !important;
-        width: 100% !important;
+/* ====== PERSONAL PRACTICE / RETREATS ====== */
+.retreat-gallery-section {
+    padding: var(--spacing-16) clamp(1rem, 5vw, 4rem);
+    background: #0f0f0f;
+    position: relative;
+    z-index: 10;
+    margin-bottom: var(--spacing-12);
+}
+
+.retreat-description {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto 3.5rem auto;
+    text-align: center;
+}
+
+.retreat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 250px 250px;
+    gap: 1.5rem;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.retreat-item {
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    background: #1a1a1a;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.retreat-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+}
+
+.retreat-item img,
+.retreat-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+}
+
+.retreat-item:hover img,
+.retreat-item:hover video {
+    transform: scale(1.04);
+}
+
+/* Asymmetrical CSS Grid Spans */
+.retreat-video {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+}
+.retreat-item:nth-child(2) {
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
+}
+.retreat-item:nth-child(2) img {
+    object-position: center 15%;
+}
+.retreat-item:nth-child(3) {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+}
+
+@media (max-width: 992px) {
+    .retreat-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
     }
-
-    /* Overlay sutil para legibilidad del texto */
-    body.showcase-page .hero-right .slide.active::before {
-        content: '' !important;
-        position: absolute !important;
-        inset: 0 !important;
-        background: rgba(0,0,0,0.3) !important;
-        z-index: 0 !important;
+    .retreat-video {
+        grid-column: 1;
+        aspect-ratio: 16/9;
+        height: auto;
     }
-
-    body.showcase-page .hero-right .slide.active > * {
-        position: relative !important;
-        z-index: 1 !important;
+    .retreat-item:nth-child(2),
+    .retreat-item:nth-child(3) {
+        grid-column: 1;
+        height: 300px;
     }
+}
 
-    body.showcase-page .hero-right .slide-content {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        gap: 0.4rem !important;
-        text-shadow: none !important;
-        background: none !important;
+@media (max-width: 640px) {
+    .retreat-gallery-section {
+        padding: var(--spacing-12) clamp(1rem, 5vw, 1.5rem);
     }
-
-    body.showcase-page .hero-right .slide-category {
-        font-size: 0.7rem !important;
-        justify-content: center !important;
-        text-shadow: none !important;
+    .retreat-grid {
+        gap: 1rem;
     }
-
-    body.showcase-page .hero-right .slide-title {
-        font-size: 1.1rem !important;
-        text-align: center !important;
-        text-shadow: none !important;
+    .retreat-item:nth-child(2),
+    .retreat-item:nth-child(3) {
+        height: 250px;
     }
-
-    body.showcase-page .hero-right .slide-description {
-        font-size: 0.8rem !important;
-        text-align: center !important;
-        -webkit-line-clamp: 2 !important;
-        text-shadow: none !important;
-    }
-
-    body.showcase-page .hero-right .slide-actions {
-        display: flex !important;
-        gap: 0.5rem !important;
-        justify-content: center !important;
-        width: 100% !important;
-    }
-
-    body.showcase-page .hero-right .slide-btn {
-        padding: 0.6rem 1rem !important;
-        font-size: 0.75rem !important;
-        border-radius: 8px !important;
-    }
-
-    /* Ocultar controles en móvil - usar swipe */
-    body.showcase-page .hero-right .slideshow-controls {
-        display: none !important;
-    }
-
-    /* Ocultar "Featured Insights" header en móvil */
-    body.showcase-page .hero-right .slide-featured-header {
-        display: none !important;
+    .retreat-description {
+        margin-bottom: 2rem;
+        text-align: left;
     }
 }

@@ -3,7 +3,7 @@
  */
 
 // Featured projects IDs (the 4 most important)
-const FEATURED_IDS = [4, 11, 18, 26];
+const FEATURED_IDS = [4, 11, 18, 26, 29];
 
 let currentSlide = 0;
 let slideInterval = null;
@@ -38,6 +38,16 @@ const CATEGORY_INFO = {
         icon: '📚',
         name: 'Research',
         description: 'In-depth research and academic publications covering sustainable development, economic analysis, and social impact studies. Evidence-based insights for policy and decision-making.'
+    },
+    education: {
+        icon: '🎓',
+        name: 'Education',
+        description: 'Scholarship programs, academic partnerships, and educational development initiatives connecting international students with Indonesian universities and cultural exchange opportunities.'
+    },
+    wellness: {
+        icon: '🌿',
+        name: 'Wellness',
+        description: 'Holistic health initiatives, natural wellness products, and integrative well-being practices supporting physical, emotional, and mental balance through natural approaches.'
     }
 };
 
@@ -295,7 +305,7 @@ function initProjectsDashboard() {
         grouped[doc.category].push(doc);
     });
 
-    const categoryOrder = ['sustainability', 'food', 'realestate', 'investment', 'technology', 'research'];
+    const categoryOrder = ['sustainability', 'food', 'realestate', 'investment', 'technology', 'research', 'education', 'wellness'];
     const defaultCategory = categoryOrder[0];
 
     // Render filter tabs (no "All" option - show one category at a time)
@@ -358,8 +368,35 @@ function renderProjects(projects) {
 
     if (emptyState) emptyState.style.display = 'none';
 
-    gallery.innerHTML = projects.map(doc => `
-        <div class="project-card" data-title="${escapeQuotes(doc.title)}" onclick="openProjectModal('${escapeQuotes(doc.title)}', '${escapeQuotes(doc.filename)}')">
+    gallery.innerHTML = projects.map(doc => {
+        const isExternal = !!doc.externalUrl;
+        const clickAction = isExternal
+            ? `window.open('${doc.externalUrl}', '_blank')`
+            : `openProjectModal('${escapeQuotes(doc.title)}', '${escapeQuotes(doc.filename)}')`;
+        const viewAction = isExternal
+            ? `event.stopPropagation(); window.open('${doc.externalUrl}', '_blank')`
+            : `event.stopPropagation(); openModal('${escapeQuotes(doc.title)}', '${escapeQuotes(doc.filename)}')`;
+        const filePath = isExternal ? doc.externalUrl : `${DOCUMENTS_BASE_PATH}${doc.filename}`;
+        const viewLabel = isExternal ? 'Open' : 'View';
+        const downloadHTML = isExternal ? '' : `
+                        <a href="${DOCUMENTS_BASE_PATH}${doc.filename}" class="thumb-btn thumb-btn-secondary" download onclick="event.stopPropagation()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                        </a>`;
+        const footerDownloadHTML = isExternal ? '' : `
+                    <a href="${DOCUMENTS_BASE_PATH}${doc.filename}" class="action-btn" download onclick="event.stopPropagation()" title="Download">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                    </a>`;
+
+        return `
+        <div class="project-card" data-title="${escapeQuotes(doc.title)}" onclick="${clickAction}">
             <div class="project-thumbnail">
                 ${doc.thumbnail
                     ? `<img src="${doc.thumbnail}" alt="${escapeQuotes(doc.title)}" loading="lazy">`
@@ -371,20 +408,14 @@ function renderProjects(projects) {
                 </div>
                 <div class="project-thumbnail-overlay">
                     <div class="thumbnail-actions">
-                        <button class="thumb-btn thumb-btn-primary" onclick="event.stopPropagation(); openModal('${escapeQuotes(doc.title)}', '${escapeQuotes(doc.filename)}')">
+                        <button class="thumb-btn thumb-btn-primary" onclick="${viewAction}">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                                 <circle cx="12" cy="12" r="3"/>
                             </svg>
-                            View
+                            ${viewLabel}
                         </button>
-                        <a href="${DOCUMENTS_BASE_PATH}${doc.filename}" class="thumb-btn thumb-btn-secondary" download onclick="event.stopPropagation()">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                                <polyline points="7 10 12 15 17 10"/>
-                                <line x1="12" y1="15" x2="12" y2="3"/>
-                            </svg>
-                        </a>
+                        ${downloadHTML}
                     </div>
                 </div>
             </div>
@@ -404,23 +435,18 @@ function renderProjects(projects) {
                     </div>
                 </div>
                 <div class="project-actions">
-                    <button class="action-btn" onclick="event.stopPropagation(); openModal('${escapeQuotes(doc.title)}', '${escapeQuotes(doc.filename)}')" title="View">
+                    <button class="action-btn" onclick="${viewAction}" title="${viewLabel}">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                             <circle cx="12" cy="12" r="3"/>
                         </svg>
                     </button>
-                    <a href="${DOCUMENTS_BASE_PATH}${doc.filename}" class="action-btn" download onclick="event.stopPropagation()" title="Download">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                            <polyline points="7 10 12 15 17 10"/>
-                            <line x1="12" y1="15" x2="12" y2="3"/>
-                        </svg>
-                    </a>
+                    ${footerDownloadHTML}
                 </div>
             </div>
         </div>
-    `).join('');
+    `;
+    }).join('');
 
     // Apply current view
     gallery.classList.toggle('list-view', currentView === 'list');
@@ -434,7 +460,7 @@ function openProjectModal(title, filename) {
 // UTILITIES
 // ============================================
 function getDocIcon(type) {
-    const icons = { 'PDF': '📄', 'PPTX': '📊', 'DOCX': '📝' };
+    const icons = { 'PDF': '📄', 'PPTX': '📊', 'DOCX': '📝', 'VIDEO': '🎬' };
     return icons[type] || '📄';
 }
 

@@ -187,6 +187,9 @@
             color: rgba(255, 255, 255, 0.25);
             z-index: 100;
             transition: color 0.5s ease;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            will-change: transform;
         }
 
         /* Scroll hint */
@@ -390,8 +393,10 @@
                 windowHalfY = window.innerHeight / 2;
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 composer.setSize(window.innerWidth, window.innerHeight);
+                try { if (particleMaterial) particleMaterial.uniforms.viewportHeight.value = window.innerHeight; } catch(e) {}
             }
 
             document.addEventListener('mousemove', onDocumentMouseMove, false);
@@ -455,13 +460,13 @@
                 {
                     label: 'SBDI & MISSION',
                     title: 'Global\nImpact',
-                    body: "Director of International Relationships\nfor the SBDI Foundation—fostering\nglobal partnerships for holistic sustainability\nand regenerative development.\nBridging frequency awareness with\nconscious international cooperation\nfor lasting planetary impact.",
+                    body: "Director of International Relationships\nfor the SBDI Foundation-fostering\nglobal partnerships for holistic sustainability\nand regenerative development.\nBridging frequency awareness with\nconscious international cooperation\nfor lasting planetary impact.",
                     symbol: 'metatron'
                 },
                 {
                     label: 'MY MISSION',
                     title: 'Sustainable\nImpact',
-                    body: "My mission: coherent, sustainable\nprojects through frequency awareness\nand conscious international cooperation—\ncreating lasting impact\nfor communities and the planet.",
+                    body: "My mission: coherent, sustainable\nprojects through frequency awareness\nand conscious international cooperation-\ncreating lasting impact\nfor communities and the planet.",
                     symbol: 'torus'
                 }
             ];
@@ -1248,18 +1253,21 @@
                 uniforms: {
                     pointTexture: { value: createParticleTexture() },
                     baseSize: { value: 2.2 }, // Partículas más pequeñas pero más densas
-                    opacity: { value: 0.05 } // v22: partículas como aura etérea (REDUCIDO DE 0.10)
+                    opacity: { value: 0.05 }, // v22: partículas como aura etérea (REDUCIDO DE 0.10)
+                    viewportHeight: { value: window.innerHeight }
                 },
                 vertexShader: `
                     attribute float size;
                     attribute vec3 color;
                     varying vec3 vColor;
                     uniform float baseSize;
+                    uniform float viewportHeight;
                     void main() {
                         vColor = color;
                         vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-                        gl_PointSize = size * baseSize * (300.0 / -mvPosition.z);
-                        gl_PointSize = clamp(gl_PointSize, 1.0, 15.0);
+                        float scaleFactor = sqrt(viewportHeight / 2160.0);
+                        gl_PointSize = size * baseSize * scaleFactor * (300.0 / -mvPosition.z);
+                        gl_PointSize = clamp(gl_PointSize, 0.5, 12.0);
                         gl_Position = projectionMatrix * mvPosition;
                     }
                 `,

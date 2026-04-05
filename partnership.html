@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SBDI Center Partnership | Eugine - Strategic Partner</title>
+    <title>SBDI Center Partnership | Eugene Mierak</title>
     <meta name="description"
-        content="Eugine is a proud strategic partner of SBDI Center, committed to improving education, entrepreneurship and social ecosystems through sustainable development.">
+        content="Eugene Mierak is a strategic partner of SBDI Center, advancing education, entrepreneurship, and social ecosystems through sustainable development.">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1050,7 +1050,7 @@
                 <span>Official Partner</span>
             </div>
             <h1>
-                Eugine × <span class="highlight">SBDI Center</span>
+                Eugene × <span class="highlight">SBDI Center</span>
             </h1>
             <p class="hero-subtitle">Sustainable Business Development & Innovation</p>
             <p class="hero-description">
@@ -1189,7 +1189,7 @@
             <div class="partnership-text">
                 <h2>Our Partnership with SBDI</h2>
                 <p>
-                    As a strategic partner of SBDI Center, Eugine is committed to
+                    As a strategic partner of SBDI Center, Eugene is committed to
                     supporting sustainable business development initiatives across
                     developing regions. Together, we're building a more equitable
                     and sustainable future.
@@ -1263,7 +1263,7 @@
             and developing nations. Get in touch to learn how you can be part of this change.
         </p>
         <div class="cta-buttons">
-            <a href="mailto:contact@eugine.com" class="btn btn-primary">Contact Eugine</a>
+            <a href="mailto:mierak1970@gmail.com" class="btn btn-primary">Contact Eugene</a>
             <a href="https://sbdifoundation.org/contact" target="_blank" class="btn btn-outline">Contact SBDI Center</a>
         </div>
     </section>
@@ -1274,7 +1274,7 @@
             <div class="footer-logo">
                 <img src="assets/logo-sbdi.webp" alt="SBDI Center"
                     style="height: 40px; margin-right: 15px; background: white; border-radius: 50%;">
-                <span>Eugine × SBDI Center</span>
+                <span>Eugene × SBDI Center</span>
             </div>
             <div class="footer-links">
                 <a href="index.html">Home</a>
@@ -1282,7 +1282,7 @@
                 <a href="#partnership">Partnership</a>
                 <a href="https://sbdifoundation.org" target="_blank">SBDI Official</a>
             </div>
-            <p class="footer-copy">© 2026 Eugine. Strategic Partner of SBDI Center.</p>
+            <p class="footer-copy">© 2026 Eugene. Strategic Partner of SBDI Center.</p>
         </div>
     </footer>
 
@@ -1290,21 +1290,22 @@
         // Scroll Reveal Animation
         document.addEventListener('DOMContentLoaded', function () {
             const reveals = document.querySelectorAll('.reveal');
-
-            const revealOnScroll = function () {
-                const windowHeight = window.innerHeight;
-                const elementVisible = 150;
-
-                reveals.forEach((reveal) => {
-                    const elementTop = reveal.getBoundingClientRect().top;
-                    if (elementTop < windowHeight - elementVisible) {
-                        reveal.classList.add('active');
-                    }
+            if (!reveals.length) return;
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (!entry.isIntersecting) return;
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    });
+                }, {
+                    threshold: 0.12,
+                    rootMargin: '0px 0px -48px 0px'
                 });
-            };
-
-            window.addEventListener('scroll', revealOnScroll);
-            revealOnScroll(); // Trigger once on load
+                reveals.forEach((reveal) => observer.observe(reveal));
+            } else {
+                reveals.forEach((reveal) => reveal.classList.add('active'));
+            }
         });
     </script>
 </body>

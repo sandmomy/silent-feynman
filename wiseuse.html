@@ -82,9 +82,14 @@
             margin: 0 auto;
             padding: 0 2rem;
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             align-items: center;
             overflow: visible !important;
+        }
+        .top-nav-brand {
+            font-family: 'Playfair Display', serif; font-size: 1.1rem;
+            font-style: italic; color: white; font-weight: 500;
+            text-decoration: none; white-space: nowrap;
         }
 
         .top-nav-links {
@@ -1475,14 +1480,98 @@
             opacity: 1;
             transform: translateY(0);
         }
+        /* ===== MOBILE NAVBAR (matching mobile.html) ===== */
+        .mobile-nav-bar {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 9999;
+            background: rgba(8, 12, 20, 0.97);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            height: 48px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            font-size: 16px;
+        }
+        .mobile-nav-bar .nav-links { display: flex; align-items: center; gap: 4px; }
+        .mobile-nav-bar .nav-link {
+            font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,0.7);
+            padding: 6px 10px; border-radius: 6px; white-space: nowrap;
+            text-decoration: none; transition: color 0.2s, background 0.2s;
+        }
+        .mobile-nav-bar .nav-link:active { color: #fff; background: rgba(255,255,255,0.08); }
+        .mobile-nav-bar .nav-partners-btn {
+            display: flex; align-items: center; gap: 6px; padding: 6px 12px;
+            border-radius: 6px; background: linear-gradient(135deg, #38bdf8, #06b6d4);
+            border: none; color: #fff; font-family: inherit; font-size: 11px;
+            font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+            cursor: pointer; transition: opacity 0.15s, transform 0.15s;
+            -webkit-appearance: none; appearance: none;
+        }
+        .mobile-nav-bar .nav-partners-btn:active { opacity: 0.85; transform: scale(0.97); }
+        .mobile-partners-panel {
+            display: none; position: fixed; top: 48px; right: 0; width: 220px;
+            background: rgba(8, 12, 20, 0.98); backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08);
+            border-top: none; border-radius: 0 0 0 14px; padding: 8px; z-index: 9998;
+            transform: translateY(-8px); opacity: 0; pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .mobile-partners-panel.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .mobile-partners-panel a {
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+            border-radius: 8px; font-size: 12px; font-weight: 600;
+            color: rgba(255,255,255,0.75); text-decoration: none; transition: background 0.15s;
+        }
+        .mobile-partners-panel a:active { background: rgba(255,255,255,0.08); }
+        .mobile-partners-panel img { height: 22px; width: auto; object-fit: contain; filter: brightness(1.3); }
+        .mobile-partners-overlay { display: none; position: fixed; inset: 0; z-index: 9997; }
+        .mobile-partners-overlay.open { display: block; }
+
+        @media (max-width: 768px) {
+            .top-nav-banner { display: none !important; }
+            .mobile-nav-bar { display: flex; }
+            .mobile-partners-panel { display: block; }
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- Top Navigation Banner (same as index.html) -->
+    <!-- ============ MOBILE NAVBAR (same as mobile.html) ============ -->
+    <nav class="mobile-nav-bar">
+        <div class="nav-links">
+            <a href="mobile.html" class="nav-link">Home</a>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="event.html" class="nav-link">Events</a>
+            <a href="mobile.html#contact" class="nav-link">Contact</a>
+        </div>
+        <button class="nav-partners-btn" id="mobilePartnersBtn" aria-expanded="false" aria-label="Partners menu">
+            Partners
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </button>
+    </nav>
+    <div class="mobile-partners-overlay" id="mobilePartnersOverlay"></div>
+    <div class="mobile-partners-panel" id="mobilePartnersPanel">
+        <a href="vegaqura.html"><img src="assets/logo-vegaqura.png" alt="Vegaqura" loading="lazy"> Vegaqura</a>
+        <a href="sdbi-center.html"><img src="assets/logo-sbdi.webp" alt="SBDI" loading="lazy"> SBDI Center</a>
+        <a href="wiseuse.html"><img src="assets/wiseuse-pyramid.png" alt="WiseUse" loading="lazy"> WiseUse International</a>
+        <a href="eko-vitaris.html"><img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" loading="lazy"> Eko Vitaris</a>
+        <a href="mariposa-batu.html"><img src="assets/logo-mariposa-batu.png" alt="Mariposa Batu" loading="lazy" style="border-radius:4px;"> Mariposa Batu</a>
+        <a href="biozar-venezuela.html"><img src="assets/logo-biozar.png" alt="Biozar" loading="lazy"> Biozar Venezuela</a>
+    </div>
+
+    <!-- Top Navigation Banner (desktop) -->
     <nav class="top-nav-banner">
         <div class="top-nav-container">
+            <a href="index.html" class="top-nav-brand">Frequency Vibes&trade;</a>
             <button class="mobile-menu-btn" aria-label="Toggle Menu">
                 <span></span>
                 <span></span>
@@ -1516,6 +1605,10 @@
                             <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-icon-img"> Eko
                             Vitaris
                         </a>
+                        <a href="mariposa-batu.html" class="partners-dropdown-item">
+                            <img src="assets/logo-mariposa-batu.png" alt="Mariposa Batu" class="partner-icon-img" style="border-radius:4px;"> Mariposa Batu
+                        </a>
+                        <a href="biozar-venezuela.html" class="partners-dropdown-item"><img src="assets/logo-biozar.png" alt="Biozar" class="partner-icon-img"> Biozar Venezuela</a>
                     </div>
                 </div>
             </div>
@@ -1948,7 +2041,7 @@
         </div>
         <footer class="site-footer">
             <div class="footer-row">
-                <p>&copy; 2025 Wise Use International B.V. &mdash; Netherlands</p>
+                <p>&copy; 2026 Wise Use International B.V. &mdash; Netherlands</p>
                 <nav class="footer-nav">
                     <a href="mailto:info@wise-use.nl">info@wise-use.nl</a>
                     <a href="tel:+31621150151">+31 6 2115 0151</a>
@@ -1970,12 +2063,29 @@
         document.querySelectorAll('.reveal').forEach(function (el) { observer.observe(el); });
 
         // Partners dropdown logic moved to main.js
+
+        // ====== Mobile Partners Dropdown ======
+        (function() {
+            var btn = document.getElementById('mobilePartnersBtn');
+            var panel = document.getElementById('mobilePartnersPanel');
+            var overlay = document.getElementById('mobilePartnersOverlay');
+            if (!btn || !panel) return;
+            function toggle() {
+                var open = panel.classList.toggle('open');
+                overlay.classList.toggle('open', open);
+                btn.setAttribute('aria-expanded', open);
+            }
+            function close() {
+                panel.classList.remove('open');
+                overlay.classList.remove('open');
+                btn.setAttribute('aria-expanded', 'false');
+            }
+            btn.addEventListener('click', toggle);
+            overlay.addEventListener('click', close);
+            panel.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', close); });
+        })();
     </script>
-
-</body>
-
-
-<script src="js/main.js" defer></script>
+    <script src="js/main.js" defer></script>
 </body>
 
 </html>

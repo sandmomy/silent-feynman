@@ -1,0 +1,215 @@
+/* ==========================================================================
+   CONTACT SECTION OVERHAUL
+   ========================================================================== */
+
+/* Layout & Grid Integration */
+.contact-split-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 2rem;
+    /* Reduced gap */
+    align-items: stretch;
+    width: 100%;
+    max-width: 900px;
+    /* Constrain overall width to make cards smaller */
+    margin: 2rem auto 0 auto;
+    /* Center the constrained layout */
+}
+
+@media (max-width: 900px) {
+    .contact-split-layout {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+/* Solid Module Enhancements (Specific to contact) */
+.contact-form-container,
+.contact-info-container>.contact-card {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #080b13;
+    /* Solid dark color matching the theme */
+    box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+    /* Slightly sharper corners */
+    padding: 1.5rem;
+    /* Significantly reduced from 2.5rem */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-form-container:hover {
+    box-shadow: 0 8px 30px 0 rgba(201, 165, 92, 0.08), inset 0 0 0 1px rgba(201, 165, 92, 0.3);
+    transform: translateY(-2px);
+}
+
+.contact-info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    /* Reduced from 2rem */
+}
+
+/* Form Elements Styling */
+.premium-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.form-group {
+    position: relative;
+    width: 100%;
+}
+
+.form-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1rem 1rem 0.4rem 1rem;
+    /* Compact padding */
+    font-size: 0.95rem;
+    /* Slightly smaller text */
+    color: #fff;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--color-gold);
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 0 0 4px rgba(201, 165, 92, 0.1);
+}
+
+textarea.form-input {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Floating Labels */
+.form-label {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.4);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    pointer-events: none;
+}
+
+textarea~.form-label {
+    top: 1.2rem;
+    transform: none;
+}
+
+/* Float label logic: When focused or when input corresponds to not-empty (using placeholder-shown trick) */
+.form-input:focus~.form-label,
+.form-input:not(:placeholder-shown)~.form-label {
+    top: 0.3rem;
+    transform: none;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-gold);
+}
+
+/* Submit Button */
+.submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background: linear-gradient(135deg, rgba(201, 165, 92, 0.15) 0%, rgba(201, 165, 92, 0.05) 100%);
+    border: 1px solid var(--color-gold);
+    color: var(--color-gold);
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    margin-top: 0.5rem;
+    overflow: hidden;
+    position: relative;
+    font-family: inherit;
+    text-transform: uppercase;
+}
+
+.submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(201, 165, 92, 0.2), transparent);
+    transition: left 0.6s ease;
+}
+
+.submit-btn:hover {
+    background: var(--color-gold);
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(201, 165, 92, 0.2);
+}
+
+.submit-btn:hover::before {
+    left: 100%;
+}
+
+.submit-btn svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.3s ease;
+}
+
+.submit-btn:hover svg {
+    transform: translate(3px, -3px);
+}
+
+/* Refined Contact Info Column */
+.item-text-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.contact-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 600;
+}
+
+.contact-text {
+    font-size: 1.05rem;
+    color: #fff;
+    font-weight: 400;
+}
+
+.compact-contact-item {
+    padding: 1.2rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.compact-contact-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(201, 165, 92, 0.3);
+    transform: translateX(5px);
+}
+
+.location-item:hover {
+    transform: none;
+    /* Keep location static */
+    border-color: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.02);
+}

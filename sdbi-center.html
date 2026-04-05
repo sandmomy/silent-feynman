@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SBDI Center Partnership | Eugine - Strategic Partner</title>
+    <title>SBDI Center Partnership | Eugene Mierak</title>
     <meta name="description"
-        content="Eugine is a proud strategic partner of SBDI Center, committed to improving education, entrepreneurship and social ecosystems through sustainable development.">
+        content="Eugene Mierak is a strategic partner of SBDI Center, advancing education, entrepreneurship, and social ecosystems through sustainable development.">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -110,9 +110,14 @@
             margin: 0 auto;
             padding: 0 2rem;
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             align-items: center;
             overflow: visible !important;
+        }
+        .top-nav-brand {
+            font-family: 'Playfair Display', serif; font-size: 1.1rem;
+            font-style: italic; color: white; font-weight: 500;
+            text-decoration: none; white-space: nowrap;
         }
 
         .top-nav-links {
@@ -1303,14 +1308,97 @@
             transform: translateY(0);
             opacity: 1;
         }
+        /* ===== MOBILE NAVBAR (matching mobile.html) ===== */
+        .mobile-nav-bar {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 9999;
+            background: rgba(8, 12, 20, 0.97);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            height: 48px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+        }
+        .mobile-nav-bar .nav-links { display: flex; align-items: center; gap: 4px; }
+        .mobile-nav-bar .nav-link {
+            font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,0.7);
+            padding: 6px 10px; border-radius: 6px; white-space: nowrap;
+            text-decoration: none; transition: color 0.2s, background 0.2s;
+        }
+        .mobile-nav-bar .nav-link:active { color: #fff; background: rgba(255,255,255,0.08); }
+        .mobile-nav-bar .nav-partners-btn {
+            display: flex; align-items: center; gap: 6px; padding: 6px 12px;
+            border-radius: 6px; background: linear-gradient(135deg, #38bdf8, #06b6d4);
+            border: none; color: #fff; font-family: inherit; font-size: 11px;
+            font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+            cursor: pointer; transition: opacity 0.15s, transform 0.15s;
+            -webkit-appearance: none; appearance: none;
+        }
+        .mobile-nav-bar .nav-partners-btn:active { opacity: 0.85; transform: scale(0.97); }
+        .mobile-partners-panel {
+            display: none; position: fixed; top: 48px; right: 0; width: 220px;
+            background: rgba(8, 12, 20, 0.98); backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08);
+            border-top: none; border-radius: 0 0 0 14px; padding: 8px; z-index: 9998;
+            transform: translateY(-8px); opacity: 0; pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .mobile-partners-panel.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .mobile-partners-panel a {
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+            border-radius: 8px; font-size: 12px; font-weight: 600;
+            color: rgba(255,255,255,0.75); text-decoration: none; transition: background 0.15s;
+        }
+        .mobile-partners-panel a:active { background: rgba(255,255,255,0.08); }
+        .mobile-partners-panel img { height: 22px; width: auto; object-fit: contain; filter: brightness(1.3); }
+        .mobile-partners-overlay { display: none; position: fixed; inset: 0; z-index: 9997; }
+        .mobile-partners-overlay.open { display: block; }
+
+        @media (max-width: 768px) {
+            .top-nav-banner { display: none !important; }
+            .mobile-nav-bar { display: flex; }
+            .mobile-partners-panel { display: block; }
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- TOP NAV BANNER (same as index.html) -->
+    <!-- ============ MOBILE NAVBAR (same as mobile.html) ============ -->
+    <nav class="mobile-nav-bar">
+        <div class="nav-links">
+            <a href="mobile.html" class="nav-link">Home</a>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="event.html" class="nav-link">Events</a>
+            <a href="mobile.html#contact" class="nav-link">Contact</a>
+        </div>
+        <button class="nav-partners-btn" id="mobilePartnersBtn" aria-expanded="false" aria-label="Partners menu">
+            Partners
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </button>
+    </nav>
+    <div class="mobile-partners-overlay" id="mobilePartnersOverlay"></div>
+    <div class="mobile-partners-panel" id="mobilePartnersPanel">
+        <a href="vegaqura.html"><img src="assets/logo-vegaqura.png" alt="Vegaqura" loading="lazy"> Vegaqura</a>
+        <a href="sdbi-center.html"><img src="assets/logo-sbdi.webp" alt="SBDI" loading="lazy"> SBDI Center</a>
+        <a href="wiseuse.html"><img src="assets/wiseuse-pyramid.png" alt="WiseUse" loading="lazy"> WiseUse International</a>
+        <a href="eko-vitaris.html"><img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" loading="lazy"> Eko Vitaris</a>
+        <a href="mariposa-batu.html"><img src="assets/logo-mariposa-batu.png" alt="Mariposa Batu" loading="lazy" style="border-radius:4px;"> Mariposa Batu</a>
+        <a href="biozar-venezuela.html"><img src="assets/logo-biozar.png" alt="Biozar" loading="lazy"> Biozar Venezuela</a>
+    </div>
+
+    <!-- TOP NAV BANNER (desktop) -->
     <nav class="top-nav-banner">
         <div class="top-nav-container">
+            <a href="index.html" class="top-nav-brand">Frequency Vibes&trade;</a>
             <button class="mobile-menu-btn" aria-label="Toggle Menu">
                 <span></span>
                 <span></span>
@@ -1344,6 +1432,10 @@
                             <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-icon-img"> Eko
                             Vitaris
                         </a>
+                        <a href="mariposa-batu.html" class="partners-dropdown-item">
+                            <img src="assets/logo-mariposa-batu.png" alt="Mariposa Batu" class="partner-icon-img" style="border-radius:4px;"> Mariposa Batu
+                        </a>
+                        <a href="biozar-venezuela.html" class="partners-dropdown-item"><img src="assets/logo-biozar.png" alt="Biozar" class="partner-icon-img"> Biozar Venezuela</a>
                     </div>
                 </div>
             </div>
@@ -1374,7 +1466,7 @@
                 <span>Official Partner</span>
             </div>
             <h1>
-                Eugine × <span class="highlight">SBDI Center</span>
+                Eugene × <span class="highlight">SBDI Center</span>
             </h1>
             <p class="hero-subtitle">Sustainable Business Development & Innovation</p>
             <p class="hero-description">
@@ -1531,7 +1623,7 @@
             <div class="partnership-text">
                 <h2>Our Partnership with SBDI</h2>
                 <p>
-                    As a strategic partner of SBDI Center, Eugine is committed to
+                    As a strategic partner of SBDI Center, Eugene is committed to
                     supporting sustainable business development initiatives across
                     developing regions. Together, we're building a more equitable
                     and sustainable future.
@@ -1605,7 +1697,7 @@
             and developing nations. Get in touch to learn how you can be part of this change.
         </p>
         <div class="cta-buttons">
-            <a href="mailto:contact@eugine.com" class="btn btn-primary">Contact Eugine</a>
+            <a href="mailto:mierak1970@gmail.com" class="btn btn-primary">Contact Eugene</a>
             <a href="https://sbdifoundation.org/contact" target="_blank" class="btn btn-outline">Contact SBDI Center</a>
         </div>
     </section>
@@ -1616,7 +1708,7 @@
             <div class="footer-logo">
                 <img src="assets/logo-sbdi.webp" alt="SBDI Center"
                     style="height: 40px; margin-right: 15px; background: white; border-radius: 50%;">
-                <span>Eugine × SBDI Center</span>
+                <span>Eugene × SBDI Center</span>
             </div>
             <div class="footer-links">
                 <a href="index.html">Home</a>
@@ -1624,7 +1716,7 @@
                 <a href="#partnership">Partnership</a>
                 <a href="https://sbdifoundation.org" target="_blank">SBDI Official</a>
             </div>
-            <p class="footer-copy">© 2026 Eugine. Strategic Partner of SBDI Center.</p>
+            <p class="footer-copy">© 2026 Eugene. Strategic Partner of SBDI Center.</p>
         </div>
     </footer>
 
@@ -1634,22 +1726,43 @@
         // Scroll Reveal Animation
         document.addEventListener('DOMContentLoaded', function () {
             const reveals = document.querySelectorAll('.reveal');
-
-            const revealOnScroll = function () {
-                const windowHeight = window.innerHeight;
-                const elementVisible = 150;
-
-                reveals.forEach((reveal) => {
-                    const elementTop = reveal.getBoundingClientRect().top;
-                    if (elementTop < windowHeight - elementVisible) {
-                        reveal.classList.add('active');
-                    }
+            if (!reveals.length) return;
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (!entry.isIntersecting) return;
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    });
+                }, {
+                    threshold: 0.12,
+                    rootMargin: '0px 0px -48px 0px'
                 });
-            };
-
-            window.addEventListener('scroll', revealOnScroll);
-            revealOnScroll(); // Trigger once on load
+                reveals.forEach((reveal) => observer.observe(reveal));
+            } else {
+                reveals.forEach((reveal) => reveal.classList.add('active'));
+            }
         });
+        // ====== Mobile Partners Dropdown ======
+        (function() {
+            var btn = document.getElementById('mobilePartnersBtn');
+            var panel = document.getElementById('mobilePartnersPanel');
+            var overlay = document.getElementById('mobilePartnersOverlay');
+            if (!btn || !panel) return;
+            function toggle() {
+                var open = panel.classList.toggle('open');
+                overlay.classList.toggle('open', open);
+                btn.setAttribute('aria-expanded', open);
+            }
+            function close() {
+                panel.classList.remove('open');
+                overlay.classList.remove('open');
+                btn.setAttribute('aria-expanded', 'false');
+            }
+            btn.addEventListener('click', toggle);
+            overlay.addEventListener('click', close);
+            panel.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', close); });
+        })();
     </script>
     <script src="js/main.js" defer></script>
 </body>

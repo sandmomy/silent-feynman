@@ -8,11 +8,17 @@
 
     <!-- SEO Meta Tags -->
     <meta name="description"
-        content="Eugene Mierak — Frequency practitioner and Director of International Relationships at the SBDI Foundation, advancing holistic sustainability through global collaboration.">
+        content="Eugene Mierak ï¿½ Frequency practitioner and Director of International Relationships at the SBDI Foundation, advancing holistic sustainability through global collaboration.">
     <meta name="keywords"
         content="Eugene Mierak, frequency practitioner, alignment, sustainability, SBDI Foundation, global partnerships">
     <!-- Force Update: 2026-02-07 22:38 -->
-    <script>if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; window.scrollTo(0, 0);</script>
+    <script>
+      // Redirect mobile users to mobile.html
+      if (/Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768) {
+        window.location.replace('mobile.html');
+      }
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; window.scrollTo(0, 0);
+    </script>
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
@@ -21,15 +27,16 @@
         content="Frequency practitioner and Director of International Relationships at the SBDI Foundation, advancing holistic sustainability.">
     <meta property="og:site_name" content="Eugene Mierak Portfolio">
     <meta property="og:locale" content="en_US">
-    <meta property="og:image" content="assets/optimized/og-image.480w.webp">
-    <meta property="og:url" content="https://sandmomy.github.io/silent-feynman/">
+    <meta property="og:image" content="https://eugenemierak.netlify.app/assets/optimized/og-image.480w.webp">
+    <meta property="og:url" content="https://eugenemierak.netlify.app/">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Eugene Mierak - Sustainable Development & Innovation">
     <meta name="twitter:description"
         content="Frequency practitioner and Director of International Relationships at the SBDI Foundation, advancing holistic sustainability.">
-    <meta name="twitter:image" content="https://sandmomy.github.io/silent-feynman/assets/optimized/og-image.480w.webp">
+    <meta name="twitter:image" content="https://eugenemierak.netlify.app/assets/optimized/og-image.480w.webp">
     <meta name="theme-color" content="#080c14">
-    <link rel="canonical" href="https://sandmomy.github.io/silent-feynman/">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://eugenemierak.netlify.app/">
     <link rel="icon" type="image/webp" href="assets/optimized/favicon.480w.webp">
 
     <!-- Fonts -->
@@ -37,15 +44,18 @@
     <link rel="dns-prefetch" href="https://unpkg.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Tangerine:wght@400;700&display=swap">
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:wght@300;400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Tangerine:wght@400;700&display=swap"
         rel="stylesheet">
+    <style>html{opacity:0}html.fonts-ready{opacity:1;transition:opacity 0.15s ease-in}</style>
+    <script>document.fonts.ready.then(function(){document.documentElement.classList.add('fonts-ready')});setTimeout(function(){document.documentElement.classList.add('fonts-ready')},800);</script>
     <link rel="preload" as="image" href="assets/optimized/hero-pose.1600w.webp" fetchpriority="high">
     <link rel="preload" as="image" href="assets/optimized/eugene-mierak.400w.webp">
     <link rel="preload" as="image" href="assets/optimized/earth-day.480w.webp">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="css/styles.min.css">
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/mobile-overrides.min.css">
 
     <!-- Three.js and Globe.GL -->
@@ -58,8 +68,11 @@
     <!-- Top Navigation Banner (Fixed) -->
     <nav class="top-nav-banner">
         <div class="top-nav-container">
+            <a href="index.html" class="top-nav-brand">Frequency Vibes&trade;</a>
             <div class="top-nav-links">
                 <a href="projects.html" class="top-nav-link">Explore Projects</a>
+                <a href="services.html" class="top-nav-link">Services</a>
+                <a href="event.html" class="top-nav-link">Events</a>
                 <a href="#contact" class="top-nav-link">Get in Touch</a>
                 <div class="partners-dropdown-container desktop-only">
                     <button class="top-nav-link top-nav-partners-btn" id="partnersBtn" aria-expanded="false">
@@ -85,6 +98,14 @@
                         <a href="eko-vitaris.html" class="partners-dropdown-item">
                             <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-icon-img">
                             Eko Vitaris
+                        </a>
+                        <a href="mariposa-batu.html" class="partners-dropdown-item">
+                            <img src="assets/logo-mariposa-batu.png" alt="Mariposa Batu" class="partner-icon-img" style="border-radius:4px;">
+                            Mariposa Batu
+                        </a>
+                        <a href="biozar-venezuela.html" class="partners-dropdown-item">
+                            <img src="assets/logo-biozar.png" alt="Biozar" class="partner-icon-img">
+                            Biozar Venezuela
                         </a>
                     </div>
                 </div>
@@ -141,7 +162,16 @@
                             <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-logo-ekovitaris-img"
                                 loading="lazy" decoding="async">
                         </a>
+                        <a href="mariposa-batu.html" class="partner-tag partner-mariposa" aria-label="Mariposa Batu Partnership">
+                            <img src="assets/logo-mariposa-batu.png" alt="Mariposa Batu"
+                                class="partner-logo-mariposa-img" loading="lazy" decoding="async">
+                        </a>
+                        <a href="biozar-venezuela.html" class="partner-tag partner-biozar" aria-label="Biozar Venezuela Partnership">
+                            <img src="assets/logo-biozar.png" alt="Biozar"
+                                class="partner-logo-biozar-img" loading="lazy" decoding="async">
+                        </a>
                     </div>
+                    <a href="projects.html" class="explore-projects-btn">Explore Projects <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
                 </div>
             </div>
 
@@ -173,51 +203,48 @@
                 </div>
             </div>
 
-            <!-- RIGHT: Context & Proof -->
+            <!-- RIGHT: Frequency Vibes Journey Event -->
             <div class="hero-col-right">
+                <div class="hero-fv-badge" aria-label="Frequency Vibes">Frequency Vibes</div>
                 <!-- Floating Label -->
-                <div class="section-label-floating">EVENTS</div>
+                <div class="section-label-floating">NEXT EVENT</div>
 
-                <!-- Country Photos Slider -->
-                <div class="country-slider">
-                    <div class="country-slide active">
-                        <img src="assets/optimized/karangasem-water-temple-palace-bali.800w.webp" alt="Indonesia Temple"
-                            width="200" height="340" loading="eager" fetchpriority="high" decoding="async">
-                        <div class="country-label">
-                            <div class="country-label-sub">Indonesia</div>
+                <!-- Slider Group (keeps slider + label + dots together) -->
+                <div class="slider-group">
+                    <div class="country-slider">
+                        <div class="country-slide active">
+                            <img src="assets/optimized/borobudur.800w.webp" alt="Borobudur - Yogyakarta"
+                                width="200" height="340" loading="eager" fetchpriority="high" decoding="async">
+                        </div>
+                        <div class="country-slide">
+                            <img src="assets/optimized/bromo.800w.webp" alt="Mount Bromo - Malang"
+                                width="200" height="340" loading="lazy" decoding="async">
+                        </div>
+                        <div class="country-slide">
+                            <img src="assets/optimized/bali-gate.800w.webp" alt="Sacred Gate - Bali"
+                                width="200" height="340" loading="lazy" decoding="async">
+                        </div>
+                        <div class="country-slide">
+                            <img src="assets/optimized/sumba-horses.800w.webp" alt="Horses of Sumba"
+                                width="200" height="340" loading="lazy" decoding="async">
                         </div>
                     </div>
-                    <div class="country-slide">
-                        <img src="assets/optimized/ahmad-jaafar-toQTkWFvWyo-unsplash.800w.webp" alt="Nigeria Mosque"
-                            width="200" height="340" loading="lazy" decoding="async">
-                        <div class="country-label">
-                            <div class="country-label-sub">Nigeria</div>
-                        </div>
-                    </div>
-                    <div class="country-slide">
-                        <img src="assets/optimized/ahmed-qinawy-9Ia_6613pYk-unsplash.800w.webp" alt="Kenya Church"
-                            width="200" height="340" loading="lazy" decoding="async">
-                        <div class="country-label">
-                            <div class="country-label-sub">Kenya</div>
-                        </div>
+                    <span class="slide-location">Yogyakarta</span>
+                    <div class="slider-dots">
+                        <span class="slider-dot active"></span>
+                        <span class="slider-dot"></span>
+                        <span class="slider-dot"></span>
+                        <span class="slider-dot"></span>
                     </div>
                 </div>
 
-                <!-- Stats Stacked Vertically on Right -->
-                <div class="hero-stats-column">
-                    <div class="stat-item">
-                        <span class="stat-num">30+</span>
-                        <span class="stat-lbl">Projects</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-num">5+</span>
-                        <span class="stat-lbl">Countries</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-num">10+</span>
-                        <span class="stat-lbl">Years</span>
-                    </div>
-                </div>
+                <!-- CTA -->
+                <a href="event.html" class="event-cta-btn" style="margin-top:3.5rem;">
+                    Discover the Journey
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
             </div>
 
 
@@ -260,18 +287,18 @@
             <!-- Slide 1: Eugene Mierak -->
             <div class="about-mobile-slide">
                 <div class="about-mobile-symbol">
-                    <svg viewBox="0 0 200 200" fill="none" class="symbol-svg symbol-rotate">
+                    <svg viewBox="0 0 200 200" fill="none" class="symbol-svg symbol-rotate" shape-rendering="geometricPrecision">
                         <defs><filter id="gm1"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
                         <g filter="url(#gm1)" opacity="0.9">
                             <polygon points="100,20 30,155 170,155" stroke="#b8960c" stroke-width="1.2" fill="none" opacity="0.85"/>
                             <line x1="100" y1="20" x2="100" y2="155" stroke="#b8960c" stroke-width="0.5" opacity="0.3"/>
-                            <line x1="30" y1="155" x2="135" y2="87.5" stroke="#b8960c" stroke-width="0.5" opacity="0.3"/>
-                            <line x1="170" y1="155" x2="65" y2="87.5" stroke="#b8960c" stroke-width="0.5" opacity="0.3"/>
+                            <line x1="30" y1="155" x2="135" y2="88" stroke="#b8960c" stroke-width="0.5" opacity="0.3"/>
+                            <line x1="170" y1="155" x2="65" y2="88" stroke="#b8960c" stroke-width="0.5" opacity="0.3"/>
                             <polygon points="100,180 30,45 170,45" stroke="#d4b96a" stroke-width="1.2" fill="none" opacity="0.7"/>
                             <line x1="100" y1="180" x2="100" y2="45" stroke="#d4b96a" stroke-width="0.5" opacity="0.25"/>
-                            <line x1="30" y1="45" x2="135" y2="112.5" stroke="#d4b96a" stroke-width="0.5" opacity="0.25"/>
-                            <line x1="170" y1="45" x2="65" y2="112.5" stroke="#d4b96a" stroke-width="0.5" opacity="0.25"/>
-                            <polygon points="65,87.5 100,45 135,87.5 135,112.5 100,155 65,112.5" stroke="#b8960c" stroke-width="0.6" fill="none" opacity="0.4"/>
+                            <line x1="30" y1="45" x2="135" y2="113" stroke="#d4b96a" stroke-width="0.5" opacity="0.25"/>
+                            <line x1="170" y1="45" x2="65" y2="113" stroke="#d4b96a" stroke-width="0.5" opacity="0.25"/>
+                            <polygon points="65,88 100,45 135,88 135,113 100,155 65,113" stroke="#b8960c" stroke-width="0.6" fill="none" opacity="0.4"/>
                         </g>
                     </svg>
                 </div>
@@ -285,7 +312,7 @@
             <!-- Slide 2: The Work -->
             <div class="about-mobile-slide">
                 <div class="about-mobile-symbol">
-                    <svg viewBox="0 0 200 200" fill="none" class="symbol-svg symbol-pulse">
+                    <svg viewBox="0 0 200 200" fill="none" class="symbol-svg symbol-pulse" shape-rendering="geometricPrecision">
                         <defs><filter id="gm2"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
                         <g filter="url(#gm2)" transform="translate(100,100)">
                             <circle cx="0" cy="0" r="28" stroke="#b8960c" stroke-width="0.8" opacity="0.9"/>
@@ -315,7 +342,7 @@
             <!-- Slide 3: SBDI & Mission -->
             <div class="about-mobile-slide">
                 <div class="about-mobile-symbol">
-                    <svg viewBox="0 0 200 200" fill="none" class="symbol-svg symbol-rotate-slow">
+                    <svg viewBox="0 0 200 200" fill="none" class="symbol-svg symbol-rotate-slow" shape-rendering="geometricPrecision">
                         <defs><filter id="gm3"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
                         <g filter="url(#gm3)" transform="translate(100,100)">
                             <line x1="0" y1="0" x2="0" y2="-35" stroke="#b38f26" stroke-width="0.4" opacity="0.4"/>
@@ -369,7 +396,7 @@
             <!-- Slide 4: My Mission -->
             <div class="about-mobile-slide">
                 <div class="about-mobile-symbol">
-                    <svg viewBox="0 0 200 200" fill="none" class="symbol-svg symbol-pulse">
+                    <svg viewBox="0 0 200 200" fill="none" class="symbol-svg symbol-pulse" shape-rendering="geometricPrecision">
                         <defs><filter id="gm4"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
                         <g filter="url(#gm4)" transform="translate(100,100)">
                             <ellipse cx="0" cy="0" rx="80" ry="55" stroke="#345959" stroke-width="0.6" opacity="0.5"/>
@@ -408,12 +435,14 @@
             var isSnapping = false;
 
             // Mobile detection
-            var isMobile = ('ontouchstart' in window) || window.innerWidth <= 992;
+            var isMobile = ('ontouchstart' in window) || window.innerWidth <= 1024;
 
-            // Cached positions — invalidated on resize
+            // Cached positions ï¿½ invalidated on resize
             var posCache = null;
+            var snapAnimationToken = 0;
+            var wheelUnlockAt = 0;
 
-            // Kill Lenis — it conflicts with snap navigation (desktop only)
+            // Kill Lenis ï¿½ it conflicts with snap navigation (desktop only)
             function killLenis() {
                 if (window.lenis && typeof window.lenis.destroy === 'function') {
                     try { window.lenis.destroy(); } catch (e) { }
@@ -430,13 +459,15 @@
                 window.lenis = true;
             }
 
-            // 6 snap positions (cached)
+            // 6 snap positions (cached) ï¿½ use hero's actual height, not assumed 100vh
             function getPositions() {
                 if (posCache) return posCache;
                 var vh = window.innerHeight;
+                var hero = document.querySelector('.hero');
+                var heroBottom = hero ? hero.offsetTop + hero.offsetHeight : vh;
                 var at = aboutSection.offsetTop;
                 var ct = document.getElementById('contact');
-                posCache = [0, at, at + vh, at + 2 * vh, at + 3 * vh, at + 4 * vh, ct ? ct.offsetTop : at + 5 * vh];
+                posCache = [0, Math.max(at, heroBottom), at + vh, at + 2 * vh, at + 3 * vh, at + 4 * vh, ct ? ct.offsetTop : at + 5 * vh];
                 return posCache;
             }
 
@@ -453,14 +484,16 @@
                 return best;
             }
 
-            // Smooth scroll with easeInOutQuad — lands exactly on target
+            // Smooth scroll with easeInOutQuad ï¿½ lands exactly on target
             function smoothScroll(target, duration) {
+                var animationToken = ++snapAnimationToken;
                 var start = window.scrollY;
                 var dist = target - start;
                 if (Math.abs(dist) < 2) { window.scrollTo(0, target); isSnapping = false; return; }
                 var t0 = performance.now();
 
                 function step(now) {
+                    if (animationToken !== snapAnimationToken) return;
                     var p = Math.min((now - t0) / duration, 1);
                     var ease = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
                     window.scrollTo(0, Math.round(start + dist * ease));
@@ -477,19 +510,16 @@
             }
 
             function snapTo(dir) {
-                // Allow interrupting current snap for snappier feel
-                isSnapping = false;
                 var pos = getPositions();
                 var cur = getClosestIndex();
                 var next = Math.max(0, Math.min(pos.length - 1, cur + dir));
                 if (next === cur) return;
                 isSnapping = true;
-                smoothScroll(pos[next], 800);
+                smoothScroll(pos[next], 680);
             }
 
             // Navigate to a specific snap index (for "About Me" button etc.)
             function snapToIndex(index) {
-                isSnapping = false;
                 var pos = getPositions();
                 index = Math.max(0, Math.min(pos.length - 1, index));
                 isSnapping = true;
@@ -517,13 +547,29 @@
                 killLenis();
                 window.lenis = true;
 
-                // Wheel — desktop snap
+                // Wheel ï¿½ free scroll inside hero & contact, snap in between
                 window.addEventListener('wheel', function (e) {
+                    var sy = window.scrollY;
+                    var vh = window.innerHeight;
+                    var now = performance.now();
+                    // Free scroll inside hero if content overflows viewport
+                    var hero = document.querySelector('.hero');
+                    var heroBottom = hero ? hero.offsetTop + hero.offsetHeight : vh;
+                    if (sy < heroBottom - vh) return;
+                    // Free scroll inside contact if content overflows viewport
+                    var ct = document.getElementById('contact');
+                    if (ct) {
+                        var ctTop = ct.offsetTop;
+                        var ctBottom = ctTop + ct.offsetHeight;
+                        if (sy >= ctTop && ctBottom > ctTop + vh) return;
+                    }
                     e.preventDefault();
+                    if (Math.abs(e.deltaY) < 14 || now < wheelUnlockAt) return;
+                    wheelUnlockAt = now + 420;
                     snapTo(e.deltaY > 0 ? 1 : -1);
                 }, { passive: false });
 
-                // Keyboard — skip Space if user is in a form field
+                // Keyboard ï¿½ skip Space if user is in a form field
                 window.addEventListener('keydown', function (e) {
                     var tag = document.activeElement && document.activeElement.tagName;
                     if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
@@ -532,7 +578,7 @@
                     else if (e.key === 'ArrowUp') { e.preventDefault(); snapTo(-1); }
                 });
 
-                // Scrollbar drag → send slide to iframe
+                // Scrollbar drag ? send slide to iframe
                 window.addEventListener('scroll', checkSlide, { passive: true });
 
                 // Invalidate position cache on resize
@@ -564,7 +610,7 @@
                 }
             }
 
-            // Retry Lenis kill — desktop only
+            // Retry Lenis kill ï¿½ desktop only
             function ensureLenisDead() {
                 killLenis();
                 window.lenis = true;
@@ -578,7 +624,7 @@
                 });
             }
 
-            // Extra Lenis kill passes — desktop only
+            // Extra Lenis kill passes ï¿½ desktop only
             if (!isMobile) {
                 setTimeout(ensureLenisDead, 200);
                 setTimeout(ensureLenisDead, 500);
@@ -591,66 +637,117 @@
     <section class="contact-section fade-section" id="contact" style="position: relative; z-index: 3;">
         <div class="container">
 
-            <div class="contact-grid-layout">
+            <div class="contact-grid-2col">
 
-                <!-- Column 1: Direct Access -->
-                <div class="contact-card glass-module">
-                    <div class="contact-card-header">
-                        <span class="card-tag">Direct</span>
-                        <h3>Reach Out</h3>
+                <!-- Left: Info -->
+                <div class="contact-info-side">
+                    <div class="contact-card glass-module">
+                        <div class="contact-card-header">
+                            <span class="card-tag">Direct</span>
+                            <h3>Reach Out</h3>
+                        </div>
+                        <div class="contact-links-list">
+                            <a href="mailto:mierak1970@gmail.com" class="compact-contact-item"
+                                aria-label="Send email to Eugene Mierak">
+                                <span class="icon-circle" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18v12H3z"/><path d="m3 7 9 7 9-7"/></svg></span>
+                                <span class="contact-text">mierak1970@gmail.com</span>
+                            </a>
+                            <a href="tel:+34613715647" class="compact-contact-item"
+                                aria-label="Call Eugene Mierak">
+                                <span class="icon-circle" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.81.35 1.59.67 2.33a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.75-1.24a2 2 0 0 1 2.11-.45c.74.31 1.52.54 2.33.66A2 2 0 0 1 22 16.92z"/></svg></span>
+                                <span class="contact-text">+34 613 715 647</span>
+                            </a>
+                            <a href="https://wa.me/34613715647" class="compact-contact-item"
+                                aria-label="WhatsApp Eugene Mierak" target="_blank" rel="noopener">
+                                <span class="icon-circle" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.07 0C5.5 0 .16 5.34.16 11.91c0 2.1.55 4.16 1.59 5.97L0 24l6.3-1.65a11.9 11.9 0 0 0 5.77 1.47h.01c6.57 0 11.91-5.34 11.91-11.91 0-3.18-1.24-6.17-3.47-8.43z"/><path d="M17.38 14.2c-.29-.15-1.72-.85-1.99-.95-.27-.1-.46-.15-.66.15-.19.29-.76.95-.93 1.14-.17.2-.34.22-.63.08-.29-.15-1.23-.45-2.35-1.42-.87-.78-1.46-1.74-1.63-2.03-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.15-.17.2-.29.29-.48.1-.2.05-.37-.02-.51-.08-.15-.66-1.58-.9-2.17-.24-.58-.48-.5-.66-.51h-.56c-.2 0-.51.07-.77.37-.27.29-1.02 1-1.02 2.43s1.05 2.81 1.19 3c.15.2 2.06 3.14 4.98 4.4.69.3 1.24.47 1.67.61.7.22 1.34.19 1.84.12.56-.08 1.72-.7 1.96-1.38.24-.68.24-1.26.17-1.38-.07-.12-.27-.2-.56-.34z"/></svg></span>
+                                <span class="contact-text">WhatsApp</span>
+                            </a>
+                        </div>
                     </div>
-                    <div class="contact-links-list">
-                        <a href="mailto:contact@eugenemierak.com" class="compact-contact-item"
-                            aria-label="Send email to Eugene Mierak">
-                            <span class="icon-circle">✉️</span>
-                            <span class="contact-text">Email Eugene</span>
+
+                    <div class="contact-card glass-module">
+                        <div class="contact-card-header">
+                            <span class="card-tag">Based in</span>
+                            <h3>Location</h3>
+                        </div>
+                        <div class="location-details">
+                            <p class="loc-val">Ibiza, Spain</p>
+                            <p class="loc-sub">Cala Portinatx, Balearic Islands</p>
+                            <p class="loc-sub" style="margin-top:8px;color:rgba(255,255,255,0.5);">International retreats &amp; coaching sessions worldwide</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-socials-row">
+                        <!-- YouTube -->
+                        <a href="https://www.youtube.com/@fvmovements" class="social-circle" aria-label="YouTube" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
                         </a>
-                        <a href="tel:+1234567890" class="compact-contact-item"
-                            aria-label="Book a call with Eugene Mierak">
-                            <span class="icon-circle">📞</span>
-                            <span class="contact-text">Book a Call</span>
+                        <!-- Instagram -->
+                        <a href="https://www.instagram.com/eugenemierak" class="social-circle" aria-label="Instagram" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                            </svg>
+                        </a>
+                        <!-- Facebook -->
+                        <a href="https://www.facebook.com/share/18g3j9iN7e/" class="social-circle" aria-label="Facebook" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <!-- LinkedIn -->
+                        <a href="https://www.linkedin.com/in/eugene-mierak-25637a334" class="social-circle" aria-label="LinkedIn" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
                         </a>
                     </div>
                 </div>
 
-                <!-- Column 2: Social Ecosystem -->
-                <div class="contact-card glass-module social-hub">
-                    <div class="contact-card-header center">
-                        <h3>Connect</h3>
-                    </div>
-                    <div class="social-circles">
-                        <a href="#" class="social-circle linkedin" aria-label="LinkedIn">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                            </svg>
-                        </a>
-                        <a href="#" class="social-circle twitter" aria-label="Twitter">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Column 3: Professional Hub -->
-                <div class="contact-card glass-module">
+                <!-- Right: Contact Form -->
+                <div class="contact-card glass-module contact-form-card-desktop">
                     <div class="contact-card-header">
-                        <span class="card-tag">Active</span>
-                        <h3>Location</h3>
+                        <span class="card-tag">Inquiries</span>
+                        <h3>Send a Message</h3>
                     </div>
-                    <div class="location-details">
-                        <p class="loc-val">International / Hybrid</p>
-                        <p class="loc-sub">Focusing on Indonesia & Emerging Africa</p>
-                    </div>
+                    <form name="contact" method="POST" data-netlify="true" class="desktop-contact-form">
+                        <input type="hidden" name="form-name" value="contact">
+                        <div class="form-field">
+                            <label for="dk-name">Full Name</label>
+                            <input type="text" name="name" id="dk-name" required placeholder="Your name">
+                        </div>
+                        <div class="form-field">
+                            <label for="dk-email">Email Address</label>
+                            <input type="email" name="email" id="dk-email" required placeholder="your@email.com">
+                        </div>
+                        <div class="form-field">
+                            <label for="dk-phone">Phone <span style="opacity:0.4;font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
+                            <input type="tel" name="phone" id="dk-phone" placeholder="+34 600 000 000">
+                        </div>
+                        <div class="form-field">
+                            <label for="dk-message">Your Message</label>
+                            <textarea name="message" id="dk-message" required placeholder="How can Eugene help you?" rows="5"></textarea>
+                        </div>
+                        <button type="submit" class="form-submit-btn">
+                            Send Request
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                        <div class="form-success-msg" id="formSuccess" style="display:none;">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
+                            <span>Message sent successfully. Eugene will get back to you soon.</span>
+                        </div>
+                    </form>
                 </div>
 
             </div>
 
             <!-- Integrated Legal Footer -->
             <div class="integrated-footer">
-                <p>&copy; 2026 Eugene Mierak. Strategic Advisor & Project Director.</p>
+                <p>&copy; 2026 Eugene Mierak. Holistic Lifestyle Practitioner &amp; Somatic Trainer.</p>
             </div>
 
         </div>
@@ -658,6 +755,115 @@
 
 
 
+    <!-- Contact Form AJAX -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var form = document.querySelector('.desktop-contact-form');
+        if (!form) return;
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            var btn = form.querySelector('.form-submit-btn');
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+            fetch('/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams(new FormData(form)).toString()
+            }).then(function() {
+                form.reset();
+                btn.disabled = false;
+                btn.innerHTML = 'Send Request <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>';
+                document.getElementById('formSuccess').style.display = 'flex';
+                setTimeout(function() { document.getElementById('formSuccess').style.display = 'none'; }, 6000);
+            }).catch(function() {
+                btn.disabled = false;
+                btn.textContent = 'Error ï¿½ try again';
+            });
+        });
+    });
+    </script>
+
+    <aside class="floating-audio-tab" id="floatingAudioDesktop" aria-label="Audio player control">
+        <button type="button" class="floating-audio-handle" id="floatingAudioHandleDesktop" aria-label="Open audio tab" aria-expanded="false">&#9835;</button>
+        <button type="button" class="floating-audio-btn" id="heroAudioToggleDesktop" data-audio-state="off" aria-pressed="false">Play Music</button>
+        <audio id="heroAudioDesktop" preload="none" loop>
+            <source src="assets/audio/frequency-vibes.mp3" type="audio/mpeg">
+        </audio>
+    </aside>
+
+    <script>
+    (function setupHeroAudioToggle() {
+        const tab = document.getElementById('floatingAudioDesktop');
+        const handle = document.getElementById('floatingAudioHandleDesktop');
+        const toggle = document.getElementById('heroAudioToggleDesktop');
+        const audio = document.getElementById('heroAudioDesktop');
+        if (!tab || !toggle || !audio) return;
+
+        function setOpen(isOpen) {
+            tab.classList.toggle('is-open', isOpen);
+            if (handle) {
+                handle.setAttribute('aria-expanded', String(isOpen));
+                handle.setAttribute('aria-label', isOpen ? 'Close audio tab' : 'Open audio tab');
+            }
+        }
+
+        function setState(isPlaying) {
+            toggle.dataset.audioState = isPlaying ? 'on' : 'off';
+            toggle.setAttribute('aria-pressed', String(isPlaying));
+            toggle.textContent = isPlaying ? 'Pause Music' : 'Play Music';
+        }
+
+        setOpen(false);
+        setState(false);
+
+        if (handle) {
+            handle.addEventListener('click', function(event) {
+                event.stopPropagation();
+                setOpen(!tab.classList.contains('is-open'));
+            });
+        }
+
+        toggle.addEventListener('click', async function(event) {
+            event.stopPropagation();
+            setOpen(true);
+            if (audio.paused) {
+                try {
+                    await audio.play();
+                    setState(true);
+                } catch (error) {
+                    setState(false);
+                    setOpen(false);
+                }
+            } else {
+                audio.pause();
+                setState(false);
+                setOpen(false);
+            }
+        });
+
+        audio.addEventListener('pause', function() {
+            if (!audio.ended) {
+                setState(false);
+                setOpen(false);
+            }
+        });
+
+        audio.addEventListener('ended', function() {
+            setState(false);
+            setOpen(false);
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!tab.contains(event.target) && window.innerWidth <= 992) {
+                setOpen(false);
+            }
+        });
+
+        window.addEventListener('scroll', function() {
+            if (audio.paused) setOpen(false);
+        }, { passive: true });
+    })();
+    </script>
     <!-- Lenis Smooth Scroll -->
     <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
 
@@ -667,3 +873,10 @@
 </body>
 
 </html>
+
+
+
+
+
+
+

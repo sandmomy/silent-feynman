@@ -61,4 +61,43 @@ python -m http.server 8000
 ```
 
 ---
+
+## Stripe + Vercel
+
+The `services.html` page now supports a hybrid sales flow:
+
+- `Private Elite Coaching`, `Obsidian Retreats`, and `Certification Program` can open Stripe Checkout once their Stripe Price IDs are configured.
+- `Leadership Development` and `High-Performance Workshops` stay proposal-based and continue through private consultation.
+
+### Required Environment Variables
+
+Copy `.env.example` and set these values in Vercel:
+
+- `STRIPE_SECRET_KEY`
+- `STRIPE_WEBHOOK_SECRET`
+- `STRIPE_PRICE_ELITE_COACHING`
+- `STRIPE_PRICE_OBSIDIAN_RETREATS`
+- `STRIPE_PRICE_CERTIFICATION`
+- `SITE_CONTACT_EMAIL`
+- `PUBLIC_SITE_URL`
+
+### Endpoints
+
+- `GET /api/stripe/catalog`
+- `POST /api/stripe/create-checkout-session`
+- `POST /api/stripe/webhook`
+
+### Deploy To Vercel
+
+```bash
+vercel link --yes --project <project-name> --scope <team-slug-or-id>
+vercel env pull .env.local
+vercel --prod
+```
+
+Detailed setup:
+
+- See `STRIPE_SETUP.md`
+
+---
 *Maintained with precision by the Eugene Mierak Development Team.*

@@ -1,6 +1,6 @@
 ﻿/* ============================================================
    MOBILE OPTIMIZATION - STABLE CONSOLIDATED VERSION
-   Strictly scoped to Handheld Devices (max-width: 992px)
+   Strictly scoped to Handheld Devices (max-width: 1024px)
    ============================================================ */
 
 /* Keyframes outside media query for better browser support */
@@ -58,7 +58,7 @@
     50% { opacity: 1; }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1024px) {
 
     /* --- About: Hide iframe, show native mobile section --- */
     .about-desktop-wrapper {
@@ -118,8 +118,8 @@
 
     /* Symbol container */
     .about-mobile-symbol {
-        width: 130px;
-        height: 130px;
+        width: clamp(90px, 10vw, 130px);
+        height: clamp(90px, 10vw, 130px);
         margin-bottom: 2.5rem;
         opacity: 0;
         transform: translateY(20px);
@@ -796,7 +796,7 @@
 }
 
 /* Landscape orientation on mobile */
-@media (max-width: 992px) and (orientation: landscape) and (max-height: 500px) {
+@media (max-width: 1024px) and (orientation: landscape) and (max-height: 500px) {
     .hero.home-hero {
         min-height: auto !important;
         padding: 60px 15px 20px !important;
