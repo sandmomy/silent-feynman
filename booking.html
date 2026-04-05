@@ -515,6 +515,82 @@
       text-align: center;
     }
 
+    /* TERMS */
+    .terms-section {
+      margin-top: 28px;
+      padding: 24px 22px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .terms-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--gold-light);
+      margin: 0 0 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .terms-block {
+      margin-bottom: 18px;
+    }
+
+    .terms-block:last-of-type {
+      margin-bottom: 14px;
+    }
+
+    .terms-heading {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-main);
+      margin: 0 0 8px;
+    }
+
+    .terms-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .terms-list li {
+      position: relative;
+      padding: 5px 0 5px 16px;
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--text-muted);
+    }
+
+    .terms-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 12px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(212, 175, 55, 0.5);
+    }
+
+    .terms-list li strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .terms-contact {
+      margin: 0;
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: center;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-light);
+    }
+
     .booking-footer {
       margin-top: 40px;
       padding-bottom: 32px;
@@ -675,7 +751,41 @@
           </button>
         </form>
 
-        <p class="legal-note">Payments processed securely via Stripe. By proceeding you agree to the retreat terms and cancellation policy. Private &amp; invitation-only.</p>
+        <div class="terms-section">
+          <h3 class="terms-title">Terms &amp; Conditions</h3>
+
+          <div class="terms-block">
+            <h4 class="terms-heading">Invitation &amp; Booking</h4>
+            <ul class="terms-list">
+              <li>This retreat is by <strong>private invitation only</strong>. Access to this booking page does not guarantee a confirmed spot.</li>
+              <li>Your deposit secures your place in the selection process. Final confirmation is subject to availability and will be communicated within 48 hours.</li>
+              <li>Spots are strictly limited to <strong>12 guests maximum</strong>.</li>
+              <li>The remaining balance (&euro;7,000 per person) is due only after your spot has been confirmed.</li>
+            </ul>
+          </div>
+
+          <div class="terms-block">
+            <h4 class="terms-heading">Cancellation &amp; Refund Policy</h4>
+            <ul class="terms-list">
+              <li><strong>Deposit:</strong> The deposit of &euro;8,000 is non-refundable once your spot has been confirmed.</li>
+              <li><strong>Before confirmation:</strong> If your spot is not confirmed, the full deposit will be refunded within 14 business days.</li>
+              <li><strong>After confirmation:</strong> Cancellations made more than 60 days before the retreat start date are eligible for a 50% refund of the remaining balance paid.</li>
+              <li><strong>Less than 60 days:</strong> No refund on any payments made.</li>
+              <li>Transferring your spot to another person is possible with prior written approval.</li>
+            </ul>
+          </div>
+
+          <div class="terms-block">
+            <h4 class="terms-heading">Payment &amp; Security</h4>
+            <ul class="terms-list">
+              <li>All payments are processed securely via <strong>Stripe</strong>. Your financial data is never stored on our servers.</li>
+              <li>Prices are in EUR (&euro;). Currency conversion fees may apply depending on your bank.</li>
+              <li>By proceeding with payment, you confirm that you have read and agree to these terms.</li>
+            </ul>
+          </div>
+
+          <p class="terms-contact">Questions about these terms? Contact <a href="mailto:info@eugenemierak.com" style="color:var(--gold-primary)">info@eugenemierak.com</a></p>
+        </div>
       </div>
 
       <!-- CONFIRMATION -->
