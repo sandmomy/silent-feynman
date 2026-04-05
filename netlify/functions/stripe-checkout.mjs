@@ -78,11 +78,17 @@ export async function handler(event) {
 
   const baseUrl = resolveBaseUrl();
   const customerEmail = normalizeEmail(payload?.customerEmail);
+  const quantity = service.allowMultipleQuantity ? Math.min(Math.max(parseInt(payload?.guestCount, 10) || 1, 1), 12) : 1;
+  const extraMeta = payload?.metadata && typeof payload.metadata === "object" ? payload.metadata : {};
+
+  const isBooking = service.slug.includes("retreat") || service.slug.includes("booking");
+  const successPage = isBooking ? "booking.html" : "services.html";
+  const cancelPage = isBooking ? "booking.html" : "services.html";
 
   try {
     const session = await getStripe().checkout.sessions.create({
       mode: service.checkoutMode,
-      line_items: [{ price: priceId, quantity: 1 }],
+      line_items: [{ price: priceId, quantity }],
       allow_promotion_codes: true,
       billing_address_collection: "auto",
       ...(customerEmail ? { customer_email: customerEmail } : {}),
@@ -90,10 +96,13 @@ export async function handler(event) {
       metadata: {
         serviceSlug: service.slug,
         serviceName: service.name,
-        sourcePage: "services.html",
+        sourcePage: successPage,
+        ...Object.fromEntries(
+          Object.entries(extraMeta).map(([k, v]) => [k, String(v).slice(0, 500)])
+        ),
       },
-      success_url: `${baseUrl}/services.html?checkout=success&service=${encodeURIComponent(service.slug)}&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${baseUrl}/services.html?checkout=cancel&service=${encodeURIComponent(service.slug)}`,
+      success_url: `${baseUrl}/${successPage}?checkout=success&service=${encodeURIComponent(service.slug)}&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${baseUrl}/${cancelPage}?checkout=cancel&service=${encodeURIComponent(service.slug)}`,
     });
 
     return {

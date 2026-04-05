@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Retreat Booking | Frequency Vibes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #060913;
+      --bg-panel: rgba(10, 15, 25, 0.88);
+      --gold-primary: #d4af37;
+      --gold-light: #f3e5ab;
+      --text-main: #ffffff;
+      --text-muted: #a0abc0;
+      --border-light: rgba(255, 255, 255, 0.08);
+      --border-gold: rgba(212, 175, 55, 0.26);
+      --font-display: "Cormorant Garamond", serif;
+      --font-brand: "Tangerine", "Cormorant Garamond", cursive;
+      --font-body: "Inter", system-ui, sans-serif;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --green: #22c55e;
+      --red: #ef4444;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-body);
+      color: var(--text-main);
+      background:
+        radial-gradient(circle at top left, rgba(212, 175, 55, 0.08), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(52, 76, 120, 0.18), transparent 26%),
+        linear-gradient(180deg, #04070f 0%, var(--bg-base) 45%, #07101d 100%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .booking-page {
+      padding: 32px clamp(20px, 4vw, 56px) 56px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    /* NAV */
+    .booking-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 40px;
+    }
+
+    .nav-brand {
+      font-family: var(--font-brand);
+      font-size: clamp(2rem, 3vw, 3rem);
+      font-weight: 700;
+      line-height: 0.9;
+    }
+
+    .nav-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--border-light);
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.02);
+      transition: color 0.3s, border-color 0.3s;
+    }
+
+    .nav-back:hover {
+      color: var(--text-main);
+      border-color: rgba(212, 175, 55, 0.35);
+    }
+
+    /* RETREAT INFO CARD */
+    .retreat-summary {
+      padding: 28px 30px;
+      border-radius: 24px;
+      border: 1px solid var(--border-gold);
+      background: linear-gradient(145deg, rgba(9, 14, 25, 0.92), rgba(8, 12, 22, 0.78));
+      margin-bottom: 32px;
+    }
+
+    .retreat-kicker {
+      color: var(--gold-primary);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin: 0 0 10px;
+    }
+
+    .retreat-name {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 500;
+      color: var(--text-main);
+      margin: 0 0 8px;
+    }
+
+    .retreat-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 14px;
+    }
+
+    .meta-item {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .meta-item strong {
+      color: var(--gold-light);
+      font-weight: 600;
+    }
+
+    /* STEPS */
+    .booking-steps {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+
+    .step-indicator {
+      flex: 1;
+      height: 4px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      transition: background 0.4s var(--ease);
+    }
+
+    .step-indicator.active {
+      background: var(--gold-primary);
+    }
+
+    .step-indicator.done {
+      background: var(--green);
+    }
+
+    /* FORM CARD */
+    .booking-card {
+      padding: 36px 30px;
+      border-radius: 24px;
+      border: 1px solid var(--border-light);
+      background: linear-gradient(145deg, rgba(9, 14, 25, 0.92), rgba(8, 12, 22, 0.78));
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.38);
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 2.4vw, 1.8rem);
+      font-weight: 500;
+      color: var(--text-main);
+      margin: 0 0 6px;
+    }
+
+    .card-subtitle {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin: 0 0 28px;
+      line-height: 1.6;
+    }
+
+    /* FORM FIELDS */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full { grid-column: 1 / -1; }
+
+    .form-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border-light);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--gold-primary);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: rgba(160, 171, 192, 0.4);
+    }
+
+    .form-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%23a0abc0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+    }
+
+    .form-select option {
+      background: #0a0f19;
+      color: var(--text-main);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .form-error {
+      color: var(--red);
+      font-size: 12px;
+      margin-top: 2px;
+      display: none;
+    }
+
+    .form-group.has-error .form-input,
+    .form-group.has-error .form-select {
+      border-color: var(--red);
+    }
+
+    .form-group.has-error .form-error {
+      display: block;
+    }
+
+    /* PRICE SUMMARY */
+    .price-summary {
+      margin: 28px 0;
+      padding: 20px 22px;
+      border-radius: 18px;
+      border: 1px solid rgba(212, 175, 55, 0.14);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .price-row.total {
+      border-top: 1px solid var(--border-light);
+      margin-top: 8px;
+      padding-top: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .price-row .amount {
+      color: var(--gold-light);
+      font-weight: 600;
+    }
+
+    .price-row.total .amount {
+      font-size: 18px;
+      color: var(--gold-primary);
+    }
+
+    .price-note {
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* BUTTONS */
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 56px;
+      padding: 16px 24px;
+      border-radius: 999px;
+      border: 1px solid var(--border-gold);
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.18), rgba(212, 175, 55, 0.08));
+      color: var(--gold-light);
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.3s var(--ease), background 0.3s, border-color 0.3s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.28), rgba(212, 175, 55, 0.14));
+      border-color: rgba(212, 175, 55, 0.5);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .btn-primary.loading {
+      pointer-events: none;
+      opacity: 0.72;
+    }
+
+    .btn-secondary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 48px;
+      padding: 14px 24px;
+      border-radius: 999px;
+      border: 1px solid var(--border-light);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-muted);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color 0.3s, border-color 0.3s;
+      margin-top: 12px;
+    }
+
+    .btn-secondary:hover {
+      color: var(--text-main);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* STATUS */
+    .booking-status {
+      margin-bottom: 20px;
+      padding: 14px 18px;
+      border-radius: 16px;
+      font-size: 14px;
+      line-height: 1.6;
+      display: none;
+    }
+
+    .booking-status.visible { display: block; }
+
+    .booking-status.success {
+      border: 1px solid rgba(74, 222, 128, 0.35);
+      background: rgba(34, 197, 94, 0.14);
+      color: #d9ffe4;
+    }
+
+    .booking-status.error {
+      border: 1px solid rgba(248, 113, 113, 0.35);
+      background: rgba(127, 29, 29, 0.18);
+      color: #ffd8d8;
+    }
+
+    /* CONFIRMATION VIEW */
+    .confirmation-view {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .confirmation-icon {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background: rgba(34, 197, 94, 0.14);
+      border: 1px solid rgba(74, 222, 128, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+    }
+
+    .confirmation-title {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 500;
+      margin: 0 0 10px;
+    }
+
+    .confirmation-text {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.7;
+      margin: 0 0 24px;
+    }
+
+    .confirmation-steps {
+      text-align: left;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .confirmation-steps li {
+      position: relative;
+      padding: 12px 0 12px 32px;
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.6;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .confirmation-steps li:last-child { border-bottom: none; }
+
+    .confirmation-steps li::before {
+      content: attr(data-step);
+      position: absolute;
+      left: 0;
+      top: 12px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(212, 175, 55, 0.14);
+      border: 1px solid var(--border-gold);
+      color: var(--gold-primary);
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* LEGAL */
+    .legal-note {
+      margin-top: 24px;
+      font-size: 11px;
+      color: rgba(160, 171, 192, 0.5);
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    /* FOOTER */
+    .booking-footer {
+      margin-top: 36px;
+      text-align: center;
+      color: rgba(160, 171, 192, 0.5);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* HIDDEN */
+    [hidden] { display: none !important; }
+
+    @media (max-width: 580px) {
+      .booking-page { padding: 20px 16px 44px; }
+      .booking-card { padding: 28px 20px; }
+      .retreat-summary { padding: 22px 20px; }
+      .form-row { grid-template-columns: 1fr; }
+      .booking-nav { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="booking-page">
+    <nav class="booking-nav">
+      <a href="event.html" class="nav-brand" style="font-family:var(--font-brand)">Frequency Vibes</a>
+      <a href="event.html" class="nav-back">&larr; Back to Retreat</a>
+    </nav>
+
+    <div class="retreat-summary">
+      <p class="retreat-kicker">Private Booking</p>
+      <h1 class="retreat-name">Indonesia Frequency Vibes Journey</h1>
+      <div class="retreat-meta">
+        <div class="meta-item"><strong>14 Days</strong> &middot; Java, Bali & Sumba</div>
+        <div class="meta-item"><strong>June 15 - 29, 2026</strong></div>
+        <div class="meta-item"><strong>Max 12 Guests</strong></div>
+      </div>
+    </div>
+
+    <div class="booking-steps">
+      <div class="step-indicator active" id="step-1"></div>
+      <div class="step-indicator" id="step-2"></div>
+      <div class="step-indicator" id="step-3"></div>
+    </div>
+
+    <!-- STEP 1: Personal Details -->
+    <div class="booking-card" id="view-form">
+      <h2 class="card-title">Your Details</h2>
+      <p class="card-subtitle">Complete your information to reserve your spot. This booking is private and by invitation only.</p>
+
+      <div class="booking-status" id="form-status" role="status"></div>
+
+      <form id="booking-form" novalidate>
+        <div class="form-row">
+          <div class="form-group" id="group-firstName">
+            <label class="form-label" for="firstName">First Name</label>
+            <input class="form-input" type="text" id="firstName" name="firstName" placeholder="Eugene" required>
+            <span class="form-error">Required</span>
+          </div>
+          <div class="form-group" id="group-lastName">
+            <label class="form-label" for="lastName">Last Name</label>
+            <input class="form-input" type="text" id="lastName" name="lastName" placeholder="Mierak" required>
+            <span class="form-error">Required</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" id="group-email">
+            <label class="form-label" for="email">Email</label>
+            <input class="form-input" type="email" id="email" name="email" placeholder="you@example.com" required>
+            <span class="form-error">Valid email required</span>
+          </div>
+          <div class="form-group" id="group-phone">
+            <label class="form-label" for="phone">Phone / WhatsApp</label>
+            <input class="form-input" type="tel" id="phone" name="phone" placeholder="+34 600 000 000">
+            <span class="form-error">Required</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" id="group-country">
+            <label class="form-label" for="country">Country of Residence</label>
+            <input class="form-input" type="text" id="country" name="country" placeholder="Spain" required>
+            <span class="form-error">Required</span>
+          </div>
+          <div class="form-group" id="group-guests">
+            <label class="form-label" for="guests">Number of Guests</label>
+            <select class="form-select" id="guests" name="guests">
+              <option value="1">1 Person</option>
+              <option value="2">2 Persons</option>
+              <option value="3">3 Persons</option>
+              <option value="4">4 Persons</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group full">
+            <label class="form-label" for="notes">Special Requests or Notes (Optional)</label>
+            <textarea class="form-textarea" id="notes" name="notes" placeholder="Dietary requirements, accessibility needs, questions..."></textarea>
+          </div>
+        </div>
+
+        <div class="price-summary">
+          <div class="price-row">
+            <span>Retreat deposit (per person)</span>
+            <span class="amount">&euro;8,000</span>
+          </div>
+          <div class="price-row">
+            <span>Guests</span>
+            <span class="amount" id="guest-count">1</span>
+          </div>
+          <div class="price-row total">
+            <span>Deposit due now</span>
+            <span class="amount" id="total-amount">&euro;8,000</span>
+          </div>
+          <p class="price-note">Remaining balance of &euro;7,000 per person is due upon confirmation of your spot. Total retreat investment: &euro;15,000 per person.</p>
+        </div>
+
+        <button type="submit" class="btn-primary" id="btn-submit">
+          Proceed to Secure Payment
+        </button>
+        <button type="button" class="btn-secondary" onclick="window.location.href='mailto:info@eugenemierak.com?subject=Frequency%20Vibes%20%7C%20Retreat%20Question'">
+          Have Questions? Contact Us
+        </button>
+      </form>
+
+      <p class="legal-note">Your payment is processed securely via Stripe. By proceeding you agree to the retreat terms and cancellation policy. This page is private and for invited guests only.</p>
+    </div>
+
+    <!-- STEP 3: Confirmation -->
+    <div class="booking-card" id="view-confirmation" hidden>
+      <div class="confirmation-view">
+        <div class="confirmation-icon">&#10003;</div>
+        <h2 class="confirmation-title">Deposit Received</h2>
+        <p class="confirmation-text">Your reservation for the Indonesia Frequency Vibes Journey has been received. We will confirm your spot within 48 hours.</p>
+        <ol class="confirmation-steps">
+          <li data-step="1"><strong>Deposit paid</strong> &mdash; Your deposit has been processed successfully.</li>
+          <li data-step="2"><strong>Confirmation</strong> &mdash; You will receive a confirmation email within 48 hours with retreat details.</li>
+          <li data-step="3"><strong>Final payment</strong> &mdash; The remaining balance (&euro;7,000/person) will be requested upon confirmation of your spot.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="booking-footer">
+      &copy; 2026 Eugene Mierak &middot; Frequency Vibes &middot; Private Booking
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    var form = document.getElementById("booking-form");
+    var btnSubmit = document.getElementById("btn-submit");
+    var statusEl = document.getElementById("form-status");
+    var guestsSelect = document.getElementById("guests");
+    var guestCountEl = document.getElementById("guest-count");
+    var totalAmountEl = document.getElementById("total-amount");
+    var DEPOSIT_PER_PERSON = 8000;
+
+    var steps = [
+      document.getElementById("step-1"),
+      document.getElementById("step-2"),
+      document.getElementById("step-3"),
+    ];
+
+    function updatePrice() {
+      var count = parseInt(guestsSelect.value, 10) || 1;
+      guestCountEl.textContent = count;
+      var total = DEPOSIT_PER_PERSON * count;
+      totalAmountEl.textContent = "\u20AC" + total.toLocaleString("en");
+    }
+
+    guestsSelect.addEventListener("change", updatePrice);
+    updatePrice();
+
+    function setStatus(message, tone) {
+      statusEl.textContent = message;
+      statusEl.className = "booking-status visible " + tone;
+    }
+
+    function clearStatus() {
+      statusEl.className = "booking-status";
+      statusEl.textContent = "";
+    }
+
+    function validateForm() {
+      var valid = true;
+      var required = ["firstName", "lastName", "email", "country"];
+
+      required.forEach(function (name) {
+        var group = document.getElementById("group-" + name);
+        var input = document.getElementById(name);
+        var value = (input.value || "").trim();
+
+        if (!value) {
+          group.classList.add("has-error");
+          valid = false;
+        } else {
+          group.classList.remove("has-error");
+        }
+      });
+
+      var emailInput = document.getElementById("email");
+      var emailGroup = document.getElementById("group-email");
+      if (emailInput.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim())) {
+        emailGroup.classList.add("has-error");
+        valid = false;
+      }
+
+      return valid;
+    }
+
+    function showConfirmation() {
+      document.getElementById("view-form").hidden = true;
+      document.getElementById("view-confirmation").hidden = false;
+      steps[0].className = "step-indicator done";
+      steps[1].className = "step-indicator done";
+      steps[2].className = "step-indicator active";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // Check for returning from Stripe
+    var params = new URLSearchParams(window.location.search);
+    if (params.get("checkout") === "success") {
+      showConfirmation();
+      var cleanUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, cleanUrl);
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      clearStatus();
+
+      if (!validateForm()) {
+        setStatus("Please fill in all required fields.", "error");
+        return;
+      }
+
+      btnSubmit.classList.add("loading");
+      btnSubmit.textContent = "Opening Secure Checkout...";
+
+      steps[0].className = "step-indicator done";
+      steps[1].className = "step-indicator active";
+
+      var guestCount = parseInt(guestsSelect.value, 10) || 1;
+
+      fetch("/api/stripe/create-checkout-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          serviceSlug: "indonesia-retreat-deposit",
+          customerEmail: document.getElementById("email").value.trim(),
+          guestCount: guestCount,
+          metadata: {
+            firstName: document.getElementById("firstName").value.trim(),
+            lastName: document.getElementById("lastName").value.trim(),
+            phone: document.getElementById("phone").value.trim(),
+            country: document.getElementById("country").value.trim(),
+            guests: guestCount,
+            notes: document.getElementById("notes").value.trim(),
+          },
+        }),
+      })
+        .then(function (res) {
+          return res.json().then(function (data) {
+            if (!res.ok) throw new Error(data.error || "Checkout failed");
+            return data;
+          });
+        })
+        .then(function (data) {
+          if (data.url) {
+            window.location.assign(data.url);
+          } else {
+            throw new Error("No checkout URL received");
+          }
+        })
+        .catch(function (err) {
+          setStatus(
+            err.message || "Unable to start checkout. Please contact info@eugenemierak.com",
+            "error"
+          );
+          btnSubmit.classList.remove("loading");
+          btnSubmit.textContent = "Proceed to Secure Payment";
+          steps[1].className = "step-indicator";
+        });
+    });
+  })();
+  </script>
+</body>
+</html>

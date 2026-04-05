@@ -35,6 +35,17 @@ export const SERVICE_CATALOG = {
     action: "quote",
     fallbackCta: "Request Workshop Quote",
   },
+  "indonesia-retreat-deposit": {
+    slug: "indonesia-retreat-deposit",
+    name: "Indonesia Frequency Vibes - Deposit",
+    publicPriceRange: "EUR 8k / person",
+    action: "stripe",
+    checkoutMode: "payment",
+    priceEnv: "STRIPE_PRICE_INDONESIA_DEPOSIT",
+    checkoutCta: "Reserve With Deposit",
+    fallbackCta: "Contact for Retreat",
+    allowMultipleQuantity: true,
+  },
   certification: {
     slug: "certification",
     name: "Certification Program",
