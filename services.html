@@ -2214,6 +2214,99 @@
     }
 
     /* ============================================================
+       DESKTOP HERO REDESIGN (≥901px)
+       Cohesive split: title block left, "State first" card right.
+       Both visible in one viewport, no awkward vertical stack.
+       ============================================================ */
+    @media (min-width: 901px) {
+      .hero {
+        height: clamp(580px, 80svh, 780px);
+        min-height: 580px;
+      }
+      .reveal-entry {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        align-items: center;
+        align-content: center;
+        padding-top: clamp(120px, 13vh, 160px);
+        column-gap: clamp(24px, 3vw, 56px);
+      }
+      .decrypt-text {
+        grid-column: 1 / span 8;
+        font-size: clamp(3.6rem, 6.6vw, 6rem);
+        margin-bottom: 18px;
+      }
+      .hero-subtitle {
+        grid-column: 1 / span 8;
+        margin-bottom: 22px;
+      }
+      .hero-clarity {
+        grid-column: 1 / span 7;
+        max-width: 52ch;
+        margin: 0;
+        font-size: 16px;
+        line-height: 1.75;
+      }
+      /* "State first" card — sits to the right of the title, vertically centered */
+      .hero-p {
+        grid-column: 9 / span 4;
+        grid-row: 1 / span 3;
+        align-self: center;
+        justify-self: end;
+        margin-top: 0;
+        width: 100%;
+        max-width: 380px;
+        padding: 28px 30px 30px;
+        text-align: left;
+        background: linear-gradient(165deg, rgba(20,20,28,0.72) 0%, rgba(8,8,12,0.55) 100%);
+        backdrop-filter: blur(12px) saturate(1.1);
+        -webkit-backdrop-filter: blur(12px) saturate(1.1);
+        border: 1px solid rgba(212,175,55,0.22);
+        border-radius: 18px;
+        box-shadow:
+          0 24px 60px rgba(0,0,0,0.45),
+          inset 0 1px 0 rgba(255,255,255,0.04);
+      }
+      .hero-p::before {
+        display: block;
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 28px;
+        bottom: 28px;
+        width: 2px;
+        background: linear-gradient(180deg, transparent, var(--gold-primary) 30%, var(--gold-primary) 70%, transparent);
+        opacity: 0.85;
+      }
+      .hero-p-copy { align-items: flex-start; }
+      .hero-p-caption {
+        align-items: flex-start;
+        text-align: left;
+        gap: 12px;
+      }
+      .hero-p-caption::before {
+        content: "State Principle";
+        font-family: var(--font-display);
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--gold-primary);
+        margin-bottom: 4px;
+      }
+      .hero-p-title {
+        font-size: clamp(2rem, 2.6vw, 2.8rem);
+        max-width: none;
+        line-height: 1.05;
+      }
+      .hero-p-deck {
+        font-size: 15px;
+        line-height: 1.65;
+        max-width: none;
+        color: rgba(232, 236, 244, 0.82);
+      }
+    }
+
+    /* ============================================================
        MOBILE SERVICES — app-style minimalist (≤768px)
        Hides the desktop layout entirely and shows .svc-mobile.
        ============================================================ */
