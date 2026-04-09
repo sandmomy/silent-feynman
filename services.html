@@ -2213,6 +2213,356 @@
       .rail-board { margin: 30px auto; }
     }
 
+    /* ============================================================
+       MOBILE SERVICES — app-style minimalist (≤768px)
+       Hides the desktop layout entirely and shows .svc-mobile.
+       ============================================================ */
+    .svc-mobile { display: none; }
+
+    @media (max-width: 768px) {
+      /* Hide every desktop services section */
+      body > header.hero,
+      body > section.section,
+      body > section.framework-area { display: none !important; }
+
+      .svc-mobile {
+        display: block;
+        background: #08080c;
+        color: var(--text-main);
+        padding-bottom: 90px; /* room for fixed tab bar */
+      }
+
+      /* ===== Mobile Hero ===== */
+      .svc-m-hero {
+        position: relative;
+        min-height: 78vh;
+        padding: 100px 24px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        background:
+          radial-gradient(120% 80% at 50% 0%, rgba(212,175,55,0.18) 0%, rgba(8,8,12,0) 60%),
+          linear-gradient(180deg, #08080c 0%, #0c0c14 100%);
+      }
+      .svc-m-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(circle at 20% 80%, rgba(212,175,55,0.08), transparent 50%),
+          radial-gradient(circle at 80% 20%, rgba(80,120,200,0.10), transparent 50%);
+        pointer-events: none;
+      }
+      .svc-m-eyebrow {
+        position: relative;
+        font-family: var(--font-display);
+        font-size: 11px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--gold-primary);
+        margin-bottom: 16px;
+        font-weight: 600;
+      }
+      .svc-m-title {
+        position: relative;
+        font-family: var(--font-serif);
+        font-size: clamp(2.4rem, 11vw, 3.4rem);
+        line-height: 0.95;
+        letter-spacing: -0.01em;
+        font-weight: 400;
+        color: #fff;
+        margin: 0 0 14px;
+      }
+      .svc-m-sub {
+        position: relative;
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: 17px;
+        color: var(--gold-primary);
+        letter-spacing: 0.04em;
+        margin: 0 0 24px;
+      }
+      .svc-m-clarity {
+        position: relative;
+        font-size: 15px;
+        line-height: 1.6;
+        color: var(--text-muted);
+        max-width: 90%;
+        margin: 0 0 32px;
+      }
+      .svc-m-cta {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        align-self: flex-start;
+        padding: 14px 26px;
+        background: linear-gradient(135deg, var(--gold-primary), #b8941f);
+        color: #08080c;
+        text-decoration: none;
+        font-family: var(--font-display);
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        border-radius: 999px;
+        box-shadow: 0 10px 30px rgba(212,175,55,0.25);
+      }
+      .svc-m-cta svg { width: 16px; height: 16px; }
+
+      /* ===== Section header (shared) ===== */
+      .svc-m-section { padding: 56px 20px 24px; }
+      .svc-m-section-head {
+        margin-bottom: 24px;
+      }
+      .svc-m-section-head .label {
+        font-family: var(--font-display);
+        font-size: 10px;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--gold-primary);
+        font-weight: 600;
+      }
+      .svc-m-section-head h2 {
+        font-family: var(--font-serif);
+        font-size: 26px;
+        line-height: 1.15;
+        font-weight: 400;
+        margin: 8px 0 0;
+        color: #fff;
+      }
+
+      /* ===== Audience list (settings rows) ===== */
+      .svc-m-aud-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        border-top: 1px solid rgba(255,255,255,0.06);
+      }
+      .svc-m-aud-list li a {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 18px 4px;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        text-decoration: none;
+        color: inherit;
+      }
+      .svc-m-aud-icon {
+        flex: 0 0 44px;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        background: rgba(212,175,55,0.08);
+        border: 1px solid rgba(212,175,55,0.18);
+      }
+      .svc-m-aud-icon svg { width: 22px; height: 22px; stroke: var(--gold-primary); fill: none; stroke-width: 1.6; }
+      .svc-m-aud-text { flex: 1; min-width: 0; }
+      .svc-m-aud-text strong {
+        display: block;
+        font-family: var(--font-serif);
+        font-size: 17px;
+        color: #fff;
+        font-weight: 500;
+      }
+      .svc-m-aud-text span {
+        display: block;
+        font-size: 13px;
+        color: var(--text-muted);
+        margin-top: 2px;
+        line-height: 1.45;
+      }
+      .svc-m-chev {
+        flex: 0 0 18px;
+        width: 18px;
+        height: 18px;
+        opacity: 0.5;
+      }
+
+      /* ===== Service cards (stacked) ===== */
+      .svc-m-services {
+        display: grid;
+        gap: 16px;
+      }
+      .svc-m-card {
+        position: relative;
+        background: linear-gradient(160deg, #14141c 0%, #0c0c14 100%);
+        border: 1px solid rgba(212,175,55,0.12);
+        border-radius: 18px;
+        overflow: hidden;
+      }
+      .svc-m-card-img {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+      }
+      .svc-m-card-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .svc-m-card-img::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(8,8,12,0) 40%, rgba(8,8,12,0.85) 100%);
+      }
+      .svc-m-card-price {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        z-index: 2;
+        background: rgba(8,8,12,0.78);
+        backdrop-filter: blur(6px);
+        border: 1px solid rgba(212,175,55,0.3);
+        color: var(--gold-primary);
+        font-family: var(--font-display);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        padding: 6px 12px;
+        border-radius: 999px;
+      }
+      .svc-m-card-body {
+        padding: 18px 18px 20px;
+      }
+      .svc-m-card-body h3 {
+        font-family: var(--font-serif);
+        font-size: 20px;
+        font-weight: 500;
+        color: #fff;
+        margin: 0 0 8px;
+      }
+      .svc-m-card-body p {
+        font-size: 14px;
+        line-height: 1.55;
+        color: var(--text-muted);
+        margin: 0 0 16px;
+      }
+      .svc-m-card-cta {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 13px;
+        background: rgba(212,175,55,0.1);
+        border: 1px solid rgba(212,175,55,0.35);
+        color: var(--gold-primary);
+        text-decoration: none;
+        font-family: var(--font-display);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        border-radius: 12px;
+      }
+
+      /* ===== Accordions (method, paradigm, advantage) ===== */
+      .svc-m-acc {
+        border-top: 1px solid rgba(255,255,255,0.06);
+      }
+      .svc-m-acc details {
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        padding: 4px 0;
+      }
+      .svc-m-acc summary {
+        list-style: none;
+        cursor: pointer;
+        padding: 18px 4px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-family: var(--font-serif);
+        font-size: 17px;
+        color: #fff;
+        font-weight: 500;
+      }
+      .svc-m-acc summary::-webkit-details-marker { display: none; }
+      .svc-m-acc summary::after {
+        content: "+";
+        font-size: 22px;
+        color: var(--gold-primary);
+        font-weight: 300;
+        transition: transform 0.2s;
+      }
+      .svc-m-acc details[open] summary::after { content: "−"; }
+      .svc-m-acc-body {
+        padding: 0 4px 18px;
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--text-muted);
+      }
+      .svc-m-acc-body ul { padding-left: 18px; margin: 8px 0 0; }
+      .svc-m-acc-body li { margin: 6px 0; }
+      .svc-m-acc-body .pair {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 10px;
+      }
+      .svc-m-acc-body .pair div {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 10px;
+        padding: 12px;
+      }
+      .svc-m-acc-body .pair strong {
+        display: block;
+        color: var(--gold-primary);
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+
+      /* ===== Tab bar (fixed bottom) ===== */
+      .svc-m-tabbar {
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        z-index: 9000;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        background: rgba(14,14,20,0.92);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border: 1px solid rgba(212,175,55,0.18);
+        border-radius: 22px;
+        padding: 8px 6px;
+        box-shadow: 0 18px 48px rgba(0,0,0,0.6);
+      }
+      .svc-m-tabbar a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        padding: 8px 4px;
+        text-decoration: none;
+        color: rgba(255,255,255,0.55);
+        font-family: var(--font-display);
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-weight: 600;
+        border-radius: 14px;
+        transition: color 0.2s, background 0.2s;
+      }
+      .svc-m-tabbar a svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+      .svc-m-tabbar a.active {
+        color: var(--gold-primary);
+        background: rgba(212,175,55,0.1);
+      }
+
+      /* Hide site nav buttons that overlap on mobile (keep brand) */
+      .svc-mobile ~ * { /* nothing */ }
+    }
+
   </style>
 </head>
 <body>
@@ -2256,6 +2606,189 @@
   </nav>
 
   <!-- HERO SECTION -->
+  <!-- ============================================================
+       MOBILE-ONLY SERVICES (app-style). Hidden on >768px.
+       ============================================================ -->
+  <div class="svc-mobile">
+    <section class="svc-m-hero">
+      <div class="svc-m-eyebrow">Frequency Vibes™</div>
+      <h1 class="svc-m-title">State<br>Mastery.</h1>
+      <div class="svc-m-sub">Performance transformation.</div>
+      <p class="svc-m-clarity">Private work for executives, elite performers, wellness leaders, and high-net-worth clients who need state before strategy.</p>
+      <a href="#m-services" class="svc-m-cta">
+        Explore Services
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </section>
+
+    <section class="svc-m-section" id="m-audiences">
+      <div class="svc-m-section-head">
+        <div class="label">Who We Serve</div>
+        <h2>Built for Elite Environments</h2>
+      </div>
+      <ul class="svc-m-aud-list">
+        <li><a href="corporate-executive.html">
+          <span class="svc-m-aud-icon"><svg viewBox="0 0 24 24"><path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-6h6v6"/></svg></span>
+          <span class="svc-m-aud-text"><strong>Corporate &amp; Executive</strong><span>CEOs, founders &amp; leadership teams</span></span>
+          <svg class="svc-m-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+        </a></li>
+        <li><a href="professional-sports.html">
+          <span class="svc-m-aud-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></span>
+          <span class="svc-m-aud-text"><strong>Professional Sports</strong><span>Athletes, coaches &amp; performance teams</span></span>
+          <svg class="svc-m-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+        </a></li>
+        <li><a href="holistic-wellness.html">
+          <span class="svc-m-aud-icon"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5-7-11a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-7 11-7 11h-4z"/></svg></span>
+          <span class="svc-m-aud-text"><strong>Holistic Wellness</strong><span>Practitioners &amp; retreat leaders</span></span>
+          <svg class="svc-m-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+        </a></li>
+        <li><a href="high-net-worth.html">
+          <span class="svc-m-aud-icon"><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></span>
+          <span class="svc-m-aud-text"><strong>High-Net-Worth</strong><span>Personal mastery &amp; private consulting</span></span>
+          <svg class="svc-m-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+        </a></li>
+      </ul>
+    </section>
+
+    <section class="svc-m-section" id="m-services">
+      <div class="svc-m-section-head">
+        <div class="label">Our Engagements</div>
+        <h2>Premium Service Tiers</h2>
+      </div>
+      <div class="svc-m-services">
+        <article class="svc-m-card">
+          <div class="svc-m-card-img">
+            <span class="svc-m-card-price">€1.5k–5k / mo</span>
+            <img src="assets/optimized/coaching.800w.webp" alt="Private Elite Coaching" loading="lazy" decoding="async">
+          </div>
+          <div class="svc-m-card-body">
+            <h3>Private Elite Coaching</h3>
+            <p>1:1 deep work. Frequency reading, decision-making under pressure, true leadership presence.</p>
+            <a href="elite-coaching.html" class="svc-m-card-cta">View Coaching →</a>
+          </div>
+        </article>
+        <article class="svc-m-card">
+          <div class="svc-m-card-img">
+            <span class="svc-m-card-price">€10k–50k</span>
+            <img src="assets/optimized/corporate.800w.webp" alt="Leadership Development" loading="lazy" decoding="async">
+          </div>
+          <div class="svc-m-card-body">
+            <h3>Leadership Development</h3>
+            <p>Transform fragmented management into a singular high-frequency entity.</p>
+            <a href="leadership-development.html" class="svc-m-card-cta">View Program →</a>
+          </div>
+        </article>
+        <article class="svc-m-card">
+          <div class="svc-m-card-img">
+            <span class="svc-m-card-price">€2.5k–10k / pp</span>
+            <img src="assets/optimized/retreat.800w.webp" alt="Obsidian Retreats" loading="lazy" decoding="async">
+          </div>
+          <div class="svc-m-card-body">
+            <h3>Obsidian Retreats</h3>
+            <p>Premium nature-based frequency training. Invitation-only access, max 12 participants.</p>
+            <a href="obsidian-retreats.html" class="svc-m-card-cta">View Retreat →</a>
+          </div>
+        </article>
+        <article class="svc-m-card">
+          <div class="svc-m-card-img">
+            <span class="svc-m-card-price">€3k–15k / day</span>
+            <img src="assets/optimized/workshops_bg.800w.webp" alt="High-Performance Workshops" loading="lazy" decoding="async">
+          </div>
+          <div class="svc-m-card-body">
+            <h3>High-Performance Workshops</h3>
+            <p>1–3 day intensives. State-control protocols for orgs, sports teams, and wellness groups.</p>
+            <a href="workshops.html" class="svc-m-card-cta">View Workshops →</a>
+          </div>
+        </article>
+        <article class="svc-m-card">
+          <div class="svc-m-card-img">
+            <span class="svc-m-card-price">€3k–8k</span>
+            <img src="assets/optimized/certification_bg.800w.webp" alt="Certification Program" loading="lazy" decoding="async">
+          </div>
+          <div class="svc-m-card-body">
+            <h3>Certification Program</h3>
+            <p>Train as a licensed Frequency Vibes facilitator. Framework, brand licensing &amp; ongoing support.</p>
+            <a href="certification.html" class="svc-m-card-cta">View Certification →</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="svc-m-section" id="m-method">
+      <div class="svc-m-section-head">
+        <div class="label">The Work</div>
+        <h2>How It Locks In</h2>
+      </div>
+      <div class="svc-m-acc">
+        <details>
+          <summary>The Paradigm</summary>
+          <div class="svc-m-acc-body">
+            <p>Applied neurophysiology, behavioral mastery, and leadership embodiment. We don't talk mindset — we regulate the baseline frequency that drives every action.</p>
+            <div class="pair">
+              <div><strong>Traditional</strong>Intellectual mindset, motivation talks, info-heavy seminars, short-term results.</div>
+              <div><strong>Frequency Vibes</strong>State regulation, neurological alignment, embodied repetition, long-term entrainment.</div>
+            </div>
+          </div>
+        </details>
+        <details>
+          <summary>The 5-Stage Loop</summary>
+          <div class="svc-m-acc-body">
+            <ul>
+              <li><strong style="color:#fff">Awareness</strong> — notice the pattern before it runs you.</li>
+              <li><strong style="color:#fff">Regulation</strong> — shift the state itself, not the story.</li>
+              <li><strong style="color:#fff">Application</strong> — hold state under pressure.</li>
+              <li><strong style="color:#fff">Alignment</strong> — physiology, communication, action match.</li>
+              <li><strong style="color:#fff">Repetition</strong> — until regulation is your baseline.</li>
+            </ul>
+          </div>
+        </details>
+        <details>
+          <summary>The Competitive Advantage</summary>
+          <div class="svc-m-acc-body">
+            <p>Most competitors offer one dimension. We integrate four:</p>
+            <ul>
+              <li><strong style="color:#fff">Science</strong> — neuroscience &amp; evidence-based training.</li>
+              <li><strong style="color:#fff">Embodiment</strong> — practices that live in the body.</li>
+              <li><strong style="color:#fff">Application</strong> — for boardrooms, arenas, real decisions.</li>
+              <li><strong style="color:#fff">Methodology</strong> — F × A framework with measurable outcomes.</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="svc-m-section" id="m-contact" style="text-align:center; padding-bottom:48px;">
+      <div class="svc-m-section-head" style="margin-bottom:18px">
+        <div class="label">Begin</div>
+        <h2>Request a Private Consultation</h2>
+      </div>
+      <p style="font-size:14px;color:var(--text-muted);line-height:1.6;margin:0 0 24px">Capacity is intentionally limited. Engagements begin with a private consultation.</p>
+      <a href="mailto:info@eugenemierak.com?subject=Frequency%20Vibes%20%7C%20Private%20Consultation" class="svc-m-cta">
+        Contact Us
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </section>
+
+    <nav class="svc-m-tabbar" aria-label="Services navigation">
+      <a href="#m-audiences" data-target="m-audiences">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M1 22v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2"/><circle cx="17" cy="6" r="3"/></svg>
+        Audiences
+      </a>
+      <a href="#m-services" data-target="m-services" class="active">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Services
+      </a>
+      <a href="#m-method" data-target="m-method">
+        <svg viewBox="0 0 24 24"><path d="M2 12h4l3-9 4 18 3-9h6"/></svg>
+        Method
+      </a>
+      <a href="#m-contact" data-target="m-contact">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M4 8l8 6 8-6"/></svg>
+        Contact
+      </a>
+    </nav>
+  </div>
+
   <header class="hero">
     <div class="hero-img" id="hero-img"></div>
     <div class="reveal-entry">
@@ -3078,6 +3611,36 @@
             cross.style.color = 'var(--gold-primary)';
             cross.style.textShadow = 'none';
           }
+        });
+      });
+    })();
+  </script>
+
+  <!-- Mobile services scroll-spy tab bar -->
+  <script>
+    (function () {
+      if (!window.matchMedia('(max-width: 768px)').matches) return;
+      const tabs = document.querySelectorAll('.svc-m-tabbar a[data-target]');
+      if (!tabs.length) return;
+      const sections = Array.from(tabs).map((t) => document.getElementById(t.dataset.target)).filter(Boolean);
+      const setActive = (id) => {
+        tabs.forEach((t) => t.classList.toggle('active', t.dataset.target === id));
+      };
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) setActive(e.target.id);
+          });
+        },
+        { rootMargin: '-40% 0px -50% 0px', threshold: 0 }
+      );
+      sections.forEach((s) => io.observe(s));
+      tabs.forEach((t) => {
+        t.addEventListener('click', (e) => {
+          const tgt = document.getElementById(t.dataset.target);
+          if (!tgt) return;
+          e.preventDefault();
+          tgt.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
       });
     })();
