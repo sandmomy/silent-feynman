@@ -2066,6 +2066,9 @@
       body > section.section,
       body > section.framework-area { display: none !important; }
 
+      /* Offset anchor scroll / scrollIntoView by the fixed 48px top nav */
+      html { scroll-padding-top: 60px; scroll-behavior: smooth; }
+
       .svc-mobile {
         display: block;
         background: #08080c;
@@ -2155,7 +2158,12 @@
       .svc-m-cta svg { width: 16px; height: 16px; }
 
       /* ===== Section header (shared) ===== */
-      .svc-m-section { padding: 56px 20px 24px; }
+      .svc-m-section {
+        padding: 56px 20px 24px;
+        /* Ensure scrollIntoView / anchor clicks land below the fixed top nav */
+        scroll-margin-top: 60px;
+      }
+      .svc-m-hero { scroll-margin-top: 60px; }
       .svc-m-section-head {
         margin-bottom: 24px;
       }
@@ -2431,7 +2439,6 @@
       <a href="event.html" class="nav-link">Events</a>
       <a href="projects.html" class="nav-link">Projects</a>
     </div>
-    <a href="index.html#contact" class="nav-cta">Contact</a>
   </nav>
 
   <!-- Custom Element: Elegant Cursor -->
@@ -2617,7 +2624,7 @@
         <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M1 22v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2"/><circle cx="17" cy="6" r="3"/></svg>
         Audiences
       </a>
-      <a href="#m-services" data-target="m-services" class="active">
+      <a href="#m-services" data-target="m-services">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
         Services
       </a>
@@ -4034,27 +4041,74 @@
       if (!window.matchMedia('(max-width: 768px)').matches) return;
       const tabs = document.querySelectorAll('.svc-m-tabbar a[data-target]');
       if (!tabs.length) return;
-      const sections = Array.from(tabs).map((t) => document.getElementById(t.dataset.target)).filter(Boolean);
+      const sections = Array.from(tabs)
+        .map((t) => document.getElementById(t.dataset.target))
+        .filter(Boolean);
+      if (!sections.length) return;
+
+      // Height of the fixed top nav — used as scroll offset.
+      const NAV_OFFSET = 60;
+
       const setActive = (id) => {
         tabs.forEach((t) => t.classList.toggle('active', t.dataset.target === id));
       };
+
+      // Pick the section whose top is closest-but-not-past the nav bar.
+      const computeCurrent = () => {
+        let current = sections[0];
+        for (const s of sections) {
+          const top = s.getBoundingClientRect().top - NAV_OFFSET;
+          if (top <= 1) current = s;
+          else break;
+        }
+        return current;
+      };
+
+      // IntersectionObserver shrinks the viewport so the trigger band sits
+      // just below the fixed nav bar — this keeps the active tab honest while
+      // the user scrolls, without clashing with the click-to-scroll below.
       const io = new IntersectionObserver(
         (entries) => {
           entries.forEach((e) => {
             if (e.isIntersecting) setActive(e.target.id);
           });
         },
-        { rootMargin: '-40% 0px -50% 0px', threshold: 0 }
+        { rootMargin: '-' + NAV_OFFSET + 'px 0px -55% 0px', threshold: 0 }
       );
       sections.forEach((s) => io.observe(s));
+
+      // Smooth scroll with a manual offset fallback (in case a browser ignores
+      // scroll-margin-top on scrollIntoView).
+      const scrollToSection = (tgt) => {
+        const y = tgt.getBoundingClientRect().top + window.pageYOffset - NAV_OFFSET;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      };
+
       tabs.forEach((t) => {
         t.addEventListener('click', (e) => {
           const tgt = document.getElementById(t.dataset.target);
           if (!tgt) return;
           e.preventDefault();
-          tgt.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          setActive(t.dataset.target); // instant visual feedback
+          scrollToSection(tgt);
         });
       });
+
+      // Hero CTA ("Explore Services") and any other in-page anchor inside
+      // .svc-mobile should use the same offset logic.
+      document.querySelectorAll('.svc-mobile a[href^="#m-"]').forEach((a) => {
+        if (a.closest('.svc-m-tabbar')) return; // already handled above
+        a.addEventListener('click', (e) => {
+          const id = a.getAttribute('href').slice(1);
+          const tgt = document.getElementById(id);
+          if (!tgt) return;
+          e.preventDefault();
+          scrollToSection(tgt);
+        });
+      });
+
+      // Initial active tab based on actual scroll position, not markup.
+      setActive(computeCurrent().id);
     })();
   </script>
 </body>
