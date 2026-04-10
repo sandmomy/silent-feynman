@@ -2,6 +2,11 @@
   --bg-base: #060913;
   --bg-deep: #09111f;
   --bg-panel: rgba(10, 15, 25, 0.88);
+  --page-bg-symbol-url: none;
+  --page-bg-symbol-size: clamp(1500px, 185vw, 3000px);
+  --page-bg-symbol-opacity: 0.96;
+  --page-bg-symbol-position: 50% 50%;
+  --page-bg-symbol-rotate: 0deg;
   --gold-primary: #d4af37;
   --gold-light: #f3e5ab;
   --text-main: #ffffff;
@@ -35,6 +40,65 @@ body {
     linear-gradient(180deg, #04070f 0%, var(--bg-base) 45%, #07101d 100%);
 }
 
+body.service-theme {
+  isolation: isolate;
+  background-attachment: fixed;
+  position: relative;
+  overflow-x: clip;
+}
+
+body.service-theme::before {
+  content: "";
+  position: fixed;
+  inset: -20vmax;
+  pointer-events: none;
+  z-index: 0;
+  background-image: var(--page-bg-symbol-url);
+  background-repeat: no-repeat;
+  background-position: var(--page-bg-symbol-position);
+  background-size: var(--page-bg-symbol-size);
+  opacity: var(--page-bg-symbol-opacity);
+  transform: rotate(var(--page-bg-symbol-rotate));
+  transform-origin: center;
+}
+
+body.theme-elite {
+  --page-bg-symbol-url: url("../assets/symbols/bg-elite-sacred.svg");
+  --page-bg-symbol-size: clamp(1560px, 188vw, 3040px);
+  --page-bg-symbol-opacity: 0.98;
+  --page-bg-symbol-position: 52% 48%;
+}
+
+body.theme-leadership {
+  --page-bg-symbol-url: url("../assets/symbols/bg-leadership-sacred.svg");
+  --page-bg-symbol-size: clamp(1540px, 186vw, 3000px);
+  --page-bg-symbol-opacity: 0.98;
+  --page-bg-symbol-position: 52% 46%;
+  --page-bg-symbol-rotate: 10deg;
+}
+
+body.theme-retreats {
+  --page-bg-symbol-url: url("../assets/symbols/bg-retreats-sacred.svg");
+  --page-bg-symbol-size: clamp(1600px, 192vw, 3120px);
+  --page-bg-symbol-opacity: 0.98;
+  --page-bg-symbol-position: 50% 52%;
+  --page-bg-symbol-rotate: -2deg;
+}
+
+body.theme-workshops {
+  --page-bg-symbol-url: url("../assets/symbols/bg-workshops-sacred.svg");
+  --page-bg-symbol-size: clamp(1620px, 194vw, 3160px);
+  --page-bg-symbol-opacity: 0.99;
+  --page-bg-symbol-position: 51% 50%;
+}
+
+body.theme-certification {
+  --page-bg-symbol-url: url("../assets/symbols/bg-certification-sacred.svg");
+  --page-bg-symbol-size: clamp(1580px, 190vw, 3080px);
+  --page-bg-symbol-opacity: 0.98;
+  --page-bg-symbol-position: 50% 50%;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -47,6 +111,8 @@ img {
 }
 
 .detail-page {
+  position: relative;
+  z-index: 1;
   padding: 32px clamp(20px, 4vw, 56px) 56px;
 }
 
@@ -338,6 +404,10 @@ img {
 }
 
 @media (max-width: 720px) {
+  body.service-theme::before {
+    inset: -20vmax;
+  }
+
   .detail-page {
     padding: 20px 16px 44px;
   }

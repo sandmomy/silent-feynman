@@ -526,6 +526,11 @@
                 smoothScroll(pos[index], 800);
             }
 
+            function snapToContact() {
+                var pos = getPositions();
+                snapToIndex(pos.length - 1);
+            }
+
             // Send slide index to iframe
             function checkSlide() {
                 if (!iframe || !iframe.contentWindow) return;
@@ -592,6 +597,23 @@
                         snapToIndex(1);
                     });
                 }
+
+                // Keep contact navigation smooth on desktop snap flow
+                var contactBtns = document.querySelectorAll('a[href="#contact"]');
+                contactBtns.forEach(function (btn) {
+                    btn.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        snapToContact();
+                    });
+                });
+
+                // If user arrives from another page with #contact, animate to it smoothly
+                if ((window.location.hash || '').toLowerCase() === '#contact') {
+                    window.scrollTo(0, 0);
+                    setTimeout(function () {
+                        snapToContact();
+                    }, 80);
+                }
             }
 
             function bootMobile() {
@@ -607,6 +629,25 @@
                         });
                     }, { threshold: 0.15 });
                     slides.forEach(function (s) { obs.observe(s); });
+                }
+
+                // Keep contact navigation smooth on mobile too
+                var ct = document.getElementById('contact');
+                var contactBtns = document.querySelectorAll('a[href="#contact"]');
+                contactBtns.forEach(function (btn) {
+                    btn.addEventListener('click', function (e) {
+                        if (!ct) return;
+                        e.preventDefault();
+                        ct.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    });
+                });
+
+                // If user arrives from another page with #contact, animate softly to contact
+                if (ct && (window.location.hash || '').toLowerCase() === '#contact') {
+                    window.scrollTo(0, 0);
+                    setTimeout(function () {
+                        ct.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 80);
                 }
             }
 
@@ -747,7 +788,7 @@
 
             <!-- Integrated Legal Footer -->
             <div class="integrated-footer">
-                <p>&copy; 2026 Eugene Mierak. Holistic Lifestyle Practitioner &amp; Somatic Trainer.</p>
+                <p>&copy; 2026 Frequency Vibes. All rights reserved.</p>
             </div>
 
         </div>
@@ -871,8 +912,6 @@
 </body>
 
 </html>
-
-
 
 
 
