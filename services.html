@@ -211,6 +211,123 @@
       box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
     }
 
+    /* ══════════════════════════════════════════════════
+       TOP NAVIGATION BANNER (desktop, matches index.html)
+       ══════════════════════════════════════════════════ */
+    .top-nav-banner {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 48px;
+      background: rgba(8, 12, 20, 0.97);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      overflow: visible !important;
+    }
+    .top-nav-container {
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      overflow: visible !important;
+    }
+    .top-nav-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: #fff;
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .top-nav-links {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .top-nav-link {
+      padding: 0.4rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.75);
+      text-decoration: none;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    .top-nav-link:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .partners-dropdown-container { position: relative; }
+    .top-nav-partners-btn {
+      display: flex;
+      align-items: center;
+      background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .top-nav-partners-btn:hover,
+    .top-nav-partners-btn[aria-expanded="true"] {
+      background: linear-gradient(135deg, #0284c7 0%, #0891b2 100%);
+      box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+      color: #fff;
+    }
+    .partners-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: 12px;
+      width: 240px;
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      padding: 6px;
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      z-index: 1010;
+      transform-origin: top right;
+      animation: dropdownPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .partners-dropdown-menu.active { display: flex; }
+    @keyframes dropdownPop {
+      from { opacity: 0; transform: scale(0.95) translateY(-5px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .partners-dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    .partners-dropdown-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      transform: translateX(2px);
+    }
+    .partner-icon-img {
+      height: 28px;
+      width: auto;
+      max-width: 40px;
+      object-fit: contain;
+      filter: brightness(1.1);
+    }
+    @media (max-width: 768px) {
+      .top-nav-banner { display: none; }
+    }
+
     /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
        HERO (JAW-DROPPING IMPACT)
     â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
@@ -1966,6 +2083,80 @@
     }
     .mobile-nav-bar .nav-cta:active { opacity: 0.85; }
 
+    /* Partners button (blue, matches mobile.html) */
+    .mobile-nav-bar .nav-partners-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+      border: none;
+      color: #fff;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.15s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .mobile-nav-bar .nav-partners-btn:active { opacity: 0.85; transform: scale(0.97); }
+
+    /* Partners dropdown panel (services.html mobile) */
+    .mnav-partners-panel {
+      position: fixed;
+      top: 48px; right: 0;
+      width: 220px;
+      background: rgba(8, 12, 20, 0.98);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-top: none;
+      border-radius: 0 0 0 14px;
+      padding: 8px;
+      z-index: 9998;
+      transform: translateY(-8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .mnav-partners-panel.open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .mnav-partners-panel a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .mnav-partners-panel a:active { background: rgba(255,255,255,0.08); }
+    .mnav-partners-panel a img {
+      height: 22px;
+      width: auto;
+      object-fit: contain;
+      filter: brightness(1.3);
+    }
+    .mnav-partners-panel a img[alt="Mariposa Batu"] { filter: invert(1) brightness(1.8); }
+    .mnav-partners-panel a img[alt="Biozar"] { filter: brightness(1.5); }
+    .mnav-partners-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9997;
+    }
+    .mnav-partners-overlay.open { display: block; }
+
     @media(max-width: 768px) {
       .mobile-nav-bar { display: flex; }
       .nav { display: none; }
@@ -2084,6 +2275,8 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        align-items: center;
+        text-align: center;
         overflow: hidden;
         background:
           radial-gradient(120% 84% at 50% 0%, rgba(212,175,55,0.2) 0%, rgba(8,8,12,0) 60%),
@@ -2112,13 +2305,14 @@
       }
       .svc-m-title {
         position: relative;
-        font-family: var(--font-serif);
-        font-size: clamp(2.4rem, 11vw, 3.4rem);
-        line-height: 0.95;
-        letter-spacing: -0.01em;
-        font-weight: 400;
+        font-family: var(--font-brand);
+        font-size: clamp(4.4rem, 20vw, 6rem);
+        line-height: 0.92;
+        letter-spacing: 0.01em;
+        font-weight: 700;
         color: #fff;
         margin: 0 0 14px;
+        text-shadow: 0 4px 30px rgba(0,0,0,0.45);
       }
       .svc-m-sub {
         position: relative;
@@ -2142,7 +2336,7 @@
         display: inline-flex;
         align-items: center;
         gap: 10px;
-        align-self: flex-start;
+        align-self: center;
         padding: 14px 26px;
         background: linear-gradient(135deg, var(--gold-primary), #b8941f);
         color: #08080c;
@@ -2176,11 +2370,12 @@
         font-weight: 600;
       }
       .svc-m-section-head h2 {
-        font-family: var(--font-serif);
-        font-size: 26px;
-        line-height: 1.15;
-        font-weight: 400;
-        margin: 8px 0 0;
+        font-family: var(--font-brand);
+        font-size: 46px;
+        line-height: 1;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        margin: 6px 0 0;
         color: #fff;
       }
 
@@ -2439,19 +2634,91 @@
       <a href="event.html" class="nav-link">Events</a>
       <a href="projects.html" class="nav-link">Projects</a>
     </div>
+    <button class="nav-partners-btn" id="mnavPartnersBtn" aria-expanded="false" aria-label="Partners menu" type="button">
+      Partners
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
   </nav>
+
+  <!-- Partners dropdown (mobile) -->
+  <div class="mnav-partners-overlay" id="mnavPartnersOverlay"></div>
+  <div class="mnav-partners-panel" id="mnavPartnersPanel">
+    <a href="vegaqura.html">
+      <img src="assets/optimized/logo-vegaqura.480w.webp" alt="Vegaqura" loading="lazy" decoding="async">
+      Vegaqura
+    </a>
+    <a href="sdbi-center.html">
+      <img src="assets/logo-sbdi.webp" alt="SBDI" loading="lazy" decoding="async">
+      SBDI Center
+    </a>
+    <a href="wiseuse.html">
+      <img src="assets/optimized/wiseuse-pyramid.171w.webp" alt="WiseUse" loading="lazy" decoding="async">
+      WiseUse International
+    </a>
+    <a href="eko-vitaris.html">
+      <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" loading="lazy" decoding="async">
+      Eko Vitaris
+    </a>
+    <a href="mariposa-batu.html">
+      <img src="assets/optimized/logo-mariposa-batu.480w.webp" alt="Mariposa Batu" loading="lazy" decoding="async" style="border-radius:4px;">
+      Mariposa Batu
+    </a>
+    <a href="biozar-venezuela.html">
+      <img src="assets/optimized/logo-biozar.340w.webp" alt="Biozar" loading="lazy" decoding="async">
+      Biozar Venezuela
+    </a>
+  </div>
 
   <!-- Custom Element: Elegant Cursor -->
   <div class="cursor-dot" id="cursor"></div>
 
-  <!-- NAVIGATION (desktop) -->
-  <nav class="nav" id="nav">
-    <div class="nav-brand">Frequency Vibes&trade;</div>
-    <div class="nav-actions">
-      <a href="index.html" data-cursor="hover" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 500; transition: color 0.3s;" onmouseover="this.style.color='var(--text-main)'" onmouseout="this.style.color='var(--text-muted)'">Home</a>
-      <a href="event.html" data-cursor="hover" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 500; transition: color 0.3s;" onmouseover="this.style.color='var(--text-main)'" onmouseout="this.style.color='var(--text-muted)'">Events</a>
-      <a href="projects.html" data-cursor="hover" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); font-weight: 500; transition: color 0.3s;" onmouseover="this.style.color='var(--text-main)'" onmouseout="this.style.color='var(--text-muted)'">Projects</a>
-      <a href="index.html#contact" class="btn-magnetic" data-cursor="hover">Contact</a>
+  <!-- NAVIGATION (desktop) - matches index.html top-nav-banner -->
+  <nav class="top-nav-banner">
+    <div class="top-nav-container">
+      <a href="index.html" class="top-nav-brand">Frequency Vibes&trade;</a>
+      <div class="top-nav-links">
+        <a href="projects.html" class="top-nav-link">Explore Projects</a>
+        <a href="event.html" class="top-nav-link">Events</a>
+        <a href="index.html#contact" class="top-nav-link">Get in Touch</a>
+        <div class="partners-dropdown-container">
+          <button class="top-nav-link top-nav-partners-btn" id="svcPartnersBtn" aria-expanded="false" type="button">
+            PARTNERS
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left: 6px;">
+              <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="partners-dropdown-menu" id="svcPartnersDropdown">
+            <a href="vegaqura.html" class="partners-dropdown-item">
+              <img src="assets/optimized/logo-vegaqura.480w.webp" alt="Vegaqura" class="partner-icon-img" loading="lazy" decoding="async">
+              Vegaqura
+            </a>
+            <a href="sdbi-center.html" class="partners-dropdown-item">
+              <img src="assets/logo-sbdi.webp" alt="SBDI" class="partner-icon-img" loading="lazy" decoding="async">
+              SBDI Center
+            </a>
+            <a href="wiseuse.html" class="partners-dropdown-item">
+              <img src="assets/optimized/wiseuse-pyramid.171w.webp" alt="WiseUse" class="partner-icon-img" loading="lazy" decoding="async">
+              WiseUse International
+            </a>
+            <a href="eko-vitaris.html" class="partners-dropdown-item">
+              <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-icon-img" loading="lazy" decoding="async">
+              Eko Vitaris
+            </a>
+            <a href="mariposa-batu.html" class="partners-dropdown-item">
+              <img src="assets/optimized/logo-mariposa-batu.480w.webp" alt="Mariposa Batu" class="partner-icon-img" style="border-radius:4px;" loading="lazy" decoding="async">
+              Mariposa Batu
+            </a>
+            <a href="biozar-venezuela.html" class="partners-dropdown-item">
+              <img src="assets/optimized/logo-biozar.340w.webp" alt="Biozar" class="partner-icon-img" loading="lazy" decoding="async">
+              Biozar Venezuela
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </nav>
 
@@ -2535,7 +2802,7 @@
           </div>
           <div class="svc-m-card-body">
             <h3>Obsidian Retreats</h3>
-            <p>Premium nature-based frequency training. Invitation-only access, max 12 participants.</p>
+            <p>Premium nature-based frequency training. By personal selection, max 12 participants.</p>
             <a href="obsidian-retreats.html" class="svc-m-card-cta">View Retreat →</a>
           </div>
         </article>
@@ -2944,7 +3211,7 @@
           <div class="panel-content">
             <h3 class="panel-title">Obsidian Retreats</h3>
             <p class="panel-desc">Premium, nature-based frequency training in uncompromising luxury locations. Deep embodiment work with zero external distractions.</p>
-            <p class="panel-note"><strong>Invitation-only access.</strong> Apply for intake first; secure booking is available only after invitation.</p>
+            <p class="panel-note"><strong>Access by personal selection.</strong> Apply for intake first; secure booking is available only after personal review.</p>
             <ul class="feats-list">
               <li><span class="bullet">&#10022;</span> <span>Total systemic nervous system physical reset</span></li>
               <li><span class="bullet">&#10022;</span> <span>Isolated extreme environment immersion</span></li>
@@ -3403,20 +3670,38 @@
       });
     });
 
-    // â”€â”€ SCROLL ANIMATIONS (Nav, Parallax, Reveal)
-    const nav = document.getElementById('nav');
+    // â”€â”€ SCROLL ANIMATIONS (Parallax, Reveal). Nav is now a static banner.
     const heroImg = document.getElementById('hero-img');
-    
+
     window.addEventListener('scroll', () => {
       const sf = window.scrollY;
-      if(sf > 50) nav.classList.add('scrolled');
-      else nav.classList.remove('scrolled');
-      
       if(heroImg && sf < window.innerHeight) {
         // High-performance transform
         heroImg.style.setProperty('--hero-parallax-y', `${sf * 0.3}px`);
       }
     });
+
+    // Desktop partners dropdown toggle
+    (function initDesktopPartnersMenu() {
+      var btn = document.getElementById('svcPartnersBtn');
+      var menu = document.getElementById('svcPartnersDropdown');
+      if (!btn || !menu) return;
+      function close() {
+        menu.classList.remove('active');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = menu.classList.toggle('active');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      document.addEventListener('click', function (e) {
+        if (!menu.contains(e.target) && e.target !== btn) close();
+      });
+      menu.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', close);
+      });
+    })();
 
     // Clean Reveal Observer (generic â€” excludes canvas-board)
     const observer = new IntersectionObserver(entries => {
@@ -4033,6 +4318,31 @@
         console.error('hero monolith init failed', e);
       }
     }
+  </script>
+
+  <!-- Mobile partners dropdown -->
+  <script>
+    (function initMobilePartnersMenu() {
+      var btn = document.getElementById('mnavPartnersBtn');
+      var panel = document.getElementById('mnavPartnersPanel');
+      var overlay = document.getElementById('mnavPartnersOverlay');
+      if (!btn || !panel || !overlay) return;
+      function close() {
+        panel.classList.remove('open');
+        overlay.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+      function toggle() {
+        var open = panel.classList.toggle('open');
+        overlay.classList.toggle('open', open);
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      }
+      btn.addEventListener('click', toggle);
+      overlay.addEventListener('click', close);
+      panel.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', close);
+      });
+    })();
   </script>
 
   <!-- Mobile services scroll-spy tab bar -->

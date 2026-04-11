@@ -60,43 +60,94 @@ body.service-theme::before {
   opacity: var(--page-bg-symbol-opacity);
   transform: rotate(var(--page-bg-symbol-rotate));
   transform-origin: center;
+  filter: var(--page-bg-symbol-filter, none);
 }
 
+/* ─────── Service themes (5 services) ─────── */
 body.theme-elite {
   --page-bg-symbol-url: url("../assets/symbols/bg-elite-sacred.svg");
-  --page-bg-symbol-size: clamp(1560px, 188vw, 3040px);
-  --page-bg-symbol-opacity: 0.98;
+  --page-bg-symbol-size: clamp(820px, 95vw, 1480px);
+  --page-bg-symbol-opacity: 0.9;
   --page-bg-symbol-position: 52% 48%;
+  /* Neutral gold — the reference look */
+  --page-bg-symbol-filter: none;
 }
 
 body.theme-leadership {
   --page-bg-symbol-url: url("../assets/symbols/bg-leadership-sacred.svg");
-  --page-bg-symbol-size: clamp(1540px, 186vw, 3000px);
-  --page-bg-symbol-opacity: 0.98;
+  --page-bg-symbol-size: clamp(800px, 92vw, 1440px);
+  --page-bg-symbol-opacity: 0.88;
   --page-bg-symbol-position: 52% 46%;
   --page-bg-symbol-rotate: 10deg;
+  /* Cool blue tint — corporate / authoritative */
+  --page-bg-symbol-filter: hue-rotate(180deg) saturate(0.85) brightness(1.05);
 }
 
 body.theme-retreats {
   --page-bg-symbol-url: url("../assets/symbols/bg-retreats-sacred.svg");
-  --page-bg-symbol-size: clamp(1600px, 192vw, 3120px);
-  --page-bg-symbol-opacity: 0.98;
+  --page-bg-symbol-size: clamp(840px, 98vw, 1520px);
+  --page-bg-symbol-opacity: 0.88;
   --page-bg-symbol-position: 50% 52%;
   --page-bg-symbol-rotate: -2deg;
+  /* Emerald / deep green — nature */
+  --page-bg-symbol-filter: hue-rotate(90deg) saturate(1.1) brightness(0.95);
 }
 
 body.theme-workshops {
   --page-bg-symbol-url: url("../assets/symbols/bg-workshops-sacred.svg");
-  --page-bg-symbol-size: clamp(1620px, 194vw, 3160px);
-  --page-bg-symbol-opacity: 0.99;
+  --page-bg-symbol-size: clamp(860px, 100vw, 1560px);
+  --page-bg-symbol-opacity: 0.9;
   --page-bg-symbol-position: 51% 50%;
+  /* Copper / burnt orange — kinetic energy */
+  --page-bg-symbol-filter: hue-rotate(-25deg) saturate(1.2) brightness(1);
 }
 
 body.theme-certification {
   --page-bg-symbol-url: url("../assets/symbols/bg-certification-sacred.svg");
-  --page-bg-symbol-size: clamp(1580px, 190vw, 3080px);
-  --page-bg-symbol-opacity: 0.98;
+  --page-bg-symbol-size: clamp(820px, 96vw, 1500px);
+  --page-bg-symbol-opacity: 0.88;
   --page-bg-symbol-position: 50% 50%;
+  /* Violet — mastery / status */
+  --page-bg-symbol-filter: hue-rotate(230deg) saturate(0.9) brightness(1.05);
+}
+
+/* ─────── Audience themes (4 audience pages, unique symbols) ─────── */
+body.theme-corporate-executive {
+  --page-bg-symbol-url: url("../assets/symbols/metatron.svg");
+  --page-bg-symbol-size: clamp(640px, 74vw, 1160px);
+  --page-bg-symbol-opacity: 0.82;
+  --page-bg-symbol-position: 50% 50%;
+  /* Silver-blue — executive precision */
+  --page-bg-symbol-filter: hue-rotate(200deg) saturate(0.55) brightness(1.2);
+}
+
+body.theme-professional-sports {
+  --page-bg-symbol-url: url("../assets/symbols/torus.svg");
+  --page-bg-symbol-size: clamp(640px, 74vw, 1160px);
+  --page-bg-symbol-opacity: 0.84;
+  --page-bg-symbol-position: 50% 50%;
+  --page-bg-symbol-rotate: 12deg;
+  /* Crimson — performance / adrenaline */
+  --page-bg-symbol-filter: hue-rotate(-45deg) saturate(1.4) brightness(1);
+}
+
+body.theme-holistic-wellness {
+  --page-bg-symbol-url: url("../assets/symbols/flower-of-life.svg");
+  --page-bg-symbol-size: clamp(680px, 78vw, 1240px);
+  --page-bg-symbol-opacity: 0.84;
+  --page-bg-symbol-position: 50% 50%;
+  /* Emerald / sage — wellness & nature */
+  --page-bg-symbol-filter: hue-rotate(65deg) saturate(1.15) brightness(1);
+}
+
+body.theme-high-net-worth {
+  --page-bg-symbol-url: url("../assets/symbols/merkaba.svg");
+  --page-bg-symbol-size: clamp(660px, 76vw, 1200px);
+  --page-bg-symbol-opacity: 0.85;
+  --page-bg-symbol-position: 50% 50%;
+  --page-bg-symbol-rotate: -6deg;
+  /* Platinum violet — exclusive */
+  --page-bg-symbol-filter: hue-rotate(260deg) saturate(0.7) brightness(1.15);
 }
 
 a {
@@ -404,9 +455,24 @@ img {
 }
 
 @media (max-width: 720px) {
+  /* Shrink + recenter the bg symbol so it reads as intentional decoration
+     instead of spilling off-screen. Each theme still respects its own
+     per-theme filter + rotation via the custom properties. */
   body.service-theme::before {
-    inset: -20vmax;
+    inset: 0;
+    background-size: clamp(340px, 88vw, 520px);
+    background-position: 50% 22%;
+    opacity: 0.5;
   }
+  body.theme-elite::before,
+  body.theme-high-net-worth::before { background-position: 50% 28%; }
+  body.theme-retreats::before,
+  body.theme-holistic-wellness::before { background-position: 50% 20%; }
+  body.theme-workshops::before,
+  body.theme-professional-sports::before { background-position: 50% 24%; }
+  body.theme-leadership::before,
+  body.theme-corporate-executive::before { background-position: 50% 26%; }
+  body.theme-certification::before { background-position: 50% 22%; }
 
   .detail-page {
     padding: 20px 16px 44px;
