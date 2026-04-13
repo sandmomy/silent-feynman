@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | The Final Journey</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Montserrat:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        .scroll-container {
+            height: 1200vh;
+            position: relative;
+            z-index: 0;
+        }
+
+        .ui-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 30px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: auto;
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: 2px;
+            mix-blend-mode: difference;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .timeline {
+            position: fixed;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 40vh;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .timeline-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            height: 0%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .chapter-indicator {
+            position: fixed;
+            left: 40px;
+            bottom: 40px;
+            font-family: 'Cinzel', serif;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1rem;
+            letter-spacing: 3px;
+        }
+
+        .scene-title-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Cinzel', serif;
+            font-size: 10vw;
+            opacity: 0;
+            color: rgba(255, 255, 255, 0.03);
+            white-space: nowrap;
+            letter-spacing: 1vw;
+            pointer-events: none;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-family: 'Cinzel', serif;
+            pointer-events: none;
+            transition: opacity 1.5s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #error-log {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            width: 90%;
+            color: red;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            font-family: monospace;
+            display: none;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="error-log"></div>
+    <div class="loader" id="loader">INITIALIZING...</div>
+
+    <div id="canvas-container"></div>
+
+    <div class="ui-layer">
+        <nav>
+            <a href="#" class="logo">EUGENE MIERAK</a>
+            <div class="nav-links">
+                <a href="#">About</a>
+                <a href="#">Work</a>
+                <a href="#">Contact</a>
+            </div>
+        </nav>
+        <div class="timeline">
+            <div class="timeline-fill" id="progressFill"></div>
+        </div>
+        <div class="chapter-indicator"><span id="chapterName">I. ORIGIN</span></div>
+        <div class="scene-title-overlay" id="sceneTitle">CHAOS</div>
+    </div>
+
+    <div class="scroll-container"></div>
+
+    <script>
+        // GLOBAL ERROR HANDLER
+        window.onerror = function (msg, source, lineno, colno, error) {
+            const el = document.getElementById('error-log');
+            el.style.display = 'block';
+            el.innerHTML += `<p>${msg} at line ${lineno}</p>`;
+            document.getElementById('loader').classList.add('hidden'); // Force hide loader
+        };
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script>
+        try {
+            gsap.registerPlugin(ScrollTrigger);
+
+            const container = document.getElementById('canvas-container');
+            const scene = new THREE.Scene();
+            const fogColor = new THREE.Color(0x050505);
+            scene.fog = new THREE.FogExp2(fogColor, 0.02);
+            scene.background = fogColor;
+
+            const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.1;
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            // TEXTURE FACTORY
+            function createTextTexture(content) {
+                const canvas = document.createElement('canvas');
+                canvas.width = 1000;
+                canvas.height = 700;
+                const ctx = canvas.getContext('2d');
+                const grad = ctx.createLinearGradient(0, 0, 1000, 700);
+                grad.addColorStop(0, 'rgba(15, 20, 30, 0.95)');
+                grad.addColorStop(1, 'rgba(5, 5, 10, 0.9)');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, 1000, 700);
+
+                ctx.strokeStyle = '#c9a227';
+                ctx.lineWidth = 10;
+                ctx.strokeRect(0, 0, 1000, 700);
+
+                ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(30, 30, 940, 640);
+
+                ctx.fillStyle = '#c9a227';
+                ctx.font = '600 24px Montserrat';
+                ctx.letterSpacing = '4px';
+                ctx.fillText(content.label, 80, 100);
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '400 90px Cinzel';
+                const titleLines = content.title.split('\n');
+                titleLines.forEach((line, i) => {
+                    ctx.fillText(line, 80, 240 + i * 110);
+                });
+
+                ctx.fillStyle = 'rgba(255,255,255,0.8)';
+                ctx.font = '300 32px Montserrat';
+                const bodyLines = content.body.split('\n');
+                bodyLines.forEach((line, i) => {
+                    ctx.fillText(line, 80, 260 + (titleLines.length * 110) + i * 50);
+                });
+
+                return new THREE.CanvasTexture(canvas);
+            }
+
+            // PANELS
+            const panelContents = [
+                { label: 'IDENTITY', title: 'Eugene\nMierak', body: 'Frequency practitioner specializing in\nalignment caching, coherence training,\nand energetic methodologies.' },
+                { label: 'THE WORK', title: 'Integrative\nCoherence', body: 'Working through integrative systems\nto support clarity, stability,\nand conscious evolution.' },
+                { label: 'APPROACH', title: 'Frequency\n& Frameworks', body: 'Bridging subtle frequency sciences with\npractical frameworks for personal\nand planetary alignment.' },
+                { label: 'GLOBAL', title: 'SBDI\nFoundation', body: 'Director of International Relations.\nFostering global partnerships for\nholistic sustainability.' },
+                { label: 'MISSION', title: 'Coherent\nImpact', body: 'Creating lasting, regenerative impact\nfor communities through conscious\ninternational cooperation.' }
+            ];
+
+            const panelPositions = [
+                new THREE.Vector3(0, 0, -30),
+                new THREE.Vector3(25, 5, -180),
+                new THREE.Vector3(-25, -5, -350),
+                new THREE.Vector3(0, 10, -550),
+                new THREE.Vector3(0, 0, -750)
+            ];
+
+            const panels = [];
+            panelContents.forEach((c, i) => {
+                const tex = createTextTexture(c);
+                const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, side: THREE.DoubleSide });
+                const geo = new THREE.PlaneGeometry(35, 24.5);
+                const mesh = new THREE.Mesh(geo, mat);
+                mesh.position.copy(panelPositions[i]);
+                mesh.userData = {
+                    floatSpeed: Math.random() * 0.005 + 0.002,
+                    floatAmp: Math.random() * 2 + 1,
+                    rotSpeed: (Math.random() - 0.5) * 0.001,
+                    initialY: mesh.position.y
+                };
+                scene.add(mesh);
+                panels.push(mesh);
+            });
+
+            // SCENES
+            const groupChaos = new THREE.Group();
+            const tetGeo = new THREE.TetrahedronGeometry(1.5, 0);
+            const tetMat = new THREE.MeshStandardMaterial({ color: 0x444444, roughness: 0.5, metalness: 0.8 });
+            for (let i = 0; i < 300; i++) {
+                const m = new THREE.Mesh(tetGeo, tetMat);
+                m.position.set((Math.random() - 0.5) * 180, (Math.random() - 0.5) * 120, (Math.random() - 0.5) * 120 - 30);
+                m.rotation.set(Math.random() * 3, Math.random() * 3, 0);
+                m.scale.setScalar(Math.random() * 2 + 0.5);
+                groupChaos.add(m);
+            }
+            scene.add(groupChaos);
+
+            const groupOrder = new THREE.Group();
+            const octGeo = new THREE.OctahedronGeometry(2, 0);
+            const octMat = new THREE.MeshPhysicalMaterial({ color: 0x4488ff, metalness: 0.1, roughness: 0.1, transmission: 0.6, transparent: true });
+            for (let i = 0; i < 120; i++) {
+                const angle = (i / 120) * Math.PI * 16;
+                const r = 30;
+                const m = new THREE.Mesh(octGeo, octMat);
+                const z = -120 - (i * 1.5);
+                m.position.set(Math.cos(angle) * r, Math.sin(angle) * r, z);
+                m.lookAt(0, 0, z);
+                m.scale.setScalar(Math.random() + 0.5);
+                groupOrder.add(m);
+            }
+            scene.add(groupOrder);
+
+            const groupRes = new THREE.Group();
+            const ringGeo = new THREE.TorusGeometry(35, 0.4, 16, 100);
+            const ringMat = new THREE.MeshBasicMaterial({ color: 0xffaa00, transparent: true, opacity: 0.4 });
+            for (let i = 0; i < 12; i++) {
+                const t = new THREE.Mesh(ringGeo, ringMat);
+                t.position.z = -300 - (i * 18);
+                t.userData.baseScale = 1 + (i * 0.05);
+                groupRes.add(t);
+            }
+            scene.add(groupRes);
+
+            const groupGlob = new THREE.Group();
+            const nodeMat = new THREE.MeshBasicMaterial({ color: 0x00ffff });
+            const nodeGeo = new THREE.IcosahedronGeometry(0.8, 0);
+            for (let i = 0; i < 80; i++) {
+                const m = new THREE.Mesh(nodeGeo, nodeMat);
+                const r = 40 + Math.random() * 20;
+                const phi = Math.acos(-1 + (2 * i) / 80);
+                const theta = Math.sqrt(80 * Math.PI) * phi;
+                m.position.setFromSphericalCoords(r, phi, theta);
+                m.position.z -= 550;
+                groupGlob.add(m);
+            }
+            scene.add(groupGlob);
+
+            const groupImp = new THREE.Group();
+            const coreM = new THREE.Mesh(new THREE.SphereGeometry(6, 64, 64), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+            groupImp.add(coreM);
+            groupImp.position.z = -750;
+            scene.add(groupImp);
+
+            const sGeo = new THREE.BufferGeometry();
+            const sPos = [];
+            for (let i = 0; i < 1500; i++) {
+                sPos.push((Math.random() - 0.5) * 400);
+                sPos.push((Math.random() - 0.5) * 400);
+                sPos.push((Math.random() - 0.2) * -1000);
+            }
+            sGeo.setAttribute('position', new THREE.Float32BufferAttribute(sPos, 3));
+            const sMat = new THREE.PointsMaterial({ color: 0x888888, size: 0.3 });
+            scene.add(new THREE.Points(sGeo, sMat));
+
+            const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+            dirLight.position.set(0, 10, 0);
+            scene.add(dirLight);
+            const pLight = new THREE.PointLight(0xffffff, 0.8, 50);
+            scene.add(pLight);
+
+            // PATH & SCROLL
+            const pathPoints = [
+                new THREE.Vector3(0, 0, 10),
+                new THREE.Vector3(5, 2, -180),
+                new THREE.Vector3(-5, -2, -350),
+                new THREE.Vector3(0, 0, -550),
+                new THREE.Vector3(0, 0, -740)
+            ];
+            const camPath = new THREE.CatmullRomCurve3(pathPoints);
+
+            const progress = { val: 0 };
+            const colors = ['#050505', '#0a1030', '#201505', '#001a1a', '#222222'];
+
+            gsap.to(progress, {
+                val: 1, ease: "none",
+                scrollTrigger: {
+                    trigger: ".scroll-container", start: "top top", end: "bottom bottom", scrub: 0.5,
+                    onUpdate: (self) => {
+                        const p = self.progress;
+                        document.getElementById('progressFill').style.height = (p * 100) + '%';
+
+                        const idx = Math.min(Math.floor(p * 5), 4);
+                        const idxNext = Math.min(idx + 1, 4);
+                        const localP = (p * 5) % 1;
+                        if (colors[idx] && colors[idxNext]) {
+                            const c1 = new THREE.Color(colors[idx]);
+                            const c2 = new THREE.Color(colors[idxNext]);
+                            const finalC = c1.lerp(c2, localP);
+                            scene.background.copy(finalC);
+                            scene.fog.color.copy(finalC);
+                        }
+
+                        const names = ['ORIGIN', 'STRUCTURE', 'RESONANCE', 'GLOBAL', 'IMPACT'];
+                        document.getElementById('chapterName').textContent = "I. " + names[idx];
+                        const titleUI = document.getElementById('sceneTitle');
+                        titleUI.textContent = names[idx];
+                        titleUI.style.opacity = Math.sin(localP * Math.PI) * 0.2;
+                    }
+                }
+            });
+
+            const clock = new THREE.Clock();
+            function animate() {
+                requestAnimationFrame(animate);
+                const t = clock.getElapsedTime();
+
+                // Camera
+                const pt = camPath.getPointAt(progress.val);
+                const look = camPath.getPointAt(Math.min(progress.val + 0.01, 1));
+                pt.x += Math.cos(t * 0.5) * 0.2;
+                pt.y += Math.sin(t * 0.3) * 0.2;
+                camera.position.lerp(pt, 0.1);
+                camera.lookAt(look);
+                pLight.position.copy(camera.position);
+
+                // Panels (Billboard + Sway)
+                panels.forEach(p => {
+                    // Safe Billboarding: copy quaternion
+                    p.quaternion.copy(camera.quaternion);
+
+                    // Add sway locally?
+                    // With mesh aligned to camera, local X and Y are screen X and Y.
+                    // Rotation on Z rolls it. Rotation on X tilts it up/down.
+                    // We want subtle tilt.
+
+                    const rotX = Math.sin(t * 0.5 + p.id) * 0.05;
+                    const rotY = Math.cos(t * 0.3 + p.id) * 0.05;
+                    p.rotateX(rotX);
+                    p.rotateY(rotY);
+
+                    p.position.y = p.userData.initialY + Math.sin(t + p.userData.initialY) * p.userData.floatAmp;
+                });
+
+                // Scenes
+                groupChaos.rotation.y = t * 0.02;
+                groupOrder.rotation.z = t * 0.05;
+                groupRes.children.forEach((r, i) => r.scale.setScalar(r.userData.baseScale + Math.sin(t * 3 + i) * 0.1));
+                groupGlob.rotation.y = -t * 0.02;
+                groupImp.rotation.z = t * 0.1;
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Force hide loader just in case
+            setTimeout(() => document.getElementById('loader').classList.add('hidden'), 500);
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+
+        } catch (e) {
+            console.error(e);
+            document.getElementById('error-log').innerHTML = e.message;
+            document.getElementById('error-log').style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>

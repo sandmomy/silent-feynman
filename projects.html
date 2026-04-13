@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Eugene Mierak</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Explore Eugene Mierak's projects in sustainable development, food security, real estate, and technology.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="dns-prefetch" href="https://unpkg.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=IM+Fell+English:ital@0;1&family=Tangerine:wght@400;700&family=Permanent+Marker&family=Oswald:wght@300;400&display=swap">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=IM+Fell+English:ital@0;1&family=Tangerine:wght@400;700&family=Permanent+Marker&family=Oswald:wght@300;400&display=swap"
+        rel="stylesheet">
+    <style>html{opacity:0}html.fonts-ready{opacity:1;transition:opacity 0.15s ease-in}</style>
+    <script>document.fonts.ready.then(function(){document.documentElement.classList.add('fonts-ready')});setTimeout(function(){document.documentElement.classList.add('fonts-ready')},800);</script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.min.css">
+    <!-- Custom Styles for Projects Page -->
+    <link rel="stylesheet" href="css/projects.css">
+    <link rel="stylesheet" href="css/mobile-modal.min.css">
+    <style>
+        /* ===== MOBILE NAVBAR (matching mobile.html) ===== */
+        .mobile-nav-bar {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 9999;
+            background: rgba(8, 12, 20, 0.97);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            height: 48px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+        }
+        .mobile-nav-bar .nav-links { display: flex; align-items: center; gap: 4px; }
+        .mobile-nav-bar .nav-link {
+            font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,0.7);
+            padding: 6px 10px; border-radius: 6px; white-space: nowrap;
+            text-decoration: none; transition: color 0.2s, background 0.2s;
+        }
+        .mobile-nav-bar .nav-link:active { color: #fff; background: rgba(255,255,255,0.08); }
+        .mobile-nav-bar .nav-partners-btn {
+            display: flex; align-items: center; gap: 6px; padding: 6px 12px;
+            border-radius: 6px; background: linear-gradient(135deg, #38bdf8, #06b6d4);
+            border: none; color: #fff; font-family: inherit; font-size: 11px;
+            font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+            cursor: pointer; transition: opacity 0.15s, transform 0.15s;
+            -webkit-appearance: none; appearance: none;
+        }
+        .mobile-nav-bar .nav-partners-btn:active { opacity: 0.85; transform: scale(0.97); }
+        .mobile-partners-panel {
+            display: none; position: fixed; top: 48px; right: 0; width: 220px;
+            background: rgba(8, 12, 20, 0.98); backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08);
+            border-top: none; border-radius: 0 0 0 14px; padding: 8px; z-index: 9998;
+            transform: translateY(-8px); opacity: 0; pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .mobile-partners-panel.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .mobile-partners-panel a {
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+            border-radius: 8px; font-size: 12px; font-weight: 600;
+            color: rgba(255,255,255,0.75); text-decoration: none; transition: background 0.15s;
+        }
+        .mobile-partners-panel a:active { background: rgba(255,255,255,0.08); }
+        .mobile-partners-panel img { height: 22px; width: auto; object-fit: contain; filter: brightness(1.3); }
+        .mobile-partners-overlay { display: none; position: fixed; inset: 0; z-index: 9997; }
+        .mobile-partners-overlay.open { display: block; }
+
+        @media (max-width: 992px) {
+            .top-nav-banner { display: none !important; }
+            .mobile-nav-bar { display: flex; }
+            .mobile-partners-panel { display: block; }
+        }
+    </style>
+</head>
+
+<body class="showcase-page">
+    <!-- ============ MOBILE NAVBAR (same as mobile.html) ============ -->
+    <nav class="mobile-nav-bar">
+        <div class="nav-links">
+            <a href="mobile.html" class="nav-link">Home</a>
+            <a href="services.html" class="nav-link">Services</a>
+            <a href="event.html" class="nav-link">Events</a>
+            <a href="mobile.html#contact" class="nav-link">Contact</a>
+        </div>
+        <button class="nav-partners-btn" id="mobilePartnersBtn" aria-expanded="false" aria-label="Partners menu">
+            Partners
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </button>
+    </nav>
+    <div class="mobile-partners-overlay" id="mobilePartnersOverlay"></div>
+    <div class="mobile-partners-panel" id="mobilePartnersPanel">
+        <a href="vegaqura.html"><img src="assets/optimized/logo-vegaqura.480w.webp" alt="Vegaqura" loading="lazy" decoding="async"> Vegaqura</a>
+        <a href="sdbi-center.html"><img src="assets/logo-sbdi.webp" alt="SBDI" loading="lazy" decoding="async"> SBDI Center</a>
+        <a href="wiseuse.html"><img src="assets/optimized/wiseuse-pyramid.171w.webp" alt="WiseUse" loading="lazy" decoding="async"> WiseUse International</a>
+        <a href="eko-vitaris.html"><img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" loading="lazy" decoding="async"> Eko Vitaris</a>
+        <a href="mariposa-batu.html"><img src="assets/optimized/mariposa_batu.800w.webp" alt="Mariposa Batu" loading="lazy" style="border-radius:4px;" decoding="async"> Mariposa Batu</a>
+        <a href="biozar-venezuela.html"><img src="assets/optimized/logo-biozar.340w.webp" alt="Biozar" loading="lazy" decoding="async"> Biozar Venezuela</a>
+    </div>
+
+    <!-- Top Navigation Banner (desktop) -->
+    <nav class="top-nav-banner">
+        <div class="top-nav-container">
+            <a href="index.html" class="top-nav-brand">Frequency Vibes&trade;</a>
+            <div class="top-nav-links">
+                <a href="index.html" class="top-nav-link">Home</a>
+                <a href="services.html" class="top-nav-link">Services</a>
+                <a href="event.html" class="top-nav-link">Events</a>
+                <a href="index.html#contact" class="top-nav-link">Get in Touch</a>
+                <div class="partners-dropdown-container desktop-only">
+                    <button class="top-nav-link top-nav-partners-btn" id="partnersBtn" aria-expanded="false">
+                        PARTNERS
+                        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left: 6px;">
+                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <div class="partners-dropdown-menu" id="partnersDropdown">
+                        <a href="vegaqura.html" class="partners-dropdown-item">
+                            <img src="assets/optimized/logo-vegaqura.480w.webp" alt="Vegaqura" class="partner-icon-img" loading="lazy" decoding="async">
+                            Vegaqura
+                        </a>
+                        <a href="sdbi-center.html" class="partners-dropdown-item">
+                            <img src="assets/logo-sbdi.webp" alt="SBDI" class="partner-icon-img" loading="lazy" decoding="async">
+                            SBDI Center
+                        </a>
+                        <a href="wiseuse.html" class="partners-dropdown-item">
+                            <img src="assets/optimized/wiseuse-pyramid.171w.webp" alt="WiseUse" class="partner-icon-img" loading="lazy" decoding="async">
+                            WiseUse International
+                        </a>
+                        <a href="eko-vitaris.html" class="partners-dropdown-item">
+                            <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-icon-img" loading="lazy" decoding="async">
+                            Eko Vitaris
+                        </a>
+                        <a href="mariposa-batu.html" class="partners-dropdown-item">
+                            <img src="assets/optimized/logo-mariposa-batu.480w.webp" alt="Mariposa Batu" class="partner-icon-img" style="border-radius: 4px;" loading="lazy" decoding="async">
+                            Mariposa Batu
+                        </a>
+                        <a href="biozar-venezuela.html" class="partners-dropdown-item"><img src="assets/optimized/logo-biozar.340w.webp" alt="Biozar" class="partner-icon-img" loading="lazy" decoding="async"> Biozar Venezuela</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Matrix Rain Background -->
+    <div class="matrix-bg">
+        <canvas id="matrixCanvas"></canvas>
+        <div class="matrix-overlay"></div>
+    </div>
+
+    <!-- Scan Lines Effect -->
+    <div class="scanlines"></div>
+    <!-- Hero Split Layout -->
+    <div class="hero-split-wrapper">
+        <video class="hero-wrapper-video" autoplay muted loop playsinline>
+            <source src="assets/indonesia_bg_compressed.mp4" type="video/mp4">
+        </video>
+        <div class="hero-diagonal-bg"></div>
+
+        <div class="hero-container">
+            <!-- Left Side: Content -->
+            <div class="hero-left">
+                <div class="hero-content" style="margin-top:6rem;">
+                    <h1 class="hero-title">
+                        <span class="word-work">Work</span>
+                    </h1>
+
+                    <div class="hero-separator"></div>
+
+                    <div class="hero-keywords">
+                        <span class="hero-keyword">Alignment</span>
+                        <span class="hero-arrow">↓</span>
+                        <span class="hero-keyword">Focus</span>
+                        <span class="hero-arrow">↓</span>
+                        <span class="hero-keyword">Breath</span>
+                    </div>
+                    <div class="hero-actions">
+                        <button class="btn-scroll" aria-label="Scroll to project categories"
+                            onclick="document.getElementById('videoSpotlight').scrollIntoView({behavior: 'smooth'})">EXPLORE</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Clean (video shows through) -->
+            <div class="hero-right">
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== FEATURED CHAPTERS ====== -->
+    <section class="chapters-section" id="videoSpotlight">
+        <div class="chapters-inner">
+            <div class="chapters-header">
+                <span class="chapters-label">Chapters</span>
+                <h2 class="chapters-title">Featured Projects</h2>
+                <div class="chapters-rule"></div>
+            </div>
+
+            <!-- Chapter 01 — Ecological Sustainable Mining -->
+            <article class="chapter-card" data-chapter="01">
+                <div class="chapter-media">
+                    <div class="chapter-video-wrap">
+                        <iframe src="https://www.youtube.com/embed/NbaaK3jspYA" title="Ecological Sustainable Mining" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+                <div class="chapter-body">
+                    <span class="chapter-num" style="color:#ffffff;">01</span>
+                    <h3 class="chapter-name">Ecological Sustainable Mining</h3>
+                    <p class="chapter-desc">Overview of eco-friendly mining practices and environmental preservation methods. Watch the introduction and explore the full documentation.</p>
+                    <div class="chapter-actions">
+                        <button class="chapter-btn chapter-btn--outline" onclick="openModal('Ecological Sustainable Mining Introduction', 'Ecological_Sustainable_Mining_Introduction.pdf')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            View PDF
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Chapter 02 — Jamaica Pilot Project -->
+            <article class="chapter-card chapter-card--reverse" data-chapter="02">
+                <div class="chapter-media">
+                    <div class="chapter-video-wrap">
+                        <video controls preload="metadata" poster="assets/frequency-vibes-poster.jpg">
+                            <source src="assets/frequency-vibes-video.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="chapter-body">
+                    <span class="chapter-num" style="color:#d4a855;">02</span>
+                    <h3 class="chapter-name">Jamaica Pilot Project</h3>
+                    <p class="chapter-desc">Empowering communities through movement, discipline, and connection in the heart of the Caribbean.</p>
+                    <div class="chapter-actions">
+                        <a href="jamaica.html" class="chapter-btn chapter-btn--gold">
+                            Explore Full Project
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Chapter 03 — Frequency Vibes -->
+            <article class="chapter-card" data-chapter="03">
+                <div class="chapter-media">
+                    <div class="chapter-video-wrap">
+                        <video controls preload="metadata" poster="assets/event-video-poster.jpg">
+                            <source src="assets/event-video.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="chapter-body">
+                    <span class="chapter-num" style="color:#00bcd4;">03</span>
+                    <h3 class="chapter-name">Frequency Vibes</h3>
+                    <p class="chapter-desc">A sensory exploration of sound, movement, and frequency. Feel the alignment that connects body, mind, and environment.</p>
+                    <div class="chapter-actions">
+                        <a href="event.html" class="chapter-btn chapter-btn--outline">
+                            Explore the Event
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Chapter 04 — Indonesia's Exiles -->
+            <article class="chapter-card chapter-card--reverse" data-chapter="04">
+                <div class="chapter-media">
+                    <div class="chapter-video-wrap">
+                        <iframe src="https://www.youtube.com/embed/h-9r5LHyKtg" title="Indonesia's Exiles: Too Late To Return Home?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+                <div class="chapter-body">
+                    <span class="chapter-num" style="color:#e74c3c;">04</span>
+                    <h3 class="chapter-name">Indonesia's Exiles</h3>
+                    <p class="chapter-desc">Too Late To Return Home? A powerful documentary exploring the stories of Indonesian exiles — human rights, identity, and the search for belonging across generations.</p>
+                    <div class="chapter-actions">
+                        <a href="indonesia-exiles.html" class="chapter-btn chapter-btn--outline">
+                            Explore Full Story
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Chapter 05 — UNISMA in Malang Indonesia -->
+            <article class="chapter-card" data-chapter="05">
+                <div class="chapter-media">
+                    <div class="chapter-img-wrap">
+                        <img src="assets/optimized/knb_unisma.800w.webp" alt="UNISMA — Universitas Islam Malang" loading="lazy" decoding="async">
+                    </div>
+                </div>
+                <div class="chapter-body">
+                    <span class="chapter-num" style="color:#4caf50;">05</span>
+                    <h3 class="chapter-name">UNISMA in Malang, Indonesia</h3>
+                    <p class="chapter-desc">Universitas Islam Malang — a globally ranked university offering fully funded KNB Scholarships for international students. Education, culture, and sustainable development in the heart of East Java.</p>
+                    <div class="chapter-actions">
+                        <a href="unisma.html" class="chapter-btn chapter-btn--outline" style="background:rgba(76,175,80,0.06);border-color:rgba(76,175,80,0.3);color:#4caf50;">
+                            Explore Full Project
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </a>
+                        <button class="chapter-btn chapter-btn--outline" onclick="openModal('KNB UNISMA 2026 — Fully Funded Scholarship', 'Booklet_KNB_UNISMA_2026.pdf')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            View PDF
+                        </button>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- ====== PERSONAL PRACTICE / RETREATS ====== -->
+    <section class="retreat-gallery-section" id="retreatGallery">
+        <div class="chapters-inner">
+            <div class="chapters-header">
+                <span class="chapters-label" style="color: #4ade80;">Foundation</span>
+                <h2 class="chapters-title" style="font-size: clamp(2rem, 5vw, 3.5rem);">The Discipline of Practice</h2>
+                <div class="chapters-rule"></div>
+            </div>
+            
+            <p class="retreat-description">
+                A glimpse into the Golden Living Wellness Retreat. Movement, alignment, and breath in practice. Integrating ancient wisdom into modern discipline. 
+            </p>
+
+            <div class="retreat-grid">
+                <!-- Large Video Cell (2x2) -->
+                <div class="retreat-item retreat-video" title="Retreat Class Video">
+                    <video autoplay muted loop playsinline poster="assets/retreat-custom-01.jpg">
+                        <source src="assets/retreat-class-video.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <!-- Image Cells -->
+                <div class="retreat-item" title="Retreat Focus">
+                    <img src="assets/optimized/retreat-custom-01.800w.webp" alt="Yoga Retreat Class Alignment" loading="lazy" decoding="async">
+                </div>
+                <div class="retreat-item" title="Group Alignment">
+                    <img src="assets/optimized/retreat-custom-02.1200w.webp" alt="Yoga Retreat Group Focus" loading="lazy" decoding="async">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Gallery Section - Professional Dashboard -->
+    <section class="projects-dashboard" id="projectsDashboard">
+        <div class="dashboard-container">
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-tabs" id="filterTabs">
+                    <!-- Tabs inserted by JavaScript -->
+                </div>
+                <div class="view-controls">
+                    <button class="view-btn active" data-view="grid" title="Grid View">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+                            <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+                        </svg>
+                    </button>
+                    <button class="view-btn" data-view="list" title="List View">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/>
+                            <line x1="3" y1="18" x2="21" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Projects Grid -->
+            <div class="projects-gallery" id="projectsGallery">
+                <!-- Projects inserted by JavaScript -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-icon">📂</div>
+                <h3>No projects found</h3>
+                <p>Try selecting a different category</p>
+            </div>
+        </div>
+    </section>
+    <!-- PDF Viewer Modal - Professional Design -->
+    <div class="modal" id="pdfModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-header-left">
+                    <div class="modal-icon">📄</div>
+                    <div class="modal-title-group">
+                        <span class="modal-label">Document Viewer</span>
+                        <h3 class="modal-title" id="modalTitle">Document</h3>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <a href="#" class="modal-btn modal-btn-download" id="modalDownloadBtn" download>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Download
+                    </a>
+                    <button class="modal-btn modal-btn-close" id="modalClose" aria-label="Close">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <iframe id="pdfViewer" src="" frameborder="0" title="PDF Viewer" scrolling="yes" loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- MOBILE MODAL -->
+    <div id="mobile-modal-overlay">
+        <div id="mobile-modal-box">
+            <button id="mobile-modal-close-btn" aria-label="Close mobile document modal">✕</button>
+            <h3 id="mobile-modal-name">Title</h3>
+            <iframe id="mobile-modal-preview" src="" loading="lazy"></iframe>
+            <p id="mobile-modal-desc">Description</p>
+            <div class="mobile-modal-btns">
+                <button id="mobile-modal-view-btn" aria-label="View document PDF">👁️ View PDF</button>
+                <a id="mobile-modal-download-btn" href="#" download aria-label="Download document PDF">⬇️ Download</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
+
+    <!-- Scripts -->
+    <script src="js/documents-data.min.js" defer></script>
+    <script src="js/main.min.js" defer></script>
+    <script src="js/projects.min.js" defer></script>
+    <script>
+        // ====== Mobile Partners Dropdown ======
+        (function() {
+            var btn = document.getElementById('mobilePartnersBtn');
+            var panel = document.getElementById('mobilePartnersPanel');
+            var overlay = document.getElementById('mobilePartnersOverlay');
+            if (!btn || !panel) return;
+            function toggle() {
+                var open = panel.classList.toggle('open');
+                overlay.classList.toggle('open', open);
+                btn.setAttribute('aria-expanded', open);
+            }
+            function close() {
+                panel.classList.remove('open');
+                overlay.classList.remove('open');
+                btn.setAttribute('aria-expanded', 'false');
+            }
+            btn.addEventListener('click', toggle);
+            overlay.addEventListener('click', close);
+            panel.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', close); });
+        })();
+    </script>
+    <script>
+        // Chapter cards scroll reveal
+        (function() {
+            var cards = document.querySelectorAll('.chapter-card');
+            if (!cards.length) return;
+            var obs = new IntersectionObserver(function(entries) {
+                entries.forEach(function(e) {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('visible');
+                        obs.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+            cards.forEach(function(c) { obs.observe(c); });
+        })();
+    </script>
+</body>
+
+</html>

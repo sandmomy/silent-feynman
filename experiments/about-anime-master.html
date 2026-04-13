@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Kinetic Master</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500;700&family=Playfair+Display:ital,wght@1,400;1,600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0b0c10;
+            --text: #c5c6c7;
+            --gold: #66fcf1;
+            /* Cyan/Teal for "Cyber" feel or keeping Gold? let's stick to Gold/Neutral to be elegant */
+            --accent: #d4af37;
+            --dark: #1f2833;
+        }
+
+        /* Let's go for High-End Dark Monochrome + Gold */
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        /* NOISE & OVERLAY */
+        .grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* 3D CANVAS */
+        #canvas-container {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+        }
+
+        /* DECORATIVE SVG LAYER (Behind text, above 3D) */
+        .decor-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .line-path {
+            fill: none;
+            stroke: rgba(212, 175, 55, 0.3);
+            stroke-width: 1;
+            vector-effect: non-scaling-stroke;
+        }
+
+        /* CANVAS LEFT (Text) */
+        .text-stage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50vw;
+            height: 100vh;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Gradient Mask to fade text out at top/bottom? No, clean. */
+        }
+
+        .content-wrapper {
+            position: relative;
+            width: 80%;
+            max-width: 550px;
+        }
+
+        /* PANEL STRUCTURE */
+        .panel {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            pointer-events: none;
+            /* Anime.js handles opacity/visibility */
+            opacity: 0;
+        }
+
+        /* TYPOGRAPHY */
+        .label-wrap {
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            overflow: hidden;
+        }
+
+        .label-line {
+            height: 1px;
+            width: 40px;
+            background: var(--accent);
+            transform-origin: left;
+        }
+
+        .label-txt {
+            font-family: 'Inter';
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display';
+            font-size: 4rem;
+            line-height: 1.0;
+            margin-bottom: 2rem;
+            color: white;
+            overflow: hidden;
+        }
+
+        /* Word/Letter wraper for Anime.js */
+        .line-wrap {
+            overflow: hidden;
+            display: block;
+        }
+
+        .word {
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .letter {
+            display: inline-block;
+            transform-origin: center;
+            will-change: transform, opacity;
+        }
+
+        .desc {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #bbbbbb;
+            font-weight: 300;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .desc-border {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform-origin: top;
+        }
+
+        /* NAVIGATION UI */
+        .nav-ui {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            z-index: 100;
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-item {
+            font-family: 'Cinzel';
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: white;
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background: var(--accent);
+            transition: 0.3s;
+        }
+
+        .nav-item:hover::after {
+            width: 100%;
+        }
+
+
+        /* PROGRESS */
+        .progress-c {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            z-index: 100;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .p-dot {
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .p-dot.active {
+            background: var(--accent);
+            transform: scale(1.4);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="grain"></div>
+    <div id="canvas-container"></div>
+
+    <!-- SVG DECORATION LAYER -->
+    <svg class="decor-svg" xmlns="http://www.w3.org/2000/svg">
+        <!-- A circle/deco that will animate behind content -->
+        <circle id="deco-circle" cx="25%" cy="50%" r="200" fill="none" class="line-path" stroke-dasharray="1260"
+            stroke-dashoffset="1260" style="opacity:0.2" />
+        <line id="deco-line" x1="50%" y1="0" x2="50%" y2="100%" stroke="rgba(255,255,255,0.05)" stroke-width="1" />
+    </svg>
+
+    <div class="nav-ui">
+        <div class="nav-item">Index</div>
+        <div class="nav-item">Works</div>
+        <div class="nav-item">Contact</div>
+    </div>
+
+    <!-- UI DOTS -->
+    <div class="progress-c" id="dotsCtx">
+        <div class="p-dot active"></div>
+        <div class="p-dot"></div>
+        <div class="p-dot"></div>
+        <div class="p-dot"></div>
+    </div>
+
+
+    <!-- CONTENT STAGE -->
+    <div class="text-stage">
+        <div class="content-wrapper">
+
+            <!-- PANEL 0 -->
+            <div class="panel" id="p0">
+                <div class="label-wrap">
+                    <div class="label-line"></div>
+                    <div class="label-txt">Identity</div>
+                </div>
+                <h1 class="hero-title">
+                    Frequency<br>Architect
+                </h1>
+                <div class="desc">
+                    <div class="desc-border"></div>
+                    <span class="d-text">I'm Eugene Mierak, a frequency practitioner specializing in alignment caching
+                        and conscious evolution.</span>
+                </div>
+            </div>
+
+            <!-- PANEL 1 -->
+            <div class="panel" id="p1">
+                <div class="label-wrap">
+                    <div class="label-line"></div>
+                    <div class="label-txt">Connection</div>
+                </div>
+                <h1 class="hero-title">
+                    Coherent<br>Dynamics
+                </h1>
+                <div class="desc">
+                    <div class="desc-border"></div>
+                    <span class="d-text">Helping individuals and teams cultivate resonance in real-world decisions.
+                        Bridging internal alignment with external leadership.</span>
+                </div>
+            </div>
+
+            <!-- PANEL 2 -->
+            <div class="panel" id="p2">
+                <div class="label-wrap">
+                    <div class="label-line"></div>
+                    <div class="label-txt">Global</div>
+                </div>
+                <h1 class="hero-title">
+                    SBDI<br>Foundation
+                </h1>
+                <div class="desc">
+                    <div class="desc-border"></div>
+                    <span class="d-text">As Director of Int. Relationships, I foster global partnerships for holistic
+                        sustainability. Moving initiatives from vision to execution.</span>
+                </div>
+            </div>
+
+            <!-- PANEL 3 -->
+            <div class="panel" id="p3">
+                <div class="label-wrap">
+                    <div class="label-line"></div>
+                    <div class="label-txt">Mission</div>
+                </div>
+                <h1 class="hero-title">
+                    Future<br>Reality
+                </h1>
+                <div class="desc">
+                    <div class="desc-border"></div>
+                    <span class="d-text">Supporting the emergence of coherent, sustainable projects through frequency
+                        awareness and strategic alignment.</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- LIB SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+    <script>
+        // === UTILS: Text Splitting ===
+        // Wraps letters in spans for Anime.js staggering
+        function splitText() {
+            document.querySelectorAll('.hero-title').forEach(el => {
+                el.innerHTML = el.innerHTML.replace(/\S/g, "<span class='letter'>$&</span>");
+            });
+        }
+        splitText();
+
+        // === STATE ===
+        let current = 0;
+        const total = 4;
+        let isAnim = false;
+        let lastScroll = 0;
+        const scrollCooldown = 1500;
+
+        // === THREE.JS SETUP ===
+        const scene = new THREE.Scene();
+        const cam = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        cam.position.z = 20;
+        const ren = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        ren.setSize(window.innerWidth, window.innerHeight);
+        ren.setPixelRatio(window.devicePixelRatio);
+        document.getElementById('canvas-container').appendChild(ren.domElement);
+
+        // --- OBJECTS ---
+        // We us a single Morphing Object concept or separate? Separate is cleaner for precise transitions.
+        const objects = [];
+        const xPos = 5;
+
+        // 0: Wireframe Cube/Icosa hybrid
+        const g0 = new THREE.IcosahedronGeometry(4, 1);
+        const m0 = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, opacity: 0.08, transparent: true });
+        const o0 = new THREE.Mesh(g0, m0);
+        o0.position.x = xPos; scene.add(o0); objects.push(o0);
+
+        // 1: Torus Knot
+        const g1 = new THREE.TorusKnotGeometry(3, 0.5, 100, 16);
+        const m1 = new THREE.MeshBasicMaterial({ color: 0xd4af37, wireframe: true, opacity: 0, transparent: true });
+        const o1 = new THREE.Mesh(g1, m1);
+        o1.position.x = xPos; scene.add(o1); objects.push(o1);
+
+        // 2: Sphere
+        const g2 = new THREE.SphereGeometry(4, 32, 32);
+        const m2 = new THREE.MeshBasicMaterial({ color: 0x66fcf1, wireframe: true, opacity: 0, transparent: true });
+        const o2 = new THREE.Mesh(g2, m2);
+        o2.position.x = xPos; scene.add(o2); objects.push(o2);
+
+        // 3: Octa
+        const g3 = new THREE.OctahedronGeometry(4, 0);
+        const m3 = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, opacity: 0, transparent: true });
+        const o3 = new THREE.Mesh(g3, m3);
+        o3.position.x = xPos; scene.add(o3); objects.push(o3);
+
+
+        // === ANIMATION ENGINE (Anime.js) ===
+
+        function enter(idx) {
+            const el = document.getElementById(`p${idx}`);
+            if (!el) return;
+            el.style.opacity = 1;
+
+            // Elements
+            const line = el.querySelector('.label-line');
+            const label = el.querySelector('.label-txt');
+            const letters = el.querySelectorAll('.letter');
+            const border = el.querySelector('.desc-border');
+            const desc = el.querySelector('.d-text');
+
+            // Set Initial
+            anime.set(line, { scaleX: 0 });
+            anime.set(label, { opacity: 0, translateX: -20 });
+            anime.set(letters, { opacity: 0, translateY: 50, rotateZ: 10 });
+            anime.set(border, { scaleY: 0 });
+            anime.set(desc, { opacity: 0, translateX: 20 });
+
+            // Timeline
+            const tl = anime.timeline({ easing: 'easeOutExpo' });
+
+            tl.add({ targets: line, scaleX: [0, 1], duration: 800 })
+                .add({ targets: label, opacity: [0, 1], translateX: [-20, 0], duration: 800 }, '-=600')
+                .add({
+                    targets: letters,
+                    opacity: [0, 1], translateY: [50, 0], rotateZ: [10, 0],
+                    duration: 1200, delay: anime.stagger(50)
+                }, '-=600')
+                .add({ targets: border, scaleY: [0, 1], duration: 1000 }, '-=1000')
+                .add({ targets: desc, opacity: [0, 1], translateX: [20, 0], duration: 800 }, '-=800');
+
+            // Decor Circle Anim (Spin it)
+            anime({
+                targets: '#deco-circle',
+                strokeDashoffset: [anime.setDashoffset, 0],
+                rotate: [0, 180],
+                duration: 2000,
+                easing: 'easeInOutSine'
+            });
+        }
+
+        // INIT
+        enter(0);
+
+        function transition(nextIdx) {
+            if (isAnim || nextIdx === current) return;
+            isAnim = true;
+
+            const currEl = document.getElementById(`p${current}`);
+            const nextEl = document.getElementById(`p${nextIdx}`);
+            const currObj = objects[current];
+            const nextObj = objects[nextIdx];
+
+            // OUT TIMELINE
+            const letters = currEl.querySelectorAll('.letter');
+            const others = currEl.querySelectorAll('.label-wrap, .desc');
+
+            const tl = anime.timeline({
+                easing: 'easeInExpo',
+                complete: () => {
+                    currEl.style.opacity = 0;
+                    isAnim = false;
+                }
+            });
+
+            // "Implode" Layout
+            tl.add({
+                targets: letters,
+                opacity: 0, translateY: -50, rotateZ: -10,
+                duration: 600, delay: anime.stagger(30, { direction: 'reverse' })
+            })
+                .add({
+                    targets: others,
+                    opacity: 0, duration: 500
+                }, '-=400');
+
+            // ENTER NEW
+            setTimeout(() => {
+                enter(nextIdx);
+            }, 600);
+
+
+            // 3D TRANSITION
+            // Fade Out Current
+            anime({
+                targets: currObj.material,
+                opacity: 0,
+                duration: 1000,
+                easing: 'linear'
+            });
+            // Fade In Next
+            anime({
+                targets: nextObj.material,
+                opacity: 0.15,
+                duration: 1000,
+                delay: 500,
+                easing: 'linear'
+            });
+            // Rotate Next
+            anime({
+                targets: nextObj.rotation,
+                y: [Math.PI / 2, 0],
+                duration: 2000,
+                easing: 'easeOutElastic(1, .8)'
+            });
+
+
+            // Dots
+            const dots = document.querySelectorAll('.p-dot');
+            dots[current].classList.remove('active');
+            dots[nextIdx].classList.add('active');
+
+            current = nextIdx;
+        }
+
+        function next() { transition((current + 1) % total); }
+        function prev() { transition((current - 1 + total) % total); }
+
+        window.addEventListener('wheel', (e) => {
+            const now = Date.now();
+            if (now - lastScroll < scrollCooldown) return;
+            if (isAnim) return;
+            if (Math.abs(e.deltaY) < 30) return;
+
+            if (e.deltaY > 0) { next(); lastScroll = now; }
+            else { prev(); lastScroll = now; }
+        });
+
+        // LOOP
+        function loop() {
+            requestAnimationFrame(loop);
+            if (objects[current]) {
+                objects[current].rotation.y += 0.001;
+                objects[current].rotation.x += 0.0005;
+            }
+            ren.render(scene, cam);
+        }
+        loop();
+
+        window.addEventListener('resize', () => {
+            cam.aspect = window.innerWidth / window.innerHeight; cam.updateProjectionMatrix(); ren.setSize(window.innerWidth, window.innerHeight);
+        });
+
+    </script>
+</body>
+
+</html>

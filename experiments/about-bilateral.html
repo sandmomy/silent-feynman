@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Bilateral Flow</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@1,300;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #050608;
+            --text: #e1e1e1;
+            --gold: #d4af37;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* NOISE & BG */
+        .noise {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        #webgl-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+        }
+
+        /* NAV */
+        .nav-float {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            z-index: 100;
+            mix-blend-mode: difference;
+        }
+
+        .nav-float a {
+            color: white;
+            text-decoration: none;
+            font-family: 'Inter';
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-left: 20px;
+            opacity: 0.7;
+        }
+
+        /* HEADER */
+        .header-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .main-title {
+            font-family: 'Cinzel', serif;
+            font-size: 12vw;
+            line-height: 0.8;
+            text-align: center;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
+            /* Anim setup */
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+
+        /* CONTENT SECTIONS */
+        .content-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 10vh 0;
+            perspective: 1000px;
+            /* For 3D feel */
+        }
+
+        .split-container {
+            display: flex;
+            width: 100%;
+            max-width: 1600px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5vw;
+        }
+
+        .side-block {
+            width: 45%;
+            /* Will be animated */
+            opacity: 0;
+            transform: translateX(0);
+            will-change: transform, opacity;
+        }
+
+        /* Styling */
+        .label {
+            font-family: 'Inter';
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            display: block;
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--gold);
+            padding-bottom: 10px;
+            width: fit-content;
+        }
+
+        .title-h2 {
+            font-family: 'Playfair Display';
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 0;
+            color: white;
+        }
+
+        .text-p {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            color: #aaa;
+        }
+
+        .highlight {
+            color: white;
+            text-decoration: underline;
+            text-decoration-color: rgba(255, 255, 255, 0.3);
+            text-underline-offset: 4px;
+        }
+
+        /* SPECIFIC ALIGNMENTS */
+        /* Left Block (Text) / Right Block (Title) or Vice Versa */
+        .align-right {
+            text-align: right;
+            margin-left: auto;
+        }
+
+        /* IMAGES (Center) */
+        .image-center-wrap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-center {
+            width: 60vw;
+            height: 60vh;
+            object-fit: cover;
+            opacity: 0;
+            transform: scale(0.8);
+            filter: grayscale(100%) contrast(1.2);
+            transition: opacity 0.5s;
+        }
+
+        /* MISSION (One big block) */
+        .mission-block {
+            width: 80%;
+            margin: 0 auto;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="noise"></div>
+    <div id="webgl-bg"></div>
+
+    <nav class="nav-float">
+        <a href="index.html">Index</a>
+        <a href="projects.html">Work</a>
+    </nav>
+
+    <!-- HEADER -->
+    <header class="header-section">
+        <h1 class="main-title" id="titleMain">EUGENE<br>MIERAK</h1>
+    </header>
+
+    <!-- SECTION 1: IDENTITY -->
+    <section class="content-section" id="sec1">
+        <div class="image-center-wrap"><img src="assets/optimized/hero-pose.1600w.webp" class="image-center"></div>
+        <div class="split-container">
+            <!-- Left: Leaves to Left -->
+            <div class="side-block left-side">
+                <span class="label">01 // Identity</span>
+                <h2 class="title-h2">Frequency<br>Architect</h2>
+            </div>
+            <!-- Right: Leaves to Right -->
+            <div class="side-block right-side">
+                <p class="text-p">
+                    I'm Eugene Mierak, a frequency practitioner specializing in alignment caching and <span
+                        class="highlight">conscious evolution</span>. My work bridges subtle frequency sciences with
+                    practical frameworks for stability in chaos.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: THE BRIDGE -->
+    <section class="content-section" id="sec2">
+        <div class="split-container">
+            <!-- Left: Text -->
+            <div class="side-block left-side" style="text-align: right;">
+                <p class="text-p">
+                    Helping individuals and teams cultivate resonance in real-world decisions. My work bridges internal
+                    alignment with external leadership dynamics.
+                </p>
+            </div>
+            <!-- Right: Title -->
+            <div class="side-block right-side">
+                <span class="label">02 // The Bridge</span>
+                <h2 class="title-h2">Coherent<br>Dynamics</h2>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: GLOBAL ACTION -->
+    <section class="content-section" id="sec3">
+        <div class="image-center-wrap"><img src="assets/optimized/karangasem-water-temple-palace-bali.800w.webp"
+                class="image-center"></div>
+        <div class="split-container">
+            <div class="side-block left-side">
+                <span class="label">03 // Global Impact</span>
+                <h2 class="title-h2">SBDI<br>Foundation</h2>
+            </div>
+            <div class="side-block right-side">
+                <p class="text-p">
+                    As Director of International Relationships, I foster global partnerships for <span
+                        class="highlight">regenerative development</span>. Grounded in systems thinking, we move
+                    initiatives from vision to coherent execution.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: MISSION -->
+    <section class="content-section" id="sec4">
+        <div class="mission-block side-block split-center">
+            <span class="label" style="margin: 0 auto 30px auto;">04 // Mission</span>
+            <p class="text-p"
+                style="font-size: 2.2rem; line-height: 1.4; color: white; font-family: 'Playfair Display';">
+                Supporting the emergence of coherent, sustainable projects through frequency awareness and strategic
+                alignment—creating meaningful, lasting impact for communities and the planet.
+            </p>
+        </div>
+    </section>
+
+    <footer
+        style="height: 50vh; display:flex; justify-content:center; align-items:center; border-top:1px solid rgba(255,255,255,0.1);">
+        <a href="mailto:contact@eugenemierak.com"
+            style="color:white; font-family:'Cinzel'; font-size:1.5rem; text-decoration:none;">INITIATE CONTACT
+            sequence</a>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+
+    <script>
+        // === 1. SMOOTH SCROLL ===
+        const lenis = new Lenis({ smooth: true, lerp: 0.1 });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        // === 2. BILATERAL SCRUB LOGIC ===
+        // Concept: 
+        // y = dist from viewport center (normalized -1 to 1)
+        // opacity = 1 - abs(y) (Visible only in center)
+        // x_offset = y * spread (Far when y is large)
+
+        const sections = document.querySelectorAll('.content-section');
+        const titleGroups = document.querySelectorAll('.split-container, .mission-block');
+
+        lenis.on('scroll', (e) => {
+            const vh = window.innerHeight;
+
+            sections.forEach(sec => {
+                const rect = sec.getBoundingClientRect();
+                const centerDiff = (rect.top + rect.height / 2) - (vh / 2);
+                const norm = centerDiff / (vh * 0.6); // -1 (top) to 1 (bottom) roughly
+
+                // Animate background image if present
+                const img = sec.querySelector('.image-center');
+                if (img) {
+                    // Fade in only when SUPER central
+                    const op = 1 - Math.min(1, Math.abs(norm * 1.5));
+                    img.style.opacity = op * 0.4; // subtle
+                    img.style.transform = `scale(${1 + Math.abs(norm) * 0.2})`;
+                }
+
+                // Animate Left/Right Blocks
+                const left = sec.querySelector('.left-side');
+                const right = sec.querySelector('.right-side');
+                const center = sec.querySelector('.split-center');
+
+                // Logic: 
+                // Norm < 0 (Scrolled Past/Above): Left goes Left, Right goes Right?
+                // Norm > 0 (Coming from Bottom): Left comes from Left, Right comes from Right?
+                // Let's standardise: "Open Book". 
+                // Outside center => Pushed outwards.
+
+                const spread = 150; // px
+
+                if (left) {
+                    // Left element: 
+                    // When norm is -1 (above), x should be -spread.
+                    // When norm is 1 (below), x should be -spread.
+                    // When norm is 0 (center), x is 0.
+                    // So x = -abs(norm) * spread ?? 
+                    // Wait, user said "Re-open".
+                    // Typical: Slide IN from left (-x -> 0) then Slide OUT to left (0 -> -x)?
+                    // Or Slide IN from left (-x -> 0) then Slide OUT to top??
+
+                    // User said: "Salgan a los dos de la pagina" (Exit to both sides).
+                    // So: Center = 0. Outside = pushed to sides.
+
+                    const tx = -1 * Math.abs(norm) * spread; // Always pushes LEFT 
+                    left.style.transform = `translateX(${tx}px)`;
+                    left.style.opacity = 1 - Math.abs(norm * 1.2);
+                }
+
+                if (right) {
+                    const tx = 1 * Math.abs(norm) * spread; // Always pushes RIGHT
+                    right.style.transform = `translateX(${tx}px)`;
+                    right.style.opacity = 1 - Math.abs(norm * 1.2);
+                }
+
+                if (center) {
+                    // Split center? Maybe scale down?
+                    const s = 1 - Math.abs(norm) * 0.2;
+                    center.style.transform = `scale(${s})`;
+                    center.style.opacity = 1 - Math.abs(norm);
+                }
+            });
+
+            // Title fade
+            const tMain = document.getElementById('titleMain');
+            const scrollY = window.scrollY;
+            if (scrollY < vh) {
+                tMain.style.opacity = 1 - (scrollY / vh) * 1.5;
+                tMain.style.letterSpacing = `${(scrollY / vh) * 20}px`; // Expand
+            }
+        });
+
+        // === 3. THREE.JS (Subtle Energy Field) ===
+        const scene = new THREE.Scene();
+        const cam = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        cam.position.z = 20;
+        const ren = new THREE.WebGLRenderer({ alpha: true });
+        ren.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('webgl-bg').appendChild(ren.domElement);
+
+        const group = new THREE.Group();
+        scene.add(group);
+
+        // Lines
+        const geo = new THREE.IcosahedronGeometry(8, 1);
+        const mat = new THREE.MeshBasicMaterial({ color: 0x48bb78, wireframe: true, transparent: true, opacity: 0.08 });
+        const mesh = new THREE.Mesh(geo, mat);
+        group.add(mesh);
+
+        // Inner
+        const geo2 = new THREE.TorusGeometry(5, 0.2, 16, 100);
+        const mat2 = new THREE.MeshBasicMaterial({ color: 0xd4af37, transparent: true, opacity: 0.1, wireframe: true });
+        const mesh2 = new THREE.Mesh(geo2, mat2);
+        group.add(mesh2);
+
+        function anim() {
+            requestAnimationFrame(anim);
+            group.rotation.y += 0.001;
+            mesh2.rotation.x += 0.002;
+            ren.render(scene, cam);
+        }
+        anim();
+
+        window.addEventListener('resize', () => {
+            cam.aspect = window.innerWidth / window.innerHeight;
+            cam.updateProjectionMatrix();
+            ren.setSize(window.innerWidth, window.innerHeight);
+        });
+
+    </script>
+</body>
+
+</html>

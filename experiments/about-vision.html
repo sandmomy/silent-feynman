@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Vision & Frequency</title>
+
+    <!-- SEO -->
+    <meta name="description" content="Eugene Mierak — Frequency practitioner & Strategic Director.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@1,400;1,500&display=swap"
+        rel="stylesheet">
+
+    <!-- Base Styles (CSS Reset mainly) -->
+    <style>
+        :root {
+            --bg-deep: #050608;
+            --gold: #d4af37;
+            --ether: #48bb78;
+            --text-main: #e2e2e2;
+            --text-dim: #888888;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* --- NOISE TEXTURE (High End Feel) --- */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* --- BACKGROUNDS --- */
+        #webgl-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* --- NAVIGATION (Minimal Floating) --- */
+        .nav-float {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            z-index: 100;
+            mix-blend-mode: difference;
+        }
+
+        .nav-float a {
+            color: white;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-left: 30px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .nav-float a:hover {
+            opacity: 1;
+            text-decoration: underline;
+            text-underline-offset: 5px;
+        }
+
+        /* --- EDITORIAL LAYOUT --- */
+        .smooth-wrapper {
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-header {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .huge-title {
+            font-family: 'Cinzel', serif;
+            font-size: 10vw;
+            line-height: 0.9;
+            text-align: center;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .huge-title span {
+            display: block;
+            color: white;
+            /* Filled parts */
+        }
+
+        .huge-title .outline {
+            color: transparent;
+            /* Just stroke */
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            opacity: 0.5;
+        }
+
+        /* --- CONTENT GRIDS --- */
+        .content-section {
+            padding: 10vh 5vw;
+        }
+
+        .editorial-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 5vw;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .sticky-col {
+            position: sticky;
+            top: 10vh;
+            height: fit-content;
+        }
+
+        .scrolling-col {
+            padding-top: 20vh;
+        }
+
+        .label-text {
+            font-family: 'Inter', monospace;
+            font-size: 0.7rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            display: block;
+            border-left: 1px solid var(--gold);
+            padding-left: 15px;
+        }
+
+        h2.section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            line-height: 1.1;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            color: white;
+        }
+
+        p.text-body {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            color: var(--text-dim);
+            margin-bottom: 3rem;
+        }
+
+        .highlight {
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* --- VISUAL ACCENTS --- */
+        .img-block {
+            width: 100%;
+            height: 60vh;
+            background: rgba(255, 255, 255, 0.05);
+            margin-bottom: 5vh;
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .img-block img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            transition: transform 1s;
+        }
+
+        .img-caption {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-family: 'Inter', monospace;
+            font-size: 0.6rem;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 5px 10px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* FOOTER */
+        .footer-minimal {
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: #020204;
+            position: relative;
+            z-index: 20;
+        }
+
+        .footer-link {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            color: white;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0%;
+            height: 1px;
+            background: var(--gold);
+            transition: width 0.5s;
+        }
+
+        .footer-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="noise-overlay"></div>
+    <div id="webgl-container"></div>
+
+    <nav class="nav-float">
+        <a href="index.html">Index</a>
+        <a href="projects.html">Work</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="smooth-wrapper">
+
+        <!-- INTRO -->
+        <header class="section-header">
+            <h1 class="huge-title">
+                <span class="outline">EUGENE</span>
+                <span>MIERAK</span>
+            </h1>
+            <div class="scroll-down">Scroll to Align</div>
+        </header>
+
+        <!-- SECTION 1: IDENTITY (Sticky Layout) -->
+        <section class="content-section">
+            <div class="editorial-grid">
+                <div class="sticky-col">
+                    <span class="label-text">01 · Identity</span>
+                    <h2 class="section-title">Frequency<br>Architecht</h2>
+                </div>
+                <div class="scrolling-col">
+                    <p class="text-body">
+                        I am a <span class="highlight">frequency practitioner</span> serving the emergence of a new
+                        paradigm. My work lies at the intersection of alignment caching, coherence training, and <span
+                            class="highlight">conscious evolution</span>.
+                    </p>
+                    <p class="text-body">
+                        By bridging subtle frequency sciences with practical frameworks, I help individuals and
+                        organizations find stability in chaos—cultivating resonance that informs real-world leadership
+                        and decision making.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- VISUAL BREAK -->
+        <section class="section-header" style="min-height: 50vh;">
+            <div class="img-block" style="width: 80%; height: 50vh;">
+                <!-- Placeholder for abstract/auric visual if no image available, standardizing with a div -->
+                <div style="width:100%; height:100%; background: linear-gradient(45deg, #050810, #1a202c);"></div>
+                <div class="img-caption">FIG 1. RESONANCE FIELD</div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: GLOBAL (Reversed) -->
+        <section class="content-section">
+            <div class="editorial-grid">
+                <div class="sticky-col">
+                    <span class="label-text">02 · Orientation</span>
+                    <h2 class="section-title">Coherent<br>Action</h2>
+                </div>
+                <div class="scrolling-col">
+                    <p class="text-body">
+                        As Director of International Relationships for the <span class="highlight">SBDI
+                            Foundation</span>, I act as a bridge. I foster global partnerships that support holistic
+                        sustainability and regenerative development.
+                    </p>
+                    <div class="img-block" style="height: 40vh;">
+                        <img src="assets/optimized/karangasem-water-temple-palace-bali.800w.webp" alt="Bali Temple">
+                        <div class="img-caption">BALI, INDONESIA</div>
+                    </div>
+                    <p class="text-body">
+                        My approach is grounded in systems thinking. It is not enough to have a vision; the execution
+                        must be coherent. I align human potential with ecological responsibility to ensure lasting
+                        impact.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer-minimal">
+            <a href="mailto:contact@eugenemierak.com" class="footer-link">Initialize Contact</a>
+        </footer>
+
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+
+    <script>
+        // === SMOOTH SCROLL (Lenis) ===
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // === 3D BACKGROUND (Subtle & Dark) ===
+        const container = document.getElementById('webgl-container');
+        const scene = new THREE.Scene();
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.z = 15;
+
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        // GEOMETRY: Minimalist Lines
+        const geometry = new THREE.IcosahedronGeometry(7, 2);
+        const material = new THREE.MeshBasicMaterial({
+            color: 0x48bb78,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.05
+        });
+        const sphere = new THREE.Mesh(geometry, material);
+        scene.add(sphere);
+
+        // Inner Core
+        const coreGeo = new THREE.TorusKnotGeometry(2, 0.5, 100, 16);
+        const coreMat = new THREE.MeshBasicMaterial({ color: 0xd4af37, wireframe: true, transparent: true, opacity: 0.1 });
+        const core = new THREE.Mesh(coreGeo, coreMat);
+        scene.add(core);
+
+        // Particles
+        const pGeo = new THREE.BufferGeometry();
+        const pCount = 400;
+        const pPos = new Float32Array(pCount * 3);
+        for (let i = 0; i < pCount * 3; i++) pPos[i] = (Math.random() - 0.5) * 30;
+        pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+        const pMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.03, transparent: true, opacity: 0.3 });
+        const particles = new THREE.Points(pGeo, pMat);
+        scene.add(particles);
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const time = Date.now() * 0.0002;
+            sphere.rotation.y = time * 0.5;
+            core.rotation.x = time;
+            core.rotation.y = time * 0.8;
+            particles.rotation.y = time * 0.2;
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // === SCROLL ANIMATIONS (IntersectionObserver) ===
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    anime({
+                        targets: entry.target,
+                        opacity: [0, 1],
+                        translateY: [50, 0],
+                        duration: 1200,
+                        easing: 'easeOutExpo'
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        // Observe text blocks
+        document.querySelectorAll('.text-body, .section-title, .img-block').forEach(el => {
+            el.style.opacity = 0; // Init
+            observer.observe(el);
+        });
+
+    </script>
+</body>
+
+</html>

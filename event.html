@@ -1,0 +1,2072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080c14">
+  <link rel="icon" type="image/webp" href="assets/optimized/favicon.480w.webp">
+  <meta name="description" content="Frequency Vibes Journey — A one-of-a-kind journey by personal selection, led by Eugene Mierak. Java, Bali & Sumba, Indonesia.">
+  <title>Frequency Vibes Journey — Eugene Mierak</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=IM+Fell+English:ital@0;1&family=Tangerine:wght@400;700&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=IM+Fell+English:ital@0;1&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
+  <style>html{opacity:0}html.fonts-ready{opacity:1;transition:opacity 0.15s ease-in}</style>
+  <script>document.fonts.ready.then(function(){document.documentElement.classList.add('fonts-ready')});setTimeout(function(){document.documentElement.classList.add('fonts-ready')},800);</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #080c14;
+      --card:        #080b13;
+      --border:      rgba(255,255,255,0.08);
+      --accent-sky:  #0ea5e9;
+      --accent-blue: #3b82f6;
+      --green-light: #48bb78;
+      --neon:        #00ff9d;
+      --gold:        rgba(201,165,92,1);
+      --white:       #ffffff;
+      --text-dim:    rgba(255,255,255,0.55);
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ============ BACK NAV ============ */
+    .top-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: rgba(8,12,20,0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--accent-sky);
+      letter-spacing: 0.03em;
+    }
+
+    .nav-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+    }
+
+    .nav-links-event {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .nav-link-ev {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      transition: color 0.3s;
+    }
+
+    .nav-link-ev:hover { color: var(--white); }
+
+    .nav-book-btn {
+      font-size: 11px;
+      font-weight: 700;
+      color: #34d399;
+      letter-spacing: 0.06em;
+      padding: 5px 14px;
+      border: 1.5px solid rgba(16,185,129,0.45);
+      border-radius: 6px;
+      background: rgba(16,185,129,0.12);
+      transition: background 0.3s, border-color 0.3s;
+      text-decoration: none;
+    }
+    .nav-book-btn:hover {
+      background: rgba(16,185,129,0.25);
+      border-color: rgba(16,185,129,0.7);
+    }
+    .book-full { display: none; }
+    .book-short { display: inline; }
+
+    /* ============ HERO ============ */
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 52px;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+    }
+
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom,
+          rgba(8,12,20,0.6)  0%,
+          rgba(8,12,20,0.35) 30%,
+          rgba(8,12,20,0.8)  55%,
+          rgba(8,12,20,1)    100%
+        );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 60px 24px 0;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Swap: title+by up top, badge below */
+    .hero-content > div:first-child { order: 3; margin-bottom: 12px; }  /* badge wrapper → after by */
+    .hero-title { order: 1; }
+    .hero-by    { order: 2; }
+    .hero-tagline { order: 4; }
+    .hero-stats   { order: 5; }
+    .hero-video-wrap { order: 6; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(14,165,233,0.12);
+      border: 1px solid rgba(14,165,233,0.35);
+      border-radius: 100px;
+      padding: 6px 15px;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent-sky);
+      margin-bottom: 20px;
+    }
+
+    .badge-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent-sky);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:.4; transform:scale(.7); }
+    }
+
+    .hero-title {
+      font-family: 'Tangerine', 'Cormorant Garamond', cursive;
+      font-size: clamp(72px, 18vw, 110px);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: 0.01em;
+      margin-bottom: 10px;
+      margin-top: -20px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--accent-sky);
+    }
+
+    .hero-by {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 0.06em;
+      margin-bottom: 18px;
+    }
+
+    .hero-by span {
+      color: rgba(255,255,255,0.95);
+      font-weight: 600;
+    }
+
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 26px;
+      color: rgba(255,255,255,0.88);
+      line-height: 1.6;
+      margin-bottom: 12px;
+      padding: 0 8px;
+    }
+
+    .hero-stats {
+      display: none;
+    }
+
+    .h-stat {
+      flex: 1;
+      padding: 14px 8px;
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    .h-stat:last-child { border-right: none; }
+
+    .h-stat-num {
+      display: block;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .h-stat-lbl {
+      font-size: 8.5px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.42);
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    /* ============ HERO VIDEO ============ */
+    .hero-video-wrap {
+      position: relative;
+      margin-top: 16px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+      aspect-ratio: 16/9;
+      background: #000;
+      width: 100vw;
+      margin-left: calc(-24px);
+      align-self: flex-start;
+      cursor: pointer;
+    }
+
+    .hero-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .video-play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.3);
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .video-play-btn:hover {
+      background: rgba(14,165,233,0.4);
+      border-color: rgba(14,165,233,0.6);
+      transform: translate(-50%, -50%) scale(1.08);
+    }
+
+    .video-play-btn.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* ============ SECTIONS ============ */
+    .section {
+      padding: 64px 0 48px;
+      position: relative;
+    }
+
+    .section + .section {
+      padding-top: 48px;
+    }
+
+    .section-inner {
+      padding: 0 24px;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .eyebrow-line {
+      height: 1px;
+      width: 28px;
+      background: var(--accent-sky);
+      flex-shrink: 0;
+    }
+
+    .eyebrow-text {
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--accent-sky);
+    }
+
+    .section-title {
+      font-family: 'Tangerine', 'Cormorant Garamond', cursive;
+      font-size: 60px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .section-title em { font-style: italic; color: var(--accent-sky); }
+
+    .section-lead {
+      font-size: 15px;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.75;
+      margin-bottom: 24px;
+    }
+
+    /* ============ INTRO SECTION ============ */
+    .intro-section {
+      background: linear-gradient(180deg,
+        rgba(14,165,233,0.04) 0%,
+        transparent 100%
+      );
+      border-top: 1px solid rgba(14,165,233,0.12);
+    }
+
+    .intro-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 30px;
+      color: var(--white);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      padding-left: 18px;
+      border-left: 3px solid var(--accent-sky);
+    }
+
+    .intro-body {
+      font-size: 14.5px;
+      color: rgba(255,255,255,0.68);
+      line-height: 1.8;
+    }
+
+    /* ============ VIDEO ============ */
+    .video-section .section-inner {
+      max-width: 860px;
+    }
+    .video-wrap video {
+      background: #000;
+    }
+
+    /* ============ ITINERARY ============ */
+    .itinerary-section {
+      background: linear-gradient(180deg, transparent 0%, rgba(14,165,233,0.03) 100%);
+    }
+
+    .itinerary-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 20px;
+    }
+
+    .itin-block {
+      padding: 24px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+      padding-left: 20px;
+      border-left: 2px solid rgba(14,165,233,0.15);
+    }
+
+    .itin-block:last-child { border-bottom: none; }
+
+    .itin-block::before {
+      content: '';
+      position: absolute;
+      left: -5px;
+      top: 30px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-sky);
+      box-shadow: 0 0 8px rgba(14,165,233,0.4);
+    }
+
+    .itin-days {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-sky);
+      margin-bottom: 4px;
+    }
+
+    .itin-dest {
+      font-family: 'Tangerine', 'Cormorant Garamond', cursive;
+      font-size: 52px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 2px;
+      line-height: 1.1;
+    }
+
+    .itin-tag {
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+      font-style: italic;
+    }
+
+    .itin-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .itin-list li {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.6;
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .itin-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(14,165,233,0.4);
+    }
+
+    /* ============ DESTINATIONS ============ */
+    .dest-section {
+      background: var(--bg);
+    }
+
+    .dest-header {
+      padding: 0 24px;
+      margin-bottom: 0;
+    }
+
+    .dest-region-badge {
+      display: inline-block;
+      font-size: 8.5px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(201,165,92,0.1);
+      border: 1px solid rgba(201,165,92,0.22);
+      border-radius: 100px;
+      padding: 4px 12px;
+      margin-bottom: 12px;
+    }
+
+    .dest-region-title {
+      font-family: 'Tangerine', 'Cormorant Garamond', cursive;
+      font-size: 72px;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .dest-region-intro {
+      font-size: 13.5px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    /* Full-bleed destination hero image */
+    .dest-hero-img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      margin-bottom: 28px;
+      border-radius: 0;
+    }
+
+    /* Place cards within a destination */
+    .place-cards {
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .place-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 18px 18px 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .place-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(14,165,233,0.3), transparent);
+    }
+
+    .place-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 27px;
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    .place-subtitle {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-sky);
+      margin-bottom: 10px;
+    }
+
+    .place-desc {
+      font-size: 13.5px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.75;
+    }
+
+    .place-icon {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-size: 20px;
+      opacity: 0.5;
+    }
+
+    .place-card-gold {
+      border-color: rgba(201,165,92,0.2);
+      background: rgba(201,165,92,0.04);
+    }
+
+    .place-subtitle-gold {
+      color: var(--gold);
+    }
+
+    /* Image card for destinations with their own photo */
+    .dest-img-card {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      height: 200px;
+      margin: 0 24px 14px;
+    }
+
+    .dest-img-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .dest-img-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(8,12,20,0.92) 0%, rgba(8,12,20,0.4) 55%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 16px;
+    }
+
+    .dest-img-card-name {
+      font-family: 'Tangerine', 'Cormorant Garamond', cursive;
+      font-style: normal;
+      font-size: 44px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 3px;
+      line-height: 1.1;
+    }
+
+    .dest-img-card-sub {
+      font-size: 10px;
+      color: rgba(255,255,255,0.55);
+      font-weight: 500;
+      letter-spacing: 0.06em;
+    }
+
+    /* Badge num/full toggle */
+    .badge-num { display: none; }
+    .badge-full { display: inline; }
+
+    /* Journey route bar — hidden on mobile */
+    .journey-route {
+      display: none;
+    }
+
+    /* Destination divider */
+    .dest-divider {
+      height: 1px;
+      margin: 48px 24px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    }
+
+    /* ============ INFO SECTION ============ */
+    .info-section {
+      background: linear-gradient(180deg,
+        rgba(14,165,233,0.04) 0%,
+        rgba(14,165,233,0.02) 100%
+      );
+      border-top: 1px solid rgba(14,165,233,0.1);
+      border-bottom: 1px solid rgba(14,165,233,0.1);
+    }
+
+    .info-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .info-card {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 16px 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+    }
+
+    .info-card-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 44px;
+      font-weight: 700;
+      color: var(--accent-sky);
+      flex-shrink: 0;
+      min-width: 42px;
+      text-align: center;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    .info-card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .info-card-body {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.65;
+    }
+
+
+    /* ============ CONTACT SECTION ============ */
+    .contact-section {
+      padding: 64px 0 80px;
+    }
+
+    .contact-cta-text {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+
+    .contact-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .person-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 18px 18px;
+    }
+
+    .person-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 2px;
+    }
+
+    .person-role {
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+      margin-bottom: 14px;
+    }
+
+    .person-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    .person-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 11px 10px;
+      border-radius: 10px;
+      font-size: 11.5px;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .btn-wa {
+      background: rgba(37,211,102,0.1);
+      border: 1px solid rgba(37,211,102,0.28);
+      color: #25D366;
+    }
+
+    .btn-call {
+      background: rgba(14,165,233,0.1);
+      border: 1px solid rgba(14,165,233,0.25);
+      color: var(--accent-sky);
+    }
+
+    .register-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 18px 24px;
+      background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+      border-radius: 14px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      box-shadow: 0 6px 32px rgba(37,211,102,0.38), 0 1px 0 rgba(255,255,255,0.14) inset;
+      margin-top: 8px;
+      transition: transform 0.18s, box-shadow 0.18s;
+    }
+
+    .intake-policy-note {
+      margin: 0 0 14px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(14,165,233,0.22);
+      background: rgba(14,165,233,0.08);
+      color: rgba(255,255,255,0.84);
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .intake-policy-note strong {
+      color: #7dd3fc;
+    }
+
+    .register-btn:active {
+      transform: scale(0.97);
+      box-shadow: 0 2px 12px rgba(37,211,102,0.28);
+    }
+
+    /* ============ FOOTER ============ */
+    .event-footer {
+      padding: 32px 24px 48px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .footer-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 24px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 100px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 24px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .footer-back:active {
+      color: var(--white);
+      border-color: rgba(255,255,255,0.3);
+    }
+
+    .footer-copy {
+      font-size: 11px;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.04em;
+    }
+
+    /* ============ FADE-IN ANIMATIONS ============ */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============ SCROLL PROGRESS ============ */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-sky), #25D366);
+      z-index: 200;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    /* ============ DESKTOP LAYOUT ============ */
+    @media (min-width: 769px) {
+
+      /* ══════════════════════════════════════════════════════
+         DESKTOP — Editorial Cinematic Luxury Event
+         Inspired by premium retreat & event page patterns
+         ══════════════════════════════════════════════════════ */
+
+      /* ---- Slower, more luxurious animations ---- */
+      .fade-up {
+        transform: translateY(60px);
+        transition: opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1),
+                    transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      /* ---- NAV — floating glass with sticky CTA ---- */
+      .top-nav {
+        padding: 0;
+        background: transparent;
+        border-bottom: none;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        padding: 24px 60px;
+        transition: background 0.5s, padding 0.5s;
+      }
+
+      .nav-back {
+        font-size: 13px;
+        gap: 10px;
+        transition: color 0.3s;
+      }
+      .nav-back:hover { color: var(--white); }
+
+      .nav-links-event { display: flex; }
+      .book-full { display: inline; }
+      .book-short { display: none; }
+
+      .nav-title {
+        font-size: 10px;
+        letter-spacing: 0.35em;
+        color: rgba(255,255,255,0.3);
+        text-align: center;
+      }
+
+      /* ---- HERO — ultra-minimal cinematic ---- */
+      .hero {
+        min-height: 100vh;
+        justify-content: center;
+        padding-bottom: 0;
+      }
+
+      .hero-bg img {
+        object-position: center 20%;
+        transform: scale(1.05);
+      }
+
+      .hero-bg::after {
+        background:
+          linear-gradient(to right,
+            rgba(8,12,20,0.85) 0%,
+            rgba(8,12,20,0.4) 50%,
+            rgba(8,12,20,0.1) 100%
+          ),
+          linear-gradient(to top,
+            rgba(8,12,20,1) 0%,
+            rgba(8,12,20,0.6) 20%,
+            transparent 60%
+          );
+      }
+
+      .hero-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 120px 40px 120px 40px;
+        width: 100%;
+      }
+
+      .hero-badge {
+        font-size: 10px;
+        padding: 8px 24px;
+        margin-bottom: 32px;
+        background: rgba(255,255,255,0.06);
+        border-color: rgba(255,255,255,0.12);
+        color: rgba(255,255,255,0.7);
+      }
+
+      .hero-content > div:first-child {
+        justify-content: center;
+      }
+
+      .hero-title {
+        font-size: clamp(90px, 10vw, 150px);
+        letter-spacing: 0.01em;
+        margin-bottom: 24px;
+        text-align: center;
+        line-height: 0.95;
+        max-width: 1000px;
+      }
+
+      .hero-title em {
+        display: inline;
+      }
+
+      .hero-by {
+        font-size: 14px;
+        margin-bottom: 0;
+        text-align: center;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.4);
+        font-weight: 400;
+      }
+
+      /* Hide tagline on desktop hero — less is more */
+      .hero-tagline {
+        display: none;
+      }
+
+      /* Hide stats in hero on desktop — they appear later */
+      .hero-stats {
+        display: none;
+      }
+
+      .hero-video-wrap {
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 70%;
+        max-width: 900px;
+        margin: -45px 0 0;
+      }
+
+      /* ---- SCROLL PROGRESS — thicker on desktop ---- */
+      .scroll-progress {
+        height: 3px;
+      }
+
+      /* ---- SECTIONS — massive breathing room ---- */
+      .section {
+        padding: 160px 0 120px;
+      }
+
+      .section + .section {
+        padding-top: 120px;
+      }
+
+      .section-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 100px;
+      }
+
+      .eyebrow {
+        margin-bottom: 28px;
+      }
+      .eyebrow-line {
+        width: 56px;
+        height: 1px;
+        background: rgba(255,255,255,0.25);
+      }
+      .eyebrow-text {
+        font-size: 10px;
+        letter-spacing: 0.35em;
+        color: rgba(255,255,255,0.4);
+      }
+
+      .section-title {
+        font-size: 72px;
+        margin-bottom: 32px;
+        letter-spacing: 0.01em;
+        line-height: 1.1;
+      }
+
+      /* ---- INTRO — asymmetric editorial 70/30 ---- */
+      .intro-section {
+        border-top: 1px solid rgba(255,255,255,0.05);
+        background: transparent;
+        padding-top: 180px;
+      }
+
+      .intro-section .section-inner {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        gap: 100px;
+        align-items: start;
+      }
+
+      .intro-section .eyebrow {
+        grid-column: 1 / -1;
+      }
+
+      .intro-section .section-title {
+        grid-column: 1 / -1;
+        font-size: 64px;
+        max-width: 800px;
+      }
+
+      .intro-quote {
+        font-size: 26px;
+        padding-left: 32px;
+        border-left: 2px solid rgba(14,165,233,0.4);
+        margin-bottom: 0;
+        line-height: 1.65;
+        color: rgba(255,255,255,0.9);
+      }
+
+      .intro-body {
+        font-size: 17px;
+        line-height: 2;
+        color: rgba(255,255,255,0.5);
+        padding-top: 8px;
+      }
+
+      /* ---- ITINERARY — 2-column grid on desktop ---- */
+      .itinerary-section {
+        padding-top: 120px;
+      }
+
+      .itinerary-timeline {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 60px;
+        margin-top: 48px;
+      }
+
+      .itin-block {
+        padding: 40px 0 40px 32px;
+      }
+
+      .itin-block::before {
+        top: 46px;
+        left: -5px;
+      }
+
+      .itin-dest {
+        font-size: 48px;
+      }
+
+      .itin-tag {
+        font-size: 13px;
+        margin-bottom: 16px;
+      }
+
+      .itin-days {
+        font-size: 11px;
+      }
+
+      .itin-list li {
+        font-size: 15px;
+        padding-left: 20px;
+      }
+
+      .itin-list li::before {
+        top: 10px;
+        width: 5px;
+        height: 5px;
+      }
+
+      /* Journey route bar — hidden, not functional enough */
+      .journey-route {
+        display: none;
+      }
+
+      /* ---- DESTINATIONS — polished card sections ---- */
+      .dest-section {
+        padding: 120px 0 100px;
+        position: relative;
+      }
+
+      /* Subtle section separation */
+      .dest-section {
+        border-top: 1px solid rgba(255,255,255,0.04);
+      }
+
+      #yogyakarta { background: linear-gradient(180deg, rgba(14,165,233,0.10) 0%, rgba(14,165,233,0.03) 100%); }
+      #malang     { background: linear-gradient(180deg, rgba(160,120,50,0.10) 0%, rgba(160,120,50,0.03) 100%); }
+      #bali       { background: linear-gradient(180deg, rgba(14,165,233,0.10) 0%, rgba(14,165,233,0.03) 100%); }
+      #sumba      { background: linear-gradient(180deg, rgba(160,120,50,0.10) 0%, rgba(160,120,50,0.03) 100%); }
+
+      .dest-header {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 80px;
+        text-align: center;
+      }
+
+      /* Toggle badge content for desktop */
+      .badge-full { display: none; }
+      .badge-num { display: inline; }
+
+      .dest-region-badge {
+        font-size: 11px;
+        font-family: 'Inter', sans-serif;
+        font-weight: 800;
+        padding: 6px 20px;
+        margin: 0 auto 20px;
+        color: var(--accent-sky);
+        background: rgba(14,165,233,0.08);
+        border: 1px solid rgba(14,165,233,0.2);
+        border-radius: 100px;
+        letter-spacing: 0.2em;
+        line-height: 1;
+        display: inline-block;
+        text-transform: uppercase;
+        font-style: normal;
+      }
+
+      /* Gold-tinted sections use gold badge */
+      #malang .dest-region-badge,
+      #sumba .dest-region-badge {
+        color: var(--gold);
+        background: rgba(201,165,92,0.08);
+        border-color: rgba(201,165,92,0.2);
+      }
+
+      .dest-region-title {
+        font-size: 88px;
+        letter-spacing: -0.01em;
+        line-height: 1.05;
+        margin-bottom: 12px;
+      }
+
+      .dest-region-intro {
+        font-size: 17px;
+        max-width: 600px;
+        margin: 0 auto 0;
+        line-height: 1.8;
+        color: rgba(255,255,255,0.5);
+      }
+
+      /* Hero image — full bleed with rounded corners */
+      .dest-hero-img {
+        width: calc(100% - 160px);
+        max-width: 1100px;
+        height: 45vh;
+        min-height: 350px;
+        max-height: 500px;
+        margin: 48px auto 48px;
+        border-radius: 20px;
+        object-fit: cover;
+        display: block;
+        box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+      }
+
+      #yogyakarta .dest-hero-img,
+      #bali .dest-hero-img {
+        box-shadow: 0 24px 64px rgba(14,165,233,0.15), 0 8px 24px rgba(0,0,0,0.3);
+      }
+
+      #malang .dest-hero-img,
+      #sumba .dest-hero-img {
+        box-shadow: 0 24px 64px rgba(201,165,92,0.15), 0 8px 24px rgba(0,0,0,0.3);
+      }
+
+      /* Place cards — 2-column grid */
+      .place-cards {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 80px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+
+      /* If 3 cards, first one spans full width */
+      .place-cards:has(.place-card:nth-child(3):last-child) .place-card:first-child {
+        grid-column: 1 / -1;
+      }
+
+      .place-card {
+        display: flex;
+        flex-direction: column;
+        padding: 32px 28px 28px;
+        border-radius: 16px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .place-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 2px;
+        opacity: 0;
+        transition: opacity 0.5s;
+      }
+
+      .place-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+      }
+
+      .place-card:hover::before {
+        opacity: 1;
+      }
+
+      /* ── Blue sections (Yogyakarta, Bali) — turquesa cards ── */
+      #yogyakarta .place-card,
+      #bali .place-card {
+        background: rgba(14,165,233,0.10);
+        border: 1px solid rgba(14,165,233,0.18);
+      }
+
+      #yogyakarta .place-card:hover,
+      #bali .place-card:hover {
+        background: rgba(14,165,233,0.15);
+        border-color: rgba(14,165,233,0.28);
+      }
+
+      #yogyakarta .place-card::before,
+      #bali .place-card::before {
+        background: linear-gradient(90deg, transparent, rgba(14,165,233,0.5), transparent);
+      }
+
+      /* ── Gold sections (Malang, Sumba) — marrón cálido cards ── */
+      #malang .place-card,
+      #sumba .place-card {
+        background: rgba(160,120,50,0.10);
+        border: 1px solid rgba(201,165,92,0.18);
+      }
+
+      #malang .place-card:hover,
+      #sumba .place-card:hover {
+        background: rgba(160,120,50,0.15);
+        border-color: rgba(201,165,92,0.28);
+      }
+
+      #malang .place-card::before,
+      #sumba .place-card::before {
+        background: linear-gradient(90deg, transparent, rgba(201,165,92,0.5), transparent);
+      }
+
+      #malang .place-subtitle,
+      #sumba .place-subtitle {
+        color: var(--gold);
+      }
+
+      /* Gold card — Shanaya resort extra premium */
+      .place-card-gold {
+        border-color: rgba(201,165,92,0.30) !important;
+        background: rgba(160,120,50,0.15) !important;
+      }
+
+      .place-card-gold::before {
+        opacity: 1 !important;
+      }
+
+      .place-card-gold:hover {
+        background: rgba(160,120,50,0.20) !important;
+        border-color: rgba(201,165,92,0.40) !important;
+      }
+
+      .place-subtitle-gold {
+        color: var(--gold);
+      }
+
+      /* Icon */
+      .place-icon {
+        font-size: 28px;
+        position: static;
+        opacity: 0.85;
+        margin-bottom: 16px;
+        display: block;
+      }
+
+      /* Name */
+      .place-name {
+        font-size: 22px;
+        margin-bottom: 6px;
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 600;
+        line-height: 1.2;
+        color: var(--white);
+      }
+
+      /* Subtitle */
+      .place-subtitle {
+        font-size: 10px;
+        margin-bottom: 14px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--accent-sky);
+        font-weight: 600;
+      }
+
+      /* Description */
+      .place-desc {
+        font-size: 14.5px;
+        line-height: 1.85;
+        color: rgba(255,255,255,0.5);
+      }
+
+      .dest-divider {
+        max-width: 1000px;
+        margin: 0 auto;
+        height: 0;
+        border: none;
+        background: none;
+      }
+
+      /* ---- INFO SECTION — two-row grid with breathing room ---- */
+      .info-section {
+        padding: 120px 0;
+        background: transparent;
+      }
+
+      .info-section .section-inner {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .info-section .section-title {
+        text-align: center;
+        max-width: 500px;
+      }
+
+      .info-cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .info-card {
+        padding: 36px 24px;
+        border-radius: 20px;
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+        align-items: center;
+        transition: all 0.5s ease;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.06);
+      }
+
+      .info-card:hover {
+        border-color: rgba(14,165,233,0.2);
+        transform: translateY(-4px);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+      }
+
+      .info-card-num {
+        font-size: 40px;
+        min-width: auto;
+      }
+
+      .info-card-title {
+        font-size: 15px;
+        margin-bottom: 8px;
+        font-weight: 700;
+      }
+
+      .info-card-body {
+        font-size: 13px;
+        line-height: 1.75;
+        color: rgba(255,255,255,0.45);
+      }
+
+      /* ---- CONTACT — cinematic centered ---- */
+      .contact-section {
+        padding: 160px 0 180px;
+        position: relative;
+      }
+
+      .contact-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 1px;
+        height: 100px;
+        background: linear-gradient(to bottom, rgba(255,255,255,0.1), transparent);
+      }
+
+      .contact-section .section-inner {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .contact-section .eyebrow {
+        justify-content: center;
+      }
+
+      .contact-section .section-title {
+        text-align: center;
+        font-size: 52px;
+      }
+
+      .contact-cta-text {
+        font-size: 18px;
+        max-width: 580px;
+        text-align: center;
+        line-height: 1.85;
+        color: rgba(255,255,255,0.5);
+        margin-bottom: 48px;
+      }
+
+      .contact-grid {
+        display: flex;
+        justify-content: center;
+        gap: 28px;
+        max-width: 680px;
+        width: 100%;
+      }
+
+      .person-card {
+        padding: 36px 28px;
+        border-radius: 20px;
+        transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        text-align: center;
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.06);
+      }
+
+      .person-card:hover {
+        border-color: rgba(255,255,255,0.12);
+        transform: translateY(-4px);
+      }
+
+      .person-name {
+        font-size: 19px;
+        font-family: 'Cormorant Garamond', serif;
+      }
+
+      .person-role {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .person-btns {
+        justify-content: center;
+      }
+
+      .person-btn {
+        padding: 14px 20px;
+        border-radius: 12px;
+        font-size: 13px;
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .person-btn:hover {
+        transform: translateY(-2px);
+      }
+
+      .register-btn {
+        max-width: 480px;
+        margin: 48px auto 0;
+        padding: 26px 44px;
+        font-size: 17px;
+        border-radius: 100px;
+        letter-spacing: 0.05em;
+        transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .register-btn:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 20px 60px rgba(37,211,102,0.3);
+      }
+
+      /* ---- FOOTER — invisible, minimal ---- */
+      .event-footer {
+        padding: 60px 100px 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+        border-top: 1px solid rgba(255,255,255,0.04);
+      }
+
+      .footer-back {
+        padding: 16px 36px;
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        border-radius: 100px;
+      }
+
+      .footer-back:hover {
+        color: var(--white);
+        border-color: rgba(255,255,255,0.2);
+        transform: translateY(-2px);
+      }
+
+      .footer-copy {
+        font-size: 11px;
+        color: rgba(255,255,255,0.25);
+        letter-spacing: 0.05em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Shared SVG symbols -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
+    <symbol id="icon-whatsapp" viewBox="0 0 24 24">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </symbol>
+    <symbol id="icon-phone" viewBox="0 0 24 24">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.96-.87a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+    </symbol>
+  </svg>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- ====== TOP NAV ====== -->
+  <nav class="top-nav">
+    <a href="index.html" class="nav-back">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      Eugene Mierak
+    </a>
+    <div class="nav-links-event">
+      <a href="https://wa.me/34613715647?text=Hello%20Eugene%2C%20I%27d%20like%20to%20apply%20for%20the%20retreat%20intake." target="_blank" rel="noopener" class="nav-book-btn"><span class="book-full">Apply for Intake</span><span class="book-short">Apply</span></a>
+    </div>
+    <span class="nav-title">Frequency Vibes</span>
+  </nav>
+
+  <!-- ====== HERO ====== -->
+  <section class="hero">
+    <div class="hero-bg">
+      <img src="assets/optimized/hero-event.jpg" alt="Indonesia — Frequency Vibes Journey" loading="eager" fetchpriority="high" decoding="async">
+    </div>
+    <div class="hero-content">
+      <div style="display:flex;justify-content:center;margin-bottom:20px;">
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          By Personal Selection &nbsp;·&nbsp; Indonesia 2026
+        </div>
+      </div>
+      <h1 class="hero-title">
+        Frequency<br><em>Vibes</em> Journey
+      </h1>
+      <p class="hero-by">By <span>Eugene Mierak</span></p>
+      <p class="hero-tagline">
+        "A one-of-a-kind journey, by personal selection, where natural frequencies meet cultural vibes."
+      </p>
+      <div class="hero-stats">
+        <div class="h-stat">
+          <span class="h-stat-num">4</span>
+          <span class="h-stat-lbl">Destinations</span>
+        </div>
+        <div class="h-stat">
+          <span class="h-stat-num">12</span>
+          <span class="h-stat-lbl">Guests Max</span>
+        </div>
+        <div class="h-stat">
+          <span class="h-stat-num" style="font-size:16px;letter-spacing:2px;">✦</span>
+          <span class="h-stat-lbl">By Selection</span>
+        </div>
+      </div>
+
+      <!-- Hero Video -->
+      <div class="hero-video-wrap">
+        <video class="hero-video" poster="assets/event-video-poster.jpg" playsinline preload="metadata">
+          <source src="assets/event-video.mp4" type="video/mp4">
+        </video>
+        <button class="video-play-btn" id="heroPlayBtn" aria-label="Play video">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ====== INTRO SECTION ====== -->
+  <section class="section intro-section" id="intro">
+    <div class="section-inner">
+      <h2 class="section-title fade-up">The <em>Journey</em></h2>
+      <blockquote class="intro-quote fade-up">
+        "Frequency is not about healing — it is about alignment. We invite those ready to expand their alignment, with purpose, increasing one's quality of life."
+      </blockquote>
+      <p class="intro-body fade-up">
+        A 14-day journey across Java, Bali &amp; Sumba, shaped by personal selection. Sacred temples, active volcanoes, wild beaches, ancient rituals — and a 5-star luxury resort as your base camp. Maximum 12 guests. Every detail designed for transformation.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- ====== ITINERARY OVERVIEW ====== -->
+  <section class="section itinerary-section" id="itinerary">
+    <div class="section-inner">
+      <h2 class="section-title fade-up">Day by <em>Day</em></h2>
+      <div class="itinerary-timeline">
+
+        <div class="itin-block fade-up">
+          <div class="itin-days">Day 1 — 3</div>
+          <div class="itin-dest">Yogyakarta</div>
+          <div class="itin-tag">Cultural Heart of Java</div>
+          <ul class="itin-list">
+            <li>Sunrise at Borobudur — 9th-century cosmic mandala</li>
+            <li>Prambanan Temple — yoga &amp; sacred balance</li>
+            <li>Beach Silat — traditional martial arts by the sea</li>
+            <li>Local artisan workshops &amp; Javanese cuisine</li>
+          </ul>
+        </div>
+
+        <div class="itin-block fade-up">
+          <div class="itin-days">Day 4 — 8</div>
+          <div class="itin-dest">Malang &amp; Batu</div>
+          <div class="itin-tag">Sacred Mountains &amp; Luxury Base</div>
+          <ul class="itin-list">
+            <li>Shanaya 5-Star Wellness Resort — your base camp</li>
+            <li>Mount Bromo sunrise — feel the volcano's frequency</li>
+            <li>Gunung Kawi — sacred temple of prosperity</li>
+            <li>Semeru — yoga at Java's highest peak</li>
+            <li>Tumpak Sewu waterfall — sound meditation</li>
+            <li>Wild virgin beaches — camping under the stars</li>
+          </ul>
+        </div>
+
+        <div class="itin-block fade-up">
+          <div class="itin-days">Day 9 — 11</div>
+          <div class="itin-dest">Bali</div>
+          <div class="itin-tag">Island of the Gods</div>
+          <ul class="itin-list">
+            <li>Lovina — swim with wild dolphins at dawn</li>
+            <li>Sacred water temple purification rituals</li>
+            <li>Rice terrace meditation &amp; frequency work</li>
+          </ul>
+        </div>
+
+        <div class="itin-block fade-up">
+          <div class="itin-days">Day 12 — 14</div>
+          <div class="itin-dest">Sumba</div>
+          <div class="itin-tag">The Island of Horses</div>
+          <ul class="itin-list">
+            <li>Swim with wild horses in the sea</li>
+            <li>Explore untouched savannahs &amp; dramatic cliffs</li>
+            <li>Megalithic villages — ancient traditions still alive</li>
+            <li>Final ceremony &amp; closing circle</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== JOURNEY ROUTE BAR (desktop only) ====== -->
+  <div class="journey-route" id="journeyRoute">
+    <a href="#yogyakarta" class="route-stop active">
+      <span class="route-num">01</span>
+      <span class="route-dot"></span>
+      <span class="route-name">Yogyakarta</span>
+    </a>
+    <div class="route-line"></div>
+    <a href="#malang" class="route-stop">
+      <span class="route-num">02</span>
+      <span class="route-dot"></span>
+      <span class="route-name">Malang & Batu</span>
+    </a>
+    <div class="route-line"></div>
+    <a href="#bali" class="route-stop">
+      <span class="route-num">03</span>
+      <span class="route-dot"></span>
+      <span class="route-name">Bali</span>
+    </a>
+    <div class="route-line"></div>
+    <a href="#sumba" class="route-stop">
+      <span class="route-num">04</span>
+      <span class="route-dot"></span>
+      <span class="route-name">Sumba</span>
+    </a>
+  </div>
+
+  <!-- ====== DESTINATIONS ====== -->
+
+  <!-- ─── YOGYAKARTA ─── -->
+  <section class="section dest-section" id="yogyakarta">
+    <div class="dest-header fade-up">
+      <span class="dest-region-badge"><span class="badge-full">Destination 01 / 04</span><span class="badge-num">Location</span></span>
+      <h2 class="dest-region-title">Yogya&shy;karta</h2>
+      <p class="dest-region-intro">The cultural heart of Java — where 9th-century temples radiate cosmic frequencies and sacred traditions still flow through everyday life.</p>
+    </div>
+
+    <img class="dest-hero-img fade-up" src="assets/optimized/borobudur.800w.webp" alt="Borobudur, Yogyakarta" loading="lazy" decoding="async">
+
+    <div class="place-cards">
+
+      <div class="place-card fade-up">
+        <span class="place-icon">🕌</span>
+        <div class="place-name">Borobudur</div>
+        <div class="place-subtitle">The Frequency of Harmony</div>
+        <p class="place-desc">Built in the 9th century, this masterpiece is designed as a cosmic mandala. Its bell-shaped stupas radiate natural frequencies, creating a flow of harmony and positive frequency. Walking its concentric terraces is a meditation in itself — each step a calibration.</p>
+      </div>
+
+      <div class="place-card fade-up">
+        <span class="place-icon">⚡</span>
+        <div class="place-name">Prambanan</div>
+        <div class="place-subtitle">Temple of Balance and Movement</div>
+        <p class="place-desc">Dedicated to the Trimurti — Brahma, Vishnu, and Shiva. The temple's sacred frequency makes it a powerful place for yoga practice. The spires reach toward the sky like antennae tuned to the cosmos, channeling divine balance into those who seek it.</p>
+      </div>
+
+      <div class="place-card fade-up">
+        <span class="place-icon">🌊</span>
+        <div class="place-name">Beach &amp; Silat</div>
+        <div class="place-subtitle">The Spirit of Flow</div>
+        <p class="place-desc">Rooted in Javanese tradition, Silat teaches balance, discipline, and the flow of frequency between body and nature. Practice by the sea where the waves set the rhythm — movement as meditation, breath as compass.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="dest-divider"></div>
+
+  <!-- ─── MALANG ─── -->
+  <section class="section dest-section" id="malang">
+    <div class="dest-header fade-up">
+      <span class="dest-region-badge"><span class="badge-full">Destination 02 / 04</span><span class="badge-num">Location</span></span>
+      <h2 class="dest-region-title">Malang &amp; <em>Batu</em></h2>
+      <p class="dest-region-intro">The land of the Sultan's — one of the most spiritual places in the world. Encircled by sacred volcanoes, where luxury meets untouched nature.</p>
+    </div>
+
+    <img class="dest-hero-img fade-up" src="assets/optimized/bromo.800w.webp" alt="Bromo, Malang" loading="lazy" decoding="async">
+
+    <div class="place-cards">
+
+      <div class="place-card place-card-gold fade-up">
+        <span class="place-icon">🏨</span>
+        <div class="place-name">Shanaya Wellness Resort</div>
+        <div class="place-subtitle place-subtitle-gold">Our Base — 5-Star Luxury</div>
+        <p class="place-desc">In the heart of Batu Malang, surrounded by the sacred mountains Bromo, Semeru, Arjuna, and Gunung Kawi. Where luxury and nature are perfectly balanced — your sanctuary between journeys into the wild.</p>
+      </div>
+
+      <div class="place-card fade-up">
+        <span class="place-icon">🌋</span>
+        <div class="place-name">Bromo</div>
+        <div class="place-subtitle">The Sacred Volcano of Frequencies</div>
+        <p class="place-desc">Feel the frequency of the volcano, as the earth's subtle vibration flows through your body and soul. Standing at the crater's edge, you sense the planet breathing — raw, primordial, and deeply humbling.</p>
+      </div>
+
+      <div class="place-card fade-up">
+        <span class="place-icon">⛩️</span>
+        <div class="place-name">Gunung Kawi</div>
+        <div class="place-subtitle">The Mountain of Living Frequencies</div>
+        <p class="place-desc">A sacred temple mountain where offerings and meditation are dedicated to wealth, prosperity, and health. The living frequencies of prayer and intention have saturated this place for centuries.</p>
+      </div>
+
+      <div class="place-card fade-up">
+        <span class="place-icon">🏔️</span>
+        <div class="place-name">Semeru</div>
+        <div class="place-subtitle">Yoga on the Mountain of Mystical Power</div>
+        <p class="place-desc">The highest peak in Java, revered as the sacred axis of the island. Yoga practice here connects earth and sky — where breath merges with mountain air and time dissolves into stillness.</p>
+      </div>
+
+      <div class="place-card fade-up">
+        <span class="place-icon">💧</span>
+        <div class="place-name">Tumpak Sewu</div>
+        <div class="place-subtitle">The Waterfall of Flowing Frequencies</div>
+        <p class="place-desc">Its countless streams cascade like a living curtain of light and sound. The negative ion field of the falls is deeply restorative — sound meditation here is unlike anything else on earth.</p>
+      </div>
+
+      <div class="place-card fade-up">
+        <span class="place-icon">🌙</span>
+        <div class="place-name">Virgin Beaches</div>
+        <div class="place-subtitle">Waves of Living Frequency</div>
+        <p class="place-desc">Camp under the stars, practice yoga by the ocean, sound meditation in sea caves with traditional gamelan. The untouched coastline carries an ancient stillness — the ocean as teacher, the stars as guide.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="dest-divider"></div>
+
+  <!-- ─── BALI ─── -->
+  <section class="section dest-section" id="bali">
+    <div class="dest-header fade-up">
+      <span class="dest-region-badge"><span class="badge-full">Destination 03 / 04</span><span class="badge-num">Location</span></span>
+      <h2 class="dest-region-title"><em>Bali</em></h2>
+      <p class="dest-region-intro">The Island of the Gods — where dolphins carry healing frequencies and sacred water temples hold centuries of prayer.</p>
+    </div>
+
+    <img class="dest-hero-img fade-up" src="assets/optimized/bali-gate.800w.webp" alt="Bali Sacred Gate" loading="lazy" decoding="async">
+
+    <div class="place-cards">
+
+      <div class="place-card fade-up">
+        <span class="place-icon">🐬</span>
+        <div class="place-name">Lovina &amp; the Dolphins</div>
+        <div class="place-subtitle">Dolphins of Frequency</div>
+        <p class="place-desc">These gentle beings are teachers of frequency and harmony. Their ultrasonic waves carry healing, balance, and joy — swimming alongside them is a direct transmission of living frequency. One of the most transformative experiences of the entire journey.</p>
+      </div>
+
+      <div class="place-card fade-up">
+        <span class="place-icon">🌊</span>
+        <div class="place-name">Sacred Waters</div>
+        <div class="place-subtitle">Water Temple Rituals</div>
+        <p class="place-desc">Balinese water purification rituals at ancient temples. The sacred springs of Bali have been used for millennia to cleanse body, mind, and spirit — a reset for your entire energetic field.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="dest-divider"></div>
+
+  <!-- ─── SUMBA ─── -->
+  <section class="section dest-section" id="sumba">
+    <div class="dest-header fade-up">
+      <span class="dest-region-badge"><span class="badge-full">Destination 04 / 04</span><span class="badge-num">Location</span></span>
+      <h2 class="dest-region-title"><em>Sumba</em></h2>
+      <p class="dest-region-intro">The Island of Horses — where spirit and nature ride together in a landscape untouched by time.</p>
+    </div>
+
+    <img class="dest-hero-img fade-up" src="assets/optimized/sumba-horses.800w.webp" alt="Sumba Horses" loading="lazy" decoding="async">
+
+    <div class="place-cards">
+
+      <div class="place-card fade-up">
+        <span class="place-icon">🐎</span>
+        <div class="place-name">Horses of Sumba</div>
+        <div class="place-subtitle">The Island of Horses</div>
+        <p class="place-desc">Swim with the horses in the sea — feel their strength, their wildness, their ancient spirit. Sumba is where spirit and nature ride together. The horses here are sacred, and their frequency is transformative. Nothing prepares you for this.</p>
+      </div>
+
+      <div class="place-card fade-up">
+        <span class="place-icon">🌅</span>
+        <div class="place-name">Wild Landscapes</div>
+        <div class="place-subtitle">Untouched by Time</div>
+        <p class="place-desc">Rolling savannahs, dramatic cliffs, and villages where megalithic traditions live on. Sumba's raw beauty is a final mirror — reflecting the transformation of your entire journey back at you.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ====== EVENT INFO ====== -->
+  <section class="section info-section" id="info">
+    <div class="section-inner">
+      <h2 class="section-title fade-up">What's <em>Included</em></h2>
+
+      <div class="info-cards">
+
+        <div class="info-card fade-up">
+          <div class="info-card-num">12</div>
+          <div>
+            <div class="info-card-title">Maximum Guests</div>
+            <div class="info-card-body">A group shaped by personal selection. Small enough for deep connection, personal attention, and genuine transformation.</div>
+          </div>
+        </div>
+
+        <div class="info-card fade-up">
+          <div class="info-card-num">14</div>
+          <div>
+            <div class="info-card-title">Days of Journey</div>
+            <div class="info-card-body">Two weeks across four destinations. Every day designed with intention — from sunrise ceremonies to starlit meditations.</div>
+          </div>
+        </div>
+
+        <div class="info-card fade-up">
+          <div class="info-card-num">5★</div>
+          <div>
+            <div class="info-card-title">Luxury Base Camp</div>
+            <div class="info-card-body">Shanaya Wellness Resort in Batu, Malang — surrounded by sacred mountains. Where luxury and nature meet.</div>
+          </div>
+        </div>
+
+        <div class="info-card fade-up">
+          <div class="info-card-num">4</div>
+          <div>
+            <div class="info-card-title">Sacred Destinations</div>
+            <div class="info-card-body">Yogyakarta, Malang &amp; Batu, Bali, Sumba — temples, volcanoes, dolphins, wild horses, and ancient rituals.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== CONTACT & REGISTER ====== -->
+  <section class="section contact-section" id="contact">
+    <div class="section-inner">
+      <!-- Eyebrow removed to keep minimal style -->
+      <h2 class="section-title fade-up">Join the <em>Journey</em></h2>
+      <p class="contact-cta-text fade-up">
+        The places we visit are not destinations — they are frequencies. Volcanoes, temples, oceans — each one a living resonance that recalibrates what words cannot reach.<br><br>
+        This journey is not about escaping your life. It is about returning to it with a different frequency — one that aligns your decisions, your presence, and your purpose.<br><br>
+        If you feel the resonance, the journey has already begun.
+      </p>
+
+      <p class="intake-policy-note fade-up">
+        <strong>Participation is by personal selection.</strong><br>
+        Step 1: Apply for Intake. Step 2: Personal Review. Step 3: Complete Secure Booking.
+      </p>
+      <div class="contact-grid">
+
+        <div class="person-card fade-up">
+          <div class="person-name">Eugene Mierak</div>
+          <div class="person-role">Master of Frequency &amp; Vortex · Event Director</div>
+          <div class="person-btns">
+            <a href="https://wa.me/34613715647" class="person-btn btn-wa" target="_blank" rel="noopener">
+              <svg width="15" height="15" fill="currentColor"><use href="#icon-whatsapp"/></svg>
+              WhatsApp
+            </a>
+            <a href="tel:+34613715647" class="person-btn btn-call">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><use href="#icon-phone"/></svg>
+              +34 613 715 647
+            </a>
+          </div>
+        </div>
+
+
+      </div>
+
+      <a href="https://wa.me/34613715647?text=Hello%20Eugene%2C%20I%27d%20like%20to%20apply%20for%20the%20retreat%20intake." class="register-btn fade-up" target="_blank" rel="noopener">
+        <svg width="20" height="20" fill="currentColor"><use href="#icon-whatsapp"/></svg>
+        Apply for Intake
+      </a>
+      <a href="booking.html" class="register-btn fade-up" style="background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(16,185,129,0.1));border-color:rgba(16,185,129,0.4);color:#10b981;margin-top:1rem;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Already Selected? Reserve Your Spot
+      </a>
+    </div>
+  </section>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="event-footer">
+    <a href="index.html" class="footer-back">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      Back to Eugene Mierak
+    </a>
+    <p class="footer-copy">© 2025 Eugene Mierak · Frequency Vibes Journey · All Rights Reserved</p>
+  </footer>
+
+  <script>
+    // Scroll progress bar
+    const prog = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const s = document.documentElement;
+      const pct = (s.scrollTop / (s.scrollHeight - s.clientHeight)) * 100;
+      prog.style.width = pct + '%';
+    }, { passive: true });
+
+    // Fade-up on scroll
+    const faders = document.querySelectorAll('.fade-up');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          // stagger siblings slightly
+          const siblings = Array.from(e.target.parentElement.querySelectorAll('.fade-up'));
+          const idx = siblings.indexOf(e.target);
+          setTimeout(() => {
+            e.target.classList.add('visible');
+          }, idx * 60);
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    faders.forEach(f => io.observe(f));
+
+
+    // Hero video play/pause
+    (function() {
+      var vid = document.querySelector('.hero-video');
+      var btn = document.getElementById('heroPlayBtn');
+      if (!vid || !btn) return;
+      var wrap = document.querySelector('.hero-video-wrap');
+
+      function togglePlay() {
+        if (vid.paused) {
+          vid.play();
+          btn.classList.add('hidden');
+        } else {
+          vid.pause();
+          btn.classList.remove('hidden');
+        }
+      }
+
+      btn.addEventListener('click', togglePlay);
+      wrap.addEventListener('click', function(e) {
+        if (e.target !== btn && !btn.contains(e.target)) togglePlay();
+      });
+
+      vid.addEventListener('ended', function() {
+        btn.classList.remove('hidden');
+      });
+    })();
+  </script>
+</body>
+</html>

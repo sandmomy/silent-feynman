@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Frequency Practitioner</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Spline Viewer -->
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
+
+    <style>
+        :root {
+            --bg-start: #e8eef8;
+            --bg-end: #cdd9f0;
+            --blue: #4169e1;
+            --blue-light: #6b8cff;
+            --purple: #7c5ce7;
+            --text-dark: #1a1a2e;
+            --text-muted: rgba(26, 26, 46, 0.55);
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(165deg, var(--bg-start) 0%, var(--bg-end) 100%);
+            color: var(--text-dark);
+        }
+
+        /* ============================================
+           SPLINE 3D BACKGROUND
+        ============================================ */
+        .spline-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        spline-viewer {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ============================================
+           GLASS OVERLAY
+        ============================================ */
+        .glass-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: calc(100% - 50px);
+            height: calc(100% - 70px);
+            max-width: 1440px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow:
+                0 25px 60px rgba(0, 0, 0, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            z-index: 10;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ============================================
+           NAVIGATION
+        ============================================ */
+        .nav {
+            padding: 20px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 20;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-weight: 500;
+            font-size: 0.88rem;
+            color: var(--text-dark);
+        }
+
+        .nav-logo-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 100%);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.6rem;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 26px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--blue);
+        }
+
+        .nav-cta {
+            padding: 9px 16px;
+            background: var(--blue);
+            color: white !important;
+            border-radius: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease !important;
+        }
+
+        .nav-cta:hover {
+            background: var(--blue-light) !important;
+            transform: scale(1.03);
+        }
+
+        /* ============================================
+           MAIN CONTENT
+        ============================================ */
+        .main-content {
+            flex: 1;
+            position: relative;
+            display: flex;
+        }
+
+        /* ============================================
+           LEFT SIDEBAR (Meta info)
+        ============================================ */
+        .left-sidebar {
+            position: absolute;
+            left: 32px;
+            top: 20px;
+            z-index: 15;
+        }
+
+        .meta-info {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            line-height: 1.6;
+        }
+
+        .meta-date {
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .meta-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--blue);
+            border-radius: 50%;
+        }
+
+        /* ============================================
+           SLIDE CONTAINER
+        ============================================ */
+        .slides-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 32px 0 32px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(25px);
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .slide-inner {
+            max-width: 440px;
+        }
+
+        .slide-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        .slide.active .slide-badge {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.5s ease 0.15s;
+        }
+
+        .badge-icon {
+            width: 18px;
+            height: 18px;
+            background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+            border-radius: 4px;
+        }
+
+        .badge-text {
+            font-size: 0.62rem;
+            font-weight: 500;
+            color: var(--blue-light);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .slide-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 400;
+            font-style: italic;
+            line-height: 1.18;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+            min-height: 1.3em;
+        }
+
+        .slide-title .char {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: all 0.1s ease;
+        }
+
+        .slide-title .char.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .typewriter-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 0.8em;
+            background: var(--blue);
+            margin-left: 2px;
+            animation: blink 0.65s step-end infinite;
+            vertical-align: text-bottom;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .slide-body {
+            font-size: 0.82rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        .slide.active .slide-body {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s ease 0.5s;
+        }
+
+        .slide-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 12px 22px;
+            background: white;
+            color: var(--text-dark);
+            border-radius: 24px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            text-decoration: none;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        .slide.active .slide-cta {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.5s ease 0.7s;
+        }
+
+        .slide-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1);
+        }
+
+        .slide-cta svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        /* ============================================
+           RIGHT SIDEBAR
+        ============================================ */
+        .right-sidebar {
+            position: absolute;
+            right: 32px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 200px;
+            z-index: 15;
+        }
+
+        .right-text {
+            font-size: 0.72rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .right-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .right-btn {
+            padding: 9px 15px;
+            border-radius: 18px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .right-btn.primary {
+            background: white;
+            color: var(--text-dark);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .right-btn.secondary {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        /* ============================================
+           NAV ARROW
+        ============================================ */
+        .nav-arrow {
+            position: absolute;
+            right: 80px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 38px;
+            height: 38px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 25;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(255, 255, 255, 0.45);
+            transform: translateY(-50%) scale(1.06);
+        }
+
+        .nav-arrow svg {
+            width: 14px;
+            height: 14px;
+            color: var(--text-muted);
+        }
+
+        /* ============================================
+           FOOTER
+        ============================================ */
+        .footer {
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 20;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .scroll-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.62rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        .scroll-line {
+            width: 25px;
+            height: 1.5px;
+            background: rgba(0, 0, 0, 0.06);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-line::after {
+            content: '';
+            position: absolute;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--blue);
+            animation: lineMove 1.8s ease-in-out infinite;
+        }
+
+        @keyframes lineMove {
+            0% {
+                left: -100%;
+            }
+
+            50%,
+            100% {
+                left: 100%;
+            }
+        }
+
+        .footer-center {
+            display: flex;
+            gap: 7px;
+        }
+
+        .pagination-dot {
+            width: 10px;
+            height: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
+
+        .pagination-dot.active {
+            background: var(--blue);
+            border-color: var(--blue);
+        }
+
+        .pagination-dot:hover {
+            border-color: var(--blue);
+        }
+
+        .footer-right {
+            font-size: 0.62rem;
+            color: var(--text-muted);
+        }
+
+        /* ============================================
+           LOADING
+        ============================================ */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-start);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 20px;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        .loading-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            animation: pulse 1.2s ease-in-out infinite;
+        }
+
+        .loading-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-style: italic;
+            color: var(--text-muted);
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+        }
+
+        /* ============================================
+           RESPONSIVE
+        ============================================ */
+        @media (max-width: 900px) {
+            .glass-overlay {
+                width: calc(100% - 24px);
+                height: calc(100% - 40px);
+            }
+
+            .nav {
+                padding: 16px 20px;
+            }
+
+            .nav-links a:not(.nav-cta) {
+                display: none;
+            }
+
+            .left-sidebar {
+                display: none;
+            }
+
+            .slide {
+                width: 100%;
+                padding: 0 20px;
+            }
+
+            .right-sidebar {
+                display: none;
+            }
+
+            .nav-arrow {
+                right: 20px;
+            }
+
+            .footer {
+                padding: 14px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading -->
+    <div class="loading-overlay" id="loading">
+        <div class="loading-logo">EM</div>
+        <div class="loading-text">Loading 3D Experience...</div>
+    </div>
+
+    <!-- Spline 3D Background -->
+    <div class="spline-container">
+        <!-- Using a public Spline scene with glass/wave effect -->
+        <spline-viewer url="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode"
+            loading-anim-type="spinner-small-dark"></spline-viewer>
+    </div>
+
+    <!-- Glass Overlay -->
+    <div class="glass-overlay">
+        <!-- Navigation -->
+        <nav class="nav">
+            <div class="nav-logo">
+                <div class="nav-logo-icon">EM</div>
+                <span>Eugene Mierak</span>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="active">About</a>
+                <a href="projects.html">Projects</a>
+                <a href="index.html">Home</a>
+                <a href="#" class="nav-cta">Contact ↗</a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Left sidebar meta -->
+            <div class="left-sidebar">
+                <div class="meta-info">
+                    Design, Develop and Run<br>
+                    Any Alignment Software<br>
+                    You Need
+                </div>
+                <div class="meta-date">
+                    <span class="meta-dot"></span>
+                    <span>01 • 2026</span>
+                </div>
+            </div>
+
+            <!-- Navigation Arrow -->
+            <div class="nav-arrow" id="nextSlide">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 18l6-6-6-6" />
+                </svg>
+            </div>
+
+            <!-- Slides -->
+            <div class="slides-wrapper">
+                <!-- Slide 0 -->
+                <div class="slide active" data-index="0">
+                    <div class="slide-inner">
+                        <div class="slide-badge">
+                            <div class="badge-icon"></div>
+                            <span class="badge-text">Frequency Practitioner</span>
+                        </div>
+                        <h1 class="slide-title" data-text="The Complete Suite Of Alignment & Coherence.">
+                            <span class="typewriter-cursor"></span>
+                        </h1>
+                        <p class="slide-body">
+                            Specializing in alignment caching, coherence training, and energetic development
+                            through integrative methodologies for clarity, stability, and conscious evolution.
+                        </p>
+                        <a href="#contact" class="slide-cta">
+                            Get Started
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Slide 1 -->
+                <div class="slide" data-index="1">
+                    <div class="slide-inner">
+                        <div class="slide-badge">
+                            <div class="badge-icon" style="background: linear-gradient(135deg, #48bb78, #38a169)"></div>
+                            <span class="badge-text">The Bridge</span>
+                        </div>
+                        <h1 class="slide-title" data-text="Subtle Frequency Sciences.">
+                            <span class="typewriter-cursor"></span>
+                        </h1>
+                        <p class="slide-body">
+                            My work bridges subtle frequency sciences with practical frameworks
+                            for personal, organizational, and planetary alignment, cultivating
+                            resonance in real-world decisions and leadership dynamics.
+                        </p>
+                        <a href="#contact" class="slide-cta">
+                            Learn More
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="slide" data-index="2">
+                    <div class="slide-inner">
+                        <div class="slide-badge">
+                            <div class="badge-icon" style="background: linear-gradient(135deg, var(--purple), #5e4bb6)">
+                            </div>
+                            <span class="badge-text">Global Impact</span>
+                        </div>
+                        <h1 class="slide-title" data-text="SBDI Foundation.">
+                            <span class="typewriter-cursor"></span>
+                        </h1>
+                        <p class="slide-body">
+                            As Director of International Relationships for the SBDI Foundation,
+                            I foster global partnerships supporting holistic sustainability,
+                            regenerative development, and conscious collaboration across cultures.
+                        </p>
+                        <a href="#contact" class="slide-cta">
+                            Explore
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="slide" data-index="3">
+                    <div class="slide-inner">
+                        <div class="slide-badge">
+                            <div class="badge-icon" style="background: linear-gradient(135deg, #ed8936, #dd6b20)"></div>
+                            <span class="badge-text">Philosophy</span>
+                        </div>
+                        <h1 class="slide-title" data-text="Systems Thinking.">
+                            <span class="typewriter-cursor"></span>
+                        </h1>
+                        <p class="slide-body">
+                            My approach emphasizes resonance, balance, and alignment between
+                            human potential and ecological responsibility—so initiatives
+                            move from vision to coherent execution.
+                        </p>
+                        <a href="#contact" class="slide-cta">
+                            Connect
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right sidebar -->
+            <div class="right-sidebar">
+                <p class="right-text">
+                    Run and enhance every segment of your journey with a methodology that works for you.
+                </p>
+                <div class="right-buttons">
+                    <a href="#" class="right-btn primary">Try Free ↗</a>
+                    <a href="#" class="right-btn secondary">Docs</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-left">
+                <div class="scroll-indicator">
+                    <div class="scroll-line"></div>
+                    <span>Scroll to explore</span>
+                </div>
+            </div>
+            <div class="footer-center">
+                <div class="pagination-dot active" data-slide="0"></div>
+                <div class="pagination-dot" data-slide="1"></div>
+                <div class="pagination-dot" data-slide="2"></div>
+                <div class="pagination-dot" data-slide="3"></div>
+            </div>
+            <div class="footer-right">© 2026</div>
+        </div>
+    </div>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <script>
+        // ============================================
+        // SLIDE MANAGEMENT
+        // ============================================
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.pagination-dot');
+        let currentSlide = 0;
+        let isAnimating = false;
+        let autoplayInterval;
+
+        function goToSlide(index) {
+            if (isAnimating || index === currentSlide) return;
+            isAnimating = true;
+
+            slides[currentSlide].classList.remove('active');
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+
+            setTimeout(() => runTypewriter(currentSlide), 350);
+            setTimeout(() => { isAnimating = false; }, 900);
+        }
+
+        function nextSlide() {
+            goToSlide((currentSlide + 1) % slides.length);
+        }
+
+        // ============================================
+        // TYPEWRITER
+        // ============================================
+        function runTypewriter(slideIndex) {
+            const slide = slides[slideIndex];
+            const titleEl = slide.querySelector('.slide-title');
+            const text = titleEl.getAttribute('data-text');
+
+            titleEl.innerHTML = '';
+            let html = '';
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i] === ' ' ? '&nbsp;' : text[i];
+                html += `<span class="char">${char}</span>`;
+            }
+            html += '<span class="typewriter-cursor"></span>';
+            titleEl.innerHTML = html;
+
+            const chars = titleEl.querySelectorAll('.char');
+            chars.forEach((char, i) => {
+                setTimeout(() => char.classList.add('visible'), i * 30);
+            });
+        }
+
+        // ============================================
+        // EVENTS
+        // ============================================
+        document.getElementById('nextSlide').addEventListener('click', () => {
+            resetAutoplay();
+            nextSlide();
+        });
+
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                resetAutoplay();
+                goToSlide(i);
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                resetAutoplay();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                resetAutoplay();
+                goToSlide((currentSlide - 1 + slides.length) % slides.length);
+            }
+        });
+
+        let scrollTimeout;
+        document.addEventListener('wheel', (e) => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                resetAutoplay();
+                if (e.deltaY > 0) nextSlide();
+                else goToSlide((currentSlide - 1 + slides.length) % slides.length);
+            }, 120);
+        }, { passive: true });
+
+        // ============================================
+        // AUTOPLAY
+        // ============================================
+        function startAutoplay() {
+            autoplayInterval = setInterval(nextSlide, 6000);
+        }
+
+        function resetAutoplay() {
+            clearInterval(autoplayInterval);
+            startAutoplay();
+        }
+
+        // ============================================
+        // INIT
+        // ============================================
+        // Wait for Spline to load
+        const splineViewer = document.querySelector('spline-viewer');
+        if (splineViewer) {
+            splineViewer.addEventListener('load', () => {
+                setTimeout(() => {
+                    document.getElementById('loading').classList.add('hidden');
+                }, 500);
+            });
+
+            // Fallback if Spline takes too long
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 5000);
+        }
+
+        runTypewriter(0);
+        startAutoplay();
+
+        console.log('✨ Professional Spline-powered About Me initialized');
+    </script>
+</body>
+
+</html>

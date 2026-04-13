@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" fill="none">
+  <defs>
+    <radialGradient id="cert-gold" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.26"/>
+      <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="cert-teal" cx="50%" cy="50%" r="54%">
+      <stop offset="0%" stop-color="#7ECFC0" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#7ECFC0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <circle cx="500" cy="500" r="472" fill="url(#cert-gold)"/>
+  <circle cx="500" cy="500" r="404" fill="url(#cert-teal)"/>
+
+  <g stroke="#D4AF37" stroke-opacity="0.24" stroke-width="1.2" fill="none">
+    <circle cx="500" cy="500" r="430"/>
+    <circle cx="500" cy="500" r="350"/>
+    <circle cx="500" cy="500" r="270"/>
+    <circle cx="500" cy="500" r="190"/>
+  </g>
+
+  <g stroke="#7ECFC0" stroke-opacity="0.2" stroke-width="1.05" fill="none">
+    <polygon points="500,160 572,314 740,340 618,458 646,628 500,550 354,628 382,458 260,340 428,314"/>
+    <polygon points="500,220 556,338 684,358 592,446 614,578 500,518 386,578 408,446 316,358 444,338"/>
+    <polygon points="500,278 546,370 646,386 574,456 592,558 500,510 408,558 426,456 354,386 454,370"/>
+  </g>
+
+  <g stroke="#D4AF37" stroke-opacity="0.18" stroke-width="0.95">
+    <line x1="500" y1="88" x2="500" y2="912"/>
+    <line x1="88" y1="500" x2="912" y2="500"/>
+    <line x1="208" y1="208" x2="792" y2="792"/>
+    <line x1="792" y1="208" x2="208" y2="792"/>
+    <line x1="302" y1="116" x2="698" y2="884"/>
+    <line x1="698" y1="116" x2="302" y2="884"/>
+  </g>
+
+  <path d="M290 664C334 730 406 772 500 772C594 772 666 730 710 664" stroke="#7ECFC0" stroke-opacity="0.2" stroke-width="1.4"/>
+  <path d="M334 700C372 746 430 772 500 772C570 772 628 746 666 700" stroke="#D4AF37" stroke-opacity="0.22" stroke-width="1.2"/>
+
+  <g fill="#D4AF37" fill-opacity="0.3">
+    <circle cx="500" cy="160" r="4"/>
+    <circle cx="740" cy="340" r="3.5"/>
+    <circle cx="646" cy="628" r="3.5"/>
+    <circle cx="354" cy="628" r="3.5"/>
+    <circle cx="260" cy="340" r="3.5"/>
+    <circle cx="500" cy="500" r="5"/>
+  </g>
+
+  <circle cx="500" cy="500" r="14" stroke="#D4AF37" stroke-opacity="0.32" stroke-width="1.1"/>
+</svg>

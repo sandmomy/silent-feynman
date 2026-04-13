@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBDI Center Partnership | Eugene Mierak</title>
+    <meta name="description"
+        content="Eugene Mierak is a strategic partner of SBDI Center, advancing education, entrepreneurship, and social ecosystems through sustainable development.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #4792e7;
+            --primary-dark: #3a7bc8;
+            --secondary: #5c7862;
+            --secondary-light: #6d8a73;
+            --cream: #f8f3ec;
+            --dark: #1a1a2e;
+            --text-dark: #2d2d2d;
+            --text-light: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .thin-font {
+            font-weight: 300;
+        }
+
+        .uppercase {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 15px 40px;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .logo-text span {
+            color: var(--primary);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 35px;
+        }
+
+        .nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: var(--primary);
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(71, 146, 231, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--dark);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary-light);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--dark) 0%, #16213e 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://sbdifoundation.org/wp-content/uploads/2023/10/Sunset-Marquez-Ranch-jpg.webp') center/cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .hero-logo-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: auto;
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 0;
+            filter: grayscale(100%) brightness(200%);
+            animation: pulseLogo 8s ease-in-out infinite;
+        }
+
+        @keyframes pulseLogo {
+
+            0%,
+            100% {
+                opacity: 0.05;
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                opacity: 0.08;
+                transform: translate(-50%, -50%) scale(1.05);
+            }
+        }
+
+        /* Floating Orbs */
+        .floating-orbs {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.4;
+            animation: floatOrb 15s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary);
+            top: -100px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--secondary);
+            bottom: -50px;
+            left: -50px;
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            top: 50%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        @keyframes floatOrb {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            25% {
+                transform: translate(30px, -30px) scale(1.05);
+            }
+
+            50% {
+                transform: translate(-20px, 20px) scale(0.95);
+            }
+
+            75% {
+                transform: translate(20px, 10px) scale(1.02);
+            }
+        }
+
+        .hero-content {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            padding: 100px 20px;
+            max-width: 900px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .partner-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(71, 146, 231, 0.15);
+            border: 1px solid rgba(71, 146, 231, 0.3);
+            padding: 10px 24px;
+            border-radius: 50px;
+            margin-bottom: 30px;
+        }
+
+        .partner-badge-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.6;
+                transform: scale(1.2);
+            }
+        }
+
+        .partner-badge span {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--primary), #64b5f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            font-weight: 300;
+            animation: fadeInUp 1s ease-out 0.2s backwards;
+        }
+
+        .hero-description {
+            animation: fadeInUp 1s ease-out 0.4s backwards;
+        }
+
+        .hero-buttons {
+            animation: fadeInUp 1s ease-out 0.6s backwards;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 650px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+        }
+
+        .scroll-indicator .mouse {
+            width: 24px;
+            height: 38px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .scroll-indicator .mouse::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 2px;
+            animation: scrollAnim 1.5s infinite;
+        }
+
+        @keyframes scrollAnim {
+            0% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(12px);
+            }
+        }
+
+        /* Mission Section */
+        .mission {
+            background: var(--primary);
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .mission h2 {
+            font-size: 2.2rem;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .mission h3 {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Split Section */
+        .split-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 500px;
+        }
+
+        .split-video {
+            position: relative;
+            background: var(--dark);
+        }
+
+        .split-video iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .split-content {
+            background: var(--cream);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px;
+        }
+
+        .split-content h2 {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .split-content .subtitle {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .split-content p {
+            color: #555;
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+        }
+
+        /* SDG Section */
+        .sdg-section {
+            background: var(--cream);
+            padding: 80px 20px;
+        }
+
+        .sdg-content {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .sdg-content h2 {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .sdg-content .subtitle {
+            font-size: 1.3rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        .sdg-content p {
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .sdg-icons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .sdg-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 8px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .sdg-icon:hover {
+            transform: scale(1.1);
+        }
+
+        /* Ethics Section */
+        .ethics {
+            background: var(--primary);
+            padding: 80px 20px;
+        }
+
+        .ethics-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .ethics-header h2 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .ethics-header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+        }
+
+        .ethics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .ethics-card {
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .ethics-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .ethics-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .ethics-card:hover .ethics-icon {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+        }
+
+        .ethics-icon svg {
+            width: 60px;
+            height: 60px;
+            fill: white;
+            transition: transform 0.3s ease;
+        }
+
+        .ethics-card:hover .ethics-icon svg {
+            transform: scale(1.1);
+        }
+
+        .ethics-card h3 {
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .ethics-card h3 strong {
+            color: var(--cream);
+        }
+
+        .ethics-card p {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 300;
+        }
+
+        /* Partnership Details */
+        .partnership-details {
+            padding: 100px 20px;
+            background: white;
+        }
+
+        .partnership-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .partnership-image {
+            position: relative;
+        }
+
+        .partnership-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .partnership-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--primary);
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .partnership-text h2 {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        .partnership-text p {
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+
+        .partnership-list {
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .partnership-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .partnership-list .check {
+            width: 24px;
+            height: 24px;
+            background: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .partnership-list .check svg {
+            width: 14px;
+            height: 14px;
+            fill: white;
+        }
+
+        /* Initiatives */
+        .initiatives {
+            background: var(--cream);
+            padding: 100px 20px;
+        }
+
+        .initiatives-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .initiatives-header h2 {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .initiatives-header p {
+            color: #555;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .initiatives-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .initiative-card {
+            background: white;
+            border-radius: 16px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .initiative-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .initiative-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .initiative-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(71, 146, 231, 0.15);
+            border-color: rgba(71, 146, 231, 0.1);
+        }
+
+        .initiative-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .initiative-card:hover .initiative-icon {
+            transform: scale(1.2);
+        }
+
+        .initiative-card h4 {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+
+        .initiative-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary);
+            padding: 50px 20px;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .footer-logo img {
+            height: 50px;
+        }
+
+        .footer-logo span {
+            color: white;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-copy {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .initiatives-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .ethics-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .split-section {
+                grid-template-columns: 1fr;
+            }
+
+            .split-video {
+                min-height: 300px;
+            }
+
+            .split-content {
+                padding: 40px 30px;
+            }
+
+            .partnership-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .partnership-image::before {
+                display: none;
+            }
+
+            .initiatives-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 {
+            transition-delay: 0.1s;
+        }
+
+        .reveal-delay-2 {
+            transition-delay: 0.2s;
+        }
+
+        .reveal-delay-3 {
+            transition-delay: 0.3s;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-inner">
+            <a href="index.html" class="logo">
+                <img src="assets/logo-sbdi.webp" alt="SBDI Center" style="height: 50px; width: auto;" loading="lazy" decoding="async">
+            </a>
+            <nav class="nav">
+                <a href="#mission">Mission</a>
+                <a href="#partnership">Partnership</a>
+                <a href="#initiatives">Initiatives</a>
+                <a href="#contact">Contact</a>
+                <a href="index.html" class="btn btn-primary">Back to Main</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <img src="assets/logo-sbdi.webp" alt="" class="hero-logo-bg" loading="lazy" decoding="async">
+        <div class="floating-orbs">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
+        <div class="hero-content">
+            <div class="partner-badge">
+                <svg viewBox="0 0 24 24"
+                    style="height: 24px; width: 24px; margin-right: 12px; vertical-align: middle; fill: var(--primary);">
+                    <path
+                        d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"
+                        opacity="0.3" />
+                    <path
+                        d="M12,12c2.21,0 4,-1.79 4,-4s-1.79,-4 -4,-4s-4,1.79 -4,4s1.79,4 4,4zm0,2c-2.67,0 -8,1.34 -8,4v2h16v-2c0,-2.66 -5.33,-4 -8,-4z"
+                        transform="scale(0.5) translate(12,12)" />
+                    <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+                </svg>
+                <span>Official Partner</span>
+            </div>
+            <h1>
+                Eugene × <span class="highlight">SBDI Center</span>
+            </h1>
+            <p class="hero-subtitle">Sustainable Business Development & Innovation</p>
+            <p class="hero-description">
+                Together, we're committed to improving education, entrepreneurship,
+                and social ecosystems through knowledge transfer and sustainable development.
+            </p>
+            <div class="hero-buttons">
+                <a href="#partnership" class="btn btn-primary">Learn About Our Partnership</a>
+                <a href="https://sbdifoundation.org" target="_blank" class="btn btn-outline">Visit SBDI Center</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse"></div>
+            <span>Scroll to explore</span>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="mission" id="mission">
+        <div class="container reveal">
+            <h2 class="uppercase"><strong>Our Shared Mission</strong></h2>
+            <h3 class="thin-font">
+                To improve the Education, Entrepreneurship & Social Ecosystem
+                through knowledge transfer & human capital development
+            </h3>
+        </div>
+    </section>
+
+    <!-- Split Section - World Divided -->
+    <section class="split-section">
+        <div class="split-video reveal">
+            <iframe src="https://www.youtube.com/embed/Jf60NqJtq-w" title="Call For Unity in Diversity"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+        <div class="split-content reveal reveal-delay-2">
+            <h2><strong>A World Divided</strong></h2>
+            <p class="subtitle">Artificial Scarcity, Oligopolies, Post-Colonialism</p>
+            <p>How do we create a new future with abundance & cooperation?
+                Through sustainable business development and innovation, we bridge
+                the gap between developed and developing nations.</p>
+            <a href="#initiatives" class="btn btn-primary">Discover Our Approach</a>
+        </div>
+    </section>
+
+    <!-- Split Section - Unity -->
+    <section class="split-section">
+        <div class="split-content reveal">
+            <h2><strong>Unity in Diversity</strong></h2>
+            <p class="subtitle">For Dignity & Prosperity</p>
+            <p>Human Capital + Human Rights. We support the UN Sustainable Development Goals
+                and believe in creating a more equitable world through sustainable practices.</p>
+        </div>
+        <div class="split-video reveal reveal-delay-2">
+            <iframe src="https://www.youtube.com/embed/g0n9aT-76jc" title="SBDI Food Security"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+    </section>
+
+    <!-- SDG Section -->
+    <section class="sdg-section">
+        <div class="sdg-content reveal">
+            <h2>UN Sustainable Development Goals</h2>
+            <p class="subtitle">We Support Global Change</p>
+            <p>Our partnership actively contributes to multiple UN SDGs,
+                working towards a more sustainable and equitable future for all.</p>
+            <div class="sdg-icons">
+                <img src="https://sbdifoundation.org/wp-content/uploads/2023/08/SDG1-No-Poverty-jpg.webp"
+                    alt="SDG 1 - No Poverty" class="sdg-icon" loading="lazy" decoding="async">
+                <img src="https://sbdifoundation.org/wp-content/uploads/2023/08/SDG2-Zero-Hunger-jpg.webp"
+                    alt="SDG 2 - Zero Hunger" class="sdg-icon" loading="lazy" decoding="async">
+                <img src="https://sbdifoundation.org/wp-content/uploads/2023/08/SDG3-Good-Health-Well-Being-jpg.webp"
+                    alt="SDG 3 - Good Health" class="sdg-icon" loading="lazy" decoding="async">
+                <img src="https://sbdifoundation.org/wp-content/uploads/2023/08/SDG4-Quality-Education-jpg.webp"
+                    alt="SDG 4 - Quality Education" class="sdg-icon" loading="lazy" decoding="async">
+                <img src="https://sbdifoundation.org/wp-content/uploads/2023/08/SDG13-Climate-Action-jpg.webp"
+                    alt="SDG 13 - Climate Action" class="sdg-icon" loading="lazy" decoding="async">
+                <img src="https://sbdifoundation.org/wp-content/uploads/2023/08/SDG17-Partnerships-for-the-Goals-jpg.webp"
+                    alt="SDG 17 - Partnerships" class="sdg-icon" loading="lazy" decoding="async">
+            </div>
+        </div>
+    </section>
+
+    <!-- Ethics Section -->
+    <section class="ethics">
+        <div class="container">
+            <div class="ethics-header reveal">
+                <h2 class="uppercase"><strong>Ethics</strong></h2>
+                <p class="thin-font">Every Civilization Starts with Shared Ethics</p>
+            </div>
+            <div class="ethics-grid">
+                <div class="ethics-card">
+                    <div class="ethics-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+                        </svg>
+                    </div>
+                    <h3>Care for <strong>People</strong></h3>
+                    <p class="thin-font">Support local communities,<br>Education + Human Capital</p>
+                </div>
+                <div class="ethics-card">
+                    <div class="ethics-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+                        </svg>
+                    </div>
+                    <h3>Care for <strong>Planet</strong></h3>
+                    <p class="thin-font">Regenerate Nature's Cycles,<br>Restore the Garden of EDEN</p>
+                </div>
+                <div class="ethics-card">
+                    <div class="ethics-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z" />
+                        </svg>
+                    </div>
+                    <h3>Care for <strong>Fair Profit</strong></h3>
+                    <p class="thin-font">Equitable access to<br>resources & knowledge</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partnership Details -->
+    <section class="partnership-details" id="partnership">
+        <div class="partnership-grid reveal">
+            <div class="partnership-image">
+                <img src="https://sbdifoundation.org/wp-content/uploads/2023/08/Rwanda-The-Land-of-a-thousand-hills-600x600-1.jpg"
+                    alt="SBDI Center Partnership" loading="lazy" decoding="async">
+            </div>
+            <div class="partnership-text">
+                <h2>Our Partnership with SBDI</h2>
+                <p>
+                    As a strategic partner of SBDI Center, Eugene is committed to
+                    supporting sustainable business development initiatives across
+                    developing regions. Together, we're building a more equitable
+                    and sustainable future.
+                </p>
+                <ul class="partnership-list">
+                    <li>
+                        <span class="check"><svg viewBox="0 0 24 24">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                            </svg></span>
+                        <span>Knowledge transfer and capacity building programs</span>
+                    </li>
+                    <li>
+                        <span class="check"><svg viewBox="0 0 24 24">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                            </svg></span>
+                        <span>Supporting sustainable start-ups in developing countries</span>
+                    </li>
+                    <li>
+                        <span class="check"><svg viewBox="0 0 24 24">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                            </svg></span>
+                        <span>Education and entrepreneurship ecosystem development</span>
+                    </li>
+                    <li>
+                        <span class="check"><svg viewBox="0 0 24 24">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                            </svg></span>
+                        <span>Contributing to UN Sustainable Development Goals</span>
+                    </li>
+                </ul>
+                <a href="https://sbdifoundation.org" target="_blank" class="btn btn-secondary">Learn More About SBDI</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Initiatives Section -->
+    <section class="initiatives" id="initiatives">
+        <div class="initiatives-header reveal">
+            <h2>Key Focus Areas</h2>
+            <p>Our partnership spans multiple sectors critical to sustainable development</p>
+        </div>
+        <div class="initiatives-grid reveal reveal-delay-2">
+            <div class="initiative-card">
+                <div class="initiative-icon">⚡</div>
+                <h4>Energy</h4>
+                <p>Renewable solutions, solar, wind, and sustainable power infrastructure</p>
+            </div>
+            <div class="initiative-card">
+                <div class="initiative-icon">🌱</div>
+                <h4>Agriculture</h4>
+                <p>Regenerative farming, agroforestry, and sustainable food systems</p>
+            </div>
+            <div class="initiative-card">
+                <div class="initiative-icon">🌍</div>
+                <h4>Environment</h4>
+                <p>Conservation, restoration, and climate action initiatives</p>
+            </div>
+            <div class="initiative-card">
+                <div class="initiative-icon">🏙️</div>
+                <h4>Sustainable Living</h4>
+                <p>Green cities, eco-villages, and sustainable urban development</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta reveal" id="contact">
+        <h2>Join Our Mission</h2>
+        <p>
+            Together with SBDI Center, we're building bridges between developed
+            and developing nations. Get in touch to learn how you can be part of this change.
+        </p>
+        <div class="cta-buttons">
+            <a href="mailto:mierak1970@gmail.com" class="btn btn-primary">Contact Eugene</a>
+            <a href="https://sbdifoundation.org/contact" target="_blank" class="btn btn-outline">Contact SBDI Center</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer reveal">
+        <div class="footer-inner">
+            <div class="footer-logo">
+                <img src="assets/logo-sbdi.webp" alt="SBDI Center"
+                    style="height: 40px; margin-right: 15px; background: white; border-radius: 50%;" loading="lazy" decoding="async">
+                <span>Eugene × SBDI Center</span>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="#mission">Mission</a>
+                <a href="#partnership">Partnership</a>
+                <a href="https://sbdifoundation.org" target="_blank">SBDI Official</a>
+            </div>
+            <p class="footer-copy">© 2026 Eugene. Strategic Partner of SBDI Center.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Reveal Animation
+        document.addEventListener('DOMContentLoaded', function () {
+            const reveals = document.querySelectorAll('.reveal');
+            if (!reveals.length) return;
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (!entry.isIntersecting) return;
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    });
+                }, {
+                    threshold: 0.12,
+                    rootMargin: '0px 0px -48px 0px'
+                });
+                reveals.forEach((reveal) => observer.observe(reveal));
+            } else {
+                reveals.forEach((reveal) => reveal.classList.add('active'));
+            }
+        });
+    </script>
+</body>
+
+</html>

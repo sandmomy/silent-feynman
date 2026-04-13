@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak - Frequency Practitioner</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --gold: #c9a227;
+            --gold-light: #e8d48a;
+            --gold-dark: #8b6914;
+            --accent: #7c5ce7;
+            --accent-light: #a29bfe;
+            --dark: #0a0a0a;
+            --darker: #030303;
+            --text: #f0f0f0;
+            --text-muted: rgba(240, 240, 240, 0.7);
+            --skew: 16deg;
+            --transition: 1.4s cubic-bezier(0.77, 0, 0.175, 1);
+            --glow: 0 0 40px rgba(201, 162, 39, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Montserrat', sans-serif;
+            background: var(--darker);
+            color: var(--text);
+            cursor: none;
+        }
+
+        /* Custom cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease, opacity 0.3s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-dot {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.08s ease;
+        }
+
+        .cursor.hover {
+            transform: scale(2);
+            background: rgba(201, 162, 39, 0.1);
+        }
+
+        /* Aurora background */
+        .aurora-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .aurora-layer {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(ellipse at 20% 20%, rgba(201, 162, 39, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(124, 92, 231, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 60% 30%, rgba(201, 162, 39, 0.05) 0%, transparent 40%);
+            animation: auroraMove 25s ease-in-out infinite;
+        }
+
+        .aurora-layer:nth-child(2) {
+            animation: auroraMove 30s ease-in-out infinite reverse;
+            opacity: 0.7;
+        }
+
+        @keyframes auroraMove {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate(5%, 3%) rotate(5deg);
+            }
+
+            50% {
+                transform: translate(-3%, 5%) rotate(-3deg);
+            }
+
+            75% {
+                transform: translate(-5%, -3%) rotate(3deg);
+            }
+        }
+
+        /* Animated mesh gradient */
+        .mesh-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background:
+                radial-gradient(at 0% 0%, rgba(201, 162, 39, 0.1) 0%, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(124, 92, 231, 0.08) 0%, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(10, 10, 10, 1) 0%, var(--darker) 100%);
+        }
+
+        /* Full screen background image */
+        .image-side {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .image-side__skewed {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            transform: none;
+            overflow: hidden;
+            background: var(--darker);
+        }
+
+        .image-side__bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('assets/meditation-bg.png') center/cover;
+            transform: scale(1.1);
+            filter: brightness(0.4) contrast(1.1) saturate(0.9);
+            transition: transform 8s ease;
+        }
+
+        /* Noise overlay for texture */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Vignette effect */
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            pointer-events: none;
+            background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.6) 100%);
+        }
+
+        /* Content pages container - CENTERED */
+        .pages-container {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 32%;
+            height: 60%;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        /* Individual skewed page */
+        .skw-page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .skw-page__half {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            transition: transform var(--transition);
+            transform: translate3d(-15vh, 100%, 0);
+        }
+
+        .skw-page.active .skw-page__half {
+            transform: translate3d(0, 0, 0);
+        }
+
+        .skw-page.prev .skw-page__half {
+            transform: translate3d(15vh, -100%, 0);
+        }
+
+        /* Skewed inner container - Enhanced glassmorphism */
+        .skw-page__skewed {
+            position: absolute;
+            width: 140%;
+            height: 100%;
+            left: -20%;
+            overflow: hidden;
+            transform: skewX(var(--skew));
+            background: linear-gradient(135deg,
+                    rgba(15, 15, 15, 0.95) 0%,
+                    rgba(8, 8, 8, 0.98) 50%,
+                    rgba(12, 12, 12, 0.95) 100%);
+            backdrop-filter: blur(20px) saturate(1.5);
+            -webkit-backdrop-filter: blur(20px) saturate(1.5);
+            border: 1px solid rgba(201, 162, 39, 0.15);
+            transition: transform var(--transition), opacity 0.6s ease, box-shadow 0.6s ease;
+            box-shadow:
+                0 25px 50px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05),
+                0 0 100px rgba(201, 162, 39, 0.05);
+        }
+
+        .skw-page.active .skw-page__skewed {
+            box-shadow:
+                0 30px 60px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08),
+                0 0 120px rgba(201, 162, 39, 0.1);
+        }
+
+        /* Glowing border effect */
+        .skw-page__skewed::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 1px solid transparent;
+            background: linear-gradient(135deg,
+                    rgba(201, 162, 39, 0.3) 0%,
+                    transparent 30%,
+                    transparent 70%,
+                    rgba(201, 162, 39, 0.2) 100%) border-box;
+            mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            -webkit-mask-composite: xor;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .skw-page.active .skw-page__skewed::before {
+            opacity: 1;
+        }
+
+        /* Top golden line accent */
+        .skw-page__skewed::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 20%;
+            right: 20%;
+            height: 2px;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    var(--gold) 20%,
+                    var(--gold-light) 50%,
+                    var(--gold) 80%,
+                    transparent 100%);
+            opacity: 0;
+            transform: scaleX(0);
+            transition: all 0.8s ease 0.3s;
+        }
+
+        .skw-page.active .skw-page__skewed::after {
+            opacity: 0.8;
+            transform: scaleX(1);
+        }
+
+        /* Sacred geometry background - Enhanced */
+        .sacred-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            opacity: 0.12;
+            transition: opacity 0.8s ease;
+        }
+
+        .skw-page.active .sacred-bg {
+            opacity: 0.18;
+        }
+
+        .sacred-bg svg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 160%;
+            height: 160%;
+        }
+
+        /* Flower of Life animation - Enhanced */
+        .flower-of-life {
+            animation: rotateFlower 80s linear infinite;
+            filter: drop-shadow(0 0 2px rgba(201, 162, 39, 0.3));
+        }
+
+        .flower-of-life circle {
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 0.4;
+            transition: stroke-width 0.5s ease;
+        }
+
+        .skw-page.active .flower-of-life circle {
+            stroke-width: 0.6;
+        }
+
+        @keyframes rotateFlower {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        /* Pulsing rings - Enhanced */
+        .pulse-ring {
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 0.3;
+            transform-origin: center;
+            animation: pulseRing 5s ease-in-out infinite;
+            filter: drop-shadow(0 0 3px rgba(201, 162, 39, 0.4));
+        }
+
+        .pulse-ring:nth-child(2) {
+            animation-delay: 0.6s;
+        }
+
+        .pulse-ring:nth-child(3) {
+            animation-delay: 1.2s;
+        }
+
+        .pulse-ring:nth-child(4) {
+            animation-delay: 1.8s;
+        }
+
+        .pulse-ring:nth-child(5) {
+            animation-delay: 2.4s;
+        }
+
+        .pulse-ring:nth-child(6) {
+            animation-delay: 3s;
+        }
+
+        @keyframes pulseRing {
+
+            0%,
+            100% {
+                opacity: 0.2;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: scale(1.08);
+            }
+        }
+
+        /* Floating particles - Enhanced with glow */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--gold);
+            border-radius: 50%;
+            opacity: 0;
+            animation: floatParticle 10s ease-in-out infinite;
+            box-shadow: 0 0 10px var(--gold), 0 0 20px var(--gold-light);
+        }
+
+        @keyframes floatParticle {
+
+            0%,
+            100% {
+                opacity: 0;
+                transform: translateY(100%) scale(0);
+            }
+
+            10% {
+                opacity: 0.8;
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateY(-50%) scale(1.2);
+            }
+
+            90% {
+                opacity: 0.8;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-200%) scale(0);
+            }
+        }
+
+        /* Energy waves - Enhanced */
+        .energy-wave {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 250%;
+            height: 250%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 1px solid var(--gold);
+            opacity: 0;
+            animation: energyWave 8s ease-out infinite;
+            box-shadow: 0 0 20px rgba(201, 162, 39, 0.2);
+        }
+
+        .energy-wave:nth-child(2) {
+            animation-delay: 2.5s;
+        }
+
+        .energy-wave:nth-child(3) {
+            animation-delay: 5s;
+        }
+
+        @keyframes energyWave {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Scale effect for inactive */
+        .skw-page:not(.active):not(.prev) .skw-page__skewed {
+            transform: skewX(var(--skew)) scale(0.92);
+            opacity: 0.4;
+        }
+
+        /* Content inside */
+        .skw-page__content {
+            position: absolute;
+            width: 71.43%;
+            height: 100%;
+            left: 14.28%;
+            padding: 4vh 2.5vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transform: skewX(calc(var(--skew) * -1));
+        }
+
+        /* Section number - Enhanced */
+        .section-number {
+            position: absolute;
+            top: 50%;
+            right: -15%;
+            transform: translateY(-50%);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 12rem;
+            font-weight: 300;
+            background: linear-gradient(180deg,
+                    rgba(201, 162, 39, 0.08) 0%,
+                    rgba(201, 162, 39, 0.03) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            pointer-events: none;
+            line-height: 1;
+            transition: opacity 0.8s ease;
+        }
+
+        /* Content styles - Enhanced */
+        .skw-page__heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3.8rem, 9vw, 5.5rem);
+            font-weight: 300;
+            background: linear-gradient(135deg,
+                    var(--gold-light) 0%,
+                    var(--gold) 50%,
+                    var(--gold-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.08em;
+            line-height: 1.1;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.23, 1, 0.32, 1) 0.4s;
+            text-shadow: 0 0 60px rgba(201, 162, 39, 0.3);
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .skw-page.active .skw-page__heading {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gold-line {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    var(--gold) 30%,
+                    var(--gold-light) 50%,
+                    var(--gold) 70%,
+                    transparent 100%);
+            margin: 1.2rem 0;
+            opacity: 0;
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: all 1s cubic-bezier(0.23, 1, 0.32, 1) 0.5s;
+            box-shadow: 0 0 20px rgba(201, 162, 39, 0.4);
+        }
+
+        .skw-page.active .gold-line {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+
+        .skw-page__description {
+            font-size: clamp(1rem, 1.8vw, 1.15rem);
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--text-muted);
+            max-width: 480px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.23, 1, 0.32, 1) 0.6s;
+            letter-spacing: 0.02em;
+        }
+
+        .skw-page.active .skw-page__description {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Navigation dots - Enhanced */
+        .nav-dots {
+            position: fixed;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .nav-dot {
+            position: relative;
+            width: 14px;
+            height: 14px;
+            border: 1px solid rgba(201, 162, 39, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .nav-dot::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .nav-dot:hover {
+            border-color: var(--gold);
+            transform: scale(1.3);
+            box-shadow: 0 0 20px rgba(201, 162, 39, 0.3);
+        }
+
+        .nav-dot.active {
+            border-color: var(--gold);
+            box-shadow: 0 0 30px rgba(201, 162, 39, 0.5);
+        }
+
+        .nav-dot.active::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Progress line between dots */
+        .nav-progress {
+            position: fixed;
+            right: 46px;
+            top: calc(50% - 52px);
+            width: 2px;
+            height: 104px;
+            background: rgba(201, 162, 39, 0.15);
+            z-index: 99;
+        }
+
+        .nav-progress__fill {
+            width: 100%;
+            height: 0%;
+            background: linear-gradient(180deg, var(--gold) 0%, var(--gold-light) 100%);
+            transition: height 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 0 10px rgba(201, 162, 39, 0.5);
+        }
+
+        /* Page counter - Enhanced */
+        .page-counter {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            color: var(--text-muted);
+            z-index: 100;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .page-counter__current {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--gold);
+            text-shadow: 0 0 30px rgba(201, 162, 39, 0.4);
+            transition: all 0.5s ease;
+        }
+
+        .page-counter__divider {
+            font-size: 1.5rem;
+            color: rgba(201, 162, 39, 0.3);
+        }
+
+        .page-counter__total {
+            font-size: 1.2rem;
+            color: rgba(201, 162, 39, 0.5);
+        }
+
+        /* Scroll hint - Enhanced */
+        .scroll-hint {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.5;
+            transition: all 0.5s ease;
+            cursor: pointer;
+        }
+
+        .scroll-hint:hover {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-5px);
+        }
+
+        .scroll-hint span {
+            font-size: 0.7rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .scroll-hint__line {
+            width: 1px;
+            height: 50px;
+            background: linear-gradient(180deg, var(--gold) 0%, transparent 100%);
+            position: relative;
+        }
+
+        .scroll-hint__line::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            border-right: 1px solid var(--gold);
+            border-bottom: 1px solid var(--gold);
+            transform: translateX(-50%) rotate(45deg);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) rotate(45deg) translateY(0);
+            }
+
+            50% {
+                opacity: 0.3;
+                transform: translateX(-50%) rotate(45deg) translateY(10px);
+            }
+        }
+
+        /* Top corner accents */
+        .corner-accent {
+            position: fixed;
+            width: 100px;
+            height: 100px;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .corner-accent--tl {
+            top: 30px;
+            left: 30px;
+            border-left: 1px solid rgba(201, 162, 39, 0.3);
+            border-top: 1px solid rgba(201, 162, 39, 0.3);
+        }
+
+        .corner-accent--br {
+            bottom: 30px;
+            right: 30px;
+            border-right: 1px solid rgba(201, 162, 39, 0.3);
+            border-bottom: 1px solid rgba(201, 162, 39, 0.3);
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 1200px) {
+            .pages-container {
+                width: 50%;
+            }
+        }
+
+        @media (max-width: 900px) {
+
+            html,
+            body {
+                cursor: auto;
+            }
+
+            .cursor,
+            .cursor-dot {
+                display: none;
+            }
+
+            .pages-container {
+                width: 92%;
+                height: 55%;
+                top: auto;
+                bottom: 5%;
+                transform: translate(-50%, 0);
+            }
+
+            .image-side {
+                width: 100%;
+                height: 42%;
+                top: 0;
+                right: 0;
+            }
+
+            .image-side__skewed {
+                width: 100%;
+                height: 140%;
+                left: 0;
+                top: -20%;
+                transform: skewY(8deg);
+            }
+
+            .image-side__bg {
+                transform: skewY(-8deg) scale(1.3);
+            }
+
+            .skw-page__half {
+                transform: translate3d(0, 100%, 0);
+            }
+
+            .skw-page.prev .skw-page__half {
+                transform: translate3d(0, -100%, 0);
+            }
+
+            .skw-page__skewed {
+                width: 100%;
+                height: 140%;
+                left: 0;
+                top: -20%;
+                transform: skewY(-8deg);
+            }
+
+            .skw-page:not(.active):not(.prev) .skw-page__skewed {
+                transform: skewY(-8deg) scale(0.92);
+            }
+
+            .skw-page__content {
+                width: 100%;
+                left: 0;
+                height: 71.43%;
+                top: 14.28%;
+                padding: 4vh 6vw;
+                transform: skewY(8deg);
+            }
+
+            .section-number {
+                font-size: 8rem;
+                right: 0%;
+            }
+
+            .nav-dots {
+                right: 15px;
+                gap: 15px;
+            }
+
+            .nav-dot {
+                width: 12px;
+                height: 12px;
+            }
+
+            .nav-progress {
+                display: none;
+            }
+
+            .scroll-hint {
+                bottom: 20px;
+            }
+
+            .page-counter {
+                left: 20px;
+                bottom: 20px;
+            }
+
+            .corner-accent {
+                width: 50px;
+                height: 50px;
+            }
+
+            .corner-accent--tl {
+                top: 15px;
+                left: 15px;
+            }
+
+            .corner-accent--br {
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+
+        /* Loading animation */
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--darker);
+            z-index: 9998;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-ring {
+            width: 60px;
+            height: 60px;
+            border: 2px solid rgba(201, 162, 39, 0.1);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: loaderSpin 1s linear infinite;
+        }
+
+        @keyframes loaderSpin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Page loader -->
+    <div class="page-loader">
+        <div class="loader-ring"></div>
+    </div>
+
+    <!-- Custom cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+
+    <!-- Aurora background -->
+    <div class="aurora-bg">
+        <div class="aurora-layer"></div>
+        <div class="aurora-layer"></div>
+    </div>
+
+    <!-- Mesh gradient -->
+    <div class="mesh-gradient"></div>
+
+    <!-- Fixed Image Side -->
+    <div class="image-side">
+        <div class="image-side__skewed">
+            <div class="image-side__bg"></div>
+        </div>
+    </div>
+
+    <!-- Noise overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- Vignette -->
+    <div class="vignette"></div>
+
+    <!-- Corner accents -->
+    <div class="corner-accent corner-accent--tl"></div>
+    <div class="corner-accent corner-accent--br"></div>
+
+    <!-- Content Pages with Skewed Transitions -->
+    <div class="pages-container">
+        <!-- Page 1: Identity -->
+        <div class="skw-page active" data-page="1">
+            <div class="skw-page__half">
+                <div class="skw-page__skewed">
+                    <div class="sacred-bg">
+                        <svg class="flower-of-life" viewBox="0 0 200 200">
+                            <circle cx="100" cy="100" r="20" />
+                            <circle cx="100" cy="70" r="20" />
+                            <circle cx="100" cy="130" r="20" />
+                            <circle cx="126" cy="85" r="20" />
+                            <circle cx="126" cy="115" r="20" />
+                            <circle cx="74" cy="85" r="20" />
+                            <circle cx="74" cy="115" r="20" />
+                            <circle cx="100" cy="40" r="20" />
+                            <circle cx="100" cy="160" r="20" />
+                            <circle cx="152" cy="70" r="20" />
+                            <circle cx="152" cy="130" r="20" />
+                            <circle cx="48" cy="70" r="20" />
+                            <circle cx="48" cy="130" r="20" />
+                        </svg>
+                        <svg viewBox="0 0 200 200">
+                            <circle class="pulse-ring" cx="100" cy="100" r="30" />
+                            <circle class="pulse-ring" cx="100" cy="100" r="45" />
+                            <circle class="pulse-ring" cx="100" cy="100" r="60" />
+                            <circle class="pulse-ring" cx="100" cy="100" r="75" />
+                            <circle class="pulse-ring" cx="100" cy="100" r="90" />
+                        </svg>
+                        <div class="energy-wave"></div>
+                        <div class="energy-wave"></div>
+                        <div class="energy-wave"></div>
+                        <div class="particles">
+                            <div class="particle" style="left: 20%; animation-delay: 0s;"></div>
+                            <div class="particle" style="left: 40%; animation-delay: 1.5s;"></div>
+                            <div class="particle" style="left: 60%; animation-delay: 3s;"></div>
+                            <div class="particle" style="left: 80%; animation-delay: 4.5s;"></div>
+                            <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+                            <div class="particle" style="left: 70%; animation-delay: 5s;"></div>
+                        </div>
+                    </div>
+                    <div class="skw-page__content">
+                        <span class="section-number">01</span>
+                        <h1 class="skw-page__heading">Eugene Mierak</h1>
+                        <div class="gold-line"></div>
+                        <p class="skw-page__description">
+                            Frequency practitioner specializing in alignment caching, coherence training,
+                            and energetic training, working through integrative coherence methodologies
+                            to support clarity, stability, and conscious evolution.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 2: The Bridge -->
+        <div class="skw-page" data-page="2">
+            <div class="skw-page__half">
+                <div class="skw-page__skewed">
+                    <div class="sacred-bg">
+                        <svg class="flower-of-life" viewBox="0 0 200 200" style="animation-direction: reverse;">
+                            <circle cx="100" cy="100" r="20" />
+                            <circle cx="100" cy="70" r="20" />
+                            <circle cx="100" cy="130" r="20" />
+                            <circle cx="126" cy="85" r="20" />
+                            <circle cx="126" cy="115" r="20" />
+                            <circle cx="74" cy="85" r="20" />
+                            <circle cx="74" cy="115" r="20" />
+                        </svg>
+                        <svg viewBox="0 0 200 200">
+                            <circle class="pulse-ring" cx="100" cy="100" r="35" />
+                            <circle class="pulse-ring" cx="100" cy="100" r="55" />
+                            <circle class="pulse-ring" cx="100" cy="100" r="75" />
+                        </svg>
+                        <div class="energy-wave"></div>
+                        <div class="energy-wave"></div>
+                        <div class="particles">
+                            <div class="particle" style="left: 25%; animation-delay: 0.5s;"></div>
+                            <div class="particle" style="left: 50%; animation-delay: 2s;"></div>
+                            <div class="particle" style="left: 75%; animation-delay: 3.5s;"></div>
+                        </div>
+                    </div>
+                    <div class="skw-page__content">
+                        <span class="section-number">02</span>
+                        <h2 class="skw-page__heading">The Work</h2>
+                        <div class="gold-line"></div>
+                        <p class="skw-page__description">
+                            Bridging subtle frequency sciences with practical frameworks for personal,
+                            organizational, and planetary alignment—helping individuals and teams cultivate
+                            resonance in real-world decisions, leadership dynamics, and long-term projects.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 3: Global Impact -->
+        <div class="skw-page" data-page="3">
+            <div class="skw-page__half">
+                <div class="skw-page__skewed">
+                    <div class="sacred-bg">
+                        <svg class="flower-of-life" viewBox="0 0 200 200">
+                            <circle cx="100" cy="100" r="25" />
+                            <circle cx="100" cy="65" r="25" />
+                            <circle cx="100" cy="135" r="25" />
+                            <circle cx="130" cy="82" r="25" />
+                            <circle cx="130" cy="118" r="25" />
+                            <circle cx="70" cy="82" r="25" />
+                            <circle cx="70" cy="118" r="25" />
+                        </svg>
+                        <svg viewBox="0 0 200 200">
+                            <circle class="pulse-ring" cx="100" cy="100" r="40" />
+                            <circle class="pulse-ring" cx="100" cy="100" r="60" />
+                            <circle class="pulse-ring" cx="100" cy="100" r="80" />
+                        </svg>
+                        <div class="energy-wave"></div>
+                        <div class="energy-wave"></div>
+                        <div class="energy-wave"></div>
+                        <div class="particles">
+                            <div class="particle" style="left: 15%; animation-delay: 1s;"></div>
+                            <div class="particle" style="left: 45%; animation-delay: 2.5s;"></div>
+                            <div class="particle" style="left: 65%; animation-delay: 4s;"></div>
+                            <div class="particle" style="left: 85%; animation-delay: 5.5s;"></div>
+                        </div>
+                    </div>
+                    <div class="skw-page__content">
+                        <span class="section-number">03</span>
+                        <h2 class="skw-page__heading">Global Impact</h2>
+                        <div class="gold-line"></div>
+                        <p class="skw-page__description">
+                            Director of International Relationships for the SBDI Foundation, fostering
+                            global partnerships that support holistic sustainability initiatives,
+                            regenerative development, and conscious collaboration across cultures.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 4: Philosophy -->
+        <div class="skw-page" data-page="4">
+            <div class="skw-page__half">
+                <div class="skw-page__skewed">
+                    <div class="sacred-bg">
+                        <svg class="flower-of-life" viewBox="0 0 200 200" style="animation-duration: 45s;">
+                            <circle cx="100" cy="100" r="18" />
+                            <circle cx="100" cy="74" r="18" />
+                            <circle cx="100" cy="126" r="18" />
+                            <circle cx="122" cy="87" r="18" />
+                            <circle cx="122" cy="113" r="18" />
+                            <circle cx="78" cy="87" r="18" />
+                            <circle cx="78" cy="113" r="18" />
+                            <circle cx="100" cy="48" r="18" />
+                            <circle cx="100" cy="152" r="18" />
+                        </svg>
+                        <svg viewBox="0 0 200 200">
+                            <circle class="pulse-ring" cx="100" cy="100" r="25" />
+                            <circle class="pulse-ring" cx="100" cy="100" r="50" />
+                            <circle class="pulse-ring" cx="100" cy="100" r="75" />
+                            <circle class="pulse-ring" cx="100" cy="100" r="95" />
+                        </svg>
+                        <div class="energy-wave"></div>
+                        <div class="energy-wave"></div>
+                        <div class="particles">
+                            <div class="particle" style="left: 35%; animation-delay: 0.8s;"></div>
+                            <div class="particle" style="left: 55%; animation-delay: 2.3s;"></div>
+                            <div class="particle" style="left: 75%; animation-delay: 3.8s;"></div>
+                        </div>
+                    </div>
+                    <div class="skw-page__content">
+                        <span class="section-number">04</span>
+                        <h2 class="skw-page__heading">Approach</h2>
+                        <div class="gold-line"></div>
+                        <p class="skw-page__description">
+                            Grounded in systems thinking, emphasizing resonance, long-term balance,
+                            and alignment between human potential and ecological and social responsibility—so
+                            initiatives move from vision to coherent execution.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 5: Mission -->
+        <div class="skw-page" data-page="5">
+            <div class="skw-page__half">
+                <div class="skw-page__skewed">
+                    <div class="sacred-bg">
+                        <svg class="flower-of-life" viewBox="0 0 200 200" style="animation-duration: 50s;">
+                            <circle cx="100" cy="100" r="22" />
+                            <circle cx="100" cy="68" r="22" />
+                            <circle cx="100" cy="132" r="22" />
+                            <circle cx="128" cy="84" r="22" />
+                            <circle cx="128" cy="116" r="22" />
+                            <circle cx="72" cy="84" r="22" />
+                            <circle cx="72" cy="116" r="22" />
+                            <circle cx="100" cy="36" r="22" />
+                            <circle cx="100" cy="164" r="22" />
+                            <circle cx="156" cy="68" r="22" />
+                            <circle cx="156" cy="132" r="22" />
+                        </svg>
+                        <svg viewBox="0 0 200 200">
+                            <circle class="pulse-ring" cx="100" cy="100" r="28" />
+                            <circle class="pulse-ring" cx="100" cy="100" r="48" />
+                            <circle class="pulse-ring" cx="100" cy="100" r="68" />
+                            <circle class="pulse-ring" cx="100" cy="100" r="88" />
+                        </svg>
+                        <div class="energy-wave"></div>
+                        <div class="energy-wave"></div>
+                        <div class="energy-wave"></div>
+                        <div class="particles">
+                            <div class="particle" style="left: 18%; animation-delay: 0.3s;"></div>
+                            <div class="particle" style="left: 42%; animation-delay: 1.8s;"></div>
+                            <div class="particle" style="left: 58%; animation-delay: 3.3s;"></div>
+                            <div class="particle" style="left: 82%; animation-delay: 4.8s;"></div>
+                        </div>
+                    </div>
+                    <div class="skw-page__content">
+                        <span class="section-number">05</span>
+                        <h2 class="skw-page__heading">Mission</h2>
+                        <div class="gold-line"></div>
+                        <p class="skw-page__description">
+                            Supporting the emergence of coherent, sustainable projects through frequency
+                            awareness, strategic alignment, and conscious international cooperation—creating
+                            meaningful, lasting impact for communities and the planet.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Dots -->
+    <nav class="nav-dots">
+        <div class="nav-dot active" data-page="1"></div>
+        <div class="nav-dot" data-page="2"></div>
+        <div class="nav-dot" data-page="3"></div>
+        <div class="nav-dot" data-page="4"></div>
+        <div class="nav-dot" data-page="5"></div>
+    </nav>
+
+    <!-- Progress bar -->
+    <div class="nav-progress">
+        <div class="nav-progress__fill"></div>
+    </div>
+
+    <!-- Page Counter -->
+    <div class="page-counter">
+        <span class="page-counter__current">01</span>
+        <span class="page-counter__divider">/</span>
+        <span class="page-counter__total">05</span>
+    </div>
+
+    <!-- Scroll Hint -->
+    <div class="scroll-hint">
+        <span>Scroll</span>
+        <div class="scroll-hint__line"></div>
+    </div>
+
+    <script>
+        (function () {
+            // Hide loader
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    document.querySelector('.page-loader').classList.add('hidden');
+                }, 500);
+            });
+
+            // Custom cursor
+            const cursor = document.querySelector('.cursor');
+            const cursorDot = document.querySelector('.cursor-dot');
+
+            if (cursor && cursorDot && window.innerWidth > 900) {
+                let mouseX = 0, mouseY = 0;
+                let cursorX = 0, cursorY = 0;
+
+                document.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    cursorDot.style.left = mouseX + 'px';
+                    cursorDot.style.top = mouseY + 'px';
+                });
+
+                function animateCursor() {
+                    cursorX += (mouseX - cursorX) * 0.15;
+                    cursorY += (mouseY - cursorY) * 0.15;
+                    cursor.style.left = cursorX + 'px';
+                    cursor.style.top = cursorY + 'px';
+                    requestAnimationFrame(animateCursor);
+                }
+                animateCursor();
+
+                // Hover effect on clickable elements
+                const hoverables = document.querySelectorAll('.nav-dot, .scroll-hint, a, button');
+                hoverables.forEach(el => {
+                    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+                });
+            }
+
+            // Page navigation
+            const pages = document.querySelectorAll('.skw-page');
+            const dots = document.querySelectorAll('.nav-dot');
+            const scrollHint = document.querySelector('.scroll-hint');
+            const pageCounter = document.querySelector('.page-counter__current');
+            const progressFill = document.querySelector('.nav-progress__fill');
+            const numPages = pages.length;
+            let currentPage = 1;
+            let isScrolling = false;
+            const scrollCooldown = 1400;
+
+            function updateProgress() {
+                const progress = ((currentPage - 1) / (numPages - 1)) * 100;
+                if (progressFill) {
+                    progressFill.style.height = progress + '%';
+                }
+            }
+
+            function goToPage(pageNum) {
+                if (pageNum < 1 || pageNum > numPages || pageNum === currentPage || isScrolling) return;
+
+                isScrolling = true;
+
+                pages.forEach((page, index) => {
+                    const pageIndex = index + 1;
+                    page.classList.remove('active', 'prev');
+
+                    if (pageIndex === pageNum) {
+                        page.classList.add('active');
+                    } else if (pageIndex < pageNum) {
+                        page.classList.add('prev');
+                    }
+                });
+
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index + 1 === pageNum);
+                });
+
+                // Update counter with animation
+                pageCounter.style.opacity = '0';
+                pageCounter.style.transform = 'translateY(-10px)';
+                setTimeout(() => {
+                    pageCounter.textContent = pageNum.toString().padStart(2, '0');
+                    pageCounter.style.opacity = '1';
+                    pageCounter.style.transform = 'translateY(0)';
+                }, 200);
+
+                // Hide scroll hint on last page
+                if (scrollHint) {
+                    scrollHint.style.opacity = pageNum === numPages ? '0' : '0.5';
+                    scrollHint.style.pointerEvents = pageNum === numPages ? 'none' : 'auto';
+                }
+
+                currentPage = pageNum;
+                updateProgress();
+
+                setTimeout(() => {
+                    isScrolling = false;
+                }, scrollCooldown);
+            }
+
+            function navigateUp() {
+                if (currentPage > 1 && !isScrolling) {
+                    goToPage(currentPage - 1);
+                }
+            }
+
+            function navigateDown() {
+                if (currentPage < numPages && !isScrolling) {
+                    goToPage(currentPage + 1);
+                }
+            }
+
+            // Wheel event with improved sensitivity
+            let wheelAccumulator = 0;
+            const wheelThreshold = 40;
+
+            document.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                wheelAccumulator += e.deltaY;
+
+                if (Math.abs(wheelAccumulator) >= wheelThreshold) {
+                    if (wheelAccumulator > 0) {
+                        navigateDown();
+                    } else {
+                        navigateUp();
+                    }
+                    wheelAccumulator = 0;
+                }
+            }, { passive: false });
+
+            // Touch events
+            let touchStartY = 0;
+            let touchEndY = 0;
+
+            document.addEventListener('touchstart', (e) => {
+                touchStartY = e.changedTouches[0].screenY;
+            }, { passive: true });
+
+            document.addEventListener('touchend', (e) => {
+                touchEndY = e.changedTouches[0].screenY;
+                const diff = touchStartY - touchEndY;
+
+                if (Math.abs(diff) > 60) {
+                    if (diff > 0) {
+                        navigateDown();
+                    } else {
+                        navigateUp();
+                    }
+                }
+            }, { passive: true });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+                    e.preventDefault();
+                    navigateDown();
+                } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                    e.preventDefault();
+                    navigateUp();
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    goToPage(1);
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    goToPage(numPages);
+                }
+            });
+
+            // Dot navigation
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const pageNum = parseInt(dot.dataset.page);
+                    goToPage(pageNum);
+                });
+            });
+
+            // Scroll hint click
+            if (scrollHint) {
+                scrollHint.addEventListener('click', navigateDown);
+            }
+
+            // Initialize progress
+            updateProgress();
+
+            // Parallax effect on background
+            document.addEventListener('mousemove', (e) => {
+                const bg = document.querySelector('.image-side__bg');
+                if (bg && window.innerWidth > 900) {
+                    const x = (e.clientX / window.innerWidth - 0.5) * 20;
+                    const y = (e.clientY / window.innerHeight - 0.5) * 20;
+                    bg.style.transform = `scale(1.1) translate(${x}px, ${y}px)`;
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

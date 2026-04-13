@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eko Vitaris | Official Partner</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Eko Vitaris - Premium Tropical Products from Indonesia. Coconuts, Cassava Flour (Mocaf) & Coffee for Hotels, Manufacturers, Resorts & Wholesalers.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:wght@300;400;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ============================================
+           EKO VITARIS - ARTISTIC ORGANIC REDESIGN
+           Concept: "The Organic Unfolding"
+           Layout: Fixed Hero -> Organic Parallax Flow -> Horizontal Gallery
+           Palette: Deep Jungle Green, Gold, Cream
+           ============================================ */
+
+        :root {
+            --ev-green-deep: #05140a;
+            --ev-green-rich: #0d2e1b;
+            --ev-gold: #c6934b;
+            --ev-cream: #f2f5f2;
+            --text-main: #f0f5f0;
+            --text-muted: #aabeb2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--ev-green-deep);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .cormorant {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* ===== HERO: FIXED CINEMATIC (APPROVED) ===== */
+        .hero-section {
+            position: relative;
+            height: 55vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1596040033229-a9821ebd058d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+            filter: brightness(0.7);
+        }
+
+        .hero-overlay-grad {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to bottom, transparent, var(--ev-green-deep));
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+        }
+
+        .hero-eyebrow {
+            color: #fff;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+            opacity: 0;
+            animation: fadeIn 1.5s ease forwards 0.5s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            line-height: 0.9;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 1.5s ease forwards 1s;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* ===== SECTION 2: ORGANIC PARALLAX MISSION ===== */
+        .section-mission {
+            position: relative;
+            padding: 4rem 5%;
+            z-index: 10;
+            background: var(--ev-green-deep);
+            overflow: hidden;
+        }
+
+        .mission-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .mission-intro h2 {
+            font-size: 2.2rem;
+            margin-bottom: 0.8rem;
+            color: var(--ev-cream);
+        }
+
+        .mission-intro p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+
+        /* Organic Items Layout */
+        .organic-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .organic-row:last-child {
+            margin-bottom: 1rem;
+        }
+
+        .organic-row.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .organic-text {
+            width: 40%;
+            position: relative;
+            z-index: 5;
+        }
+
+        .organic-num {
+            font-family: 'Cormorant Garamond';
+            font-size: 3rem;
+            color: var(--ev-gold);
+            opacity: 0.3;
+            line-height: 1;
+        }
+
+        .organic-title {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .organic-desc {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .organic-visual {
+            width: 50%;
+            height: 30vh;
+            position: relative;
+        }
+
+        .organic-img-mask {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Shape Variants */
+        .shape-1 {
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+        }
+
+        .shape-2 {
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        }
+
+        .organic-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        /* Float Animation */
+        .float-slow {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+
+        /* ===== SECTION 3: PRODUCTS SHOWCASE ===== */
+        .products-section {
+            position: relative;
+            padding: 4rem 5%;
+            background: #08100a;
+        }
+
+        .products-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .products-header h2 {
+            font-size: 2.2rem;
+            color: var(--ev-cream);
+            margin-bottom: 1rem;
+        }
+
+        .products-header p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Featured product (Cassava) */
+        .product-featured {
+            position: relative;
+            display: flex;
+            align-items: stretch;
+            background: var(--ev-green-rich);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            min-height: auto;
+            border: 1px solid rgba(198, 147, 75, 0.15);
+        }
+
+        .product-featured-img {
+            width: 50%;
+            min-height: 340px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--ev-green-rich);
+        }
+
+        .product-featured-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .product-featured:hover .product-featured-img img {
+            transform: scale(1.03);
+        }
+
+        .product-featured-body {
+            width: 50%;
+            padding: 2rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .product-badge {
+            display: inline-block;
+            background: var(--ev-gold);
+            color: var(--ev-green-deep);
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            width: fit-content;
+        }
+
+        .product-featured-title {
+            font-size: 1.8rem;
+            line-height: 1.1;
+            color: #fff;
+            margin-bottom: 0.8rem;
+        }
+
+        .product-featured-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+        }
+
+        .product-specs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+        }
+
+        .spec-icon {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            margin-top: 2px;
+            color: var(--ev-gold);
+        }
+
+        .spec-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .spec-text strong {
+            color: var(--ev-cream);
+            font-weight: 500;
+        }
+
+        .product-featured.reverse {
+            flex-direction: row-reverse;
+        }
+
+        /* Secondary products: visual tiles with overlay */
+        .products-secondary {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .product-tile {
+            position: relative;
+            border-radius: 14px;
+            overflow: hidden;
+            height: 400px;
+            border: 1px solid rgba(198, 147, 75, 0.15);
+            cursor: default;
+        }
+
+        .product-tile-bg {
+            position: absolute;
+            inset: 0;
+            background: var(--ev-green-rich);
+        }
+
+        .product-tile-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center 40%;
+            transition: transform 0.6s ease;
+        }
+
+        .product-tile:hover .product-tile-bg img {
+            transform: scale(1.05);
+        }
+
+        .product-tile-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top,
+                    rgba(5, 20, 10, 0.97) 0%,
+                    rgba(5, 20, 10, 0.75) 35%,
+                    rgba(5, 20, 10, 0.1) 60%,
+                    transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.8rem;
+            transition: background 0.4s ease;
+        }
+
+        .product-tile:hover .product-tile-overlay {
+            background: linear-gradient(to top,
+                    rgba(5, 20, 10, 0.97) 0%,
+                    rgba(5, 20, 10, 0.6) 35%,
+                    rgba(5, 20, 10, 0.05) 55%,
+                    transparent 100%);
+        }
+
+        .product-tile-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: #fff;
+            margin-bottom: 0.6rem;
+            line-height: 1.15;
+        }
+
+        .product-tile-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .tile-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .tile-spec {
+            display: inline-block;
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--ev-cream);
+            background: rgba(198, 147, 75, 0.15);
+            border: 1px solid rgba(198, 147, 75, 0.25);
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            letter-spacing: 0.3px;
+        }
+
+        @media (max-width: 768px) {
+            .products-secondary {
+                grid-template-columns: 1fr;
+            }
+
+            .product-tile {
+                height: 350px;
+            }
+        }
+
+        /* ===== SECTION 4: RUMAH MOCAF VIDEO + WEBSITE ===== */
+        .section-video {
+            position: relative;
+            padding: 4rem 5%;
+            background: var(--ev-green-deep);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .video-card {
+            position: relative;
+            border-radius: 14px;
+            overflow: hidden;
+            aspect-ratio: 16 / 9;
+            cursor: pointer;
+        }
+
+        .video-card a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .video-thumb {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .video-card:hover .video-thumb {
+            transform: scale(1.06);
+        }
+
+        .video-card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.35);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .video-card:hover .video-card-overlay {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .play-btn {
+            width: 64px;
+            height: 64px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-bottom: 10px;
+        }
+
+        .video-card:hover .play-btn {
+            transform: scale(1.15);
+            background: #fff;
+            box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.15);
+        }
+
+        .play-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: var(--ev-green-rich);
+            margin-left: 3px;
+        }
+
+        .video-card-label {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: all 0.3s ease;
+        }
+
+        .video-card:hover .video-card-label {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .video-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .video-info h2 {
+            font-size: 1.8rem;
+            color: var(--ev-cream);
+            margin-bottom: 1rem;
+        }
+
+        .video-info p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--ev-gold);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 0.7rem 1.5rem;
+            border: 1px solid rgba(198, 147, 75, 0.3);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            width: fit-content;
+            margin-bottom: 1rem;
+        }
+
+        .link-btn:hover {
+            background: rgba(198, 147, 75, 0.1);
+            border-color: var(--ev-gold);
+        }
+
+        .link-btn svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+        }
+
+
+        /* ===== FOOTER ===== */
+        footer {
+            padding: 2rem 5%;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            background: var(--ev-green-deep);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* ===== NAV (Reused) ===== */
+        /* ===== TOP NAV BANNER (same as index.html) ===== */
+        .top-nav-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 48px;
+            background: rgba(8, 12, 20, 0.97);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            overflow: visible !important;
+        }
+
+        .top-nav-container {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow: visible !important;
+        }
+        .top-nav-brand {
+            font-family: 'Playfair Display', serif; font-size: 1.1rem;
+            font-style: italic; color: white; font-weight: 500;
+            text-decoration: none; white-space: nowrap;
+        }
+
+        .top-nav-links {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .top-nav-link {
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .top-nav-link:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .top-nav-official {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            margin-right: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+
+        .top-nav-official:hover {
+            opacity: 1;
+            text-decoration: underline;
+            background: none;
+            color: white;
+        }
+
+        .top-nav-sep {
+            width: 1px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            margin-right: 1rem;
+        }
+
+        .partners-dropdown-container {
+            position: relative;
+        }
+
+        .top-nav-partners-btn {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: 'DM Sans', 'Inter', sans-serif;
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 6px;
+        }
+
+        .top-nav-partners-btn:hover,
+        .top-nav-partners-btn[aria-expanded="true"] {
+            background: linear-gradient(135deg, #0284c7 0%, #0891b2 100%);
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+            color: white;
+        }
+
+        .partners-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 12px;
+            width: 240px;
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            padding: 6px;
+            display: none;
+            flex-direction: column;
+            gap: 2px;
+            z-index: 1010;
+            transform-origin: top right;
+            animation: dropdownPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .partners-dropdown-menu.active {
+            display: flex;
+        }
+
+        @keyframes dropdownPop {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(-5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .partners-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .partners-dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(2px);
+        }
+
+        .partner-icon-img {
+            height: 28px;
+            width: auto;
+            max-width: 40px;
+            object-fit: contain;
+            filter: brightness(1.1);
+        }
+
+        .top-nav-official {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            margin-right: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+
+        .top-nav-official:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .top-nav-sep {
+            width: 1px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            margin-right: 1rem;
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 10001;
+            position: relative;
+        }
+
+        .mobile-menu-btn span {
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 868px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .top-nav-links {
+                display: none;
+                position: fixed;
+                top: 48px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(8, 16, 10, 0.98);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                z-index: 10000;
+                align-items: flex-start;
+                justify-content: flex-start;
+            }
+
+            .top-nav-links.active {
+                display: flex;
+            }
+
+            .top-nav-official {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+
+            .top-nav-sep {
+                display: none;
+            }
+
+            .partners-dropdown-menu {
+                position: static;
+                width: 100%;
+                margin-top: 0.5rem;
+                box-shadow: none;
+                background: rgba(255, 255, 255, 0.05);
+                display: none;
+            }
+
+            .partners-dropdown-menu.active {
+                display: flex;
+            }
+        }
+
+        /* Burger Icon Styles */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 10001;
+            position: relative;
+        }
+
+        .mobile-menu-btn span {
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 15vw;
+            }
+
+            .organic-row {
+                flex-direction: column !important;
+                margin-bottom: 8rem;
+            }
+
+            .organic-text,
+            .organic-visual {
+                width: 100%;
+                height: 40vh;
+            }
+
+            .organic-text {
+                margin-bottom: 2rem;
+            }
+
+            .product-featured,
+            .product-featured.reverse {
+                flex-direction: column;
+                min-height: auto;
+            }
+
+            .product-featured-img,
+            .product-featured-body {
+                width: 100%;
+            }
+
+            .product-featured-img {
+                min-height: 220px;
+                height: 220px;
+            }
+
+            .product-featured-body {
+                padding: 1.5rem 1.2rem 2rem;
+            }
+
+            .product-featured-title {
+                font-size: 1.5rem;
+            }
+
+            .product-specs {
+                grid-template-columns: 1fr;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* ===== MOBILE NAVBAR (matching mobile.html) ===== */
+        .mobile-nav-bar {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 9999;
+            background: rgba(8, 12, 20, 0.97);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            height: 48px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+        }
+        .mobile-nav-bar .nav-links { display: flex; align-items: center; gap: 4px; }
+        .mobile-nav-bar .nav-link {
+            font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,0.7);
+            padding: 6px 10px; border-radius: 6px; white-space: nowrap;
+            text-decoration: none; transition: color 0.2s, background 0.2s;
+        }
+        .mobile-nav-bar .nav-link:active { color: #fff; background: rgba(255,255,255,0.08); }
+        .mobile-nav-bar .nav-partners-btn {
+            display: flex; align-items: center; gap: 6px; padding: 6px 12px;
+            border-radius: 6px; background: linear-gradient(135deg, #38bdf8, #06b6d4);
+            border: none; color: #fff; font-family: inherit; font-size: 11px;
+            font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+            cursor: pointer; transition: opacity 0.15s, transform 0.15s;
+            -webkit-appearance: none; appearance: none;
+        }
+        .mobile-nav-bar .nav-partners-btn:active { opacity: 0.85; transform: scale(0.97); }
+        .mobile-partners-panel {
+            display: none; position: fixed; top: 48px; right: 0; width: 220px;
+            background: rgba(8, 12, 20, 0.98); backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08);
+            border-top: none; border-radius: 0 0 0 14px; padding: 8px; z-index: 9998;
+            transform: translateY(-8px); opacity: 0; pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .mobile-partners-panel.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .mobile-partners-panel a {
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+            border-radius: 8px; font-size: 12px; font-weight: 600;
+            color: rgba(255,255,255,0.75); text-decoration: none; transition: background 0.15s;
+        }
+        .mobile-partners-panel a:active { background: rgba(255,255,255,0.08); }
+        .mobile-partners-panel img { height: 22px; width: auto; object-fit: contain; filter: brightness(1.3); }
+        .mobile-partners-overlay { display: none; position: fixed; inset: 0; z-index: 9997; }
+        .mobile-partners-overlay.open { display: block; }
+
+        @media (max-width: 768px) {
+            .top-nav-banner { display: none !important; }
+            .mobile-nav-bar { display: flex; }
+            .mobile-partners-panel { display: block; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ============ MOBILE NAVBAR (same as mobile.html) ============ -->
+    <nav class="mobile-nav-bar">
+        <div class="nav-links">
+            <a href="mobile.html" class="nav-link">Home</a>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="event.html" class="nav-link">Events</a>
+            <a href="mobile.html#contact" class="nav-link">Contact</a>
+        </div>
+        <button class="nav-partners-btn" id="mobilePartnersBtn" aria-expanded="false" aria-label="Partners menu">
+            Partners
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </button>
+    </nav>
+    <div class="mobile-partners-overlay" id="mobilePartnersOverlay"></div>
+    <div class="mobile-partners-panel" id="mobilePartnersPanel">
+        <a href="vegaqura.html"><img src="assets/optimized/logo-vegaqura.480w.webp" alt="Vegaqura" loading="lazy" decoding="async"> Vegaqura</a>
+        <a href="sdbi-center.html"><img src="assets/logo-sbdi.webp" alt="SBDI" loading="lazy" decoding="async"> SBDI Center</a>
+        <a href="wiseuse.html"><img src="assets/optimized/wiseuse-pyramid.171w.webp" alt="WiseUse" loading="lazy" decoding="async"> WiseUse International</a>
+        <a href="eko-vitaris.html"><img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" loading="lazy" decoding="async"> Eko Vitaris</a>
+        <a href="mariposa-batu.html"><img src="assets/optimized/logo-mariposa-batu.480w.webp" alt="Mariposa Batu" loading="lazy" style="border-radius:4px;" decoding="async"> Mariposa Batu</a>
+        <a href="biozar-venezuela.html"><img src="assets/optimized/logo-biozar.340w.webp" alt="Biozar" loading="lazy" decoding="async"> Biozar Venezuela</a>
+    </div>
+
+    <!-- Top Navigation Banner (desktop) -->
+    <nav class="top-nav-banner">
+        <div class="top-nav-container">
+            <a href="index.html" class="top-nav-brand">Frequency Vibes&trade;</a>
+            <button class="mobile-menu-btn" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="top-nav-links">
+                <a href="https://ekovitaris.com/" target="_blank" class="top-nav-official">ekovitaris.com</a>
+                <div class="top-nav-sep"></div>
+                <a href="index.html" class="top-nav-link">Home</a>
+                <a href="index.html#contact" class="top-nav-link">Get in Touch</a>
+                <div class="partners-dropdown-container">
+                    <button class="top-nav-link top-nav-partners-btn" id="partnersBtn" aria-expanded="false">
+                        PARTNERS
+                        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left: 6px;">
+                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <div class="partners-dropdown-menu" id="partnersDropdown">
+                        <a href="vegaqura.html" class="partners-dropdown-item">
+                            <img src="assets/optimized/logo-vegaqura.480w.webp" alt="Vegaqura" class="partner-icon-img" loading="lazy" decoding="async"> Vegaqura
+                        </a>
+                        <a href="sdbi-center.html" class="partners-dropdown-item">
+                            <img src="assets/logo-sbdi.webp" alt="SBDI" class="partner-icon-img" loading="lazy" decoding="async"> SBDI Center
+                        </a>
+                        <a href="wiseuse.html" class="partners-dropdown-item">
+                            <img src="assets/optimized/wiseuse-pyramid.171w.webp" alt="WiseUse" class="partner-icon-img" loading="lazy" decoding="async"> WiseUse
+                            International
+                        </a>
+                        <a href="eko-vitaris.html" class="partners-dropdown-item">
+                            <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-icon-img" loading="lazy" decoding="async"> Eko
+                            Vitaris
+                        </a>
+                        <a href="mariposa-batu.html" class="partners-dropdown-item">
+                            <img src="assets/optimized/logo-mariposa-batu.480w.webp" alt="Mariposa Batu" class="partner-icon-img" style="border-radius:4px;" loading="lazy" decoding="async"> Mariposa Batu
+                        </a>
+                        <a href="biozar-venezuela.html" class="partners-dropdown-item"><img src="assets/optimized/logo-biozar.340w.webp" alt="Biozar" class="partner-icon-img" loading="lazy" decoding="async"> Biozar Venezuela</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO (Approved) -->
+    <header class="hero-section">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay-grad"></div>
+        <div class="hero-content">
+            <span class="hero-eyebrow">
+                <!-- Small Logo Inspired -->
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 6v12M6 12h12"></path>
+                </svg>
+                Official Partner
+            </span>
+            <h1 class="hero-title">Eko<br>Vitaris</h1>
+        </div>
+    </header>
+
+    <!-- SECTION 2: ORGANIC MISSION -->
+    <section class="section-mission">
+        <div class="mission-intro">
+            <h2>Premium Tropical Products</h2>
+            <p>From the volcanic soils of Java to the European marketplace. We build a responsible value chain that
+                protects nature, empowers farmers, and delivers full traceability from farm to final product.</p>
+        </div>
+
+        <!-- Item 1 -->
+        <div class="organic-row reveal">
+            <div class="organic-text">
+                <div class="organic-num">01</div>
+                <h3 class="organic-title">Regenerative Sourcing</h3>
+                <p class="organic-desc">Direct relationships with Indonesian farmers and cooperatives. Every harvest
+                    supports soil restoration, biodiversity, and increases farmer income — building shared prosperity
+                    at the source.</p>
+            </div>
+            <div class="organic-visual float-slow">
+                <div class="organic-img-mask shape-1">
+                    <img src="assets/optimized/regenerative-sourcing.480w.webp"
+                        alt="Regenerative Sourcing - Cassava, Dried Fruits, Oils, Palm Sugar" class="organic-img" loading="lazy" decoding="async">
+                </div>
+            </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="organic-row reverse reveal">
+            <div class="organic-text">
+                <div class="organic-num">02</div>
+                <h3 class="organic-title">Traceability & Quality Control</h3>
+                <p class="organic-desc">Full transparency from farm to final product. Refrigerated supply chain,
+                    EU food safety standards, and rigorous quality documentation ensure consistency
+                    and compliance at every step.</p>
+            </div>
+            <div class="organic-visual float-slow" style="animation-delay: 1s;">
+                <div class="organic-img-mask shape-2">
+                    <img src="assets/optimized/traceability-quality.480w.webp"
+                        alt="Traceability - Coffee, Tea, Fish, Spices" class="organic-img" loading="lazy" decoding="async">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: PRODUCTS SHOWCASE -->
+    <section class="products-section">
+        <div class="products-header">
+            <h2>Our Products</h2>
+            <p>For hotels, manufacturers, resorts, supermarkets and wholesalers.
+                Fully customizable branding, EU-compliant, and shipped FOB Indonesia.</p>
+        </div>
+
+        <!-- FEATURED: Cassava / Mocaf (flagship product) -->
+        <div class="product-featured reveal">
+            <div class="product-featured-img">
+                <img src="assets/optimized/cassava.800w.webp" alt="Modified Cassava Flour - Mocaf product lineup" loading="lazy" decoding="async">
+            </div>
+            <div class="product-featured-body">
+                <span class="product-badge">Flagship Product — Exclusive EU Rights</span>
+                <h3 class="product-featured-title">Modified Cassava Flour (Mocaf)</h3>
+                <p class="product-featured-desc">Through our exclusive partnership with Rumah Mocaf, we bring
+                    Indonesia's most innovative gluten-free flour to European markets. A climate-smart,
+                    clean-label ingredient for the next generation of food manufacturing.</p>
+                <div class="product-specs">
+                    <div class="spec-item">
+                        <svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <span class="spec-text"><strong>Gluten-free, Non-GMO</strong><br>Clean label,
+                            pesticide-free</span>
+                    </div>
+                    <div class="spec-item">
+                        <svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <span class="spec-text"><strong>Zero-waste production</strong><br>Peel to biogas, pulp to
+                            compost</span>
+                    </div>
+                    <div class="spec-item">
+                        <svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <span class="spec-text"><strong>Fair Trade</strong><br>+40% farmer income via
+                            cooperatives</span>
+                    </div>
+                    <div class="spec-item">
+                        <svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <span class="spec-text"><strong>End products</strong><br>Bread, pasta, pancakes, cookies</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Secondary products: visual tiles -->
+        <div class="products-secondary">
+
+            <!-- Coconuts -->
+            <div class="product-tile reveal">
+                <div class="product-tile-bg">
+                    <img src="assets/optimized/coconut.800w.webp" alt="Sweet Baby Coconut with custom branding" loading="lazy" decoding="async">
+                </div>
+                <div class="product-tile-overlay">
+                    <span class="product-badge">HACCP Certified — Java</span>
+                    <h3 class="product-tile-title">Sweet Baby Coconuts</h3>
+                    <p class="product-tile-desc">Premium ready-to-drink coconuts from Java. Eco packaging,
+                        custom branding for hotels, resorts & retail.</p>
+                    <div class="tile-specs">
+                        <span class="tile-spec">~1 kg / 500 ml</span>
+                        <span class="tile-spec">Eco wrapping</span>
+                        <span class="tile-spec">60+ days shelf life</span>
+                        <span class="tile-spec">12 per box</span>
+                        <span class="tile-spec">Min. 12,000 units</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coffee -->
+            <div class="product-tile reveal">
+                <div class="product-tile-bg">
+                    <img src="assets/optimized/coffee.800w.webp" alt="Bangelan Premium Coffee" loading="lazy" decoding="async">
+                </div>
+                <div class="product-tile-overlay">
+                    <span class="product-badge">SDG Certified — Mt. Kunung Gawi</span>
+                    <h3 class="product-tile-title">Premium Coffee</h3>
+                    <p class="product-tile-desc">Grade A Robusta and custom blends from volcanic highlands.
+                        Full traceability and sustainable certification.</p>
+                    <div class="tile-specs">
+                        <span class="tile-spec">Grade A Robusta</span>
+                        <span class="tile-spec">50 mt / month</span>
+                        <span class="tile-spec">1 kg green bean</span>
+                        <span class="tile-spec">Custom branding</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 4: RUMAH MOCAF VIDEO + WEBSITE -->
+    <section class="section-video">
+        <div class="video-grid">
+            <!-- Video Preview -->
+            <div class="video-card reveal">
+                <a href="https://www.youtube.com/watch?v=PvKCyMQWTMw" target="_blank"
+                    aria-label="Watch Rumah Mocaf gluten-free recipe on YouTube">
+                    <div class="video-thumb"
+                        style="background-image: url('https://img.youtube.com/vi/PvKCyMQWTMw/maxresdefault.jpg');">
+                    </div>
+                    <div class="video-card-overlay">
+                        <div class="play-btn">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                            </svg>
+                        </div>
+                        <span class="video-card-label">Watch on YouTube</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Info -->
+            <div class="video-info reveal">
+                <h2>Rumah Mocaf</h2>
+                <p>Our exclusive cassava partner runs a YouTube channel with 30+ gluten-free recipes
+                    using Mocaf flour — from crispy fried chicken to donuts, bread and cookies.
+                    All without wheat, showcasing the versatility of Modified Cassava Flour
+                    for the European food industry.</p>
+                <a href="https://www.youtube.com/@RumahMocaf" target="_blank" class="link-btn">
+                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                        <polyline points="15 3 21 3 21 9" />
+                        <line x1="10" y1="14" x2="21" y2="3" />
+                    </svg>
+                    YouTube Channel
+                </a>
+                <a href="https://ekovitaris.com/" target="_blank" class="link-btn">
+                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="2" y1="12" x2="22" y2="12" />
+                        <path
+                            d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
+                    </svg>
+                    ekovitaris.com
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Eko Vitaris x Eugene Mierak • Strategic Alliance 2026</p>
+    </footer>
+
+    <script>
+        // Reveal Logic
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(50px)';
+            el.style.transition = 'all 1s ease';
+            observer.observe(el);
+        });
+
+        // Partners dropdown logic moved to main.js
+
+        // ====== Mobile Partners Dropdown ======
+        (function() {
+            var btn = document.getElementById('mobilePartnersBtn');
+            var panel = document.getElementById('mobilePartnersPanel');
+            var overlay = document.getElementById('mobilePartnersOverlay');
+            if (!btn || !panel) return;
+            function toggle() {
+                var open = panel.classList.toggle('open');
+                overlay.classList.toggle('open', open);
+                btn.setAttribute('aria-expanded', open);
+            }
+            function close() {
+                panel.classList.remove('open');
+                overlay.classList.remove('open');
+                btn.setAttribute('aria-expanded', 'false');
+            }
+            btn.addEventListener('click', toggle);
+            overlay.addEventListener('click', close);
+            panel.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', close); });
+        })();
+    </script>
+    <script src="js/main.js" defer></script>
+</body>
+
+</html>

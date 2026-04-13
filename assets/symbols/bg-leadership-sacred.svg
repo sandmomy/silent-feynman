@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" fill="none">
+  <defs>
+    <radialGradient id="leadGlowGold" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.24"/>
+      <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="leadGlowTeal" cx="50%" cy="50%" r="53%">
+      <stop offset="0%" stop-color="#7ECFC0" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#7ECFC0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <circle cx="500" cy="500" r="472" fill="url(#leadGlowGold)"/>
+  <circle cx="500" cy="500" r="398" fill="url(#leadGlowTeal)"/>
+
+  <g stroke="#D4AF37" stroke-opacity="0.24" stroke-width="1.2" fill="none">
+    <polygon points="500,144 792,500 500,856 208,500"/>
+    <polygon points="500,198 744,500 500,802 256,500"/>
+    <polygon points="500,230 696,500 500,770 304,500"/>
+
+    <polygon points="500,182 770,650 230,650"/>
+    <polygon points="500,818 770,350 230,350"/>
+  </g>
+
+  <g stroke="#7ECFC0" stroke-opacity="0.22" stroke-width="1.05" fill="none">
+    <line x1="500" y1="84" x2="500" y2="916"/>
+    <line x1="84" y1="500" x2="916" y2="500"/>
+    <line x1="210" y1="210" x2="790" y2="790"/>
+    <line x1="790" y1="210" x2="210" y2="790"/>
+
+    <polygon points="500,276 622,500 500,724 378,500"/>
+    <polygon points="500,322 584,500 500,678 416,500"/>
+  </g>
+
+  <g stroke="#D4AF37" stroke-opacity="0.18" stroke-width="1.05" fill="none">
+    <circle cx="500" cy="500" r="186"/>
+    <circle cx="500" cy="500" r="116"/>
+  </g>
+
+  <g fill="#D4AF37" fill-opacity="0.34">
+    <circle cx="500" cy="144" r="4.2"/>
+    <circle cx="792" cy="500" r="4.2"/>
+    <circle cx="500" cy="856" r="4.2"/>
+    <circle cx="208" cy="500" r="4.2"/>
+    <circle cx="500" cy="500" r="5"/>
+  </g>
+
+  <path d="M304 500C348 402 420 352 500 352C580 352 652 402 696 500" stroke="#7ECFC0" stroke-opacity="0.2" stroke-width="1.35"/>
+  <path d="M304 500C348 598 420 648 500 648C580 648 652 598 696 500" stroke="#D4AF37" stroke-opacity="0.24" stroke-width="1.35"/>
+</svg>

@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VegaQura Ibiza - A Natural Gift for You | Eugene Mierak</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="VegaQura in Ibiza - Nutritional supplements for a longer and healthier life. Official partner.">
+    <meta name="keywords" content="VegaQura, Ibiza, nutritional supplements, natural, wellness, holistic health">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="VegaQura Ibiza - A Natural Gift for You">
+    <meta property="og:description" content="Nutritional supplements for a longer and healthier life">
+    <meta property="og:site_name" content="Eugene Mierak Portfolio">
+    <meta name="theme-color" content="#2d5a4a">
+    <link rel="icon" type="image/webp" href="assets/optimized/favicon.480w.webp">
+
+    <!-- Fonts (similar to VegaQura's clean style) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ============================================
+           VEGAQURA OFFICIAL STYLE REPLICA
+           Based on vegaqura.com/en/
+           ============================================ */
+
+        :root {
+            --vq-green: #2d5a4a;
+            --vq-green-light: #3d7a64;
+            --vq-green-dark: #1e3d32;
+            --vq-cream: #f8f6f2;
+            --vq-white: #ffffff;
+            --vq-text: #1a1a1a;
+            --vq-text-light: #666666;
+            --vq-gold: #c9a55c;
+            --vq-border: rgba(45, 90, 74, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--vq-cream);
+            color: var(--vq-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .delay-1 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.3s;
+        }
+
+        .delay-4 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-5 {
+            animation-delay: 0.5s;
+        }
+
+        /* Reveal on scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal:nth-child(2) {
+            transition-delay: 0.1s;
+        }
+
+        .reveal:nth-child(3) {
+            transition-delay: 0.2s;
+        }
+
+        .reveal:nth-child(4) {
+            transition-delay: 0.3s;
+        }
+
+        /* ===== NAVIGATION ===== */
+        /* ===== TOP NAV BANNER (same as index.html) ===== */
+        .top-nav-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 48px;
+            background: rgba(8, 12, 20, 0.97);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            overflow: visible !important;
+        }
+
+        .top-nav-container {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow: visible !important;
+        }
+        .top-nav-brand {
+            font-family: 'Playfair Display', serif; font-size: 1.1rem;
+            font-style: italic; color: white; font-weight: 500;
+            text-decoration: none; white-space: nowrap;
+        }
+
+        .top-nav-links {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .top-nav-link {
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .top-nav-link:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .top-nav-official {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            margin-right: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+
+        .top-nav-official:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .top-nav-sep {
+            width: 1px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            margin-right: 1rem;
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 10001;
+            position: relative;
+        }
+
+        .mobile-menu-btn span {
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 868px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .top-nav-links {
+                display: none;
+                position: fixed;
+                top: 48px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(8, 12, 20, 0.98);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                z-index: 10000;
+                align-items: flex-start;
+                justify-content: flex-start;
+            }
+
+            .top-nav-links.active {
+                display: flex;
+            }
+
+            .top-nav-official {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+
+            .top-nav-sep {
+                display: none;
+            }
+        }
+
+        .partners-dropdown-container {
+            position: relative;
+        }
+
+        .top-nav-partners-btn {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .top-nav-partners-btn:hover,
+        .top-nav-partners-btn[aria-expanded="true"] {
+            background: linear-gradient(135deg, #0284c7 0%, #0891b2 100%);
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+            color: white;
+        }
+
+        .partners-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 12px;
+            width: 240px;
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            padding: 6px;
+            display: none;
+            flex-direction: column;
+            gap: 2px;
+            z-index: 1010;
+            transform-origin: top right;
+            animation: dropdownPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .partners-dropdown-menu.active {
+            display: flex;
+        }
+
+        @keyframes dropdownPop {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(-5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .partners-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .partners-dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(2px);
+        }
+
+        .partner-icon-img {
+            height: 28px;
+            width: auto;
+            max-width: 40px;
+            object-fit: contain;
+            filter: brightness(1.1);
+        }
+
+        @media (max-width: 768px) {
+
+            .mobile-menu-btn {
+                display: flex !important;
+            }
+
+            .top-nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: #0f172a;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 1.5rem;
+                padding: 2rem;
+                transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+                z-index: 10000;
+            }
+
+            .top-nav-links.active {
+                right: 0;
+            }
+
+            .top-nav-container {
+                justify-content: space-between;
+                padding: 0 1.5rem;
+            }
+
+            .top-nav-sep {
+                display: none;
+            }
+
+            .partners-dropdown-menu {
+                position: static;
+                width: 100%;
+                margin-top: 0.5rem;
+                box-shadow: none;
+                background: rgba(255, 255, 255, 0.05);
+                display: none;
+            }
+
+            .partners-dropdown-menu.active {
+                display: flex;
+            }
+        }
+
+        /* Burger Icon Styles */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 10001;
+            position: relative;
+        }
+
+        .mobile-menu-btn span {
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            padding: 8rem 2rem 4rem;
+            background: url('assets/optimized/total-reset-ibiza.1200w.webp') center 85% / cover no-repeat;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(1px);
+        }
+
+        .hero-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes boxGrow {
+            from {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .hero-text-box {
+            background: rgba(30, 61, 50, 0.10);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 2.5rem 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            animation: boxGrow 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            box-sizing: border-box;
+            overflow: visible;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-badge svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        .hero-logo {
+            margin-bottom: 2rem;
+        }
+
+        .hero-logo img {
+            height: 70px;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 400;
+            color: white;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 550px;
+            margin: 0 auto 1.5rem;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .stars {
+            display: flex;
+            gap: 2px;
+            color: var(--vq-gold);
+        }
+
+        .stars svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--vq-green);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .hero-cta:hover {
+            background: var(--vq-green-dark);
+            transform: translateY(-2px);
+        }
+
+        .hero-cta svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            padding: 5rem 2rem;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 400;
+            color: var(--vq-text);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+            color: var(--vq-text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== OUR METHOD ===== */
+        .method {
+            background: var(--vq-white);
+        }
+
+        .method-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .method-text h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+        }
+
+        .method-text p {
+            color: var(--vq-text-light);
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .method-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--vq-green);
+            text-decoration: none;
+            font-weight: 600;
+            transition: gap 0.3s ease;
+        }
+
+        .method-link:hover {
+            gap: 0.75rem;
+        }
+
+        .method-link svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .method-image {
+            border-radius: 20px;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .method-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        /* ===== PRODUCT LINES ===== */
+        .lines {
+            position: relative;
+            background: var(--vq-green-dark);
+            overflow: hidden;
+        }
+
+        .lines .section-title {
+            color: white;
+        }
+
+        .lines .section-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .product-mural {
+            position: absolute;
+            inset: -10px;
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            grid-auto-rows: minmax(100px, 1fr);
+            gap: 6px;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .product-mural img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 8px;
+        }
+
+        .lines::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg,
+                    var(--vq-green-dark) 0%,
+                    rgba(30, 61, 50, 0.35) 20%,
+                    rgba(30, 61, 50, 0.35) 80%,
+                    var(--vq-green-dark) 100%);
+            pointer-events: none;
+        }
+
+        .lines .section-container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .lines-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .line-card {
+            background: #1a1a1a;
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            border: 1px solid #2a2a2a;
+        }
+
+        .line-card:hover {
+            transform: translateY(-8px);
+            background: #222222;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: #333333;
+        }
+
+        .line-icon {
+            width: 64px;
+            height: 64px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+            color: var(--vq-gold);
+            transition: all 0.3s ease;
+        }
+
+        .line-card:hover .line-icon {
+            background: var(--vq-gold);
+            color: var(--vq-green-dark);
+        }
+
+        .line-icon svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .line-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .line-desc {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .line-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--vq-gold);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .line-link svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* ===== LIFESTYLE SUPPORT ===== */
+        .support {
+            background: var(--vq-green);
+            color: white;
+        }
+
+        .support .section-title {
+            color: white;
+        }
+
+        .support .section-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .support-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .support-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            padding: 2.25rem 1.75rem;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .support-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .support-card:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .support-card:hover::before {
+            opacity: 1;
+        }
+
+        .support-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.75rem;
+        }
+
+        .support-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .support-desc {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* ===== POPULAR PRODUCTS ===== */
+        .products {
+            background: var(--vq-white);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: var(--vq-cream);
+            border-radius: 20px;
+            overflow: hidden;
+            text-decoration: none;
+            color: var(--vq-text);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+        }
+
+        .product-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px rgba(45, 90, 74, 0.12);
+            border-color: var(--vq-green);
+        }
+
+        .product-card:hover .product-image {
+            background: linear-gradient(135deg, rgba(45, 90, 74, 0.12) 0%, rgba(45, 90, 74, 0.06) 100%);
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.08);
+        }
+
+        .product-image {
+            height: 220px;
+            background: linear-gradient(135deg, rgba(45, 90, 74, 0.08) 0%, rgba(45, 90, 74, 0.03) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 1rem;
+            transition: transform 0.4s ease;
+        }
+
+        .product-content {
+            padding: 1.5rem;
+        }
+
+        .product-category {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--vq-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-desc {
+            font-size: 0.9rem;
+            color: var(--vq-text-light);
+            line-height: 1.6;
+        }
+
+        /* ===== GENESIS STORY ===== */
+        .genesis {
+            background: var(--vq-cream);
+        }
+
+        .genesis-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .genesis-image {
+            border-radius: 20px;
+            height: 350px;
+            overflow: hidden;
+        }
+
+        .genesis-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        .genesis-text h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+        }
+
+        .genesis-text p {
+            color: var(--vq-text-light);
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        /* ===== CTA ===== */
+        .cta {
+            background: linear-gradient(135deg, var(--vq-green) 0%, var(--vq-green-dark) 100%);
+            color: white;
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .cta h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 500px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            color: var(--vq-green);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* ===== DISCOUNT BADGES ===== */
+        .discount-badge {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 0.5px;
+        }
+        .discount-badge strong {
+            color: var(--vq-green-light, #6ee7b7);
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        .product-code {
+            display: inline-block;
+            margin-top: 0.75rem;
+            padding: 3px 10px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--vq-green-light, #6ee7b7);
+            border: 1px solid rgba(110, 231, 183, 0.3);
+            border-radius: 4px;
+            background: rgba(110, 231, 183, 0.08);
+        }
+
+        /* ===== DISCOUNT CODE ===== */
+        .discount-code {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: rgba(30, 61, 50, 0.15);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .discount-code h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: white;
+            margin-bottom: 1rem;
+            letter-spacing: 0.5px;
+        }
+        .discount-code .code-box {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--vq-green), var(--vq-green-dark));
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            padding: 0.8rem 2.5rem;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+        .discount-code p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--vq-white);
+            border-top: 1px solid var(--vq-border);
+            padding: 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-left {
+            font-size: 0.85rem;
+            color: var(--vq-text-light);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--vq-text-light);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--vq-green);
+        }
+
+        .footer-links svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+
+            .method-content,
+            .genesis-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .lines-grid,
+            .support-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .lines-grid,
+            .support-grid,
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .method-image,
+            .genesis-image {
+                height: 250px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        /* ===== MOBILE NAVBAR (matching mobile.html) ===== */
+        .mobile-nav-bar {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 9999;
+            background: rgba(8, 12, 20, 0.97);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            height: 48px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+        }
+        .mobile-nav-bar .nav-links { display: flex; align-items: center; gap: 4px; }
+        .mobile-nav-bar .nav-link {
+            font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,0.7);
+            padding: 6px 10px; border-radius: 6px; white-space: nowrap;
+            text-decoration: none; transition: color 0.2s, background 0.2s;
+        }
+        .mobile-nav-bar .nav-link:active { color: #fff; background: rgba(255,255,255,0.08); }
+        .mobile-nav-bar .nav-partners-btn {
+            display: flex; align-items: center; gap: 6px; padding: 6px 12px;
+            border-radius: 6px; background: linear-gradient(135deg, #38bdf8, #06b6d4);
+            border: none; color: #fff; font-family: inherit; font-size: 11px;
+            font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+            cursor: pointer; transition: opacity 0.15s, transform 0.15s;
+            -webkit-appearance: none; appearance: none;
+        }
+        .mobile-nav-bar .nav-partners-btn:active { opacity: 0.85; transform: scale(0.97); }
+        .mobile-partners-panel {
+            display: none; position: fixed; top: 48px; right: 0; width: 220px;
+            background: rgba(8, 12, 20, 0.98); backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08);
+            border-top: none; border-radius: 0 0 0 14px; padding: 8px; z-index: 9998;
+            transform: translateY(-8px); opacity: 0; pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .mobile-partners-panel.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .mobile-partners-panel a {
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+            border-radius: 8px; font-size: 12px; font-weight: 600;
+            color: rgba(255,255,255,0.75); text-decoration: none; transition: background 0.15s;
+        }
+        .mobile-partners-panel a:active { background: rgba(255,255,255,0.08); }
+        .mobile-partners-panel img { height: 22px; width: auto; object-fit: contain; filter: brightness(1.3); }
+        .mobile-partners-overlay { display: none; position: fixed; inset: 0; z-index: 9997; }
+        .mobile-partners-overlay.open { display: block; }
+
+        @media (max-width: 768px) {
+            .top-nav-banner { display: none !important; }
+            .mobile-nav-bar { display: flex; }
+            .mobile-partners-panel { display: block; }
+            .hero { padding: 6rem 1rem 3rem; }
+            .hero-text-box { padding: 1.5rem 1.2rem; }
+            .hero-logo img { height: 50px; }
+            .hero-container { max-width: 100%; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ============ MOBILE NAVBAR (same as mobile.html) ============ -->
+    <nav class="mobile-nav-bar">
+        <div class="nav-links">
+            <a href="mobile.html" class="nav-link">Home</a>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="event.html" class="nav-link">Events</a>
+            <a href="mobile.html#contact" class="nav-link">Contact</a>
+        </div>
+        <button class="nav-partners-btn" id="mobilePartnersBtn" aria-expanded="false" aria-label="Partners menu">
+            Partners
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </button>
+    </nav>
+    <div class="mobile-partners-overlay" id="mobilePartnersOverlay"></div>
+    <div class="mobile-partners-panel" id="mobilePartnersPanel">
+        <a href="vegaqura.html"><img src="assets/optimized/logo-vegaqura.480w.webp" alt="Vegaqura" loading="lazy" decoding="async"> Vegaqura</a>
+        <a href="sdbi-center.html"><img src="assets/logo-sbdi.webp" alt="SBDI" loading="lazy" decoding="async"> SBDI Center</a>
+        <a href="wiseuse.html"><img src="assets/optimized/wiseuse-pyramid.171w.webp" alt="WiseUse" loading="lazy" decoding="async"> WiseUse International</a>
+        <a href="eko-vitaris.html"><img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" loading="lazy" decoding="async"> Eko Vitaris</a>
+        <a href="mariposa-batu.html"><img src="assets/optimized/logo-mariposa-batu.480w.webp" alt="Mariposa Batu" loading="lazy" style="border-radius:4px;" decoding="async"> Mariposa Batu</a>
+        <a href="biozar-venezuela.html"><img src="assets/optimized/logo-biozar.340w.webp" alt="Biozar" loading="lazy" decoding="async"> Biozar Venezuela</a>
+    </div>
+
+    <!-- TOP NAV BANNER (desktop) -->
+    <nav class="top-nav-banner">
+        <div class="top-nav-container">
+            <a href="index.html" class="top-nav-brand">Frequency Vibes&trade;</a>
+            <button class="mobile-menu-btn" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="top-nav-links">
+                <a href="https://vegaqura.com/" target="_blank" class="top-nav-official">vegaqura.com</a>
+                <div class="top-nav-sep"></div>
+                <a href="index.html" class="top-nav-link">Home</a>
+                <a href="index.html#contact" class="top-nav-link">Get in Touch</a>
+                <div class="partners-dropdown-container">
+                    <button class="top-nav-link top-nav-partners-btn" id="partnersBtn" aria-expanded="false">
+                        PARTNERS
+                        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left: 6px;">
+                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <div class="partners-dropdown-menu" id="partnersDropdown">
+                        <a href="vegaqura.html" class="partners-dropdown-item">
+                            <img src="assets/optimized/logo-vegaqura.480w.webp" alt="Vegaqura" class="partner-icon-img" loading="lazy" decoding="async"> Vegaqura
+                        </a>
+                        <a href="sdbi-center.html" class="partners-dropdown-item">
+                            <img src="assets/logo-sbdi.webp" alt="SBDI" class="partner-icon-img" loading="lazy" decoding="async"> SBDI Center
+                        </a>
+                        <a href="wiseuse.html" class="partners-dropdown-item">
+                            <img src="assets/optimized/wiseuse-pyramid.171w.webp" alt="WiseUse" class="partner-icon-img" loading="lazy" decoding="async"> WiseUse
+                            International
+                        </a>
+                        <a href="eko-vitaris.html" class="partners-dropdown-item">
+                            <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-icon-img" loading="lazy" decoding="async"> Eko
+                            Vitaris
+                        </a>
+                        <a href="mariposa-batu.html" class="partners-dropdown-item">
+                            <img src="assets/optimized/logo-mariposa-batu.480w.webp" alt="Mariposa Batu" class="partner-icon-img" style="border-radius:4px;" loading="lazy" decoding="async"> Mariposa Batu
+                        </a>
+                        <a href="biozar-venezuela.html" class="partners-dropdown-item"><img src="assets/optimized/logo-biozar.340w.webp" alt="Biozar" class="partner-icon-img" loading="lazy" decoding="async"> Biozar Venezuela</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-text-box">
+                <div class="hero-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                    Official Partner in Ibiza
+                </div>
+                <div class="hero-logo">
+                    <img src="assets/optimized/logo-vegaqura.480w.webp" alt="VegaQura" loading="lazy" decoding="async">
+                </div>
+                <h1>Nutritional supplements for a longer and healthier life</h1>
+                <p class="hero-subtitle">
+                    High quality, natural and sustainable products to support you towards a healthier, balanced
+                    lifestyle.
+                </p>
+                <div class="hero-rating">
+                    <div class="stars">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                        </svg>
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                        </svg>
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                        </svg>
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                        </svg>
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                        </svg>
+                    </div>
+                    <span>4.8 (215 reviews)</span>
+                </div>
+                <a href="https://vegaqura.com/en/product-overview/" target="_blank" rel="noopener" class="hero-cta" style="font-size:0.85rem;padding:0.7rem 1.5rem;">
+                    View the products
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                        <path d="M7 17L17 7M17 7H7M17 7v10" />
+                    </svg>
+                </a>
+                <p style="margin-top:0.75rem;font-size:0.8rem;color:rgba(255,255,255,0.7);letter-spacing:0.5px;">Use order code <strong style="color:#6ee7b7;letter-spacing:2px;">GINO</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR METHOD -->
+    <section class="section method" id="method">
+        <div class="section-container">
+            <div class="method-content">
+                <div class="method-text">
+                    <h2>Our method</h2>
+                    <p>
+                        We strive for a world where everyone has access to a healthy and balanced lifestyle, regardless
+                        of age or current fitness level. We want to inspire and support people towards a healthier life
+                        by offering high quality, natural and sustainable products.
+                    </p>
+                    <a href="https://vegaqura.com/en/our-method/" target="_blank" rel="noopener" class="method-link">
+                        Our method
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </a>
+                </div>
+                <div class="method-image">
+                    <img src="assets/optimized/method.480w.webp" alt="VegaQura Method - Natural supplements"
+                        loading="lazy" decoding="async">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCT LINES -->
+    <section class="section lines" id="lines">
+        <div class="product-mural" aria-hidden="true">
+            <img src="assets/optimized/pine-pollen.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/vitalizer.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/detox.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/plankton.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/enzymes.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/probiotics.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/antioxidants.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/wellness-package.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/total-reset.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/pine-pollen.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/enzymes.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/vitalizer.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/probiotics.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/detox.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/antioxidants.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/plankton.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/wellness-package.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/total-reset.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/detox.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/pine-pollen.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/vitalizer.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/enzymes.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/plankton.800w.webp" alt="" loading="lazy" decoding="async">
+            <img src="assets/optimized/probiotics.800w.webp" alt="" loading="lazy" decoding="async">
+        </div>
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">Product lines</h2>
+                <p class="section-subtitle">Four carefully crafted lines to support every aspect of your wellness
+                    journey</p>
+            </div>
+            <div class="lines-grid">
+                <a href="https://vegaqura.com/en/product-category/base-en/" target="_blank" rel="noopener"
+                    class="line-card">
+                    <div class="line-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 6v6l4 2" />
+                        </svg>
+                    </div>
+                    <div class="line-name">Base</div>
+                    <div class="line-desc">Valuable addition to a healthy lifestyle. Nutrients that help maintain
+                        balance and support daily recovery.</div>
+                    <span class="line-link">
+                        View the products
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </span>
+                </a>
+                <a href="https://vegaqura.com/en/product-category/boost-en/" target="_blank" rel="noopener"
+                    class="line-card">
+                    <div class="line-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                        </svg>
+                    </div>
+                    <div class="line-name">Boost</div>
+                    <div class="line-desc">For times when you could use extra support. Stay alert and energetic during
+                        busy or demanding periods.</div>
+                    <span class="line-link">
+                        View the products
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </span>
+                </a>
+                <a href="https://vegaqura.com/en/product-category/balance-en/" target="_blank" rel="noopener"
+                    class="line-card">
+                    <div class="line-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4" />
+                        </svg>
+                    </div>
+                    <div class="line-name">Balance</div>
+                    <div class="line-desc">Support the body in maintaining balance. A lifestyle focused on resilience,
+                        rest and inner balance.</div>
+                    <span class="line-link">
+                        View the products
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </span>
+                </a>
+                <a href="https://vegaqura.com/?product_cat=additionals" target="_blank" rel="noopener"
+                    class="line-card">
+                    <div class="line-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 5v14M5 12h14" />
+                        </svg>
+                    </div>
+                    <div class="line-name">Additionals</div>
+                    <div class="line-desc">Complement your daily routine with additional support for conscious health
+                        and well-being.</div>
+                    <span class="line-link">
+                        View the products
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </span>
+                </a>
+            </div>
+            <p class="discount-badge">Partner order code: <strong>GINO</strong></p>
+        </div>
+    </section>
+
+    <!-- WHERE COULD YOUR LIFESTYLE USE EXTRA SUPPORT -->
+    <section class="section support" id="support">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">Where could your lifestyle use extra support?</h2>
+            </div>
+            <div class="support-grid">
+                <a href="https://vegaqura.com/en/strengthen/immune-system/" target="_blank" rel="noopener"
+                    class="support-card">
+                    <div class="support-icon">🛡️</div>
+                    <div class="support-name">Immune System</div>
+                    <div class="support-desc">Strengthen your natural defenses</div>
+                </a>
+                <a href="https://vegaqura.com/en/strengthen/digestion/" target="_blank" rel="noopener"
+                    class="support-card">
+                    <div class="support-icon">🌱</div>
+                    <div class="support-name">Digest</div>
+                    <div class="support-desc">Support healthy digestion</div>
+                </a>
+                <a href="https://vegaqura.com/en/strengthen/detox-en/" target="_blank" rel="noopener"
+                    class="support-card">
+                    <div class="support-icon">✨</div>
+                    <div class="support-name">Detox</div>
+                    <div class="support-desc">Cleanse and reset your body</div>
+                </a>
+                <a href="https://vegaqura.com/en/strengthen/mental-health/" target="_blank" rel="noopener"
+                    class="support-card">
+                    <div class="support-icon">🧠</div>
+                    <div class="support-name">Mental health</div>
+                    <div class="support-desc">Balance for body and mind</div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- POPULAR PRODUCTS -->
+    <section class="section products" id="products">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">Popular products</h2>
+            </div>
+            <div class="products-grid">
+                <a href="https://vegaqura.com/en/product/pine-pollen/" target="_blank" rel="noopener"
+                    class="product-card reveal">
+                    <div class="product-image">
+                        <img src="assets/optimized/pine-pollen.800w.webp" alt="Pine Pollen - VegaQura" loading="lazy" decoding="async">
+                    </div>
+                    <div class="product-content">
+                        <div class="product-category">Boost</div>
+                        <h3 class="product-name">Pine Pollen</h3>
+                        <p class="product-desc">Pure pine pollen from Yunnan with 99% cracked cell wall. Supports energy
+                            and vitality.</p>
+                        <span class="product-code">CODE: GINO</span>
+                    </div>
+                </a>
+                <a href="https://vegaqura.com/en/product/detox/" target="_blank" rel="noopener"
+                    class="product-card reveal">
+                    <div class="product-image">
+                        <img src="assets/optimized/detox.800w.webp" alt="Detox 1-day cure - VegaQura" loading="lazy" decoding="async">
+                    </div>
+                    <div class="product-content">
+                        <div class="product-category">Base</div>
+                        <h3 class="product-name">Detox</h3>
+                        <p class="product-desc">Powerful 1-day colon cleanse. Helps eliminate waste and reset digestion
+                            naturally.</p>
+                        <span class="product-code">CODE: GINO</span>
+                    </div>
+                </a>
+                <a href="https://vegaqura.com/en/product/vitalizer/" target="_blank" rel="noopener"
+                    class="product-card reveal">
+                    <div class="product-image">
+                        <img src="assets/optimized/vitalizer.800w.webp" alt="Vitalizer - VegaQura" loading="lazy" decoding="async">
+                    </div>
+                    <div class="product-content">
+                        <div class="product-category">Balance</div>
+                        <h3 class="product-name">Vitalizer</h3>
+                        <p class="product-desc">Fermented herbs, minerals and plants. Restores inner balance and
+                            vitality.</p>
+                        <span class="product-code">CODE: GINO</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- THE GENESIS OF VEGAQURA -->
+    <section class="section genesis" id="genesis">
+        <div class="section-container">
+            <div class="genesis-content">
+                <div class="genesis-image">
+                    <img src="assets/optimized/genesis.480w.webp" alt="The genesis of VegaQura" loading="lazy" decoding="async">
+                </div>
+                <div class="genesis-text">
+                    <h2>The genesis of VegaQura</h2>
+                    <p>
+                        For us, it's all about health of the highest order. We carry the holistic idea that a product
+                        should be connected to its environment, with the highest degree of purity and strength.
+                    </p>
+                    <p>
+                        The story begins in Taiwan, an island reminiscent of the Blue Zones, where people age above
+                        average due to a healthy lifestyle. There, age-old fermentation traditions create products rich
+                        in enzymes that the body can directly absorb.
+                    </p>
+                    <a href="https://vegaqura.com/en/about-us/" target="_blank" rel="noopener" class="method-link">
+                        Our story
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <h2>Pay attention to your health and well-being</h2>
+        <p>Explore the complete VegaQura range and discover how small changes can have a big impact.</p>
+        <a href="https://vegaqura.com/en/product-overview/" target="_blank" rel="noopener" class="cta-btn">
+            View all products
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 17L17 7M17 7H7M17 7v10" />
+            </svg>
+        </a>
+    </section>
+
+    <!-- EXCLUSIVE ORDER CODE -->
+    <section class="discount-code">
+        <h2>Exclusive Order Code</h2>
+        <div class="code-box">GINO</div>
+        <p>Use this code at checkout for your partner order</p>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                © 2026 Eugene Mierak · VegaQura is a trademark of Q-Health Europe
+            </div>
+            <div class="footer-links">
+                <a href="tel:+31853695593">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.88.37 1.74.7 2.56" />
+                    </svg>
+                    +31 (0)85 - 369 55 93
+                </a>
+                <a href="https://vegaqura.com/en/contact/" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                        <polyline points="22,6 12,13 2,6" />
+                    </svg>
+                    Contact
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for animations and scroll effects -->
+    <script>
+        // Partners dropdown logic handled by main.js
+
+        // Reveal on scroll
+        document.addEventListener('DOMContentLoaded', function () {
+            const revealElements = document.querySelectorAll('.reveal');
+            if (!revealElements.length) return;
+
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (!entry.isIntersecting) return;
+                        entry.target.classList.add('revealed');
+                        observer.unobserve(entry.target);
+                    });
+                }, {
+                    threshold: 0.12,
+                    rootMargin: '0px 0px -48px 0px'
+                });
+
+                revealElements.forEach((el) => observer.observe(el));
+            } else {
+                revealElements.forEach((el) => el.classList.add('revealed'));
+            }
+        });
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        // ====== Mobile Partners Dropdown ======
+        (function() {
+            var btn = document.getElementById('mobilePartnersBtn');
+            var panel = document.getElementById('mobilePartnersPanel');
+            var overlay = document.getElementById('mobilePartnersOverlay');
+            if (!btn || !panel) return;
+            function toggle() {
+                var open = panel.classList.toggle('open');
+                overlay.classList.toggle('open', open);
+                btn.setAttribute('aria-expanded', open);
+            }
+            function close() {
+                panel.classList.remove('open');
+                overlay.classList.remove('open');
+                btn.setAttribute('aria-expanded', 'false');
+            }
+            btn.addEventListener('click', toggle);
+            overlay.addEventListener('click', close);
+            panel.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', close); });
+        })();
+    </script>
+    <script src="js/main.js" defer></script>
+
+
+</body>
+
+</html>

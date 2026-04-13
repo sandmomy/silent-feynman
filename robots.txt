@@ -1,0 +1,12 @@
+﻿User-agent: *
+Allow: /
+Sitemap: https://eugenemierak.com/sitemap.xml
+
+Disallow: /admin.html
+Disallow: /booking.html
+Disallow: /preview.html
+Disallow: /test-images.html
+Disallow: /mobile.html
+Disallow: /about_v2.html
+Disallow: /about_v3.html
+

@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Frequency Architect</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --gold: #c9a55c;
+            --gold-light: #e8d5a3;
+            --violet: #8b7bb8;
+            --text: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Cormorant Garamond', serif;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* CUSTOM CURSOR */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, border-color 0.3s;
+        }
+
+        .cursor-dot {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor.hover {
+            width: 50px;
+            height: 50px;
+            border-color: var(--gold-light);
+        }
+
+        /* ENERGY FIELD CANVAS */
+        #energy-field {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* NOISE */
+        .noise {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* MAIN CONTENT */
+        .container {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            padding: 0 40px;
+        }
+
+        .hero-label {
+            font-size: 0.85rem;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 300;
+            line-height: 1;
+            margin-bottom: 30px;
+            letter-spacing: -2px;
+        }
+
+        .hero-title .char {
+            display: inline-block;
+            opacity: 0;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+            font-weight: 300;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.6);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+        }
+
+        /* SECTIONS */
+        .section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 100px 10vw;
+            position: relative;
+        }
+
+        .section-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 100px;
+            align-items: center;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section:nth-child(even) .section-inner {
+            direction: rtl;
+        }
+
+        .section:nth-child(even) .section-inner > * {
+            direction: ltr;
+        }
+
+        .section-visual {
+            position: relative;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .section-number {
+            font-size: 15rem;
+            font-weight: 300;
+            color: rgba(201, 165, 92, 0.04);
+            position: absolute;
+            line-height: 1;
+            z-index: -1;
+        }
+
+        .section-content {
+            max-width: 500px;
+        }
+
+        .section-label {
+            font-size: 0.8rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .section-label::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 300;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            letter-spacing: -1px;
+        }
+
+        .section-text {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+        }
+
+        .section-text .highlight {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        /* SACRED GEOMETRY VISUALS */
+        .geometry-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .geometry-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .geometry-svg circle,
+        .geometry-svg path,
+        .geometry-svg line {
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 0.5;
+            opacity: 0.4;
+        }
+
+        .geometry-svg .node {
+            fill: var(--gold);
+            stroke: none;
+        }
+
+        /* FLOWER OF LIFE */
+        .flower-circle {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+        }
+
+        /* METATRON */
+        .metatron-line {
+            stroke-dasharray: 500;
+            stroke-dashoffset: 500;
+        }
+
+        /* TORUS */
+        .torus-ring {
+            stroke-dasharray: 800;
+            stroke-dashoffset: 800;
+        }
+
+        /* MERKABA */
+        .merkaba-triangle {
+            stroke-dasharray: 600;
+            stroke-dashoffset: 600;
+        }
+
+        /* SPIRAL */
+        .spiral-path {
+            stroke-dasharray: 2000;
+            stroke-dashoffset: 2000;
+        }
+
+        /* FINAL SECTION */
+        .final-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 40px;
+            position: relative;
+        }
+
+        .final-content {
+            max-width: 800px;
+        }
+
+        .final-quote {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            font-weight: 300;
+            font-style: italic;
+            line-height: 1.5;
+            margin-bottom: 40px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .final-author {
+            font-size: 1rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        /* NAV */
+        .nav-fixed {
+            position: fixed;
+            top: 40px;
+            right: 50px;
+            z-index: 100;
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: color 0.4s;
+        }
+
+        .nav-link:hover {
+            color: var(--gold);
+        }
+
+        /* PROGRESS BAR */
+        .progress-bar {
+            position: fixed;
+            left: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: all 0.4s;
+            cursor: pointer;
+        }
+
+        .progress-dot.active {
+            background: var(--gold);
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(201, 165, 92, 0.5);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .section-inner {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+
+            .section:nth-child(even) .section-inner {
+                direction: ltr;
+            }
+
+            .section-visual {
+                height: 300px;
+            }
+
+            .nav-fixed {
+                top: 20px;
+                right: 20px;
+                gap: 20px;
+            }
+
+            .progress-bar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+    <div class="noise"></div>
+    <canvas id="energy-field"></canvas>
+
+    <nav class="nav-fixed">
+        <a href="index.html" class="nav-link">Index</a>
+        <a href="#" class="nav-link">Contact</a>
+    </nav>
+
+    <div class="progress-bar">
+        <div class="progress-dot active" data-section="0"></div>
+        <div class="progress-dot" data-section="1"></div>
+        <div class="progress-dot" data-section="2"></div>
+        <div class="progress-dot" data-section="3"></div>
+        <div class="progress-dot" data-section="4"></div>
+        <div class="progress-dot" data-section="5"></div>
+    </div>
+
+    <div class="container">
+
+        <!-- HERO -->
+        <section class="hero" data-section="0">
+            <div class="hero-content">
+                <div class="hero-label">Frequency Architect</div>
+                <h1 class="hero-title">Eugene Mierak</h1>
+                <p class="hero-subtitle">Bridging subtle frequency sciences with practical frameworks for conscious evolution</p>
+            </div>
+            <div class="scroll-indicator">
+                <span>Scroll</span>
+                <div class="scroll-line"></div>
+            </div>
+        </section>
+
+        <!-- SECTION 1: Identity -->
+        <section class="section" data-section="1">
+            <div class="section-inner">
+                <div class="section-visual">
+                    <div class="section-number">01</div>
+                    <div class="geometry-container">
+                        <svg class="geometry-svg flower-of-life-svg" viewBox="0 0 400 400">
+                            <!-- Flower of Life -->
+                            <circle class="flower-circle" cx="200" cy="200" r="60"/>
+                            <circle class="flower-circle" cx="200" cy="140" r="60"/>
+                            <circle class="flower-circle" cx="200" cy="260" r="60"/>
+                            <circle class="flower-circle" cx="252" cy="170" r="60"/>
+                            <circle class="flower-circle" cx="252" cy="230" r="60"/>
+                            <circle class="flower-circle" cx="148" cy="170" r="60"/>
+                            <circle class="flower-circle" cx="148" cy="230" r="60"/>
+                            <!-- Outer -->
+                            <circle class="flower-circle" cx="200" cy="80" r="60"/>
+                            <circle class="flower-circle" cx="200" cy="320" r="60"/>
+                            <circle class="flower-circle" cx="304" cy="140" r="60"/>
+                            <circle class="flower-circle" cx="304" cy="260" r="60"/>
+                            <circle class="flower-circle" cx="96" cy="140" r="60"/>
+                            <circle class="flower-circle" cx="96" cy="260" r="60"/>
+                            <!-- Nodes -->
+                            <circle class="node" cx="200" cy="200" r="4"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="section-label">Identity</div>
+                    <h2 class="section-title">Frequency<br>Practitioner</h2>
+                    <p class="section-text">
+                        I'm Eugene Mierak, specializing in <span class="highlight">alignment caching</span>,
+                        coherence training, and energetic training through integrative coherence methodologies
+                        to support clarity, stability, and <span class="highlight">conscious evolution</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: The Bridge -->
+        <section class="section" data-section="2">
+            <div class="section-inner">
+                <div class="section-visual">
+                    <div class="section-number">02</div>
+                    <div class="geometry-container">
+                        <svg class="geometry-svg metatron-svg" viewBox="0 0 400 400">
+                            <!-- Metatron's Cube -->
+                            <circle class="metatron-line" cx="200" cy="200" r="80"/>
+                            <circle class="metatron-line" cx="200" cy="120" r="30"/>
+                            <circle class="metatron-line" cx="200" cy="280" r="30"/>
+                            <circle class="metatron-line" cx="269" cy="160" r="30"/>
+                            <circle class="metatron-line" cx="269" cy="240" r="30"/>
+                            <circle class="metatron-line" cx="131" cy="160" r="30"/>
+                            <circle class="metatron-line" cx="131" cy="240" r="30"/>
+                            <!-- Lines -->
+                            <line class="metatron-line" x1="200" y1="120" x2="269" y2="160"/>
+                            <line class="metatron-line" x1="269" y1="160" x2="269" y2="240"/>
+                            <line class="metatron-line" x1="269" y1="240" x2="200" y2="280"/>
+                            <line class="metatron-line" x1="200" y1="280" x2="131" y2="240"/>
+                            <line class="metatron-line" x1="131" y1="240" x2="131" y2="160"/>
+                            <line class="metatron-line" x1="131" y1="160" x2="200" y2="120"/>
+                            <line class="metatron-line" x1="200" y1="120" x2="200" y2="280"/>
+                            <line class="metatron-line" x1="131" y1="160" x2="269" y2="240"/>
+                            <line class="metatron-line" x1="269" y1="160" x2="131" y2="240"/>
+                            <!-- Center -->
+                            <circle class="node" cx="200" cy="200" r="5"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="section-label">The Bridge</div>
+                    <h2 class="section-title">Resonance &<br>Alignment</h2>
+                    <p class="section-text">
+                        My work bridges <span class="highlight">subtle frequency sciences</span> with practical
+                        frameworks for personal, organizational, and planetary alignment—helping individuals
+                        and teams cultivate <span class="highlight">resonance</span> in real-world decisions,
+                        leadership dynamics, and long-term projects.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: SBDI -->
+        <section class="section" data-section="3">
+            <div class="section-inner">
+                <div class="section-visual">
+                    <div class="section-number">03</div>
+                    <div class="geometry-container">
+                        <svg class="geometry-svg torus-svg" viewBox="0 0 400 400">
+                            <!-- Torus Energy Field -->
+                            <ellipse class="torus-ring" cx="200" cy="200" rx="120" ry="40"/>
+                            <ellipse class="torus-ring" cx="200" cy="200" rx="100" ry="60"/>
+                            <ellipse class="torus-ring" cx="200" cy="200" rx="80" ry="80"/>
+                            <ellipse class="torus-ring" cx="200" cy="200" rx="60" ry="100"/>
+                            <ellipse class="torus-ring" cx="200" cy="200" rx="40" ry="120"/>
+                            <!-- Flow lines -->
+                            <path class="torus-ring" d="M200,80 Q280,200 200,320 Q120,200 200,80" />
+                            <path class="torus-ring" d="M200,80 Q320,200 200,320 Q80,200 200,80" />
+                            <!-- Center -->
+                            <circle class="node" cx="200" cy="200" r="6"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="section-label">Global Impact</div>
+                    <h2 class="section-title">SBDI<br>Foundation</h2>
+                    <p class="section-text">
+                        As Director of International Relationships, I foster global partnerships
+                        for <span class="highlight">holistic sustainability</span>, regenerative development,
+                        and conscious collaboration across cultures—moving initiatives from vision
+                        to <span class="highlight">coherent execution</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: Systems -->
+        <section class="section" data-section="4">
+            <div class="section-inner">
+                <div class="section-visual">
+                    <div class="section-number">04</div>
+                    <div class="geometry-container">
+                        <svg class="geometry-svg merkaba-svg" viewBox="0 0 400 400">
+                            <!-- Merkaba / Star Tetrahedron -->
+                            <!-- Upper triangle -->
+                            <path class="merkaba-triangle" d="M200,80 L320,280 L80,280 Z"/>
+                            <!-- Lower triangle (inverted) -->
+                            <path class="merkaba-triangle" d="M200,320 L80,120 L320,120 Z"/>
+                            <!-- Inner hexagon -->
+                            <path class="merkaba-triangle" d="M140,160 L260,160 L290,200 L260,240 L140,240 L110,200 Z"/>
+                            <!-- Center -->
+                            <circle class="node" cx="200" cy="200" r="6"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="section-label">Philosophy</div>
+                    <h2 class="section-title">Systems<br>Thinking</h2>
+                    <p class="section-text">
+                        Grounded in <span class="highlight">systems thinking</span>, emphasizing resonance,
+                        long-term balance, and alignment between human potential and ecological
+                        and social responsibility—ensuring initiatives move from vision to
+                        <span class="highlight">coherent execution</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: Mission -->
+        <section class="section" data-section="5">
+            <div class="section-inner">
+                <div class="section-visual">
+                    <div class="section-number">05</div>
+                    <div class="geometry-container">
+                        <svg class="geometry-svg spiral-svg" viewBox="0 0 400 400">
+                            <!-- Golden Spiral -->
+                            <path class="spiral-path" d="
+                                M200,200
+                                Q200,140 260,140
+                                Q320,140 320,200
+                                Q320,280 240,280
+                                Q140,280 140,180
+                                Q140,60 280,60
+                                Q380,60 380,200
+                                Q380,340 200,340
+                            "/>
+                            <path class="spiral-path" d="
+                                M200,200
+                                Q200,260 140,260
+                                Q80,260 80,200
+                                Q80,120 160,120
+                                Q260,120 260,220
+                                Q260,340 120,340
+                                Q20,340 20,200
+                            "/>
+                            <!-- Nodes along spiral -->
+                            <circle class="node" cx="200" cy="200" r="5"/>
+                            <circle class="node" cx="260" cy="140" r="3"/>
+                            <circle class="node" cx="320" cy="200" r="3"/>
+                            <circle class="node" cx="240" cy="280" r="3"/>
+                            <circle class="node" cx="140" cy="180" r="3"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div class="section-label">Mission</div>
+                    <h2 class="section-title">Conscious<br>Impact</h2>
+                    <p class="section-text">
+                        Supporting the emergence of coherent, sustainable projects through
+                        <span class="highlight">frequency awareness</span>, strategic alignment,
+                        and conscious international cooperation—creating meaningful, lasting impact
+                        for <span class="highlight">communities and the planet</span>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL -->
+        <section class="final-section" data-section="6">
+            <div class="final-content">
+                <p class="final-quote">
+                    "The future is not something we enter. The future is something we create
+                    through the coherence of our present actions."
+                </p>
+                <p class="final-author">— Eugene Mierak</p>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="js/anime.umd.min.js"></script>
+    <script>
+        const { animate, stagger, createTimeline, createTimer, utils } = anime;
+
+        // ========================================
+        // CUSTOM CURSOR
+        // ========================================
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Hover effects
+        document.querySelectorAll('a, .progress-dot').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        // ========================================
+        // ENERGY FIELD PARTICLES
+        // ========================================
+        const canvas = document.getElementById('energy-field');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const particleCount = 120;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class EnergyParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.baseX = this.x;
+                this.baseY = this.y;
+                this.size = Math.random() * 2 + 0.5;
+                this.density = Math.random() * 30 + 1;
+                this.alpha = Math.random() * 0.5 + 0.1;
+                this.pulse = Math.random() * Math.PI * 2;
+            }
+
+            draw() {
+                const pulseAlpha = this.alpha * (0.6 + Math.sin(this.pulse) * 0.4);
+
+                // Glow
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size * 3, 0, Math.PI * 2);
+                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 3);
+                gradient.addColorStop(0, `rgba(201, 165, 92, ${pulseAlpha * 0.5})`);
+                gradient.addColorStop(1, 'rgba(201, 165, 92, 0)');
+                ctx.fillStyle = gradient;
+                ctx.fill();
+
+                // Core
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(232, 213, 163, ${pulseAlpha})`;
+                ctx.fill();
+            }
+
+            update() {
+                // Mouse interaction
+                const dx = mouseX - this.x;
+                const dy = mouseY - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const maxDistance = 150;
+
+                if (distance < maxDistance) {
+                    const force = (maxDistance - distance) / maxDistance;
+                    const directionX = dx / distance;
+                    const directionY = dy / distance;
+                    this.x -= directionX * force * 3;
+                    this.y -= directionY * force * 3;
+                } else {
+                    // Return to base
+                    this.x += (this.baseX - this.x) * 0.02;
+                    this.y += (this.baseY - this.y) * 0.02;
+                }
+
+                this.pulse += 0.02;
+            }
+        }
+
+        // Initialize particles
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new EnergyParticle());
+        }
+
+        // Connection lines
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 120) {
+                        const opacity = (1 - dist / 120) * 0.12;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(201, 165, 92, ${opacity})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animateField() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            drawConnections();
+
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            requestAnimationFrame(animateField);
+        }
+        animateField();
+
+        // ========================================
+        // SCROLL ANIMATIONS
+        // ========================================
+        const sections = document.querySelectorAll('[data-section]');
+        const progressDots = document.querySelectorAll('.progress-dot');
+
+        // Intersection Observer for sections
+        const observerOptions = {
+            threshold: 0.4
+        };
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const sectionIndex = entry.target.dataset.section;
+
+                    // Update progress dots
+                    progressDots.forEach((dot, i) => {
+                        dot.classList.toggle('active', i == sectionIndex);
+                    });
+
+                    // Animate section content
+                    animateSectionIn(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => sectionObserver.observe(section));
+
+        function animateSectionIn(section) {
+            const title = section.querySelector('.section-title, .hero-title');
+            const text = section.querySelector('.section-text, .hero-subtitle');
+            const label = section.querySelector('.section-label, .hero-label');
+            const geometry = section.querySelector('.geometry-svg');
+            const quote = section.querySelector('.final-quote');
+
+            if (title && !title.dataset.animated) {
+                title.dataset.animated = 'true';
+                animate(title, {
+                    opacity: [0, 1],
+                    translateY: [50, 0],
+                    duration: 1000,
+                    ease: 'out(3)'
+                });
+            }
+
+            if (text && !text.dataset.animated) {
+                text.dataset.animated = 'true';
+                animate(text, {
+                    opacity: [0, 1],
+                    translateY: [30, 0],
+                    duration: 800,
+                    delay: 200,
+                    ease: 'out(3)'
+                });
+            }
+
+            if (label && !label.dataset.animated) {
+                label.dataset.animated = 'true';
+                animate(label, {
+                    opacity: [0, 1],
+                    translateX: [-20, 0],
+                    duration: 600,
+                    ease: 'out(2)'
+                });
+            }
+
+            if (quote && !quote.dataset.animated) {
+                quote.dataset.animated = 'true';
+                animate(quote, {
+                    opacity: [0, 1],
+                    scale: [0.95, 1],
+                    duration: 1200,
+                    ease: 'out(3)'
+                });
+            }
+
+            // Animate sacred geometry
+            if (geometry && !geometry.dataset.animated) {
+                geometry.dataset.animated = 'true';
+                animateGeometry(geometry);
+            }
+        }
+
+        function animateGeometry(svg) {
+            const circles = svg.querySelectorAll('circle:not(.node)');
+            const lines = svg.querySelectorAll('line');
+            const paths = svg.querySelectorAll('path');
+            const ellipses = svg.querySelectorAll('ellipse');
+            const nodes = svg.querySelectorAll('.node');
+
+            // Draw circles
+            if (circles.length) {
+                animate(circles, {
+                    strokeDashoffset: 0,
+                    duration: 2000,
+                    delay: stagger(100),
+                    ease: 'out(2)'
+                });
+            }
+
+            // Draw lines
+            if (lines.length) {
+                animate(lines, {
+                    strokeDashoffset: 0,
+                    duration: 1000,
+                    delay: stagger(80, { start: 500 }),
+                    ease: 'out(2)'
+                });
+            }
+
+            // Draw paths
+            if (paths.length) {
+                animate(paths, {
+                    strokeDashoffset: 0,
+                    duration: 2500,
+                    delay: stagger(150),
+                    ease: 'out(2)'
+                });
+            }
+
+            // Draw ellipses
+            if (ellipses.length) {
+                animate(ellipses, {
+                    strokeDashoffset: 0,
+                    duration: 1500,
+                    delay: stagger(100),
+                    ease: 'out(2)'
+                });
+            }
+
+            // Pulse nodes
+            if (nodes.length) {
+                animate(nodes, {
+                    scale: [0, 1.2, 1],
+                    opacity: [0, 1],
+                    duration: 800,
+                    delay: stagger(100, { start: 1000 }),
+                    ease: 'out(3)'
+                });
+
+                // Continuous pulse
+                setTimeout(() => {
+                    animate(nodes, {
+                        scale: [1, 1.3, 1],
+                        opacity: [0.8, 1, 0.8],
+                        duration: 2000,
+                        loop: true,
+                        ease: 'inOut(2)'
+                    });
+                }, 2000);
+            }
+
+            // Gentle rotation
+            animate(svg, {
+                rotate: [0, 360],
+                duration: 60000,
+                loop: true,
+                ease: 'linear'
+            });
+        }
+
+        // ========================================
+        // HERO ANIMATION
+        // ========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Split hero title into chars
+            const heroTitle = document.querySelector('.hero-title');
+            const text = heroTitle.textContent;
+            heroTitle.innerHTML = text.split('').map(char =>
+                char === ' ' ? ' ' : `<span class="char">${char}</span>`
+            ).join('');
+
+            // Animate hero
+            setTimeout(() => {
+                animate('.hero-label', {
+                    opacity: [0, 1],
+                    translateY: [-20, 0],
+                    duration: 800,
+                    ease: 'out(2)'
+                });
+
+                animate('.hero-title .char', {
+                    opacity: [0, 1],
+                    translateY: [40, 0],
+                    rotate: [10, 0],
+                    duration: 800,
+                    delay: stagger(40, { start: 300 }),
+                    ease: 'out(3)'
+                });
+
+                animate('.hero-subtitle', {
+                    opacity: [0, 1],
+                    translateY: [30, 0],
+                    duration: 1000,
+                    delay: 800,
+                    ease: 'out(3)'
+                });
+
+                animate('.scroll-indicator', {
+                    opacity: [0, 1],
+                    translateY: [20, 0],
+                    duration: 800,
+                    delay: 1200,
+                    ease: 'out(2)'
+                });
+
+                // Scroll line animation
+                animate('.scroll-line', {
+                    scaleY: [0, 1],
+                    duration: 1000,
+                    delay: 1400,
+                    ease: 'out(3)'
+                });
+            }, 500);
+
+            // Nav
+            animate('.nav-link', {
+                opacity: [0, 0.4],
+                translateY: [-10, 0],
+                duration: 600,
+                delay: stagger(100, { start: 800 }),
+                ease: 'out(2)'
+            });
+
+            // Progress dots
+            animate('.progress-dot', {
+                opacity: [0, 1],
+                scale: [0, 1],
+                duration: 400,
+                delay: stagger(50, { start: 1000 }),
+                ease: 'out(2)'
+            });
+        });
+
+        // Progress dot clicks
+        progressDots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                sections[i].scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // ========================================
+        // PARALLAX ON GEOMETRY
+        // ========================================
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+
+            document.querySelectorAll('.geometry-container').forEach(container => {
+                const rect = container.getBoundingClientRect();
+                const centerY = rect.top + rect.height / 2;
+                const windowCenter = window.innerHeight / 2;
+                const offset = (centerY - windowCenter) * 0.05;
+
+                container.style.transform = `translateY(${offset}px)`;
+            });
+        });
+
+    </script>
+</body>
+
+</html>

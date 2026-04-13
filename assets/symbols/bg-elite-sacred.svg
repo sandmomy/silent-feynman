@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" fill="none">
+  <defs>
+    <radialGradient id="eliteGlowGold" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.28"/>
+      <stop offset="56%" stop-color="#D4AF37" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="eliteGlowTeal" cx="50%" cy="50%" r="54%">
+      <stop offset="0%" stop-color="#7ECFC0" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#7ECFC0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <circle cx="500" cy="500" r="476" fill="url(#eliteGlowGold)"/>
+  <circle cx="500" cy="500" r="406" fill="url(#eliteGlowTeal)"/>
+
+  <g stroke="#D4AF37" stroke-opacity="0.23" stroke-width="1.1" fill="none">
+    <circle cx="500" cy="500" r="430"/>
+    <circle cx="500" cy="500" r="355"/>
+    <circle cx="500" cy="500" r="280"/>
+    <circle cx="500" cy="500" r="205"/>
+    <circle cx="500" cy="500" r="130"/>
+  </g>
+
+  <g stroke="#7ECFC0" stroke-opacity="0.2" stroke-width="1.05" fill="none">
+    <circle cx="500" cy="390" r="110"/>
+    <circle cx="595" cy="445" r="110"/>
+    <circle cx="595" cy="555" r="110"/>
+    <circle cx="500" cy="610" r="110"/>
+    <circle cx="405" cy="555" r="110"/>
+    <circle cx="405" cy="445" r="110"/>
+
+    <circle cx="500" cy="320" r="170"/>
+    <circle cx="647" cy="405" r="170"/>
+    <circle cx="647" cy="575" r="170"/>
+    <circle cx="500" cy="660" r="170"/>
+    <circle cx="353" cy="575" r="170"/>
+    <circle cx="353" cy="405" r="170"/>
+  </g>
+
+  <g stroke="#D4AF37" stroke-opacity="0.18" stroke-width="0.95">
+    <line x1="500" y1="84" x2="500" y2="916"/>
+    <line x1="84" y1="500" x2="916" y2="500"/>
+    <line x1="206" y1="206" x2="794" y2="794"/>
+    <line x1="794" y1="206" x2="206" y2="794"/>
+  </g>
+
+  <path d="M252 500C332 398 410 348 500 348C626 348 700 422 748 500" stroke="#D4AF37" stroke-opacity="0.18" stroke-width="1.3"/>
+  <path d="M252 500C332 602 410 652 500 652C626 652 700 578 748 500" stroke="#7ECFC0" stroke-opacity="0.18" stroke-width="1.3"/>
+
+  <circle cx="500" cy="500" r="16" stroke="#D4AF37" stroke-opacity="0.34" stroke-width="1.2"/>
+  <circle cx="500" cy="500" r="4" fill="#D4AF37" fill-opacity="0.58"/>
+</svg>

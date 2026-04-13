@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mariposa at Klub Bunga — The Golden Living Wellness Resort | Eugene Mierak</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Mariposa at Klub Bunga — The first integrated Natural Medical Wellness & Senior Living Resort in East Java, Indonesia. A USD 75M investment opportunity.">
+    <meta name="keywords"
+        content="Mariposa Batu, Klub Bunga, wellness resort, senior living, medical tourism, investment, Indonesia, East Java, Malang">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Mariposa at Klub Bunga — The Golden Living Wellness Resort">
+    <meta property="og:description"
+        content="The first integrated Natural Medical Wellness & Senior Living Resort in East Java.">
+    <meta property="og:site_name" content="Eugene Mierak Portfolio">
+    <meta name="theme-color" content="#0a0f0d">
+    <link rel="icon" type="image/webp" href="assets/optimized/favicon.480w.webp">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ============================================
+           MARIPOSA BATU — PREMIUM DARK AESTHETIC
+           ============================================ */
+
+        :root {
+            --mb-dark: #0a0f0d;
+            --mb-dark-surface: #111916;
+            --mb-dark-card: #151e1a;
+            --mb-emerald: #2d7a5a;
+            --mb-emerald-light: #3d9a6e;
+            --mb-gold: #c9a55c;
+            --mb-gold-light: #dbb872;
+            --mb-text: #e8e6e1;
+            --mb-text-muted: rgba(232, 230, 225, 0.6);
+            --mb-border: rgba(45, 122, 90, 0.2);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--mb-dark);
+            color: var(--mb-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes countUp {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal.revealed { opacity: 1; transform: translateY(0); }
+
+        /* ===== TOP NAV BANNER (desktop) ===== */
+        .top-nav-banner {
+            position: fixed; top: 0; left: 0; right: 0; height: 48px;
+            background: rgba(8, 12, 20, 0.97);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 9999; display: flex; align-items: center;
+            overflow: visible !important;
+        }
+        .top-nav-container {
+            max-width: 1400px; width: 100%; margin: 0 auto; padding: 0 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            overflow: visible !important;
+        }
+        .top-nav-brand {
+            font-family: 'Playfair Display', serif; font-size: 1.1rem;
+            font-style: italic; color: white; font-weight: 500;
+            text-decoration: none; white-space: nowrap;
+        }
+        .top-nav-links { display: flex; gap: 0.5rem; align-items: center; }
+        .top-nav-link {
+            padding: 0.4rem 1rem; font-size: 0.8rem; font-weight: 600;
+            color: rgba(255, 255, 255, 0.75); text-decoration: none;
+            border-radius: 6px; transition: all 0.3s ease;
+        }
+        .top-nav-link:hover { color: white; background: rgba(255, 255, 255, 0.1); }
+
+        .partners-dropdown-container { position: relative; }
+        .top-nav-partners-btn {
+            display: flex; align-items: center;
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+            color: white; border: none; cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .top-nav-partners-btn:hover,
+        .top-nav-partners-btn[aria-expanded="true"] {
+            background: linear-gradient(135deg, #0284c7 0%, #0891b2 100%);
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+        }
+        .partners-dropdown-menu {
+            position: absolute; top: 100%; right: 0; margin-top: 12px; width: 240px;
+            background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            padding: 6px; display: none; flex-direction: column; gap: 2px; z-index: 1010;
+            animation: dropdownPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .partners-dropdown-menu.active { display: flex; }
+        @keyframes dropdownPop {
+            from { opacity: 0; transform: scale(0.95) translateY(-5px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .partners-dropdown-item {
+            display: flex; align-items: center; gap: 12px; padding: 10px 12px;
+            color: rgba(255, 255, 255, 0.8); text-decoration: none;
+            font-size: 0.85rem; font-weight: 500; border-radius: 8px; transition: all 0.2s ease;
+        }
+        .partners-dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.1); color: white; transform: translateX(2px);
+        }
+        .partner-icon-img {
+            height: 28px; width: auto; max-width: 40px; object-fit: contain; filter: brightness(1.1);
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none; flex-direction: column; justify-content: space-between;
+            width: 24px; height: 18px; background: transparent; border: none;
+            cursor: pointer; padding: 0; z-index: 10001; position: relative;
+        }
+        .mobile-menu-btn span { width: 100%; height: 2px; background-color: white; border-radius: 2px; transition: all 0.3s ease; }
+        .mobile-menu-btn.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .mobile-menu-btn.active span:nth-child(2) { opacity: 0; }
+        .mobile-menu-btn.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+        /* ===== MOBILE NAVBAR ===== */
+        .mobile-nav-bar {
+            display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+            background: rgba(8, 12, 20, 0.97); backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            height: 48px; align-items: center; justify-content: space-between; padding: 0 16px;
+        }
+        .mobile-nav-bar .nav-links { display: flex; align-items: center; gap: 4px; }
+        .mobile-nav-bar .nav-link {
+            font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,0.7);
+            padding: 6px 10px; border-radius: 6px; white-space: nowrap;
+            text-decoration: none; transition: color 0.2s, background 0.2s;
+        }
+        .mobile-nav-bar .nav-link:active { color: #fff; background: rgba(255,255,255,0.08); }
+        .mobile-nav-bar .nav-partners-btn {
+            display: flex; align-items: center; gap: 6px; padding: 6px 12px;
+            border-radius: 6px; background: linear-gradient(135deg, #38bdf8, #06b6d4);
+            border: none; color: #fff; font-family: inherit; font-size: 11px;
+            font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+            cursor: pointer; transition: opacity 0.15s, transform 0.15s;
+        }
+        .mobile-nav-bar .nav-partners-btn:active { opacity: 0.85; transform: scale(0.97); }
+        .mobile-partners-panel {
+            display: none; position: fixed; top: 48px; right: 0; width: 220px;
+            background: rgba(8, 12, 20, 0.98); backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.08); border-top: none;
+            border-radius: 0 0 0 14px; padding: 8px; z-index: 9998;
+            transform: translateY(-8px); opacity: 0; pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .mobile-partners-panel.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .mobile-partners-panel a {
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+            border-radius: 8px; font-size: 12px; font-weight: 600;
+            color: rgba(255,255,255,0.75); text-decoration: none; transition: background 0.15s;
+        }
+        .mobile-partners-panel a:active { background: rgba(255,255,255,0.08); }
+        .mobile-partners-panel img { height: 22px; width: auto; object-fit: contain; filter: brightness(1.3); }
+        .mobile-partners-overlay { display: none; position: fixed; inset: 0; z-index: 9997; }
+        .mobile-partners-overlay.open { display: block; }
+
+        @media (max-width: 992px) {
+            .top-nav-banner { display: none !important; }
+            .mobile-nav-bar { display: flex; }
+            .mobile-partners-panel { display: block; }
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; position: relative; padding: 8rem 2rem 4rem; overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute; inset: 0;
+            background: url('assets/optimized/mariposa_batu.800w.webp') center center / cover no-repeat;
+            z-index: 0;
+        }
+        .hero-bg::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(180deg,
+                rgba(10, 15, 13, 0.3) 0%, rgba(10, 15, 13, 0.55) 40%,
+                rgba(10, 15, 13, 0.85) 80%, var(--mb-dark) 100%);
+        }
+        .hero-content { position: relative; z-index: 2; max-width: 850px; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1.25rem;
+            border-radius: 999px; font-size: 0.75rem; font-weight: 600;
+            letter-spacing: 0.15em; text-transform: uppercase; color: var(--mb-gold);
+            border: 1px solid rgba(201, 165, 92, 0.3); background: rgba(201, 165, 92, 0.08);
+            margin-bottom: 2rem; animation: fadeInUp 0.8s ease 0.2s both;
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 400;
+            color: white; margin-bottom: 0.5rem; line-height: 1.1;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+        .hero h1 em { font-style: italic; color: var(--mb-gold); }
+        .hero-tagline {
+            font-family: 'Playfair Display', serif; font-style: italic;
+            font-size: 1.15rem; color: var(--mb-gold-light); margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease 0.5s both;
+        }
+        .hero-subtitle {
+            font-size: 1rem; color: rgba(255, 255, 255, 0.7); max-width: 600px;
+            margin: 0 auto 2.5rem; animation: fadeInUp 0.8s ease 0.6s both;
+        }
+        .hero-ctas {
+            display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.8s both;
+        }
+
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.9rem 1.8rem; background: var(--mb-emerald); color: white;
+            border: none; border-radius: 12px; font-size: 0.95rem; font-weight: 600;
+            text-decoration: none; cursor: pointer; transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: var(--mb-emerald-light); transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(45, 122, 90, 0.3);
+        }
+        .btn-secondary {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.9rem 1.8rem; background: transparent; color: var(--mb-gold);
+            border: 1px solid rgba(201, 165, 92, 0.4); border-radius: 12px;
+            font-size: 0.95rem; font-weight: 600; text-decoration: none;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background: rgba(201, 165, 92, 0.1); border-color: var(--mb-gold);
+            transform: translateY(-2px);
+        }
+        .btn-primary svg, .btn-secondary svg { width: 16px; height: 16px; }
+
+        /* ===== STATS BAR ===== */
+        .stats-bar {
+            padding: 3.5rem 2rem; background: var(--mb-dark-surface);
+            border-top: 1px solid var(--mb-border); border-bottom: 1px solid var(--mb-border);
+        }
+        .stats-container {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.5rem;
+        }
+        .stat-block { text-align: center; padding: 1rem; }
+        .stat-icon { font-size: 1.3rem; margin-bottom: 0.5rem; }
+        .stat-value {
+            font-family: 'Playfair Display', serif; font-size: 1.6rem;
+            color: var(--mb-gold); font-weight: 500; margin-bottom: 0.15rem;
+        }
+        .stat-label {
+            font-size: 0.75rem; color: var(--mb-text-muted);
+            text-transform: uppercase; letter-spacing: 0.1em;
+        }
+
+        /* ===== SECTIONS ===== */
+        .section { padding: 5rem 2rem; }
+        .section-container { max-width: 1100px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 3rem; }
+        .section-label {
+            display: inline-block; font-size: 0.7rem; font-weight: 600;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            color: var(--mb-emerald-light); margin-bottom: 0.75rem;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.6rem, 4vw, 2.3rem); font-weight: 400;
+            color: white; margin-bottom: 1rem;
+        }
+        .section-subtitle {
+            font-size: 0.95rem; color: var(--mb-text-muted);
+            max-width: 600px; margin: 0 auto;
+        }
+
+        /* ===== ABOUT / VISION ===== */
+        .about-content {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+        }
+        .about-text h2 {
+            font-family: 'Playfair Display', serif; font-size: 1.8rem;
+            font-weight: 400; margin-bottom: 1.5rem; color: white;
+        }
+        .about-text p {
+            color: var(--mb-text-muted); font-size: 0.95rem; line-height: 1.8; margin-bottom: 1rem;
+        }
+        .about-image {
+            border-radius: 20px; overflow: hidden; aspect-ratio: 4/3;
+            border: 1px solid var(--mb-border);
+        }
+        .about-image img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* ===== FOUR PILLARS ===== */
+        .pillars-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;
+        }
+        .pillar-card {
+            background: var(--mb-dark-card); border: 1px solid var(--mb-border);
+            border-radius: 16px; padding: 2rem; transition: all 0.3s ease;
+            position: relative; overflow: hidden;
+        }
+        .pillar-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--mb-emerald), var(--mb-gold));
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        .pillar-card:hover::before { opacity: 1; }
+        .pillar-card:hover {
+            border-color: rgba(45, 122, 90, 0.4); transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+        .pillar-icon {
+            width: 52px; height: 52px; background: rgba(45, 122, 90, 0.15);
+            border-radius: 14px; display: flex; align-items: center;
+            justify-content: center; margin-bottom: 1.25rem; font-size: 1.4rem;
+        }
+        .pillar-title {
+            font-size: 1.15rem; font-weight: 600; margin-bottom: 0.75rem; color: white;
+        }
+        .pillar-desc {
+            font-size: 0.88rem; color: var(--mb-text-muted); line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        .pillar-services {
+            display: flex; flex-wrap: wrap; gap: 0.4rem;
+        }
+        .pillar-tag {
+            font-size: 0.7rem; padding: 0.3rem 0.6rem;
+            background: rgba(45, 122, 90, 0.12); border: 1px solid rgba(45, 122, 90, 0.2);
+            border-radius: 6px; color: var(--mb-emerald-light);
+        }
+
+        /* ===== MASTER PLAN ===== */
+        .masterplan-phases {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;
+        }
+        .phase-card {
+            background: var(--mb-dark-card); border: 1px solid var(--mb-border);
+            border-radius: 16px; padding: 2rem; position: relative;
+        }
+        .phase-badge {
+            display: inline-block; font-size: 0.65rem; font-weight: 700;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            padding: 0.3rem 0.8rem; border-radius: 6px; margin-bottom: 1rem;
+        }
+        .phase-badge.phase-1 { background: rgba(45, 122, 90, 0.2); color: var(--mb-emerald-light); }
+        .phase-badge.phase-2 { background: rgba(201, 165, 92, 0.2); color: var(--mb-gold); }
+        .phase-title { font-size: 1.15rem; font-weight: 600; color: white; margin-bottom: 0.75rem; }
+        .phase-list { list-style: none; padding: 0; }
+        .phase-list li {
+            font-size: 0.85rem; color: var(--mb-text-muted); padding: 0.4rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            display: flex; align-items: flex-start; gap: 0.5rem;
+        }
+        .phase-list li::before { content: '→'; color: var(--mb-emerald-light); flex-shrink: 0; }
+
+        /* ===== FINANCIAL METRICS ===== */
+        .metrics-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+        }
+        .metric-card {
+            background: var(--mb-dark-card); border: 1px solid var(--mb-border);
+            border-radius: 16px; padding: 1.75rem; text-align: center;
+            transition: all 0.3s ease;
+        }
+        .metric-card:hover { border-color: var(--mb-gold); transform: translateY(-3px); }
+        .metric-value {
+            font-family: 'Playfair Display', serif; font-size: 2rem;
+            color: var(--mb-gold); font-weight: 500; margin-bottom: 0.25rem;
+        }
+        .metric-label {
+            font-size: 0.8rem; color: var(--mb-text-muted);
+            text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem;
+        }
+        .metric-detail { font-size: 0.75rem; color: rgba(255,255,255,0.4); }
+
+        /* ===== LEADERSHIP ===== */
+        .leadership-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+        .leader-card {
+            background: var(--mb-dark-card); border: 1px solid var(--mb-border);
+            border-radius: 16px; padding: 2rem; display: flex; gap: 1.5rem;
+            align-items: flex-start; transition: all 0.3s ease;
+        }
+        .leader-card:hover { border-color: rgba(45, 122, 90, 0.4); }
+        .leader-avatar {
+            width: 64px; height: 64px; border-radius: 14px;
+            background: linear-gradient(135deg, var(--mb-emerald), var(--mb-gold));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; flex-shrink: 0;
+        }
+        .leader-name { font-size: 1.05rem; font-weight: 600; color: white; margin-bottom: 0.25rem; }
+        .leader-role { font-size: 0.8rem; color: var(--mb-emerald-light); margin-bottom: 0.5rem; }
+        .leader-bio { font-size: 0.85rem; color: var(--mb-text-muted); line-height: 1.6; }
+
+        /* ===== PARTNERS LOGOS ===== */
+        .partners-row {
+            display: flex; flex-wrap: wrap; justify-content: center;
+            gap: 2rem; margin-top: 2rem;
+        }
+        .partner-logo-block {
+            background: var(--mb-dark-card); border: 1px solid var(--mb-border);
+            border-radius: 12px; padding: 1.25rem 2rem;
+            font-size: 0.85rem; color: var(--mb-text-muted); font-weight: 500;
+            display: flex; align-items: center; gap: 0.75rem;
+        }
+        .partner-logo-block span { font-size: 1.25rem; }
+
+        /* ===== INVESTMENT CTA ===== */
+        .investment-cta {
+            background: linear-gradient(135deg, var(--mb-dark-card) 0%, rgba(45, 122, 90, 0.15) 100%);
+            border: 1px solid var(--mb-border); border-radius: 24px;
+            padding: 3.5rem; text-align: center;
+        }
+        .investment-cta h2 {
+            font-family: 'Playfair Display', serif; font-size: 2rem;
+            color: white; margin-bottom: 1rem;
+        }
+        .investment-cta p {
+            color: var(--mb-text-muted); max-width: 600px;
+            margin: 0 auto 2rem; font-size: 1rem;
+        }
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        /* ===== CONTACT INFO ===== */
+        .contact-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .contact-item {
+            background: var(--mb-dark-card); border: 1px solid var(--mb-border);
+            border-radius: 12px; padding: 1.5rem; text-align: center;
+        }
+        .contact-item-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+        .contact-item-label {
+            font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
+            color: var(--mb-emerald-light); margin-bottom: 0.4rem;
+        }
+        .contact-item-value { font-size: 0.85rem; color: var(--mb-text); }
+        .contact-item-value a {
+            color: var(--mb-gold); text-decoration: none;
+        }
+        .contact-item-value a:hover { text-decoration: underline; }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            padding: 3rem 2rem; text-align: center;
+            border-top: 1px solid var(--mb-border);
+            color: var(--mb-text-muted); font-size: 0.85rem;
+        }
+        .footer a { color: var(--mb-emerald-light); text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .stats-container { grid-template-columns: repeat(3, 1fr); }
+            .pillars-grid { grid-template-columns: 1fr; }
+            .masterplan-phases { grid-template-columns: 1fr; }
+            .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+            .leadership-grid { grid-template-columns: 1fr; }
+            .contact-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .about-content { grid-template-columns: 1fr; gap: 2rem; }
+            .stats-container { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        }
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2rem; }
+            .metrics-grid { grid-template-columns: 1fr 1fr; }
+            .hero-ctas { flex-direction: column; align-items: center; }
+            .investment-cta { padding: 2rem 1.25rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ============ MOBILE NAVBAR ============ -->
+    <nav class="mobile-nav-bar">
+        <div class="nav-links">
+            <a href="mobile.html" class="nav-link">Home</a>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="event.html" class="nav-link">Events</a>
+            <a href="mobile.html#contact" class="nav-link">Contact</a>
+        </div>
+        <button class="nav-partners-btn" id="mobilePartnersBtn" aria-expanded="false" aria-label="Partners menu">
+            Partners
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </button>
+    </nav>
+    <div class="mobile-partners-overlay" id="mobilePartnersOverlay"></div>
+    <div class="mobile-partners-panel" id="mobilePartnersPanel">
+        <a href="vegaqura.html"><img src="assets/optimized/logo-vegaqura.480w.webp" alt="Vegaqura" loading="lazy" decoding="async"> Vegaqura</a>
+        <a href="sdbi-center.html"><img src="assets/logo-sbdi.webp" alt="SBDI" loading="lazy" decoding="async"> SBDI Center</a>
+        <a href="wiseuse.html"><img src="assets/optimized/wiseuse-pyramid.171w.webp" alt="WiseUse" loading="lazy" decoding="async"> WiseUse International</a>
+        <a href="eko-vitaris.html"><img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" loading="lazy" decoding="async"> Eko Vitaris</a>
+        <a href="mariposa-batu.html"><img src="assets/optimized/logo-mariposa-batu.480w.webp" alt="Mariposa Batu" loading="lazy" style="border-radius:4px;" decoding="async"> Mariposa Batu</a>
+        <a href="biozar-venezuela.html"><img src="assets/optimized/logo-biozar.340w.webp" alt="Biozar" loading="lazy" decoding="async"> Biozar Venezuela</a>
+    </div>
+
+    <!-- TOP NAV BANNER (desktop) -->
+    <nav class="top-nav-banner">
+        <div class="top-nav-container">
+            <a href="index.html" class="top-nav-brand">Frequency Vibes&trade;</a>
+            <button class="mobile-menu-btn" aria-label="Toggle Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="top-nav-links">
+                <a href="index.html" class="top-nav-link">Home</a>
+                <a href="projects.html" class="top-nav-link">Explore Projects</a>
+                <a href="index.html#contact" class="top-nav-link">Get in Touch</a>
+                <div class="partners-dropdown-container">
+                    <button class="top-nav-link top-nav-partners-btn" id="partnersBtn" aria-expanded="false">
+                        PARTNERS
+                        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left: 6px;">
+                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <div class="partners-dropdown-menu" id="partnersDropdown">
+                        <a href="vegaqura.html" class="partners-dropdown-item">
+                            <img src="assets/optimized/logo-vegaqura.480w.webp" alt="Vegaqura" class="partner-icon-img" loading="lazy" decoding="async"> Vegaqura
+                        </a>
+                        <a href="sdbi-center.html" class="partners-dropdown-item">
+                            <img src="assets/logo-sbdi.webp" alt="SBDI" class="partner-icon-img" loading="lazy" decoding="async"> SBDI Center
+                        </a>
+                        <a href="wiseuse.html" class="partners-dropdown-item">
+                            <img src="assets/optimized/wiseuse-pyramid.171w.webp" alt="WiseUse" class="partner-icon-img" loading="lazy" decoding="async"> WiseUse International
+                        </a>
+                        <a href="eko-vitaris.html" class="partners-dropdown-item">
+                            <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-icon-img" loading="lazy" decoding="async"> Eko Vitaris
+                        </a>
+                        <a href="mariposa-batu.html" class="partners-dropdown-item">
+                            <img src="assets/optimized/logo-mariposa-batu.480w.webp" alt="Mariposa Batu" class="partner-icon-img" style="border-radius: 4px;" loading="lazy" decoding="async"> Mariposa Batu
+                        </a>
+                        <a href="biozar-venezuela.html" class="partners-dropdown-item">
+                            <img src="assets/optimized/logo-biozar.340w.webp" alt="Biozar" class="partner-icon-img" loading="lazy" decoding="async"> Biozar Venezuela
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <div class="hero-badge">🦋 Investment Opportunity · Proposed Concept 2025</div>
+            <h1>Mariposa at <em>Klub Bunga</em></h1>
+            <p class="hero-tagline">The Golden Living Wellness Resort</p>
+            <p class="hero-subtitle">
+                The first integrated Natural Medical Wellness & Senior Living Resort in East Java, Indonesia.
+                Set in the stunning Batu–Malang–Mount Bromo corridor at 1,000m altitude.
+            </p>
+            <div class="hero-ctas">
+                <a href="assets/pdfs/Mariposa_Batu_Investment.pdf" class="btn-primary" target="_blank">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    Full Investment Deck (PDF)
+                </a>
+                <a href="index.html#contact" class="btn-secondary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                    Inquire Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== KEY STATS ===== -->
+    <section class="stats-bar">
+        <div class="stats-container">
+            <div class="stat-block reveal">
+                <div class="stat-icon">📍</div>
+                <div class="stat-value">Batu</div>
+                <div class="stat-label">East Java, Indonesia</div>
+            </div>
+            <div class="stat-block reveal">
+                <div class="stat-icon">⛰️</div>
+                <div class="stat-value">~1,000m</div>
+                <div class="stat-label">Altitude ASL</div>
+            </div>
+            <div class="stat-block reveal">
+                <div class="stat-icon">🌡️</div>
+                <div class="stat-value">18–24°C</div>
+                <div class="stat-label">Year-Round Climate</div>
+            </div>
+            <div class="stat-block reveal">
+                <div class="stat-icon">👥</div>
+                <div class="stat-value">7.2M+</div>
+                <div class="stat-label">Annual Visitors</div>
+            </div>
+            <div class="stat-block reveal">
+                <div class="stat-icon">📐</div>
+                <div class="stat-value">372,000m²</div>
+                <div class="stat-label">Development Area</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== THE VISION ===== -->
+    <section class="section">
+        <div class="section-container">
+            <div class="about-content">
+                <div class="about-text reveal">
+                    <span class="section-label">The Vision</span>
+                    <h2>A New Model for Integrated Living in Indonesia</h2>
+                    <p>
+                        Mariposa at Klub Bunga is positioned within the Batu–Malang–Mount Bromo corridor — one of Indonesia's most iconic highland destinations. The project introduces a first-of-its-kind concept: a fully integrated Natural Medical Wellness & Senior Living Resort.
+                    </p>
+                    <p>
+                        Batu City is being positioned as a National Main Medical & Wellness Center, attracting over 7.2 million visitors annually with its cool climate, volcanic landscapes, and world-class hospitality infrastructure.
+                    </p>
+                    <p>
+                        Combining cutting-edge medical services, holistic wellness programs, premium senior living communities, and integrated tourism — all within one master-planned development spanning 372,000 m².
+                    </p>
+                </div>
+                <div class="about-image reveal">
+                    <img src="assets/optimized/mariposa_batu.800w.webp" alt="Mariposa Batu Mountain Villas" loading="lazy" decoding="async">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOUR STRATEGIC PILLARS ===== -->
+    <section class="section" style="background: var(--mb-dark-surface);">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-label">Core Business Model</span>
+                <h2 class="section-title">Four Strategic Pillars</h2>
+                <p class="section-subtitle">
+                    An integrated ecosystem combining healthcare, wellness, senior living, and tourism to create multiple synergistic revenue streams.
+                </p>
+            </div>
+
+            <div class="pillars-grid">
+                <div class="pillar-card reveal">
+                    <div class="pillar-icon">🏥</div>
+                    <h3 class="pillar-title">Medical Clinic</h3>
+                    <p class="pillar-desc">
+                        State-of-the-art medical facility specializing in advanced treatments and telemedicine. Positioned to serve both domestic and international medical tourism markets.
+                    </p>
+                    <div class="pillar-services">
+                        <span class="pillar-tag">IVF</span>
+                        <span class="pillar-tag">Stem Cell Therapy</span>
+                        <span class="pillar-tag">Aesthetic Medicine</span>
+                        <span class="pillar-tag">Orthopedics</span>
+                        <span class="pillar-tag">Cardiac Care</span>
+                        <span class="pillar-tag">Telemedicine</span>
+                    </div>
+                </div>
+
+                <div class="pillar-card reveal">
+                    <div class="pillar-icon">🧘</div>
+                    <h3 class="pillar-title">Wellness Center</h3>
+                    <p class="pillar-desc">
+                        Holistic wellness hub offering comprehensive programs for physical rehabilitation, mental clarity, and spiritual renewal in a natural mountain environment.
+                    </p>
+                    <div class="pillar-services">
+                        <span class="pillar-tag">Hydrotherapy</span>
+                        <span class="pillar-tag">Detox Programs</span>
+                        <span class="pillar-tag">Physiotherapy</span>
+                        <span class="pillar-tag">Yoga</span>
+                        <span class="pillar-tag">Sound Healing</span>
+                        <span class="pillar-tag">Movement Rehab</span>
+                    </div>
+                </div>
+
+                <div class="pillar-card reveal">
+                    <div class="pillar-icon">🏡</div>
+                    <h3 class="pillar-title">Senior Living</h3>
+                    <p class="pillar-desc">
+                        Premium assisted and independent living communities designed for comfort, dignity, and active aging. Monthly resident fees from IDR 15M–25M.
+                    </p>
+                    <div class="pillar-services">
+                        <span class="pillar-tag">Assisted Living</span>
+                        <span class="pillar-tag">Independent Living</span>
+                        <span class="pillar-tag">24/7 Care Staff</span>
+                        <span class="pillar-tag">Social Programs</span>
+                        <span class="pillar-tag">Medical Access</span>
+                    </div>
+                </div>
+
+                <div class="pillar-card reveal">
+                    <div class="pillar-icon">✈️</div>
+                    <h3 class="pillar-title">Tourism & Hospitality</h3>
+                    <p class="pillar-desc">
+                        Guest rooms, family suites, and leisure packages integrated with the JTP ecosystem of 19 theme parks and 5 hotels. Daily rates from IDR 2.5M–5M.
+                    </p>
+                    <div class="pillar-services">
+                        <span class="pillar-tag">Guest Rooms</span>
+                        <span class="pillar-tag">Family Suites</span>
+                        <span class="pillar-tag">JTP Ecosystem</span>
+                        <span class="pillar-tag">Leisure Packages</span>
+                        <span class="pillar-tag">19 Theme Parks</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MASTER PLAN ===== -->
+    <section class="section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-label">Development Roadmap</span>
+                <h2 class="section-title">Master Plan</h2>
+                <p class="section-subtitle">
+                    A phased development approach across 372,000 m² ensuring controlled growth and sustainable returns.
+                </p>
+            </div>
+
+            <div class="masterplan-phases">
+                <div class="phase-card reveal">
+                    <span class="phase-badge phase-1">Phase 1.0 — The Nodes</span>
+                    <h3 class="phase-title">Central Hub & Premium Villas</h3>
+                    <ul class="phase-list">
+                        <li>Mariposa Central Node — multi-story hub for clinics, wellness & senior living</li>
+                        <li>Standard Apartments — ~45 sqm units</li>
+                        <li>Deluxe Apartments — ~60 sqm units</li>
+                        <li>Suite Apartments — ~85 sqm units</li>
+                        <li>Executive Apartments — ~120 sqm units</li>
+                        <li>29 Premium Villas — standalone luxury with infinity pools & mountain views</li>
+                    </ul>
+                </div>
+
+                <div class="phase-card reveal">
+                    <span class="phase-badge phase-2">Phase 2.0 — The Zones</span>
+                    <h3 class="phase-title">Specialized Lifestyle Zones</h3>
+                    <ul class="phase-list">
+                        <li>Business Zone — 16 Premium + 17 Standard villas, Coworking space</li>
+                        <li>Sport & Woman Care Zone — 20 Premium + 35 Standard villas, Sauna & Beauty clinic</li>
+                        <li>Edu-Fun Zone — 35 Standard villas, Senior education classes</li>
+                        <li>Farming & Shopping Zone — 20 Premium + 20 Standard villas, Healthy Markets</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FINANCIAL INDICATORS ===== -->
+    <section class="section" style="background: var(--mb-dark-surface);">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-label">Investment Overview</span>
+                <h2 class="section-title">Financial Indicators</h2>
+                <p class="section-subtitle">
+                    Key metrics from the investment analysis — offering 40% ownership for USD 30M.
+                </p>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card reveal">
+                    <div class="metric-value">$75M</div>
+                    <div class="metric-label">Total Investment</div>
+                    <div class="metric-detail">USD valuation</div>
+                </div>
+                <div class="metric-card reveal">
+                    <div class="metric-value">15.24%</div>
+                    <div class="metric-label">IRR</div>
+                    <div class="metric-detail">Internal Rate of Return</div>
+                </div>
+                <div class="metric-card reveal">
+                    <div class="metric-value">75%</div>
+                    <div class="metric-label">ROI</div>
+                    <div class="metric-detail">Over 10 years</div>
+                </div>
+                <div class="metric-card reveal">
+                    <div class="metric-value">6–8 yr</div>
+                    <div class="metric-label">Break-Even</div>
+                    <div class="metric-detail">Anticipated BEP</div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 2.5rem;">
+                <p style="color: var(--mb-text-muted); font-size: 0.85rem; margin-bottom: 0.5rem;">
+                    CAPEX: IDR 250–350 Billion per phase · WACC: 11.5%
+                </p>
+                <p style="color: var(--mb-text-muted); font-size: 0.85rem;">
+                    Investment Scheme: 40% ownership for USD 30,000,000
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== LEADERSHIP ===== -->
+    <section class="section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-label">Who's Behind It</span>
+                <h2 class="section-title">Leadership & Partners</h2>
+            </div>
+
+            <div class="leadership-grid">
+                <div class="leader-card reveal">
+                    <div class="leader-avatar">🏗️</div>
+                    <div>
+                        <div class="leader-name">Paul Sastro Sendjojo</div>
+                        <div class="leader-role">Founder — Jawa Timur Park Group</div>
+                        <div class="leader-bio">
+                            Established JTP in 2001. Now manages 19 theme parks and 5 hotels across East Java — one of Indonesia's largest integrated tourism groups.
+                        </div>
+                    </div>
+                </div>
+                <div class="leader-card reveal">
+                    <div class="leader-avatar">🩺</div>
+                    <div>
+                        <div class="leader-name">Ardantya Syahreza</div>
+                        <div class="leader-role">Director & Chairman — Malang Health Tourism</div>
+                        <div class="leader-bio">
+                            Leading the medical tourism initiative for the Malang region. Spearheading the positioning of Batu as Indonesia's premier medical wellness destination.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header" style="margin-top: 3rem;">
+                <span class="section-label">Core Partners</span>
+            </div>
+            <div class="partners-row">
+                <div class="partner-logo-block"><span>🎢</span> Jawatimurpark Group (JTP)</div>
+                <div class="partner-logo-block"><span>🇮🇩</span> Wonderful Indonesia</div>
+                <div class="partner-logo-block"><span>🏥</span> Indonesia Health Tourism</div>
+                <div class="partner-logo-block"><span>🩺</span> Malang Health Tourism</div>
+                <div class="partner-logo-block"><span>⚕️</span> PT Medika Integrasi Klinik Indonesia</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TARGET MARKET ===== -->
+    <section class="section" style="background: var(--mb-dark-surface);">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-label">Market Research</span>
+                <h2 class="section-title">Target Demographics</h2>
+            </div>
+            <div class="metrics-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="metric-card reveal">
+                    <div class="metric-value">70%</div>
+                    <div class="metric-label">From Jakarta Area</div>
+                    <div class="metric-detail">Greater Jabodetabek region</div>
+                </div>
+                <div class="metric-card reveal">
+                    <div class="metric-value">45–54</div>
+                    <div class="metric-label">Primary Age Group</div>
+                    <div class="metric-detail">High-income professionals</div>
+                </div>
+                <div class="metric-card reveal">
+                    <div class="metric-value">$500–$3K+</div>
+                    <div class="metric-label">Monthly Disposable</div>
+                    <div class="metric-detail">Target income bracket</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="section">
+        <div class="section-container">
+            <div class="investment-cta reveal">
+                <span class="section-label">Get Involved</span>
+                <h2>Explore This Investment Opportunity</h2>
+                <p>
+                    Download the complete 119-page investment deck with detailed financial projections, architectural plans, market analysis, and partnership terms.
+                </p>
+                <div class="cta-buttons">
+                    <a href="assets/pdfs/Mariposa_Batu_Investment.pdf" class="btn-primary" target="_blank">
+                        📄 Full Investment Deck (PDF)
+                    </a>
+                    <a href="index.html#contact" class="btn-secondary">
+                        ✉️ Contact Eugene
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT INFO ===== -->
+    <section class="section" style="background: var(--mb-dark-surface);">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-label">Project Contact</span>
+                <h2 class="section-title">Get in Touch</h2>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-item reveal">
+                    <div class="contact-item-icon">🏢</div>
+                    <div class="contact-item-label">Legal Entity</div>
+                    <div class="contact-item-value">PT Medika Integrasi Klinik Indonesia</div>
+                </div>
+                <div class="contact-item reveal">
+                    <div class="contact-item-icon">📍</div>
+                    <div class="contact-item-label">Address</div>
+                    <div class="contact-item-value">Jalan Pandan 11A<br>Malang, East Java</div>
+                </div>
+                <div class="contact-item reveal">
+                    <div class="contact-item-icon">📧</div>
+                    <div class="contact-item-label">Contact</div>
+                    <div class="contact-item-value">
+                        <a href="mailto:info@malanghealthtourism.id">info@malanghealthtourism.id</a><br>
+                        <a href="tel:+62811192012">+62 811 192 012</a> (Ardantya)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p>© 2026 <a href="index.html">Eugene Mierak</a> — Mariposa at Klub Bunga Investment Project</p>
+        <p style="margin-top: 0.5rem; opacity: 0.6;">Batu · Malang · East Java · Indonesia</p>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        // Reveal on scroll
+        document.addEventListener('DOMContentLoaded', function () {
+            var reveals = document.querySelectorAll('.reveal');
+            if ('IntersectionObserver' in window) {
+                var obs = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('revealed');
+                        }
+                    });
+                }, { threshold: 0.1 });
+                reveals.forEach(function (el) { obs.observe(el); });
+            } else {
+                reveals.forEach(function (el) { el.classList.add('revealed'); });
+            }
+        });
+
+        // Mobile Partners Dropdown
+        (function() {
+            var btn = document.getElementById('mobilePartnersBtn');
+            var panel = document.getElementById('mobilePartnersPanel');
+            var overlay = document.getElementById('mobilePartnersOverlay');
+            if (!btn || !panel) return;
+            function toggle() {
+                var open = panel.classList.toggle('open');
+                overlay.classList.toggle('open', open);
+                btn.setAttribute('aria-expanded', open);
+            }
+            function close() {
+                panel.classList.remove('open');
+                overlay.classList.remove('open');
+                btn.setAttribute('aria-expanded', 'false');
+            }
+            btn.addEventListener('click', toggle);
+            overlay.addEventListener('click', close);
+            panel.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', close); });
+        })();
+    </script>
+    <script src="js/main.js" defer></script>
+
+</body>
+
+</html>

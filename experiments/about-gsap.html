@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Frequency Architect</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0b0d;
+            --gold: #c9a55c;
+            --text: #f5f3ef;
+        }
+
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* SECTIONS */
+        .panel {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* BACKGROUND IMAGE - Fixed */
+        .bg-fixed {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 60%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .bg-fixed img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .bg-fixed::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg,
+                var(--bg) 0%,
+                rgba(10,11,13,0.8) 30%,
+                rgba(10,11,13,0.3) 60%,
+                rgba(10,11,13,0.1) 100%
+            );
+            z-index: 1;
+        }
+
+        /* CONTENT */
+        .panel-content {
+            position: relative;
+            z-index: 10;
+            padding-left: 10%;
+            max-width: 600px;
+        }
+
+        .panel-num {
+            font-size: 12rem;
+            font-weight: 300;
+            color: rgba(201, 165, 92, 0.05);
+            position: absolute;
+            top: -80px;
+            left: -40px;
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .panel-label {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 28px;
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+
+        .panel-label-line {
+            width: 50px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        .panel-label-text {
+            font-size: 0.9rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        .panel-title {
+            font-size: clamp(3.5rem, 7vw, 5.5rem);
+            font-weight: 300;
+            line-height: 1;
+            letter-spacing: -3px;
+            margin-bottom: 35px;
+            overflow: hidden;
+        }
+
+        .panel-title .line {
+            display: block;
+            overflow: hidden;
+        }
+
+        .panel-title .line-inner {
+            display: block;
+            transform: translateY(100%);
+        }
+
+        .panel-body {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.7);
+            padding-left: 25px;
+            border-left: 2px solid rgba(201, 165, 92, 0.4);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .hl {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        /* NAV */
+        .nav {
+            position: fixed;
+            top: 40px;
+            right: 50px;
+            z-index: 100;
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav a {
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .nav a:hover {
+            color: var(--gold);
+        }
+
+        /* PROGRESS */
+        .progress {
+            position: fixed;
+            left: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.4s;
+            position: relative;
+        }
+
+        .progress-dot.active {
+            border-color: var(--gold);
+            background: var(--gold);
+            box-shadow: 0 0 20px rgba(201, 165, 92, 0.5);
+        }
+
+        /* CURRENT */
+        .current-section {
+            position: fixed;
+            bottom: 40px;
+            left: 50px;
+            z-index: 100;
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+        }
+
+        .current-num {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--gold);
+        }
+
+        .current-total {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.3);
+        }
+
+        /* SCROLL CTA */
+        .scroll-cta {
+            position: fixed;
+            bottom: 40px;
+            right: 50px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .scroll-mouse {
+            width: 22px;
+            height: 36px;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 11px;
+            position: relative;
+        }
+
+        .scroll-wheel {
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 2px;
+            animation: scrollAnim 2s infinite;
+        }
+
+        @keyframes scrollAnim {
+            0%, 100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+            50% { transform: translateX(-50%) translateY(10px); opacity: 0.3; }
+        }
+
+        /* NOISE */
+        .noise {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            pointer-events: none;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        @media (max-width: 900px) {
+            .panel-content { padding-left: 6%; max-width: 90%; }
+            .panel-title { font-size: 3rem; }
+            .panel-body { font-size: 1.1rem; }
+            .bg-fixed { width: 100%; }
+            .bg-fixed::before {
+                background: linear-gradient(90deg,
+                    var(--bg) 0%,
+                    rgba(10,11,13,0.85) 50%,
+                    rgba(10,11,13,0.6) 100%
+                );
+            }
+            .progress { left: 20px; }
+            .current-section { left: 20px; }
+            .scroll-cta { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="noise"></div>
+
+    <!-- FIXED BACKGROUND -->
+    <div class="bg-fixed">
+        <img src="assets/meditation-bg.png" alt="">
+    </div>
+
+    <!-- NAV -->
+    <nav class="nav">
+        <a href="index.html">Index</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <!-- PROGRESS -->
+    <div class="progress">
+        <div class="progress-dot active" data-index="0"></div>
+        <div class="progress-dot" data-index="1"></div>
+        <div class="progress-dot" data-index="2"></div>
+        <div class="progress-dot" data-index="3"></div>
+        <div class="progress-dot" data-index="4"></div>
+    </div>
+
+    <!-- CURRENT SECTION -->
+    <div class="current-section">
+        <span class="current-num">01</span>
+        <span class="current-total">/ 05</span>
+    </div>
+
+    <!-- SCROLL CTA -->
+    <div class="scroll-cta">
+        <span>Scroll</span>
+        <div class="scroll-mouse">
+            <div class="scroll-wheel"></div>
+        </div>
+    </div>
+
+    <!-- PANELS -->
+    <section class="panel" data-index="0">
+        <div class="panel-content">
+            <div class="panel-num">01</div>
+            <div class="panel-label">
+                <div class="panel-label-line"></div>
+                <span class="panel-label-text">Identity</span>
+            </div>
+            <h2 class="panel-title">
+                <span class="line"><span class="line-inner">Frequency</span></span>
+                <span class="line"><span class="line-inner">Practitioner</span></span>
+            </h2>
+            <p class="panel-body">I'm Eugene Mierak, specializing in <span class="hl">alignment caching</span>, coherence training, and energetic training to support clarity, stability, and <span class="hl">conscious evolution</span>.</p>
+        </div>
+    </section>
+
+    <section class="panel" data-index="1">
+        <div class="panel-content">
+            <div class="panel-num">02</div>
+            <div class="panel-label">
+                <div class="panel-label-line"></div>
+                <span class="panel-label-text">The Bridge</span>
+            </div>
+            <h2 class="panel-title">
+                <span class="line"><span class="line-inner">Resonance &</span></span>
+                <span class="line"><span class="line-inner">Alignment</span></span>
+            </h2>
+            <p class="panel-body">Bridging <span class="hl">subtle frequency sciences</span> with practical frameworks for personal, organizational, and planetary alignment—cultivating <span class="hl">resonance</span> in decisions.</p>
+        </div>
+    </section>
+
+    <section class="panel" data-index="2">
+        <div class="panel-content">
+            <div class="panel-num">03</div>
+            <div class="panel-label">
+                <div class="panel-label-line"></div>
+                <span class="panel-label-text">Global Impact</span>
+            </div>
+            <h2 class="panel-title">
+                <span class="line"><span class="line-inner">SBDI</span></span>
+                <span class="line"><span class="line-inner">Foundation</span></span>
+            </h2>
+            <p class="panel-body">As Director of International Relationships, fostering global partnerships for <span class="hl">holistic sustainability</span> and regenerative development across cultures.</p>
+        </div>
+    </section>
+
+    <section class="panel" data-index="3">
+        <div class="panel-content">
+            <div class="panel-num">04</div>
+            <div class="panel-label">
+                <div class="panel-label-line"></div>
+                <span class="panel-label-text">Philosophy</span>
+            </div>
+            <h2 class="panel-title">
+                <span class="line"><span class="line-inner">Systems</span></span>
+                <span class="line"><span class="line-inner">Thinking</span></span>
+            </h2>
+            <p class="panel-body">Grounded in <span class="hl">systems thinking</span>, emphasizing resonance, long-term balance, and alignment between human potential and ecological responsibility.</p>
+        </div>
+    </section>
+
+    <section class="panel" data-index="4">
+        <div class="panel-content">
+            <div class="panel-num">05</div>
+            <div class="panel-label">
+                <div class="panel-label-line"></div>
+                <span class="panel-label-text">Mission</span>
+            </div>
+            <h2 class="panel-title">
+                <span class="line"><span class="line-inner">Conscious</span></span>
+                <span class="line"><span class="line-inner">Impact</span></span>
+            </h2>
+            <p class="panel-body">Supporting sustainable projects through <span class="hl">frequency awareness</span> and strategic alignment—creating lasting impact for <span class="hl">communities and the planet</span>.</p>
+        </div>
+    </section>
+
+    <!-- GSAP + ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+        const panels = gsap.utils.toArray('.panel');
+        const dots = document.querySelectorAll('.progress-dot');
+        const currentNum = document.querySelector('.current-num');
+        let currentIndex = 0;
+        let isScrolling = false;
+
+        // Animate first panel on load
+        window.addEventListener('load', () => {
+            const first = panels[0];
+            animatePanel(first);
+        });
+
+        // Create ScrollTrigger for each panel
+        panels.forEach((panel, i) => {
+            ScrollTrigger.create({
+                trigger: panel,
+                start: 'top center',
+                end: 'bottom center',
+                onEnter: () => updateSection(i),
+                onEnterBack: () => updateSection(i)
+            });
+        });
+
+        // Snap scrolling
+        ScrollTrigger.create({
+            snap: {
+                snapTo: 1 / (panels.length - 1),
+                duration: { min: 0.3, max: 0.8 },
+                delay: 0.1,
+                ease: 'power2.inOut'
+            }
+        });
+
+        function updateSection(index) {
+            if (currentIndex === index) return;
+
+            // Reset previous panel
+            const prevPanel = panels[currentIndex];
+            resetPanel(prevPanel);
+
+            // Update current
+            currentIndex = index;
+
+            // Update UI
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            currentNum.textContent = String(index + 1).padStart(2, '0');
+
+            // Animate new panel
+            animatePanel(panels[index]);
+        }
+
+        function animatePanel(panel) {
+            const label = panel.querySelector('.panel-label');
+            const titleLines = panel.querySelectorAll('.line-inner');
+            const body = panel.querySelector('.panel-body');
+            const num = panel.querySelector('.panel-num');
+
+            const tl = gsap.timeline();
+
+            tl.fromTo(num,
+                { opacity: 0 },
+                { opacity: 1, duration: 0.6, ease: 'power2.out' },
+                0
+            );
+
+            tl.fromTo(label,
+                { opacity: 0, x: -30 },
+                { opacity: 1, x: 0, duration: 0.6, ease: 'power3.out' },
+                0.1
+            );
+
+            tl.fromTo(titleLines,
+                { y: '100%' },
+                { y: '0%', duration: 0.8, stagger: 0.1, ease: 'power3.out' },
+                0.2
+            );
+
+            tl.fromTo(body,
+                { opacity: 0, y: 30 },
+                { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' },
+                0.5
+            );
+        }
+
+        function resetPanel(panel) {
+            const label = panel.querySelector('.panel-label');
+            const titleLines = panel.querySelectorAll('.line-inner');
+            const body = panel.querySelector('.panel-body');
+            const num = panel.querySelector('.panel-num');
+
+            gsap.set([label, body], { opacity: 0 });
+            gsap.set(titleLines, { y: '100%' });
+            gsap.set(num, { opacity: 0 });
+        }
+
+        // Click on dots
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                gsap.to(window, {
+                    scrollTo: { y: panels[i], autoKill: false },
+                    duration: 1,
+                    ease: 'power2.inOut'
+                });
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' && currentIndex < panels.length - 1) {
+                gsap.to(window, {
+                    scrollTo: { y: panels[currentIndex + 1], autoKill: false },
+                    duration: 1,
+                    ease: 'power2.inOut'
+                });
+            }
+            if (e.key === 'ArrowUp' && currentIndex > 0) {
+                gsap.to(window, {
+                    scrollTo: { y: panels[currentIndex - 1], autoKill: false },
+                    duration: 1,
+                    ease: 'power2.inOut'
+                });
+            }
+        });
+    </script>
+</body>
+</html>

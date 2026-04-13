@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNISMA — Universitas Malang | Eugene Mierak</title>
+    <meta name="description"
+        content="UNISMA — Universitas Malang. Fully funded KNB Scholarships for international students. Education, culture, and sustainable development in the heart of East Java, Indonesia.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Tangerine:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --unisma-dark: #005F11;
+            --unisma-primary: #33A38B;
+            --unisma-accent: #33A38B;
+            --unisma-light: #2CE251;
+            --unisma-cream: #E8FFED;
+            --unisma-gold: #FFD700;
+            --bg-dark: #0a0f0a;
+            --bg-section: #0d120d;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.75);
+            --text-muted: rgba(255, 255, 255, 0.5);
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-primary);
+            background: var(--bg-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ===== TOP NAV BANNER ===== */
+        .top-nav-banner {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 48px;
+            background: rgba(8, 12, 8, 0.97);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            overflow: visible !important;
+        }
+
+        .top-nav-container {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow: visible !important;
+        }
+        .top-nav-brand {
+            font-family: 'Playfair Display', serif; font-size: 1.1rem;
+            font-style: italic; color: white; font-weight: 500;
+            text-decoration: none; white-space: nowrap;
+        }
+
+        .top-nav-links {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .top-nav-link {
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .top-nav-link:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .partners-dropdown-container {
+            position: relative;
+        }
+
+        .top-nav-partners-btn {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #38bdf8, #06b6d4);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .top-nav-partners-btn:hover,
+        .top-nav-partners-btn[aria-expanded="true"] {
+            background: linear-gradient(135deg, #0284c7, #0891b2);
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+        }
+
+        .partners-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 12px;
+            width: 240px;
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            padding: 6px;
+            display: none;
+            flex-direction: column;
+            gap: 2px;
+            z-index: 1010;
+            animation: dropdownPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .partners-dropdown-menu.active { display: flex; }
+
+        @keyframes dropdownPop {
+            from { opacity: 0; transform: scale(0.95) translateY(-5px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .partners-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .partners-dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(2px);
+        }
+
+        .partner-icon-img {
+            height: 28px;
+            width: auto;
+            max-width: 40px;
+            object-fit: contain;
+            filter: brightness(1.1);
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px; height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 10001;
+        }
+
+        .mobile-menu-btn span {
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 868px) {
+            .mobile-menu-btn { display: flex; }
+            .top-nav-links {
+                display: none;
+                position: fixed;
+                top: 48px; left: 0; right: 0; bottom: 0;
+                background: rgba(8, 12, 8, 0.98);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                z-index: 10000;
+            }
+            .top-nav-links.active { display: flex; }
+        }
+
+        /* ===== MOBILE NAVBAR ===== */
+        .mobile-nav-bar {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 9999;
+            background: rgba(8, 12, 8, 0.97);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            height: 48px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+        }
+        .mobile-nav-bar .nav-links { display: flex; align-items: center; gap: 4px; }
+        .mobile-nav-bar .nav-link {
+            font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,0.7);
+            padding: 6px 10px; border-radius: 6px; white-space: nowrap;
+            text-decoration: none; transition: color 0.2s, background 0.2s;
+        }
+        .mobile-nav-bar .nav-link:active { color: #fff; background: rgba(255,255,255,0.08); }
+        .mobile-nav-bar .nav-partners-btn {
+            display: flex; align-items: center; gap: 6px; padding: 6px 12px;
+            border-radius: 6px; background: linear-gradient(135deg, #38bdf8, #06b6d4);
+            border: none; color: #fff; font-family: inherit; font-size: 11px;
+            font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+            cursor: pointer;
+        }
+        .mobile-partners-panel {
+            display: none; position: fixed; top: 48px; right: 0; width: 220px;
+            background: rgba(8, 12, 8, 0.98); backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-top: none; border-radius: 0 0 0 14px; padding: 8px; z-index: 9998;
+            transform: translateY(-8px); opacity: 0; pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .mobile-partners-panel.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .mobile-partners-panel a {
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+            border-radius: 8px; font-size: 12px; font-weight: 600;
+            color: rgba(255,255,255,0.75); text-decoration: none;
+        }
+        .mobile-partners-panel a:active { background: rgba(255,255,255,0.08); }
+        .mobile-partners-panel img { height: 22px; width: auto; object-fit: contain; filter: brightness(1.3); }
+        .mobile-partners-overlay { display: none; position: fixed; inset: 0; z-index: 9997; }
+        .mobile-partners-overlay.open { display: block; }
+
+        @media (max-width: 992px) {
+            .top-nav-banner { display: none !important; }
+            .mobile-nav-bar { display: flex; }
+            .mobile-partners-panel { display: block; }
+        }
+
+        /* ===== FADE ANIMATIONS ===== */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .fade-left { opacity:0; transform:translateX(-40px); transition:opacity .7s ease, transform .7s ease; }
+        .fade-left.visible { opacity:1; transform:translateX(0); }
+        .fade-right { opacity:0; transform:translateX(40px); transition:opacity .7s ease, transform .7s ease; }
+        .fade-right.visible { opacity:1; transform:translateX(0); }
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+
+        /* ===== FLOATING PARTICLES ===== */
+        .particles { position:absolute; inset:0; overflow:hidden; z-index:0; pointer-events:none; }
+        .particle { position:absolute; width:4px; height:4px; background:var(--unisma-accent); border-radius:50%; opacity:0.15; animation:floatUp linear infinite; }
+        @keyframes floatUp {
+            0% { transform:translateY(100vh) scale(0); opacity:0; }
+            10% { opacity:0.2; }
+            90% { opacity:0.1; }
+            100% { transform:translateY(-10vh) scale(1); opacity:0; }
+        }
+
+        /* ===== COUNTER STATS ===== */
+        .counter-section { background:var(--unisma-primary); padding:3rem 2rem; position:relative; overflow:hidden; }
+        .counter-section::before { content:''; position:absolute; inset:0; background:url('https://unisma.ac.id/wp-content/uploads/2024/10/IMG-20240925-WA0046.jpg') center/cover; opacity:0.1; }
+        .counter-grid { display:flex; justify-content:center; gap:3rem; flex-wrap:wrap; position:relative; z-index:1; max-width:900px; margin:0 auto; }
+        .counter-item { text-align:center; min-width:120px; }
+        .counter-num { font-family:'Montserrat','Inter',sans-serif; font-size:2.5rem; font-weight:700; color:#fff; }
+        .counter-label { font-size:0.8rem; color:rgba(255,255,255,0.85); margin-top:4px; font-weight:500; }
+
+        /* ===== CAMPUS GALLERY ===== */
+        .gallery-section { background:linear-gradient(180deg, #0a0f0a, var(--bg-section)); overflow:hidden; }
+        .gallery-track { display:flex; gap:1rem; animation:scrollGallery 30s linear infinite; width:max-content; }
+        .gallery-track:hover { animation-play-state:paused; }
+        .gallery-img { height:220px; border-radius:12px; object-fit:cover; flex-shrink:0; transition:transform .3s ease; }
+        .gallery-img:hover { transform:scale(1.03); }
+        @keyframes scrollGallery {
+            0% { transform:translateX(0); }
+            100% { transform:translateX(-50%); }
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 48px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(51, 163, 139, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 30%, rgba(255, 215, 0, 0.06) 0%, transparent 50%),
+                linear-gradient(180deg, var(--bg-dark) 0%, rgba(10, 20, 10, 0.95) 100%);
+            z-index: 1;
+        }
+
+        .hero-bg-img {
+            position: absolute;
+            inset: 0;
+            background: url('assets/optimized/knb_unisma.800w.webp') center/cover no-repeat;
+            opacity: 0.12;
+            filter: blur(2px);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 800px;
+            padding: 4rem 2rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(46, 125, 50, 0.15);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            padding: 10px 24px;
+            border-radius: 50px;
+            margin-bottom: 30px;
+        }
+
+        .hero-badge-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--unisma-accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.2); }
+        }
+
+        .hero-badge span {
+            color: var(--unisma-accent);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--unisma-gold), #FFF176);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.35rem;
+            font-weight: 400;
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .hero-desc {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--unisma-primary), var(--unisma-accent));
+            color: white;
+            box-shadow: 0 4px 20px rgba(46, 125, 50, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(46, 125, 50, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 1.5px solid rgba(255, 255, 255, 0.35);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* ===== SECTION COMMON ===== */
+        .section {
+            padding: 6rem 2rem;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--unisma-accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .section-rule {
+            width: 48px;
+            height: 1px;
+            background: rgba(76, 175, 80, 0.4);
+            margin: 1.25rem auto 0;
+        }
+
+        /* ===== ABOUT ===== */
+        .about-section {
+            background: linear-gradient(180deg, var(--bg-dark), var(--bg-section));
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .about-img-wrap {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .about-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 1.25rem;
+            background: rgba(76, 175, 80, 0.06);
+            border: 1px solid rgba(76, 175, 80, 0.15);
+            border-radius: 12px;
+        }
+
+        .stat-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--unisma-accent);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        /* ===== SCHOLARSHIP ===== */
+        .scholarship-section {
+            background: linear-gradient(180deg, var(--bg-section), #0a1510);
+        }
+
+        .scholarship-card {
+            max-width: 900px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(46, 125, 50, 0.08), rgba(76, 175, 80, 0.04));
+            border: 1px solid rgba(76, 175, 80, 0.2);
+            border-radius: 24px;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scholarship-card::before {
+            content: '🎓';
+            position: absolute;
+            top: -20px;
+            right: -10px;
+            font-size: 8rem;
+            opacity: 0.05;
+            pointer-events: none;
+        }
+
+        .scholarship-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .scholarship-card .tag {
+            display: inline-block;
+            background: var(--unisma-primary);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+        }
+
+        .scholarship-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.25rem;
+            margin: 1.5rem 0 2rem;
+        }
+
+        .scholarship-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .scholarship-item .icon {
+            font-size: 1.4rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .scholarship-item .label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .scholarship-item .label strong {
+            display: block;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+
+        .scholarship-degrees {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .degree-badge {
+            padding: 10px 20px;
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.25);
+            border-radius: 12px;
+            color: var(--unisma-light);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* ===== PROGRAMS ===== */
+        .programs-section {
+            background: linear-gradient(180deg, #0a1510, var(--bg-section));
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .program-card {
+            padding: 2rem 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .program-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(76, 175, 80, 0.3);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .program-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .program-card h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .program-card p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* ===== WHY MALANG ===== */
+        .malang-section {
+            background: linear-gradient(180deg, var(--bg-section), #0a0f0a);
+        }
+
+        .malang-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .malang-card {
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(200, 169, 110, 0.04), rgba(200, 169, 110, 0.01));
+            border: 1px solid rgba(200, 169, 110, 0.15);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .malang-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(200, 169, 110, 0.3);
+        }
+
+        .malang-card h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--unisma-gold);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .malang-card p {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+        }
+
+        /* ===== CTA ===== */
+        .cta-section {
+            background: linear-gradient(135deg, var(--unisma-dark), #1a3a1a);
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 550px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-contacts {
+            margin-top: 2.5rem;
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-contact {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .cta-contact strong {
+            color: white;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .footer a {
+            color: var(--unisma-accent);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .about-stats {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.75rem;
+            }
+
+            .stat-box {
+                padding: 1rem 0.5rem;
+            }
+
+            .stat-num {
+                font-size: 1.3rem;
+            }
+
+            .scholarship-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .scholarship-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 4rem 1.25rem;
+            }
+
+            .hero {
+                min-height: 90vh;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ============ MOBILE NAVBAR ============ -->
+    <nav class="mobile-nav-bar">
+        <div class="nav-links">
+            <a href="mobile.html" class="nav-link">Home</a>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="event.html" class="nav-link">Events</a>
+        </div>
+        <button class="nav-partners-btn" id="mobilePartnersBtn" aria-expanded="false" aria-label="Partners menu">
+            Partners
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+        </button>
+    </nav>
+    <div class="mobile-partners-overlay" id="mobilePartnersOverlay"></div>
+    <div class="mobile-partners-panel" id="mobilePartnersPanel">
+        <a href="vegaqura.html"><img src="assets/optimized/logo-vegaqura.480w.webp" alt="Vegaqura" loading="lazy" decoding="async"> Vegaqura</a>
+        <a href="sdbi-center.html"><img src="assets/logo-sbdi.webp" alt="SBDI" loading="lazy" decoding="async"> SBDI Center</a>
+        <a href="wiseuse.html"><img src="assets/optimized/wiseuse-pyramid.171w.webp" alt="WiseUse" loading="lazy" decoding="async"> WiseUse International</a>
+        <a href="eko-vitaris.html"><img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" loading="lazy" decoding="async"> Eko Vitaris</a>
+        <a href="mariposa-batu.html"><img src="assets/optimized/mariposa_batu.800w.webp" alt="Mariposa Batu" loading="lazy" style="border-radius:4px;" decoding="async"> Mariposa Batu</a>
+        <a href="biozar-venezuela.html"><img src="assets/optimized/logo-biozar.340w.webp" alt="Biozar" loading="lazy" decoding="async"> Biozar Venezuela</a>
+    </div>
+
+    <!-- ============ DESKTOP NAV ============ -->
+    <nav class="top-nav-banner">
+        <div class="top-nav-container">
+            <a href="index.html" class="top-nav-brand">Frequency Vibes&trade;</a>
+            <div class="top-nav-links">
+                <a href="index.html" class="top-nav-link">Home</a>
+                <a href="projects.html" class="top-nav-link">Projects</a>
+                <a href="index.html#contact" class="top-nav-link">Get in Touch</a>
+                <div class="partners-dropdown-container desktop-only">
+                    <button class="top-nav-link top-nav-partners-btn" id="partnersBtn" aria-expanded="false">
+                        PARTNERS
+                        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left: 6px;">
+                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <div class="partners-dropdown-menu" id="partnersDropdown">
+                        <a href="vegaqura.html" class="partners-dropdown-item"><img src="assets/optimized/logo-vegaqura.480w.webp" alt="Vegaqura" class="partner-icon-img" loading="lazy" decoding="async"> Vegaqura</a>
+                        <a href="sdbi-center.html" class="partners-dropdown-item"><img src="assets/logo-sbdi.webp" alt="SBDI" class="partner-icon-img" loading="lazy" decoding="async"> SBDI Center</a>
+                        <a href="wiseuse.html" class="partners-dropdown-item"><img src="assets/optimized/wiseuse-pyramid.171w.webp" alt="WiseUse" class="partner-icon-img" loading="lazy" decoding="async"> WiseUse International</a>
+                        <a href="eko-vitaris.html" class="partners-dropdown-item"><img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-icon-img" loading="lazy" decoding="async"> Eko Vitaris</a>
+                        <a href="mariposa-batu.html" class="partners-dropdown-item"><img src="assets/optimized/logo-mariposa-batu.480w.webp" alt="Mariposa Batu" class="partner-icon-img" style="border-radius: 4px;" loading="lazy" decoding="async"> Mariposa Batu</a>
+                        <a href="biozar-venezuela.html" class="partners-dropdown-item"><img src="assets/optimized/logo-biozar.340w.webp" alt="Biozar" class="partner-icon-img" loading="lazy" decoding="async"> Biozar Venezuela</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+        <div class="hero-bg-img"></div>
+        <div class="particles" id="heroParticles"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <div class="hero-badge-dot"></div>
+                <span>Education Partner</span>
+            </div>
+            <h1><span class="highlight">UNISMA</span> — Universitas Malang</h1>
+            <p class="hero-subtitle">Empowering global minds through education, culture &amp; sustainable development</p>
+            <p class="hero-desc">
+                A globally ranked university in East Java, Indonesia, offering fully funded KNB Scholarships to international students from developing countries.
+            </p>
+            <div class="hero-buttons">
+                <a href="#scholarship" class="btn btn-primary">Explore Scholarship</a>
+                <a href="https://unisma.ac.id" target="_blank" rel="noopener" class="btn btn-outline">Visit UNISMA ↗</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section class="section about-section" id="about">
+        <div class="container">
+            <div class="about-grid fade-up">
+                <div class="about-img-wrap">
+                    <img src="https://unisma.ac.id/wp-content/uploads/2024/03/students_compress.jpeg" alt="UNISMA Students" loading="lazy" decoding="async">
+                </div>
+                <div class="about-text">
+                    <span class="section-label">About the University</span>
+                    <h3>A Leading University in Indonesia</h3>
+                    <p>
+                        UNISMA (Universitas Malang) is a prestigious university located in Malang, East Java, Indonesia. Founded under the Nahdlatul Ulama (NU) tradition, it combines modern academic excellence with strong cultural values.
+                    </p>
+                    <p>
+                        With "Unggul" (Excellent) accreditation from BAN-PT and international ASIIN & FIBAA accreditations, UNISMA is recognized globally for its commitment to quality education, research, and community empowerment.
+                    </p>
+                    <div class="about-stats">
+                        <div class="stat-box">
+                            <span class="stat-num">Unggul</span>
+                            <span class="stat-label">BAN-PT Rating</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-num">ASIIN</span>
+                            <span class="stat-label">Accredited</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-num">Asia</span>
+                            <span class="stat-label">QS Ranked</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ANIMATED COUNTER BAR ===== -->
+    <section class="counter-section">
+        <div class="counter-grid">
+            <div class="counter-item fade-up stagger-1">
+                <div class="counter-num" data-target="10">0</div>
+                <div class="counter-label">Faculties</div>
+            </div>
+            <div class="counter-item fade-up stagger-2">
+                <div class="counter-num" data-target="40" data-suffix="+">0</div>
+                <div class="counter-label">Study Programs</div>
+            </div>
+            <div class="counter-item fade-up stagger-3">
+                <div class="counter-num" data-target="30000" data-suffix="+" data-step="500">0</div>
+                <div class="counter-label">Alumni</div>
+            </div>
+            <div class="counter-item fade-up stagger-4">
+                <div class="counter-num" data-target="50" data-suffix="+">0</div>
+                <div class="counter-label">Int'l Partners</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CAMPUS GALLERY ===== -->
+    <section class="section gallery-section" style="padding:3rem 0;">
+        <div class="container" style="margin-bottom:1.5rem;">
+            <div class="section-header fade-up" style="margin-bottom:1.5rem;">
+                <span class="section-label" style="color:var(--unisma-gold);">Campus Life</span>
+                <h2 class="section-title">Life at UNISMA</h2>
+            </div>
+        </div>
+        <div class="gallery-track">
+            <img class="gallery-img" src="https://unisma.ac.id/wp-content/uploads/2024/03/students_compress.jpeg" alt="UNISMA students" loading="lazy" decoding="async">
+            <img class="gallery-img" src="https://unisma.ac.id/wp-content/uploads/2025/11/anugerah_kemahaasiswaan_2025.jpg" alt="UNISMA awards" loading="lazy" decoding="async">
+            <img class="gallery-img" src="https://unisma.ac.id/wp-content/uploads/2024/10/IMG-20240923-WA0074.jpg" alt="UNISMA campus" loading="lazy" decoding="async">
+            <img class="gallery-img" src="https://unisma.ac.id/wp-content/uploads/2024/10/IMG-20240925-WA0046.jpg" alt="UNISMA campus" loading="lazy" decoding="async">
+            <img class="gallery-img" src="https://unisma.ac.id/wp-content/uploads/2025/02/WhatsApp-Image-2025-02-05-at-14.25.51.jpeg" alt="UNISMA event" loading="lazy" decoding="async">
+            <img class="gallery-img" src="https://unisma.ac.id/wp-content/uploads/2021/08/Mahasiswa-Unisma.jpg" alt="Mahasiswa Unisma" loading="lazy" decoding="async">
+            <img class="gallery-img" src="https://unisma.ac.id/wp-content/uploads/2025/11/wisuda_periode_77_tahun2025.jpg" alt="UNISMA graduation" loading="lazy" decoding="async">
+            <!-- duplicated for seamless loop -->
+            <img class="gallery-img" src="https://unisma.ac.id/wp-content/uploads/2024/03/students_compress.jpeg" alt="UNISMA students" loading="lazy" decoding="async">
+            <img class="gallery-img" src="https://unisma.ac.id/wp-content/uploads/2025/11/anugerah_kemahaasiswaan_2025.jpg" alt="UNISMA awards" loading="lazy" decoding="async">
+            <img class="gallery-img" src="https://unisma.ac.id/wp-content/uploads/2024/10/IMG-20240923-WA0074.jpg" alt="UNISMA campus" loading="lazy" decoding="async">
+            <img class="gallery-img" src="https://unisma.ac.id/wp-content/uploads/2024/10/IMG-20240925-WA0046.jpg" alt="UNISMA campus" loading="lazy" decoding="async">
+            <img class="gallery-img" src="https://unisma.ac.id/wp-content/uploads/2025/02/WhatsApp-Image-2025-02-05-at-14.25.51.jpeg" alt="UNISMA event" loading="lazy" decoding="async">
+            <img class="gallery-img" src="https://unisma.ac.id/wp-content/uploads/2021/08/Mahasiswa-Unisma.jpg" alt="Mahasiswa Unisma" loading="lazy" decoding="async">
+            <img class="gallery-img" src="https://unisma.ac.id/wp-content/uploads/2025/11/wisuda_periode_77_tahun2025.jpg" alt="UNISMA graduation" loading="lazy" decoding="async">
+        </div>
+    </section>
+
+    <!-- ===== SCHOLARSHIP ===== -->
+    <section class="section scholarship-section" id="scholarship">
+        <div class="container">
+            <div class="section-header fade-up">
+                <span class="section-label">Fully Funded Opportunity</span>
+                <h2 class="section-title">KNB Scholarship 2026</h2>
+                <p class="section-subtitle">
+                    The Indonesian Government Scholarship (KNB) covers everything — tuition, living costs, flights, and health insurance for international students.
+                </p>
+                <div class="section-rule"></div>
+            </div>
+
+            <div class="scholarship-card fade-up">
+                <span class="tag">Fully Funded</span>
+                <h3>Scholarship Coverage</h3>
+
+                <div class="scholarship-grid">
+                    <div class="scholarship-item">
+                        <span class="icon">📚</span>
+                        <div class="label"><strong>Tuition Fee</strong>Full academic tuition covered for the entire program</div>
+                    </div>
+                    <div class="scholarship-item">
+                        <span class="icon">🏠</span>
+                        <div class="label"><strong>Living Allowance</strong>Monthly stipend for housing and daily expenses</div>
+                    </div>
+                    <div class="scholarship-item">
+                        <span class="icon">✈️</span>
+                        <div class="label"><strong>Round-Trip Flights</strong>Economy class tickets from your country to Indonesia</div>
+                    </div>
+                    <div class="scholarship-item">
+                        <span class="icon">🩺</span>
+                        <div class="label"><strong>Health Insurance</strong>Comprehensive medical coverage throughout your stay</div>
+                    </div>
+                    <div class="scholarship-item">
+                        <span class="icon">🔬</span>
+                        <div class="label"><strong>Research Allowance</strong>Book and research publication support</div>
+                    </div>
+                    <div class="scholarship-item">
+                        <span class="icon">🤝</span>
+                        <div class="label"><strong>Settlement Allowance</strong>Initial settlement support upon arrival</div>
+                    </div>
+                </div>
+
+                <h4 style="font-family:'Inter',sans-serif;font-size:0.9rem;font-weight:600;color:var(--text-secondary);margin-bottom:0.75rem;">Available Degree Levels</h4>
+                <div class="scholarship-degrees">
+                    <div class="degree-badge">🎓 Undergraduate — 1yr Bahasa + 4yrs</div>
+                    <div class="degree-badge">📖 Master — 1yr Bahasa + 2yrs</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PROGRAMS ===== -->
+    <section class="section programs-section" id="programs">
+        <div class="container">
+            <div class="section-header fade-up">
+                <span class="section-label">Academic Excellence</span>
+                <h2 class="section-title">Key Faculties &amp; Programs</h2>
+                <p class="section-subtitle">UNISMA offers over 40 study programs across 10 faculties, blending modern science with cultural scholarship.</p>
+                <div class="section-rule"></div>
+            </div>
+
+            <div class="programs-grid fade-up">
+                <div class="program-card">
+                    <div class="program-icon">⚕️</div>
+                    <h4>Faculty of Medicine</h4>
+                    <p>Medical science with clinical training and community health approach.</p>
+                </div>
+                <div class="program-card">
+                    <div class="program-icon">⚙️</div>
+                    <h4>Engineering</h4>
+                    <p>Civil, electrical, and industrial engineering with hands-on projects.</p>
+                </div>
+                <div class="program-card">
+                    <div class="program-icon">🌾</div>
+                    <h4>Agriculture</h4>
+                    <p>Sustainable farming, agribusiness, and food technology programs.</p>
+                </div>
+                <div class="program-card">
+                    <div class="program-icon">📊</div>
+                    <h4>Economics &amp; Business</h4>
+                    <p>Management, accounting, and economics for global markets.</p>
+                </div>
+                <div class="program-card">
+                    <div class="program-icon">📖</div>
+                    <h4>Cultural Studies</h4>
+                    <p>Education, philosophy, and cultural heritage programs.</p>
+                </div>
+                <div class="program-card">
+                    <div class="program-icon">👩‍🏫</div>
+                    <h4>Education</h4>
+                    <p>Teacher training programs including the national PPG certification.</p>
+                </div>
+                <div class="program-card">
+                    <div class="program-icon">⚖️</div>
+                    <h4>Law</h4>
+                    <p>Legal studies with focus on Indonesian and international law.</p>
+                </div>
+                <div class="program-card">
+                    <div class="program-icon">🐟</div>
+                    <h4>Animal Husbandry &amp; Fisheries</h4>
+                    <p>Aquaculture, fisheries management, and livestock science.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== WHY MALANG ===== -->
+    <section class="section malang-section" id="malang">
+        <div class="container">
+            <div class="section-header fade-up">
+                <span class="section-label" style="color: var(--unisma-gold);">Discover Malang</span>
+                <h2 class="section-title">Why Study in Malang?</h2>
+                <p class="section-subtitle">Nestled between sacred volcanoes and lush highlands, Malang offers the perfect blend of academic life, culture, and natural beauty.</p>
+                <div class="section-rule" style="background: rgba(200, 169, 110, 0.4);"></div>
+            </div>
+
+            <div class="malang-grid fade-up">
+                <div class="malang-card">
+                    <h4>🌋 Sacred Mountains</h4>
+                    <p>Surrounded by Mount Bromo, Semeru, Arjuna, and Gunung Kawi — some of Indonesia's most iconic volcanic landscapes. Perfect for weekend exploration.</p>
+                </div>
+                <div class="malang-card">
+                    <h4>💰 Affordable Living</h4>
+                    <p>One of the most affordable cities in Java for students. Delicious local food, comfortable housing, and transportation at a fraction of big-city costs.</p>
+                </div>
+                <div class="malang-card">
+                    <h4>🌿 Cool Highland Climate</h4>
+                    <p>At 440m altitude, Malang enjoys cooler temperatures than most Indonesian cities — ideal for focused studying and comfortable daily life.</p>
+                </div>
+                <div class="malang-card">
+                    <h4>🎭 Rich Cultural Heritage</h4>
+                    <p>A city where Javanese and Dutch colonial heritage converge. Temples, traditions, and a vibrant arts scene define everyday life.</p>
+                </div>
+                <div class="malang-card">
+                    <h4>🎓 Student City</h4>
+                    <p>Home to over 80 higher education institutions. A true student city with cafés, co-working spaces, and a thriving academic community.</p>
+                </div>
+                <div class="malang-card">
+                    <h4>🌏 Gateway to East Java</h4>
+                    <p>Strategic access to Bali, Surabaya, and the stunning beaches of East Java's southern coast. International airport with growing connectivity.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="cta-section" id="apply">
+        <h2>Start Your Journey at UNISMA</h2>
+        <p>Applications for the KNB Scholarship 2026 are open. Take the first step towards world-class education in the heart of Indonesia.</p>
+        <div class="cta-buttons">
+            <a href="https://knb.kemdiktisaintek.go.id" target="_blank" rel="noopener" class="btn btn-primary">Apply via KNB Portal ↗</a>
+            <a href="assets/pdfs/Booklet_KNB_UNISMA_2026.pdf" target="_blank" class="btn btn-outline">Download Booklet (PDF)</a>
+            <a href="projects.html" class="btn btn-outline">← Back to Projects</a>
+        </div>
+        <div class="cta-contacts">
+            <div class="cta-contact"><strong>Saiful</strong> — +62 85230665099</div>
+            <div class="cta-contact"><strong>Berliana</strong> — +62 85235239009</div>
+            <div class="cta-contact"><strong>Erfan Efendi</strong> — +62 8819335955</div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p>UNISMA — Universitas Malang · dari NU untuk Indonesia dan Peradaban Dunia · <a href="https://unisma.ac.id" target="_blank" rel="noopener">unisma.ac.id</a></p>
+    </footer>
+
+    <script>
+        // ====== Partners Dropdown (Desktop) ======
+        (function () {
+            var btn = document.getElementById('partnersBtn');
+            var dd = document.getElementById('partnersDropdown');
+            if (!btn || !dd) return;
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                var open = dd.classList.toggle('active');
+                btn.setAttribute('aria-expanded', open);
+            });
+            document.addEventListener('click', function (e) {
+                if (!dd.contains(e.target) && !btn.contains(e.target)) {
+                    dd.classList.remove('active');
+                    btn.setAttribute('aria-expanded', 'false');
+                }
+            });
+        })();
+
+        // ====== Mobile Partners Dropdown ======
+        (function () {
+            var btn = document.getElementById('mobilePartnersBtn');
+            var panel = document.getElementById('mobilePartnersPanel');
+            var overlay = document.getElementById('mobilePartnersOverlay');
+            if (!btn || !panel) return;
+            function toggle() {
+                var open = panel.classList.toggle('open');
+                overlay.classList.toggle('open', open);
+                btn.setAttribute('aria-expanded', open);
+            }
+            function close() {
+                panel.classList.remove('open');
+                overlay.classList.remove('open');
+                btn.setAttribute('aria-expanded', 'false');
+            }
+            btn.addEventListener('click', toggle);
+            overlay.addEventListener('click', close);
+            panel.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', close); });
+        })();
+
+        // ====== Fade animations on scroll ======
+        (function () {
+            var els = document.querySelectorAll('.fade-up,.fade-left,.fade-right');
+            if (!els.length) return;
+            var obs = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e) {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('visible');
+                        obs.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+            els.forEach(function (el) { obs.observe(el); });
+        })();
+
+        // ====== Floating Particles ======
+        (function () {
+            var c = document.getElementById('heroParticles');
+            if (!c) return;
+            for (var i = 0; i < 20; i++) {
+                var p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (8 + Math.random() * 12) + 's';
+                p.style.animationDelay = (Math.random() * 8) + 's';
+                p.style.width = p.style.height = (2 + Math.random() * 4) + 'px';
+                c.appendChild(p);
+            }
+        })();
+
+        // ====== Animated Counters ======
+        (function () {
+            var counters = document.querySelectorAll('.counter-num[data-target]');
+            if (!counters.length) return;
+            var started = false;
+            var obs = new IntersectionObserver(function (entries) {
+                if (started) return;
+                entries.forEach(function (e) {
+                    if (!e.isIntersecting) return;
+                    started = true;
+                    counters.forEach(function (el) {
+                        var target = parseInt(el.getAttribute('data-target'));
+                        var suffix = el.getAttribute('data-suffix') || '';
+                        var step = parseInt(el.getAttribute('data-step')) || 1;
+                        var current = 0;
+                        var duration = 2000;
+                        var increment = Math.max(1, Math.ceil(target / (duration / 30)));
+                        if (step > 1) increment = step;
+                        var timer = setInterval(function () {
+                            current += increment;
+                            if (current >= target) {
+                                current = target;
+                                clearInterval(timer);
+                            }
+                            el.textContent = current.toLocaleString() + suffix;
+                        }, 30);
+                    });
+                    obs.disconnect();
+                });
+            }, { threshold: 0.3 });
+            counters.forEach(function (el) { obs.observe(el.closest('.counter-section') || el); });
+        })();
+
+        // ====== Mobile Menu ======
+        (function () {
+            var btn = document.querySelector('.mobile-menu-btn');
+            var links = document.querySelector('.top-nav-links');
+            if (!btn || !links) return;
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                btn.classList.toggle('active');
+                links.classList.toggle('active');
+            });
+        })();
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biozar Original | Eugene Mierak Wellness</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Biozar Original: Restore your immunity naturally. A 100% natural biological food supplement supporting immune, digestive, and nervous system balance.">
+    <meta name="keywords" content="Biozar, Original, Wellness, Natural Supplement, Holistic Health, Eugene Mierak">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Biozar Original">
+    <meta property="og:description" content="Restore your immunity naturally.">
+    <meta property="og:site_name" content="Biozar Original">
+    <meta name="theme-color" content="#fcfaf4">
+    <link rel="icon" type="image/webp" href="assets/optimized/favicon.480w.webp">
+
+    <!-- Fonts: Biozar Original NL uses Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================
+           BIOZAR ORIGINAL AESTHETIC (from biozar-original.nl)
+           Cream background, Burgundy/Magenta buttons,
+           Light-Green accent blocks.
+           ============================================ */
+
+        :root {
+            --biozar-bg: #fdfbf7;
+            --biozar-bg-grad: linear-gradient(180deg, #f0f4ec 0%, #f1ebe2 100%);
+            --biozar-bg-green: #edffa7;
+            --biozar-bg-green-grad: linear-gradient(0deg, #a4d24c 3%, #a0cac9 98%);
+            --biozar-card: #ffffff;
+            
+            --biozar-text: #2e2a39;
+            --biozar-text-muted: rgba(46, 42, 57, 0.7);
+            --biozar-border: rgba(46, 42, 57, 0.1);
+            
+            --biozar-primary: #9b046f;
+            --biozar-primary-hover: #7a0352;
+            --biozar-secondary: #5e3653;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--biozar-bg-grad);
+            color: var(--biozar-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .reveal {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.revealed { opacity: 1; transform: translateY(0); }
+
+        /* ===== TOP NAV BANNER FOR PORTFOLIO CONSISTENCY (Must remain dark) ===== */
+        .top-nav-banner {
+            position: fixed; top: 0; left: 0; right: 0; height: 48px;
+            background: rgba(8, 12, 20, 0.97);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 9999; display: flex; align-items: center;
+            overflow: visible !important;
+        }
+        .top-nav-container {
+            max-width: 1400px; width: 100%; margin: 0 auto; padding: 0 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            overflow: visible !important;
+        }
+        .top-nav-brand {
+            font-family: 'Playfair Display', serif; font-size: 1.1rem;
+            font-style: italic; color: white; font-weight: 500;
+            text-decoration: none; white-space: nowrap;
+        }
+        .top-nav-links { display: flex; gap: 0.5rem; align-items: center; }
+        .top-nav-link {
+            padding: 0.4rem 1rem; font-size: 0.8rem; font-weight: 600;
+            color: rgba(255, 255, 255, 0.75); text-decoration: none;
+            border-radius: 6px; transition: all 0.3s ease;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        .top-nav-link:hover { color: white; background: rgba(255, 255, 255, 0.1); }
+
+        .partners-dropdown-container { position: relative; }
+        .top-nav-partners-btn {
+            display: flex; align-items: center;
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+            color: white; border: none; cursor: pointer;
+        }
+        .top-nav-partners-btn:hover { background: linear-gradient(135deg, #0284c7 0%, #0891b2 100%); }
+        .partners-dropdown-menu {
+            position: absolute; top: 100%; right: 0; margin-top: 12px; width: 240px;
+            background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            padding: 6px; display: none; flex-direction: column; gap: 2px; z-index: 1010;
+        }
+        .partners-dropdown-menu.active { display: flex; }
+        .partners-dropdown-item {
+            display: flex; align-items: center; gap: 12px; padding: 10px 12px;
+            color: rgba(255, 255, 255, 0.8); text-decoration: none; font-size: 0.85rem;
+            font-weight: 500; border-radius: 8px; transition: all 0.2s ease;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        .partners-dropdown-item:hover { background: rgba(255, 255, 255, 0.1); color: white; }
+        .partner-icon-img { height: 28px; width: auto; max-width: 40px; object-fit: contain; filter: brightness(1.1); }
+
+        /* Mobile Nav */
+        .mobile-nav-bar {
+            display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+            background: rgba(8, 12, 20, 0.97); backdrop-filter: blur(12px);
+            height: 48px; align-items: center; justify-content: space-between; padding: 0 16px;
+        }
+        .mobile-nav-bar .nav-links { display: flex; align-items: center; gap: 4px; }
+        .mobile-nav-bar .nav-link {
+            font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,0.7);
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            padding: 6px 10px; border-radius: 6px; text-decoration: none;
+        }
+        .mobile-nav-bar .nav-partners-btn {
+            display: flex; align-items: center; gap: 6px; padding: 6px 12px;
+            border-radius: 6px; background: linear-gradient(135deg, #38bdf8, #06b6d4);
+            border: none; color: #fff; font-size: 11px;
+            font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; cursor: pointer;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        .mobile-partners-panel {
+            display: none; position: fixed; top: 48px; right: 0; width: 220px;
+            background: rgba(8, 12, 20, 0.98); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 0 0 0 14px; padding: 8px; z-index: 9998;
+        }
+        .mobile-partners-panel.open { display: block; }
+        .mobile-partners-panel a {
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+            border-radius: 8px; font-size: 12px; font-weight: 600;
+            color: rgba(255,255,255,0.75); text-decoration: none;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        .mobile-partners-panel img { height: 22px; width: auto; object-fit: contain; filter: brightness(1.3); }
+        .mobile-partners-overlay { display: none; position: fixed; inset: 0; z-index: 9997; }
+        .mobile-partners-overlay.open { display: block; }
+        
+        @media (max-width: 992px) {
+            .top-nav-banner { display: none !important; }
+            .mobile-nav-bar { display: flex; }
+        }
+
+        /* ===== BRAND LOGO HEADER ===== */
+        .brand-header {
+            text-align: center;
+            padding: 5rem 1rem 1rem;
+        }
+        .brand-header img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+        }
+
+        /* ===== HERO IMAGE WITH TEXT (Cloned from xxx.txt) ===== */
+        .hero-section {
+            padding: 3rem 2rem 5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .image-with-text-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            background: var(--biozar-bg-green-grad);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(162, 210, 76, 0.2);
+            animation: fadeInUp 0.8s ease both;
+        }
+        .image-container {
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+        }
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 50%;
+            display: block;
+        }
+        .text-container {
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .text-container h2 {
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 700;
+            color: var(--biozar-text);
+            line-height: 1.2;
+            margin-bottom: 2rem;
+        }
+        .btn-biozar-primary {
+            display: inline-flex;
+            align-items: center;
+            padding: 1.2rem 2.8rem;
+            background-color: var(--biozar-primary);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            border-radius: 12px;
+            transition: transform 0.3s ease, background 0.3s;
+            box-shadow: 0 8px 20px rgba(155, 4, 111, 0.3);
+        }
+        .btn-biozar-primary:hover {
+            background-color: var(--biozar-primary-hover);
+            transform: translateY(-2px);
+        }
+        .btn-biozar-secondary {
+            display: inline-flex;
+            align-items: center;
+            padding: 1.2rem 2.8rem;
+            background-color: transparent;
+            color: var(--biozar-text);
+            border: 1px solid var(--biozar-text);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        .btn-biozar-secondary:hover {
+            background-color: var(--biozar-text);
+            color: #fff;
+        }
+
+        @media (max-width: 900px) {
+            .image-with-text-grid {
+                grid-template-columns: 1fr;
+            }
+            .text-container {
+                padding: 3rem 1.5rem;
+                align-items: center;
+                text-align: center;
+            }
+        }
+
+        /* ===== VIDEO EMBED ===== */
+        .video-wrapper-section {
+            padding: 0 2rem 5rem;
+        }
+        .video-container {
+            max-width: 600px;
+            margin: 0 auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 24px 50px rgba(46, 42, 57, 0.15);
+            background: #000;
+        }
+        .video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* ===== INFORMATION COLUMNS (MULTICOLUMN) ===== */
+        .info-section {
+            background-color: var(--biozar-bg);
+            padding: 6rem 2rem;
+            border-top: 1px solid var(--biozar-border);
+        }
+        .info-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+        }
+        .info-card {
+            background: var(--biozar-card);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(46, 42, 57, 0.05);
+            border: 1px solid var(--biozar-border);
+        }
+        .info-card h3 {
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: var(--biozar-text);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+        .info-card h3 strong {
+            color: var(--biozar-primary);
+        }
+        .info-card p {
+            color: var(--biozar-text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+        .info-card a {
+            color: var(--biozar-text);
+            font-weight: 600;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+        .info-card a:hover {
+            color: var(--biozar-primary);
+        }
+        
+        @media (max-width: 900px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== PRODUCTS ===== */
+        .products-section {
+            padding: 5rem 2rem 7rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .products-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .products-header h2 {
+            font-size: 2.5rem;
+            color: var(--biozar-text);
+            margin-bottom: 1rem;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+        .product-card {
+            border-radius: 24px;
+            background: var(--biozar-card);
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s;
+            border: 1px solid var(--biozar-border);
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(46, 42, 57, 0.08);
+        }
+        .product-img-wrapper {
+            width: 100%;
+            height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        .product-img-wrapper img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+        .product-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--biozar-text);
+            margin-bottom: 0.5rem;
+        }
+        .product-price {
+            font-size: 1.1rem;
+            color: var(--biozar-primary);
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+        
+        @media (max-width: 900px) {
+            .products-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 600px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            padding: 5rem 2rem;
+            background-color: var(--biozar-bg);
+            border-top: 1px solid var(--biozar-border);
+            text-align: center;
+        }
+        .footer-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        .footer p {
+            color: var(--biozar-text-muted);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Mobile Nav -->
+    <nav class="mobile-nav-bar">
+        <div class="nav-links">
+            <a href="mobile.html" class="nav-link">Home</a>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="event.html" class="nav-link">Events</a>
+        </div>
+        <button class="nav-partners-btn" id="mobilePartnersBtn" aria-expanded="false">
+            Partners
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+    </nav>
+    <div class="mobile-partners-overlay" id="mobilePartnersOverlay"></div>
+    <div class="mobile-partners-panel" id="mobilePartnersPanel">
+        <a href="vegaqura.html"><img src="assets/optimized/logo-vegaqura.480w.webp" alt="Vegaqura" loading="lazy" decoding="async"> Vegaqura</a>
+        <a href="sdbi-center.html"><img src="assets/logo-sbdi.webp" alt="SBDI" loading="lazy" decoding="async"> SBDI Center</a>
+        <a href="wiseuse.html"><img src="assets/optimized/wiseuse-pyramid.171w.webp" alt="WiseUse" loading="lazy" decoding="async"> WiseUse International</a>
+        <a href="eko-vitaris.html"><img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" loading="lazy" decoding="async"> Eko Vitaris</a>
+        <a href="mariposa-batu.html"><img src="assets/optimized/logo-mariposa-batu.480w.webp" alt="Mariposa Batu" loading="lazy" style="border-radius:4px;" decoding="async"> Mariposa Batu</a>
+        <a href="biozar-venezuela.html"><img src="assets/optimized/logo-biozar.340w.webp" alt="Biozar" loading="lazy" decoding="async"> Biozar Venezuela</a>
+    </div>
+
+    <!-- Desktop Nav -->
+    <nav class="top-nav-banner">
+        <div class="top-nav-container">
+            <a href="index.html" class="top-nav-brand">Frequency Vibes&trade;</a>
+            <div class="top-nav-links">
+                <a href="index.html" class="top-nav-link">Home</a>
+                <a href="projects.html" class="top-nav-link">Explore Projects</a>
+                <a href="index.html#contact" class="top-nav-link">Get in Touch</a>
+                <div class="partners-dropdown-container">
+                    <button class="top-nav-link top-nav-partners-btn" id="partnersBtn" aria-expanded="false">
+                        PARTNERS
+                        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left: 6px;">
+                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <div class="partners-dropdown-menu" id="partnersDropdown">
+                        <a href="vegaqura.html" class="partners-dropdown-item"><img src="assets/optimized/logo-vegaqura.480w.webp" alt="Vegaqura" class="partner-icon-img" loading="lazy" decoding="async"> Vegaqura</a>
+                        <a href="sdbi-center.html" class="partners-dropdown-item"><img src="assets/logo-sbdi.webp" alt="SBDI" class="partner-icon-img" loading="lazy" decoding="async"> SBDI Center</a>
+                        <a href="wiseuse.html" class="partners-dropdown-item"><img src="assets/optimized/wiseuse-pyramid.171w.webp" alt="WiseUse" class="partner-icon-img" loading="lazy" decoding="async"> WiseUse International</a>
+                        <a href="eko-vitaris.html" class="partners-dropdown-item"><img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-icon-img" loading="lazy" decoding="async"> Eko Vitaris</a>
+                        <a href="mariposa-batu.html" class="partners-dropdown-item"><img src="assets/optimized/logo-mariposa-batu.480w.webp" alt="Mariposa Batu" class="partner-icon-img" style="border-radius:4px;" loading="lazy" decoding="async"> Mariposa Batu</a>
+                        <a href="biozar-venezuela.html" class="partners-dropdown-item"><img src="assets/optimized/logo-biozar.340w.webp" alt="Biozar" class="partner-icon-img" loading="lazy" decoding="async"> Biozar Venezuela</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Brand Logo -->
+    <header class="brand-header">
+        <a href="https://biozar-original.nl/" target="_blank">
+            <img src="https://biozar-original.nl/cdn/shop/files/logo.png?v=1687870431" alt="Biozar Original Logo" loading="eager" decoding="async">
+        </a>
+    </header>
+
+    <!-- Hero Image with Text -->
+    <section class="hero-section">
+        <div class="image-with-text-grid">
+            <div class="image-container">
+                <img src="https://biozar-original.nl/cdn/shop/files/header_bfbcdc9d-2cf7-4321-b9f5-f5fdce09c8a8.jpg?v=1687953590&width=1500" alt="Biozar Natural Ingredients" loading="lazy" decoding="async">
+            </div>
+            <div class="text-container">
+                <h2><strong>Restore your immunity naturally</strong></h2>
+                <a href="https://biozar-original.nl/" class="btn-biozar-primary" target="_blank" rel="noopener">
+                    Discover Biozar® Original
+                </a>
+                <div style="margin-top:1.2rem;display:inline-flex;align-items:center;gap:0.6rem;background:rgba(55,65,81,0.85);border:1px solid rgba(107,114,128,0.4);border-radius:10px;padding:0.5rem 1.2rem;">
+                    <span style="font-size:0.8rem;color:rgba(255,255,255,0.7);font-weight:500;">Use order code</span>
+                    <span style="font-family:'Poppins',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:2px;color:#ffffff;">GINO20</span>
+                    <span style="font-size:0.8rem;color:rgba(255,255,255,0.7);font-weight:500;">at checkout</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Biozar Video -->
+    <section class="video-wrapper-section">
+        <div style="max-width:760px;margin:0 auto 1.5rem;text-align:center;" class="reveal">
+            <p style="font-size:0.85rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--biozar-primary);font-weight:600;margin-bottom:0.8rem;">Why Biozar</p>
+            <h2 style="font-size:clamp(1.8rem,3vw,2.4rem);line-height:1.2;color:var(--biozar-text);margin-bottom:0.75rem;">When health becomes complex, finding something that truly works matters.</h2>
+            <p style="color:var(--biozar-text-muted);font-size:0.98rem;">A short video introduction to Biozar Original and the natural support people are turning to for immunity, balance, and everyday wellbeing.</p>
+        </div>
+        <div class="video-container reveal">
+            <video controls playsinline preload="metadata">
+                <source src="assets/partners/biozar/biozar-venezuela-story.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </section>
+
+    <!-- Multicolumn Information -->
+    <section class="info-section">
+        <div class="info-grid">
+            
+            <div class="info-card reveal">
+                <h3>What is <strong>Biozar?</strong></h3>
+                <p>Biozar® Original is a dietary supplement, primarily because it contains a wealth of herbs. Over 26 years, we researched plants and herbs that help restore immunity. Selected globally, these ingredients are crafted to reactivate your immune defenses.</p>
+                <p>Composed of 97.7% natural ingredients, with added Fennel to optimally support your immune system. Begin today!</p>
+            </div>
+
+            <div class="info-card reveal">
+                <h3>How does <strong>Biozar</strong> work?</h3>
+                <p>Biozar® Original is taken orally. For a maintenance dose, 3 ml every other day is sufficient. For a daily dose, we advise taking between 6 and 10 ml per day. We also recommend taking it with a beverage high in Lycopene, such as tomato juice.</p>
+                <p>
+                    <a href="https://cdn.shopify.com/s/files/1/0755/3099/4008/files/Vitaliteitsmeting-Biozar.pdf?v=1688133004" target="_blank" rel="noopener">Download Vitality Measurement (NL)</a><br><br>
+                    <a href="https://cdn.shopify.com/s/files/1/0755/3099/4008/files/Bijsluiter_98x222mm.pdf?v=1688133003" target="_blank" rel="noopener">Download Information Leaflet (NL)</a>
+                </p>
+            </div>
+
+            <div class="info-card reveal">
+                <h3>Usage of <strong>Biozar</strong></h3>
+                <p>Biozar® Original is best consumed with fruit or vegetable juices containing a high dose of lycopene, like tomato juice, rose hips, and watermelon. Can also be taken with water. A small daily dose (3-6 ml / 1-2 teaspoons) is plenty.</p>
+                <p>Biozar® Original is regularly tested by an accredited laboratory. Do not exceed the recommended dose.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Products Collection -->
+    <section class="products-section">
+        <div class="products-header reveal">
+            <h2>The Collection</h2>
+        </div>
+        <div class="products-grid">
+            
+            <!-- Product -->
+            <a href="https://biozar-original.nl/" target="_blank" rel="noopener" style="text-decoration:none;">
+                <div class="product-card reveal">
+                    <div class="product-img-wrapper">
+                        <img src="https://www.biozargold.com/WebRoot/StoreNL/Shops/93343657/6399/ED17/A600/9AE8/AE31/0A0C/6D0C/57C2/1200x1200.jpg" alt="Biozar Original" loading="lazy" decoding="async">
+                    </div>
+                    <div class="product-title">Biozar Original</div>
+                    <span class="product-price">€ 92,07</span>
+                </div>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- ORDER CODE -->
+    <section style="text-align:center;padding:3rem 1.5rem;background:linear-gradient(135deg,rgba(16,185,129,0.08),rgba(6,182,212,0.08));border-top:1px solid var(--biozar-border);border-bottom:1px solid var(--biozar-border);">
+        <h2 style="font-family:'Poppins',sans-serif;font-size:1.4rem;font-weight:600;color:var(--biozar-text);margin-bottom:0.5rem;">Exclusive Order Code</h2>
+        <p style="font-size:0.95rem;color:var(--biozar-muted);margin-bottom:1.2rem;">Use this code at checkout for your partner order</p>
+        <div style="display:inline-block;background:var(--biozar-bg);border:2px dashed rgba(16,185,129,0.5);border-radius:12px;padding:1rem 2.5rem;font-family:'Poppins',sans-serif;font-size:2rem;font-weight:700;letter-spacing:4px;color:#10b981;">GINO20</div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-buttons">
+            <a href="https://biozar-original.nl/" class="btn-biozar-primary" target="_blank" rel="noopener">
+                🌐 Visit Biozar-Original.nl
+            </a>
+            <a href="https://www.instagram.com/biozaroriginalvenezuela/?utm_source=ig_web_button_share_sheet" class="btn-biozar-secondary" target="_blank" rel="noopener">
+                <!-- SVG Instagram Icon -->
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px; vertical-align:middle;">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+                Instagram
+            </a>
+            <a href="projects.html" class="btn-biozar-secondary">
+                ← Back to Eugene Mierak Projects
+            </a>
+        </div>
+        <p>© 2026 Eugene Mierak Wellness · In Partnership with Biozar Original</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var reveals = document.querySelectorAll('.reveal');
+            if ('IntersectionObserver' in window) {
+                var obs = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) { entry.target.classList.add('revealed'); }
+                    });
+                }, { threshold: 0.1 });
+                reveals.forEach(function (el) { obs.observe(el); });
+            } else {
+                reveals.forEach(function (el) { el.classList.add('revealed'); });
+            }
+        });
+
+        // Dropdown Logic
+        (function() {
+            var btn = document.getElementById('partnersBtn');
+            var menu = document.getElementById('partnersDropdown');
+            if(btn && menu) {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    var active = menu.classList.toggle('active');
+                    btn.setAttribute('aria-expanded', active);
+                });
+                document.addEventListener('click', function(e) {
+                    if(!menu.contains(e.target) && e.target !== btn) {
+                        menu.classList.remove('active');
+                        btn.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            }
+        })();
+
+        // Mobile Partners Panel Logic
+        (function() {
+            var btn = document.getElementById('mobilePartnersBtn');
+            var panel = document.getElementById('mobilePartnersPanel');
+            var overlay = document.getElementById('mobilePartnersOverlay');
+            if (!btn || !panel) return;
+            function toggle() { var open = panel.classList.toggle('open'); overlay.classList.toggle('open', open); btn.setAttribute('aria-expanded', open); }
+            function close() { panel.classList.remove('open'); overlay.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
+            btn.addEventListener('click', toggle);
+            overlay.addEventListener('click', close);
+            panel.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', close); });
+        })();
+    </script>
+
+</body>
+</html>

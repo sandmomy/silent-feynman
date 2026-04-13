@@ -1,0 +1,2091 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wise Use International | 30 Years of Natural Biological Solutions</title>
+    <meta name="description"
+        content="Wise Use International B.V. - 30 years pioneering 100% natural biological solutions for agriculture, water management, and sustainable development.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Cormorant+Garamond:wght@300;400;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --wu-gold: #c4a265;
+            --wu-gold-light: #d4b87a;
+            --wu-gold-dark: #8b7340;
+            --wu-brown-deep: #3d3220;
+            --wu-cream: #f5efe3;
+            --wu-dark: #1a1510;
+            --wu-dark-deep: #120e09;
+            --wu-text: #e8e0d2;
+            --wu-muted: #a89a84;
+            --wu-card-bg: rgba(196, 162, 101, 0.04);
+            --wu-card-border: rgba(196, 162, 101, 0.12);
+            --wu-glass: rgba(26, 21, 16, 0.7);
+            --rainbow: linear-gradient(90deg, #e74c3c, #e67e22, #f1c40f, #2ecc71, #3498db, #9b59b6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 19px;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--wu-dark);
+            color: var(--wu-text);
+            overflow-x: hidden;
+        }
+
+        /* Keep nav at original scale */
+        .top-nav-banner {
+            font-size: 16px;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* ===== TOP NAV BANNER (same as index.html) ===== */
+        .top-nav-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 48px;
+            background: rgba(8, 12, 20, 0.97);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            overflow: visible !important;
+        }
+
+        .top-nav-container {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow: visible !important;
+        }
+        .top-nav-brand {
+            font-family: 'Playfair Display', serif; font-size: 1.1rem;
+            font-style: italic; color: white; font-weight: 500;
+            text-decoration: none; white-space: nowrap;
+        }
+
+        .top-nav-links {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .top-nav-link {
+            padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .top-nav-link:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .top-nav-official {
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            margin-right: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+
+        .top-nav-official:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .top-nav-sep {
+            width: 1px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            margin-right: 1rem;
+        }
+
+        .partners-dropdown-container {
+            position: relative;
+        }
+
+        .top-nav-partners-btn {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .top-nav-partners-btn:hover,
+        .top-nav-partners-btn[aria-expanded="true"] {
+            background: linear-gradient(135deg, #0284c7 0%, #0891b2 100%);
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+            color: white;
+        }
+
+        .partners-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 12px;
+            width: 240px;
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            padding: 6px;
+            display: none;
+            flex-direction: column;
+            gap: 2px;
+            z-index: 1010;
+            transform-origin: top right;
+            animation: dropdownPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .partners-dropdown-menu.active {
+            display: flex;
+        }
+
+        @keyframes dropdownPop {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(-5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .partners-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .partners-dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(2px);
+        }
+
+        .partner-icon-img {
+            height: 28px;
+            width: auto;
+            max-width: 40px;
+            object-fit: contain;
+            filter: brightness(1.1);
+        }
+
+        .top-nav-sep {
+            width: 1px;
+            height: 16px;
+            background: rgba(196, 162, 101, 0.2);
+            margin-right: 1rem;
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 10001;
+            position: relative;
+        }
+
+        .mobile-menu-btn span {
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 868px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .top-nav-links {
+                display: none;
+                position: fixed;
+                top: 48px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(15, 23, 42, 0.98);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                z-index: 10000;
+                align-items: flex-start;
+                justify-content: flex-start;
+            }
+
+            .top-nav-links.active {
+                display: flex;
+            }
+
+            .top-nav-official {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+
+            .top-nav-sep {
+                display: none;
+            }
+
+            .partners-dropdown-menu {
+                position: static;
+                width: 100%;
+                margin-top: 0.5rem;
+                box-shadow: none;
+                background: rgba(255, 255, 255, 0.05);
+                display: none;
+            }
+
+            .partners-dropdown-menu.active {
+                display: flex;
+            }
+        }
+
+        /* Mobile Menu Button - Desktop Hidden */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 10001;
+            position: relative;
+        }
+
+        .mobile-menu-btn span {
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* ===== GLOBAL UTILITIES ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* ===== SECTION SHARED ===== */
+        .section {
+            padding: 7rem 2rem;
+            position: relative;
+        }
+
+        .section-dark {
+            background: var(--wu-dark-deep);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4.5rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--wu-gold);
+            margin-bottom: 1.2rem;
+        }
+
+        .section-tag::before,
+        .section-tag::after {
+            content: '';
+            display: inline-block;
+            width: 28px;
+            height: 1px;
+            background: var(--wu-gold-dark);
+            vertical-align: middle;
+        }
+
+        .section-tag::before {
+            margin-right: 14px;
+        }
+
+        .section-tag::after {
+            margin-left: 14px;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: #fff;
+            margin-bottom: 1.2rem;
+            line-height: 1.15;
+        }
+
+        .section-desc {
+            color: var(--wu-muted);
+            font-size: 1.02rem;
+            line-height: 1.75;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 34px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 100px;
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            border: none;
+            font-family: 'DM Sans', sans-serif;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--wu-gold) 0%, var(--wu-gold-dark) 100%);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(196, 162, 101, 0.2);
+        }
+
+        .btn-gold:hover {
+            background: linear-gradient(135deg, var(--wu-gold-light) 0%, var(--wu-gold) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(196, 162, 101, 0.35);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--wu-gold-light);
+            border: 1px solid rgba(196, 162, 101, 0.3);
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--wu-gold);
+            background: rgba(196, 162, 101, 0.08);
+            transform: translateY(-2px);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 48px 2rem 0;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 50% 30%, rgba(196, 162, 101, 0.1) 0%, transparent 55%),
+                radial-gradient(ellipse at 20% 70%, rgba(139, 115, 64, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 60%, rgba(61, 50, 32, 0.12) 0%, transparent 40%),
+                var(--wu-dark-deep);
+            z-index: 0;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 900px;
+            width: 100%;
+            gap: 2.5rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 3.5px;
+            text-transform: uppercase;
+            color: var(--wu-gold);
+            border: 1px solid rgba(196, 162, 101, 0.25);
+            background: rgba(196, 162, 101, 0.06);
+            padding: 8px 22px;
+            border-radius: 100px;
+            opacity: 0;
+            animation: heroFadeUp 1s ease forwards 0.2s;
+        }
+
+        .hero-badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--wu-gold);
+            animation: dotPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes dotPulse {
+
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .hero-pyramid-area {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            animation: heroFadeUp 1.2s ease forwards 0.35s;
+        }
+
+        .hero-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(196, 162, 101, 0.18) 0%, rgba(139, 115, 64, 0.07) 40%, transparent 70%);
+            filter: blur(60px);
+            animation: glowPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        .hero-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(196, 162, 101, 0.08);
+        }
+
+        .hero-ring:nth-child(2) {
+            width: 240px;
+            height: 240px;
+            animation: ringSpin 30s linear infinite;
+        }
+
+        .hero-ring:nth-child(3) {
+            width: 320px;
+            height: 320px;
+            border-style: dashed;
+            border-color: rgba(196, 162, 101, 0.05);
+            animation: ringSpin 50s linear infinite reverse;
+        }
+
+        @keyframes ringSpin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .hero-pyramid-img {
+            position: relative;
+            z-index: 2;
+            height: 200px;
+            filter: drop-shadow(0 0 80px rgba(196, 162, 101, 0.3)) drop-shadow(0 0 160px rgba(139, 115, 64, 0.12));
+        }
+
+        .hero-prism-line {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 160px;
+            height: 2px;
+            background: var(--rainbow);
+            border-radius: 2px;
+            opacity: 0.4;
+            filter: blur(0.5px);
+        }
+
+        .hero-title {
+            font-size: clamp(2.6rem, 5.5vw, 4.5rem);
+            font-weight: 600;
+            line-height: 1.08;
+            color: #fff;
+            letter-spacing: -1px;
+            opacity: 0;
+            animation: heroFadeUp 1s ease forwards 0.5s;
+        }
+
+        .hero-title em {
+            font-style: italic;
+            background: linear-gradient(135deg, var(--wu-gold-light), var(--wu-gold), var(--wu-gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            font-weight: 300;
+            color: var(--wu-muted);
+            letter-spacing: 1px;
+            max-width: 580px;
+            line-height: 1.7;
+            opacity: 0;
+            animation: heroFadeUp 1s ease forwards 0.65s;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            opacity: 0;
+            animation: heroFadeUp 1s ease forwards 0.85s;
+        }
+
+        @keyframes heroFadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== THREE PILLARS ===== */
+        .pillars-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .pillar-card {
+            position: relative;
+            background: linear-gradient(170deg, rgba(196, 162, 101, 0.06) 0%, rgba(18, 14, 9, 0.4) 100%);
+            border: 1px solid var(--wu-card-border);
+            border-radius: 24px;
+            padding: 3rem 2.2rem 2.5rem;
+            transition: all 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow: hidden;
+        }
+
+        .pillar-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--wu-gold), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .pillar-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(196, 162, 101, 0.28);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35), 0 0 50px rgba(196, 162, 101, 0.06);
+        }
+
+        .pillar-card:hover::before {
+            opacity: 1;
+        }
+
+        .pillar-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(196, 162, 101, 0.12), rgba(139, 115, 64, 0.06));
+            border: 1px solid rgba(196, 162, 101, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.8rem;
+        }
+
+        .pillar-card h3 {
+            font-size: 1.4rem;
+            color: #fff;
+            margin-bottom: 0.8rem;
+        }
+
+        .pillar-card p {
+            color: var(--wu-muted);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .pillars-connector {
+            text-align: center;
+            margin-top: 3rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--wu-gold-dark);
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== HOW IT WORKS ===== */
+        .process-timeline {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            position: relative;
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            top: 48px;
+            left: 12.5%;
+            right: 12.5%;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(196, 162, 101, 0.08), rgba(196, 162, 101, 0.2), rgba(196, 162, 101, 0.2), rgba(196, 162, 101, 0.08));
+        }
+
+        .process-step {
+            text-align: center;
+            padding: 0 1.2rem;
+            position: relative;
+        }
+
+        .process-num {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--wu-dark-deep);
+            border: 2px solid rgba(196, 162, 101, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--wu-gold-light);
+            position: relative;
+            z-index: 2;
+            transition: all 0.35s;
+        }
+
+        .process-step:hover .process-num {
+            border-color: var(--wu-gold);
+            box-shadow: 0 0 25px rgba(196, 162, 101, 0.2);
+            background: rgba(196, 162, 101, 0.08);
+        }
+
+        .process-step h3 {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 0.6rem;
+        }
+
+        .process-step p {
+            color: var(--wu-muted);
+            font-size: 0.88rem;
+            line-height: 1.7;
+        }
+
+        .process-arrow {
+            position: absolute;
+            top: 44px;
+            right: -8px;
+            color: var(--wu-gold-dark);
+            z-index: 3;
+        }
+
+        /* ===== PRODUCTS ===== */
+        .products-row {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .product-card {
+            position: relative;
+            background: linear-gradient(175deg, rgba(196, 162, 101, 0.05) 0%, rgba(18, 14, 9, 0.6) 100%);
+            border: 1px solid var(--wu-card-border);
+            border-radius: 22px;
+            padding: 2.8rem 2rem 2.2rem;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow: hidden;
+            backdrop-filter: blur(8px);
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--wu-gold-dark), var(--wu-gold-light), var(--wu-gold-dark));
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(196, 162, 101, 0.28);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3), 0 0 45px rgba(196, 162, 101, 0.06);
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+        }
+
+        .product-icon-wrap {
+            width: 68px;
+            height: 68px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(196, 162, 101, 0.14), rgba(139, 115, 64, 0.06));
+            border: 1px solid rgba(196, 162, 101, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.6rem;
+        }
+
+        .product-card h3 {
+            font-size: 1.4rem;
+            color: #fff;
+            margin-bottom: 0.4rem;
+        }
+
+        .product-type {
+            display: inline-block;
+            font-size: 0.66rem;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--wu-gold);
+            margin-bottom: 1rem;
+        }
+
+        .product-card p {
+            color: var(--wu-muted);
+            font-size: 0.92rem;
+            line-height: 1.75;
+        }
+
+        .product-cert {
+            margin-top: 1.8rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid rgba(196, 162, 101, 0.08);
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .cert-badge {
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--wu-gold-dark);
+            background: rgba(196, 162, 101, 0.07);
+            border: 1px solid rgba(196, 162, 101, 0.12);
+            padding: 5px 12px;
+            border-radius: 8px;
+        }
+
+        /* ===== CASE STUDIES / GLOBAL IMPACT ===== */
+        .cases-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .case-card {
+            position: relative;
+            background: var(--wu-card-bg);
+            border: 1px solid var(--wu-card-border);
+            border-radius: 18px;
+            padding: 2.2rem 2rem 2.2rem 2.5rem;
+            transition: all 0.35s;
+            overflow: hidden;
+        }
+
+        .case-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--wu-gold-light), var(--wu-gold-dark));
+            opacity: 0;
+            transition: opacity 0.35s;
+        }
+
+        .case-card:hover {
+            border-color: rgba(196, 162, 101, 0.24);
+            transform: translateX(4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .case-card:hover::after {
+            opacity: 1;
+        }
+
+        .case-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.8rem;
+            gap: 1rem;
+        }
+
+        .case-card h3 {
+            font-size: 1.12rem;
+            color: #fff;
+            line-height: 1.3;
+        }
+
+        .case-badge {
+            flex-shrink: 0;
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: var(--wu-gold);
+            background: rgba(196, 162, 101, 0.08);
+            border: 1px solid rgba(196, 162, 101, 0.15);
+            padding: 5px 14px;
+            border-radius: 100px;
+            white-space: nowrap;
+        }
+
+        .case-card p {
+            color: var(--wu-muted);
+            font-size: 0.9rem;
+            line-height: 1.75;
+        }
+
+        .case-stat {
+            display: inline-block;
+            font-weight: 700;
+            color: var(--wu-gold-light);
+        }
+
+        /* ===== FOUNDER STORY ===== */
+        .founder-wrapper {
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        .founder-card {
+            position: relative;
+            background: linear-gradient(160deg, rgba(196, 162, 101, 0.07) 0%, rgba(61, 50, 32, 0.18) 100%);
+            border: 1px solid rgba(196, 162, 101, 0.14);
+            border-radius: 28px;
+            padding: 3.5rem;
+            backdrop-filter: blur(14px);
+            overflow: hidden;
+        }
+
+        .founder-card::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            border-radius: 28px;
+            background: linear-gradient(160deg, rgba(196, 162, 101, 0.2), transparent 40%);
+            z-index: -1;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            -webkit-mask-composite: xor;
+            padding: 1px;
+        }
+
+        .founder-quote-icon {
+            font-family: 'Playfair Display', serif;
+            font-size: 5.5rem;
+            line-height: 1;
+            color: var(--wu-gold);
+            opacity: 0.18;
+            position: absolute;
+            top: 16px;
+            left: 28px;
+        }
+
+        .founder-card blockquote {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.88);
+            line-height: 1.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .founder-footer {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(196, 162, 101, 0.12);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .founder-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--wu-gold-dark), var(--wu-brown-deep));
+            border: 2px solid rgba(196, 162, 101, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            color: var(--wu-gold-light);
+            font-weight: 600;
+        }
+
+        .founder-meta strong {
+            display: block;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .founder-meta span {
+            color: var(--wu-muted);
+            font-size: 0.82rem;
+        }
+
+        /* ===== SDG SECTION ===== */
+        .sdg-section {
+            padding: 5.5rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sdg-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(160deg, rgba(196, 162, 101, 0.035) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .sdg-inner {
+            max-width: 820px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .sdg-inner h2 {
+            font-size: 2.1rem;
+            color: #fff;
+            margin-bottom: 0.6rem;
+        }
+
+        .sdg-inner>p {
+            color: var(--wu-muted);
+            font-size: 0.95rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .sdg-grid {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .sdg-chip {
+            background: rgba(196, 162, 101, 0.05);
+            border: 1px solid rgba(196, 162, 101, 0.1);
+            border-radius: 14px;
+            padding: 14px 18px;
+            min-width: 74px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: default;
+        }
+
+        .sdg-chip:hover {
+            background: rgba(196, 162, 101, 0.12);
+            border-color: rgba(196, 162, 101, 0.28);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .sdg-chip .sdg-num {
+            display: block;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--wu-gold-light);
+            line-height: 1;
+        }
+
+        .sdg-chip .sdg-label {
+            display: block;
+            font-size: 0.58rem;
+            color: var(--wu-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        .sdg-rainbow {
+            width: 220px;
+            height: 2px;
+            margin: 2.5rem auto 0;
+            background: var(--rainbow);
+            border-radius: 2px;
+            opacity: 0.35;
+        }
+
+        /* ===== STATS BAR ===== */
+        .stats-bar {
+            position: relative;
+            padding: 4.5rem 2rem;
+            background: var(--wu-dark-deep);
+            overflow: hidden;
+        }
+
+        .stats-bar::before,
+        .stats-bar::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(196, 162, 101, 0.18) 50%, transparent 100%);
+        }
+
+        .stats-bar::before {
+            top: 0;
+        }
+
+        .stats-bar::after {
+            bottom: 0;
+        }
+
+        .stats-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-block {
+            text-align: center;
+            position: relative;
+        }
+
+        .stat-block:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 50px;
+            background: rgba(196, 162, 101, 0.1);
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 600;
+            background: linear-gradient(180deg, var(--wu-gold-light), var(--wu-gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .stat-label {
+            font-size: 0.72rem;
+            color: var(--wu-muted);
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            margin-top: 8px;
+        }
+
+        /* ===== CTA SECTION ===== */
+        .cta-section {
+            padding: 7rem 2rem 3rem;
+            position: relative;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 160px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--wu-gold), transparent);
+        }
+
+        .cta-inner {
+            max-width: 650px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .cta-inner h2 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .cta-inner h2 em {
+            font-style: italic;
+            color: var(--wu-gold-light);
+        }
+
+        .cta-inner>p {
+            color: var(--wu-muted);
+            font-size: 1rem;
+            line-height: 1.75;
+            margin-bottom: 2.5rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 5rem;
+        }
+
+        .cta-contact-row {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+        }
+
+        .cta-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--wu-muted);
+            font-size: 0.85rem;
+            transition: color 0.3s;
+        }
+
+        .cta-contact-item:hover {
+            color: var(--wu-gold-light);
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            border-top: 1px solid rgba(196, 162, 101, 0.08);
+            padding: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-row p {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.8rem;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-nav a {
+            color: var(--wu-muted);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: color 0.3s;
+        }
+
+        .footer-nav a:hover {
+            color: var(--wu-gold-light);
+        }
+
+        /* ===== RESPONSIVE 1024px ===== */
+        @media (max-width: 1024px) {
+            .pillars-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                gap: 1.5rem;
+            }
+
+            .process-timeline {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2.5rem 1.5rem;
+            }
+
+            .process-timeline::before {
+                display: none;
+            }
+
+            .process-arrow {
+                display: none;
+            }
+
+            .products-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero-pyramid-area {
+                width: 240px;
+                height: 240px;
+            }
+
+            .hero-pyramid-img {
+                height: 170px;
+            }
+
+            .hero-ring:nth-child(2) {
+                width: 200px;
+                height: 200px;
+            }
+
+            .hero-ring:nth-child(3) {
+                width: 270px;
+                height: 270px;
+            }
+        }
+
+        /* ===== RESPONSIVE 768px ===== */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 0 1.5rem;
+                min-height: auto;
+                padding-top: 4rem;
+                padding-bottom: 3rem;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .hero-pyramid-area {
+                width: 200px;
+                height: 200px;
+            }
+
+            .hero-pyramid-img {
+                height: 140px;
+            }
+
+            .hero-prism-line {
+                width: 100px;
+            }
+
+            .hero-ring:nth-child(2) {
+                width: 170px;
+                height: 170px;
+            }
+
+            .hero-ring:nth-child(3) {
+                width: 220px;
+                height: 220px;
+            }
+
+            .section {
+                padding: 5rem 1.5rem;
+            }
+
+            .pillars-grid {
+                grid-template-columns: 1fr;
+                max-width: 100%;
+            }
+
+            .process-timeline {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .products-row,
+            .cases-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem 1rem;
+            }
+
+            .stat-block:not(:last-child)::after {
+                display: none;
+            }
+
+            .stat-number {
+                font-size: 2.2rem;
+            }
+
+            .founder-card {
+                padding: 2.5rem 1.8rem;
+            }
+
+            .cta-contact-row {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .footer-row {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .footer-nav {
+                justify-content: center;
+            }
+        }
+
+        /* ===== SCROLL REVEAL ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* ===== MOBILE NAVBAR (matching mobile.html) ===== */
+        .mobile-nav-bar {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 9999;
+            background: rgba(8, 12, 20, 0.97);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            height: 48px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            font-size: 16px;
+        }
+        .mobile-nav-bar .nav-links { display: flex; align-items: center; gap: 4px; }
+        .mobile-nav-bar .nav-link {
+            font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,0.7);
+            padding: 6px 10px; border-radius: 6px; white-space: nowrap;
+            text-decoration: none; transition: color 0.2s, background 0.2s;
+        }
+        .mobile-nav-bar .nav-link:active { color: #fff; background: rgba(255,255,255,0.08); }
+        .mobile-nav-bar .nav-partners-btn {
+            display: flex; align-items: center; gap: 6px; padding: 6px 12px;
+            border-radius: 6px; background: linear-gradient(135deg, #38bdf8, #06b6d4);
+            border: none; color: #fff; font-family: inherit; font-size: 11px;
+            font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+            cursor: pointer; transition: opacity 0.15s, transform 0.15s;
+            -webkit-appearance: none; appearance: none;
+        }
+        .mobile-nav-bar .nav-partners-btn:active { opacity: 0.85; transform: scale(0.97); }
+        .mobile-partners-panel {
+            display: none; position: fixed; top: 48px; right: 0; width: 220px;
+            background: rgba(8, 12, 20, 0.98); backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08);
+            border-top: none; border-radius: 0 0 0 14px; padding: 8px; z-index: 9998;
+            transform: translateY(-8px); opacity: 0; pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .mobile-partners-panel.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .mobile-partners-panel a {
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+            border-radius: 8px; font-size: 12px; font-weight: 600;
+            color: rgba(255,255,255,0.75); text-decoration: none; transition: background 0.15s;
+        }
+        .mobile-partners-panel a:active { background: rgba(255,255,255,0.08); }
+        .mobile-partners-panel img { height: 22px; width: auto; object-fit: contain; filter: brightness(1.3); }
+        .mobile-partners-overlay { display: none; position: fixed; inset: 0; z-index: 9997; }
+        .mobile-partners-overlay.open { display: block; }
+
+        @media (max-width: 768px) {
+            .top-nav-banner { display: none !important; }
+            .mobile-nav-bar { display: flex; }
+            .mobile-partners-panel { display: block; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ============ MOBILE NAVBAR (same as mobile.html) ============ -->
+    <nav class="mobile-nav-bar">
+        <div class="nav-links">
+            <a href="mobile.html" class="nav-link">Home</a>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="event.html" class="nav-link">Events</a>
+            <a href="mobile.html#contact" class="nav-link">Contact</a>
+        </div>
+        <button class="nav-partners-btn" id="mobilePartnersBtn" aria-expanded="false" aria-label="Partners menu">
+            Partners
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </button>
+    </nav>
+    <div class="mobile-partners-overlay" id="mobilePartnersOverlay"></div>
+    <div class="mobile-partners-panel" id="mobilePartnersPanel">
+        <a href="vegaqura.html"><img src="assets/optimized/logo-vegaqura.480w.webp" alt="Vegaqura" loading="lazy" decoding="async"> Vegaqura</a>
+        <a href="sdbi-center.html"><img src="assets/logo-sbdi.webp" alt="SBDI" loading="lazy" decoding="async"> SBDI Center</a>
+        <a href="wiseuse.html"><img src="assets/optimized/wiseuse-pyramid.171w.webp" alt="WiseUse" loading="lazy" decoding="async"> WiseUse International</a>
+        <a href="eko-vitaris.html"><img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" loading="lazy" decoding="async"> Eko Vitaris</a>
+        <a href="mariposa-batu.html"><img src="assets/optimized/logo-mariposa-batu.480w.webp" alt="Mariposa Batu" loading="lazy" style="border-radius:4px;" decoding="async"> Mariposa Batu</a>
+        <a href="biozar-venezuela.html"><img src="assets/optimized/logo-biozar.340w.webp" alt="Biozar" loading="lazy" decoding="async"> Biozar Venezuela</a>
+    </div>
+
+    <!-- Top Navigation Banner (desktop) -->
+    <nav class="top-nav-banner">
+        <div class="top-nav-container">
+            <a href="index.html" class="top-nav-brand">Frequency Vibes&trade;</a>
+            <button class="mobile-menu-btn" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="top-nav-links">
+                <a href="https://www.wise-use.com" target="_blank" class="top-nav-official">wise-use.com</a>
+                <div class="top-nav-sep"></div>
+                <a href="index.html" class="top-nav-link">Home</a>
+                <a href="index.html#contact" class="top-nav-link">Get in Touch</a>
+                <div class="partners-dropdown-container">
+                    <button class="top-nav-link top-nav-partners-btn" id="partnersBtn" aria-expanded="false">
+                        PARTNERS
+                        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left: 6px;">
+                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <div class="partners-dropdown-menu" id="partnersDropdown">
+                        <a href="vegaqura.html" class="partners-dropdown-item">
+                            <img src="assets/optimized/logo-vegaqura.480w.webp" alt="Vegaqura" class="partner-icon-img" loading="lazy" decoding="async"> Vegaqura
+                        </a>
+                        <a href="sdbi-center.html" class="partners-dropdown-item">
+                            <img src="assets/logo-sbdi.webp" alt="SBDI" class="partner-icon-img" loading="lazy" decoding="async"> SBDI Center
+                        </a>
+                        <a href="wiseuse.html" class="partners-dropdown-item">
+                            <img src="assets/optimized/wiseuse-pyramid.171w.webp" alt="WiseUse" class="partner-icon-img" loading="lazy" decoding="async"> WiseUse
+                            International
+                        </a>
+                        <a href="eko-vitaris.html" class="partners-dropdown-item">
+                            <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-icon-img" loading="lazy" decoding="async"> Eko
+                            Vitaris
+                        </a>
+                        <a href="mariposa-batu.html" class="partners-dropdown-item">
+                            <img src="assets/optimized/logo-mariposa-batu.480w.webp" alt="Mariposa Batu" class="partner-icon-img" style="border-radius:4px;" loading="lazy" decoding="async"> Mariposa Batu
+                        </a>
+                        <a href="biozar-venezuela.html" class="partners-dropdown-item"><img src="assets/optimized/logo-biozar.340w.webp" alt="Biozar" class="partner-icon-img" loading="lazy" decoding="async"> Biozar Venezuela</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== HERO ==================== -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                30+ Years Restoring Natural Balance
+            </div>
+
+            <div class="hero-pyramid-area">
+                <div class="hero-glow"></div>
+                <div class="hero-ring"></div>
+                <div class="hero-ring"></div>
+                <img src="assets/optimized/wiseuse-pyramid.171w.webp" alt="Wise Use International pyramid logo"
+                    class="hero-pyramid-img" loading="lazy" decoding="async">
+                <div class="hero-prism-line"></div>
+            </div>
+
+            <h1 class="hero-title">Nature Already Has<br>the <em>Answer</em></h1>
+
+            <p class="hero-subtitle">
+                We don't replace nature with chemicals. We activate the microorganisms
+                already present in soil, water, and living systems to restore the balance
+                that sustains life.
+            </p>
+
+            <div class="hero-actions">
+                <a href="#partnership" class="btn btn-gold">Explore Partnership</a>
+                <a href="assets/pdfs/WiseUse_RD_Book.pdf" target="_blank" class="btn btn-ghost">
+                    R&D Book
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 17L17 7" />
+                        <path d="M7 7h10v10" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== THREE PILLARS ==================== -->
+    <section class="section section-dark" id="pillars">
+        <div class="section-header reveal">
+            <div class="section-tag">Our Sectors</div>
+            <h2 class="section-title">Three Pillars, One Philosophy</h2>
+            <p class="section-desc">
+                Every solution we develop honours the same principle: activate what nature
+                already provides. We apply this across agriculture, water management,
+                and animal health.
+            </p>
+        </div>
+        <div class="pillars-grid">
+            <div class="pillar-card reveal">
+                <div class="pillar-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c4a265" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22c0-4-3-6-3-10a5 5 0 0 1 10 0c0 4-3 6-3 10" />
+                        <path d="M10 22h4" />
+                        <path d="M12 2v1" />
+                        <path d="M4.93 4.93l.7.7" />
+                        <path d="M19.07 4.93l-.7.7" />
+                    </svg>
+                </div>
+                <h3>Agriculture</h3>
+                <p>
+                    Restoring soil health from the microbiome up. Our biological activators
+                    stimulate plant growth, strengthen natural pest resistance, and optimize
+                    crop performance without synthetic inputs. Healthier soil means healthier
+                    food, and a healthier planet.
+                </p>
+            </div>
+            <div class="pillar-card reveal">
+                <div class="pillar-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c4a265" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+                    </svg>
+                </div>
+                <h3>Water Management</h3>
+                <p>
+                    Cleaning contaminated lagoons, rivers, ponds, and industrial water systems.
+                    Our solutions remove harmful algae, reduce bacterial loads, degrade oil
+                    pollution, and restore biological clarity, allowing aquatic ecosystems
+                    to regenerate naturally.
+                </p>
+            </div>
+            <div class="pillar-card reveal">
+                <div class="pillar-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c4a265" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22c-4.97 0-9-2.24-9-5v-3c0-2.76 4.03-5 9-5s9 2.24 9 5v3c0 2.76-4.03 5-9 5z" />
+                        <path d="M12 9V2" />
+                        <path d="M8 5l4-3 4 3" />
+                        <ellipse cx="12" cy="14" rx="9" ry="5" />
+                    </svg>
+                </div>
+                <h3>Animal Health</h3>
+                <p>
+                    Supporting intestinal health in poultry and livestock through biological
+                    solutions that strengthen natural gut flora. Reducing dependency on
+                    antibiotics while improving animal welfare, feed efficiency, and
+                    overall production quality.
+                </p>
+            </div>
+        </div>
+        <div class="pillars-connector reveal">
+            Connected by one truth: nature already has the intelligence to heal itself.
+        </div>
+    </section>
+
+    <!-- ==================== HOW IT WORKS ==================== -->
+    <section class="section" id="approach">
+        <div class="section-header reveal">
+            <div class="section-tag">Our Approach</div>
+            <h2 class="section-title">We Don't Replace Nature. We Activate It.</h2>
+            <p class="section-desc">
+                Our process is built on 30 years of research into naturally occurring
+                microorganisms. We empower what nature already has.
+            </p>
+        </div>
+        <div class="process-timeline reveal">
+            <div class="process-step">
+                <div class="process-num">1</div>
+                <h3>Identify</h3>
+                <p>Map the existing microorganisms in soil, water, or biological systems. Understand the natural balance
+                    that has been disrupted.</p>
+                <svg class="process-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.5">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </div>
+            <div class="process-step">
+                <div class="process-num">2</div>
+                <h3>Develop</h3>
+                <p>Formulate 100% biological activators specifically designed to stimulate dormant or weakened microbial
+                    populations.</p>
+                <svg class="process-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.5">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </div>
+            <div class="process-step">
+                <div class="process-num">3</div>
+                <h3>Restore</h3>
+                <p>Apply our solutions to reactivate nature's own repair mechanisms. Microorganisms resume their
+                    ecological function.</p>
+                <svg class="process-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.5">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </div>
+            <div class="process-step">
+                <div class="process-num">4</div>
+                <h3>Sustain</h3>
+                <p>The restored balance perpetuates itself. Healthy ecosystems maintain equilibrium without ongoing
+                    chemical intervention.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== PRODUCTS ==================== -->
+    <section class="section section-dark" id="products">
+        <div class="section-header reveal">
+            <div class="section-tag">Product Portfolio</div>
+            <h2 class="section-title">Biological Precision, Proven Results</h2>
+            <p class="section-desc">
+                Every product is 100% natural, certified by Control Union and GMP+ FSA,
+                and engineered to activate the biological processes already present in nature.
+            </p>
+        </div>
+        <div class="products-row">
+            <div class="product-card reveal">
+                <div class="product-icon-wrap">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#c4a265" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22V12" />
+                        <path d="M12 12c-2-2-6-3-6 2" />
+                        <path d="M12 12c2-2 6-3 6 2" />
+                        <path d="M12 12V8" />
+                        <path d="M9 4c0 0 1.5 2 3 2s3-2 3-2" />
+                        <path d="M12 2v2" />
+                        <path d="M8 22h8" />
+                    </svg>
+                </div>
+                <h3>Bio-Rootz</h3>
+                <div class="product-type">Root Development &amp; Soil Activation</div>
+                <p>
+                    Stimulates root development and enhances nutrient absorption by activating
+                    beneficial soil microorganisms. Builds stronger, more resilient plants
+                    from the ground up. The foundation of healthy agriculture.
+                </p>
+                <div class="product-cert">
+                    <span class="cert-badge">Control Union</span>
+                    <span class="cert-badge">GMP+ FSA</span>
+                    <span class="cert-badge">EU Processing</span>
+                </div>
+            </div>
+            <div class="product-card reveal">
+                <div class="product-icon-wrap">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#c4a265" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 17 3.5 17 3.5s1 2 1 4.5c0 2.5-.4 5-2.5 7.5" />
+                        <path d="M11.4 18c1.8-1.8 2.6-4.4 2.6-7" />
+                        <path d="M14 21c-1.5 0-3-.5-4.5-1.5" />
+                    </svg>
+                </div>
+                <h3>B'Leafz</h3>
+                <div class="product-type">Foliar Health &amp; Pest Resistance</div>
+                <p>
+                    A foliar-applied biological solution that promotes vigorous leaf health,
+                    optimizes photosynthesis efficiency, and strengthens natural pest resistance.
+                    No chemical intervention required.
+                </p>
+                <div class="product-cert">
+                    <span class="cert-badge">Control Union</span>
+                    <span class="cert-badge">GMP+ FSA</span>
+                    <span class="cert-badge">EU Processing</span>
+                </div>
+            </div>
+            <div class="product-card reveal">
+                <div class="product-icon-wrap">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#c4a265" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
+                        <path d="M12 13v4" />
+                        <path d="M10 15h4" />
+                    </svg>
+                </div>
+                <h3>PoCo</h3>
+                <div class="product-type">Pollution Control &amp; Water Restoration</div>
+                <p>
+                    An organic cell-stimulator engineered for pollution control. Restores
+                    clarity and biological health in contaminated lagoons, ponds, rivers,
+                    and industrial water systems through microbial activation.
+                </p>
+                <div class="product-cert">
+                    <span class="cert-badge">Control Union</span>
+                    <span class="cert-badge">GMP+ FSA</span>
+                    <span class="cert-badge">EU Processing</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== GLOBAL IMPACT / CASE STUDIES ==================== -->
+    <section class="section" id="impact">
+        <div class="section-header reveal">
+            <div class="section-tag">Global Impact</div>
+            <h2 class="section-title">Decades of Measurable Restoration</h2>
+            <p class="section-desc">
+                From South American lakes to Southeast Asian universities, our biological
+                solutions have demonstrated consistent, verifiable environmental results.
+            </p>
+        </div>
+        <div class="cases-grid">
+            <div class="case-card reveal">
+                <div class="case-header">
+                    <h3>Lake Ypacarai Restoration</h3>
+                    <span class="case-badge">Paraguay 2007</span>
+                </div>
+                <p>
+                    Coliform counts reduced from <span class="case-stat">1,500 to 200</span>.
+                    Cyanobacteria populations substantially decreased. Zooplankton recovery
+                    confirmed restored biodiversity across the entire lake ecosystem.
+                </p>
+            </div>
+            <div class="case-card reveal">
+                <div class="case-header">
+                    <h3>Lake Maracaibo Oil Cleanup</h3>
+                    <span class="case-badge">Venezuela 2013</span>
+                </div>
+                <p>
+                    In partnership with PDVSA, achieved a <span class="case-stat">40&ndash;50% decrease</span>
+                    in suspended oil content. Treated samples showed significantly faster
+                    spontaneous biological degradation compared to control areas.
+                </p>
+            </div>
+            <div class="case-card reveal">
+                <div class="case-header">
+                    <h3>Tiscapa Lagoon Management</h3>
+                    <span class="case-badge">Nicaragua 2020</span>
+                </div>
+                <p>
+                    The <span class="case-stat">0.4 km&sup2;</span> lagoon was rendered free of
+                    harmful blue-green algae within <span class="case-stat">3 months</span>.
+                    Young fish populations returned as water clarity and health were restored.
+                </p>
+            </div>
+            <div class="case-card reveal">
+                <div class="case-header">
+                    <h3>University Research Collaboration</h3>
+                    <span class="case-badge">Indonesia 2024</span>
+                </div>
+                <p>
+                    Active research partnerships with Indonesian universities advancing
+                    knowledge exchange, validating biological solutions through academic rigour,
+                    and promoting sustainable agricultural development.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOUNDER STORY ==================== -->
+    <section class="section section-dark" id="founder">
+        <div class="section-header reveal">
+            <div class="section-tag">The Founder</div>
+            <h2 class="section-title">A Lifetime Dedicated to Nature's Intelligence</h2>
+        </div>
+        <div class="founder-wrapper reveal">
+            <div class="founder-card">
+                <div class="founder-quote-icon">&ldquo;</div>
+                <blockquote>
+                    From a young age, I was fascinated by the hidden intelligence of nature&mdash;the
+                    way ecosystems heal themselves, the way microorganisms orchestrate processes
+                    invisible to the eye. This fascination became a lifelong mission. For over
+                    thirty years, I have worked to develop solutions that honour nature's own
+                    mechanisms. We do not impose on nature. We listen to it, learn from it,
+                    and activate what is already there. Every product we create is a conversation
+                    with the natural world.
+                </blockquote>
+                <div class="founder-footer">
+                    <div class="founder-avatar">DW</div>
+                    <div class="founder-meta">
+                        <strong>Dorotheus Wisman</strong>
+                        <span>CEO &amp; Founder, Wise Use International B.V.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SDG ALIGNMENT ==================== -->
+    <section class="sdg-section">
+        <div class="sdg-inner reveal">
+            <div class="section-tag">Sustainable Development</div>
+            <h2>Aligned with 10 Global Goals</h2>
+            <p>Our work directly contributes to the United Nations Sustainable Development Goals</p>
+            <div class="sdg-grid">
+                <div class="sdg-chip"><span class="sdg-num">1</span><span class="sdg-label">Poverty</span></div>
+                <div class="sdg-chip"><span class="sdg-num">2</span><span class="sdg-label">Hunger</span></div>
+                <div class="sdg-chip"><span class="sdg-num">3</span><span class="sdg-label">Health</span></div>
+                <div class="sdg-chip"><span class="sdg-num">6</span><span class="sdg-label">Water</span></div>
+                <div class="sdg-chip"><span class="sdg-num">9</span><span class="sdg-label">Innovation</span></div>
+                <div class="sdg-chip"><span class="sdg-num">12</span><span class="sdg-label">Sustain</span></div>
+                <div class="sdg-chip"><span class="sdg-num">13</span><span class="sdg-label">Climate</span></div>
+                <div class="sdg-chip"><span class="sdg-num">14</span><span class="sdg-label">Oceans</span></div>
+                <div class="sdg-chip"><span class="sdg-num">15</span><span class="sdg-label">Land</span></div>
+                <div class="sdg-chip"><span class="sdg-num">17</span><span class="sdg-label">Partners</span></div>
+            </div>
+            <div class="sdg-rainbow"></div>
+        </div>
+    </section>
+
+    <!-- ==================== STATS BAR ==================== -->
+    <div class="stats-bar reveal">
+        <div class="stats-grid">
+            <div class="stat-block">
+                <div class="stat-number">30+</div>
+                <div class="stat-label">Years of Innovation</div>
+            </div>
+            <div class="stat-block">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Natural Solutions</div>
+            </div>
+            <div class="stat-block">
+                <div class="stat-number">10</div>
+                <div class="stat-label">UN SDGs Addressed</div>
+            </div>
+            <div class="stat-block">
+                <div class="stat-number">12+</div>
+                <div class="stat-label">Countries Worldwide</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CTA + FOOTER ==================== -->
+    <section class="cta-section" id="partnership">
+        <div class="cta-inner">
+            <h2 class="reveal">Ready to <em>Partner</em> with Nature?</h2>
+            <p class="reveal">
+                Join three decades of proven biological innovation. Whether you represent
+                a government, research institution, or agricultural enterprise, we are
+                ready to build something that endures.
+            </p>
+            <div class="cta-buttons reveal">
+                <a href="mailto:info@wise-use.nl" class="btn btn-gold">Contact Us</a>
+                <a href="https://www.wise-use.com" target="_blank" class="btn btn-ghost">
+                    Visit wise-use.com
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 17L17 7" />
+                        <path d="M7 7h10v10" />
+                    </svg>
+                </a>
+            </div>
+            <div class="cta-contact-row reveal">
+                <a href="mailto:info@wise-use.nl" class="cta-contact-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <rect x="2" y="4" width="20" height="16" rx="2" />
+                        <path d="M22 4L12 13 2 4" />
+                    </svg>
+                    info@wise-use.nl
+                </a>
+                <a href="tel:+31621150151" class="cta-contact-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <path
+                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.81.36 1.61.68 2.36a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.75.32 1.55.55 2.36.68A2 2 0 0 1 22 16.92z" />
+                    </svg>
+                    +31 6 2115 0151
+                </a>
+                <a href="https://linkedin.com/company/wise-use-international-bv" target="_blank"
+                    class="cta-contact-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
+                        <rect x="2" y="9" width="4" height="12" />
+                        <circle cx="4" cy="4" r="2" />
+                    </svg>
+                    LinkedIn
+                </a>
+            </div>
+        </div>
+        <footer class="site-footer">
+            <div class="footer-row">
+                <p>&copy; 2026 Wise Use International B.V. &mdash; Netherlands</p>
+                <nav class="footer-nav">
+                    <a href="mailto:info@wise-use.nl">info@wise-use.nl</a>
+                    <a href="tel:+31621150151">+31 6 2115 0151</a>
+                    <a href="https://www.wise-use.com" target="_blank">wise-use.com</a>
+                    <a href="https://linkedin.com/company/wise-use-international-bv" target="_blank">LinkedIn</a>
+                </nav>
+            </div>
+        </footer>
+    </section>
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <script>
+        // Reveal on scroll
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+        document.querySelectorAll('.reveal').forEach(function (el) { observer.observe(el); });
+
+        // Partners dropdown logic moved to main.js
+
+        // ====== Mobile Partners Dropdown ======
+        (function() {
+            var btn = document.getElementById('mobilePartnersBtn');
+            var panel = document.getElementById('mobilePartnersPanel');
+            var overlay = document.getElementById('mobilePartnersOverlay');
+            if (!btn || !panel) return;
+            function toggle() {
+                var open = panel.classList.toggle('open');
+                overlay.classList.toggle('open', open);
+                btn.setAttribute('aria-expanded', open);
+            }
+            function close() {
+                panel.classList.remove('open');
+                overlay.classList.remove('open');
+                btn.setAttribute('aria-expanded', 'false');
+            }
+            btn.addEventListener('click', toggle);
+            overlay.addEventListener('click', close);
+            panel.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', close); });
+        })();
+    </script>
+    <script src="js/main.js" defer></script>
+</body>
+
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frequency Vibes Movements — Corrected</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: #111;
+        }
+        .container {
+            position: relative;
+            display: inline-block;
+            line-height: 0;
+        }
+        .container img {
+            width: 1200px;
+            max-width: 95vw;
+            display: block;
+        }
+
+        /* Cover patches — positioned over the typos */
+        .patch {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+            line-height: 1.15;
+            pointer-events: none;
+        }
+
+        /* Patch: "Gama" → "Gamma" inside the bottom-right circle */
+        .patch-gamma {
+            bottom: 8.2%;
+            right: 23%;
+            width: 7.5%;
+            height: 3.8%;
+            background: radial-gradient(ellipse, #1e2d4a 50%, rgba(30,45,74,0.92) 100%);
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: clamp(11px, 1.5vw, 20px);
+            font-weight: 700;
+            border-radius: 2px;
+        }
+
+        /* Patch: "Vibs" → "Vibes" in center title */
+        .patch-vibes {
+            top: 50.5%;
+            left: 35.5%;
+            width: 14%;
+            height: 5.5%;
+            background: linear-gradient(90deg,
+                rgba(30,40,70,0) 0%,
+                rgba(30,40,70,0.95) 10%,
+                rgba(30,40,70,0.97) 50%,
+                rgba(30,40,70,0.95) 90%,
+                rgba(30,40,70,0) 100%
+            );
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: clamp(18px, 3.2vw, 42px);
+            font-weight: 900;
+            letter-spacing: 0.02em;
+            color: rgba(210,220,240,0.92);
+            text-shadow: 2px 3px 8px rgba(0,0,0,0.8);
+        }
+
+        .instructions {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.85);
+            color: #999;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-family: sans-serif;
+            font-size: 13px;
+            text-align: center;
+        }
+        .instructions kbd {
+            background: #333;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="diagram">
+    <img src="assets/optimized/frequency-vibes-diagram-original.1200w.webp" alt="Frequency Vibes Movements Diagram" loading="lazy" decoding="async">
+
+    <!-- Correction: "Gama" → "Gamma" -->
+    <div class="patch patch-gamma">Gamma</div>
+
+    <!-- Correction: "Vibs" → "Vibes" -->
+    <div class="patch patch-vibes">Vibes</div>
+</div>
+
+<div class="instructions">
+    <kbd>Win+Shift+S</kbd> para screenshot &nbsp;|&nbsp; Click derecho → Guardar imagen
+</div>
+
+</body>
+</html>

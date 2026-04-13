@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Frequency Architect</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #08090c;
+            --gold: #c9a55c;
+            --gold-dim: rgba(201, 165, 92, 0.15);
+            --violet: #7c6aad;
+            --text: #f0ede6;
+            --text-dim: rgba(240, 237, 230, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Cormorant Garamond', serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            cursor: none;
+        }
+
+        /* CURSOR */
+        .cursor {
+            position: fixed;
+            width: 24px;
+            height: 24px;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.2s, width 0.3s, height 0.3s;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-core {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor.active {
+            transform: translate(-50%, -50%) scale(2);
+            border-color: var(--text);
+        }
+
+        /* CANVAS */
+        #field {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+        }
+
+        /* NOISE */
+        .noise {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 3;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* LAYOUT */
+        .main {
+            position: relative;
+            z-index: 10;
+            height: 100vh;
+            width: 100vw;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        /* LEFT - CONTENT */
+        .content-side {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 60px 8%;
+            background: linear-gradient(90deg,
+                rgba(8, 9, 12, 0.97) 0%,
+                rgba(8, 9, 12, 0.85) 70%,
+                rgba(8, 9, 12, 0) 100%
+            );
+        }
+
+        .panels-container {
+            position: relative;
+            width: 100%;
+            max-width: 520px;
+        }
+
+        /* PANEL */
+        .panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .panel.active {
+            position: relative;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        /* PANEL ELEMENTS */
+        .p-index {
+            position: absolute;
+            top: -100px;
+            left: -30px;
+            font-size: 12rem;
+            font-weight: 300;
+            color: var(--gold-dim);
+            line-height: 1;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .p-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .p-tag-line {
+            width: 32px;
+            height: 1px;
+            background: var(--gold);
+            transform-origin: left;
+        }
+
+        .p-tag-text {
+            font-size: 0.75rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        .p-title {
+            font-size: clamp(3rem, 6vw, 4.5rem);
+            font-weight: 300;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            margin-bottom: 32px;
+        }
+
+        .p-title span {
+            display: block;
+            overflow: hidden;
+        }
+
+        .p-title .word {
+            display: inline-block;
+        }
+
+        .p-text {
+            font-size: 1.1rem;
+            line-height: 1.85;
+            color: var(--text-dim);
+            font-weight: 400;
+            max-width: 440px;
+            position: relative;
+            padding-left: 24px;
+        }
+
+        .p-text::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 4px;
+            bottom: 4px;
+            width: 1px;
+            background: linear-gradient(180deg, var(--gold), transparent);
+        }
+
+        .p-text .line {
+            display: block;
+            overflow: hidden;
+        }
+
+        .p-text .line-inner {
+            display: block;
+        }
+
+        .highlight {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        /* RIGHT - GEOMETRY */
+        .visual-side {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .geometry-wrap {
+            position: relative;
+            width: 420px;
+            height: 420px;
+        }
+
+        .geometry {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.6s ease;
+        }
+
+        .geometry.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .geometry svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .geometry svg * {
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 0.6;
+            opacity: 0.5;
+        }
+
+        .geometry svg .node {
+            fill: var(--gold);
+            stroke: none;
+            opacity: 0.8;
+        }
+
+        .geometry svg .glow {
+            stroke-width: 2;
+            opacity: 0.15;
+            filter: blur(2px);
+        }
+
+        /* AURA */
+        .aura {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle,
+                rgba(201, 165, 92, 0.06) 0%,
+                transparent 60%
+            );
+            filter: blur(40px);
+            pointer-events: none;
+        }
+
+        /* NAV */
+        .nav {
+            position: fixed;
+            top: 40px;
+            right: 50px;
+            z-index: 100;
+            display: flex;
+            gap: 36px;
+        }
+
+        .nav a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: color 0.4s;
+        }
+
+        .nav a:hover {
+            color: var(--gold);
+        }
+
+        /* PROGRESS */
+        .progress {
+            position: fixed;
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .progress-line {
+            width: 1px;
+            height: 120px;
+            background: rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 20%;
+            background: var(--gold);
+            transition: top 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .progress-num {
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: var(--gold);
+        }
+
+        /* SCROLL HINT */
+        .scroll-hint {
+            position: fixed;
+            bottom: 40px;
+            left: 8%;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .scroll-hint-icon {
+            width: 20px;
+            height: 32px;
+            border: 1px solid var(--text-dim);
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .scroll-hint-dot {
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 6px;
+            background: var(--gold);
+            border-radius: 2px;
+        }
+
+        /* MOBILE */
+        @media (max-width: 900px) {
+            .main {
+                grid-template-columns: 1fr;
+            }
+            .visual-side {
+                display: none;
+            }
+            .content-side {
+                background: rgba(8, 9, 12, 0.9);
+                padding: 80px 8%;
+            }
+            .progress {
+                right: 20px;
+            }
+            .nav {
+                right: 20px;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cursor"></div>
+    <div class="cursor-core"></div>
+    <div class="noise"></div>
+    <canvas id="field"></canvas>
+
+    <nav class="nav">
+        <a href="index.html">Index</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <div class="progress">
+        <div class="progress-num"><span id="curr">01</span> — 05</div>
+        <div class="progress-line">
+            <div class="progress-fill"></div>
+        </div>
+    </div>
+
+    <div class="scroll-hint">
+        <div class="scroll-hint-icon">
+            <div class="scroll-hint-dot"></div>
+        </div>
+        <span>Scroll</span>
+    </div>
+
+    <div class="main">
+
+        <!-- LEFT: CONTENT -->
+        <div class="content-side">
+            <div class="panels-container">
+
+                <!-- PANEL 1 -->
+                <article class="panel active" data-index="0">
+                    <div class="p-index">01</div>
+                    <div class="p-tag">
+                        <div class="p-tag-line"></div>
+                        <span class="p-tag-text">Identity</span>
+                    </div>
+                    <h2 class="p-title">
+                        <span><span class="word">Frequency</span></span>
+                        <span><span class="word">Practitioner</span></span>
+                    </h2>
+                    <div class="p-text">
+                        <span class="line"><span class="line-inner">I'm Eugene Mierak, specializing in <span class="highlight">alignment</span></span></span>
+                        <span class="line"><span class="line-inner"><span class="highlight">caching</span>, coherence training, and energetic training</span></span>
+                        <span class="line"><span class="line-inner">through integrative coherence methodologies to support</span></span>
+                        <span class="line"><span class="line-inner">clarity, stability, and <span class="highlight">conscious evolution</span>.</span></span>
+                    </div>
+                </article>
+
+                <!-- PANEL 2 -->
+                <article class="panel" data-index="1">
+                    <div class="p-index">02</div>
+                    <div class="p-tag">
+                        <div class="p-tag-line"></div>
+                        <span class="p-tag-text">The Bridge</span>
+                    </div>
+                    <h2 class="p-title">
+                        <span><span class="word">Resonance</span></span>
+                        <span><span class="word">& Alignment</span></span>
+                    </h2>
+                    <div class="p-text">
+                        <span class="line"><span class="line-inner">My work bridges <span class="highlight">subtle frequency sciences</span></span></span>
+                        <span class="line"><span class="line-inner">with practical frameworks for personal, organizational,</span></span>
+                        <span class="line"><span class="line-inner">and planetary alignment—helping individuals and teams</span></span>
+                        <span class="line"><span class="line-inner">cultivate <span class="highlight">resonance</span> in real-world decisions.</span></span>
+                    </div>
+                </article>
+
+                <!-- PANEL 3 -->
+                <article class="panel" data-index="2">
+                    <div class="p-index">03</div>
+                    <div class="p-tag">
+                        <div class="p-tag-line"></div>
+                        <span class="p-tag-text">Global Impact</span>
+                    </div>
+                    <h2 class="p-title">
+                        <span><span class="word">SBDI</span></span>
+                        <span><span class="word">Foundation</span></span>
+                    </h2>
+                    <div class="p-text">
+                        <span class="line"><span class="line-inner">As Director of International Relationships, I foster</span></span>
+                        <span class="line"><span class="line-inner">global partnerships for <span class="highlight">holistic sustainability</span>,</span></span>
+                        <span class="line"><span class="line-inner">regenerative development, and conscious collaboration</span></span>
+                        <span class="line"><span class="line-inner">across cultures—from vision to <span class="highlight">coherent execution</span>.</span></span>
+                    </div>
+                </article>
+
+                <!-- PANEL 4 -->
+                <article class="panel" data-index="3">
+                    <div class="p-index">04</div>
+                    <div class="p-tag">
+                        <div class="p-tag-line"></div>
+                        <span class="p-tag-text">Philosophy</span>
+                    </div>
+                    <h2 class="p-title">
+                        <span><span class="word">Systems</span></span>
+                        <span><span class="word">Thinking</span></span>
+                    </h2>
+                    <div class="p-text">
+                        <span class="line"><span class="line-inner">Grounded in <span class="highlight">systems thinking</span>, emphasizing</span></span>
+                        <span class="line"><span class="line-inner">resonance, long-term balance, and alignment between</span></span>
+                        <span class="line"><span class="line-inner">human potential and ecological and social</span></span>
+                        <span class="line"><span class="line-inner">responsibility for <span class="highlight">coherent execution</span>.</span></span>
+                    </div>
+                </article>
+
+                <!-- PANEL 5 -->
+                <article class="panel" data-index="4">
+                    <div class="p-index">05</div>
+                    <div class="p-tag">
+                        <div class="p-tag-line"></div>
+                        <span class="p-tag-text">Mission</span>
+                    </div>
+                    <h2 class="p-title">
+                        <span><span class="word">Conscious</span></span>
+                        <span><span class="word">Impact</span></span>
+                    </h2>
+                    <div class="p-text">
+                        <span class="line"><span class="line-inner">Supporting the emergence of coherent, sustainable</span></span>
+                        <span class="line"><span class="line-inner">projects through <span class="highlight">frequency awareness</span>, strategic</span></span>
+                        <span class="line"><span class="line-inner">alignment, and conscious international cooperation—</span></span>
+                        <span class="line"><span class="line-inner">creating lasting impact for <span class="highlight">the planet</span>.</span></span>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+        <!-- RIGHT: GEOMETRY -->
+        <div class="visual-side">
+            <div class="aura"></div>
+            <div class="geometry-wrap">
+
+                <!-- Flower of Life -->
+                <div class="geometry active" data-geo="0">
+                    <svg viewBox="0 0 400 400">
+                        <g class="geo-group">
+                            <circle cx="200" cy="200" r="50"/>
+                            <circle cx="200" cy="150" r="50"/>
+                            <circle cx="200" cy="250" r="50"/>
+                            <circle cx="243" cy="175" r="50"/>
+                            <circle cx="243" cy="225" r="50"/>
+                            <circle cx="157" cy="175" r="50"/>
+                            <circle cx="157" cy="225" r="50"/>
+                            <!-- Outer layer -->
+                            <circle cx="200" cy="100" r="50" opacity="0.3"/>
+                            <circle cx="200" cy="300" r="50" opacity="0.3"/>
+                            <circle cx="286" cy="150" r="50" opacity="0.3"/>
+                            <circle cx="286" cy="250" r="50" opacity="0.3"/>
+                            <circle cx="114" cy="150" r="50" opacity="0.3"/>
+                            <circle cx="114" cy="250" r="50" opacity="0.3"/>
+                            <!-- Container -->
+                            <circle cx="200" cy="200" r="120" stroke-dasharray="4,8"/>
+                            <circle class="node" cx="200" cy="200" r="4"/>
+                        </g>
+                    </svg>
+                </div>
+
+                <!-- Metatron's Cube -->
+                <div class="geometry" data-geo="1">
+                    <svg viewBox="0 0 400 400">
+                        <g class="geo-group">
+                            <!-- Outer hexagon points -->
+                            <circle cx="200" cy="100" r="20"/>
+                            <circle cx="287" cy="150" r="20"/>
+                            <circle cx="287" cy="250" r="20"/>
+                            <circle cx="200" cy="300" r="20"/>
+                            <circle cx="113" cy="250" r="20"/>
+                            <circle cx="113" cy="150" r="20"/>
+                            <!-- Center -->
+                            <circle cx="200" cy="200" r="25"/>
+                            <!-- Connections -->
+                            <line x1="200" y1="100" x2="287" y2="150"/>
+                            <line x1="287" y1="150" x2="287" y2="250"/>
+                            <line x1="287" y1="250" x2="200" y2="300"/>
+                            <line x1="200" y1="300" x2="113" y2="250"/>
+                            <line x1="113" y1="250" x2="113" y2="150"/>
+                            <line x1="113" y1="150" x2="200" y2="100"/>
+                            <!-- Cross lines -->
+                            <line x1="200" y1="100" x2="200" y2="300"/>
+                            <line x1="113" y1="150" x2="287" y2="250"/>
+                            <line x1="287" y1="150" x2="113" y2="250"/>
+                            <!-- To center -->
+                            <line x1="200" y1="200" x2="200" y2="100" opacity="0.3"/>
+                            <line x1="200" y1="200" x2="287" y2="150" opacity="0.3"/>
+                            <line x1="200" y1="200" x2="287" y2="250" opacity="0.3"/>
+                            <line x1="200" y1="200" x2="200" y2="300" opacity="0.3"/>
+                            <line x1="200" y1="200" x2="113" y2="250" opacity="0.3"/>
+                            <line x1="200" y1="200" x2="113" y2="150" opacity="0.3"/>
+                            <circle class="node" cx="200" cy="200" r="5"/>
+                        </g>
+                    </svg>
+                </div>
+
+                <!-- Torus Field -->
+                <div class="geometry" data-geo="2">
+                    <svg viewBox="0 0 400 400">
+                        <g class="geo-group">
+                            <ellipse cx="200" cy="200" rx="140" ry="40"/>
+                            <ellipse cx="200" cy="200" rx="120" ry="60"/>
+                            <ellipse cx="200" cy="200" rx="90" ry="90"/>
+                            <ellipse cx="200" cy="200" rx="60" ry="120"/>
+                            <ellipse cx="200" cy="200" rx="40" ry="140"/>
+                            <!-- Energy flow -->
+                            <path d="M200,60 Q300,200 200,340" opacity="0.4"/>
+                            <path d="M200,60 Q100,200 200,340" opacity="0.4"/>
+                            <path d="M200,60 Q350,200 200,340" opacity="0.2"/>
+                            <path d="M200,60 Q50,200 200,340" opacity="0.2"/>
+                            <circle class="node" cx="200" cy="200" r="6"/>
+                            <circle class="node" cx="200" cy="60" r="3"/>
+                            <circle class="node" cx="200" cy="340" r="3"/>
+                        </g>
+                    </svg>
+                </div>
+
+                <!-- Merkaba -->
+                <div class="geometry" data-geo="3">
+                    <svg viewBox="0 0 400 400">
+                        <g class="geo-group">
+                            <!-- Upward triangle -->
+                            <path d="M200,70 L330,280 L70,280 Z"/>
+                            <!-- Downward triangle -->
+                            <path d="M200,330 L70,120 L330,120 Z"/>
+                            <!-- Inner hexagon -->
+                            <path d="M140,155 L260,155 L295,200 L260,245 L140,245 L105,200 Z" opacity="0.4"/>
+                            <!-- Nodes -->
+                            <circle class="node" cx="200" cy="200" r="6"/>
+                            <circle class="node" cx="200" cy="70" r="3"/>
+                            <circle class="node" cx="200" cy="330" r="3"/>
+                            <circle class="node" cx="330" cy="280" r="3"/>
+                            <circle class="node" cx="70" cy="280" r="3"/>
+                            <circle class="node" cx="330" cy="120" r="3"/>
+                            <circle class="node" cx="70" cy="120" r="3"/>
+                        </g>
+                    </svg>
+                </div>
+
+                <!-- Golden Spiral -->
+                <div class="geometry" data-geo="4">
+                    <svg viewBox="0 0 400 400">
+                        <g class="geo-group">
+                            <!-- Spiral -->
+                            <path d="M200,200
+                                     Q200,150 250,150
+                                     Q310,150 310,210
+                                     Q310,290 230,290
+                                     Q130,290 130,190
+                                     Q130,70 260,70
+                                     Q370,70 370,200"/>
+                            <path d="M200,200
+                                     Q200,250 150,250
+                                     Q90,250 90,190
+                                     Q90,110 170,110
+                                     Q270,110 270,210
+                                     Q270,330 140,330
+                                     Q30,330 30,200" opacity="0.5"/>
+                            <!-- Fibonacci squares hint -->
+                            <rect x="180" y="180" width="40" height="40" opacity="0.2"/>
+                            <rect x="180" y="140" width="40" height="40" opacity="0.15"/>
+                            <rect x="140" y="140" width="40" height="80" opacity="0.1"/>
+                            <!-- Nodes -->
+                            <circle class="node" cx="200" cy="200" r="5"/>
+                            <circle class="node" cx="250" cy="150" r="3"/>
+                            <circle class="node" cx="310" cy="210" r="3"/>
+                            <circle class="node" cx="230" cy="290" r="3"/>
+                            <circle class="node" cx="130" cy="190" r="3"/>
+                        </g>
+                    </svg>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script src="js/anime.umd.min.js"></script>
+    <script>
+        const { animate, stagger, createTimeline, utils } = anime;
+
+        // ========================================
+        // STATE
+        // ========================================
+        let current = 0;
+        const total = 5;
+        let isAnimating = false;
+        let lastWheel = 0;
+        const cooldown = 1200;
+
+        // ========================================
+        // CURSOR
+        // ========================================
+        const cursor = document.querySelector('.cursor');
+        const cursorCore = document.querySelector('.cursor-core');
+        let mx = 0, my = 0, cx = 0, cy = 0;
+
+        document.addEventListener('mousemove', e => {
+            mx = e.clientX;
+            my = e.clientY;
+            cursorCore.style.left = mx + 'px';
+            cursorCore.style.top = my + 'px';
+        });
+
+        (function moveCursor() {
+            cx += (mx - cx) * 0.12;
+            cy += (my - cy) * 0.12;
+            cursor.style.left = cx + 'px';
+            cursor.style.top = cy + 'px';
+            requestAnimationFrame(moveCursor);
+        })();
+
+        document.querySelectorAll('a').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+        });
+
+        // ========================================
+        // PARTICLE FIELD
+        // ========================================
+        const canvas = document.getElementById('field');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.floor((canvas.width * canvas.height) / 12000);
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    bx: 0, by: 0,
+                    size: Math.random() * 1.5 + 0.5,
+                    alpha: Math.random() * 0.4 + 0.1,
+                    phase: Math.random() * Math.PI * 2
+                });
+                particles[i].bx = particles[i].x;
+                particles[i].by = particles[i].y;
+            }
+        }
+
+        resize();
+        window.addEventListener('resize', resize);
+
+        function drawField() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Connections
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const d = Math.sqrt(dx*dx + dy*dy);
+                    if (d < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(201,165,92,${(1 - d/100) * 0.08})`;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Particles
+            particles.forEach(p => {
+                // Mouse repel
+                const dx = mx - p.x;
+                const dy = my - p.y;
+                const d = Math.sqrt(dx*dx + dy*dy);
+                if (d < 120) {
+                    const f = (120 - d) / 120;
+                    p.x -= (dx / d) * f * 2;
+                    p.y -= (dy / d) * f * 2;
+                } else {
+                    p.x += (p.bx - p.x) * 0.03;
+                    p.y += (p.by - p.y) * 0.03;
+                }
+
+                p.phase += 0.015;
+                const pulse = 0.6 + Math.sin(p.phase) * 0.4;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(201,165,92,${p.alpha * pulse})`;
+                ctx.fill();
+            });
+
+            requestAnimationFrame(drawField);
+        }
+        drawField();
+
+        // ========================================
+        // SCROLL HINT ANIMATION
+        // ========================================
+        animate('.scroll-hint-dot', {
+            translateY: [0, 12, 0],
+            opacity: [1, 0.3, 1],
+            duration: 1500,
+            loop: true,
+            ease: 'inOut(2)'
+        });
+
+        // ========================================
+        // AURA BREATHING
+        // ========================================
+        animate('.aura', {
+            scale: [1, 1.08, 1],
+            opacity: [0.8, 1, 0.8],
+            duration: 5000,
+            loop: true,
+            ease: 'inOut(1.5)'
+        });
+
+        // ========================================
+        // PANEL TRANSITIONS
+        // ========================================
+        const panels = document.querySelectorAll('.panel');
+        const geometries = document.querySelectorAll('.geometry');
+
+        function goTo(idx) {
+            if (isAnimating || idx === current || idx < 0 || idx >= total) return;
+            isAnimating = true;
+
+            const outPanel = panels[current];
+            const inPanel = panels[idx];
+            const outGeo = geometries[current];
+            const inGeo = geometries[idx];
+
+            // Update progress
+            document.getElementById('curr').textContent = String(idx + 1).padStart(2, '0');
+            document.querySelector('.progress-fill').style.top = `${(idx / (total - 1)) * 80}%`;
+
+            // === EXIT ANIMATION ===
+            const outTl = createTimeline({
+                onComplete: () => outPanel.classList.remove('active')
+            });
+
+            // Exit elements with different directions based on scroll direction
+            const dir = idx > current ? -1 : 1;
+
+            outTl.add(outPanel.querySelectorAll('.line-inner'), {
+                translateY: 30 * dir,
+                opacity: 0,
+                duration: 350,
+                delay: stagger(25),
+                ease: 'in(2)'
+            }, 0);
+
+            outTl.add(outPanel.querySelectorAll('.word'), {
+                translateY: 50 * dir,
+                opacity: 0,
+                duration: 400,
+                delay: stagger(40),
+                ease: 'in(3)'
+            }, 0);
+
+            outTl.add(outPanel.querySelector('.p-tag'), {
+                translateX: -30,
+                opacity: 0,
+                duration: 300,
+                ease: 'in(2)'
+            }, 0);
+
+            outTl.add(outPanel.querySelector('.p-index'), {
+                opacity: 0,
+                duration: 200
+            }, 0);
+
+            // Geometry out
+            animate(outGeo.querySelector('.geo-group'), {
+                scale: 0.9,
+                opacity: 0,
+                rotate: dir * -10,
+                duration: 500,
+                ease: 'in(2)',
+                onComplete: () => outGeo.classList.remove('active')
+            });
+
+            // === ENTER ANIMATION (delayed) ===
+            setTimeout(() => {
+                inPanel.classList.add('active');
+                inGeo.classList.add('active');
+
+                // Reset positions
+                const inLines = inPanel.querySelectorAll('.line-inner');
+                const inWords = inPanel.querySelectorAll('.word');
+                const inTag = inPanel.querySelector('.p-tag');
+                const inTagLine = inPanel.querySelector('.p-tag-line');
+                const inIndex = inPanel.querySelector('.p-index');
+
+                utils.set(inLines, { translateY: -30 * dir, opacity: 0 });
+                utils.set(inWords, { translateY: -60 * dir, opacity: 0 });
+                utils.set(inTag, { translateX: -30, opacity: 0 });
+                utils.set(inTagLine, { scaleX: 0 });
+                utils.set(inIndex, { opacity: 0 });
+
+                const inTl = createTimeline({
+                    onComplete: () => {
+                        current = idx;
+                        isAnimating = false;
+                    }
+                });
+
+                inTl.add(inIndex, {
+                    opacity: 0.5,
+                    duration: 600,
+                    ease: 'out(2)'
+                }, 0);
+
+                inTl.add(inTag, {
+                    translateX: 0,
+                    opacity: 1,
+                    duration: 500,
+                    ease: 'out(3)'
+                }, 100);
+
+                inTl.add(inTagLine, {
+                    scaleX: 1,
+                    duration: 600,
+                    ease: 'out(3)'
+                }, 150);
+
+                inTl.add(inWords, {
+                    translateY: 0,
+                    opacity: 1,
+                    duration: 700,
+                    delay: stagger(60),
+                    ease: 'out(4)'
+                }, 200);
+
+                inTl.add(inLines, {
+                    translateY: 0,
+                    opacity: 1,
+                    duration: 600,
+                    delay: stagger(40),
+                    ease: 'out(3)'
+                }, 400);
+
+                // Geometry in
+                const geoGroup = inGeo.querySelector('.geo-group');
+                utils.set(geoGroup, { scale: 1.1, opacity: 0, rotate: dir * 10 });
+
+                animate(geoGroup, {
+                    scale: 1,
+                    opacity: 1,
+                    rotate: 0,
+                    duration: 900,
+                    ease: 'out(3)'
+                });
+
+                // Start geometry rotation
+                animate(geoGroup, {
+                    rotate: '+=360',
+                    duration: 80000,
+                    loop: true,
+                    ease: 'linear'
+                });
+
+                // Pulse nodes
+                animate(inGeo.querySelectorAll('.node'), {
+                    scale: [1, 1.4, 1],
+                    opacity: [0.8, 1, 0.8],
+                    duration: 2500,
+                    loop: true,
+                    delay: stagger(150),
+                    ease: 'inOut(2)'
+                });
+
+            }, 450);
+        }
+
+        // ========================================
+        // WHEEL NAVIGATION
+        // ========================================
+        window.addEventListener('wheel', e => {
+            const now = Date.now();
+            if (now - lastWheel < cooldown || isAnimating) return;
+            if (Math.abs(e.deltaY) < 30) return;
+
+            lastWheel = now;
+            if (e.deltaY > 0) goTo(current + 1);
+            else goTo(current - 1);
+        });
+
+        // Keyboard
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') goTo(current + 1);
+            if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') goTo(current - 1);
+        });
+
+        // ========================================
+        // INITIAL ANIMATION
+        // ========================================
+        window.addEventListener('load', () => {
+            const firstPanel = panels[0];
+            const firstGeo = geometries[0];
+
+            // Hide initially
+            utils.set(firstPanel.querySelectorAll('.line-inner'), { translateY: 30, opacity: 0 });
+            utils.set(firstPanel.querySelectorAll('.word'), { translateY: 60, opacity: 0 });
+            utils.set(firstPanel.querySelector('.p-tag'), { translateX: -30, opacity: 0 });
+            utils.set(firstPanel.querySelector('.p-tag-line'), { scaleX: 0 });
+            utils.set(firstPanel.querySelector('.p-index'), { opacity: 0 });
+            utils.set(firstGeo.querySelector('.geo-group'), { scale: 1.2, opacity: 0 });
+
+            // Animate in
+            setTimeout(() => {
+                const tl = createTimeline();
+
+                tl.add(firstPanel.querySelector('.p-index'), {
+                    opacity: 0.5,
+                    duration: 800,
+                    ease: 'out(2)'
+                }, 0);
+
+                tl.add(firstPanel.querySelector('.p-tag'), {
+                    translateX: 0,
+                    opacity: 1,
+                    duration: 600,
+                    ease: 'out(3)'
+                }, 200);
+
+                tl.add(firstPanel.querySelector('.p-tag-line'), {
+                    scaleX: 1,
+                    duration: 700,
+                    ease: 'out(3)'
+                }, 300);
+
+                tl.add(firstPanel.querySelectorAll('.word'), {
+                    translateY: 0,
+                    opacity: 1,
+                    duration: 900,
+                    delay: stagger(80),
+                    ease: 'out(4)'
+                }, 400);
+
+                tl.add(firstPanel.querySelectorAll('.line-inner'), {
+                    translateY: 0,
+                    opacity: 1,
+                    duration: 700,
+                    delay: stagger(50),
+                    ease: 'out(3)'
+                }, 700);
+
+                // Geometry
+                animate(firstGeo.querySelector('.geo-group'), {
+                    scale: 1,
+                    opacity: 1,
+                    duration: 1200,
+                    ease: 'out(3)'
+                });
+
+                animate(firstGeo.querySelector('.geo-group'), {
+                    rotate: '+=360',
+                    duration: 80000,
+                    loop: true,
+                    ease: 'linear'
+                });
+
+                animate(firstGeo.querySelectorAll('.node'), {
+                    scale: [1, 1.4, 1],
+                    opacity: [0.8, 1, 0.8],
+                    duration: 2500,
+                    loop: true,
+                    delay: stagger(150),
+                    ease: 'inOut(2)'
+                });
+
+            }, 400);
+
+            // Nav
+            animate('.nav a', {
+                opacity: [0, 1],
+                translateY: [-15, 0],
+                duration: 600,
+                delay: stagger(80, { start: 600 }),
+                ease: 'out(2)'
+            });
+
+            // Progress
+            animate('.progress', {
+                opacity: [0, 1],
+                translateX: [20, 0],
+                duration: 600,
+                delay: 800,
+                ease: 'out(2)'
+            });
+
+            // Scroll hint
+            animate('.scroll-hint', {
+                opacity: [0, 1],
+                translateY: [15, 0],
+                duration: 600,
+                delay: 1000,
+                ease: 'out(2)'
+            });
+        });
+
+    </script>
+</body>
+
+</html>

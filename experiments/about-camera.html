@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | About</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0a0f;
+            --accent: #6366f1;
+        }
+
+        html,
+        body {
+            background: var(--bg);
+            color: #fff;
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 0;
+        }
+
+        .scroll-container {
+            height: 800vh;
+            position: relative;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-style: italic;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), #8b5cf6);
+            width: 0%;
+            z-index: 1000;
+        }
+
+        .section-indicator {
+            position: fixed;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 100;
+        }
+
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .indicator-dot.active {
+            background: #fff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            transform: scale(1.3);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            nav {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+
+    <nav>
+        <a href="index.html" class="logo">Eugene Mierak</a>
+        <div class="nav-links">
+            <a href="#">About</a>
+            <a href="projects.html">Work</a>
+            <a href="#">Contact</a>
+        </div>
+    </nav>
+
+    <div class="section-indicator" id="sectionIndicator">
+        <div class="indicator-dot active" data-index="0"></div>
+        <div class="indicator-dot" data-index="1"></div>
+        <div class="indicator-dot" data-index="2"></div>
+        <div class="indicator-dot" data-index="3"></div>
+        <div class="indicator-dot" data-index="4"></div>
+    </div>
+
+    <div id="canvas-container"></div>
+
+    <!-- HTML Content Overlays (Hidden for now as text is on 3D panels) -->
+    <div class="overlay" id="section0" style="display:none"></div>
+    <div class="overlay" id="section1" style="display:none"></div>
+    <div class="overlay" id="section2" style="display:none"></div>
+    <div class="overlay" id="section3" style="display:none"></div>
+    <div class="overlay" id="section4" style="display:none"></div>
+
+    <div class="scroll-container"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        const container = document.getElementById('canvas-container');
+        const progressBar = document.getElementById('progressBar');
+        const dots = document.querySelectorAll('.indicator-dot');
+
+        // Scene
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x0a0a0f);
+        scene.fog = new THREE.Fog(0x0a0a0f, 50, 200);
+
+        // Camera
+        const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 500);
+
+        // Renderer
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        // Content for panels
+        const panelContents = [
+            {
+                label: 'WELCOME',
+                title: 'Eugene\nMierak',
+                body: 'Frequency Practitioner specializing in\nalignment caching, coherence training,\nand energetic development.'
+            },
+            {
+                label: 'ABOUT',
+                title: 'Integrative\nCoherence',
+                body: 'Working through integrative methodologies\nto support clarity, stability, and\nconscious evolution.'
+            },
+            {
+                label: 'APPROACH',
+                title: 'Bridging\nFrequency',
+                body: 'Connecting subtle frequency sciences with\npractical frameworks for personal,\norganizational, and planetary alignment.'
+            },
+            {
+                label: 'SBDI FOUNDATION',
+                title: 'Global\nPartnerships',
+                body: 'Director of International Relationships.\nFostering holistic sustainability and\nregenative development worldwide.'
+            },
+            {
+                label: 'MISSION',
+                title: 'Coherent\nImpact',
+                body: 'Supporting sustainable projects through\nfrequency awareness and strategic alignment—\ncreating lasting impact for communities.'
+            }
+        ];
+
+        // Panel positions in 3D space (like stages)
+        const panelPositions = [
+            { pos: new THREE.Vector3(0, 0, 0), rot: new THREE.Vector3(0, 0, 0) },
+            { pos: new THREE.Vector3(40, 5, -60), rot: new THREE.Vector3(0, -0.4, 0) },
+            { pos: new THREE.Vector3(-30, -5, -130), rot: new THREE.Vector3(0, 0.3, 0) },
+            { pos: new THREE.Vector3(50, 10, -200), rot: new THREE.Vector3(0, -0.5, 0) },
+            { pos: new THREE.Vector3(0, 0, -280), rot: new THREE.Vector3(0, 0, 0) }
+        ];
+
+        // Background Texture
+        const loader = new THREE.TextureLoader();
+        loader.load('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=2000&auto=format&fit=crop', function (texture) {
+            scene.background = texture;
+            scene.environment = texture;
+        });
+
+        // Create text canvas for panels (High Res for crispness)
+        function createTextTexture(content, width = 1024, height = 768) {
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+
+            // Semi-transparent Glass Background
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.90)';
+            ctx.roundRect(0, 0, width, height, 40);
+            ctx.fill();
+
+            // Border accent
+            ctx.fillStyle = '#6366f1';
+            ctx.fillRect(0, 0, 12, height);
+
+            // Label
+            ctx.fillStyle = '#6366f1';
+            ctx.font = '600 32px "Space Grotesk", sans-serif'; // Bigger relative font
+            ctx.letterSpacing = '4px';
+            ctx.fillText(content.label, 80, 100);
+
+            // Title
+            ctx.fillStyle = '#0a0a0f';
+            ctx.font = 'italic 400 110px "Playfair Display", serif';
+            const titleLines = content.title.split('\n');
+            titleLines.forEach((line, i) => {
+                ctx.fillText(line, 80, 240 + i * 110);
+            });
+
+            // Body
+            ctx.fillStyle = '#444';
+            ctx.font = '300 36px "Space Grotesk", sans-serif';
+            const bodyLines = content.body.split('\n');
+            bodyLines.forEach((line, i) => {
+                ctx.fillText(line, 80, 520 + i * 50);
+            });
+
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.minFilter = THREE.LinearFilter; // Better scaling
+            return texture;
+        }
+
+        // Create panels (SMALLER CARDS)
+        const panels = [];
+        panelContents.forEach((content, i) => {
+            const texture = createTextTexture(content);
+            const geometry = new THREE.PlaneGeometry(20, 15); // Smaller visual size
+            const material = new THREE.MeshBasicMaterial({
+                map: texture,
+                side: THREE.DoubleSide,
+                transparent: true,
+                opacity: 0.95
+            });
+
+            const panel = new THREE.Mesh(geometry, material);
+            panel.position.copy(panelPositions[i].pos);
+            panel.rotation.set(
+                panelPositions[i].rot.x,
+                panelPositions[i].rot.y,
+                panelPositions[i].rot.z
+            );
+            scene.add(panel);
+            panels.push(panel);
+        });
+
+        // Decorative elements
+        // Floating cubes
+        const cubeGeo = new THREE.BoxGeometry(2, 2, 2);
+        const cubeMat = new THREE.MeshPhongMaterial({
+            color: 0x6366f1,
+            transparent: true,
+            opacity: 0.3,
+            wireframe: false
+        });
+
+        for (let i = 0; i < 30; i++) {
+            const cube = new THREE.Mesh(cubeGeo, cubeMat.clone());
+            cube.position.set(
+                (Math.random() - 0.5) * 150,
+                (Math.random() - 0.5) * 60,
+                -Math.random() * 300
+            );
+            cube.rotation.set(
+                Math.random() * Math.PI,
+                Math.random() * Math.PI,
+                Math.random() * Math.PI
+            );
+            cube.userData.speed = {
+                x: (Math.random() - 0.5) * 0.01,
+                y: (Math.random() - 0.5) * 0.01
+            };
+            scene.add(cube);
+        }
+
+        // Rings
+        const ringGeo = new THREE.TorusGeometry(5, 0.2, 16, 100);
+        const ringMat = new THREE.MeshBasicMaterial({
+            color: 0x8b5cf6,
+            transparent: true,
+            opacity: 0.2
+        });
+
+        for (let i = 0; i < 10; i++) {
+            const ring = new THREE.Mesh(ringGeo, ringMat.clone());
+            ring.position.set(
+                (Math.random() - 0.5) * 120,
+                (Math.random() - 0.5) * 50,
+                -Math.random() * 280
+            );
+            ring.rotation.x = Math.random() * Math.PI;
+            ring.rotation.y = Math.random() * Math.PI;
+            ring.userData.speed = { x: 0.005, y: 0.003 };
+            scene.add(ring);
+        }
+
+        // Particles
+        const particleGeo = new THREE.BufferGeometry();
+        const particleCount = 800;
+        const positions = new Float32Array(particleCount * 3);
+
+        for (let i = 0; i < particleCount * 3; i += 3) {
+            positions[i] = (Math.random() - 0.5) * 200;
+            positions[i + 1] = (Math.random() - 0.5) * 100;
+            positions[i + 2] = -Math.random() * 350;
+        }
+
+        particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        const particleMat = new THREE.PointsMaterial({
+            size: 0.4,
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.5
+        });
+        const particles = new THREE.Points(particleGeo, particleMat);
+        scene.add(particles);
+
+        // Lights
+        scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+        const light1 = new THREE.PointLight(0x6366f1, 1, 100);
+        light1.position.set(20, 20, 10);
+        scene.add(light1);
+
+        // Camera path through panels
+        const cameraPath = new THREE.CatmullRomCurve3([
+            new THREE.Vector3(0, 0, 40),
+            new THREE.Vector3(35, 8, -20),
+            new THREE.Vector3(-20, 0, -90),
+            new THREE.Vector3(45, 12, -160),
+            new THREE.Vector3(0, 0, -240)
+        ], false);
+
+        const lookAtPath = new THREE.CatmullRomCurve3([
+            panelPositions[0].pos.clone(),
+            panelPositions[1].pos.clone(),
+            panelPositions[2].pos.clone(),
+            panelPositions[3].pos.clone(),
+            panelPositions[4].pos.clone()
+        ], false);
+
+        // Scroll control
+        let scrollProgress = { value: 0 };
+
+        gsap.to(scrollProgress, {
+            value: 1,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '.scroll-container',
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: 1.5,
+                onUpdate: (self) => {
+                    progressBar.style.width = (self.progress * 100) + '%';
+
+                    const sectionIndex = Math.min(Math.floor(self.progress * 5), 4);
+                    dots.forEach((dot, i) => {
+                        dot.classList.toggle('active', i === sectionIndex);
+                    });
+                }
+            }
+        });
+
+        // Animate
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Camera follows path
+            const t = scrollProgress.value;
+            const cameraPos = cameraPath.getPoint(t);
+            const lookAtPos = lookAtPath.getPoint(t);
+
+            camera.position.lerp(cameraPos, 0.1);
+
+            // Smooth look-at
+            const targetQuat = new THREE.Quaternion();
+            const tempCamera = camera.clone();
+            tempCamera.lookAt(lookAtPos);
+            targetQuat.copy(tempCamera.quaternion);
+            camera.quaternion.slerp(targetQuat, 0.05);
+
+            // Rotate decorative elements
+            scene.children.forEach(child => {
+                if (child.userData.speed) {
+                    child.rotation.x += child.userData.speed.x;
+                    child.rotation.y += child.userData.speed.y;
+                }
+            });
+
+            // Particles subtle movement
+            particles.rotation.y += 0.0002;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Click dots to navigate
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const idx = parseInt(dot.dataset.index);
+                const target = (idx / 4) * (document.documentElement.scrollHeight - window.innerHeight);
+                window.scrollTo({ top: target, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+
+</html>

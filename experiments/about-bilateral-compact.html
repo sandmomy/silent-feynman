@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Compact Flow</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@1,300;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #050608;
+            --text: #e1e1e1;
+            --gold: #d4af37;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* NOISE & BG */
+        .noise {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        #webgl-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+        }
+
+        /* NAV */
+        .nav-float {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 100;
+            mix-blend-mode: difference;
+        }
+
+        .nav-float a {
+            color: white;
+            text-decoration: none;
+            font-family: 'Inter';
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            margin-left: 20px;
+            opacity: 0.7;
+        }
+
+        /* CONTENT SECTIONS - COMPACT */
+        /* Instead of 100vh, we use closer to 60-70vh to see more context */
+        .content-section {
+            min-height: 55vh;
+            /* Much more compact */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 5vh 0;
+        }
+
+        .header-section {
+            min-height: 80vh;
+            /* Title slightly taller */
+        }
+
+        .main-title {
+            font-family: 'Cinzel', serif;
+            font-size: 10vw;
+            line-height: 0.8;
+            text-align: center;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
+        }
+
+        .split-container {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            justify-content: space-between;
+            align-items: flex-start;
+            /* Align top for compact reading */
+            padding: 0 8vw;
+        }
+
+        .side-block {
+            width: 48%;
+            opacity: 0;
+            will-change: transform, opacity;
+            transition: transform 0.1s linear;
+            /* Smooth scrub */
+        }
+
+        /* Styling */
+        .label {
+            font-family: 'Inter';
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: block;
+            font-size: 0.75rem;
+            border-left: 2px solid var(--gold);
+            padding-left: 10px;
+            width: fit-content;
+        }
+
+        .title-h2 {
+            font-family: 'Playfair Display';
+            font-size: 2.8rem;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .text-p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .highlight {
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* IMAGE COMPACT */
+        .image-bg-section {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.5s;
+        }
+
+        .image-bg-section img {
+            width: 40vw;
+            height: 100%;
+            object-fit: cover;
+            mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+            opacity: 0.2;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="noise"></div>
+    <div id="webgl-bg"></div>
+
+    <nav class="nav-float">
+        <a href="index.html">Index</a>
+        <a href="projects.html">Work</a>
+    </nav>
+
+    <!-- HEADER -->
+    <header class="content-section header-section">
+        <h1 class="main-title" id="titleMain">EUGENE<br>MIERAK</h1>
+    </header>
+
+    <!-- SECTION 1: IDENTITY -->
+    <section class="content-section" id="sec1">
+        <div class="image-bg-section"><img src="assets/optimized/hero-pose.1600w.webp"></div>
+        <div class="split-container">
+            <div class="side-block left-side">
+                <span class="label">01 // Identity</span>
+                <h2 class="title-h2">Frequency<br>Architect</h2>
+            </div>
+            <div class="side-block right-side">
+                <p class="text-p">
+                    I'm Eugene Mierak, a frequency practitioner specializing in alignment caching and <span
+                        class="highlight">conscious evolution</span>. My work bridges subtle frequency sciences with
+                    practical frameworks for stability in chaos.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: BRIDGE -->
+    <section class="content-section" id="sec2">
+        <div class="split-container" style="flex-direction: row-reverse;">
+            <div class="side-block right-side">
+                <span class="label">02 // The Bridge</span>
+                <h2 class="title-h2">Coherent<br>Dynamics</h2>
+            </div>
+            <div class="side-block left-side" style="text-align:right;">
+                <p class="text-p">
+                    Helping individuals and teams cultivate resonance in real-world decisions. My work bridges internal
+                    alignment with external leadership dynamics for long-term projects.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: IMPACT -->
+    <section class="content-section" id="sec3">
+        <div class="image-bg-section"><img src="assets/optimized/karangasem-water-temple-palace-bali.800w.webp"></div>
+        <div class="split-container">
+            <div class="side-block left-side">
+                <span class="label">03 // Global Impact</span>
+                <h2 class="title-h2">SBDI<br>Foundation</h2>
+            </div>
+            <div class="side-block right-side">
+                <p class="text-p">
+                    As Director of International Relationships, I foster global partnerships for holistic
+                    sustainability. Grounded in systems thinking, we move initiatives from vision to <span
+                        class="highlight">coherent execution</span>.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: MISSION -->
+    <section class="content-section" id="sec4" style="min-height: 40vh;">
+        <div class="split-container" style="justify-content: center; text-align: center;">
+            <div class="side-block split-center" style="width: 80%;">
+                <span class="label" style="margin:0 auto 20px auto;">04 // Mission</span>
+                <p class="text-p" style="font-size: 1.5rem; font-family:'Playfair Display'; color: white;">
+                    Supporting the emergence of coherent, sustainable projects through frequency awareness and strategic
+                    alignment—creating meaningful, lasting impact.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer
+        style="height: 30vh; display:flex; justify-content:center; align-items:center; border-top:1px solid rgba(255,255,255,0.1);">
+        <a href="mailto:contact@eugenemierak.com"
+            style="color:white; font-family:'Cinzel'; text-decoration:none;">Initialize Contact</a>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+
+    <script>
+        const lenis = new Lenis({ smooth: true, lerp: 0.1 });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        // BILATERAL COMPACT LOGIC
+        // Since sections are shorter (55vh), the 'center' passes faster.
+        // We need tighter spread (less distance to travel).
+
+        const sections = document.querySelectorAll('.content-section');
+
+        lenis.on('scroll', (e) => {
+            const vh = window.innerHeight;
+
+            sections.forEach(sec => {
+                const rect = sec.getBoundingClientRect();
+                const centerDiff = (rect.top + rect.height / 2) - (vh / 2);
+
+                // Normalize based on reduced height
+                // Range -1 to 1 covers about 60% of viewport
+                const norm = centerDiff / (vh * 0.45);
+
+                const img = sec.querySelector('.image-bg-section');
+                if (img && Math.abs(norm) < 1.2) {
+                    img.style.opacity = Math.max(0, 0.3 - Math.abs(norm) * 0.2);
+                }
+
+                const left = sec.querySelector('.left-side');
+                const right = sec.querySelector('.right-side');
+                const center = sec.querySelector('.split-center');
+
+                // Reduced spread for compact feel
+                const spread = 80;
+
+                if (left) {
+                    const tx = -1 * Math.abs(norm) * spread;
+                    left.style.transform = `translateX(${tx}px)`;
+                    left.style.opacity = Math.max(0, 1 - Math.abs(norm * 0.8));
+                }
+                if (right) {
+                    const tx = 1 * Math.abs(norm) * spread;
+                    right.style.transform = `translateX(${tx}px)`;
+                    right.style.opacity = Math.max(0, 1 - Math.abs(norm * 0.8));
+                }
+                if (center) {
+                    center.style.transform = `scale(${1 - Math.abs(norm) * 0.1})`;
+                    center.style.opacity = Math.max(0, 1 - Math.abs(norm));
+                }
+            });
+
+            const tMain = document.getElementById('titleMain');
+            if (window.scrollY < vh) {
+                tMain.style.opacity = 1 - (window.scrollY / vh) * 2;
+            }
+        });
+
+        // BG 
+        const scene = new THREE.Scene();
+        const cam = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        cam.position.z = 20;
+        const ren = new THREE.WebGLRenderer({ alpha: true });
+        ren.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('webgl-bg').appendChild(ren.domElement);
+
+        const geo = new THREE.IcosahedronGeometry(6, 0); // Low poly for sharp edges
+        const mat = new THREE.MeshBasicMaterial({ color: 0x48bb78, wireframe: true, transparent: true, opacity: 0.06 });
+        const mesh = new THREE.Mesh(geo, mat);
+        scene.add(mesh);
+
+        function anim() {
+            requestAnimationFrame(anim);
+            mesh.rotation.y += 0.0008;
+            mesh.rotation.x -= 0.0004;
+            ren.render(scene, cam);
+        }
+        anim();
+        window.addEventListener('resize', () => {
+            cam.aspect = window.innerWidth / window.innerHeight; cam.updateProjectionMatrix(); ren.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+
+</html>

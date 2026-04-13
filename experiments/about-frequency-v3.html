@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | Frequency Architect</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #070809;
+            --gold: #c9a55c;
+            --gold-soft: rgba(201, 165, 92, 0.7);
+            --gold-dim: rgba(201, 165, 92, 0.12);
+            --text: #f0ede6;
+            --text-soft: rgba(240, 237, 230, 0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Cormorant Garamond', serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            cursor: none;
+        }
+
+        /* CURSOR */
+        .cursor {
+            position: fixed;
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.25s ease, opacity 0.3s, width 0.3s, height 0.3s;
+            opacity: 0.7;
+        }
+
+        .cursor-dot {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px rgba(201, 165, 92, 0.5);
+        }
+
+        .cursor.expand {
+            width: 50px;
+            height: 50px;
+            opacity: 0.4;
+            border-color: var(--gold-soft);
+        }
+
+        /* BACKGROUND IMAGE */
+        .bg-image {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 70%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .bg-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            filter: brightness(1) saturate(1);
+        }
+
+        .bg-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg,
+                var(--bg) 0%,
+                rgba(7, 8, 9, 0.85) 25%,
+                rgba(7, 8, 9, 0.4) 50%,
+                rgba(7, 8, 9, 0.15) 75%,
+                rgba(7, 8, 9, 0.1) 100%
+            );
+            z-index: 2;
+        }
+
+        .bg-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(0deg,
+                rgba(7, 8, 9, 0.6) 0%,
+                transparent 25%,
+                transparent 85%,
+                rgba(7, 8, 9, 0.4) 100%
+            );
+            z-index: 2;
+        }
+
+        /* ENERGY AURA AROUND FIGURE */
+        .aura-layer {
+            position: fixed;
+            top: 50%;
+            right: 18%;
+            transform: translate(50%, -50%);
+            width: 500px;
+            height: 600px;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .aura-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(ellipse,
+                rgba(201, 165, 92, 0.12) 0%,
+                rgba(201, 165, 92, 0.05) 40%,
+                transparent 70%
+            );
+            filter: blur(50px);
+        }
+
+        .aura-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(201, 165, 92, 0.08);
+            border-radius: 50%;
+        }
+
+        .aura-ring:nth-child(2) { width: 220px; height: 280px; }
+        .aura-ring:nth-child(3) { width: 340px; height: 420px; opacity: 0.6; }
+        .aura-ring:nth-child(4) { width: 460px; height: 560px; opacity: 0.3; }
+
+        /* SACRED GEOMETRY OVERLAY */
+        .geometry-overlay {
+            position: fixed;
+            top: 50%;
+            right: 15%;
+            transform: translate(50%, -50%);
+            width: 550px;
+            height: 550px;
+            z-index: 4;
+            pointer-events: none;
+            opacity: 0.25;
+            mix-blend-mode: screen;
+        }
+
+        .geometry-overlay svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .geometry-overlay svg * {
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 0.5;
+        }
+
+        .geometry-overlay .node {
+            fill: var(--gold);
+            stroke: none;
+        }
+
+        /* PARTICLES CANVAS */
+        #particles {
+            position: fixed;
+            inset: 0;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        /* NOISE */
+        .noise {
+            position: fixed;
+            inset: 0;
+            z-index: 6;
+            pointer-events: none;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* CONTENT */
+        .content {
+            position: relative;
+            z-index: 20;
+            height: 100vh;
+            width: 55%;
+            display: flex;
+            align-items: center;
+            padding: 60px 5% 60px 10%;
+        }
+
+        .panels-wrap {
+            position: relative;
+            width: 100%;
+            max-width: 580px;
+        }
+
+        .panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .panel.active {
+            position: relative;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        /* PANEL ELEMENTS */
+        .p-num {
+            position: absolute;
+            top: -120px;
+            left: -40px;
+            font-size: 14rem;
+            font-weight: 300;
+            color: rgba(201, 165, 92, 0.06);
+            line-height: 1;
+            pointer-events: none;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .p-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .p-label-bar {
+            width: 45px;
+            height: 1px;
+            background: var(--gold);
+            transform-origin: left;
+        }
+
+        .p-label-text {
+            font-size: 0.85rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 400;
+        }
+
+        .p-title {
+            font-size: clamp(3.5rem, 7vw, 5.5rem);
+            font-weight: 300;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            margin-bottom: 40px;
+            color: #ffffff;
+            text-shadow: 0 2px 40px rgba(0,0,0,0.3);
+        }
+
+        .p-title .line {
+            display: block;
+            overflow: hidden;
+        }
+
+        .p-title .word {
+            display: inline-block;
+        }
+
+        .p-body {
+            font-size: 1.25rem;
+            line-height: 1.9;
+            color: rgba(255, 255, 255, 0.75);
+            max-width: 480px;
+            position: relative;
+            padding-left: 28px;
+            font-weight: 300;
+        }
+
+        .p-body::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            bottom: 5px;
+            width: 2px;
+            background: linear-gradient(180deg, var(--gold), rgba(201, 165, 92, 0.2));
+        }
+
+        .p-body .txt-line {
+            display: block;
+            overflow: hidden;
+        }
+
+        .p-body .txt-inner {
+            display: block;
+        }
+
+        .hl {
+            color: var(--gold);
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        /* NAV */
+        .nav {
+            position: fixed;
+            top: 40px;
+            right: 50px;
+            z-index: 100;
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: color 0.4s, transform 0.3s;
+            font-weight: 400;
+        }
+
+        .nav a:hover {
+            color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        /* PROGRESS */
+        .progress {
+            position: fixed;
+            left: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .prog-dot {
+            width: 12px;
+            height: 12px;
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .prog-dot::before {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: var(--gold);
+            border-radius: 50%;
+            transform: scale(0);
+            transition: transform 0.4s ease;
+        }
+
+        .prog-dot.active {
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(201, 165, 92, 0.4);
+        }
+
+        .prog-dot.active::before {
+            transform: scale(1);
+        }
+
+        .prog-dot:hover {
+            border-color: var(--gold-soft);
+            transform: scale(1.2);
+        }
+
+        /* SCROLL HINT */
+        .scroll-hint {
+            position: fixed;
+            bottom: 50px;
+            left: 50px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .scroll-hint span {
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            writing-mode: vertical-rl;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: rgba(255,255,255,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: var(--gold);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1200px) {
+            .p-title {
+                font-size: clamp(3rem, 6vw, 4.5rem);
+            }
+            .p-body {
+                font-size: 1.15rem;
+            }
+            .content {
+                padding-left: 8%;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .bg-image { width: 100%; }
+            .bg-image::before {
+                background: linear-gradient(90deg,
+                    var(--bg) 0%,
+                    rgba(7,8,9,0.9) 40%,
+                    rgba(7,8,9,0.5) 100%
+                );
+            }
+            .content { width: 60%; }
+            .geometry-overlay { opacity: 0.15; right: 5%; }
+            .aura-layer { right: 10%; opacity: 0.7; }
+        }
+
+        @media (max-width: 768px) {
+            .content { width: 100%; padding: 100px 8% 80px; }
+            .p-title { font-size: 2.8rem; }
+            .p-body { font-size: 1.1rem; max-width: 100%; }
+            .p-num { font-size: 8rem; top: -70px; left: -15px; }
+            .geometry-overlay, .aura-layer { display: none; }
+            .progress { left: auto; right: 20px; }
+            .scroll-hint { left: 20px; }
+            .nav { right: 25px; top: 25px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+    <div class="noise"></div>
+
+    <!-- BACKGROUND IMAGE -->
+    <div class="bg-image">
+        <img src="assets/meditation-bg.png" alt="Eugene Mierak in meditation">
+    </div>
+
+    <!-- AURA AROUND FIGURE -->
+    <div class="aura-layer">
+        <div class="aura-glow"></div>
+        <div class="aura-ring"></div>
+        <div class="aura-ring"></div>
+        <div class="aura-ring"></div>
+    </div>
+
+    <!-- SACRED GEOMETRY OVERLAY -->
+    <div class="geometry-overlay">
+        <svg viewBox="0 0 400 400" id="sacred-geo">
+            <g class="geo-main">
+                <!-- Flower of Life base -->
+                <circle cx="200" cy="200" r="45"/>
+                <circle cx="200" cy="155" r="45"/>
+                <circle cx="200" cy="245" r="45"/>
+                <circle cx="239" cy="177.5" r="45"/>
+                <circle cx="239" cy="222.5" r="45"/>
+                <circle cx="161" cy="177.5" r="45"/>
+                <circle cx="161" cy="222.5" r="45"/>
+                <!-- Outer ring -->
+                <circle cx="200" cy="200" r="100" stroke-dasharray="4,6"/>
+                <circle cx="200" cy="200" r="130" stroke-dasharray="2,8" opacity="0.5"/>
+                <!-- Energy lines -->
+                <line x1="200" y1="70" x2="200" y2="330" opacity="0.3"/>
+                <line x1="87" y1="135" x2="313" y2="265" opacity="0.3"/>
+                <line x1="87" y1="265" x2="313" y2="135" opacity="0.3"/>
+                <!-- Nodes -->
+                <circle class="node" cx="200" cy="200" r="3"/>
+                <circle class="node" cx="200" cy="70" r="2"/>
+                <circle class="node" cx="200" cy="330" r="2"/>
+                <circle class="node" cx="87" cy="135" r="2"/>
+                <circle class="node" cx="313" cy="265" r="2"/>
+            </g>
+        </svg>
+    </div>
+
+    <!-- PARTICLES -->
+    <canvas id="particles"></canvas>
+
+    <!-- NAV -->
+    <nav class="nav">
+        <a href="index.html">Index</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <!-- PROGRESS -->
+    <div class="progress">
+        <div class="prog-dot active" data-idx="0"></div>
+        <div class="prog-dot" data-idx="1"></div>
+        <div class="prog-dot" data-idx="2"></div>
+        <div class="prog-dot" data-idx="3"></div>
+        <div class="prog-dot" data-idx="4"></div>
+    </div>
+
+    <!-- SCROLL HINT -->
+    <div class="scroll-hint">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+    </div>
+
+    <!-- CONTENT PANELS -->
+    <div class="content">
+        <div class="panels-wrap">
+
+            <!-- 01 -->
+            <article class="panel active" data-idx="0">
+                <div class="p-num">01</div>
+                <div class="p-label">
+                    <div class="p-label-bar"></div>
+                    <span class="p-label-text">Identity</span>
+                </div>
+                <h2 class="p-title">
+                    <span class="line"><span class="word">Frequency</span></span>
+                    <span class="line"><span class="word">Practitioner</span></span>
+                </h2>
+                <div class="p-body">
+                    <span class="txt-line"><span class="txt-inner">I'm Eugene Mierak, specializing in <span class="hl">alignment</span></span></span>
+                    <span class="txt-line"><span class="txt-inner"><span class="hl">caching</span>, coherence training, and energetic</span></span>
+                    <span class="txt-line"><span class="txt-inner">training through integrative methodologies to</span></span>
+                    <span class="txt-line"><span class="txt-inner">support clarity, stability, and <span class="hl">conscious evolution</span>.</span></span>
+                </div>
+            </article>
+
+            <!-- 02 -->
+            <article class="panel" data-idx="1">
+                <div class="p-num">02</div>
+                <div class="p-label">
+                    <div class="p-label-bar"></div>
+                    <span class="p-label-text">The Bridge</span>
+                </div>
+                <h2 class="p-title">
+                    <span class="line"><span class="word">Resonance &</span></span>
+                    <span class="line"><span class="word">Alignment</span></span>
+                </h2>
+                <div class="p-body">
+                    <span class="txt-line"><span class="txt-inner">My work bridges <span class="hl">subtle frequency sciences</span></span></span>
+                    <span class="txt-line"><span class="txt-inner">with practical frameworks for personal,</span></span>
+                    <span class="txt-line"><span class="txt-inner">organizational, and planetary alignment—helping</span></span>
+                    <span class="txt-line"><span class="txt-inner">cultivate <span class="hl">resonance</span> in real-world decisions.</span></span>
+                </div>
+            </article>
+
+            <!-- 03 -->
+            <article class="panel" data-idx="2">
+                <div class="p-num">03</div>
+                <div class="p-label">
+                    <div class="p-label-bar"></div>
+                    <span class="p-label-text">Global Impact</span>
+                </div>
+                <h2 class="p-title">
+                    <span class="line"><span class="word">SBDI</span></span>
+                    <span class="line"><span class="word">Foundation</span></span>
+                </h2>
+                <div class="p-body">
+                    <span class="txt-line"><span class="txt-inner">As Director of International Relationships, I</span></span>
+                    <span class="txt-line"><span class="txt-inner">foster global partnerships for <span class="hl">holistic</span></span></span>
+                    <span class="txt-line"><span class="txt-inner"><span class="hl">sustainability</span>, regenerative development, and</span></span>
+                    <span class="txt-line"><span class="txt-inner">conscious collaboration across cultures.</span></span>
+                </div>
+            </article>
+
+            <!-- 04 -->
+            <article class="panel" data-idx="3">
+                <div class="p-num">04</div>
+                <div class="p-label">
+                    <div class="p-label-bar"></div>
+                    <span class="p-label-text">Philosophy</span>
+                </div>
+                <h2 class="p-title">
+                    <span class="line"><span class="word">Systems</span></span>
+                    <span class="line"><span class="word">Thinking</span></span>
+                </h2>
+                <div class="p-body">
+                    <span class="txt-line"><span class="txt-inner">Grounded in <span class="hl">systems thinking</span>, emphasizing</span></span>
+                    <span class="txt-line"><span class="txt-inner">resonance, long-term balance, and alignment</span></span>
+                    <span class="txt-line"><span class="txt-inner">between human potential and ecological and</span></span>
+                    <span class="txt-line"><span class="txt-inner">social responsibility.</span></span>
+                </div>
+            </article>
+
+            <!-- 05 -->
+            <article class="panel" data-idx="4">
+                <div class="p-num">05</div>
+                <div class="p-label">
+                    <div class="p-label-bar"></div>
+                    <span class="p-label-text">Mission</span>
+                </div>
+                <h2 class="p-title">
+                    <span class="line"><span class="word">Conscious</span></span>
+                    <span class="line"><span class="word">Impact</span></span>
+                </h2>
+                <div class="p-body">
+                    <span class="txt-line"><span class="txt-inner">Supporting the emergence of coherent, sustainable</span></span>
+                    <span class="txt-line"><span class="txt-inner">projects through <span class="hl">frequency awareness</span>,</span></span>
+                    <span class="txt-line"><span class="txt-inner">strategic alignment, and conscious cooperation—</span></span>
+                    <span class="txt-line"><span class="txt-inner">creating lasting impact for <span class="hl">the planet</span>.</span></span>
+                </div>
+            </article>
+
+        </div>
+    </div>
+
+    <script src="js/anime.umd.min.js"></script>
+    <script>
+        const { animate, stagger, createTimeline, utils } = anime;
+
+        // State
+        let current = 0;
+        const total = 5;
+        let animating = false;
+        let lastWheel = 0;
+        const cooldown = 1100;
+
+        // Mouse
+        let mx = window.innerWidth / 2;
+        let my = window.innerHeight / 2;
+
+        // ========================================
+        // CURSOR
+        // ========================================
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+        let cx = mx, cy = my;
+
+        document.addEventListener('mousemove', e => {
+            mx = e.clientX;
+            my = e.clientY;
+            cursorDot.style.left = mx + 'px';
+            cursorDot.style.top = my + 'px';
+        });
+
+        (function tick() {
+            cx += (mx - cx) * 0.1;
+            cy += (my - cy) * 0.1;
+            cursor.style.left = cx + 'px';
+            cursor.style.top = cy + 'px';
+            requestAnimationFrame(tick);
+        })();
+
+        document.querySelectorAll('a, .prog-dot').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
+        });
+
+        // ========================================
+        // PARTICLES
+        // ========================================
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.floor((canvas.width * canvas.height) / 18000);
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    bx: 0, by: 0,
+                    r: Math.random() * 1.5 + 0.3,
+                    a: Math.random() * 0.35 + 0.05,
+                    p: Math.random() * Math.PI * 2,
+                    s: Math.random() * 0.015 + 0.008
+                });
+                particles[i].bx = particles[i].x;
+                particles[i].by = particles[i].y;
+            }
+        }
+
+        resize();
+        window.addEventListener('resize', resize);
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Connections
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const d = Math.sqrt(dx*dx + dy*dy);
+                    if (d < 90) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(201,165,92,${(1 - d/90) * 0.06})`;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Draw
+            particles.forEach(p => {
+                const dx = mx - p.x;
+                const dy = my - p.y;
+                const d = Math.sqrt(dx*dx + dy*dy);
+                if (d < 100) {
+                    const f = (100 - d) / 100;
+                    p.x -= (dx / d) * f * 1.5;
+                    p.y -= (dy / d) * f * 1.5;
+                } else {
+                    p.x += (p.bx - p.x) * 0.02;
+                    p.y += (p.by - p.y) * 0.02;
+                }
+
+                p.p += p.s;
+                const pulse = 0.5 + Math.sin(p.p) * 0.5;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(201,165,92,${p.a * pulse})`;
+                ctx.fill();
+            });
+
+            requestAnimationFrame(drawParticles);
+        }
+        drawParticles();
+
+        // ========================================
+        // SACRED GEOMETRY ANIMATIONS
+        // ========================================
+        // Slow rotation
+        animate('#sacred-geo .geo-main', {
+            rotate: 360,
+            duration: 120000,
+            loop: true,
+            ease: 'linear'
+        });
+
+        // Breathing aura
+        animate('.aura-glow', {
+            scale: [1, 1.15, 1],
+            opacity: [0.7, 1, 0.7],
+            duration: 5000,
+            loop: true,
+            ease: 'inOut(1.5)'
+        });
+
+        animate('.aura-ring', {
+            scale: [1, 1.05, 1],
+            opacity: [0.3, 0.6, 0.3],
+            duration: 4000,
+            delay: stagger(300),
+            loop: true,
+            ease: 'inOut(2)'
+        });
+
+        // Nodes pulse
+        animate('#sacred-geo .node', {
+            scale: [1, 1.5, 1],
+            opacity: [0.6, 1, 0.6],
+            duration: 2500,
+            delay: stagger(200),
+            loop: true,
+            ease: 'inOut(2)'
+        });
+
+        // Scroll line
+        animate('.scroll-line::after', {
+            translateY: ['0%', '250%'],
+            duration: 1800,
+            loop: true,
+            ease: 'inOut(2)'
+        });
+
+        // Manual scroll line animation
+        const scrollLine = document.querySelector('.scroll-line');
+        if (scrollLine) {
+            animate(scrollLine, {
+                background: [
+                    'linear-gradient(180deg, rgba(201,165,92,1) 0%, rgba(201,165,92,1) 30%, rgba(255,255,255,0.15) 30%)',
+                    'linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.15) 70%, rgba(201,165,92,1) 70%, rgba(201,165,92,1) 100%)',
+                    'linear-gradient(180deg, rgba(201,165,92,1) 0%, rgba(201,165,92,1) 30%, rgba(255,255,255,0.15) 30%)'
+                ],
+                duration: 2000,
+                loop: true,
+                ease: 'inOut(2)'
+            });
+        }
+
+        // ========================================
+        // PANEL TRANSITIONS
+        // ========================================
+        const panels = document.querySelectorAll('.panel');
+        const dots = document.querySelectorAll('.prog-dot');
+
+        function goTo(idx) {
+            if (animating || idx === current || idx < 0 || idx >= total) return;
+            animating = true;
+
+            const out = panels[current];
+            const inn = panels[idx];
+            const dir = idx > current ? 1 : -1;
+
+            // Update dots
+            dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+
+            // Morph geometry
+            morphGeometry(idx);
+
+            // EXIT
+            const outTl = createTimeline({
+                onComplete: () => out.classList.remove('active')
+            });
+
+            outTl.add(out.querySelectorAll('.txt-inner'), {
+                translateY: 25 * dir,
+                opacity: 0,
+                duration: 300,
+                delay: stagger(20),
+                ease: 'in(2)'
+            }, 0);
+
+            outTl.add(out.querySelectorAll('.word'), {
+                translateY: 40 * dir,
+                opacity: 0,
+                duration: 350,
+                delay: stagger(30),
+                ease: 'in(3)'
+            }, 0);
+
+            outTl.add(out.querySelector('.p-label'), {
+                translateX: -20,
+                opacity: 0,
+                duration: 250,
+                ease: 'in(2)'
+            }, 0);
+
+            outTl.add(out.querySelector('.p-num'), {
+                opacity: 0,
+                duration: 200
+            }, 0);
+
+            // ENTER
+            setTimeout(() => {
+                inn.classList.add('active');
+
+                const lines = inn.querySelectorAll('.txt-inner');
+                const words = inn.querySelectorAll('.word');
+                const label = inn.querySelector('.p-label');
+                const bar = inn.querySelector('.p-label-bar');
+                const num = inn.querySelector('.p-num');
+
+                utils.set(lines, { translateY: -25 * dir, opacity: 0 });
+                utils.set(words, { translateY: -50 * dir, opacity: 0 });
+                utils.set(label, { translateX: -20, opacity: 0 });
+                utils.set(bar, { scaleX: 0 });
+                utils.set(num, { opacity: 0 });
+
+                const inTl = createTimeline({
+                    onComplete: () => {
+                        current = idx;
+                        animating = false;
+                    }
+                });
+
+                inTl.add(num, {
+                    opacity: 1,
+                    duration: 500,
+                    ease: 'out(2)'
+                }, 0);
+
+                inTl.add(label, {
+                    translateX: 0,
+                    opacity: 1,
+                    duration: 450,
+                    ease: 'out(3)'
+                }, 50);
+
+                inTl.add(bar, {
+                    scaleX: 1,
+                    duration: 500,
+                    ease: 'out(3)'
+                }, 100);
+
+                inTl.add(words, {
+                    translateY: 0,
+                    opacity: 1,
+                    duration: 600,
+                    delay: stagger(50),
+                    ease: 'out(4)'
+                }, 150);
+
+                inTl.add(lines, {
+                    translateY: 0,
+                    opacity: 1,
+                    duration: 500,
+                    delay: stagger(35),
+                    ease: 'out(3)'
+                }, 350);
+
+            }, 380);
+        }
+
+        function morphGeometry(idx) {
+            // Pulse effect on transition
+            animate('#sacred-geo .geo-main', {
+                scale: [1, 1.08, 1],
+                opacity: [0.4, 0.7, 0.4],
+                duration: 1000,
+                ease: 'inOut(2)'
+            });
+
+            // Change hue subtly based on section
+            const hues = [
+                'rgba(201, 165, 92, 0.4)',   // Gold
+                'rgba(140, 130, 180, 0.4)',  // Violet
+                'rgba(92, 160, 120, 0.4)',   // Green
+                'rgba(100, 150, 200, 0.4)',  // Blue
+                'rgba(220, 180, 100, 0.4)'   // Warm gold
+            ];
+
+            animate('.geometry-overlay svg *:not(.node)', {
+                stroke: hues[idx],
+                duration: 800,
+                ease: 'out(2)'
+            });
+        }
+
+        // ========================================
+        // EVENTS
+        // ========================================
+        window.addEventListener('wheel', e => {
+            const now = Date.now();
+            if (now - lastWheel < cooldown || animating) return;
+            if (Math.abs(e.deltaY) < 25) return;
+
+            lastWheel = now;
+            goTo(e.deltaY > 0 ? current + 1 : current - 1);
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') goTo(current + 1);
+            if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') goTo(current - 1);
+        });
+
+        dots.forEach(d => {
+            d.addEventListener('click', () => goTo(+d.dataset.idx));
+        });
+
+        // ========================================
+        // INITIAL LOAD
+        // ========================================
+        window.addEventListener('load', () => {
+            const first = panels[0];
+
+            utils.set(first.querySelectorAll('.txt-inner'), { translateY: 25, opacity: 0 });
+            utils.set(first.querySelectorAll('.word'), { translateY: 50, opacity: 0 });
+            utils.set(first.querySelector('.p-label'), { translateX: -20, opacity: 0 });
+            utils.set(first.querySelector('.p-label-bar'), { scaleX: 0 });
+            utils.set(first.querySelector('.p-num'), { opacity: 0 });
+
+            setTimeout(() => {
+                const tl = createTimeline();
+
+                tl.add(first.querySelector('.p-num'), {
+                    opacity: 1,
+                    duration: 700,
+                    ease: 'out(2)'
+                }, 0);
+
+                tl.add(first.querySelector('.p-label'), {
+                    translateX: 0,
+                    opacity: 1,
+                    duration: 550,
+                    ease: 'out(3)'
+                }, 150);
+
+                tl.add(first.querySelector('.p-label-bar'), {
+                    scaleX: 1,
+                    duration: 600,
+                    ease: 'out(3)'
+                }, 250);
+
+                tl.add(first.querySelectorAll('.word'), {
+                    translateY: 0,
+                    opacity: 1,
+                    duration: 750,
+                    delay: stagger(70),
+                    ease: 'out(4)'
+                }, 300);
+
+                tl.add(first.querySelectorAll('.txt-inner'), {
+                    translateY: 0,
+                    opacity: 1,
+                    duration: 600,
+                    delay: stagger(45),
+                    ease: 'out(3)'
+                }, 550);
+            }, 300);
+
+            // Fade in UI
+            animate('.nav a', {
+                opacity: [0, 1],
+                translateY: [-12, 0],
+                duration: 500,
+                delay: stagger(60, { start: 500 }),
+                ease: 'out(2)'
+            });
+
+            animate('.prog-dot', {
+                opacity: [0, 1],
+                scale: [0.5, 1],
+                duration: 400,
+                delay: stagger(50, { start: 700 }),
+                ease: 'out(2)'
+            });
+
+            animate('.scroll-hint', {
+                opacity: [0, 1],
+                translateY: [15, 0],
+                duration: 500,
+                delay: 900,
+                ease: 'out(2)'
+            });
+
+            // Image reveal
+            animate('.bg-image img', {
+                scale: [1.05, 1],
+                opacity: [0, 1],
+                duration: 1500,
+                ease: 'out(3)'
+            });
+
+            animate('.geometry-overlay', {
+                opacity: [0, 0.4],
+                scale: [0.95, 1],
+                duration: 1200,
+                delay: 400,
+                ease: 'out(3)'
+            });
+
+            animate('.aura-layer', {
+                opacity: [0, 1],
+                duration: 1500,
+                delay: 600,
+                ease: 'out(2)'
+            });
+        });
+
+    </script>
+</body>
+
+</html>

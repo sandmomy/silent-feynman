@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Mierak | The Journey</title>
+
+    <!-- Fonts: Plus Jakarta Sans for that modern tech feel, Inter as backup -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --accent: #4FA1D8;
+            /* Cool Blue */
+            --accent-glow: rgba(79, 161, 216, 0.6);
+            --text-main: #FFFFFF;
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --stage-bg: #030508;
+            --stage-radius: 32px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0b1016 0%, #000000 100%);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* PIN SPACER - The track */
+        .pin-spacer {
+            height: 500vh;
+            position: relative;
+            width: 100%;
+        }
+
+        /* STAGE CONTAINER - The "Card" */
+        /* Changed from fixed to absolute centering to work better with ScrollTrigger pin */
+        .stage-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90vw;
+            height: 85vh;
+            max-width: 1600px;
+            max-height: 900px;
+            border-radius: var(--stage-radius);
+
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        /* CANVAS */
+        #webgl {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* UI OVERLAY */
+        .ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 40px;
+        }
+
+        /* NAV TOP */
+        .nav-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: auto;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: -0.02em;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .nav-links {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .nav-links {
+                display: flex;
+                gap: 30px;
+                background: rgba(255, 255, 255, 0.05);
+                padding: 10px 24px;
+                border-radius: 100px;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .nav-links a {
+                color: var(--text-muted);
+                text-decoration: none;
+                font-size: 0.85rem;
+                font-weight: 500;
+                transition: color 0.3s;
+            }
+
+            .nav-links a:hover {
+                color: white;
+            }
+        }
+
+        .btn-pill {
+            background: white;
+            color: black;
+            padding: 10px 24px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .btn-pill:hover {
+            transform: scale(1.05);
+            background: #f0f0f0;
+        }
+
+        .btn-pill.outline {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .btn-pill.outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* SLIDES CONTAINER */
+        .slides-container {
+            position: absolute;
+            top: 50%;
+            left: 60px;
+            transform: translateY(-50%);
+            width: 45%;
+            height: auto;
+            pointer-events: none;
+        }
+
+        .slide {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            /* Center content */
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            /* Hide cleanly */
+        }
+
+        /* Initial state for Slide 1 override */
+        #slide1 {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .slide-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .slide-title {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            font-weight: 600;
+            margin-bottom: 24px;
+            background: linear-gradient(to right, #fff, #aaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .slide-body {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+
+        .slide-cta {
+            pointer-events: auto;
+            align-self: flex-start;
+        }
+
+        /* BOTTOM BAR */
+        .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            pointer-events: auto;
+        }
+
+        .scroll-indicator {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .scroll-indicator::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--text-muted);
+        }
+
+        .pagination {
+            display: flex;
+            gap: 12px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: var(--accent);
+            transform: scale(1.2);
+            box-shadow: 0 0 8px var(--accent-glow);
+        }
+
+        .dg.ac {
+            z-index: 1001 !important;
+        }
+
+        @media (max-width: 768px) {
+            .stage-container {
+                width: 100vw;
+                height: 100vh;
+                border: none;
+                border-radius: 0;
+            }
+
+            /* On mobile, center text more */
+            .slides-container {
+                width: 90%;
+                left: 5%;
+                top: 60%;
+            }
+
+            .slide-title {
+                font-size: 2.2rem;
+            }
+
+            .slide-body {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Ambient glow behind stage -->
+    <div
+        style="position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); width:60vw; height:60vh; background:radial-gradient(circle, #102035 0%, transparent 70%); filter:blur(100px); opacity:0.5; z-index:0;">
+    </div>
+
+    <div class="pin-spacer">
+        <div class="stage-container">
+            <canvas id="webgl"></canvas>
+
+            <div class="ui-layer">
+                <!-- TOP NAV -->
+                <div class="nav-top">
+                    <a href="#" class="logo"><span></span>EUGENE MIERAK</a>
+                    <div class="nav-links">
+                        <a href="#">About</a>
+                        <a href="#">Work</a>
+                        <a href="#">Frameworks</a>
+                        <a href="#">Contact</a>
+                    </div>
+                    <a href="#" class="btn-pill">Get in touch</a>
+                </div>
+
+                <!-- SLIDES CONTENT -->
+                <div class="slides-container">
+                    <div class="slide" id="slide1">
+                        <div class="slide-label">IDENTITY</div>
+                        <div class="slide-title">Eugene Mierak</div>
+                        <div class="slide-body">Frequency practitioner specializing in alignment caching, coherence
+                            training, and energetic training.</div>
+                        <div class="slide-cta"><a href="#" class="btn-pill outline">Read Bio</a></div>
+                    </div>
+                    <div class="slide" id="slide2">
+                        <div class="slide-label">THE WORK</div>
+                        <div class="slide-title">Integrative<br>Coherence</div>
+                        <div class="slide-body">Working through integrative coherence methodologies to support clarity,
+                            stability, and conscious evolution.</div>
+                        <div class="slide-cta"><a href="#" class="btn-pill outline">Explore Method</a></div>
+                    </div>
+                    <div class="slide" id="slide3">
+                        <div class="slide-label">BRIDGING SCIENCES</div>
+                        <div class="slide-title">Frequency &<br>Frameworks</div>
+                        <div class="slide-body">Bridging subtle frequency sciences with practical frameworks for
+                            personal, organizational, and planetary alignment.</div>
+                        <div class="slide-cta"><a href="#" class="btn-pill outline">Learn More</a></div>
+                    </div>
+                    <div class="slide" id="slide4">
+                        <div class="slide-label">SBDI FOUNDATION</div>
+                        <div class="slide-title">Global<br>Relations</div>
+                        <div class="slide-body">Fostering global partnerships for holistic sustainability, regenerative
+                            development, and conscious collaboration.</div>
+                        <div class="slide-cta"><a href="#" class="btn-pill outline">View Partners</a></div>
+                    </div>
+                    <div class="slide" id="slide5">
+                        <div class="slide-label">MISSION</div>
+                        <div class="slide-title">Coherent<br>Impact</div>
+                        <div class="slide-body">Supporting coherent, sustainable projects through frequency awareness
+                            and strategic alignment.</div>
+                        <div class="slide-cta"><a href="#" class="btn-pill outline">Our Mission</a></div>
+                    </div>
+                </div>
+
+                <!-- BOTTOM BAR -->
+                <div class="bottom-bar">
+                    <div class="scroll-indicator">Scroll to explore</div>
+                    <div class="pagination">
+                        <div class="dot active"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"></script>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        const config = {
+            fogColor: "#051321",
+            fogDensity: 0.015, // Reduced density so objects are more visible
+            gridColor: "#1e3a56",
+            accentColor: "#4FA1D8",
+            cubeTransmission: 0.9,
+            cubeRoughness: 0.15,
+            cubeThickness: 1.0,
+            textEnterX: -40,
+            textEnterBlur: 10
+        };
+
+        const canvas = document.querySelector('#webgl');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(config.fogColor, config.fogDensity);
+        scene.background = new THREE.Color(config.fogColor);
+
+        // Fix: Use canvas dimensions for aspect ratio to prevent stretching
+        const aspect = canvas.clientWidth / canvas.clientHeight;
+        const camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 100);
+
+        const renderer = new THREE.WebGLRenderer({
+            canvas: canvas,
+            antialias: true,
+            alpha: true
+        });
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // --- SCENE ---
+        // Grid
+        const gridHelper = new THREE.GridHelper(100, 100, 0x112233, 0x051020);
+        gridHelper.position.y = -2;
+        scene.add(gridHelper);
+
+        // Glass Cube
+        const boxGeo = new THREE.BoxGeometry(3, 3, 3);
+        const boxMat = new THREE.MeshPhysicalMaterial({
+            color: 0xffffff,
+            metalness: 0.1,
+            roughness: config.cubeRoughness,
+            transmission: config.cubeTransmission,
+            thickness: config.cubeThickness,
+            ior: 1.5,
+            clearcoat: 1,
+            transparent: true
+        });
+        const heroCube = new THREE.Mesh(boxGeo, boxMat);
+        scene.add(heroCube);
+
+        // Wireframe inside
+        const wireGeo = new THREE.WireframeGeometry(new THREE.BoxGeometry(2.8, 2.8, 2.8));
+        const wireCube = new THREE.LineSegments(wireGeo, new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 0.15, transparent: true }));
+        heroCube.add(wireCube);
+
+        // Floating bits
+        const bitGeo = new THREE.IcosahedronGeometry(0.5, 0);
+        const bitMat = new THREE.MeshStandardMaterial({ color: config.accentColor, roughness: 0.4 });
+        const bit1 = new THREE.Mesh(bitGeo, bitMat);
+        bit1.position.set(-3, 2, -2);
+        scene.add(bit1);
+        const bit2 = new THREE.Mesh(bitGeo, bitMat);
+        bit2.position.set(3, -2, -1);
+        scene.add(bit2);
+
+        // Lights
+        const ambLight = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambLight);
+        const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+        dirLight.position.set(5, 10, 5);
+        scene.add(dirLight);
+        const pLight = new THREE.PointLight(config.accentColor, 1.5, 20);
+        pLight.position.set(2, 2, 5);
+        scene.add(pLight);
+
+        // --- ANIMATION CONFIG ---
+        const poses = [
+            { // 1. Center - clean look
+                camPos: new THREE.Vector3(0, 0, 9),
+                target: new THREE.Vector3(0, 0, 0),
+                cubeRot: new THREE.Vector3(0, 0.4, 0)
+            },
+            { // 2. Right angle
+                camPos: new THREE.Vector3(5, 2, 7),
+                target: new THREE.Vector3(1, 0, 0),
+                cubeRot: new THREE.Vector3(0.5, 1, 0)
+            },
+            { // 3. Low angle
+                camPos: new THREE.Vector3(-2, -3, 6),
+                target: new THREE.Vector3(-1, 0, 0),
+                cubeRot: new THREE.Vector3(1, 0.5, 0.5)
+            },
+            { // 4. Side
+                camPos: new THREE.Vector3(-6, 1, 6),
+                target: new THREE.Vector3(0, 0, 0),
+                cubeRot: new THREE.Vector3(0.2, -0.5, 0)
+            },
+            { // 5. Zoom out
+                camPos: new THREE.Vector3(0, 0, 12),
+                target: new THREE.Vector3(0, 0, 0),
+                cubeRot: new THREE.Vector3(0, 0, 0)
+            }
+        ];
+
+        const currentPose = {
+            cx: poses[0].camPos.x, cy: poses[0].camPos.y, cz: poses[0].camPos.z,
+            tx: poses[0].target.x, ty: poses[0].target.y, tz: poses[0].target.z,
+            rx: poses[0].cubeRot.x, ry: poses[0].cubeRot.y, rz: poses[0].cubeRot.z
+        };
+
+        // --- GSAP TIMELINE ---
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: '.pin-spacer',
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: 1,
+                pin: '.stage-container'
+            }
+        });
+
+        const slides = document.querySelectorAll('.slide');
+
+        slides.forEach((slide, i) => {
+            const isFirst = i === 0;
+            const isLast = i === slides.length - 1;
+
+            // Labels
+            tl.addLabel(`slide${i + 1}`);
+
+            // 1. Enter (Skip for first slide as it is already visible)
+            if (!isFirst) {
+                // Determine previous slide to hide
+                const prevSlide = slides[i - 1];
+
+                // Simultaneous: Hide Prev, Show Current, Move Camera
+
+                // Hide Prev
+                tl.to(prevSlide, {
+                    autoAlpha: 0,
+                    x: -40,
+                    filter: 'blur(10px)',
+                    duration: 2,
+                    ease: 'power2.inOut'
+                }, `slide${i + 1}`);
+
+                // Show Current
+                tl.fromTo(slide,
+                    { autoAlpha: 0, x: 40, filter: 'blur(10px)' },
+                    { autoAlpha: 1, x: 0, filter: 'blur(0px)', duration: 2, ease: 'power2.inOut' },
+                    `<` // Start at same time
+                );
+
+                // Move Camera & Cube
+                const p = poses[i];
+                tl.to(currentPose, {
+                    cx: p.camPos.x, cy: p.camPos.y, cz: p.camPos.z,
+                    tx: p.target.x, ty: p.target.y, tz: p.target.z,
+                    rx: p.cubeRot.x, ry: p.cubeRot.y, rz: p.cubeRot.z,
+                    duration: 3,
+                    ease: 'power2.inOut'
+                }, `<`);
+            } else {
+                // For Slide 1, just ensure we hold it for a bit before moving
+                // It's already visible via CSS
+                tl.to({}, { duration: 1 }); // spacer
+            }
+
+            // 2. Hold phase
+            tl.to({}, { duration: 2 }); // hold
+
+            // Update Dots
+            tl.call(() => {
+                document.querySelectorAll('.dot').forEach((d, idx) => d.classList.toggle('active', idx === i));
+            }, null, `slide${i + 1}`);
+
+        });
+
+        // Final fade out at very end not needed if we stop there
+
+
+        // --- LOOP ---
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Update vectors
+            camera.position.set(currentPose.cx, currentPose.cy, currentPose.cz);
+            camera.lookAt(currentPose.tx, currentPose.ty, currentPose.tz);
+
+            heroCube.rotation.set(currentPose.rx, currentPose.ry, currentPose.rz);
+
+            // Subtlety
+            const time = Date.now() * 0.001;
+            heroCube.rotation.y += Math.sin(time) * 0.05;
+            heroCube.position.y = Math.sin(time * 0.5) * 0.2;
+
+            bit1.rotation.x = time;
+            bit2.rotation.y = time;
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // --- RESIZE ---
+        window.addEventListener('resize', () => {
+            const aspect = canvas.clientWidth / canvas.clientHeight;
+            camera.aspect = aspect;
+            camera.updateProjectionMatrix();
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            ScrollTrigger.refresh();
+        });
+
+        // GUI
+        const gui = new dat.GUI();
+        gui.close();
+        gui.addColor(config, 'fogColor').onChange(v => { scene.fog.color.set(v); scene.background.set(v); });
+        gui.add(config, 'fogDensity', 0, 0.1).onChange(v => scene.fog.density = v);
+
+    </script>
+</body>
+
+</html>
