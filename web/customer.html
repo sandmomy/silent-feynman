@@ -4,19 +4,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>BookVoice Reader</title>
+    <meta name="theme-color" content="#090809" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="BookVoice" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <link rel="manifest" href="/bookvoice.webmanifest?v=20260411app1" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/bookvoice-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/bookvoice-180.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/shared.css?v=20260327bookpage1" />
-    <link rel="stylesheet" href="/customer.css?v=20260328spread1" />
+    <link rel="stylesheet" href="/customer.css?v=20260411readerzoom12" />
   </head>
   <body class="customer-app">
     <header class="topbar reader-topbar compact-topbar">
       <a class="brand" href="/">
         <span class="brand-mark">BV</span>
-        <span class="brand-copy">
+          <span class="brand-copy">
           <strong>BookVoice</strong>
-          <span>Private books in text and audio</span>
         </span>
       </a>
       <nav class="topnav compact-nav">
@@ -26,33 +33,45 @@
     </header>
 
     <main class="site-shell customer-shell journey-shell">
+      <section id="appInstallBanner" class="section-card app-install-banner hidden" aria-live="polite">
+        <div class="app-install-copy">
+          <span class="eyebrow">Book app mode</span>
+          <h2>Install BookVoice for a cleaner reading and listening experience.</h2>
+          <p id="appInstallMessage">Add the reader to your home screen so it opens like an app and keeps the book close at hand.</p>
+        </div>
+        <div class="app-install-actions">
+          <button id="appInstallButton" class="primary" type="button">Install app</button>
+          <button id="appInstallDismiss" class="ghost" type="button">Not now</button>
+        </div>
+      </section>
+
       <section id="customerHomeView" class="page customer-home-v2">
         <section class="section-card reader-journey-bar">
           <div class="journey-bar-copy">
-            <span class="eyebrow">Reader journey</span>
-            <h1>From the science of frequency into everyday application.</h1>
-            <p>The chapters begin with vibration and resonance, then move into frequency memory, manifestation, planning, and living the method in real situations.</p>
+            <span class="eyebrow">Private reader edition</span>
+            <h1>Read Frequency Vibes.</h1>
+            <p>Browse the collection and enter the reader when you are ready.</p>
           </div>
           <div class="journey-bar-track">
             <button id="stagePreviewBtn" class="reader-step active" type="button" data-stage="preview">
               <span class="reader-step-index">01</span>
               <span class="reader-step-copy">
-                  <strong>Introduction</strong>
-                    <span>See what the chapters actually cover.</span>
+                  <strong>Preview</strong>
+                    <span>Register and explore the full collection.</span>
                 </span>
               </button>
-            <button id="stageLoginBtn" class="reader-step" type="button" data-stage="login">
+            <button id="stageLoginBtn" class="reader-step hidden" type="button" data-stage="login">
               <span class="reader-step-index">02</span>
               <span class="reader-step-copy">
-                <strong>Login</strong>
-                  <span>Enter the reader website.</span>
+                <strong>Access</strong>
+                  <span>Create your reader profile or sign back in.</span>
               </span>
             </button>
-            <button id="stageLibraryBtn" class="reader-step" type="button" data-stage="library">
+            <button id="stageLibraryBtn" class="reader-step hidden" type="button" data-stage="library">
               <span class="reader-step-index">03</span>
               <span class="reader-step-copy">
                 <strong>Library</strong>
-                  <span>Buy or open chapters.</span>
+                  <span>Open what you own and see what comes next.</span>
               </span>
             </button>
           </div>
@@ -63,17 +82,10 @@
         <div class="reader-flow-stack">
           <section id="stagePreview" class="section-card reader-stage-panel active">
             <div class="stage-panel-copy">
-              <span class="eyebrow">Step 1</span>
-                <h2>What the chapters really cover</h2>
-                <p>The PDFs explain frequency as a scientific principle, then turn it into practice through memory, manifestation, planning, and daily application.</p>
+                <h2>Explore the collection.</h2>
                 <div id="stageOfferGrid" class="stage-offer-grid"></div>
-                <div class="stage-includes-row">
-                  <span class="stage-include-pill">Science of frequency</span>
-                  <span class="stage-include-pill">Embodied training</span>
-                  <span class="stage-include-pill">Manifestation and daily life</span>
-                </div>
               <div class="actions preview-actions">
-                <button class="primary" type="button" data-stage-jump="login">Continue to login</button>
+                <button class="primary" type="button" data-stage-jump="login">Register / Login</button>
               </div>
             </div>
             <div id="stagePreviewSpotlight" class="stage-side-card"></div>
@@ -81,12 +93,11 @@
 
           <section id="stageLogin" class="section-card reader-stage-panel center-stage-panel hidden">
             <div class="stage-panel-copy login-stage-copy">
-              <span class="eyebrow">Step 2</span>
-              <h2>Enter the reader website</h2>
+              <h2>Open your private reader access</h2>
               <div class="login-stage-layout">
                 <article class="login-benefit-card login-benefit-card-side">
                   <strong>New reader</strong>
-                  <span>Create your access once with name, email, and password, then enter the private reader website from there.</span>
+                  <span>Create one reader profile and come back to the same shelf whenever you want to continue the work.</span>
                 </article>
 
                 <div class="login-center-stack">
@@ -101,7 +112,7 @@
                   <form id="customerRegisterForm" class="reader-login-form reader-login-form-card auth-form">
                     <div class="reader-login-form-head">
                       <span class="eyebrow">Create your access</span>
-                      <p>Register once to enter the reader website and open the book area from inside.</p>
+                      <p>Register once, then enter the private shelf, the chapter detail page, and the immersive reader from the same account.</p>
                     </div>
                     <div class="auth-form-grid">
                       <label>
@@ -125,7 +136,7 @@
                   <form id="customerLoginForm" class="reader-login-form reader-login-form-card auth-form hidden">
                     <div class="reader-login-form-head">
                       <span class="eyebrow">Sign in</span>
-                      <p>Use your email or username and password to enter the reader website.</p>
+                      <p>Use your email or username to return to the same chapters, audio, and reading progress.</p>
                     </div>
                     <div class="auth-form-grid">
                       <label>
@@ -150,7 +161,7 @@
 
                 <article class="login-benefit-card login-benefit-card-side">
                   <strong>Returning reader</strong>
-                  <span>Sign in again with your email and password to continue where you left off.</span>
+                  <span>Come back to the same shelf, detail pages, and reader experience without losing access.</span>
                 </article>
               </div>
             </div>
@@ -161,9 +172,8 @@
             <div class="library-stage-shell">
               <div class="library-stage-head">
                 <div class="library-stage-title">
-                  <span class="eyebrow">Step 3</span>
-                  <h2>Build the collection chapter by chapter</h2>
-                  <p id="libraryStageIntro">Frequency Vibes is released chapter by chapter. Start with the introduction, then add the next parts of the method as you go.</p>
+                  <h2>Build the Frequency Vibes collection.</h2>
+                  <p id="libraryStageIntro">The full collection in order. Open what you own and see what comes next.</p>
                 </div>
                 <div id="libraryLockedState" class="library-access-banner"></div>
               </div>
@@ -172,7 +182,7 @@
                   <div>
                     <span class="eyebrow">Chapter shelf</span>
                     <h3>Available chapters</h3>
-                    <p id="libraryShelfCopy">Each chapter is its own paid entry into the project. Buy one, read it, then come back for the next chapter when you are ready.</p>
+                    <p id="libraryShelfCopy">Come back for new chapters as the collection grows.</p>
                   </div>
                 </div>
                 <div id="libraryUnlockedState" class="hidden library-unlocked-wrap">
@@ -200,32 +210,33 @@
             <div class="book-reader-floating-header">
               <a class="book-back-link" href="/">&#8592; Library</a>
               <div id="bookReaderTitle" class="book-reader-title-bar"></div>
-              <div id="bookReaderNav" class="book-reader-nav"></div>
+              <div class="book-reader-header-actions">
+                <div id="bookZoomControls" class="book-zoom-controls hidden" aria-label="Reader zoom controls">
+                  <button id="bookZoomOut" class="book-zoom-button" type="button" data-action="zoom-out" aria-label="Zoom out text">A-</button>
+                  <button id="bookZoomReset" class="book-zoom-level" type="button" data-action="zoom-reset" aria-label="Reset zoom">100%</button>
+                  <button id="bookZoomIn" class="book-zoom-button" type="button" data-action="zoom-in" aria-label="Zoom in text">A+</button>
+                </div>
+                <div id="bookReaderNav" class="book-reader-nav"></div>
+              </div>
             </div>
             <div id="bookReaderStage" class="book-reader-3d-stage"></div>
             <div id="bookTextScroll" class="book-text-scroll hidden"></div>
-            <div class="book-page-tabs">
-              <button id="bookTabPrev" class="book-page-tab" type="button" data-action="book-prev" title="Previous page" aria-label="Previous page">&#9664; Prev</button>
-              <button id="bookViewToggle" class="book-page-tab book-view-toggle" type="button" data-action="toggle-view">Chapter PDF</button>
-              <button id="bookTabNext" class="book-page-tab" type="button" data-action="book-next" title="Next page" aria-label="Next page">Next &#9654;</button>
+            <div class="book-reader-controls">
+              <div class="book-page-tabs">
+                <button id="bookTabPrev" class="book-page-tab" type="button" data-action="book-prev" title="Previous page" aria-label="Previous page">&#9664; Prev</button>
+                <button id="bookViewToggle" class="book-page-tab book-view-toggle" type="button" data-action="toggle-view">Chapter PDF</button>
+                <button id="bookTabNext" class="book-page-tab" type="button" data-action="book-next" title="Next page" aria-label="Next page">Next &#9654;</button>
+              </div>
+              <div id="bookReaderDock" class="book-reader-dock hidden"></div>
             </div>
           </div>
-          <div id="bookReaderDock" class="book-reader-dock hidden"></div>
         </div>
 
       </section>
     </main>
 
-    <footer class="site-footer">
-      <div class="site-footer-inner">
-        <span class="site-footer-brand">BookVoice</span>
-        <span class="site-footer-sep">&middot;</span>
-        <span class="site-footer-copy">Private reading and listening editions</span>
-      </div>
-    </footer>
-
     <script src="/page-flip.browser.js"></script>
-    <script src="/common.js?v=20260327bookpage1"></script>
-  <script src="/customer.js?v=20260328spread1"></script>
+    <script src="/common.js?v=20260411launch1"></script>
+    <script src="/customer.js?v=20260411readerzoom13"></script>
 </body>
 </html>

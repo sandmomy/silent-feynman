@@ -17,11 +17,25 @@ const state = {
   pdfDocument: null,
   pdfSourceUrl: null,
   pdfPageCount: 0,
+  pdfLandscape: false,
   editorialText: null,
   detailPageStart: 1,
+  readerSinglePage: false,
+  readerZoom: 1,
+  readerZoomBaseWidth: 0,
+  readerZoomBaseHeight: 0,
+  readerFullscreen: false,
+  readerAudioDockOpen: true,
+  installPrompt: null,
+  installDismissed: false,
+  standalone: false,
 };
 
 const elements = {
+  appInstallBanner: document.querySelector('#appInstallBanner'),
+  appInstallButton: document.querySelector('#appInstallButton'),
+  appInstallDismiss: document.querySelector('#appInstallDismiss'),
+  appInstallMessage: document.querySelector('#appInstallMessage'),
   customerHomeView: document.querySelector('#customerHomeView'),
   customerDetailView: document.querySelector('#customerDetailView'),
   customerTopState: document.querySelector('#customerTopState'),
@@ -49,11 +63,23 @@ const elements = {
 };
 
 const stageOrder = ['preview', 'login', 'library'];
+const INSTALL_BANNER_KEY = 'bookvoice_install_banner_dismissed_v1';
 
 const mainOffer = {
   label: 'Introduction chapter',
   price: 'EUR 9.99',
   description: 'Start with the opening chapter, then add the rest of the Frequency Vibes collection one chapter at a time.',
+};
+
+const chapterPalettes = {
+  book_chapter_1: ['#d4a86a', '#24455f'],
+  book_chapter_2: ['#e0bb7b', '#5b3a53'],
+  book_chapter_3: ['#74bfd4', '#214d58'],
+  book_chapter_4: ['#c98b6a', '#5c2c38'],
+  book_chapter_5: ['#ceb579', '#374164'],
+  book_chapter_6: ['#7ec7a5', '#1f5445'],
+  book_chapter_7: ['#8cc7f7', '#2a4277'],
+  book_chapter_8: ['#f0a77c', '#5c3552'],
 };
 
 function hashString(value) {
@@ -65,7 +91,15 @@ function hashString(value) {
   return Math.abs(hash);
 }
 
+function chapterPalette(book) {
+  return chapterPalettes[book?.slug] || ['#5cd5c8', '#234662'];
+}
+
 function coverPalette(book) {
+  const themePalette = chapterPalette(book);
+  if (Array.isArray(themePalette) && themePalette.length >= 2) {
+    return themePalette;
+  }
   const palettes = [
     ['#5cd5c8', '#234662'],
     ['#efbb72', '#6e3850'],
@@ -149,6 +183,154 @@ function isReaderSession() {
   return Boolean(state.session?.authenticated && state.session?.role === 'customer');
 }
 
+function isCompactReaderViewport() {
+  return window.matchMedia('(max-width: 860px), (max-height: 540px)').matches;
+}
+
+function isLandscapeViewport() {
+  return window.matchMedia('(orientation: landscape)').matches;
+}
+
+function isLandscapeReaderViewport() {
+  return isCompactReaderViewport() && isLandscapeViewport();
+}
+
+function isStandaloneApp() {
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+}
+
+function isIosDevice() {
+  return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+}
+
+function isMobileViewport() {
+  return window.matchMedia('(max-width: 860px), (max-height: 540px)').matches;
+}
+
+function loadInstallBannerPreference() {
+  try {
+    state.installDismissed = window.localStorage.getItem(INSTALL_BANNER_KEY) === '1';
+  } catch (_error) {
+    state.installDismissed = false;
+  }
+}
+
+function persistInstallBannerPreference(dismissed) {
+  state.installDismissed = dismissed;
+  try {
+    if (dismissed) {
+      window.localStorage.setItem(INSTALL_BANNER_KEY, '1');
+    } else {
+      window.localStorage.removeItem(INSTALL_BANNER_KEY);
+    }
+  } catch (_error) {}
+}
+
+function updateAppShellClasses() {
+  state.standalone = isStandaloneApp();
+  document.body.classList.toggle('app-standalone', state.standalone);
+  document.body.classList.toggle('app-mobile', isMobileViewport());
+}
+
+function syncReaderViewportMode() {
+  if (!bookElements?.readerView) {
+    return;
+  }
+  const compact = isCompactReaderViewport();
+  const landscape = isLandscapeReaderViewport();
+  bookElements.readerView.classList.toggle('reader-mobile', compact);
+  bookElements.readerView.classList.toggle('reader-landscape', landscape);
+  bookElements.readerView.classList.toggle('reader-portrait', compact && !landscape);
+  bookElements.readerView.classList.toggle('reader-standalone', state.standalone);
+  bookElements.readerView.dataset.viewport = landscape ? 'landscape' : compact ? 'portrait' : 'desktop';
+}
+
+function shouldShowInstallBanner() {
+  if (!elements.appInstallBanner || state.installDismissed || state.standalone || isDetailRoute()) {
+    return false;
+  }
+  if (state.installPrompt) {
+    return true;
+  }
+  return isIosDevice() && isMobileViewport();
+}
+
+function renderInstallBanner() {
+  if (!elements.appInstallBanner) {
+    return;
+  }
+  updateAppShellClasses();
+  const visible = shouldShowInstallBanner();
+  elements.appInstallBanner.classList.toggle('hidden', !visible);
+  if (!visible) {
+    return;
+  }
+
+  if (state.installPrompt) {
+    elements.appInstallButton.disabled = false;
+    elements.appInstallButton.textContent = 'Install app';
+    elements.appInstallMessage.textContent = 'Add the reader to your device so it opens like an app and keeps your library one tap away.';
+    return;
+  }
+
+  elements.appInstallButton.disabled = false;
+  elements.appInstallButton.textContent = 'Show steps';
+  elements.appInstallMessage.textContent = 'On iPhone or iPad, use Share and then Add to Home Screen to install BookVoice like an app.';
+}
+
+async function handleInstallAction() {
+  if (state.installPrompt) {
+    state.installPrompt.prompt();
+    const choice = await state.installPrompt.userChoice.catch(() => null);
+    state.installPrompt = null;
+    if (choice?.outcome === 'accepted') {
+      persistInstallBannerPreference(true);
+    }
+    renderInstallBanner();
+    return;
+  }
+
+  if (isIosDevice()) {
+    elements.appInstallMessage.textContent = 'Tap Share in Safari, then choose Add to Home Screen. After that, BookVoice opens without browser chrome and feels much closer to a real app.';
+  }
+}
+
+function registerInstallHooks() {
+  loadInstallBannerPreference();
+  updateAppShellClasses();
+
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    state.installPrompt = event;
+    renderInstallBanner();
+  });
+
+  window.addEventListener('appinstalled', () => {
+    state.installPrompt = null;
+    persistInstallBannerPreference(true);
+    renderInstallBanner();
+  });
+
+  const displayMode = window.matchMedia('(display-mode: standalone)');
+  if (displayMode?.addEventListener) {
+    displayMode.addEventListener('change', () => {
+      updateAppShellClasses();
+      renderInstallBanner();
+    });
+  }
+}
+
+async function registerServiceWorker() {
+  if (!('serviceWorker' in window.navigator)) {
+    return;
+  }
+  try {
+    await window.navigator.serviceWorker.register('/sw.js');
+  } catch (error) {
+    console.warn('Service worker registration failed:', error);
+  }
+}
+
 function coverMarkup(book, variant = 'standard') {
   const profile = profileFor(book);
   const parts = titleParts(book);
@@ -156,20 +338,16 @@ function coverMarkup(book, variant = 'standard') {
   const label = common.hasPublishedAudio(book)
     ? 'Read and listen'
     : (isChapterBook(book) ? 'Chapter edition' : 'Reading edition');
+  const chapterLabel = Number.isFinite(chapterNumber(book)) ? `Chapter ${chapterNumber(book)}` : 'Private edition';
   return `
     <div class="book-cover ${variant}" style="--cover-a:${a};--cover-b:${b};">
       <div class="cover-spine"></div>
       <div class="cover-inner">
         <div class="cover-topline">
           <span class="cover-tag">${common.escapeHtml(label)}</span>
-          <span class="cover-edition">Private edition</span>
         </div>
-        <div>
-          <div class="cover-title">${common.escapeHtml(parts.title || book.title)}</div>
-          ${parts.author ? `<div class="cover-author">${common.escapeHtml(parts.author)}</div>` : ''}
-        </div>
+        <div></div>
         <div class="cover-bottom">
-          <div class="cover-meta">${common.escapeHtml(profile.priceLabel || 'Private access')}</div>
           <div class="cover-rule"></div>
         </div>
       </div>
@@ -202,6 +380,18 @@ function offerConfig(book) {
   };
 }
 
+function isLaunchTitle(book) {
+  return Boolean(book?.is_launch_title);
+}
+
+function canBuyNow(book) {
+  return Boolean(book?.public_purchase_open);
+}
+
+function isComingNext(book) {
+  return !book?.has_access && !canBuyNow(book);
+}
+
 const shelfBlurbs = {
   book_chapter_1: 'The opening chapter frames frequency as the foundation of the whole project and gives the conceptual doorway into everything that follows.',
   book_chapter_2: 'Practical Frequency turns theory into trainable frequency memory so the body and mind can learn a new state on purpose.',
@@ -225,6 +415,10 @@ function shelfBlurb(book) {
 
 function sortedShelfBooks(books) {
   return [...books].sort((a, b) => {
+    const launchDelta = Number(Boolean(b?.is_launch_title)) - Number(Boolean(a?.is_launch_title));
+    if (launchDelta !== 0) {
+      return launchDelta;
+    }
     const chapterDelta = chapterNumber(a) - chapterNumber(b);
     if (chapterDelta !== 0) {
       return chapterDelta;
@@ -234,7 +428,22 @@ function sortedShelfBooks(books) {
 }
 
 function pickFeaturedBook() {
-  return state.catalog.find((book) => profileFor(book).featured) || state.catalog[0] || null;
+  return (
+    state.catalog.find((book) => isLaunchTitle(book)) ||
+    state.catalog.find((book) => profileFor(book).featured) ||
+    state.catalog[0] ||
+    null
+  );
+}
+
+function launchBook() {
+  return pickFeaturedBook();
+}
+
+function comingNextTitles(limit = 3) {
+  return sortedShelfBooks(state.catalog)
+    .filter((book) => !book.has_access && !isLaunchTitle(book))
+    .slice(0, limit);
 }
 
 function renderTopState() {
@@ -265,7 +474,23 @@ function setHomeStage(stage) {
     elements[`stage${key.charAt(0).toUpperCase()}${key.slice(1)}`]?.classList.toggle('hidden', !isVisible);
     elements[`stage${key.charAt(0).toUpperCase()}${key.slice(1)}`]?.classList.toggle('current', isCurrent);
     elements[`stage${key.charAt(0).toUpperCase()}${key.slice(1)}Btn`]?.classList.toggle('active', isCurrent);
+    elements[`stage${key.charAt(0).toUpperCase()}${key.slice(1)}Btn`]?.classList.toggle('hidden', !isCurrent);
     elements[`stage${key.charAt(0).toUpperCase()}${key.slice(1)}Btn`]?.classList.toggle('complete', isComplete);
+  }
+  const barCopy = document.querySelector('.journey-bar-copy');
+  if (barCopy) {
+    const titles = {
+      preview: { eyebrow: 'Private reader edition', h1: 'Read Frequency Vibes.', p: 'Browse the collection and enter the reader when you are ready.' },
+      login: { eyebrow: 'Reader access', h1: 'Create your profile or sign back in.', p: 'One account keeps your shelf, chapters and reading progress in one place.' },
+      library: { eyebrow: 'Your library', h1: 'Welcome to the Frequency Vibes collection.', p: 'Open what you own and see what comes next.' },
+    };
+    const t = titles[stage] || titles.preview;
+    const ey = barCopy.querySelector('.eyebrow');
+    const h1 = barCopy.querySelector('h1');
+    const p = barCopy.querySelector('p');
+    if (ey) ey.textContent = t.eyebrow;
+    if (h1) h1.textContent = t.h1;
+    if (p) p.textContent = t.p;
   }
 }
 
@@ -289,26 +514,30 @@ function featuredSpotlightMarkup(book) {
     `;
   }
 
-  const profile = profileFor(book);
-    return `
-      ${coverMarkup(book, 'preview')}
-      <span class="eyebrow">Chapter-first release</span>
-      <p>${common.escapeHtml(truncate('Frequency Vibes is being released chapter by chapter. Start with the introduction, then add practice, manifestation, planning, and life in frequency as separate entries.', 110))}</p>
-      <div class="spotlight-meta-grid">
-        <div class="spotlight-meta-item">
-          <strong>Release</strong>
-          <span>Single chapters first</span>
-        </div>
-        <div class="spotlight-meta-item">
-          <strong>Path</strong>
-          <span>Introduction to daily application</span>
-        </div>
+  const titleMeta = readerTitleMeta(book);
+  return `
+    ${coverMarkup(book, 'preview')}
+    <span class="eyebrow">${common.escapeHtml(`${titleMeta.chapterLabel} · featured`)}</span>
+    <h3>${common.escapeHtml(titleMeta.mainTitle)}</h3>
+    <div class="spotlight-meta-grid">
+      <div class="spotlight-meta-item">
+        <strong>Book</strong>
+        <span>Frequency Vibes</span>
       </div>
-    `;
+      <div class="spotlight-meta-item">
+        <strong>Author</strong>
+        <span>Eugene Mierak</span>
+      </div>
+      <div class="spotlight-meta-item">
+        <strong>Access</strong>
+        <span>Read and listen online</span>
+      </div>
+    </div>
+  `;
 }
 
 function renderPreviewStage() {
-  const featured = pickFeaturedBook();
+  const featured = launchBook();
   elements.stagePreviewSpotlight.innerHTML = featuredSpotlightMarkup(featured);
 
   if (!featured) {
@@ -317,15 +546,12 @@ function renderPreviewStage() {
   }
 
   const offer = offerConfig(featured);
+  const titleMeta = readerTitleMeta(featured);
+  const nextCount = state.catalog.filter((book) => !book.has_access && !isLaunchTitle(book)).length;
   elements.stageOfferGrid.innerHTML = `
-    <article class="stage-offer-card featured single-offer-card">
-      <div class="stage-offer-top">
-        <div class="stack-tight">
-          <span class="eyebrow">Main offer</span>
-          <h3>${common.escapeHtml(offer.label)}</h3>
-        </div>
-        <span class="stage-offer-price">${common.escapeHtml(offer.price)}</span>
-      </div>
+    <article class="stage-offer-card featured single-offer-card offer-centered">
+      <h3>${common.escapeHtml(titleMeta.mainTitle)}</h3>
+      <span class="stage-offer-price">Buy the book</span>
       <p>${common.escapeHtml(offer.description)}</p>
     </article>
   `;
@@ -358,56 +584,52 @@ function renderLoginStage() {
 function renderLibraryCards(books) {
     return sortedShelfBooks(books).map((book) => {
         const offer = offerConfig(book);
+        const titleMeta = readerTitleMeta(book);
         const hasAccess = Boolean(book.has_access);
+        const launchTitle = isLaunchTitle(book);
+        const purchaseOpen = canBuyNow(book);
+        const comingNext = isComingNext(book);
         const isAuthenticated = Boolean(state.session?.authenticated);
         const formatLabel = common.hasPublishedAudio(book) ? 'Chapter PDF + audio' : 'Chapter PDF';
-      const statusLabel = hasAccess ? 'In your library' : 'Available';
+      const statusLabel = hasAccess ? 'In your library' : (comingNext ? 'Coming next' : 'Now available');
         const actionMarkup = hasAccess
           ? `<a class="button-link primary" href="/library/${encodeURIComponent(book.slug)}">Open chapter</a>`
-          : isAuthenticated
+          : purchaseOpen && isAuthenticated
             ? (offer.external
                 ? `<a class="button-link warm" href="${common.escapeHtml(offer.href)}" target="_blank" rel="noreferrer">Buy now</a>`
                 : `<button class="button-link warm" type="button" data-action="buy-book" data-book-slug="${common.escapeHtml(book.slug)}">Buy now</button>`)
-            : `<button class="secondary" type="button" data-stage-jump="login">Sign in first</button>`;
-        const secondaryMeta = hasAccess ? 'Owned' : offer.price;
-      const actionTitle = hasAccess ? 'Continue reading' : (isAuthenticated ? 'Add to your library' : 'Sign in to continue');
+            : purchaseOpen
+              ? `<button class="secondary" type="button" data-stage-jump="login">Sign in first</button>`
+              : `<button class="secondary" type="button" disabled>Coming next</button>`;
+        const secondaryMeta = hasAccess ? 'Owned' : (purchaseOpen ? offer.price : 'Next release');
+      const actionTitle = hasAccess
+        ? 'Continue reading'
+        : (comingNext ? 'Stay on the path' : (isAuthenticated ? 'Add to your library' : 'Sign in to continue'));
         const actionText = hasAccess
           ? 'Open this chapter to continue where you left off.'
-          : isAuthenticated
+          : purchaseOpen && isAuthenticated
             ? 'Purchase this chapter to unlock it permanently in your library.'
-            : 'Sign in first, then return here to get this chapter.';
+            : purchaseOpen
+              ? 'Sign in first, then return here to get this chapter.'
+              : 'This chapter is visible on the shelf. It will be available soon.';
 
     return `
-    <article class="stage-library-card">
+    <article class="stage-library-card ${hasAccess ? 'is-owned' : ''} ${comingNext ? 'is-coming-next' : ''}">
       <div class="stage-library-visual">
         ${coverMarkup(book, 'preview')}
       </div>
-      <div class="stage-library-copy">
-        <div class="stage-library-header">
-          <div class="stack-tight">
-            <span class="eyebrow">${common.escapeHtml(hasAccess ? 'Your chapter' : 'Single chapter')}</span>
-            <h3>${common.escapeHtml(book.title)}</h3>
-            <p>${common.escapeHtml(shelfBlurb(book))}</p>
-          </div>
-          <div class="stage-library-state">
-            <span class="stage-library-price">${common.escapeHtml(secondaryMeta)}</span>
-            <span class="pill">${common.escapeHtml(statusLabel)}</span>
-          </div>
+      <div class="stage-library-body">
+        <div class="stage-library-top">
+          <span class="eyebrow">${common.escapeHtml(titleMeta.chapterLabel)}</span>
+          <span class="stage-library-status">${common.escapeHtml(statusLabel)}</span>
         </div>
-        <div class="pill-row compact-pill-row">
-          <span class="pill">${common.escapeHtml(formatLabel)}</span>
+        <h3>${common.escapeHtml(titleMeta.mainTitle)}</h3>
+        <p class="stage-library-blurb">${common.escapeHtml(shelfBlurb(book))}</p>
+        <div class="stage-library-bottom">
+          <span class="stage-library-price">${common.escapeHtml(secondaryMeta)}</span>
+          <span class="stage-library-format">${common.escapeHtml(formatLabel)}</span>
         </div>
-        <div class="stage-library-footer">
-          <div class="stage-library-meta">
-            <span>${common.escapeHtml(bookMeta(book))}</span>
-          </div>
-        </div>
-      </div>
-      <div class="stage-library-action-panel">
-        <span class="eyebrow">${common.escapeHtml(hasAccess ? 'Ready' : (isAuthenticated ? 'Get this chapter' : 'Sign in required'))}</span>
-        <h4>${common.escapeHtml(actionTitle)}</h4>
-        <p>${common.escapeHtml(actionText)}</p>
-        <div class="actions stage-library-actions">
+        <div class="stage-library-actions">
           ${actionMarkup}
         </div>
       </div>
@@ -420,8 +642,12 @@ function renderLibraryStage() {
   elements.stageLibrarySpotlight.innerHTML = '';
   elements.libraryLockedState.classList.add('hidden');
   elements.libraryLockedState.innerHTML = '';
-  const baseIntro = 'Frequency Vibes is being released chapter by chapter. Start with the introduction, then add the next parts of the method: practical frequency, manifestation, planning, and daily application.';
-  const baseShelfCopy = 'Each chapter is a paid entry into one part of the project. Buy one, read it, then come back here whenever you are ready for the next chapter.';
+  const liveBook = launchBook();
+  const liveBookMeta = liveBook ? readerTitleMeta(liveBook) : null;
+  const liveBookTitle = liveBookMeta?.mainTitle || titleParts(liveBook).title || liveBook?.title || 'Frequency Vibes';
+  const liveBookLabel = liveBookMeta?.chapterLabel || 'The collection';
+  const baseIntro = `The full Frequency Vibes collection in order. Open what you own and see what comes next.`;
+  const baseShelfCopy = `Browse the available chapters. The rest stay visible on the shelf as they are being prepared.`;
 
   if (!state.session?.authenticated) {
     elements.libraryStageIntro.textContent = baseIntro;
@@ -442,8 +668,8 @@ function renderLibraryStage() {
         const ownedCount = state.catalog.filter((book) => book.has_access).length;
         elements.libraryStageIntro.textContent = baseIntro;
         elements.libraryShelfCopy.textContent = ownedCount
-          ? 'The chapters you already bought stay ready here. The rest of the collection remains available whenever you want to add the next one.'
-          : 'Your shelf is ready. Start with the chapter you want first, then build the collection from there.';
+          ? 'The chapters you already own stay ready here. The rest of the collection remains visible on the shelf.'
+          : `Your shelf is ready. Browse the available chapters and expand your collection.`;
       elements.libraryUnlockedState.classList.remove('hidden');
       elements.customerCatalogList.innerHTML = state.catalog.length
         ? renderLibraryCards(state.catalog)
@@ -457,8 +683,8 @@ function renderLibraryStage() {
   }
 
     elements.libraryShelfCopy.textContent = state.session.role === 'admin'
-      ? 'This is the same chapter shelf your readers will use to buy chapters, keep them in their account, and reopen them later.'
-      : 'Each chapter can be bought from here. Once it belongs to the reader, the same card becomes their way back into the chapter.';
+      ? 'This is the same chapter shelf your readers will use. The available chapters are ready and the rest remain visible on the path ahead.'
+      : `The store is centered on ${liveBookTitle}. Once it belongs to the reader, the same card becomes their way back into the chapter.`;
     elements.libraryUnlockedState.classList.remove('hidden');
     elements.libraryStageIntro.textContent = state.session.role === 'admin'
       ? 'You are signed in as admin, so this is the same chapter collection your readers will use as the store and returning library for the Frequency Vibes project.'
@@ -488,7 +714,12 @@ async function handleBuyBook(slug) {
       renderHome();
       setHomeStage('library');
     }
-    common.renderNotice(messageTarget, 'The book is now in your library. You can open it from this same shelf.', 'success');
+    const boughtBook = state.catalog.find((book) => book.slug === slug);
+    common.renderNotice(
+      messageTarget,
+      'The book is now in your library. Open it from this same shelf.',
+      'success'
+    );
   } catch (error) {
     common.renderNotice(messageTarget, error.message || 'We could not complete the purchase right now.', 'error');
   }
@@ -496,6 +727,7 @@ async function handleBuyBook(slug) {
 
 function renderHome() {
   renderTopState();
+  renderInstallBanner();
   common.renderNotice(elements.customerMessage, '');
   elements.customerHomeView.classList.remove('hidden');
   elements.customerDetailView.classList.add('hidden');
@@ -517,6 +749,12 @@ const bookElements = {
   readerView: document.querySelector('#bookReaderView'),
   readerTitle: document.querySelector('#bookReaderTitle'),
   readerNav: document.querySelector('#bookReaderNav'),
+  zoomControls: document.querySelector('#bookZoomControls'),
+  zoomOut: document.querySelector('#bookZoomOut'),
+  zoomReset: document.querySelector('#bookZoomReset'),
+  zoomIn: document.querySelector('#bookZoomIn'),
+  audioQuickToggle: document.querySelector('#bookAudioQuickToggle'),
+  audioToggle: document.querySelector('#bookAudioToggle'),
   readerStage: document.querySelector('#bookReaderStage'),
   textScroll: document.querySelector('#bookTextScroll'),
   viewToggle: document.querySelector('#bookViewToggle'),
@@ -526,8 +764,7 @@ const bookElements = {
 let pageFlipInstance = null;
 
 function isSinglePageMode() {
-  // Always show two-page spread (book open)
-  return false;
+  return Boolean(state.readerSinglePage);
 }
 
 function totalSpreads() {
@@ -565,6 +802,13 @@ function resetDetailExperienceState() {
   destroyPageFlip();
   state.detailPageStart = 1;
   state.pdfPageCount = 0;
+  state.pdfLandscape = false;
+  state.readerSinglePage = false;
+  state.readerZoom = 1;
+  state.readerZoomBaseWidth = 0;
+  state.readerZoomBaseHeight = 0;
+  state.readerFullscreen = false;
+  state.readerAudioDockOpen = true;
   state.pdfSourceUrl = null;
   if (state.pdfDocument?.destroy) {
     try {
@@ -573,6 +817,321 @@ function resetDetailExperienceState() {
   }
   state.pdfDocument = null;
   state.editorialText = null;
+  updateZoomControls();
+}
+
+function isReaderFullscreen() {
+  return document.fullscreenElement === bookElements.readerView;
+}
+
+function effectiveReaderZoom() {
+  return state.readerFullscreen ? state.readerZoom : 1;
+}
+
+function clampReaderZoom(value) {
+  return Math.min(2.5, Math.max(1, Math.round(value * 100) / 100));
+}
+
+function readerZoomStep(direction) {
+  const step = state.readerZoom < 1.5 ? 0.2 : 0.25;
+  return direction > 0 ? state.readerZoom + step : state.readerZoom - step;
+}
+
+// Zoom architecture:
+//   host   = .page-flip-zoom-wrap — a plain div we insert around #pageFlipBook.
+//            Its inline width/height in px define the layout box (= scroll area
+//            in fullscreen). Untransformed, so math stays simple.
+//   target = #pageFlipBook (StPageFlip adds .stf__parent to it). We only apply
+//            a CSS `transform: scale(z)` to it — its *intrinsic* size is never
+//            touched, so StPageFlip's internal geometry is left consistent and
+//            we do NOT need pageFlipInstance.update() on zoom.
+// While zoomed we disable pointer events on the target so click/drag hotspots
+// don't mis-hit the flip corners; navigation happens via the nav buttons and
+// +/-/0 keyboard shortcuts which call flipNext/flipPrev directly.
+function getReaderZoomHost() {
+  return document.querySelector('.page-flip-zoom-wrap');
+}
+
+function getReaderZoomTarget() {
+  return document.querySelector('#pageFlipBook');
+}
+
+function captureReaderZoomBaseMetrics() {
+  const target = getReaderZoomTarget();
+  if (!target) return false;
+  // offsetWidth/Height are layout-box values, unaffected by any transform.
+  const width = Math.round(target.offsetWidth || target.getBoundingClientRect().width || 0);
+  const height = Math.round(target.offsetHeight || target.getBoundingClientRect().height || 0);
+  if (!width || !height) return false;
+  state.readerZoomBaseWidth = width;
+  state.readerZoomBaseHeight = height;
+  return true;
+}
+
+// Focal-point anchor: we record *where in the target's visual box* the
+// viewport center is pointing, as a normalized ratio (0..1 inside the
+// target, negative/>1 if the target is smaller than the viewport). After
+// the zoom mutation we read the target's new bounding rect and scroll so
+// the same focal point lands back at the viewport center.
+//
+// Why this beats the old scrollHeight-ratio approach: when zooming a
+// portrait PDF the overflow-y class flips flex alignment from center to
+// flex-start, which changes how scrollHeight maps to on-screen positions.
+// A ratio against scrollHeight becomes meaningless across that transition.
+// getBoundingClientRect() is immune to that — it always reports real
+// viewport coordinates regardless of flex alignment.
+function captureReaderViewportAnchor(stage) {
+  if (!stage) return null;
+  const target = getReaderZoomTarget();
+  if (!target) return null;
+  const rect = target.getBoundingClientRect();
+  const stageRect = stage.getBoundingClientRect();
+  if (!rect.width || !rect.height) return null;
+  const vpCx = stageRect.left + stage.clientWidth / 2;
+  const vpCy = stageRect.top + stage.clientHeight / 2;
+  return {
+    xR: (vpCx - rect.left) / rect.width,
+    yR: (vpCy - rect.top) / rect.height,
+  };
+}
+
+function restoreReaderViewportAnchor(stage, anchor) {
+  if (!stage || !anchor) return;
+  const target = getReaderZoomTarget();
+  if (!target) return;
+  const rect = target.getBoundingClientRect();
+  const stageRect = stage.getBoundingClientRect();
+  if (!rect.width || !rect.height) return;
+  // Where the focal point currently sits in viewport coords.
+  const focalX = rect.left + anchor.xR * rect.width;
+  const focalY = rect.top + anchor.yR * rect.height;
+  // Where we want it: stage viewport center.
+  const vpCx = stageRect.left + stage.clientWidth / 2;
+  const vpCy = stageRect.top + stage.clientHeight / 2;
+  const maxLeft = Math.max(0, stage.scrollWidth - stage.clientWidth);
+  const maxTop = Math.max(0, stage.scrollHeight - stage.clientHeight);
+  stage.scrollLeft = Math.max(0, Math.min(maxLeft, stage.scrollLeft + (focalX - vpCx)));
+  stage.scrollTop = Math.max(0, Math.min(maxTop, stage.scrollTop + (focalY - vpCy)));
+}
+
+function applyReaderZoomLayout(options = {}) {
+  const stage = bookElements.readerStage;
+  const host = getReaderZoomHost();
+  const target = getReaderZoomTarget();
+  const zoom = effectiveReaderZoom();
+  bookElements.readerView?.classList.toggle('reader-zoomed', state.readerFullscreen && zoom > 1.001);
+  if (!stage || !host || !target) return;
+
+  if (!state.readerZoomBaseWidth || !state.readerZoomBaseHeight) {
+    if (!captureReaderZoomBaseMetrics()) {
+      // StPageFlip may not have committed its sizing yet — retry next frame.
+      requestAnimationFrame(() => applyReaderZoomLayout(options));
+      return;
+    }
+  }
+
+  // Capture anchor BEFORE mutating layout. Reading scroll dims here forces a
+  // synchronous layout, so subsequent writes below are coherent.
+  const preserveViewport = Boolean(options.preserveViewport);
+  const anchor = preserveViewport ? captureReaderViewportAnchor(stage) : null;
+
+  const scaledW = Math.round(state.readerZoomBaseWidth * zoom);
+  const scaledH = Math.round(state.readerZoomBaseHeight * zoom);
+  const zoomText = zoom.toFixed(3);
+
+  if (zoom > 1.001) {
+    // Wrap reserves real layout space so scrollbars reveal the pannable area.
+    host.style.width = `${scaledW}px`;
+    host.style.height = `${scaledH}px`;
+    // Visual-only scale on the StPageFlip element. Its intrinsic box is
+    // unchanged, so StPageFlip keeps its internal math consistent.
+    // IMPORTANT: the stage runs a `bookReveal` animation with
+    // animation-fill-mode: both on .stf__parent, and animations outrank
+    // normal inline styles in the CSS cascade. Use !important so the
+    // inline transform beats the animation's stuck final keyframe.
+    target.style.setProperty('transform-origin', 'top center', 'important');
+    target.style.setProperty('transform', `scale(${zoomText})`, 'important');
+    target.style.willChange = 'transform';
+  } else {
+    host.style.width = '';
+    host.style.height = '';
+    target.style.removeProperty('transform');
+    target.style.removeProperty('transform-origin');
+    target.style.willChange = '';
+  }
+  host.style.setProperty('--reader-zoom', zoomText);
+
+  // Overflow detection (drives top-align in fullscreen when the page is taller
+  // than the visible stage area).
+  const stageStyles = window.getComputedStyle(stage);
+  const padY = (parseFloat(stageStyles.paddingTop) || 0) + (parseFloat(stageStyles.paddingBottom) || 0);
+  const availableHeight = Math.max(0, stage.clientHeight - padY);
+  const verticalOverflow = scaledH > availableHeight + 1;
+  bookElements.readerView?.classList.toggle('reader-zoom-overflow-y', state.readerFullscreen && verticalOverflow);
+
+  // Restore anchor synchronously — reading scroll dims already forced layout.
+  if (anchor) {
+    restoreReaderViewportAnchor(stage, anchor);
+  }
+}
+
+function updateZoomControls() {
+  if (!bookElements.zoomControls || !bookElements.zoomOut || !bookElements.zoomReset || !bookElements.zoomIn) {
+    return;
+  }
+  const active = state.readerFullscreen;
+  const zoomPct = Math.round(effectiveReaderZoom() * 100);
+  bookElements.zoomControls.classList.toggle('hidden', !active);
+  bookElements.zoomOut.disabled = !active || state.readerZoom <= 1;
+  bookElements.zoomReset.disabled = !active || Math.abs(state.readerZoom - 1) < 0.001;
+  bookElements.zoomIn.disabled = !active || state.readerZoom >= 2.5;
+  bookElements.zoomReset.textContent = `${zoomPct}%`;
+}
+
+async function applyReaderZoom(nextZoom) {
+  if (!state.readerFullscreen || !pageFlipInstance) {
+    return;
+  }
+  const clamped = clampReaderZoom(nextZoom);
+  if (Math.abs(clamped - state.readerZoom) < 0.001) {
+    updateZoomControls();
+    return;
+  }
+  state.readerZoom = clamped;
+  updateZoomControls();
+  applyReaderZoomLayout({ preserveViewport: true });
+}
+
+async function syncReaderFullscreenState() {
+  const fullscreen = isReaderFullscreen();
+  const changed = state.readerFullscreen !== fullscreen;
+  if (!fullscreen) {
+    state.readerZoom = 1;
+  }
+  state.readerFullscreen = fullscreen;
+  bookElements.readerView?.classList.toggle('reader-fullscreen', fullscreen);
+  bookElements.readerView?.classList.toggle('reader-zoomed', fullscreen && state.readerZoom > 1.001);
+  if (!fullscreen) {
+    bookElements.readerView?.classList.remove('reader-zoom-overflow-y');
+  }
+  updateZoomControls();
+
+  if (!changed) {
+    return;
+  }
+
+  // Only preserve scroll anchor while we remain in fullscreen; on exit the
+  // stage dimensions change dramatically and anchor math would mis-scroll.
+  applyReaderZoomLayout({ preserveViewport: fullscreen });
+  if (isDetailRoute() && currentBook()?.has_access) {
+    renderAudioDock(currentBook());
+  }
+}
+
+function updateAudioToggleButton(book) {
+  if (!bookElements.audioToggle) {
+    return;
+  }
+  const hasAudio = Boolean(book?.customer_audio_url);
+  const open = hasAudio && state.readerAudioDockOpen;
+  bookElements.audioToggle.disabled = !hasAudio;
+  bookElements.audioToggle.classList.toggle('is-open', open);
+  bookElements.audioToggle.classList.toggle('is-disabled', !hasAudio);
+  bookElements.audioToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  bookElements.audioToggle.textContent = !hasAudio
+    ? 'Audio soon'
+    : (open ? 'Hide audio' : 'Listen');
+}
+
+function getReaderAudioElement() {
+  return bookElements.readerDock?.querySelector('audio') || null;
+}
+
+function updateAudioQuickButton(book) {
+  if (!bookElements.audioQuickToggle) {
+    return;
+  }
+  const hasAudio = Boolean(book?.customer_audio_url);
+  const audioEl = getReaderAudioElement();
+  const isPlaying = Boolean(hasAudio && audioEl && !audioEl.paused && !audioEl.ended);
+  bookElements.audioQuickToggle.classList.toggle('hidden', !hasAudio);
+  bookElements.audioQuickToggle.disabled = !hasAudio;
+  bookElements.audioQuickToggle.classList.toggle('is-playing', isPlaying);
+  bookElements.audioQuickToggle.setAttribute('aria-pressed', isPlaying ? 'true' : 'false');
+  bookElements.audioQuickToggle.textContent = isPlaying ? 'Pause' : 'Play';
+}
+
+function bindAudioElementEvents(book) {
+  const audioEl = getReaderAudioElement();
+  if (!audioEl || audioEl.dataset.quickBound === '1') {
+    updateAudioQuickButton(book);
+    return;
+  }
+  const sync = () => updateAudioQuickButton(currentBook());
+  audioEl.addEventListener('play', sync);
+  audioEl.addEventListener('pause', sync);
+  audioEl.addEventListener('ended', sync);
+  audioEl.addEventListener('loadedmetadata', sync);
+  audioEl.dataset.quickBound = '1';
+  updateAudioQuickButton(book);
+}
+
+function syncAudioDockVisibility(book) {
+  if (!bookElements.readerDock) {
+    return;
+  }
+  const hasAudio = Boolean(book?.customer_audio_url);
+  const shouldShow = !hasAudio || state.readerAudioDockOpen;
+  bookElements.readerDock.classList.toggle('hidden', !shouldShow);
+  bookElements.readerDock.classList.toggle('is-collapsed', hasAudio && !shouldShow);
+  if (hasAudio && !shouldShow) {
+    const audioEl = getReaderAudioElement();
+    if (audioEl && !audioEl.paused) {
+      audioEl.pause();
+    }
+  }
+  updateAudioToggleButton(book);
+  updateAudioQuickButton(book);
+}
+
+function toggleAudioDock() {
+  const book = currentBook();
+  if (!book?.customer_audio_url) {
+    updateAudioToggleButton(book);
+    updateAudioQuickButton(book);
+    return;
+  }
+  state.readerAudioDockOpen = !state.readerAudioDockOpen;
+  syncAudioDockVisibility(book);
+  if (state.readerAudioDockOpen) {
+    const audioEl = getReaderAudioElement();
+    audioEl?.focus();
+  }
+}
+
+async function toggleAudioPlayback() {
+  const book = currentBook();
+  if (!book?.customer_audio_url) {
+    updateAudioQuickButton(book);
+    return;
+  }
+  if (!state.readerAudioDockOpen) {
+    state.readerAudioDockOpen = true;
+    syncAudioDockVisibility(book);
+  }
+  const audioEl = getReaderAudioElement();
+  if (!audioEl) {
+    updateAudioQuickButton(book);
+    return;
+  }
+  if (audioEl.paused || audioEl.ended) {
+    try {
+      await audioEl.play();
+    } catch (_error) {}
+  } else {
+    audioEl.pause();
+  }
+  updateAudioQuickButton(book);
 }
 
 function bookPdfUrl(book) {
@@ -889,17 +1448,28 @@ async function initEditorialPageFlip(book, rawText) {
 
   const vw = window.innerWidth;
   const vh = window.innerHeight;
+  const compactViewport = isCompactReaderViewport();
+  const landscapeViewport = isLandscapeReaderViewport();
+  const singlePageMobile = compactViewport;
   const ratio = 1.414;
-  const topMargin = vh <= 768 ? 32 : 40;
-  const bottomMargin = vh <= 768 ? 42 : 56;
-  const sideMargin = vw <= 860 ? 8 : 16;
+  const topMargin = landscapeViewport ? 16 : (compactViewport ? 26 : (vh <= 768 ? 32 : 40));
+  const bottomMargin = landscapeViewport ? 18 : (compactViewport ? 34 : (vh <= 768 ? 42 : 56));
+  const sideMargin = landscapeViewport ? 8 : (compactViewport ? 10 : 16);
   const usableH = vh - topMargin - bottomMargin;
   const usableW = vw - sideMargin * 2;
-  const maxPageH = usableH - 16;
+  const maxPageH = usableH - (compactViewport ? 4 : 16);
   const pageWFromH = Math.floor(maxPageH / ratio);
-  const pageWFromW = Math.min(Math.floor((usableW - 8) / 2), 560);
-  let pw = Math.min(pageWFromH, pageWFromW);
-  if (pw < 140) pw = 140;
+  let pw;
+  if (singlePageMobile) {
+    const pageWFromW = Math.floor(usableW - (landscapeViewport ? 24 : 18));
+    const pageCap = landscapeViewport ? 420 : 520;
+    pw = Math.min(pageWFromH, pageWFromW, pageCap);
+    if (pw < 180) pw = 180;
+  } else {
+    const pageWFromW = Math.min(Math.floor((usableW - 8) / 2), 560);
+    pw = Math.min(pageWFromH, pageWFromW);
+    if (pw < 140) pw = 140;
+  }
   const ph = Math.floor(pw * ratio);
 
   // Parse and paginate
@@ -911,8 +1481,13 @@ async function initEditorialPageFlip(book, rawText) {
   const flipContainer = document.createElement('div');
   flipContainer.id = 'pageFlipBook';
   flipContainer.className = 'page-flip-book';
+  flipContainer.style.marginTop = compactViewport ? '18px' : '40px';
+  // Wrap owns the zoom layout box; #pageFlipBook is purely visually scaled.
+  const flipWrap = document.createElement('div');
+  flipWrap.className = 'page-flip-zoom-wrap';
+  flipWrap.appendChild(flipContainer);
   bookElements.readerStage.innerHTML = '';
-  bookElements.readerStage.appendChild(flipContainer);
+  bookElements.readerStage.appendChild(flipWrap);
 
   pages.forEach((page, i) => {
     const div = document.createElement('div');
@@ -943,7 +1518,7 @@ async function initEditorialPageFlip(book, rawText) {
     size: 'fixed',
     drawShadow: true,
     flippingTime: 700,
-    usePortrait: false,
+    usePortrait: singlePageMobile,
     startZIndex: 0,
     autoSize: true,
     maxShadowOpacity: 0.7,
@@ -956,6 +1531,11 @@ async function initEditorialPageFlip(book, rawText) {
   });
 
   pageFlipInstance.loadFromHTML(flipContainer.querySelectorAll('.pf-page'));
+  state.readerSinglePage = singlePageMobile;
+  state.pdfLandscape = false;
+  state.readerZoomBaseWidth = 0;
+  state.readerZoomBaseHeight = 0;
+  applyReaderZoomLayout();
 
   pageFlipInstance.on('flip', (e) => {
     state.detailPageStart = e.data + 1;
@@ -1043,15 +1623,42 @@ let currentReaderView = 'slides'; // 'slides' or 'original'
 let slidesPdfUrl = null;
 let originalPdfUrl = null;
 
+function readerViewMetaLabel() {
+  const base = currentReaderView === 'slides' ? 'Guided pages open' : 'Original PDF open';
+  if (!isCompactReaderViewport()) {
+    return base;
+  }
+  return isLandscapeReaderViewport()
+    ? `${base} · Landscape mobile view`
+    : `${base} · Rotate sideways for a wider page`;
+}
+
+function readerHintText(book) {
+  const hints = [];
+  if (isCompactReaderViewport()) {
+    hints.push('Swipe or tap to turn pages');
+    if (!isLandscapeReaderViewport()) {
+      hints.push('rotate sideways for a larger page');
+    }
+  } else {
+    hints.push('← → to turn pages');
+  }
+  if (common.hasPublishedAudio(book)) {
+    hints.push('use the dock below to listen');
+  }
+  return hints.join(' · ');
+}
+
 async function toggleReaderView() {
   const book = currentBook();
   if (!book) return;
   const toggle = bookElements.viewToggle;
+  const compact = isCompactReaderViewport();
 
   if (currentReaderView === 'slides') {
     // Switch to original chapter PDF
     currentReaderView = 'original';
-    if (toggle) { toggle.textContent = 'Visual slides'; toggle.classList.add('active'); }
+    if (toggle) { toggle.textContent = compact ? 'Slides' : 'Visual slides'; toggle.classList.add('active'); }
     const origUrl = originalPdfUrl || bookPdfUrl(book);
     if (origUrl && state.pdfSourceUrl !== origUrl) {
       const pdfLib = await ensurePdfLib();
@@ -1065,7 +1672,7 @@ async function toggleReaderView() {
   } else {
     // Switch back to slides PDF
     currentReaderView = 'slides';
-    if (toggle) { toggle.textContent = 'Original PDF'; toggle.classList.remove('active'); }
+    if (toggle) { toggle.textContent = compact ? 'Original' : 'Original PDF'; toggle.classList.remove('active'); }
     if (slidesPdfUrl && state.pdfSourceUrl !== slidesPdfUrl) {
       const pdfLib = await ensurePdfLib();
       const doc = await pdfLib.getDocument({ url: slidesPdfUrl, withCredentials: true }).promise;
@@ -1076,36 +1683,109 @@ async function toggleReaderView() {
     state.detailPageStart = 1;
     await initPageFlip();
   }
+  renderAudioDock(book);
+}
+
+function captureReaderAudioState() {
+  const audio = bookElements.readerDock?.querySelector('audio');
+  if (!audio) {
+    return null;
+  }
+  return {
+    currentTime: audio.currentTime || 0,
+    volume: audio.volume,
+    playbackRate: audio.playbackRate,
+    wasPlaying: !audio.paused && !audio.ended,
+  };
+}
+
+function restoreReaderAudioState(audio, snapshot) {
+  if (!audio || !snapshot) {
+    return;
+  }
+
+  const applyState = () => {
+    try {
+      if (Number.isFinite(snapshot.currentTime)) {
+        const maxTime = Number.isFinite(audio.duration) && audio.duration > 0
+          ? Math.max(0, audio.duration - 0.25)
+          : snapshot.currentTime;
+        audio.currentTime = Math.max(0, Math.min(snapshot.currentTime, maxTime));
+      }
+    } catch (_error) {}
+
+    if (Number.isFinite(snapshot.volume)) {
+      audio.volume = snapshot.volume;
+    }
+
+    if (Number.isFinite(snapshot.playbackRate)) {
+      audio.playbackRate = snapshot.playbackRate;
+    }
+
+    if (snapshot.wasPlaying) {
+      audio.play().catch(() => {});
+    }
+  };
+
+  if (audio.readyState >= 1) {
+    applyState();
+  } else {
+    audio.addEventListener('loadedmetadata', applyState, { once: true });
+  }
 }
 
 function renderAudioDock(book) {
   if (!bookElements.readerDock) return;
-  bookElements.readerDock.classList.remove('hidden');
+  syncReaderViewportMode();
   const audioUrl = book?.customer_audio_url || null;
+  const meta = readerTitleMeta(book);
+  const viewLabel = readerViewMetaLabel();
+  const previousAudioUrl = bookElements.readerDock.dataset.audioUrl || '';
+  const previousAudioState = previousAudioUrl && previousAudioUrl === audioUrl
+    ? captureReaderAudioState()
+    : null;
   if (audioUrl) {
-    if (bookElements.readerDock.dataset.source === audioUrl && bookElements.readerDock.innerHTML.trim()) return;
-    bookElements.readerDock.dataset.source = audioUrl;
+    bookElements.readerDock.dataset.audioUrl = audioUrl;
+    bookElements.readerDock.dataset.source = `${audioUrl}:${currentReaderView}`;
     bookElements.readerDock.innerHTML = `
       <div class="book-reader-dock-inner audio-ready">
+        <div class="book-reader-dock-copy">
+          <span class="book-reader-dock-kicker">Listen while reading</span>
+          <strong class="book-reader-dock-title">${common.escapeHtml(`${meta.chapterLabel} · ${meta.mainTitle}`)}</strong>
+          <span class="book-reader-dock-meta">${common.escapeHtml(viewLabel)}</span>
+        </div>
         <span class="book-reader-dock-status ready">Audio ready</span>
         <audio controls preload="metadata" src="${common.escapeHtml(audioUrl)}"></audio>
       </div>
     `;
+    const audioEl = getReaderAudioElement();
+    restoreReaderAudioState(audioEl, previousAudioState);
+    bindAudioElementEvents(book);
   } else {
+    bookElements.readerDock.dataset.audioUrl = '';
     bookElements.readerDock.dataset.source = '';
     bookElements.readerDock.innerHTML = `
       <div class="book-reader-dock-inner audio-soon">
+        <div class="book-reader-dock-copy">
+          <span class="book-reader-dock-kicker">Reading mode</span>
+          <strong class="book-reader-dock-title">${common.escapeHtml(`${meta.chapterLabel} · ${meta.mainTitle}`)}</strong>
+          <span class="book-reader-dock-meta">${common.escapeHtml(viewLabel)}</span>
+        </div>
         <span class="book-reader-dock-status soon">Audio coming</span>
         <span class="book-reader-dock-soon-note">A narrated version of this chapter is being prepared.</span>
       </div>
     `;
+    updateAudioQuickButton(book);
   }
+  syncAudioDockVisibility(book);
 }
 
 function updateBookNav() {
   if (!pageFlipInstance) return;
   const book = currentBook();
   const meta = readerTitleMeta(book);
+  syncReaderViewportMode();
+  const compact = isCompactReaderViewport();
   const currentPage = pageFlipInstance.getCurrentPageIndex();
   const totalPages = state.pdfPageCount;
   const orientation = pageFlipInstance.getOrientation();
@@ -1129,7 +1809,6 @@ function updateBookNav() {
   bookElements.readerNav.innerHTML = `
     <span class="reader-meta-pill">${common.escapeHtml(meta.chapterLabel)}</span>
     <span class="reader-meta-pill">${common.escapeHtml(currentReaderView === 'slides' ? 'Guided pages' : 'Original PDF')}</span>
-    <span class="reader-meta-pill ${common.hasPublishedAudio(book) ? 'is-ready' : 'is-soon'}">${common.escapeHtml(common.hasPublishedAudio(book) ? 'Audio ready' : 'Audio soon')}</span>
   `;
 
   const isFirst = currentPage <= 0;
@@ -1137,9 +1816,18 @@ function updateBookNav() {
 
   // Sync center tabs
   const tabPrev = document.querySelector('#bookTabPrev');
+  const toggle = bookElements.viewToggle;
   const tabNext = document.querySelector('#bookTabNext');
   if (tabPrev) tabPrev.disabled = isFirst;
   if (tabNext) tabNext.disabled = isLast;
+  if (tabPrev) tabPrev.textContent = compact ? 'Prev' : '◀ Prev';
+  if (tabNext) tabNext.textContent = compact ? 'Next' : 'Next ▶';
+  if (toggle && toggle.style.display !== 'none') {
+    toggle.textContent = currentReaderView === 'slides'
+      ? (compact ? 'Original' : 'Original PDF')
+      : (compact ? 'Slides' : 'Visual slides');
+  }
+  updateAudioToggleButton(book);
 }
 
 async function renderPageToDiv(pageNumber, container, targetWidth) {
@@ -1181,6 +1869,9 @@ async function initPageFlip() {
 
   const vw = window.innerWidth;
   const vh = window.innerHeight;
+  const compactViewport = isCompactReaderViewport();
+  const landscapeViewport = isLandscapeReaderViewport();
+  const singlePageMobile = compactViewport;
 
   // Detect page ratio from the PDF's first page
   let ratio = 1.414; // default A4 portrait
@@ -1195,27 +1886,42 @@ async function initPageFlip() {
   }
   const isLandscape = ratio < 1;
 
-  // Book fills the viewport â€” leave only small margins
-  const topMargin = vh <= 768 ? 32 : 40;
-  const bottomMargin = vh <= 768 ? 42 : 56;
-  const sideMargin = vw <= 860 ? 8 : 16;
+  // Book fills the viewport — leave only small margins
+  const topMargin = landscapeViewport ? 16 : (compactViewport ? 26 : (vh <= 768 ? 32 : 40));
+  const bottomMargin = landscapeViewport ? 18 : (compactViewport ? 34 : (vh <= 768 ? 42 : 56));
+  const sideMargin = landscapeViewport ? 8 : (compactViewport ? 10 : 16);
   const usableH = vh - topMargin - bottomMargin;
   const usableW = vw - sideMargin * 2;
+  const spreadGap = compactViewport ? 0 : 10;
 
   // Always two-page spread: each page is half the available width
   let pw, ph;
-  const maxPageH = usableH - 16;
-  if (isLandscape) {
-    // Landscape slides: two side by side — each page = half width
-    const pageWFromW = Math.min(Math.floor((usableW - 10) / 2), 560);
+  const maxPageH = usableH - (compactViewport ? 4 : 16);
+  if (singlePageMobile) {
+    const pageWFromH = Math.floor(maxPageH / ratio);
+    if (isLandscape) {
+      const pageWFromW = Math.floor(usableW - (landscapeViewport ? 12 : 20));
+      const pageCap = landscapeViewport ? 1080 : 760;
+      pw = Math.min(pageWFromW, pageWFromH, pageCap);
+      if (pw < 220) pw = 220;
+    } else {
+      const pageWFromW = Math.floor(usableW - (landscapeViewport ? 24 : 18));
+      const pageCap = landscapeViewport ? 420 : 520;
+      pw = Math.min(pageWFromW, pageWFromH, pageCap);
+      if (pw < 180) pw = 180;
+    }
+    ph = Math.floor(pw * ratio);
+  } else if (isLandscape) {
+    // Landscape slides: bigger spread, capped at 820px per page
+    const pageWFromW = Math.min(Math.floor((usableW - 10) / 2), 820);
     const pageWFromH = Math.floor(maxPageH / ratio);
     pw = Math.min(pageWFromW, pageWFromH);
     if (pw < 160) pw = 160;
     ph = Math.floor(pw * ratio);
   } else {
-    // Portrait: height-first, two pages side by side
+    // Portrait: height-first, capped at 580px per page
     const pageWFromH = Math.floor(maxPageH / ratio);
-    const pageWFromW = Math.min(Math.floor((usableW - 8) / 2), 560);
+    const pageWFromW = Math.min(Math.floor((usableW - 8) / 2), 580);
     pw = Math.min(pageWFromH, pageWFromW);
     if (pw < 140) pw = 140;
     ph = Math.floor(pw * ratio);
@@ -1224,8 +1930,13 @@ async function initPageFlip() {
   const flipContainer = document.createElement('div');
   flipContainer.id = 'pageFlipBook';
   flipContainer.className = 'page-flip-book';
+  flipContainer.style.marginTop = compactViewport ? '18px' : (!isLandscape ? '40px' : '0');
+  // Wrap owns the zoom layout box; #pageFlipBook is purely visually scaled.
+  const flipWrap = document.createElement('div');
+  flipWrap.className = 'page-flip-zoom-wrap';
+  flipWrap.appendChild(flipContainer);
   bookElements.readerStage.innerHTML = '';
-  bookElements.readerStage.appendChild(flipContainer);
+  bookElements.readerStage.appendChild(flipWrap);
 
   for (let i = 1; i <= state.pdfPageCount; i++) {
     const pageDiv = document.createElement('div');
@@ -1249,7 +1960,7 @@ async function initPageFlip() {
     size: 'fixed',
     drawShadow: true,
     flippingTime: 700,
-    usePortrait: false,
+    usePortrait: singlePageMobile,
     startZIndex: 0,
     autoSize: true,
     maxShadowOpacity: 0.7,
@@ -1258,12 +1969,16 @@ async function initPageFlip() {
     swipeDistance: 30,
     clickEventForward: true,
     useMouseEvents: true,
-    startPage: 0,
+    startPage: Math.max(0, Math.min(state.pdfPageCount - 1, (state.detailPageStart || 1) - 1)),
   });
 
   pageFlipInstance.loadFromHTML(flipContainer.querySelectorAll('.pf-page'));
   // Store landscape state for reference
   state.pdfLandscape = isLandscape;
+  state.readerSinglePage = singlePageMobile;
+  state.readerZoomBaseWidth = 0;
+  state.readerZoomBaseHeight = 0;
+  applyReaderZoomLayout();
 
   const renderQueue = [];
   for (let i = 1; i <= state.pdfPageCount; i++) {
@@ -1360,9 +2075,7 @@ function initReaderUI() {
     readerHintShown = true;
     const hint = document.createElement('div');
     hint.className = 'book-reader-hint';
-    hint.textContent = common.hasPublishedAudio(currentBook())
-      ? '\u2190 \u2192 to turn pages Â· use the dock below to listen'
-      : '\u2190 \u2192 to turn pages';
+    hint.textContent = readerHintText(currentBook());
     wrap.appendChild(hint);
     setTimeout(() => { if (hint.parentNode) hint.remove(); }, 5000);
   }
@@ -1399,14 +2112,22 @@ function cleanupReaderUI() {
 function renderPurchaseView(book) {
   const profile = profileFor(book);
   const offer = offerConfig(book);
+  const titleMeta = readerTitleMeta(book);
   const isAuth = Boolean(state.session?.authenticated);
   const isCustomer = state.session?.role === 'customer';
+  const launchTitle = isLaunchTitle(book);
+  const purchaseOpen = canBuyNow(book);
+  const liveBook = launchBook();
+  const launchHref = liveBook ? `/library/${encodeURIComponent(liveBook.slug)}` : '/';
 
     bookElements.purchaseCover.innerHTML = coverMarkup(book, 'large');
     let infoHTML = `
-      <span class="eyebrow">${common.escapeHtml(book.has_access ? 'In your library' : 'Single chapter')}</span>
-      <h1>${common.escapeHtml(book.title)}</h1>
+      <span class="eyebrow">${common.escapeHtml(`${titleMeta.chapterLabel} · ${book.has_access ? 'in your library' : (purchaseOpen ? 'available' : 'coming next')}`)}</span>
+      <h1>${common.escapeHtml(titleMeta.mainTitle)}</h1>
       <p class="book-purchase-desc">${common.escapeHtml(profile.hook || 'A private reading and listening chapter built from the original PDF pages.')}</p>
+      <div class="pill-row compact-pill-row">
+        <span class="pill">${common.escapeHtml(bookMeta(book))}</span>
+      </div>
     `;
 
     if (book.has_access) {
@@ -1415,10 +2136,22 @@ function renderPurchaseView(book) {
           <button class="primary" type="button" data-action="enter-book">Open chapter</button>
         </div>
       `;
+    } else if (!purchaseOpen) {
+      infoHTML += `
+        <div class="book-purchase-offer">
+          <span class="eyebrow">Visible on the path ahead</span>
+          <strong>Not in the first public release yet</strong>
+          <p class="book-purchase-desc">This chapter is visible on the shelf. It will be available soon.</p>
+          <div class="actions">
+            <a class="button-link warm" href="${common.escapeHtml(launchHref)}">Back to the collection</a>
+            <a class="button-link ghost" href="/">Back to the shelf</a>
+          </div>
+        </div>
+      `;
     } else if (isAuth && isCustomer) {
       infoHTML += `
         <div class="book-purchase-offer">
-          <span class="eyebrow">Single chapter</span>
+          <span class="eyebrow">${common.escapeHtml('Single chapter')}</span>
           <strong>${common.escapeHtml(offer.label)}</strong>
           <span class="offer-price">${common.escapeHtml(offer.price)}</span>
           <p class="book-purchase-desc">${common.escapeHtml(offer.description)}</p>
@@ -1451,8 +2184,12 @@ function renderPurchaseView(book) {
 
 async function renderBookReader(book) {
   destroyPageFlip();
+  syncReaderViewportMode();
   bookElements.purchaseView.classList.add('hidden');
   bookElements.readerView.classList.remove('hidden');
+  state.readerFullscreen = isReaderFullscreen();
+  bookElements.readerView.classList.toggle('reader-fullscreen', state.readerFullscreen);
+  updateZoomControls();
 
   // â”€â”€ Cinematic intro overlay â”€â”€
   const stageWrap = bookElements.readerView.querySelector('.book-reader-stage-wrap');
@@ -1504,6 +2241,8 @@ async function renderBookReader(book) {
   `;
   bookElements.readerTitle.innerHTML = `<span class="book-title-main">${common.escapeHtml(book.title)}</span>`;
   bookElements.readerNav.innerHTML = '';
+  state.readerAudioDockOpen = !isCompactReaderViewport();
+  updateAudioToggleButton(book);
 
   try {
     state.detailPageStart = 1;
@@ -1570,6 +2309,7 @@ async function renderBookReader(book) {
 async function renderDetail() {
   elements.customerHomeView.classList.add('hidden');
   elements.customerDetailView.classList.remove('hidden');
+  elements.appInstallBanner?.classList.add('hidden');
   renderTopState();
 
   const book = currentBook();
@@ -1700,6 +2440,11 @@ async function hydrate() {
 
 function bindEvents() {
   elements.customerTopLogoutBtn?.addEventListener('click', handleLogout);
+  elements.appInstallButton?.addEventListener('click', handleInstallAction);
+  elements.appInstallDismiss?.addEventListener('click', () => {
+    persistInstallBannerPreference(true);
+    renderInstallBanner();
+  });
 
   document.addEventListener('submit', async (event) => {
     const form = event.target;
@@ -1758,6 +2503,21 @@ function bindEvents() {
     if (action === 'toggle-view') {
       toggleReaderView();
     }
+    if (action === 'toggle-audio-dock') {
+      toggleAudioDock();
+    }
+    if (action === 'toggle-audio-playback') {
+      await toggleAudioPlayback();
+    }
+    if (action === 'zoom-out') {
+      await applyReaderZoom(readerZoomStep(-1));
+    }
+    if (action === 'zoom-reset') {
+      await applyReaderZoom(1);
+    }
+    if (action === 'zoom-in') {
+      await applyReaderZoom(readerZoomStep(1));
+    }
     if (action === 'enter-book') {
       const book = currentBook();
       if (book?.has_access && bookUsesPdf(book)) {
@@ -1788,25 +2548,125 @@ function bindEvents() {
       event.preventDefault();
       await flipPage('prev');
     }
+    if (state.readerFullscreen && (event.key === '+' || event.key === '=')) {
+      event.preventDefault();
+      await applyReaderZoom(readerZoomStep(1));
+    }
+    if (state.readerFullscreen && event.key === '-') {
+      event.preventDefault();
+      await applyReaderZoom(readerZoomStep(-1));
+    }
+    if (state.readerFullscreen && event.key === '0') {
+      event.preventDefault();
+      await applyReaderZoom(1);
+    }
   });
 
+  // Click-and-drag pan + click-to-flip while zoomed in fullscreen.
+  // #pageFlipBook has pointer-events: none while .reader-zoomed, so both
+  // clicks and drags hit .book-reader-3d-stage instead of StPageFlip. We
+  // disambiguate click vs drag with a movement threshold:
+  //  - mousedown → mousemove > 5px → it's a pan; scroll the stage.
+  //  - mousedown → mouseup with no significant movement → it was a click;
+  //    flip prev/next based on which half of the book was clicked.
+  // Window-level mousemove/mouseup listeners keep drags working even if
+  // the cursor leaves the stage. Touch panning is handled natively by
+  // overflow:auto on the stage.
+  const readerStageEl = document.querySelector('#bookReaderStage');
+  if (readerStageEl) {
+    const PAN_THRESHOLD_PX = 5;
+    let panActive = false;
+    let panMoved = false;
+    let panStartX = 0;
+    let panStartY = 0;
+    let panStartScrollLeft = 0;
+    let panStartScrollTop = 0;
+
+    readerStageEl.addEventListener('mousedown', (event) => {
+      if (!state.readerFullscreen || state.readerZoom <= 1.001) return;
+      if (event.button !== 0) return;
+      panActive = true;
+      panMoved = false;
+      panStartX = event.clientX;
+      panStartY = event.clientY;
+      panStartScrollLeft = readerStageEl.scrollLeft;
+      panStartScrollTop = readerStageEl.scrollTop;
+      // Prevent text-selection start while dragging.
+      event.preventDefault();
+    });
+
+    window.addEventListener('mousemove', (event) => {
+      if (!panActive) return;
+      const dx = event.clientX - panStartX;
+      const dy = event.clientY - panStartY;
+      if (!panMoved && Math.hypot(dx, dy) > PAN_THRESHOLD_PX) {
+        panMoved = true;
+        readerStageEl.classList.add('is-panning');
+      }
+      if (panMoved) {
+        readerStageEl.scrollLeft = panStartScrollLeft - dx;
+        readerStageEl.scrollTop = panStartScrollTop - dy;
+      }
+    });
+
+    const endPan = (event) => {
+      if (!panActive) return;
+      const wasPan = panMoved;
+      panActive = false;
+      panMoved = false;
+      readerStageEl.classList.remove('is-panning');
+      // If the user didn't actually drag, treat mouseup as a click and
+      // flip a page via the left/right half of the book's visual rect.
+      // We bypass StPageFlip's own click handler because pointer-events
+      // is disabled on #pageFlipBook while zoomed (its hit-testing math
+      // is inconsistent with the CSS transform anyway).
+      if (!wasPan && event && pageFlipInstance) {
+        const target = getReaderZoomTarget();
+        if (target) {
+          const rect = target.getBoundingClientRect();
+          if (event.clientX >= rect.left && event.clientX <= rect.right
+              && event.clientY >= rect.top && event.clientY <= rect.bottom) {
+            const centerX = rect.left + rect.width / 2;
+            if (event.clientX < centerX) {
+              try { pageFlipInstance.flipPrev('bottom'); } catch (_e) {}
+            } else {
+              try { pageFlipInstance.flipNext('bottom'); } catch (_e) {}
+            }
+          }
+        }
+      }
+    };
+    window.addEventListener('mouseup', endPan);
+    window.addEventListener('blur', () => endPan(null));
+  }
+
   let resizeTimer = null;
+  document.addEventListener('fullscreenchange', () => {
+    syncReaderFullscreenState().catch((error) => {
+      console.error('Fullscreen sync failed:', error);
+    });
+  });
   window.addEventListener('resize', () => {
+    updateAppShellClasses();
+    renderInstallBanner();
+    syncReaderViewportMode();
     if (!isDetailRoute() || !currentBook()?.has_access) return;
     if (!state.pdfDocument && !state.editorialText) return;
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
+    resizeTimer = setTimeout(async () => {
       if (state.editorialText) {
-        initEditorialPageFlip(currentBook(), state.editorialText);
+        await initEditorialPageFlip(currentBook(), state.editorialText);
       } else {
-        initPageFlip();
+        await initPageFlip();
       }
+      renderAudioDock(currentBook());
     }, 400);
   });
 }
 
+registerInstallHooks();
+registerServiceWorker();
 bindEvents();
 hydrate().catch((error) => {
   common.renderNotice(elements.customerMessage, error.message, 'error');
 });
-
