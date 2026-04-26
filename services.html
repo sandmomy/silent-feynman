@@ -3591,6 +3591,7 @@
       </div>
       <p>Capacity is intentionally limited. Every engagement begins with a private consultation to determine fit, timing, and scope.</p>
       <a href="index.html#contact" class="btn-magnetic" data-cursor="hover">Request Consultation</a>
+      <img class="footer-purple-seal" src="/assets/brand/logo-clean-purple.webp" alt="" aria-hidden="true" width="96" height="96" loading="lazy" decoding="async">
     </div>
 
     <div class="footer-bottom">
@@ -3621,6 +3622,24 @@
     }
     @media (max-width: 768px) {
       .top-nav-brand-mark { width: 26px; height: 26px; }
+    }
+    /* Purple clean-square seal below the Request Consultation CTA */
+    .footer-purple-seal {
+      display: block;
+      margin: 44px auto 0;
+      width: 96px;
+      height: 96px;
+      border-radius: 8px;
+      opacity: 0.92;
+      box-shadow: 0 14px 36px rgba(120, 70, 180, 0.4);
+      animation: footerSealFade 1.2s ease-out 0.3s both;
+    }
+    @keyframes footerSealFade {
+      from { opacity: 0; transform: translateY(10px) scale(0.94); }
+      to   { opacity: 0.92; transform: translateY(0) scale(1); }
+    }
+    @media (max-width: 600px) {
+      .footer-purple-seal { width: 76px; height: 76px; margin-top: 32px; }
     }
   </style>
 
