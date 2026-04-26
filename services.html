@@ -2656,7 +2656,10 @@
   <!-- NAVIGATION (desktop) - matches index.html top-nav-banner -->
   <nav class="top-nav-banner">
     <div class="top-nav-container">
-      <a href="index.html" class="top-nav-brand">Frequency Vibes&trade;</a>
+      <a href="index.html" class="top-nav-brand">
+        <img src="assets/brand/logo-circle.webp" alt="" class="top-nav-brand-mark" width="32" height="32" loading="lazy" decoding="async">
+        <span>Frequency Vibes&trade;</span>
+      </a>
       <div class="top-nav-links">
         <a href="projects.html" class="top-nav-link">Explore Projects</a>
         <a href="event.html" class="top-nav-link">Events</a>
@@ -3593,7 +3596,7 @@
 
     <!-- Brand stamp -->
     <div class="footer-brand-stamp" aria-hidden="true">
-      <img src="/assets/brand/logo-medallion.webp" alt="" width="84" height="84" loading="lazy" decoding="async" />
+      <img src="/assets/brand/logo-clean-teal.webp" alt="" width="120" height="120" loading="lazy" decoding="async" />
       <div class="footer-brand-stamp-text">
         <div class="footer-brand-name">Frequency&nbsp;Vibes</div>
         <div class="footer-brand-tag">Tune your frequency</div>
@@ -3611,33 +3614,53 @@
   </footer>
 
   <style>
+    /* Logo mark in the top navigation */
+    .top-nav-brand {
+      display: inline-flex !important;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .top-nav-brand-mark {
+      width: 32px; height: 32px; flex-shrink: 0; display: block;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+    }
+    .top-nav-brand:hover .top-nav-brand-mark {
+      transform: rotate(8deg);
+      transition: transform 320ms cubic-bezier(0.32, 0.72, 0.2, 1);
+    }
+    @media (max-width: 768px) {
+      .top-nav-brand-mark { width: 26px; height: 26px; }
+    }
+    /* Brand stamp in the contact footer */
     .footer-brand-stamp {
-      display: flex; align-items: center; gap: 18px;
+      display: flex; align-items: center; gap: 22px;
       margin: 56px auto 36px; padding: 22px 28px;
-      max-width: 460px;
+      max-width: 520px;
       border-top: 1px solid rgba(212, 168, 102, 0.18);
       border-bottom: 1px solid rgba(212, 168, 102, 0.18);
       justify-content: center;
     }
     .footer-brand-stamp img {
-      filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.45));
+      border-radius: 8px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
     }
     .footer-brand-stamp-text { text-align: left; line-height: 1.2; }
     .footer-brand-name {
       font-family: 'Cormorant Garamond', 'Playfair Display', serif;
-      font-size: 22px; letter-spacing: 0.18em; color: #d4a866;
+      font-size: 24px; letter-spacing: 0.18em; color: #d4a866;
       text-transform: uppercase; font-weight: 500;
     }
     .footer-brand-tag {
       font-family: 'Cormorant Garamond', serif;
       font-style: italic; font-size: 14px;
-      color: rgba(223, 230, 241, 0.6); margin-top: 4px;
+      color: rgba(223, 230, 241, 0.6); margin-top: 6px;
       letter-spacing: 0.06em;
     }
     @media (max-width: 600px) {
       .footer-brand-stamp { gap: 14px; padding: 18px 20px; }
-      .footer-brand-stamp img { width: 64px; height: 64px; }
-      .footer-brand-name { font-size: 18px; }
+      .footer-brand-stamp img { width: 88px; height: 88px; }
+      .footer-brand-name { font-size: 20px; }
       .footer-brand-tag { font-size: 12px; }
     }
   </style>
