@@ -1364,6 +1364,27 @@
             .mobile-partners-panel { display: block; }
         }
     </style>
+
+    <style>
+      /* Frequency Vibes brand mark in the top nav */
+      .top-nav-brand {
+        display: inline-flex !important;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+      }
+      .top-nav-brand-mark {
+        width: 32px; height: 32px; flex-shrink: 0; display: block;
+        filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+      }
+      .top-nav-brand:hover .top-nav-brand-mark {
+        transform: rotate(8deg);
+        transition: transform 320ms cubic-bezier(0.32, 0.72, 0.2, 1);
+      }
+      @media (max-width: 768px) {
+        .top-nav-brand-mark { width: 26px; height: 26px; }
+      }
+    </style>
 </head>
 
 <body>
@@ -1398,7 +1419,10 @@
     <!-- TOP NAV BANNER (desktop) -->
     <nav class="top-nav-banner">
         <div class="top-nav-container">
-            <a href="index.html" class="top-nav-brand">Frequency Vibes&trade;</a>
+            <a href="index.html" class="top-nav-brand">
+                <img src="assets/brand/logo-circle.webp" alt="" class="top-nav-brand-mark" width="32" height="32" loading="lazy" decoding="async">
+                <span>Frequency Vibes&trade;</span>
+            </a>
             <button class="mobile-menu-btn" aria-label="Toggle Menu">
                 <span></span>
                 <span></span>
