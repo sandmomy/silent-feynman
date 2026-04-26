@@ -2140,18 +2140,19 @@
         position: absolute;
         left: 50%;
         top: 42svh;
-        transform: translateX(-50%);
+        transform: translate(-50%, 20px);
         width: clamp(240px, 22vw, 380px);
         height: clamp(440px, 54vh, 640px);
         z-index: 40;
         pointer-events: none;
         filter: none;
         opacity: 0;
-        animation: heroMonolithFadeIn 1.44s cubic-bezier(0.22, 1, 0.36, 1) 0.45s forwards;
+        transition: opacity 1.44s cubic-bezier(0.22, 1, 0.36, 1),
+                    transform 1.44s cubic-bezier(0.22, 1, 0.36, 1);
       }
-      @keyframes heroMonolithFadeIn {
-        from { opacity: 0; transform: translate(-50%, 20px); }
-        to { opacity: 1; transform: translate(-50%, 0); }
+      .hero-monolith-mount[data-monolith-ready="true"] {
+        opacity: 1;
+        transform: translate(-50%, 0);
       }
       .hero-monolith-mount canvas {
         display: block;
@@ -2570,6 +2571,13 @@
     }
 
   </style>
+  <!-- Preload monolith assets so they download in parallel with the HTML.
+       Desktop only (≥901px) — matches the JS gate in the Three.js loader. -->
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <link rel="modulepreload" href="https://unpkg.com/three@0.160.0/build/three.module.js" media="(min-width: 901px)">
+  <link rel="preload" as="image" href="assets/textures/rock_01/rock_01_diff_1k.webp" type="image/webp" media="(min-width: 901px)">
+  <link rel="preload" as="image" href="assets/textures/rock_01/rock_01_nor_gl_1k.webp" type="image/webp" media="(min-width: 901px)">
+  <link rel="preload" as="image" href="assets/textures/rock_01/rock_01_rough_1k.webp" type="image/webp" media="(min-width: 901px)">
 </head>
 <body>
 
@@ -4135,8 +4143,12 @@
         pos.needsUpdate = true;
         geo.computeVertexNormals();
 
-        // ============ load PBR rock textures ============
-        const tl = new THREE.TextureLoader();
+        // ============ load PBR rock textures (1K WebP) ============
+        // LoadingManager keeps the canvas hidden until ALL three textures
+        // are decoded so the entry is one smooth reveal instead of a slow
+        // grey-then-stone pop-in.
+        const loadMgr = new THREE.LoadingManager();
+        const tl = new THREE.TextureLoader(loadMgr);
         const loadTex = (url, srgb) => {
           const t = tl.load(url);
           t.wrapS = t.wrapT = THREE.RepeatWrapping;
@@ -4145,10 +4157,9 @@
           if (srgb) t.colorSpace = THREE.SRGBColorSpace;
           return t;
         };
-
-        const diffMap = loadTex('assets/textures/rock_01/rock_01_diff_2k.jpg', true);
-        const normMap = loadTex('assets/textures/rock_01/rock_01_nor_gl_2k.jpg', false);
-        const roughMap = loadTex('assets/textures/rock_01/rock_01_rough_2k.jpg', false);
+        const diffMap  = loadTex('assets/textures/rock_01/rock_01_diff_1k.webp', true);
+        const normMap  = loadTex('assets/textures/rock_01/rock_01_nor_gl_1k.webp', false);
+        const roughMap = loadTex('assets/textures/rock_01/rock_01_rough_1k.webp', false);
 
         const mat = new THREE.MeshPhysicalMaterial({
           map: diffMap,
@@ -4233,7 +4244,18 @@
         );
         scene.add(particles);
 
-        mount.setAttribute('data-monolith-ready', 'true');
+        // Reveal only after every texture is decoded. Until then the mount
+        // stays at opacity 0 (controlled by CSS — see .hero-monolith-mount).
+        loadMgr.onLoad = () => {
+          mount.setAttribute('data-monolith-ready', 'true');
+        };
+        // Safety net: if a texture 404s or never resolves, reveal anyway after 4s
+        // so the section never stays empty.
+        setTimeout(() => {
+          if (mount.getAttribute('data-monolith-ready') !== 'true') {
+            mount.setAttribute('data-monolith-ready', 'true');
+          }
+        }, 4000);
 
         // ============ animation + mouse parallax ============
         let mouseX = 0, mouseY = 0, tMouseX = 0, tMouseY = 0;
