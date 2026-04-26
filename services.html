@@ -3590,6 +3590,16 @@
       <p>Capacity is intentionally limited. Every engagement begins with a private consultation to determine fit, timing, and scope.</p>
       <a href="index.html#contact" class="btn-magnetic" data-cursor="hover">Request Consultation</a>
     </div>
+
+    <!-- Brand stamp -->
+    <div class="footer-brand-stamp" aria-hidden="true">
+      <img src="/assets/brand/logo-medallion.webp" alt="" width="84" height="84" loading="lazy" decoding="async" />
+      <div class="footer-brand-stamp-text">
+        <div class="footer-brand-name">Frequency&nbsp;Vibes</div>
+        <div class="footer-brand-tag">Tune your frequency</div>
+      </div>
+    </div>
+
     <div class="footer-bottom">
       <div class="footer-links">
         <a href="elite-coaching.html">Elite Coaching</a>
@@ -3599,6 +3609,38 @@
       <div class="copyright">&copy; 2026 Frequency Vibes. All rights reserved.</div>
     </div>
   </footer>
+
+  <style>
+    .footer-brand-stamp {
+      display: flex; align-items: center; gap: 18px;
+      margin: 56px auto 36px; padding: 22px 28px;
+      max-width: 460px;
+      border-top: 1px solid rgba(212, 168, 102, 0.18);
+      border-bottom: 1px solid rgba(212, 168, 102, 0.18);
+      justify-content: center;
+    }
+    .footer-brand-stamp img {
+      filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.45));
+    }
+    .footer-brand-stamp-text { text-align: left; line-height: 1.2; }
+    .footer-brand-name {
+      font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+      font-size: 22px; letter-spacing: 0.18em; color: #d4a866;
+      text-transform: uppercase; font-weight: 500;
+    }
+    .footer-brand-tag {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 14px;
+      color: rgba(223, 230, 241, 0.6); margin-top: 4px;
+      letter-spacing: 0.06em;
+    }
+    @media (max-width: 600px) {
+      .footer-brand-stamp { gap: 14px; padding: 18px 20px; }
+      .footer-brand-stamp img { width: 64px; height: 64px; }
+      .footer-brand-name { font-size: 18px; }
+      .footer-brand-tag { font-size: 12px; }
+    }
+  </style>
 
   <script>
     // â”€â”€ PREVENT HASHTAG SCROLL ON RELOAD â”€â”€
