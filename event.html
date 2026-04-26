@@ -1636,8 +1636,8 @@
           By Personal Selection &nbsp;·&nbsp; Indonesia 2026
         </div>
       </div>
-      <!-- Purple medallion centred above the title — mystical seal for the journey -->
-      <img class="hero-seal-purple" src="/assets/brand/logo-medallion-purple.webp" alt="" aria-hidden="true" width="112" height="112" loading="eager" fetchpriority="high" decoding="async">
+      <!-- Teal clean-square logo centred above the title — brand anchor for the journey -->
+      <img class="hero-seal" src="/assets/brand/logo-clean-teal.webp" alt="" aria-hidden="true" width="120" height="120" loading="eager" fetchpriority="high" decoding="async">
       <h1 class="hero-title">
         Frequency<br><em>Vibes</em> Journey
       </h1>
@@ -2049,28 +2049,28 @@
       .event-brand-mark { width: 60px; height: 60px; }
       .event-brand-name { font-size: 14px; letter-spacing: 0.28em; }
     }
-    /* Purple medallion centred above the hero title — mystical seal */
-    .hero-seal-purple {
+    /* Teal clean-square logo centred above the hero title — brand anchor */
+    .hero-seal {
       display: block;
       margin: 0 auto 22px;
-      width: clamp(84px, 9vw, 112px);
+      width: clamp(92px, 10vw, 120px);
       height: auto;
-      opacity: 0.92;
-      filter: drop-shadow(0 12px 36px rgba(120, 70, 180, 0.55));
+      border-radius: 8px;
+      opacity: 0.95;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
       animation: heroSealFade 1.4s ease-out 0.3s both, heroSealFloat 8s ease-in-out infinite;
-      pointer-events: none;
     }
     @keyframes heroSealFade {
       from { opacity: 0; transform: translateY(-10px) scale(0.92); }
-      to   { opacity: 0.92; transform: translateY(0) scale(1); }
+      to   { opacity: 0.95; transform: translateY(0) scale(1); }
     }
     @keyframes heroSealFloat {
       0%, 100% { transform: translateY(0); }
       50%      { transform: translateY(-6px); }
     }
     @media (max-width: 768px) {
-      .hero-seal-purple {
-        width: 76px;
+      .hero-seal {
+        width: 84px;
         margin-bottom: 16px;
       }
     }
