@@ -799,6 +799,10 @@
 
             <!-- Integrated Legal Footer -->
             <div class="integrated-footer">
+                <div class="integrated-footer-brand">
+                    <img src="assets/brand/logo-clean-teal.webp" alt="Frequency Vibes" width="84" height="84" loading="lazy" decoding="async">
+                    <span class="integrated-footer-brand-tag">Tune your frequency</span>
+                </div>
                 <p>&copy; 2026 Frequency Vibes. All rights reserved.</p>
             </div>
 
@@ -921,14 +925,6 @@
     <script src="js/documents-data.min.js" defer></script>
     <script src="js/main.js" defer></script>
 
-    <!-- Brand footer -->
-    <footer class="brand-footer" aria-label="Frequency Vibes brand">
-      <img src="assets/brand/logo-clean-teal.webp" alt="Frequency Vibes" width="120" height="120" loading="lazy" decoding="async" />
-      <div class="brand-footer-text">
-        <div class="brand-footer-name">Frequency&nbsp;Vibes</div>
-        <div class="brand-footer-tag">© 2026 Eugene Mierak · Tune your frequency</div>
-      </div>
-    </footer>
     <style>
       /* Logo mark in the top navigation */
       .top-nav-brand {
@@ -949,33 +945,32 @@
         .top-nav-brand-mark { width: 26px; height: 26px; }
       }
 
-      /* Brand footer */
-      .brand-footer {
-        display: flex; align-items: center; gap: 24px; justify-content: center;
-        padding: 56px 24px 64px; margin: 0 auto;
-        background: linear-gradient(180deg, transparent, rgba(0,0,0,0.55));
-        border-top: 1px solid rgba(212,168,102,0.18);
+      /* Brand mark inside the existing integrated-footer (above copyright) */
+      .integrated-footer-brand {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        margin-bottom: 18px;
+        opacity: 0.92;
       }
-      .brand-footer img {
-        border-radius: 8px;
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+      .integrated-footer-brand img {
+        border-radius: 6px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+        flex-shrink: 0;
       }
-      .brand-footer-text { text-align: left; line-height: 1.3; }
-      .brand-footer-name {
-        font-family: 'Cormorant Garamond', 'Playfair Display', serif;
-        font-size: 24px; letter-spacing: 0.22em; text-transform: uppercase;
-        color: #d4a866; font-weight: 500;
-      }
-      .brand-footer-tag {
+      .integrated-footer-brand-tag {
         font-family: 'Cormorant Garamond', serif;
-        font-style: italic; font-size: 13px; color: rgba(223,230,241,0.6);
-        margin-top: 8px; letter-spacing: 0.08em;
+        font-style: italic;
+        font-size: 14px;
+        letter-spacing: 0.22em;
+        color: rgba(255, 255, 255, 0.6);
+        text-transform: uppercase;
       }
       @media (max-width: 600px) {
-        .brand-footer { gap: 16px; padding: 40px 18px 48px; flex-wrap: wrap; }
-        .brand-footer img { width: 88px; height: 88px; }
-        .brand-footer-name { font-size: 20px; }
-        .brand-footer-tag { font-size: 12px; }
+        .integrated-footer-brand { gap: 12px; margin-bottom: 12px; }
+        .integrated-footer-brand img { width: 64px; height: 64px; }
+        .integrated-footer-brand-tag { font-size: 12px; letter-spacing: 0.18em; }
       }
     </style>
 </body>
