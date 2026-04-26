@@ -1621,10 +1621,7 @@
     <div class="nav-links-event">
       <a href="https://wa.me/34613715647?text=Hello%20Eugene%2C%20I%27d%20like%20to%20apply%20for%20the%20retreat%20intake." target="_blank" rel="noopener" class="nav-book-btn"><span class="book-full">Apply for Intake</span><span class="book-short">Apply</span></a>
     </div>
-    <span class="nav-title">
-      <img src="/assets/brand/logo-circle-purple.webp" alt="" class="nav-title-mark" width="28" height="28" loading="lazy" decoding="async">
-      Frequency Vibes
-    </span>
+    <span class="nav-title">Frequency Vibes</span>
   </nav>
 
   <!-- ====== HERO ====== -->
@@ -1632,9 +1629,6 @@
     <div class="hero-bg">
       <img src="assets/optimized/hero-event.jpg" alt="Indonesia — Frequency Vibes Journey" loading="eager" fetchpriority="high" decoding="async">
     </div>
-    <!-- Purple medallion floating in hero — mystical seal for the journey -->
-    <img class="hero-seal-purple" src="/assets/brand/logo-medallion-purple.webp" alt="" aria-hidden="true" width="128" height="128" loading="eager" fetchpriority="high" decoding="async">
-
     <div class="hero-content">
       <div style="display:flex;justify-content:center;margin-bottom:20px;">
         <div class="hero-badge">
@@ -1642,6 +1636,8 @@
           By Personal Selection &nbsp;·&nbsp; Indonesia 2026
         </div>
       </div>
+      <!-- Purple medallion centred above the title — mystical seal for the journey -->
+      <img class="hero-seal-purple" src="/assets/brand/logo-medallion-purple.webp" alt="" aria-hidden="true" width="112" height="112" loading="eager" fetchpriority="high" decoding="async">
       <h1 class="hero-title">
         Frequency<br><em>Vibes</em> Journey
       </h1>
@@ -2053,42 +2049,29 @@
       .event-brand-mark { width: 60px; height: 60px; }
       .event-brand-name { font-size: 14px; letter-spacing: 0.28em; }
     }
-    /* Purple circle in nav-title */
-    .nav-title { display: inline-flex; align-items: center; gap: 8px; }
-    .nav-title-mark {
-      width: 26px; height: 26px; display: block; flex-shrink: 0;
-      filter: drop-shadow(0 2px 8px rgba(120, 70, 180, 0.5));
-    }
-    @media (max-width: 600px) {
-      .nav-title-mark { width: 22px; height: 22px; }
-    }
-    /* Floating purple seal in the hero — mystical decorative element */
+    /* Purple medallion centred above the hero title — mystical seal */
     .hero-seal-purple {
-      position: absolute;
-      top: 92px;
-      right: clamp(20px, 5vw, 64px);
-      width: clamp(72px, 9vw, 128px);
+      display: block;
+      margin: 0 auto 22px;
+      width: clamp(84px, 9vw, 112px);
       height: auto;
-      opacity: 0.78;
+      opacity: 0.92;
       filter: drop-shadow(0 12px 36px rgba(120, 70, 180, 0.55));
-      animation: heroSealFade 1.6s ease-out 0.4s both, heroSealFloat 8s ease-in-out infinite;
+      animation: heroSealFade 1.4s ease-out 0.3s both, heroSealFloat 8s ease-in-out infinite;
       pointer-events: none;
-      z-index: 4;
     }
     @keyframes heroSealFade {
-      from { opacity: 0; transform: translateY(-12px) scale(0.92); }
-      to   { opacity: 0.78; transform: translateY(0) scale(1); }
+      from { opacity: 0; transform: translateY(-10px) scale(0.92); }
+      to   { opacity: 0.92; transform: translateY(0) scale(1); }
     }
     @keyframes heroSealFloat {
-      0%, 100% { transform: translateY(0) rotate(-2deg); }
-      50%      { transform: translateY(-10px) rotate(2deg); }
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-6px); }
     }
     @media (max-width: 768px) {
       .hero-seal-purple {
-        top: 78px;
-        right: 14px;
-        width: 64px;
-        opacity: 0.65;
+        width: 76px;
+        margin-bottom: 16px;
       }
     }
   </style>
