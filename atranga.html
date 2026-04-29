@@ -1,0 +1,2094 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atranga BioSafe Solutions Partnership | Eugene Mierak</title>
+    <meta name="description"
+        content="Eugene Mierak is an official partner of Atranga BioSafe Cleaning Solutions — sustainable molecular protection for hospitality, kitchens, hotels and yachts.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Lora:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500&display=swap">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        :root {
+            /* Atranga partner palette — replaces SBDI's blue with Atranga green */
+            --primary: #2d5d4f;
+            --primary-dark: #1f4538;
+            --secondary: #5c7862;
+            --secondary-light: #6d8a73;
+            --cream: #f3efe8;
+            --cream-alt: #ebe5d8;
+            --dark: #14201d;
+            --text-dark: #14201d;
+            --text-soft: #4a5752;
+            --text-light: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.8);
+            --accent-soft: #a8c8b9;
+            --line: rgba(20, 32, 29, 0.10);
+
+            /* Editorial typography */
+            --fs-display: 'Bricolage Grotesque', 'Helvetica Neue', sans-serif;
+            --fs-serif:   'Lora', 'Times New Roman', serif;
+            --fs-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+            --t-xs:   .72rem;
+            --t-sm:   .82rem;
+            --t-base: 1rem;
+            --t-md:   1.18rem;
+            --t-lg:   1.42rem;
+            --t-xl:   1.95rem;
+            --t-2xl:  2.6rem;
+
+            --d-1: clamp(3rem,    9vw,  7.5rem);
+            --d-2: clamp(2.25rem, 5.5vw, 4.5rem);
+
+            --max:  1440px;
+            --gut:  clamp(1.5rem, 4vw, 3.5rem);
+            --ease:        cubic-bezier(.2,.65,.15,1);
+            --ease-power:  cubic-bezier(.6,0,.2,1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        /* Custom Scrollbar (matches sdbi-center) */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--dark); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary-dark); }
+
+        body {
+            font-family: var(--fs-display);
+            color: var(--text-dark);
+            background: var(--cream);
+            line-height: 1.5;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        ::selection { background: var(--dark); color: var(--cream); }
+
+        a { color: inherit; text-decoration: none; }
+        button { cursor: pointer; font: inherit; color: inherit; background: none; border: none; }
+        img, svg, canvas { display: block; max-width: 100%; }
+
+        /* ═══════════════════════════════════════════════════════════════
+           TOP NAV BANNER — IDENTICAL to other partner pages (sdbi-center.html)
+           This is the shared component across all of Eugene's partner pages.
+           ═══════════════════════════════════════════════════════════════ */
+
+        .top-nav-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 48px;
+            background: rgba(8, 12, 20, 0.97);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            overflow: visible !important;
+        }
+
+        .top-nav-container {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow: visible !important;
+        }
+        .top-nav-brand {
+            font-family: 'Playfair Display', serif; font-size: 1.1rem;
+            font-style: italic; color: white; font-weight: 500;
+            text-decoration: none; white-space: nowrap;
+        }
+
+        .top-nav-links {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .top-nav-link {
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .top-nav-link:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .top-nav-official {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            margin-right: 1rem;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+
+        .top-nav-official:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .top-nav-sep {
+            width: 1px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            margin-right: 1rem;
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 10001;
+            position: relative;
+        }
+
+        .mobile-menu-btn span {
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 868px) {
+            .mobile-menu-btn { display: flex; }
+
+            .top-nav-links {
+                display: none;
+                position: fixed;
+                top: 48px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(8, 12, 20, 0.98);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                z-index: 10000;
+                align-items: flex-start;
+                justify-content: flex-start;
+            }
+            .top-nav-links.active { display: flex; }
+            .top-nav-official { margin-right: 0; margin-bottom: 0.5rem; }
+            .top-nav-sep { display: none; }
+        }
+
+        .partners-dropdown-container {
+            position: relative;
+        }
+
+        .top-nav-partners-btn {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .top-nav-partners-btn:hover,
+        .top-nav-partners-btn[aria-expanded="true"] {
+            background: linear-gradient(135deg, #0284c7 0%, #0891b2 100%);
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+            color: white;
+        }
+
+        .partners-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 12px;
+            width: 240px;
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            padding: 6px;
+            display: none;
+            flex-direction: column;
+            gap: 2px;
+            z-index: 1010;
+            transform-origin: top right;
+            animation: dropdownPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .partners-dropdown-menu.active { display: flex; }
+
+        @keyframes dropdownPop {
+            from { opacity: 0; transform: scale(0.95) translateY(-5px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .partners-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .partners-dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(2px);
+        }
+
+        .partner-icon-img {
+            height: 28px;
+            width: auto;
+            max-width: 40px;
+            object-fit: contain;
+            filter: brightness(1.1);
+        }
+
+        /* MOBILE NAVBAR (matching mobile.html and other partners) */
+        .mobile-nav-bar {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 9999;
+            background: rgba(8, 12, 20, 0.97);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            height: 48px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+        }
+        .mobile-nav-bar .nav-links { display: flex; align-items: center; gap: 4px; }
+        .mobile-nav-bar .nav-link {
+            font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,0.7);
+            padding: 6px 10px; border-radius: 6px; white-space: nowrap;
+            text-decoration: none; transition: color 0.2s, background 0.2s;
+        }
+        .mobile-nav-bar .nav-link:active { color: #fff; background: rgba(255,255,255,0.08); }
+        .mobile-nav-bar .nav-partners-btn {
+            display: flex; align-items: center; gap: 6px; padding: 6px 12px;
+            border-radius: 6px; background: linear-gradient(135deg, #38bdf8, #06b6d4);
+            border: none; color: #fff; font-family: inherit; font-size: 11px;
+            font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+            cursor: pointer; transition: opacity 0.15s, transform 0.15s;
+            -webkit-appearance: none; appearance: none;
+        }
+        .mobile-nav-bar .nav-partners-btn:active { opacity: 0.85; transform: scale(0.97); }
+        .mobile-partners-panel {
+            display: none; position: fixed; top: 48px; right: 0; width: 220px;
+            background: rgba(8, 12, 20, 0.98); backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08);
+            border-top: none; border-radius: 0 0 0 14px; padding: 8px; z-index: 9998;
+            transform: translateY(-8px); opacity: 0; pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .mobile-partners-panel.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .mobile-partners-panel a {
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+            border-radius: 8px; font-size: 12px; font-weight: 600;
+            color: rgba(255,255,255,0.75); text-decoration: none; transition: background 0.15s;
+        }
+        .mobile-partners-panel a:active { background: rgba(255,255,255,0.08); }
+        .mobile-partners-panel img { height: 22px; width: auto; object-fit: contain; filter: brightness(1.3); }
+        .mobile-partners-overlay { display: none; position: fixed; inset: 0; z-index: 9997; }
+        .mobile-partners-overlay.open { display: block; }
+
+        @media (max-width: 768px) {
+            .top-nav-banner { display: none !important; }
+            .mobile-nav-bar { display: flex; }
+            .mobile-partners-panel { display: block; }
+        }
+
+        /* Frequency Vibes brand mark in the top nav */
+        .top-nav-brand {
+            display: inline-flex !important;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .top-nav-brand-mark {
+            width: 32px; height: 32px; flex-shrink: 0; display: block;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+        }
+        .top-nav-brand:hover .top-nav-brand-mark {
+            transform: rotate(8deg);
+            transition: transform 320ms cubic-bezier(0.32, 0.72, 0.2, 1);
+        }
+        @media (max-width: 768px) {
+            .top-nav-brand-mark { width: 26px; height: 26px; }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           ATRANGA-SPECIFIC EDITORIAL CONTENT
+           ═══════════════════════════════════════════════════════════════ */
+
+        /* Push body content below the fixed nav (48px) */
+        .page-content { padding-top: 48px; }
+
+        .shell {
+            width: 100%;
+            max-width: var(--max);
+            margin-inline: auto;
+            padding-inline: var(--gut);
+        }
+
+        .section-rule {
+            border-top: 1px solid var(--line);
+            margin: 0 var(--gut);
+        }
+
+        .section-head {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+            padding-block: clamp(4rem, 7vw, 6rem) 2rem;
+        }
+
+        .section-tag {
+            font-family: var(--fs-mono);
+            font-size: var(--t-xs);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--primary);
+            display: flex;
+            align-items: baseline;
+            gap: 0.85em;
+        }
+        .section-tag::before {
+            content: '';
+            width: 1.6rem;
+            height: 1px;
+            background: currentColor;
+            transform: translateY(-3px);
+        }
+
+        .section-title {
+            font-family: var(--fs-display);
+            font-size: var(--d-2);
+            font-weight: 300;
+            line-height: 0.98;
+            letter-spacing: -0.035em;
+            max-width: 18ch;
+        }
+        .section-title em {
+            font-family: var(--fs-serif);
+            font-style: italic;
+            font-weight: 400;
+            color: var(--primary);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           HERO
+           ═══════════════════════════════════════════════════════════════ */
+
+        .hero {
+            position: relative;
+            padding: 4rem 0 4rem;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+            gap: clamp(2rem, 5vw, 5rem);
+            align-items: end;
+        }
+
+        @media (max-width: 900px) {
+            .hero-grid { grid-template-columns: 1fr; }
+        }
+
+        .hero-deck {
+            font-family: var(--fs-mono);
+            font-size: var(--t-xs);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-soft);
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+        .hero-deck .sep { color: var(--primary); }
+
+        .hero h1 {
+            font-family: var(--fs-display);
+            font-size: var(--d-1);
+            font-weight: 300;
+            line-height: 0.92;
+            letter-spacing: -0.045em;
+            color: var(--dark);
+            font-feature-settings: 'ss01', 'ss02';
+        }
+        .hero h1 .ital {
+            font-family: var(--fs-serif);
+            font-style: italic;
+            font-weight: 400;
+            font-size: 0.94em;
+            color: var(--primary);
+        }
+
+        .hero-standfirst {
+            font-family: var(--fs-serif);
+            font-size: var(--t-md);
+            font-style: italic;
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--text-soft);
+            max-width: 28em;
+            margin-top: 2.5rem;
+        }
+        .hero-standfirst .firstletter {
+            font-family: var(--fs-display);
+            font-style: normal;
+            font-weight: 300;
+            font-size: 2.4em;
+            line-height: 0.85;
+            float: left;
+            margin: 0.05em 0.18em -0.15em 0;
+            color: var(--primary);
+        }
+
+        .hero-image {
+            position: relative;
+            aspect-ratio: 4 / 5;
+            overflow: hidden;
+            background: var(--cream-alt);
+        }
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--primary);
+            z-index: 2;
+            transform: scaleY(1);
+            transform-origin: bottom;
+            transition: transform 1.4s var(--ease-power);
+        }
+        .hero.loaded .hero-image::before {
+            transform: scaleY(0);
+            transition-delay: .6s;
+        }
+        .hero-image img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.15);
+            transition: transform 8s linear;
+            filter: saturate(0.95) contrast(1.05);
+        }
+        .hero.loaded .hero-image img {
+            transform: scale(1.0);
+            transition-delay: .8s;
+        }
+        .hero-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 60%, rgba(20, 32, 29, 0.35) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .hero-image-caption {
+            position: absolute;
+            bottom: 1.25rem;
+            left: 1.25rem;
+            right: 1.25rem;
+            z-index: 3;
+            font-family: var(--fs-mono);
+            font-size: var(--t-xs);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(243, 239, 232, 0.85);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .hero-foot {
+            border-top: 1px solid var(--line);
+            margin: 4rem var(--gut) 0;
+            max-width: var(--max);
+            margin-inline: auto;
+            padding: 1.5rem var(--gut) 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--fs-mono);
+            font-size: var(--t-xs);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-soft);
+        }
+
+        @media (max-width: 720px) {
+            .hero-foot { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           KINETIC TICKER
+           ═══════════════════════════════════════════════════════════════ */
+
+        .ticker {
+            background: var(--dark);
+            color: var(--cream);
+            padding: 1.5rem 0;
+            overflow: hidden;
+            border-block: 1px solid var(--dark);
+        }
+        .ticker-track {
+            display: flex;
+            gap: 3rem;
+            white-space: nowrap;
+            animation: ticker-scroll 38s linear infinite;
+            font-family: var(--fs-serif);
+            font-style: italic;
+            font-size: clamp(1.4rem, 3vw, 2.4rem);
+            font-weight: 400;
+            letter-spacing: -0.025em;
+        }
+        .ticker-track > span {
+            display: inline-flex;
+            align-items: center;
+            gap: 3rem;
+            padding-right: 3rem;
+        }
+        .ticker-track .glyph {
+            font-family: var(--fs-display);
+            font-style: normal;
+            color: var(--accent-soft);
+            font-size: 0.7em;
+            vertical-align: 0.3em;
+        }
+        @keyframes ticker-scroll { to { transform: translateX(-50%); } }
+        .ticker:hover .ticker-track { animation-play-state: paused; }
+
+        /* ═══════════════════════════════════════════════════════════════
+           PRINCIPLES
+           ═══════════════════════════════════════════════════════════════ */
+
+        .principles { padding-bottom: clamp(4rem, 8vw, 7rem); }
+
+        .principles-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-top: 1px solid var(--line);
+        }
+        @media (max-width: 720px) { .principles-list { grid-template-columns: 1fr; } }
+
+        .principle {
+            padding: 2.25rem 0;
+            border-bottom: 1px solid var(--line);
+            display: grid;
+            grid-template-columns: 4rem 1fr;
+            gap: 1.5rem;
+        }
+        .principle:nth-child(odd)  { padding-right: 2rem; border-right: 1px solid var(--line); }
+        .principle:nth-child(even) { padding-left: 2rem; }
+
+        @media (max-width: 720px) {
+            .principle:nth-child(odd), .principle:nth-child(even) {
+                border-right: none; padding-right: 0; padding-left: 0;
+            }
+        }
+
+        .principle-num {
+            font-family: var(--fs-mono);
+            font-size: var(--t-xs);
+            letter-spacing: 0.1em;
+            color: var(--primary);
+            padding-top: 0.4rem;
+        }
+
+        .principle h3 {
+            font-family: var(--fs-display);
+            font-size: var(--t-xl);
+            font-weight: 400;
+            line-height: 1.05;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.5rem;
+        }
+        .principle h3 em { font-family: var(--fs-serif); font-style: italic; font-weight: 400; }
+        .principle p { font-size: var(--t-base); line-height: 1.6; color: var(--text-soft); max-width: 40ch; }
+
+        /* ═══════════════════════════════════════════════════════════════
+           GALLERY
+           ═══════════════════════════════════════════════════════════════ */
+
+        .gallery {
+            padding: clamp(4rem, 7vw, 6rem) 0 clamp(5rem, 9vw, 8rem);
+            background: var(--cream-alt);
+            overflow: hidden;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: clamp(0.75rem, 2vw, 1.5rem);
+            margin-top: 3rem;
+        }
+
+        .gallery-frame {
+            overflow: hidden;
+            position: relative;
+            background: var(--dark);
+        }
+        .gallery-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.05);
+            transition: transform 1.5s var(--ease);
+            filter: saturate(0.95);
+        }
+        .gallery-frame:hover img { transform: scale(1.0); }
+
+        .gallery-frame .caption {
+            position: absolute;
+            bottom: 0.85rem;
+            left: 0.85rem;
+            right: 0.85rem;
+            font-family: var(--fs-mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(243,239,232,0.85);
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+        .gallery-frame::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 50%, rgba(20,32,29,0.55) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .gf-1 { grid-column: 1 / span 5;  aspect-ratio: 3 / 4; }
+        .gf-2 { grid-column: 6 / span 4;  aspect-ratio: 1 / 1; align-self: center; }
+        .gf-3 { grid-column: 10 / span 3; aspect-ratio: 3 / 4; align-self: end; }
+        .gf-4 { grid-column: 1 / span 4;  aspect-ratio: 4 / 3; margin-top: -3rem; }
+        .gf-5 { grid-column: 5 / span 5;  aspect-ratio: 3 / 2; margin-top: 2rem; }
+        .gf-6 { grid-column: 10 / span 3; aspect-ratio: 4 / 5; margin-top: 1rem; }
+
+        @media (max-width: 900px) {
+            .gallery-grid { grid-template-columns: repeat(6, 1fr); gap: 0.75rem; }
+            .gf-1 { grid-column: 1 / -1; aspect-ratio: 4/3; margin-top: 0; }
+            .gf-2, .gf-3, .gf-4, .gf-5 { grid-column: span 3; aspect-ratio: 1/1; margin-top: 0; align-self: stretch; }
+            .gf-6 { grid-column: 1 / -1; aspect-ratio: 16/9; margin-top: 0; align-self: stretch; }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           INDEX (sectors)
+           ═══════════════════════════════════════════════════════════════ */
+
+        .index {
+            background: var(--dark);
+            color: var(--cream);
+            padding-block: clamp(5rem, 9vw, 8rem);
+            position: relative;
+            overflow: hidden;
+        }
+        .index .section-tag { color: var(--accent-soft); }
+        .index .section-tag::before { background: var(--accent-soft); }
+        .index .section-title em { color: var(--accent-soft); }
+
+        .index-list { border-top: 1px solid rgba(243,239,232,0.2); }
+
+        .index-row {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 4rem 1fr auto;
+            gap: 1.5rem;
+            align-items: center;
+            padding: 2rem 0;
+            border-bottom: 1px solid rgba(243,239,232,0.08);
+            cursor: pointer;
+            transition: padding-left .5s var(--ease-power);
+            position: relative;
+            text-align: left;
+            color: inherit;
+        }
+        .index-row:hover { padding-left: 1.25rem; }
+        .index-row::before {
+            content: '';
+            position: absolute;
+            left: 0; bottom: 0;
+            height: 1px;
+            width: 0;
+            background: var(--accent-soft);
+            transition: width .6s var(--ease-power);
+        }
+        .index-row:hover::before { width: 100%; }
+
+        .index-num {
+            font-family: var(--fs-mono);
+            font-size: var(--t-xs);
+            color: rgba(243,239,232,0.55);
+            letter-spacing: 0.08em;
+        }
+
+        .index-title {
+            font-family: var(--fs-display);
+            font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+            font-weight: 300;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+        }
+        .index-title em { font-family: var(--fs-serif); font-style: italic; font-weight: 400; color: var(--accent-soft); }
+
+        .index-meta {
+            font-family: var(--fs-mono);
+            font-size: var(--t-xs);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(243,239,232,0.55);
+            text-align: right;
+        }
+
+        .index-detail {
+            display: grid;
+            grid-template-columns: 4rem 1fr 1fr;
+            gap: 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .8s var(--ease-power), padding .5s ease;
+        }
+        .index-row[aria-expanded="true"] + .index-detail {
+            max-height: 600px;
+            padding-block: 0.5rem 2rem;
+        }
+
+        .index-detail p {
+            font-family: var(--fs-serif);
+            font-style: italic;
+            font-size: var(--t-md);
+            line-height: 1.55;
+            color: var(--cream);
+            max-width: 38ch;
+        }
+
+        .index-detail ul {
+            list-style: none;
+            font-family: var(--fs-mono);
+            font-size: var(--t-xs);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: rgba(243,239,232,0.7);
+        }
+        .index-detail li {
+            padding: 0.45rem 0;
+            border-bottom: 1px dotted rgba(243,239,232,0.15);
+        }
+
+        @media (max-width: 720px) {
+            .index-row { grid-template-columns: 3rem 1fr; }
+            .index-meta { display: none; }
+            .index-detail { grid-template-columns: 3rem 1fr; }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           PRODUCTS
+           ═══════════════════════════════════════════════════════════════ */
+
+        .products { padding-block: clamp(5rem, 9vw, 8rem); }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            border-top: 1px solid var(--dark);
+        }
+        @media (max-width: 900px) { .products-grid { grid-template-columns: 1fr; } }
+
+        .product {
+            border-bottom: 1px solid var(--line);
+            border-right: 1px solid var(--line);
+            padding: 2.5rem 2rem 2.5rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .product:last-child  { border-right: none; padding-right: 0; }
+        .product:nth-child(2), .product:nth-child(3) { padding-left: 2rem; }
+
+        @media (max-width: 900px) {
+            .product { border-right: none; padding: 2.5rem 0; }
+            .product:nth-child(2), .product:nth-child(3) { padding-left: 0; }
+        }
+
+        .product-num {
+            font-family: var(--fs-mono);
+            font-size: var(--t-xs);
+            letter-spacing: 0.1em;
+            color: var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+        .product-num .sku { color: var(--text-soft); }
+
+        .product-image {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            background: var(--cream-alt);
+            overflow: hidden;
+        }
+        .product-image img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.05);
+            transition: transform 6s var(--ease);
+        }
+        .product:hover .product-image img { transform: scale(1.0); }
+
+        .product-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 50% 100%, rgba(45, 93, 79, 0.25), transparent 60%),
+                linear-gradient(180deg, transparent 60%, rgba(20, 32, 29, 0.3) 100%);
+            pointer-events: none;
+        }
+        .product-image .product-tag {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            z-index: 2;
+            padding: 0.3rem 0.7rem;
+            background: rgba(243, 239, 232, 0.92);
+            backdrop-filter: blur(8px);
+            font-family: var(--fs-mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--dark);
+            border: 1px solid var(--line);
+        }
+
+        .product-name {
+            font-family: var(--fs-display);
+            font-size: clamp(1.5rem, 2.4vw, 2rem);
+            font-weight: 400;
+            line-height: 1.1;
+            letter-spacing: -0.025em;
+        }
+        .product-name em { font-family: var(--fs-serif); font-style: italic; font-weight: 400; }
+
+        .product-copy {
+            font-family: var(--fs-serif);
+            font-size: var(--t-base);
+            line-height: 1.6;
+            color: var(--text-soft);
+        }
+
+        .product-spec {
+            font-family: var(--fs-mono);
+            font-size: var(--t-xs);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text-soft);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.4rem 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px dotted var(--line);
+            margin-top: auto;
+        }
+        .product-spec dt { color: var(--dark); }
+        .product-spec dd { text-align: right; }
+
+        /* ═══════════════════════════════════════════════════════════════
+           PULLQUOTE
+           ═══════════════════════════════════════════════════════════════ */
+
+        .pullquote {
+            padding-block: clamp(6rem, 12vw, 11rem);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pullquote-mark {
+            font-family: var(--fs-serif);
+            font-size: clamp(4rem, 10vw, 9rem);
+            font-style: italic;
+            color: var(--primary);
+            line-height: 0.7;
+            margin-bottom: -0.2em;
+        }
+
+        .pullquote blockquote {
+            font-family: var(--fs-display);
+            font-size: clamp(1.8rem, 4.5vw, 3.75rem);
+            font-weight: 300;
+            line-height: 1.05;
+            letter-spacing: -0.035em;
+            max-width: 18ch;
+        }
+        .pullquote blockquote em { font-family: var(--fs-serif); font-style: italic; font-weight: 400; }
+
+        .pullquote cite {
+            display: block;
+            margin-top: 2.5rem;
+            font-family: var(--fs-mono);
+            font-size: var(--t-xs);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-soft);
+            font-style: normal;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           STORY
+           ═══════════════════════════════════════════════════════════════ */
+
+        .story {
+            background: var(--cream-alt);
+            padding-block: clamp(5rem, 9vw, 8rem);
+            border-top: 1px solid var(--line);
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: clamp(2rem, 5vw, 5rem);
+            align-items: center;
+        }
+        @media (max-width: 900px) { .story-grid { grid-template-columns: 1fr; gap: 3rem; } }
+
+        .story-image {
+            position: relative;
+            aspect-ratio: 4 / 5;
+            overflow: hidden;
+            background: var(--dark);
+        }
+        .story-image img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 12s linear;
+        }
+        .story-image.in-view img { transform: scale(1.08); }
+        .story-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(20,32,29,0.1), rgba(20,32,29,0.4));
+            pointer-events: none;
+        }
+
+        .story-image-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1.5rem;
+            font-family: var(--fs-mono);
+            font-size: var(--t-xs);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(243,239,232,0.85);
+        }
+        .story-image-overlay .top { display: flex; justify-content: space-between; }
+        .story-image-overlay .bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .story-image-overlay h3 {
+            font-family: var(--fs-display);
+            font-size: var(--t-xl);
+            font-weight: 300;
+            font-style: italic;
+            letter-spacing: -0.02em;
+            text-transform: none;
+            color: var(--cream);
+        }
+
+        .story-content h2 {
+            font-family: var(--fs-display);
+            font-size: var(--d-2);
+            font-weight: 300;
+            line-height: 0.98;
+            letter-spacing: -0.035em;
+            margin-bottom: 2rem;
+        }
+        .story-content h2 em {
+            font-family: var(--fs-serif);
+            font-style: italic;
+            font-weight: 400;
+            color: var(--primary);
+        }
+
+        .story-content p {
+            font-family: var(--fs-serif);
+            font-size: var(--t-md);
+            line-height: 1.65;
+            color: var(--dark);
+            margin-bottom: 1.25rem;
+        }
+        .story-content p strong { font-family: var(--fs-display); font-style: normal; font-weight: 600; }
+
+        .story-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--line);
+        }
+        .story-stat-num {
+            font-family: var(--fs-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 300;
+            line-height: 1;
+            letter-spacing: -0.03em;
+            color: var(--dark);
+        }
+        .story-stat-num sup { font-size: 0.4em; vertical-align: top; color: var(--primary); }
+        .story-stat-label {
+            font-family: var(--fs-mono);
+            font-size: var(--t-xs);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-soft);
+            margin-top: 0.5rem;
+            line-height: 1.4;
+        }
+        @media (max-width: 600px) { .story-stats { grid-template-columns: 1fr; } }
+
+        /* ═══════════════════════════════════════════════════════════════
+           COLOPHON / CTA
+           ═══════════════════════════════════════════════════════════════ */
+
+        .colophon {
+            background: var(--dark);
+            color: var(--cream);
+            padding-block: clamp(5rem, 10vw, 8rem);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .colophon-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.45;
+            pointer-events: none;
+        }
+
+        .colophon-inner {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: end;
+        }
+        @media (max-width: 900px) { .colophon-inner { grid-template-columns: 1fr; } }
+
+        .colophon h2 {
+            font-family: var(--fs-display);
+            font-size: var(--d-2);
+            font-weight: 300;
+            line-height: 0.98;
+            letter-spacing: -0.035em;
+            max-width: 14ch;
+        }
+        .colophon h2 em {
+            font-family: var(--fs-serif);
+            font-style: italic;
+            font-weight: 400;
+            color: var(--accent-soft);
+        }
+
+        .colophon-tag {
+            font-family: var(--fs-mono);
+            font-size: var(--t-xs);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent-soft);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.85em;
+        }
+        .colophon-tag::before {
+            content: '';
+            width: 1.6rem;
+            height: 1px;
+            background: currentColor;
+        }
+
+        .code-strip {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: baseline;
+            gap: 1.5rem;
+            border-top: 1px solid rgba(243,239,232,0.15);
+            border-bottom: 1px solid rgba(243,239,232,0.15);
+            padding: 1.25rem 0;
+            margin-bottom: 2rem;
+        }
+        .code-strip .label {
+            font-family: var(--fs-mono);
+            font-size: var(--t-xs);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent-soft);
+        }
+        .code-strip .value {
+            font-family: var(--fs-display);
+            font-size: clamp(1.5rem, 3vw, 2.25rem);
+            font-style: italic;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            color: var(--cream);
+        }
+        .code-strip .meta {
+            font-family: var(--fs-mono);
+            font-size: var(--t-xs);
+            color: var(--accent-soft);
+            letter-spacing: 0.05em;
+        }
+        @media (max-width: 720px) {
+            .code-strip { grid-template-columns: 1fr; gap: 0.5rem; }
+            .code-strip .meta { text-align: left; }
+        }
+
+        .cta-line {
+            display: flex;
+            gap: 2rem;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
+
+        .cta-link {
+            font-family: var(--fs-display);
+            font-size: var(--t-md);
+            letter-spacing: -0.01em;
+            display: inline-flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            border-bottom: 1px solid currentColor;
+            padding-bottom: 0.25rem;
+            transition: gap .35s ease, color .35s ease;
+        }
+        .cta-link:hover { gap: 1rem; color: var(--accent-soft); }
+        .cta-link.muted { color: var(--accent-soft); border-bottom-color: rgba(168,200,185,0.3); }
+
+        /* ═══════════════════════════════════════════════════════════════
+           FOOTER (mirrors sdbi-center pattern)
+           ═══════════════════════════════════════════════════════════════ */
+
+        .footer {
+            background: var(--dark);
+            color: var(--cream);
+            padding: 4rem var(--gut) 2rem;
+            border-top: 1px solid rgba(243,239,232,0.1);
+        }
+
+        .footer-inner {
+            max-width: var(--max);
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--cream);
+        }
+        .footer-logo img {
+            height: 36px;
+            background: var(--cream);
+            border-radius: 4px;
+            padding: 4px 8px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            font-family: var(--fs-mono);
+            font-size: var(--t-xs);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        .footer-links a {
+            color: rgba(243,239,232,0.7);
+            transition: color 0.3s ease;
+        }
+        .footer-links a:hover { color: var(--accent-soft); }
+
+        .footer-copy {
+            font-family: var(--fs-serif);
+            font-style: italic;
+            font-size: var(--t-sm);
+            color: rgba(243,239,232,0.45);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           ANIMATIONS
+           ═══════════════════════════════════════════════════════════════ */
+
+        .line-clip {
+            display: block;
+            overflow: hidden;
+        }
+        .line-clip > span {
+            display: block;
+            transform: translateY(105%);
+            transition: transform 1.1s var(--ease);
+        }
+        .hero.loaded .line-clip > span { transform: translateY(0); }
+        .hero .line-clip:nth-child(1) > span { transition-delay: .2s; }
+        .hero .line-clip:nth-child(2) > span { transition-delay: .3s; }
+        .hero .line-clip:nth-child(3) > span { transition-delay: .4s; }
+
+        .hero-deck, .hero-standfirst, .hero-foot {
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 1.2s ease, transform 1.2s var(--ease);
+        }
+        .hero.loaded .hero-deck { transition-delay: .3s; opacity: 1; transform: translateY(0); }
+        .hero.loaded .hero-standfirst { transition-delay: .9s; opacity: 1; transform: translateY(0); }
+        .hero.loaded .hero-foot { transition-delay: 1.2s; opacity: 1; transform: translateY(0); }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 1s var(--ease), transform 1s var(--ease);
+        }
+        .fade-up.in-view { opacity: 1; transform: translateY(0); }
+
+        .clip-reveal { position: relative; }
+        .clip-reveal::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--cream);
+            z-index: 5;
+            transform-origin: bottom;
+            transition: transform 1.2s var(--ease-power);
+        }
+        .clip-reveal.in-view::before { transform: scaleY(0); }
+        .gallery-frame.clip-reveal::before { background: var(--cream-alt); }
+        .product-image.clip-reveal::before { background: var(--cream-alt); }
+
+        .gf-1.clip-reveal::before { transition-delay: 0s; }
+        .gf-2.clip-reveal::before { transition-delay: .1s; }
+        .gf-3.clip-reveal::before { transition-delay: .2s; }
+        .gf-4.clip-reveal::before { transition-delay: .15s; }
+        .gf-5.clip-reveal::before { transition-delay: .25s; }
+        .gf-6.clip-reveal::before { transition-delay: .3s; }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ============ MOBILE NAVBAR (same as mobile.html and other partner pages) ============ -->
+    <nav class="mobile-nav-bar">
+        <div class="nav-links">
+            <a href="mobile.html" class="nav-link">Home</a>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="event.html" class="nav-link">Events</a>
+            <a href="mobile.html#contact" class="nav-link">Contact</a>
+        </div>
+        <button class="nav-partners-btn" id="mobilePartnersBtn" aria-expanded="false" aria-label="Partners menu">
+            Partners
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </button>
+    </nav>
+    <div class="mobile-partners-overlay" id="mobilePartnersOverlay"></div>
+    <div class="mobile-partners-panel" id="mobilePartnersPanel">
+        <a href="vegaqura.html"><img src="assets/optimized/logo-vegaqura.480w.webp" alt="Vegaqura" loading="lazy" decoding="async"> Vegaqura</a>
+        <a href="sdbi-center.html"><img src="assets/logo-sbdi.webp" alt="SBDI" loading="lazy" decoding="async"> SBDI Center</a>
+        <a href="wiseuse.html"><img src="assets/optimized/wiseuse-pyramid.171w.webp" alt="WiseUse" loading="lazy" decoding="async"> WiseUse International</a>
+        <a href="eko-vitaris.html"><img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" loading="lazy" decoding="async"> Eko Vitaris</a>
+        <a href="mariposa-batu.html"><img src="assets/optimized/logo-mariposa-batu.480w.webp" alt="Mariposa Batu" loading="lazy" style="border-radius:4px;" decoding="async"> Mariposa Batu</a>
+        <a href="biozar-venezuela.html"><img src="assets/optimized/logo-biozar.340w.webp" alt="Biozar" loading="lazy" decoding="async"> Biozar Venezuela</a>
+        <a href="atranga.html" style="background: rgba(168, 200, 185, 0.1);"><img src="assets/atranga/logo_Atranga_horizontal-color.svg" alt="Atranga" loading="lazy" decoding="async"> Atranga</a>
+    </div>
+
+    <!-- TOP NAV BANNER (desktop) -->
+    <nav class="top-nav-banner">
+        <div class="top-nav-container">
+            <a href="index.html" class="top-nav-brand">
+                <img src="assets/brand/logo-circle.webp" alt="" class="top-nav-brand-mark" width="32" height="32" loading="lazy" decoding="async">
+                <span>Frequency Vibes&trade;</span>
+            </a>
+            <button class="mobile-menu-btn" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="top-nav-links">
+                <a href="https://atranga.com/en/" target="_blank" class="top-nav-official">atranga.com</a>
+                <div class="top-nav-sep"></div>
+                <a href="index.html" class="top-nav-link">Home</a>
+                <a href="index.html#contact" class="top-nav-link">Get in Touch</a>
+                <div class="partners-dropdown-container">
+                    <button class="top-nav-link top-nav-partners-btn" id="partnersBtn" aria-expanded="false">
+                        PARTNERS
+                        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" style="margin-left: 6px;">
+                            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <div class="partners-dropdown-menu" id="partnersDropdown">
+                        <a href="vegaqura.html" class="partners-dropdown-item">
+                            <img src="assets/optimized/logo-vegaqura.480w.webp" alt="Vegaqura" class="partner-icon-img" loading="lazy" decoding="async"> Vegaqura
+                        </a>
+                        <a href="sdbi-center.html" class="partners-dropdown-item">
+                            <img src="assets/logo-sbdi.webp" alt="SBDI" class="partner-icon-img" loading="lazy" decoding="async"> SBDI Center
+                        </a>
+                        <a href="wiseuse.html" class="partners-dropdown-item">
+                            <img src="assets/optimized/wiseuse-pyramid.171w.webp" alt="WiseUse" class="partner-icon-img" loading="lazy" decoding="async"> WiseUse
+                            International
+                        </a>
+                        <a href="eko-vitaris.html" class="partners-dropdown-item">
+                            <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-icon-img" loading="lazy" decoding="async"> Eko
+                            Vitaris
+                        </a>
+                        <a href="mariposa-batu.html" class="partners-dropdown-item">
+                            <img src="assets/optimized/logo-mariposa-batu.480w.webp" alt="Mariposa Batu" class="partner-icon-img" style="border-radius:4px;" loading="lazy" decoding="async"> Mariposa Batu
+                        </a>
+                        <a href="biozar-venezuela.html" class="partners-dropdown-item">
+                            <img src="assets/optimized/logo-biozar.340w.webp" alt="Biozar" class="partner-icon-img" loading="lazy" decoding="async"> Biozar Venezuela
+                        </a>
+                        <a href="atranga.html" class="partners-dropdown-item" style="background: rgba(168, 200, 185, 0.08);">
+                            <img src="assets/atranga/logo_Atranga_horizontal-color.svg" alt="Atranga" class="partner-icon-img" loading="lazy" decoding="async"> Atranga
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         PAGE CONTENT
+         ═══════════════════════════════════════════════════════════════ -->
+
+    <div class="page-content">
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="shell">
+
+            <div class="hero-grid">
+                <div>
+                    <h1>
+                        <span class="line-clip"><span>The art of</span></span>
+                        <span class="line-clip"><span><span class="ital">cleaning</span> without</span></span>
+                        <span class="line-clip"><span>leaving a trace.</span></span>
+                    </h1>
+
+                    <p class="hero-standfirst">
+                        <span class="firstletter">A</span>tranga formulates molecular cleaning and
+                        protection systems for the world's most considered surfaces &mdash; in kitchens,
+                        hotels, restaurants and on the water. Sustainable. Biodegradable.
+                        And, quite genuinely, BioSafe.
+                    </p>
+                </div>
+
+                <figure class="hero-image">
+                    <img
+                        src="assets/atranga/lady-sofa-cleaning.jpg"
+                        alt="Atranga product in use — luxury interior"
+                        loading="eager"
+                    />
+                    <figcaption class="hero-image-caption">
+                        <span>Plate 01 / Atranga × Hospitality</span>
+                        <span>Rotterdam, NL</span>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+
+        <div class="hero-foot">
+            <span>An official partner of Eugene Mierak</span>
+            <span>↓ Continue reading</span>
+        </div>
+    </section>
+
+    <!-- KINETIC TICKER -->
+    <div class="ticker" aria-hidden="true">
+        <div class="ticker-track">
+            <span>BioSafe <span class="glyph">✕</span> Biodegradable <span class="glyph">✕</span> PFAS-free <span class="glyph">✕</span> No microplastics <span class="glyph">✕</span> CSRD-ready <span class="glyph">✕</span> Made in Rotterdam <span class="glyph">✕</span></span>
+            <span>BioSafe <span class="glyph">✕</span> Biodegradable <span class="glyph">✕</span> PFAS-free <span class="glyph">✕</span> No microplastics <span class="glyph">✕</span> CSRD-ready <span class="glyph">✕</span> Made in Rotterdam <span class="glyph">✕</span></span>
+        </div>
+    </div>
+
+    <!-- PRINCIPLES -->
+    <section class="principles">
+        <div class="shell">
+
+            <div class="section-head fade-up">
+                <span class="section-tag">§ 01 &mdash; Method</span>
+                <h2 class="section-title">Six principles<br>behind every <em>formulation</em>.</h2>
+            </div>
+
+            <div class="principles-list fade-up">
+                <article class="principle">
+                    <div class="principle-num">P. 01</div>
+                    <div>
+                        <h3>Molecular <em>bond</em></h3>
+                        <p>A water-based nano-coating that fuses with the surface — invisible, durable, hydrophobic. Protection becomes part of the material itself.</p>
+                    </div>
+                </article>
+                <article class="principle">
+                    <div class="principle-num">P. 02</div>
+                    <div>
+                        <h3>Truly <em>BioSafe</em></h3>
+                        <p>Free from PFAS, microplastics and harmful surfactants. Safe for staff, guests, pets and surfaces in contact with food.</p>
+                    </div>
+                </article>
+                <article class="principle">
+                    <div class="principle-num">P. 03</div>
+                    <div>
+                        <h3>UV &amp; salt <em>shield</em></h3>
+                        <p>Long-lasting protection against sun, salt and oxidation — engineered for coastal hospitality, terraces and yachts.</p>
+                    </div>
+                </article>
+                <article class="principle">
+                    <div class="principle-num">P. 04</div>
+                    <div>
+                        <h3>Cleaning, <em>halved</em></h3>
+                        <p>Treated surfaces repel dirt and water marks for weeks. Staff clean less often, with less product, more confidently.</p>
+                    </div>
+                </article>
+                <article class="principle">
+                    <div class="principle-num">P. 05</div>
+                    <div>
+                        <h3>Made in <em>Rotterdam</em></h3>
+                        <p>Formulated and produced in-house in the Netherlands. Tested in working environments before it ever reaches yours.</p>
+                    </div>
+                </article>
+                <article class="principle">
+                    <div class="principle-num">P. 06</div>
+                    <div>
+                        <h3>EU &amp; CSRD <em>ready</em></h3>
+                        <p>Full safety documentation, REACH compliance and CSRD-aligned sustainability reporting. Quietly, the paperwork is done.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="gallery">
+        <div class="shell">
+
+            <div class="section-head fade-up">
+                <span class="section-tag">§ 02 &mdash; In context</span>
+                <h2 class="section-title">Atranga, <em>at work</em>.</h2>
+            </div>
+
+            <div class="gallery-grid">
+                <figure class="gallery-frame gf-1 clip-reveal">
+                    <img src="assets/atranga/female-crew-cleaning-windows.jpg" alt="Crew cleaning windows" loading="lazy">
+                    <figcaption class="caption"><span>Maritime · Glass</span><span>01 / 06</span></figcaption>
+                </figure>
+                <figure class="gallery-frame gf-2 clip-reveal">
+                    <img src="assets/atranga/drops-water-deck-yacht.jpg" alt="Water beading on protected surface" loading="lazy">
+                    <figcaption class="caption"><span>Hydrophobic · Effect</span><span>02 / 06</span></figcaption>
+                </figure>
+                <figure class="gallery-frame gf-3 clip-reveal">
+                    <img src="assets/atranga/pastry-droplets.jpg" alt="Water beading on a pastry — food-contact hydrophobic finish" loading="lazy">
+                    <figcaption class="caption"><span>Food · Contact</span><span>03 / 06</span></figcaption>
+                </figure>
+                <figure class="gallery-frame gf-4 clip-reveal">
+                    <img src="assets/atranga/floor-cleaning-machine.jpg" alt="Floor cleaning machine in action" loading="lazy">
+                    <figcaption class="caption"><span>Pro · Floor care</span><span>04 / 06</span></figcaption>
+                </figure>
+                <figure class="gallery-frame gf-5 clip-reveal">
+                    <img src="assets/atranga/railing-doek.jpg" alt="Wiping a railing" loading="lazy">
+                    <figcaption class="caption"><span>Stainless · Salt-air</span><span>05 / 06</span></figcaption>
+                </figure>
+                <figure class="gallery-frame gf-6 clip-reveal">
+                    <img src="assets/atranga/greenhouse.jpg" alt="Greenhouse glazing under light" loading="lazy">
+                    <figcaption class="caption"><span>Greenhouse · Glass</span><span>06 / 06</span></figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <!-- INDEX (sectors) -->
+    <section class="index" id="sectors">
+        <div class="shell">
+
+            <div class="section-head fade-up">
+                <span class="section-tag">§ 03 &mdash; In this issue</span>
+                <h2 class="section-title">Where Atranga is, <em>quietly</em>, at work.</h2>
+            </div>
+
+            <div class="index-list fade-up">
+                <button class="index-row" aria-expanded="true" aria-controls="row-01-detail">
+                    <span class="index-num">N° 01</span>
+                    <span class="index-title">The professional <em>kitchen</em></span>
+                    <span class="index-meta">Stainless · Marble · Glass</span>
+                </button>
+                <div class="index-detail" id="row-01-detail">
+                    <div class="index-detail-spacer"></div>
+                    <p>Stainless steel passes, induction tops, marble counters, tile floors. Multi Cleaner &amp; Protector handles every surface in a working kitchen with one trusted formulation. Food-contact safe.</p>
+                    <ul>
+                        <li>HACCP-aligned</li>
+                        <li>Stainless &amp; marble</li>
+                        <li>No PFAS, no fragrance</li>
+                        <li>Hydrophobic finish</li>
+                    </ul>
+                </div>
+
+                <button class="index-row" aria-expanded="false" aria-controls="row-02-detail">
+                    <span class="index-num">N° 02</span>
+                    <span class="index-title">Hotels &amp; <em>suites</em></span>
+                    <span class="index-meta">Mirror · Leather · Stone</span>
+                </button>
+                <div class="index-detail" id="row-02-detail">
+                    <div class="index-detail-spacer"></div>
+                    <p>Streak-free mirrors, leather headboards, marble vanities, floor-to-ceiling glazing. One system, faster room turnover, longer lifespan for every finish.</p>
+                    <ul>
+                        <li>Streak-free glass</li>
+                        <li>Leather &amp; granite</li>
+                        <li>Faster turnaround</li>
+                        <li>Fragrance-free options</li>
+                    </ul>
+                </div>
+
+                <button class="index-row" aria-expanded="false" aria-controls="row-03-detail">
+                    <span class="index-num">N° 03</span>
+                    <span class="index-title">Restaurants &amp; <em>bars</em></span>
+                    <span class="index-meta">Wood · Glassware · Terraces</span>
+                </button>
+                <div class="index-detail" id="row-03-detail">
+                    <div class="index-detail-spacer"></div>
+                    <p>Wine glasses without water spots. Marble tabletops without etching. Outdoor terraces that resist salt air and UV. Daily wear, made occasional maintenance.</p>
+                    <ul>
+                        <li>Wood &amp; stone</li>
+                        <li>UV resistance</li>
+                        <li>Spill repellent</li>
+                        <li>Scent-neutral</li>
+                    </ul>
+                </div>
+
+                <button class="index-row" aria-expanded="false" aria-controls="row-04-detail">
+                    <span class="index-num">N° 04</span>
+                    <span class="index-title">Spa &amp; <em>wellness</em></span>
+                    <span class="index-meta">Skin contact · Steam · Pool</span>
+                </button>
+                <div class="index-detail" id="row-04-detail">
+                    <div class="index-detail-spacer"></div>
+                    <p>Saunas, steam rooms, treatment beds, pool decks. Where guests are barefoot or in skin contact, Atranga evaporates cleanly and leaves no residue behind.</p>
+                    <ul>
+                        <li>Dermatologically tested</li>
+                        <li>pH-neutral</li>
+                        <li>Mould-resistant</li>
+                        <li>Anti-slip floors</li>
+                    </ul>
+                </div>
+
+                <button class="index-row" aria-expanded="false" aria-controls="row-05-detail">
+                    <span class="index-num">N° 05</span>
+                    <span class="index-title">Yachts &amp; <em>charter</em></span>
+                    <span class="index-meta">Salt · UV · Gelcoat</span>
+                </button>
+                <div class="index-detail" id="row-05-detail">
+                    <div class="index-detail-spacer"></div>
+                    <p>Decks, hulls, glass, gelcoat, leather, electronics — every surface fights salt, sun and motion. Maritime-grade protection that resists corrosion and reduces freshwater rinse cycles.</p>
+                    <ul>
+                        <li>Anti-corrosion</li>
+                        <li>Teak &amp; gelcoat</li>
+                        <li>Reduced water use</li>
+                        <li>Marine-safe</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="products" id="products">
+        <div class="shell">
+
+            <div class="section-head fade-up">
+                <span class="section-tag">§ 04 &mdash; The catalogue</span>
+                <h2 class="section-title">Three formulations,<br>one <em>complete</em> system.</h2>
+            </div>
+
+            <div class="products-grid">
+                <article class="product fade-up">
+                    <div class="product-num">
+                        <span>P. 01 — Glass</span>
+                        <span class="sku">SKU 77252</span>
+                    </div>
+                    <div class="product-image clip-reveal">
+                        <span class="product-tag">Glass</span>
+                        <img src="assets/atranga/shopping-windows-4_3.jpg" alt="Storefront glass after Atranga Glass Cleaner" loading="lazy">
+                    </div>
+                    <h3 class="product-name">Glass <em>Cleaner</em><br>&amp; Protector</h3>
+                    <p class="product-copy">
+                        Streak-free brilliance for windows, mirrors, partitions and shower screens. Leaves
+                        an invisible hydrophobic layer that turns water marks into a problem of the past.
+                    </p>
+                    <dl class="product-spec">
+                        <dt>Finish</dt><dd>Streak-free</dd>
+                        <dt>Surface</dt><dd>Glass / mirror</dd>
+                        <dt>Effect</dt><dd>Hydrophobic</dd>
+                        <dt>Format</dt><dd>500 ml / 5 L</dd>
+                    </dl>
+                </article>
+
+                <article class="product fade-up">
+                    <div class="product-num">
+                        <span>P. 02 — Multi</span>
+                        <span class="sku">SKU 77238/45</span>
+                    </div>
+                    <div class="product-image clip-reveal">
+                        <span class="product-tag">Universal</span>
+                        <img src="assets/atranga/multi-extra.jpg" alt="Atranga Multi Extra Protect" loading="lazy">
+                    </div>
+                    <h3 class="product-name">Multi <em>Cleaner</em><br>&amp; Extra Protect</h3>
+                    <p class="product-copy">
+                        One bottle, every surface. Stainless steel, marble, granite, wood, leather, screens.
+                        Clean and protect with the same trusted formulation.
+                    </p>
+                    <dl class="product-spec">
+                        <dt>Range</dt><dd>Universal</dd>
+                        <dt>Use</dt><dd>Food-contact</dd>
+                        <dt>Effect</dt><dd>Anti-microbial</dd>
+                        <dt>Format</dt><dd>500 ml / 5 L</dd>
+                    </dl>
+                </article>
+
+                <article class="product fade-up">
+                    <div class="product-num">
+                        <span>P. 03 — Floor</span>
+                        <span class="sku">SKU 77207/14</span>
+                    </div>
+                    <div class="product-image clip-reveal">
+                        <span class="product-tag">Pro</span>
+                        <img src="assets/atranga/shopping-mall-floor-closeup-4_3.jpg" alt="High-traffic retail floor with pro-grade finish" loading="lazy">
+                    </div>
+                    <h3 class="product-name">Floor <em>Cleaner</em><br>&amp; Protector</h3>
+                    <p class="product-copy">
+                        Professional-grade floor care for hospitality and high-traffic environments. Tile,
+                        stone, vinyl, engineered wood. Manual or machine application.
+                    </p>
+                    <dl class="product-spec">
+                        <dt>Use</dt><dd>Pro-grade</dd>
+                        <dt>Finish</dt><dd>Anti-slip</dd>
+                        <dt>Method</dt><dd>Manual / machine</dd>
+                        <dt>Format</dt><dd>5 L / 10 L</dd>
+                    </dl>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- PULLQUOTE -->
+    <hr class="section-rule">
+    <section class="pullquote">
+        <div class="shell fade-up">
+            <div class="pullquote-mark">&ldquo;</div>
+            <blockquote>
+                The future of cleaning isn't about doing <em>more</em>.<br>
+                It's about needing to do <em>less</em>.
+            </blockquote>
+            <cite>From the Atranga method — Rotterdam, 2024</cite>
+        </div>
+    </section>
+
+    <!-- STORY -->
+    <section class="story">
+        <div class="shell">
+            <div class="story-grid">
+
+                <figure class="story-image clip-reveal" id="story-image">
+                    <img src="assets/atranga/lab-819x1024.jpg" alt="Atranga R&D laboratory in Rotterdam">
+                    <div class="story-image-overlay">
+                        <div class="top">
+                            <span>R&amp;D · 2024 →</span>
+                            <span>Plate 06</span>
+                        </div>
+                        <div class="bottom">
+                            <h3>Engineered<br><em>in-house</em>.</h3>
+                            <span>Rotterdam, NL</span>
+                        </div>
+                    </div>
+                </figure>
+
+                <div class="story-content fade-up">
+                    <span class="section-tag" style="margin-bottom: 1.5rem;">§ 05 &mdash; The genesis</span>
+                    <h2>Cleaning, <em>reimagined</em><br>from the molecule up.</h2>
+
+                    <p>
+                        Atranga was founded on a quiet, almost paradoxical idea: <strong>the most powerful
+                        cleaning agents shouldn't be hostile</strong> to the world they're cleaning.
+                        Water-based, biodegradable, biosafe.
+                    </p>
+                    <p>
+                        Every formulation is developed at the company's own R&amp;D laboratory — tested on
+                        real surfaces, in real working environments. From luxury yachts crossing the
+                        Mediterranean to greenhouses in the Westland, the same principle holds: clean
+                        deeply, protect quietly, leave nothing harmful behind.
+                    </p>
+
+                    <div class="story-stats">
+                        <div>
+                            <div class="story-stat-num"><span class="count-up" data-target="99.9" data-decimals="1">0</span><sup>%</sup></div>
+                            <div class="story-stat-label">Microorganism reduction</div>
+                        </div>
+                        <div>
+                            <div class="story-stat-num">−<span class="count-up" data-target="50">0</span><sup>%</sup></div>
+                            <div class="story-stat-label">Cleaning time saved</div>
+                        </div>
+                        <div>
+                            <div class="story-stat-num"><span class="count-up" data-target="100">0</span><sup>%</sup></div>
+                            <div class="story-stat-label">Biodegradable</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COLOPHON / CTA -->
+    <section class="colophon" id="contact">
+        <canvas class="colophon-canvas" id="colophon-canvas" aria-hidden="true"></canvas>
+        <div class="shell">
+            <div class="colophon-inner">
+                <div class="fade-up">
+                    <div class="colophon-tag">§ 06 &mdash; Partnership</div>
+                    <h2>Through Eugene <em>Mierak</em>.</h2>
+                </div>
+
+                <div class="fade-up">
+                    <div class="code-strip">
+                        <span class="label">Partner code</span>
+                        <span class="value">[ to be assigned ]</span>
+                        <span class="meta">For atranga.com checkout</span>
+                    </div>
+
+                    <div class="cta-line">
+                        <a href="https://atranga.com/en/" target="_blank" rel="noopener" class="cta-link">
+                            Browse atranga.com <span>↗</span>
+                        </a>
+                        <a href="index.html#contact" class="cta-link muted">
+                            Contact Eugene →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER (matches sdbi-center pattern) -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-logo">
+                <img src="assets/atranga/logo_Atranga_horizontal-color.svg" alt="Atranga" loading="lazy" decoding="async">
+                <span>Eugene × Atranga</span>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="#sectors">Sectors</a>
+                <a href="#products">Products</a>
+                <a href="https://atranga.com/en/" target="_blank">Atranga Official ↗</a>
+            </div>
+            <p class="footer-copy">© 2026 Eugene Mierak. Official Partner of Atranga BioSafe Cleaning Solutions.</p>
+        </div>
+    </footer>
+
+    </div><!-- /page-content -->
+
+    <script>
+        /* ─── Hero entrance ─────────────────────────────────────── */
+        window.addEventListener('load', () => {
+            document.getElementById('hero').classList.add('loaded');
+        });
+
+        /* ─── Reveal on scroll ─────────────────────────────────── */
+        const reveal = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('in-view');
+                    reveal.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+        document.querySelectorAll('.fade-up, .clip-reveal').forEach(el => reveal.observe(el));
+
+        /* ─── Story image Ken Burns ────────────────────────────── */
+        const storyImg = document.getElementById('story-image');
+        if (storyImg) {
+            new IntersectionObserver((entries) => {
+                entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+            }, { threshold: 0.2 }).observe(storyImg);
+        }
+
+        /* ─── Animated counters ────────────────────────────────── */
+        function animateCount(el) {
+            const target = parseFloat(el.dataset.target);
+            const decimals = parseInt(el.dataset.decimals || '0');
+            const duration = 1800;
+            const start = performance.now();
+            function step(now) {
+                const t = Math.min((now - start) / duration, 1);
+                const eased = 1 - Math.pow(1 - t, 3);
+                const value = target * eased;
+                el.textContent = decimals ? value.toFixed(decimals) : Math.round(value);
+                if (t < 1) requestAnimationFrame(step);
+                else el.textContent = decimals ? target.toFixed(decimals) : target;
+            }
+            requestAnimationFrame(step);
+        }
+        const counterObs = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    animateCount(e.target);
+                    counterObs.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.4 });
+        document.querySelectorAll('.count-up').forEach(el => counterObs.observe(el));
+
+        /* ─── Index accordion ─────────────────────────────────── */
+        document.querySelectorAll('.index-row').forEach(row => {
+            row.addEventListener('click', () => {
+                const expanded = row.getAttribute('aria-expanded') === 'true';
+                document.querySelectorAll('.index-row').forEach(r => r.setAttribute('aria-expanded', 'false'));
+                row.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+            });
+        });
+
+        /* ─── Subtle parallax on gallery images ─────────────────── */
+        const parallaxItems = document.querySelectorAll('.gallery-frame img');
+        let ticking = false;
+        function onScroll() {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => {
+                parallaxItems.forEach(img => {
+                    const rect = img.getBoundingClientRect();
+                    const vh = window.innerHeight;
+                    if (rect.bottom < 0 || rect.top > vh) return;
+                    const progress = (rect.top + rect.height / 2 - vh / 2) / vh;
+                    img.style.translate = `0 ${progress * -16}px`;
+                });
+                ticking = false;
+            });
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+
+        /* ═══════════════════════════════════════════════════════════════
+           NAVBAR LOGIC — same patterns used on other partner pages
+           (mirrors the missing main.js dropdown logic)
+           ═══════════════════════════════════════════════════════════════ */
+
+        // Desktop partners dropdown handled by js/main.js — inline duplicate removed
+        // (running both caused two toggles per click and the menu never opened)
+
+        // Desktop: Mobile-menu hamburger (when nav collapses below 868px)
+        (function() {
+            var btn = document.querySelector('.mobile-menu-btn');
+            var links = document.querySelector('.top-nav-links');
+            if (!btn || !links) return;
+            btn.addEventListener('click', function() {
+                var open = links.classList.toggle('active');
+                btn.classList.toggle('active', open);
+            });
+        })();
+
+        // Mobile: Partners panel (same pattern as sdbi-center.html)
+        (function() {
+            var btn = document.getElementById('mobilePartnersBtn');
+            var panel = document.getElementById('mobilePartnersPanel');
+            var overlay = document.getElementById('mobilePartnersOverlay');
+            if (!btn || !panel) return;
+            function toggle() {
+                var open = panel.classList.toggle('open');
+                overlay.classList.toggle('open', open);
+                btn.setAttribute('aria-expanded', open);
+            }
+            function close() {
+                panel.classList.remove('open');
+                overlay.classList.remove('open');
+                btn.setAttribute('aria-expanded', 'false');
+            }
+            btn.addEventListener('click', toggle);
+            overlay.addEventListener('click', close);
+            panel.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', close); });
+        })();
+
+        /* ═══════════════════════════════════════════════════════════════
+           3D — Colophon particle constellation
+           ═══════════════════════════════════════════════════════════════ */
+
+        (function colophonScene() {
+            if (typeof THREE === 'undefined') return;
+            const canvas = document.getElementById('colophon-canvas');
+            if (!canvas) return;
+            const wrap = canvas.parentElement;
+
+            const scene = new THREE.Scene();
+            const cam = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+            cam.position.z = 14;
+
+            const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            function resize() {
+                const w = wrap.clientWidth, h = wrap.clientHeight;
+                renderer.setSize(w, h, false);
+                cam.aspect = w / h;
+                cam.updateProjectionMatrix();
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            const N = 220;
+            const pos = new Float32Array(N * 3);
+            const v = [];
+            for (let i = 0; i < N; i++) {
+                pos[i*3]   = (Math.random() - 0.5) * 24;
+                pos[i*3+1] = (Math.random() - 0.5) * 14;
+                pos[i*3+2] = (Math.random() - 0.5) * 10;
+                v.push({ vx: (Math.random()-0.5)*0.006, vy: (Math.random()-0.5)*0.006, vz: (Math.random()-0.5)*0.004 });
+            }
+            const g = new THREE.BufferGeometry();
+            g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+            const m = new THREE.PointsMaterial({ color: 0xa8c8b9, size: 0.045, transparent: true, opacity: 0.85, sizeAttenuation: true });
+            const points = new THREE.Points(g, m);
+            scene.add(points);
+
+            const lg = new THREE.BufferGeometry();
+            const lpos = new Float32Array(N * N * 6);
+            lg.setAttribute('position', new THREE.BufferAttribute(lpos, 3));
+            const lm = new THREE.LineBasicMaterial({ color: 0xa8c8b9, transparent: true, opacity: 0.18 });
+            const lines = new THREE.LineSegments(lg, lm);
+            scene.add(lines);
+
+            let visible = false;
+            new IntersectionObserver((es) => {
+                es.forEach(e => visible = e.isIntersecting);
+            }, { threshold: 0.05 }).observe(canvas);
+
+            function frame() {
+                requestAnimationFrame(frame);
+                if (!visible) return;
+                const a = g.attributes.position.array;
+                for (let i = 0; i < N; i++) {
+                    a[i*3]   += v[i].vx;
+                    a[i*3+1] += v[i].vy;
+                    a[i*3+2] += v[i].vz;
+                    if (Math.abs(a[i*3])   > 12) v[i].vx *= -1;
+                    if (Math.abs(a[i*3+1]) > 7)  v[i].vy *= -1;
+                    if (Math.abs(a[i*3+2]) > 5)  v[i].vz *= -1;
+                }
+                g.attributes.position.needsUpdate = true;
+
+                let li = 0;
+                const max = 2.4, max2 = max * max;
+                for (let i = 0; i < N; i++) {
+                    for (let j = i+1; j < N; j++) {
+                        const dx = a[i*3] - a[j*3];
+                        const dy = a[i*3+1] - a[j*3+1];
+                        const dz = a[i*3+2] - a[j*3+2];
+                        const d2 = dx*dx + dy*dy + dz*dz;
+                        if (d2 < max2 && li < lpos.length - 6) {
+                            lpos[li++] = a[i*3];   lpos[li++] = a[i*3+1]; lpos[li++] = a[i*3+2];
+                            lpos[li++] = a[j*3];   lpos[li++] = a[j*3+1]; lpos[li++] = a[j*3+2];
+                        }
+                    }
+                }
+                while (li < lpos.length) lpos[li++] = 0;
+                lg.setDrawRange(0, li / 3);
+                lg.attributes.position.needsUpdate = true;
+
+                points.rotation.y += 0.0008;
+                lines.rotation.y += 0.0008;
+
+                renderer.render(scene, cam);
+            }
+            frame();
+        })();
+    </script>
+
+    <!-- Site main.js — provided by the parent project (handles partners dropdown across all partner pages).
+         Our inline script above provides a fallback so the page works standalone. -->
+    <script src="js/main.js" defer></script>
+</body>
+
+</html>
