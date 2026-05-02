@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.eugenemierak.bookvoice",
+      "sha256_cert_fingerprints": [
+        "FB:04:5B:96:F8:AB:16:80:AB:7F:01:1A:AF:9F:26:08:1E:A8:70:03:BE:3B:93:6D:F2:59:33:E7:41:58:D6:99"
+      ]
+    }
+  }
+]

@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Demo — Líneas horizontales formando símbolos</title>
+    <style>
+      body {
+        margin: 0;
+        background: #0d2c5c;
+        overflow: hidden;
+        font-family: monospace;
+        color: rgba(234, 240, 251, 0.65);
+      }
+      canvas {
+        display: block;
+        width: 100vw;
+        height: 100vh;
+      }
+      .label {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+        font-size: 11px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        padding: 8px 16px;
+        background: rgba(6, 21, 56, 0.6);
+        border: 1px solid rgba(212, 162, 74, 0.3);
+        border-radius: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="label">Demo · líneas formando círculo + merkaba + triángulo</div>
+    <canvas id="c"></canvas>
+    <script>
+      // ============ Perlin noise (minimal) ============
+      const perlin = (function () {
+        const perm = [];
+        for (let i = 0; i < 256; i++) perm[i] = Math.floor(Math.random() * 256);
+        const p = new Uint8Array(512);
+        for (let i = 0; i < 256; i++) p[i] = p[i + 256] = perm[i];
+        const fade = t => t * t * t * (t * (t * 6 - 15) + 10);
+        const lerp = (t, a, b) => a + t * (b - a);
+        const grad = (h, x, y) => {
+          const u = (h & 3) < 2 ? x : y;
+          const v = (h & 3) < 2 ? y : x;
+          return ((h & 1) === 0 ? u : -u) + ((h & 2) === 0 ? v : -v);
+        };
+        return function (x, y) {
+          const X = Math.floor(x) & 255, Y = Math.floor(y) & 255;
+          x -= Math.floor(x); y -= Math.floor(y);
+          const u = fade(x), v = fade(y);
+          const A = p[X] + Y, B = p[X + 1] + Y;
+          return lerp(v,
+            lerp(u, grad(p[A], x, y), grad(p[B], x - 1, y)),
+            lerp(u, grad(p[A + 1], x, y - 1), grad(p[B + 1], x - 1, y - 1)));
+        };
+      })();
+
+      const canvas = document.getElementById('c');
+      const ctx = canvas.getContext('2d');
+      let W = 0, H = 0;
+      function resize() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        W = window.innerWidth;
+        H = window.innerHeight;
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        canvas.style.width = W + 'px';
+        canvas.style.height = H + 'px';
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(dpr, dpr);
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      const LINE_COUNT = 42;
+      let time = 0;
+
+      // ============ Symbols: drift horizontally, each a SDF-shape that lines bend into ============
+      // - circle: line(s) bend to trace its circumference
+      // - merkaba: 6 edges, multiple lines trace each edge
+      // - triangle: 3 edges
+
+      const symbols = [
+        { type: 'circle',   cyFrac: 0.5, R: 160, cx: 0, speed: 40 },
+        { type: 'merkaba',  cyFrac: 0.25, R: 110, cx: 0, speed: 32 },
+        { type: 'triangle', cyFrac: 0.78, R: 95,  cx: 0, speed: 48 }
+      ];
+      // start them staggered across screen
+      symbols[0].cx = W * 0.3;
+      symbols[1].cx = W * 0.65;
+      symbols[2].cx = W * 0.15;
+
+      // For each line, compute where the symbol outline crosses baseY (returns array of {xEntry, xExit, yArc(x)} describing arcs)
+      function computeSymbolArcs(baseY, symbol) {
+        const cy = H * symbol.cyFrac;
+        const dy = baseY - cy;
+        const cx = symbol.cx;
+        const R = symbol.R;
+
+        if (symbol.type === 'circle') {
+          if (Math.abs(dy) >= R) return [];
+          const xHalf = Math.sqrt(R * R - dy * dy);
+          const xEntry = cx - xHalf;
+          const xExit = cx + xHalf;
+          if (xExit < 0 || xEntry > W) return [];
+          // pick nearest arc
+          const upper = dy < 0;
+          return [{
+            xEntry, xExit,
+            yAt: (x) => upper
+              ? cy - Math.sqrt(Math.max(0, R * R - (x - cx) * (x - cx)))
+              : cy + Math.sqrt(Math.max(0, R * R - (x - cx) * (x - cx)))
+          }];
+        }
+
+        if (symbol.type === 'triangle') {
+          // Equilateral pointing up. Apex (cx, cy-R). Base (cx±sin60·R, cy+R/2)
+          const sq = Math.sqrt(3) / 2;
+          const apexY = cy - R;
+          const baseLineY = cy + R / 2;
+          if (baseY < apexY || baseY > baseLineY) return [];
+          // Left edge: from (cx-sq·R, baseLineY) to (cx, apexY)
+          // Right edge: from (cx, apexY) to (cx+sq·R, baseLineY)
+          const t = (baseY - baseLineY) / (apexY - baseLineY); // 0 at base, 1 at apex
+          const xLeft = (cx - sq * R) + t * (sq * R);
+          const xRight = (cx + sq * R) - t * (sq * R);
+          if (xRight < 0 || xLeft > W) return [];
+          return [{
+            xEntry: xLeft,
+            xExit: xRight,
+            // line goes from (xLeft, baseY) up to apex (cx, apexY) down to (xRight, baseY)
+            yAt: (x) => {
+              if (x <= cx) {
+                // left edge: interpolate from (xLeft, baseY) to (cx, apexY)
+                const u = (x - xLeft) / (cx - xLeft);
+                return baseY + u * (apexY - baseY);
+              } else {
+                // right edge: interpolate from (cx, apexY) to (xRight, baseY)
+                const u = (x - cx) / (xRight - cx);
+                return apexY + u * (baseY - apexY);
+              }
+            }
+          }];
+        }
+
+        if (symbol.type === 'merkaba') {
+          // Two overlapping triangles — upper (apex up) + lower (apex down)
+          const sq = Math.sqrt(3) / 2;
+          const arcs = [];
+          // Upper triangle
+          const uApex = cy - R;
+          const uBase = cy + R / 2;
+          if (baseY >= uApex && baseY <= uBase) {
+            const t = (baseY - uBase) / (uApex - uBase);
+            const xL = (cx - sq * R) + t * (sq * R);
+            const xR = (cx + sq * R) - t * (sq * R);
+            if (xR >= 0 && xL <= W) {
+              arcs.push({
+                xEntry: xL, xExit: xR,
+                yAt: (x) => {
+                  if (x <= cx) return baseY + ((x - xL) / (cx - xL)) * (uApex - baseY);
+                  return uApex + ((x - cx) / (xR - cx)) * (baseY - uApex);
+                }
+              });
+            }
+          }
+          // Lower triangle (apex down)
+          const lApex = cy + R;
+          const lBase = cy - R / 2;
+          if (baseY >= lBase && baseY <= lApex) {
+            const t = (baseY - lBase) / (lApex - lBase);
+            const xL = (cx - sq * R) + t * (sq * R);
+            const xR = (cx + sq * R) - t * (sq * R);
+            if (xR >= 0 && xL <= W) {
+              arcs.push({
+                xEntry: xL, xExit: xR,
+                yAt: (x) => {
+                  if (x <= cx) return baseY + ((x - xL) / (cx - xL)) * (lApex - baseY);
+                  return lApex + ((x - cx) / (xR - cx)) * (baseY - lApex);
+                }
+              });
+            }
+          }
+          return arcs;
+        }
+        return [];
+      }
+
+      function frame(now) {
+        const dt = 16;
+        time += dt * 0.001;
+        // drift symbols
+        for (const s of symbols) {
+          s.cx += s.speed * dt / 1000;
+          if (s.cx - s.R > W + 40) s.cx = -s.R - 20;
+        }
+
+        ctx.clearRect(0, 0, W, H);
+
+        const lineGap = H / (LINE_COUNT + 1);
+        ctx.strokeStyle = 'rgba(212, 162, 74, 0.78)';
+        ctx.lineWidth = 1;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        for (let i = 0; i < LINE_COUNT; i++) {
+          const baseY = lineGap * (i + 1);
+
+          // Collect all arcs this line participates in, sorted by xEntry
+          const arcs = [];
+          for (const s of symbols) {
+            const a = computeSymbolArcs(baseY, s);
+            for (const ar of a) arcs.push(ar);
+          }
+          arcs.sort((a, b) => a.xEntry - b.xEntry);
+
+          // Small perlin noise amplitude on horizontal portions
+          const noiseAt = (x) => 3 * perlin(x * 0.01 + time * 0.5, i * 0.2);
+
+          ctx.beginPath();
+          let currentX = 0;
+          ctx.moveTo(0, baseY + noiseAt(0));
+
+          const stepX = 6; // resolution for horizontal part
+
+          for (const arc of arcs) {
+            // horizontal up to xEntry with noise
+            while (currentX < arc.xEntry) {
+              currentX += stepX;
+              if (currentX > arc.xEntry) currentX = arc.xEntry;
+              ctx.lineTo(currentX, baseY + noiseAt(currentX));
+            }
+            // arc portion
+            const arcSteps = 80;
+            for (let j = 0; j <= arcSteps; j++) {
+              const t = j / arcSteps;
+              const x = arc.xEntry + t * (arc.xExit - arc.xEntry);
+              ctx.lineTo(x, arc.yAt(x));
+            }
+            currentX = arc.xExit;
+          }
+          // horizontal tail
+          while (currentX < W) {
+            currentX += stepX;
+            if (currentX > W) currentX = W;
+            ctx.lineTo(currentX, baseY + noiseAt(currentX));
+          }
+          ctx.stroke();
+        }
+
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    </script>
+  </body>
+</html>

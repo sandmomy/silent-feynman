@@ -82,6 +82,9 @@
   }
 
   function hasPublishedAudio(book) {
+    if (typeof book?.published_audio_available === 'boolean') {
+      return book.published_audio_available;
+    }
     return Boolean(publishedNarration(book)?.audio_url);
   }
 
@@ -129,6 +132,54 @@
     return 'Guest';
   }
 
+  let analyticsSessionId = null;
+  function getAnalyticsSessionId() {
+    if (analyticsSessionId) return analyticsSessionId;
+    try {
+      analyticsSessionId = sessionStorage.getItem('bv_analytics_sid');
+      if (!analyticsSessionId) {
+        const bytes = new Uint8Array(16);
+        crypto.getRandomValues(bytes);
+        analyticsSessionId = Array.from(bytes).map((b) => b.toString(16).padStart(2, '0')).join('');
+        sessionStorage.setItem('bv_analytics_sid', analyticsSessionId);
+      }
+    } catch {
+      analyticsSessionId = String(Date.now()) + Math.random().toString(36).slice(2, 10);
+    }
+    return analyticsSessionId;
+  }
+
+  function detectPlatform() {
+    const ua = (navigator.userAgent || '').toLowerCase();
+    if (/android/.test(ua)) return 'mobile_web_android';
+    if (/iphone|ipad|ipod/.test(ua)) return 'mobile_web_ios';
+    return 'desktop_web';
+  }
+
+  function trackEvent(eventType, opts = {}) {
+    try {
+      const body = JSON.stringify({
+        event_type: eventType,
+        slug: opts.slug || null,
+        session_id: getAnalyticsSessionId(),
+        platform: opts.platform || detectPlatform(),
+        metadata: opts.metadata || undefined,
+      });
+      if (navigator.sendBeacon) {
+        const blob = new Blob([body], { type: 'application/json' });
+        navigator.sendBeacon('/api/analytics/track', blob);
+      } else {
+        fetch('/api/analytics/track', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body,
+          keepalive: true,
+        }).catch(() => {});
+      }
+    } catch { /* never throw from analytics */ }
+  }
+
   return {
     request,
     escapeHtml,
@@ -141,5 +192,7 @@
     renderNotice,
     slugFromLocation,
     roleName,
+    trackEvent,
+    getAnalyticsSessionId,
   };
 })();

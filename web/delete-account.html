@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Delete Your Account | BookVoice</title>
+    <meta name="robots" content="noindex, follow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font-family: 'Manrope', sans-serif; background: #090809; color: #b0a8a0; line-height: 1.8; font-size: 15px; }
+      .legal-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 16px 24px; background: rgba(9,8,9,0.95); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); }
+      .legal-nav .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+      .legal-nav .brand-mark { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: linear-gradient(135deg, #c9a84c, #a07e2a); color: #090809; border-radius: 8px; font-weight: 800; font-size: 13px; }
+      .legal-nav .brand strong { color: #fff; font-size: 15px; }
+      .legal-nav .back { color: #b0a8a0; text-decoration: none; font-size: 13px; }
+      .legal-nav .back:hover { color: #c9a84c; }
+      .legal-container { max-width: 720px; margin: 0 auto; padding: 100px 20px 60px; }
+      h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 5vw, 40px); color: #fff; font-weight: 600; margin-bottom: 8px; }
+      .updated { font-size: 12px; color: rgba(176,168,160,0.5); margin-bottom: 40px; }
+      h2 { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: #c9a84c; font-weight: 600; margin: 40px 0 12px; padding-bottom: 6px; border-bottom: 1px solid rgba(201,168,76,0.15); }
+      p { margin-bottom: 14px; }
+      ul, ol { margin: 0 0 14px 20px; }
+      li { margin-bottom: 6px; }
+      a { color: #c9a84c; text-decoration: none; }
+      a:hover { color: #e0c36a; }
+      .highlight { background: rgba(201,168,76,0.08); border-left: 3px solid #c9a84c; padding: 16px 20px; margin: 20px 0; border-radius: 4px; }
+      .highlight p { margin: 0; color: #e0d8d0; }
+      .email-box { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); padding: 18px 22px; border-radius: 6px; margin: 12px 0 24px; font-family: 'Manrope', monospace; color: #fff; font-size: 15px; letter-spacing: 0.3px; }
+      .email-box a { color: #e0c36a; font-weight: 600; }
+      .legal-footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.04); text-align: center; }
+      .legal-footer a { display: inline-block; margin: 0 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(255,255,255,0.4); }
+      .legal-footer a:hover { color: #c9a84c; }
+      .copy { text-align: center; margin-top: 12px; font-size: 12px; color: rgba(255,255,255,0.25); }
+    </style>
+  </head>
+  <body>
+    <nav class="legal-nav">
+      <a class="brand" href="/"><span class="brand-mark">BV</span><span><strong>BookVoice</strong></span></a>
+      <a class="back" href="/">&larr; Back</a>
+    </nav>
+    <main class="legal-container">
+      <h1>Delete your BookVoice account</h1>
+      <p class="updated">Developer: Zakir · App: BookVoice (book.eugenemierak.com)</p>
+
+      <p>You can permanently delete your BookVoice account and all associated personal data at any time. This page explains exactly how to request deletion, what gets deleted, and what is retained for legal or accounting purposes.</p>
+
+      <h2>How to request deletion</h2>
+      <p>Send an email from the same address registered on your BookVoice account to:</p>
+      <div class="email-box">
+        <a href="mailto:sandmomy@gmail.com?subject=Delete%20my%20BookVoice%20account">sandmomy@gmail.com</a>
+      </div>
+      <p>Use the subject line <strong>"Delete my BookVoice account"</strong>. In the body, include:</p>
+      <ol>
+        <li>The email address of the account you want deleted</li>
+        <li>A short confirmation sentence, for example: <em>"I request the permanent deletion of my BookVoice account and associated data."</em></li>
+      </ol>
+      <p>We will process your request within <strong>30 days</strong> and send you a confirmation email once deletion is complete.</p>
+
+      <div class="highlight">
+        <p>No login is required to submit this request. If you have lost access to your account email, contact us from any email and explain the situation — we will verify ownership through your purchase history on Stripe.</p>
+      </div>
+
+      <h2>What gets deleted</h2>
+      <ul>
+        <li>Your user record (email, display name, password hash)</li>
+        <li>Your reading progress and chapter-open history</li>
+        <li>Your library entitlements (the record of which chapters you own)</li>
+        <li>Your active sessions and authentication tokens</li>
+        <li>Any support correspondence linked to your email</li>
+      </ul>
+
+      <h2>What is retained, and for how long</h2>
+      <p>Some records must be kept for legal and accounting reasons even after account deletion:</p>
+      <ul>
+        <li><strong>Stripe payment records</strong> (transaction ID, amount, date, buyer email) — retained for <strong>7 years</strong> as required by EU tax and accounting regulations. These are held by Stripe, not in the BookVoice database.</li>
+        <li><strong>Server access logs</strong> (IP addresses, request timestamps) — automatically purged after <strong>30 days</strong> by Cloudflare.</li>
+        <li><strong>Anonymised crash reports</strong> — no personal identifiers, retained for up to <strong>90 days</strong> for stability debugging.</li>
+      </ul>
+
+      <h2>After deletion</h2>
+      <p>Once your account is deleted, you will lose access to all digital content previously purchased. Purchases are non-refundable unless required by consumer protection law. If you wish to use BookVoice again in the future, you will need to create a new account and re-purchase any chapters.</p>
+
+      <h2>Contact</h2>
+      <p>If you have questions about the deletion process, privacy practices, or data retention, you can reach the BookVoice team at:</p>
+      <div class="email-box">
+        <a href="mailto:sandmomy@gmail.com">sandmomy@gmail.com</a>
+      </div>
+
+      <footer class="legal-footer">
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="/legal">Legal</a>
+        <p class="copy">© BookVoice · Frequency Vibes collection</p>
+      </footer>
+    </main>
+  </body>
+</html>
