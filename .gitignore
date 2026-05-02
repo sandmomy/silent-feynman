@@ -138,7 +138,32 @@ mobile/ios/Pods/
 
 # Branding heavy media folders (videos, renders — too large for git)
 branding/video-workbench/
-branding/reels/
+
+# Reels output (per-reel render assets are large + regenerable). The pipeline
+# code under branding/reels/v1/controller/ IS tracked — only generated assets
+# inside each reel directory are excluded.
+branding/reels/*/*/render*.mp4
+branding/reels/*/*/*.mp4
+branding/reels/*/*/*.png
+branding/reels/*/*/*.jpg
+branding/reels/*/*/*.webp
+branding/reels/*/*/*.wav
+branding/reels/*/*/captions.ass
+branding/reels/*/*/.compose_work/
+branding/reels/*/*/.animate_work/
+branding/reels/*/*/work/
+branding/reels/*/*/_work/
+# the controller dir and per-reel spec/script/notes ARE tracked:
+!branding/reels/*/controller/**
+!branding/reels/*/*/spec.json
+!branding/reels/*/*/script.txt
+!branding/reels/*/*/shotlist.md
+!branding/reels/*/*/notes*.md
+!branding/reels/*/*/overlays/**
+# but the controller exception above accidentally re-includes the stray
+# vibeyard hook artifact + __pycache__ + work dirs — re-exclude them:
+branding/reels/*/controller/__pycache__/
+branding/reels/*/controller/*vibeyard/
 
 # Tooling caches
 tmp_zoom_debug/

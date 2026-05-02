@@ -1,0 +1,150 @@
+{
+  "reel_id": "reel1_authority",
+  "title": "Everything is Frequency",
+  "duration_target_sec": 30,
+  "duration_estimate_sec": 50.04,
+  "voice": {
+    "ref_profile": "09b98354-e421-4724-a665-f76c9708e186",
+    "seed": 12345,
+    "wav_filename": "voice.wav",
+    "sample_rate": 24000,
+    "duration_sec": 50.04
+  },
+  "shots": [
+    {
+      "id": 1,
+      "start_sec": 0.0,
+      "end_sec": 3.0,
+      "voice_line": "(silence â€” visual hook)",
+      "image_prompt": "Vertical 9:16 sacred geometry mandala radiating concentric circles of golden light, dissolving into cosmic teal void. Divine light beams pierce through ethereal mist. No faces. Photorealistic Kodak Portra 400 aesthetic, spiritual atmosphere, warm-to-cool gradient.",
+      "caption": "Everything Vibrates",
+      "image_filename": "shot_1.png",
+      "voice_filename": "shot_1_voice.wav",
+      "pause_after_sec": 0.3,
+      "image_seed": 1534583905,
+      "image_seed_history": [
+        1534583905
+      ],
+      "voice_seed": null,
+      "motion_filename": "shot_1_motion.mp4",
+      "motion_prompt": null,
+      "motion_seed": 1556955100,
+      "motion_length_sec": null
+    },
+    {
+      "id": 2,
+      "start_sec": 3.3,
+      "end_sec": 19.79,
+      "voice_line": "Everything in existence oscillates. Atoms vibrate. Hearts pulse. Nature speaks through frequency.",
+      "image_prompt": "Vertical 9:16 abstract quantum wave forms flowing upward, transitioning from deep indigo to warm amber gold. Ethereal particle light trails suggest atomic vibration. Soft mist halos. No faces or people. Cinematic editorial, photorealistic, Kodak Portra 400.",
+      "caption": "Motion Creates Reality",
+      "image_filename": "shot_2.png",
+      "voice_filename": "shot_2_voice.wav",
+      "pause_after_sec": 0.3,
+      "image_seed": 1534646289,
+      "image_seed_history": [
+        1534646289
+      ],
+      "voice_seed": 2026,
+      "motion_filename": "shot_2_motion.mp4",
+      "motion_prompt": null,
+      "motion_seed": 1550151580,
+      "motion_length_sec": null
+    },
+    {
+      "id": 3,
+      "start_sec": 20.09,
+      "end_sec": 27.34,
+      "voice_line": "Matter is not solid. Your body is structured frequency.",
+      "image_prompt": "Vertical 9:16 close-up of sacred geometry crystal lattice with golden internal light, surrounded by soft teal atmospheric glow and swirling mist. Divine luminescence. No people. Photorealistic mineral texture, warm-cool gradient, spiritual ambiance.",
+      "caption": "Vibration Forms Matter",
+      "image_filename": "shot_3.png",
+      "voice_filename": "shot_3_voice.wav",
+      "pause_after_sec": 0.3,
+      "image_seed": 1534707123,
+      "image_seed_history": [
+        1534707123
+      ],
+      "voice_seed": 2026,
+      "motion_filename": "shot_3_motion.mp4",
+      "motion_prompt": null,
+      "motion_seed": 1555597785,
+      "motion_length_sec": null
+    },
+    {
+      "id": 4,
+      "start_sec": 27.64,
+      "end_sec": 35.61,
+      "voice_line": " Light proves it. Different frequencies become different colors.",
+      "image_prompt": "Vertical 9:16 prism refracting spectrum light across volcanic sand landscape at sunset, rainbow bands flowing upward into cosmic sky. Golden hour light beams through atmospheric mist. No faces. Kodak Portra 400, photorealistic, sacred atmosphere.",
+      "caption": "Infinite Frequencies",
+      "image_filename": "shot_4.png",
+      "voice_filename": "shot_4_voice.wav",
+      "pause_after_sec": 0.3,
+      "image_seed": 1535067552,
+      "image_seed_history": [
+        1534793214,
+        1535067552
+      ],
+      "voice_seed": 2027,
+      "motion_filename": "shot_4_motion.mp4",
+      "motion_prompt": null,
+      "motion_seed": 1555938282,
+      "motion_length_sec": null
+    },
+    {
+      "id": 5,
+      "start_sec": 35.91,
+      "end_sec": 42.15,
+      "voice_line": "Your consciousness operates through frequency.",
+      "image_prompt": "Vertical 9:16 layered atmospheric landscape: warm golden sunrise over misty valleys transitioning to deep teal mountains and infinite cosmic sky above. Soft light beams pierce mist. Sacred geometry light patterns subtly visible. No faces. Photorealistic, Kodak Portra 400, deeply spiritual.",
+      "caption": "Consciousness Oscillates",
+      "image_filename": "shot_5.png",
+      "voice_filename": "shot_5_voice.wav",
+      "pause_after_sec": 0.3,
+      "image_seed": 1535129870,
+      "image_seed_history": [
+        1534943772,
+        1535129870
+      ],
+      "voice_seed": 1234,
+      "motion_filename": "shot_5_motion.mp4",
+      "motion_prompt": null,
+      "motion_seed": 1556265026,
+      "motion_length_sec": null
+    },
+    {
+      "id": 6,
+      "start_sec": 42.45,
+      "end_sec": 50.04,
+      "voice_line": " Align with frequency. Resonance follows.",
+      "image_prompt": "Vertical 9:16 infinite mandala expanding outward with concentric golden rings fading into cosmic teal starfield. Divine light radiating from center. Ethereal mist and particle effects. Sacred geometry precision. No faces. Photorealistic, Kodak Portra 400, transcendent spiritual essence.",
+      "caption": "Align With Life",
+      "image_filename": "shot_6.png",
+      "voice_filename": "shot_6_voice.wav",
+      "pause_after_sec": 0.3,
+      "image_seed": 1535189074,
+      "image_seed_history": [
+        1535005631,
+        1535189074
+      ],
+      "voice_seed": 2026,
+      "motion_filename": "shot_6_motion.mp4",
+      "motion_prompt": null,
+      "motion_seed": 1556629875,
+      "motion_length_sec": null
+    }
+  ],
+  "color_grade": "warm gold to cool teal cinematic gradient with ethereal mist transitions",
+  "music": null,
+  "approval": {
+    "voice_generated": true,
+    "images_generated": true,
+    "edited": false,
+    "rendered": false,
+    "zak_approved": false,
+    "eugene_approved": false,
+    "posted_ig": false,
+    "posted_yt_shorts": false
+  }
+}

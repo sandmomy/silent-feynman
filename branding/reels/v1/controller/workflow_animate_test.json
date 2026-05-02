@@ -1,0 +1,120 @@
+{
+  "1": {
+    "inputs": {
+      "image": "shot_1.png"
+    },
+    "class_type": "LoadImage"
+  },
+  "2": {
+    "inputs": {
+      "unet_name": "wan2.2_fun_camera_low_noise_14B_fp8_scaled.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader"
+  },
+  "3": {
+    "inputs": {
+      "lora_name": "wan2.2_i2v_lightx2v_4steps_lora_v1_low_noise.safetensors",
+      "strength_model": 1.0,
+      "model": ["2", 0]
+    },
+    "class_type": "LoraLoaderModelOnly"
+  },
+  "4": {
+    "inputs": {
+      "shift": 5.0,
+      "model": ["3", 0]
+    },
+    "class_type": "ModelSamplingSD3"
+  },
+  "5": {
+    "inputs": {
+      "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "type": "wan"
+    },
+    "class_type": "CLIPLoader"
+  },
+  "6": {
+    "inputs": {
+      "vae_name": "wan_2.1_vae.safetensors"
+    },
+    "class_type": "VAELoader"
+  },
+  "7": {
+    "inputs": {
+      "text": "Subtle gentle motion, ethereal mist drifting softly, cinematic, contemplative spiritual atmosphere",
+      "clip": ["5", 0]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "8": {
+    "inputs": {
+      "text": "blurry, distortion, glitch, jittery, abrupt motion, morphing, watermark",
+      "clip": ["5", 0]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "9": {
+    "inputs": {
+      "camera_pose": "Static",
+      "width": 480,
+      "height": 832,
+      "length": 49,
+      "speed": 0.0,
+      "fx": 0.5,
+      "fy": 0.5,
+      "cx": 0.5,
+      "cy": 0.5
+    },
+    "class_type": "WanCameraEmbedding"
+  },
+  "10": {
+    "inputs": {
+      "positive": ["7", 0],
+      "negative": ["8", 0],
+      "vae": ["6", 0],
+      "width": 480,
+      "height": 832,
+      "length": 49,
+      "batch_size": 1,
+      "clip_vision_output": null,
+      "start_image": ["1", 0],
+      "camera_conditions": ["9", 0]
+    },
+    "class_type": "WanCameraImageToVideo"
+  },
+  "11": {
+    "inputs": {
+      "seed": 12345,
+      "steps": 4,
+      "cfg": 1.0,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1.0,
+      "model": ["4", 0],
+      "positive": ["10", 0],
+      "negative": ["10", 1],
+      "latent_image": ["10", 2]
+    },
+    "class_type": "KSampler"
+  },
+  "12": {
+    "inputs": {
+      "samples": ["11", 0],
+      "vae": ["6", 0]
+    },
+    "class_type": "VAEDecode"
+  },
+  "13": {
+    "inputs": {
+      "filename_prefix": "fv_test_v2",
+      "frame_rate": 24,
+      "loop_count": 0,
+      "format": "video/h264-mp4",
+      "pingpong": true,
+      "save_output": true,
+      "images": ["12", 0]
+    },
+    "class_type": "VHS_VideoCombine"
+  }
+}

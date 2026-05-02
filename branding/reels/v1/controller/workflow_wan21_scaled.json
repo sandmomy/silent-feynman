@@ -1,0 +1,97 @@
+{
+  "1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "shot_1.png"
+    }
+  },
+  "2": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "wan2.1_i2v_480p_14B_fp8_scaled.safetensors",
+      "weight_dtype": "default"
+    }
+  },
+  "3": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "lora_name": "Wan21_I2V_14B_lightx2v_cfg_step_distill_lora_rank64.safetensors",
+      "strength_model": 1.0,
+      "model": ["2", 0]
+    }
+  },
+  "4": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "type": "wan"
+    }
+  },
+  "5": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "wan_2.1_vae.safetensors"
+    }
+  },
+  "6": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "Sacred geometry mandala glowing softly, golden particles slowly drifting upward, ethereal mist gently flowing, divine light pulsing rhythmically, contemplative spiritual atmosphere, cinematic Kodak Portra 400 aesthetic",
+      "clip": ["4", 0]
+    }
+  },
+  "7": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "blurry, distortion, jittery, abrupt motion, morphing, watermark",
+      "clip": ["4", 0]
+    }
+  },
+  "8": {
+    "class_type": "WanImageToVideo",
+    "inputs": {
+      "positive": ["6", 0],
+      "negative": ["7", 0],
+      "vae": ["5", 0],
+      "start_image": ["1", 0],
+      "width": 480,
+      "height": 832,
+      "length": 49,
+      "batch_size": 1
+    }
+  },
+  "9": {
+    "class_type": "KSampler",
+    "inputs": {
+      "seed": 200001,
+      "steps": 4,
+      "cfg": 1.0,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1.0,
+      "model": ["3", 0],
+      "positive": ["8", 0],
+      "negative": ["8", 1],
+      "latent_image": ["8", 2]
+    }
+  },
+  "10": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": ["9", 0],
+      "vae": ["5", 0]
+    }
+  },
+  "11": {
+    "class_type": "VHS_VideoCombine",
+    "inputs": {
+      "images": ["10", 0],
+      "frame_rate": 24,
+      "loop_count": 0,
+      "filename_prefix": "fv_wan21_scaled",
+      "format": "video/h264-mp4",
+      "pingpong": false,
+      "save_output": true
+    }
+  }
+}
