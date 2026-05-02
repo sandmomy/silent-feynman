@@ -60,3 +60,14 @@ bussines
 
 # Legacy launchers (Streamlit)
 run_app.bat
+
+# Timestamped file backups (created by editors / agents before edits)
+*.bak
+*.bak-*
+
+# Cloudflare Wrangler / Vercel CLI local caches
+.wrangler/
+.vercel/
+
+# Stray Windows-temp directory accidentally captured at repo root or under web/
+**/C\357\200\272UsersUsuarioAppDataLocalTempvibeyard/

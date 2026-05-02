@@ -1,0 +1,496 @@
+diff --git a/about.html b/about.html
+index b1af229..979e29f 100644
+--- a/about.html
++++ b/about.html
+@@ -2406,6 +2406,9 @@
+             });
+         }
+     </script>
++    <footer style="text-align:center;padding:24px 16px;font-size:11px;opacity:0.5;">
++        <a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a> · <a href="legal.html" style="color:inherit;text-decoration:none;">Legal</a>
++    </footer>
+ </body>
+ 
+ </html>
+\ No newline at end of file
+diff --git a/biozar-venezuela.html b/biozar-venezuela.html
+index a266f24..e3a3899 100644
+--- a/biozar-venezuela.html
++++ b/biozar-venezuela.html
+@@ -591,6 +591,7 @@
+             </a>
+         </div>
+         <p>© 2026 Eugene Mierak Wellness · In Partnership with Biozar Original</p>
++        <p style="margin-top:8px;font-size:11px;opacity:0.5;"><a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a> · <a href="legal.html" style="color:inherit;text-decoration:none;">Legal</a></p>
+     </footer>
+ 
+     <!-- Scripts -->
+diff --git a/booking.html b/booking.html
+index 2e16c59..3defaa5 100644
+--- a/booking.html
++++ b/booking.html
+@@ -742,6 +742,10 @@
+             <p class="price-note">Remaining &euro;7,000 per person due upon confirmation. Total: &euro;15,000 per person.</p>
+           </div>
+ 
++          <label style="display:flex;align-items:flex-start;gap:10px;margin:16px 0;font-size:13px;color:rgba(255,255,255,0.7);cursor:pointer;line-height:1.5;">
++            <input type="checkbox" id="accept-terms" required style="margin-top:3px;accent-color:#D4AF37;cursor:pointer;">
++            <span>I accept the <a href="terms.html" target="_blank" style="color:#D4AF37;text-decoration:underline;">Terms & Conditions</a> and <a href="privacy.html" target="_blank" style="color:#D4AF37;text-decoration:underline;">Privacy Policy</a></span>
++          </label>
+           <button type="submit" class="btn-primary" id="btn-submit">
+             <span class="lock-icon">&#128274;</span>
+             Proceed to Secure Payment
+@@ -890,6 +894,13 @@
+       e.preventDefault();
+       clearStatus();
+ 
++      var termsCheckbox = document.getElementById("accept-terms");
++      if (termsCheckbox && !termsCheckbox.checked) {
++        setStatus("Please accept the Terms & Conditions and Privacy Policy before proceeding.", "error");
++        termsCheckbox.focus();
++        return;
++      }
++
+       if (!validateForm()) {
+         setStatus("Please fill in all required fields.", "error");
+         return;
+@@ -939,5 +950,9 @@
+     });
+   })();
+   </script>
++  <footer style="text-align:center;padding:24px 16px;font-size:11px;opacity:0.5;">
++    <a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a> · <a href="legal.html" style="color:inherit;text-decoration:none;">Legal</a>
++  </footer>
++  <script src="js/cookie-notice.js" defer></script>
+ </body>
+ </html>
+diff --git a/certification.html b/certification.html
+index 62ec1e8..9a34a02 100644
+--- a/certification.html
++++ b/certification.html
+@@ -51,6 +51,10 @@
+           </ul>
+           <p class="detail-note">Enrollment can go through secure checkout when active, but serious candidates can also open a direct booking call before committing.</p>
+           <div class="service-status" id="service-status" role="status" aria-live="polite" data-tone="info" hidden></div>
++          <label style="display:flex;align-items:flex-start;gap:10px;margin:16px 0;font-size:13px;color:rgba(255,255,255,0.7);cursor:pointer;line-height:1.5;">
++            <input type="checkbox" id="accept-terms" style="margin-top:3px;accent-color:#D4AF37;cursor:pointer;">
++            <span>I accept the <a href="terms.html" target="_blank" style="color:#D4AF37;text-decoration:underline;">Terms & Conditions</a> and <a href="privacy.html" target="_blank" style="color:#D4AF37;text-decoration:underline;">Privacy Policy</a></span>
++          </label>
+           <div class="detail-actions">
+             <a href="mailto:info@eugenemierak.com?subject=Frequency%20Vibes%20%7C%20Certification%20Program" class="action-btn action-primary" data-service-cta="certification" data-service-name="Certification Program" data-service-action="stripe" data-quote-url="mailto:info@eugenemierak.com?subject=Frequency%20Vibes%20%7C%20Certification%20Program" data-loading-label="Opening Checkout...">Pay Securely</a>
+             <a href="mailto:info@eugenemierak.com?subject=Frequency%20Vibes%20%7C%20Book%20Certification%20Call" class="action-btn action-secondary">Book Call</a>
+@@ -63,7 +67,11 @@
+     <div class="detail-footer">A structured path into training, licensing, and serious framework embodiment.</div>
+   </div>
+ 
++  <footer style="text-align:center;padding:24px 16px;font-size:11px;opacity:0.5;">
++    <a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a> · <a href="legal.html" style="color:inherit;text-decoration:none;">Legal</a>
++  </footer>
+   <script src="js/services-stripe.js"></script>
++  <script src="js/cookie-notice.js" defer></script>
+ </body>
+ </html>
+ 
+diff --git a/corporate-executive.html b/corporate-executive.html
+index e9ef1f6..f4a3f1c 100644
+--- a/corporate-executive.html
++++ b/corporate-executive.html
+@@ -63,6 +63,9 @@
+ 
+     <div class="detail-footer">Built for leadership environments where pressure, timing, and embodiment shape every outcome.</div>
+   </div>
++  <footer style="text-align:center;padding:24px 16px;font-size:11px;opacity:0.5;">
++    <a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a> · <a href="legal.html" style="color:inherit;text-decoration:none;">Legal</a>
++  </footer>
+ </body>
+ </html>
+ 
+diff --git a/eko-vitaris.html b/eko-vitaris.html
+index ea86043..189cc9d 100644
+--- a/eko-vitaris.html
++++ b/eko-vitaris.html
+@@ -1345,6 +1345,7 @@
+ 
+     <footer>
+         <p>Eko Vitaris x Eugene Mierak • Strategic Alliance 2026</p>
++        <p style="margin-top:8px;font-size:11px;opacity:0.5;"><a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a> · <a href="legal.html" style="color:inherit;text-decoration:none;">Legal</a></p>
+     </footer>
+ 
+     <script>
+diff --git a/elite-coaching.html b/elite-coaching.html
+index 31ed954..d02e3a4 100644
+--- a/elite-coaching.html
++++ b/elite-coaching.html
+@@ -51,6 +51,10 @@
+           </ul>
+           <p class="detail-note">Best for clients who want ongoing monthly support with a private container and a direct Stripe path when checkout is enabled.</p>
+           <div class="service-status" id="service-status" role="status" aria-live="polite" data-tone="info" hidden></div>
++          <label style="display:flex;align-items:flex-start;gap:10px;margin:16px 0;font-size:13px;color:rgba(255,255,255,0.7);cursor:pointer;line-height:1.5;">
++            <input type="checkbox" id="accept-terms" style="margin-top:3px;accent-color:#D4AF37;cursor:pointer;">
++            <span>I accept the <a href="terms.html" target="_blank" style="color:#D4AF37;text-decoration:underline;">Terms & Conditions</a> and <a href="privacy.html" target="_blank" style="color:#D4AF37;text-decoration:underline;">Privacy Policy</a></span>
++          </label>
+           <div class="detail-actions">
+             <a href="mailto:info@eugenemierak.com?subject=Frequency%20Vibes%20%7C%20Private%20Elite%20Coaching" class="action-btn action-primary" data-service-cta="elite-coaching" data-service-name="Private Elite Coaching" data-service-action="stripe" data-quote-url="mailto:info@eugenemierak.com?subject=Frequency%20Vibes%20%7C%20Private%20Elite%20Coaching" data-loading-label="Opening Checkout...">Pay Securely</a>
+             <a href="mailto:info@eugenemierak.com?subject=Frequency%20Vibes%20%7C%20Book%20Coaching%20Call" class="action-btn action-secondary">Book Call</a>
+@@ -63,7 +67,11 @@
+     <div class="detail-footer">Private pathway for deep state mastery and high-performance leadership embodiment.</div>
+   </div>
+ 
++  <footer style="text-align:center;padding:24px 16px;font-size:11px;opacity:0.5;">
++    <a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a> · <a href="legal.html" style="color:inherit;text-decoration:none;">Legal</a>
++  </footer>
+   <script src="js/services-stripe.js"></script>
++  <script src="js/cookie-notice.js" defer></script>
+ </body>
+ </html>
+ 
+diff --git a/eugene-showcase.html b/eugene-showcase.html
+index 6cad5eb..c3cc207 100644
+--- a/eugene-showcase.html
++++ b/eugene-showcase.html
+@@ -1021,5 +1021,8 @@
+             renderer.setSize(window.innerWidth, window.innerHeight);
+         });
+     </script>
++    <footer style="text-align:center;padding:24px 16px;font-size:11px;opacity:0.5;position:fixed;bottom:0;left:0;right:0;">
++        <a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a> · <a href="legal.html" style="color:inherit;text-decoration:none;">Legal</a>
++    </footer>
+ </body>
+ </html>
+diff --git a/event.html b/event.html
+index d32e434..620b868 100644
+--- a/event.html
++++ b/event.html
+@@ -2011,6 +2011,7 @@
+       Back to Eugene Mierak
+     </a>
+     <p class="footer-copy">© 2025 Eugene Mierak · Frequency Vibes Journey · All Rights Reserved</p>
++    <p style="margin-top:8px;font-size:11px;opacity:0.5;"><a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a> · <a href="legal.html" style="color:inherit;text-decoration:none;">Legal</a></p>
+   </footer>
+ 
+   <script>
+diff --git a/frequency-diagram.html b/frequency-diagram.html
+index 6cec21a..68c36d5 100644
+--- a/frequency-diagram.html
++++ b/frequency-diagram.html
+@@ -108,5 +108,8 @@
+     <kbd>Win+Shift+S</kbd> para screenshot &nbsp;|&nbsp; Click derecho → Guardar imagen
+ </div>
+ 
++<footer style="text-align:center;padding:24px 16px;font-size:11px;opacity:0.5;">
++    <a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a> · <a href="legal.html" style="color:inherit;text-decoration:none;">Legal</a>
++</footer>
+ </body>
+ </html>
+diff --git a/high-net-worth.html b/high-net-worth.html
+index bf6983b..aae0d7b 100644
+--- a/high-net-worth.html
++++ b/high-net-worth.html
+@@ -63,6 +63,9 @@
+ 
+     <div class="detail-footer">A private pathway for clients who want discretion, depth, and real internal recalibration.</div>
+   </div>
++  <footer style="text-align:center;padding:24px 16px;font-size:11px;opacity:0.5;">
++    <a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a> · <a href="legal.html" style="color:inherit;text-decoration:none;">Legal</a>
++  </footer>
+ </body>
+ </html>
+ 
+diff --git a/holistic-wellness.html b/holistic-wellness.html
+index 1d046b6..1332369 100644
+--- a/holistic-wellness.html
++++ b/holistic-wellness.html
+@@ -63,6 +63,9 @@
+ 
+     <div class="detail-footer">Created for wellness spaces that want deeper embodiment, cleaner transmission, and durable transformation.</div>
+   </div>
++  <footer style="text-align:center;padding:24px 16px;font-size:11px;opacity:0.5;">
++    <a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a> · <a href="legal.html" style="color:inherit;text-decoration:none;">Legal</a>
++  </footer>
+ </body>
+ </html>
+ 
+diff --git a/index.html b/index.html
+index 7cbca02..04932a4 100644
+--- a/index.html
++++ b/index.html
+@@ -789,6 +789,11 @@
+ 
+             <!-- Integrated Legal Footer -->
+             <div class="integrated-footer">
++                <div style="display:flex;justify-content:center;gap:24px;margin-bottom:12px;flex-wrap:wrap;">
++                    <a href="privacy.html" style="font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.5);text-decoration:none;">Privacy Policy</a>
++                    <a href="terms.html" style="font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.5);text-decoration:none;">Terms & Conditions</a>
++                    <a href="legal.html" style="font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.5);text-decoration:none;">Legal Notice</a>
++                </div>
+                 <p>&copy; 2026 Frequency Vibes. All rights reserved.</p>
+             </div>
+ 
+@@ -910,6 +915,7 @@
+     <!-- Scripts -->
+     <script src="js/documents-data.min.js" defer></script>
+     <script src="js/main.js" defer></script>
++    <script src="js/cookie-notice.js" defer></script>
+ </body>
+ 
+ </html>
+diff --git a/indonesia-exiles.html b/indonesia-exiles.html
+index c6b64fc..e96c3bd 100644
+--- a/indonesia-exiles.html
++++ b/indonesia-exiles.html
+@@ -452,6 +452,7 @@
+     <!-- Footer -->
+     <footer class="footer">
+         <p>© 2026 <a href="index.html">Eugene Mierak</a> · Documentary by CNA Insider / Insight</p>
++        <p style="margin-top:8px;font-size:11px;opacity:0.5;"><a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a> · <a href="legal.html" style="color:inherit;text-decoration:none;">Legal</a></p>
+     </footer>
+ 
+     <!-- Scripts -->
+diff --git a/jamaica.html b/jamaica.html
+index 9f6379f..5c0bfad 100644
+--- a/jamaica.html
++++ b/jamaica.html
+@@ -855,6 +855,7 @@
+         <p class="footer-text" style="margin-top: 16px;">
+             &copy; 2026 Eugene Mierak. All rights reserved.
+         </p>
++        <p style="margin-top:8px;font-size:11px;opacity:0.5;"><a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a> · <a href="legal.html" style="color:inherit;text-decoration:none;">Legal</a></p>
+     </footer>
+ 
+     <!-- ===== LIGHTBOX ===== -->
+diff --git a/leadership-development.html b/leadership-development.html
+index d6f1a31..019a44c 100644
+--- a/leadership-development.html
++++ b/leadership-development.html
+@@ -62,6 +62,9 @@
+ 
+     <div class="detail-footer">Enterprise transformation built through private scoping rather than public checkout.</div>
+   </div>
++  <footer style="text-align:center;padding:24px 16px;font-size:11px;opacity:0.5;">
++    <a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a> · <a href="legal.html" style="color:inherit;text-decoration:none;">Legal</a>
++  </footer>
+ </body>
+ </html>
+ 
+diff --git a/mariposa-batu.html b/mariposa-batu.html
+index 36e6e47..b6c5fa2 100644
+--- a/mariposa-batu.html
++++ b/mariposa-batu.html
+@@ -939,6 +939,7 @@
+     <footer class="footer">
+         <p>© 2026 <a href="index.html">Eugene Mierak</a> — Mariposa at Klub Bunga Investment Project</p>
+         <p style="margin-top: 0.5rem; opacity: 0.6;">Batu · Malang · East Java · Indonesia</p>
++        <p style="margin-top:8px;font-size:11px;opacity:0.5;"><a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a> · <a href="legal.html" style="color:inherit;text-decoration:none;">Legal</a></p>
+     </footer>
+ 
+     <!-- ===== SCRIPTS ===== -->
+diff --git a/mobile.html b/mobile.html
+index 3ea7763..1fea9ae 100644
+--- a/mobile.html
++++ b/mobile.html
+@@ -2319,6 +2319,11 @@
+ 
+   <!-- ============ FOOTER ============ -->
+   <footer class="footer">
++    <div style="display:flex;justify-content:center;gap:20px;margin-bottom:12px;flex-wrap:wrap;">
++      <a href="privacy.html" style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:rgba(255,255,255,0.5);text-decoration:none;">Privacy</a>
++      <a href="terms.html" style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:rgba(255,255,255,0.5);text-decoration:none;">Terms</a>
++      <a href="legal.html" style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:rgba(255,255,255,0.5);text-decoration:none;">Legal</a>
++    </div>
+     <p>&copy; 2026 Eugene Mierak. Strategic Advisor & Project Director.</p>
+   </footer>
+ 
+@@ -2699,6 +2704,8 @@
+     })();
+   </script>
+ 
++  <script src="js/cookie-notice.js" defer></script>
++
+ </body>
+ </html>
+ 
+diff --git a/obsidian-retreats.html b/obsidian-retreats.html
+index 137a109..3c6ae42 100644
+--- a/obsidian-retreats.html
++++ b/obsidian-retreats.html
+@@ -51,6 +51,10 @@
+           </ul>
+           <p class="detail-note"><strong>Participation is by personal selection.</strong> Begin with a short intake to assess fit. Selected participants receive access to secure booking.</p>
+           <div class="service-status" id="service-status" role="status" aria-live="polite" data-tone="info" hidden></div>
++          <label style="display:flex;align-items:flex-start;gap:10px;margin:16px 0;font-size:13px;color:rgba(255,255,255,0.7);cursor:pointer;line-height:1.5;">
++            <input type="checkbox" id="accept-terms" style="margin-top:3px;accent-color:#D4AF37;cursor:pointer;">
++            <span>I accept the <a href="terms.html" target="_blank" style="color:#D4AF37;text-decoration:underline;">Terms & Conditions</a> and <a href="privacy.html" target="_blank" style="color:#D4AF37;text-decoration:underline;">Privacy Policy</a></span>
++          </label>
+           <div class="detail-actions">
+             <a href="mailto:info@eugenemierak.com?subject=Frequency%20Vibes%20%7C%20Apply%20for%20Retreat%20Intake" class="action-btn action-primary">Apply for Intake</a>
+             <a href="mailto:info@eugenemierak.com?subject=Frequency%20Vibes%20%7C%20Obsidian%20Retreats" class="action-btn action-secondary" data-service-cta="obsidian-retreats" data-service-name="Obsidian Retreats" data-service-action="stripe" data-quote-url="mailto:info@eugenemierak.com?subject=Frequency%20Vibes%20%7C%20Obsidian%20Retreats" data-loading-label="Opening Checkout...">Already Selected? Reserve Securely</a>
+@@ -63,7 +67,11 @@
+     <div class="detail-footer">A limited-seat immersive format for full-body reset and sustained performance clarity.</div>
+   </div>
+ 
++  <footer style="text-align:center;padding:24px 16px;font-size:11px;opacity:0.5;">
++    <a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a> · <a href="legal.html" style="color:inherit;text-decoration:none;">Legal</a>
++  </footer>
+   <script src="js/services-stripe.js"></script>
++  <script src="js/cookie-notice.js" defer></script>
+ </body>
+ </html>
+ 
+diff --git a/partnership.html b/partnership.html
+index bb0940c..f83ac96 100644
+--- a/partnership.html
++++ b/partnership.html
+@@ -1282,6 +1282,11 @@
+                 <a href="#partnership">Partnership</a>
+                 <a href="https://sbdifoundation.org" target="_blank">SBDI Official</a>
+             </div>
++            <div style="display:flex;justify-content:center;gap:16px;margin:12px 0;">
++                <a href="privacy.html" style="font-size:11px;color:rgba(255,255,255,0.5);text-decoration:none;">Privacy</a>
++                <a href="terms.html" style="font-size:11px;color:rgba(255,255,255,0.5);text-decoration:none;">Terms</a>
++                <a href="legal.html" style="font-size:11px;color:rgba(255,255,255,0.5);text-decoration:none;">Legal</a>
++            </div>
+             <p class="footer-copy">© 2026 Eugene. Strategic Partner of SBDI Center.</p>
+         </div>
+     </footer>
+diff --git a/preview.html b/preview.html
+index e523250..f558cf1 100644
+--- a/preview.html
++++ b/preview.html
+@@ -359,6 +359,9 @@
+         window.addEventListener('resize', updateUI);
+         updateUI();
+     </script>
++    <footer style="text-align:center;padding:24px 16px;font-size:11px;opacity:0.5;">
++        <a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a> · <a href="legal.html" style="color:inherit;text-decoration:none;">Legal</a>
++    </footer>
+ </body>
+ 
+ </html>
+\ No newline at end of file
+diff --git a/professional-sports.html b/professional-sports.html
+index 4f80064..6e40e16 100644
+--- a/professional-sports.html
++++ b/professional-sports.html
+@@ -63,6 +63,9 @@
+ 
+     <div class="detail-footer">Designed for high-performance environments where recovery, composure, and execution must stay sharp.</div>
+   </div>
++  <footer style="text-align:center;padding:24px 16px;font-size:11px;opacity:0.5;">
++    <a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a> · <a href="legal.html" style="color:inherit;text-decoration:none;">Legal</a>
++  </footer>
+ </body>
+ </html>
+ 
+diff --git a/projects.html b/projects.html
+index 336094c..920e2d1 100644
+--- a/projects.html
++++ b/projects.html
+@@ -481,6 +481,9 @@
+             cards.forEach(function(c) { obs.observe(c); });
+         })();
+     </script>
++    <footer style="text-align:center;padding:24px 16px;font-size:11px;opacity:0.5;">
++        <a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a> · <a href="legal.html" style="color:inherit;text-decoration:none;">Legal</a>
++    </footer>
+ </body>
+ 
+ </html>
+\ No newline at end of file
+diff --git a/sdbi-center.html b/sdbi-center.html
+index fb089a6..d123df3 100644
+--- a/sdbi-center.html
++++ b/sdbi-center.html
+@@ -1717,6 +1717,11 @@
+                 <a href="#partnership">Partnership</a>
+                 <a href="https://sbdifoundation.org" target="_blank">SBDI Official</a>
+             </div>
++            <div style="display:flex;justify-content:center;gap:16px;margin:12px 0;">
++                <a href="privacy.html" style="font-size:11px;color:rgba(255,255,255,0.5);text-decoration:none;">Privacy</a>
++                <a href="terms.html" style="font-size:11px;color:rgba(255,255,255,0.5);text-decoration:none;">Terms</a>
++                <a href="legal.html" style="font-size:11px;color:rgba(255,255,255,0.5);text-decoration:none;">Legal</a>
++            </div>
+             <p class="footer-copy">© 2026 Eugene. Strategic Partner of SBDI Center.</p>
+         </div>
+     </footer>
+diff --git a/services.html b/services.html
+index 71ecec2..b947aa8 100644
+--- a/services.html
++++ b/services.html
+@@ -3619,6 +3619,11 @@
+         <a href="obsidian-retreats.html">Retreats</a>
+         <a href="high-net-worth.html">High-Net-Worth</a>
+       </div>
++      <div class="footer-links" style="margin-top:12px;">
++        <a href="privacy.html">Privacy Policy</a>
++        <a href="terms.html">Terms & Conditions</a>
++        <a href="legal.html">Legal Notice</a>
++      </div>
+       <div class="copyright">&copy; 2026 Frequency Vibes. All rights reserved.</div>
+     </div>
+   </footer>
+@@ -4422,6 +4427,7 @@
+       setActive(computeCurrent().id);
+     })();
+   </script>
++  <script src="js/cookie-notice.js" defer></script>
+ </body>
+ </html>
+ 
+diff --git a/unisma.html b/unisma.html
+index b7241f3..1b1649e 100644
+--- a/unisma.html
++++ b/unisma.html
+@@ -1212,6 +1212,7 @@
+     <!-- ===== FOOTER ===== -->
+     <footer class="footer">
+         <p>UNISMA — Universitas Malang · dari NU untuk Indonesia dan Peradaban Dunia · <a href="https://unisma.ac.id" target="_blank" rel="noopener">unisma.ac.id</a></p>
++        <p style="margin-top:8px;font-size:11px;opacity:0.5;"><a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a> · <a href="legal.html" style="color:inherit;text-decoration:none;">Legal</a></p>
+     </footer>
+ 
+     <script>
+diff --git a/vegaqura.html b/vegaqura.html
+index 183c9c2..28d719b 100644
+--- a/vegaqura.html
++++ b/vegaqura.html
+@@ -1662,6 +1662,11 @@
+         <div class="footer-content">
+             <div class="footer-left">
+                 © 2026 Eugene Mierak · VegaQura is a trademark of Q-Health Europe
++                <span style="display:block;margin-top:8px;font-size:11px;">
++                    <a href="privacy.html" style="color:rgba(255,255,255,0.5);text-decoration:none;margin-right:16px;">Privacy</a>
++                    <a href="terms.html" style="color:rgba(255,255,255,0.5);text-decoration:none;margin-right:16px;">Terms</a>
++                    <a href="legal.html" style="color:rgba(255,255,255,0.5);text-decoration:none;">Legal</a>
++                </span>
+             </div>
+             <div class="footer-links">
+                 <a href="tel:+31853695593">
+diff --git a/wiseuse.html b/wiseuse.html
+index 4e47074..97b8c43 100644
+--- a/wiseuse.html
++++ b/wiseuse.html
+@@ -2049,6 +2049,11 @@
+                     <a href="https://www.wise-use.com" target="_blank">wise-use.com</a>
+                     <a href="https://linkedin.com/company/wise-use-international-bv" target="_blank">LinkedIn</a>
+                 </nav>
++                <nav class="footer-nav" style="margin-top:8px;">
++                    <a href="privacy.html">Privacy</a>
++                    <a href="terms.html">Terms</a>
++                    <a href="legal.html">Legal</a>
++                </nav>
+             </div>
+         </footer>
+     </section>
+diff --git a/workshops.html b/workshops.html
+index aa27aad..c848394 100644
+--- a/workshops.html
++++ b/workshops.html
+@@ -62,6 +62,9 @@
+ 
+     <div class="detail-footer">Live workshop engagements stay flexible so the intervention matches the team and pressure context.</div>
+   </div>
++  <footer style="text-align:center;padding:24px 16px;font-size:11px;opacity:0.5;">
++    <a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> · <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a> · <a href="legal.html" style="color:inherit;text-decoration:none;">Legal</a>
++  </footer>
+ </body>
+ </html>
+ 
