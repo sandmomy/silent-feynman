@@ -366,11 +366,12 @@
     .btn-secondary:active { background: rgba(255,255,255,0.15); }
     .floating-audio-tab {
       position: fixed;
-      right: 0;
-      bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+      left: 0;
+      top: calc(48px + 12px + env(safe-area-inset-top, 0px));
       display: flex;
+      flex-direction: row-reverse;
       align-items: stretch;
-      transform: translateX(calc(100% - 40px));
+      transform: translateX(calc(-100% + 40px));
       transition: transform .28s ease;
       z-index: 1200;
       pointer-events: none;
@@ -387,8 +388,8 @@
       justify-content: center;
       width: 40px;
       border: 1.5px solid rgba(201,165,92,0.55);
-      border-right: none;
-      border-radius: 999px 0 0 999px;
+      border-left: none;
+      border-radius: 0 999px 999px 0;
       background: rgba(8,12,20,0.58);
       color: var(--gold);
       font-size: 15px;
