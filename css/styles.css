@@ -1811,6 +1811,23 @@ button.desktop-only {
     filter: brightness(1.5);
 }
 
+/* Atranga BioSafe partner badge */
+.partner-atranga {
+    display: inline-flex;
+    align-items: center;
+}
+
+.partner-logo-atranga-img {
+    height: 38px;
+    width: auto;
+    filter: brightness(1.4);
+    transition: all 0.3s ease;
+}
+
+.partner-atranga:hover .partner-logo-atranga-img {
+    filter: brightness(1.6);
+}
+
 /* Vegaqura Button - Turquoise */
 .btn-vegaqura {
     background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
