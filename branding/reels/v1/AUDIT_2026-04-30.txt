@@ -1,0 +1,246 @@
+================================================================================
+FV REELS PIPELINE — AUDIT 2026-04-30
+Author: Zak (sandmomy@gmail.com) + Claude Opus 4.7
+Purpose: Brief for ChatGPT or any external LLM to understand the project.
+================================================================================
+
+CLIENT CONTEXT
+--------------
+- Client: Eugene Mierak (SBDI Center Foundation founder, "Frequency Vibes" brand).
+- Eugene is featured pp. 40-43 in Buku 2 GCNI (UN Global Compact Network
+  Indonesia — Impact Stories 2025), high-value social proof.
+- Brand: Frequency Vibes — spiritual/mission-driven content, English-only public
+  output, watercolor cruciform medallion logo (purple+teal).
+- Approval flow: Zak reviews → Eugene approves → publish (never direct).
+- Eugene already paid €400 for first deliverable (BookVoice site Apr 24);
+  €8k agreed total, waiting bank confirmation for full transfer.
+- Reels purpose: validate pipeline "PDF source → AI voice → AI video → published"
+  before scaling to 30-day content calendar. 3-reel pilot (authority,
+  unity-in-diversity, quote essay).
+
+WHAT WAS BUILT TONIGHT (2026-04-30)
+-----------------------------------
+A complete LOCAL AI content production pipeline running on Zak's RTX 5080 16GB
+(Blackwell, Windows 11). No cloud costs, no API fees, no rate limits.
+
+DELIVERABLE: reel1_authority/render.mp4
+- 50s vertical (1080x1920 @ 30 fps, h264, AAC 256k 48kHz mono)
+- 6 shots: silent hook + 5 narrated shots
+- Title: "Everything is Frequency"
+- Sent to Eugene tonight for approval.
+
+EQUIVALENT COMMERCIAL COST AVOIDED
+----------------------------------
+ElevenLabs voice clone ......... $99-$330/mo
+Runway/Kling video AI .......... ~$95/mo professional tier
+Midjourney/Ideogram image AI ... ~$60/mo
+Descript/Premiere AI editor .... ~$30/mo
+TOTAL ~$300-500/mo with usage limits.
+Local stack: $0/mo, unlimited, fully offline, replicable for any future client.
+
+TECHNICAL STACK (4 SERVERS)
+---------------------------
+1. ComfyUI :8188
+   - Path: C:\ComfyUI_windows_portable
+   - Launches Wan 2.1 i2v workflow for motion clips + FLUX for images
+   - PyTorch 2.10.0+cu130, CUDA 13.0 (Blackwell native)
+
+2. Higgs voice server :5757
+   - Path: bussines model/voicebox_lab/experiments/higgs_audio_quantized/
+   - voicebox_higgs_server.py with VOICEBOX_HIGGS_PRECISION=bf16
+   - Model: bosonai/higgs-audio-v2-generation-3B-base
+   - Eugene voice profile: 09b98354-e421-4724-a665-f76c9708e186
+   - Seed default 12345, fallback 2026, temp 0.3
+
+3. Voicebox lab backend :17493
+   - Path: bussines model/voicebox_lab/.venv/
+   - Text normalization, instruct prep, audio post-processing
+   - Wraps Higgs server, adds Whisper validation, sshhh trim
+
+4. Reels controller :8766
+   - Path: bussines model/branding/reels/v1/controller/server.py
+   - Pure Python stdlib HTTP server, no framework
+   - Orchestrates voice + image + motion + compose
+   - HTML UI for non-technical operation
+
+QUICK START
+-----------
+Double-click C:\Users\Usuario\Desktop\fv-reels-start.bat
+Launches all 4 servers in order, opens browser at http://localhost:8766.
+
+PRODUCTION PIPELINE
+-------------------
+Per-shot loop:
+  1. Voice (Higgs bf16) — text from spec.json voice_line, ~3-15s WAV
+     - Auto sshhh trim (RMS density-based onset detection)
+     - Whisper validation post-trim
+     - Saved as shot_N_voice.wav
+
+  2. Image (FLUX 1 dev nvfp4 @ 768x1344 vertical) — from spec image_prompt
+     - 20 steps euler/simple
+     - Saved as shot_N.png + image_seed history persisted in spec
+
+  3. Motion (Wan 2.1 i2v plain @ 480x832, length 201 = 8.4s @ 24fps)
+     - Crossfade-loop if voice longer than 8.4s (e.g. shot 2 = 15s voice)
+     - Wan 2.1 480p i2v 14B fp8 SCALED model + LightX2V LoRA + 4 steps cfg 1.0
+     - Resized 1080x1920 with lanczos
+     - ~6 min sampling cold, ~1 min warm
+     - Saved as shot_N_motion.mp4
+
+Final compose:
+  4. _compose_reel_voice (server.py) concatenates shot voices into voice.wav
+     with 120ms fade-in / 60ms fade-out per shot, 1.5s tail silence per shot,
+     0.3s pause between shots, auto-updates spec start_sec/end_sec timings.
+
+  5. compose_video.compose() builds the final mp4:
+     - Each shot rendered to a 1080x1920 segment (motion clip → upscale, or
+       Ken Burns fallback if no motion)
+     - Crossfade-loop motion if needed (0.6s xfade overlap, no hard cut)
+     - 0.4s xfade dissolves between shots (filter_complex graph)
+     - LAST segment extended to ensure video > audio + 1s buffer (fixes
+       last-word-cut bug where -shortest used to clip audio)
+     - ASS subtitles burned in:
+       * Hook layer (top, gold 48pt, per-shot caption from spec)
+       * Caption layer (bottom, white 64pt, karaoke from per-shot Whisper
+         transcription with text aligned to spec voice_line)
+     - Loudnorm I=-16 TP=-1.5 LRA=11 (broadcast standard, voice natural)
+     - 0.4s fade-in at start, 0.7s fade-out at end
+     - h264 preset medium CRF 18 + AAC 256k @ 48kHz
+
+CRITICAL TECHNICAL FINDING (THE 3-HOUR BUG)
+-------------------------------------------
+Wan 2.1 i2v plain HUNG indefinitely at "model_type FLOW" log line. KSampler
+never started, no error, GPU at 0-1% utilization for 20+ minutes.
+
+ROOT CAUSE: The model file on disk
+(wan2.1_i2v_480p_14B_fp8_e4m3fn.safetensors) was the RAW fp8 variant — only
+F8_E4M3 + F32 tensors, NO scaling factors. ComfyUI's "manual cast" codepath
+that does fp8→fp16 dequant per-layer at runtime is BROKEN on PyTorch
+2.10+cu130 + Blackwell.
+
+The wan2.2_fun_camera_low_noise_14B_fp8_SCALED.safetensors (1914 keys,
+813 .scale_input/.scale_weight tensors) loads fine because ComfyUI detects
+"mixed precision quantization" and uses a different codepath.
+
+Why it worked before: Joshua bartender video was generated Mar 4 2026.
+PyTorch was upgraded to 2.10+cu130 on Mar 11. The model file in disk has
+been the same broken raw-fp8 since then.
+
+FIX: Downloaded the SCALED variant from
+https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/diffusion_models/wan2.1_i2v_480p_14B_fp8_scaled.safetensors
+(16 GB). Now ComfyUI logs "Detected mixed precision quantization" and
+sampling proceeds in 45s for 4 steps with LightX2V LoRA.
+
+LESSON: Always check safetensors header for scaling factors when a Wan
+model "hangs" with no error.
+
+LENGTH SWEEP RESULTS (Wan 2.1 i2v scaled + LightX2V 4-step LoRA)
+----------------------------------------------------------------
+length 49  → 70s sampling, 2.0s clip
+length 81  → 78s sampling, 3.4s clip (Wan training distribution)
+length 121 → 138s sampling, 5.0s clip
+length 161 → 213s sampling, 6.7s clip (better identity preservation than 121,
+             counterintuitive — slower per-frame motion = less drift)
+length 201 → 372s sampling, 8.4s clip ← CHOSEN for FV reels
+length 241+ untested, time scales worse than linear past 201
+
+FILE LAYOUT
+-----------
+bussines model/
+└── branding/reels/v1/
+    ├── AUDIT_2026-04-30.txt          ← this file
+    ├── reel1_authority/              ← DELIVERED
+    │   ├── render.mp4                ← final output (50s, 50 MB)
+    │   ├── voice.wav                 ← composed full-length voice
+    │   ├── shot_N.png                ← FLUX images (768x1344)
+    │   ├── shot_N_voice.wav          ← Higgs voices (per shot)
+    │   ├── shot_N_motion.mp4         ← Wan motion clips (480x832, 8.4s)
+    │   ├── spec.json                 ← canonical spec (voice_lines, prompts,
+    │   │                               seeds, timings auto-aligned)
+    │   ├── script.txt
+    │   └── shotlist.md
+    ├── reel2_unity/                  ← TO DO
+    ├── reel3_essay/                  ← TO DO
+    └── controller/
+        ├── START_HERE.md             ← dev handoff
+        ├── server.py                 ← controller HTTP (port 8766)
+        ├── compose_video.py          ← final mux pipeline
+        ├── workflow_animate.json     ← Wan 2.1 i2v workflow (length 201)
+        ├── workflow.json             ← FLUX image workflow
+        ├── WAN_SETUP.md              ← Wan setup notes
+        ├── index.html                ← controller UI
+        ├── preview.html              ← video preview page
+        └── batch_animate_all.py      ← unused — single-shot from UI works fine
+
+REEL 1 SCRIPT (validated, NOT for rewriting)
+--------------------------------------------
+Shot 1 (silent hook, 3s):
+  caption: "Everything Vibrates"
+Shot 2 (~15s):
+  voice_line: "Everything in existence oscillates. Atoms vibrate. Hearts pulse.
+              Nature speaks through frequency."
+  caption: "Motion Creates Reality"
+Shot 3 (~6s):
+  voice_line: "Matter is not solid. Your body is structured frequency."
+  caption: "Vibration Forms Matter"
+Shot 4 (~6.5s):
+  voice_line: "Light proves this clearly. Different frequencies become
+              different colors. Beyond what the eye can see, the spectrum
+              continues forever. The substance never changes. Only the rate
+              of motion."
+  caption: "Infinite Frequencies"
+Shot 5 (~5s):
+  voice_line: "Your brain is rhythmic. Delta waves guide sleep. Theta opens
+              creativity. Alpha brings calm. Beta enables focus. Gamma sparks
+              insight. Your consciousness operates through frequency."
+  caption: "Consciousness Oscillates"
+Shot 6 (~6s):
+  voice_line: "To understand frequency is to understand nature. To align with
+              frequency is to align with life. Match the frequency, and
+              resonance follows."
+  caption: "Align With Life"
+
+PENDING / OPEN TASKS FOR NEXT SESSION
+-------------------------------------
+1. SUBTITLE TIMING in compose_video.py::build_ass()
+   - Current chunk pacing still feels rushed on dense-text shots
+     (shot 4 = 28 words in 6.47s of voice → ~260 wpm)
+   - Min display 1.2s, chunks 4 words / 26 chars max, 250ms fade + scale
+     anim, but it's not perfect yet
+   - SUGGESTION: replace plain Whisper word_timestamps with forced alignment
+     library (whisper-timestamped or aeneas) for tighter sync. Or per-shot
+     adaptive chunking strategy.
+
+2. REEL 2 ("Unity in Diversity" — cassava/MOCAF story, ~50s)
+   - Spec exists in plan but not yet built. Pipeline reusable.
+
+3. REEL 3 ("Quote essay" — atmospheric, ~25s)
+   - Most contemplative tone. Pipeline reusable.
+
+4. APPROVAL FLOW
+   - Reel 1 sent to Eugene tonight. Awaiting feedback.
+   - If Higgs voice approved in blind test → scale to 30-day calendar.
+   - If not → fallback is Eugene records voice notes in real (option B
+     still on table, no pivot needed yet).
+
+KEY MEMORY ENTRIES (for future Claude / GPT context)
+----------------------------------------------------
+- reference_wan_scaled_models.md   ← Wan scaled vs raw fp8 diagnosis
+- reference_higgs_audiobook_setup.md ← Higgs winning config
+- feedback_higgs_text_rules.md     ← text rules for Higgs (no hyphens,
+                                       acronyms, numerals; short sentences)
+- project_frequency_vibes_reels_pilot.md ← project state
+- feedback_video_composition_style.md ← editor-grade rules (0.4s dissolves,
+                                          eq grade, no music unless asked)
+- feedback_eugene_validation_flow.md ← Zak first, Eugene second, never direct
+
+ANYTHING ELSE THE NEXT AI NEEDS TO KNOW
+---------------------------------------
+- Zak is a video editor by trade — engage at editor-grade, not "good enough".
+- All Eugene-facing public content is English-only. Zak/dev chat in Spanish.
+- No music in reels by default. Add only if explicitly asked.
+- 0.4s dissolves at scene changes is a FIRM editorial rule.
+- Voice clone privacy: profile id stays internal, never expose in client comms.
+- BookVoice (separate project) is also live — book.eugenemierak.com.
+- Marketplace app for Eugene is the NEXT phase after FV branding fully shipped.
+================================================================================

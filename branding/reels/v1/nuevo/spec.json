@@ -1,0 +1,87 @@
+{
+  "reel_id": "nuevo",
+  "title": "nuevo",
+  "duration_target_sec": 30,
+  "duration_estimate_sec": 20.05,
+  "subtitles": "caption",
+  "voice": {
+    "ref_profile": "09b98354-e421-4724-a665-f76c9708e186",
+    "seed": 12345,
+    "wav_filename": "voice.wav",
+    "sample_rate": 24000,
+    "duration_sec": 20.05
+  },
+  "shots": [
+    {
+      "id": 1,
+      "start_sec": 0.0,
+      "end_sec": 5.85,
+      "voice_line": "Everything is information,everything is connection.",
+      "image_prompt": "Futuristic information design poster, central glowing node representing knowledge, connected with thin geometric lines forming a neural network, symmetrical composition, subtle mandala geometry hidden in the structure\n\ndark background, deep navy and black tones, neon accents in electric blue and soft violet, clean swiss design grid, minimal typography space\n\nhigh contrast lighting, soft glow, cinematic depth, ultra clean, premium, modern, tech + spiritual fusion\n\nno clutter, no people, no text, perfect composition for branding\n\n--ar 4:5 --quality high\n",
+      "caption": "",
+      "image_filename": "shot_1.png",
+      "voice_filename": "shot_1_voice.wav",
+      "motion_filename": "shot_1_motion.mp4",
+      "pause_after_sec": 0.3,
+      "image_seed": 1624077600,
+      "image_seed_history": [
+        1624077600
+      ],
+      "voice_seed": 5,
+      "motion_prompt": "Animate a futuristic information design scene.\n\nThe central glowing node slowly pulses, emitting soft light.\nThin geometric lines extend outward, connecting to other nodes in a symmetrical pattern.\n\nSubtle energy flows through the lines like moving light pulses.\nVery slow camera push-in (cinematic zoom).\n\nAdd soft floating particles in the background.\nSlight glow flicker and minimal glitch effect.\n\nLighting: dark, high contrast, neon blue and violet tones.\nMood: calm, intelligent, slightly spiritual.",
+      "motion_seed": 477425663,
+      "motion_length_sec": 6
+    },
+    {
+      "id": 2,
+      "start_sec": 6.15,
+      "end_sec": 13.66,
+      "voice_line": "At SBDI Center,design is the bridge between minds.",
+      "image_prompt": "Abstract data network floating in space, multiple nodes connected by fine luminous lines, dynamic flow of energy between points, particles drifting like digital dust\n\ndepth perspective, layered composition, soft fog, volumetric lighting, subtle glow\n\ncolors: dark background with blue neon, hints of purple, very minimal palette\n\nstyle: futuristic, clean, intelligent, information design aesthetic\n\nno text, no logos, no people\n\n--ar 4:5 --quality high\n",
+      "caption": "",
+      "image_filename": "shot_2.png",
+      "voice_filename": "shot_2_voice.wav",
+      "motion_filename": "shot_2_motion.mp4",
+      "pause_after_sec": 0.3,
+      "image_seed": 1624748929,
+      "image_seed_history": [
+        1624748929
+      ],
+      "voice_seed": null,
+      "motion_prompt": null,
+      "motion_seed": 1625682516,
+      "motion_length_sec": null
+    },
+    {
+      "id": 3,
+      "start_sec": 13.96,
+      "end_sec": 20.05,
+      "voice_line": "We don’t just design,we translate reality.",
+      "image_prompt": "Fusion of human consciousness and data visualization, abstract human silhouette dissolving into a network of geometric lines and nodes, information flowing through the body\n\nspiritual geometry elements, mandala-inspired patterns integrated subtly\n\ndark cinematic lighting, deep shadows, glowing blue and violet highlights, ethereal atmosphere\n\nstyle: futuristic, philosophical, slightly mystical, high-end digital art\n\nno text, no realism face details, focus on concept and energy\n\n--ar 4:5 --quality high\n",
+      "caption": "",
+      "image_filename": "shot_3.png",
+      "voice_filename": "shot_3_voice.wav",
+      "motion_filename": "shot_3_motion.mp4",
+      "pause_after_sec": 0.3,
+      "image_seed": 1624787555,
+      "image_seed_history": [
+        1624787555
+      ],
+      "voice_seed": null,
+      "motion_prompt": null,
+      "motion_seed": 1626043548,
+      "motion_length_sec": null
+    }
+  ],
+  "color_grade": "warm gold to cool teal cinematic gradient with ethereal mist transitions",
+  "music": null,
+  "approval": {
+    "voice_generated": true,
+    "images_generated": true,
+    "edited": false,
+    "rendered": false,
+    "zak_approved": false,
+    "eugene_approved": false
+  },
+  "overlays": []
+}

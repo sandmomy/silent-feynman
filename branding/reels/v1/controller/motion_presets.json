@@ -1,0 +1,53 @@
+{
+  "_comment": "Motion presets for Wan 2.1 i2v. 'name' is the dropdown key. Edit, add or override here. Server hot-reloads on each GET.",
+  "presets": [
+    {
+      "name": "contemplative_drift",
+      "description": "Default — slow ethereal drift, ambient mist, divine pulse",
+      "motion_prompt": "Subtle gentle camera movement, ethereal mist drifting softly, particles floating slowly, divine light pulsing gently, contemplative spiritual atmosphere, no abrupt motion, cinematic Kodak Portra 400 aesthetic",
+      "motion_length_sec": 8.4
+    },
+    {
+      "name": "sacred_geometry_rotation",
+      "description": "Mandala/geometry shots — slow concentric rotation, golden light expansion",
+      "motion_prompt": "Sacred geometry mandala slowly rotating, concentric rings of golden light expanding outward, divine radial bloom, no camera pan, mystical hypnotic atmosphere, smooth rhythmic motion",
+      "motion_length_sec": 6.0
+    },
+    {
+      "name": "vibration_static",
+      "description": "Atoms / particles vibrating in place, no camera move, microscopic intensity",
+      "motion_prompt": "Quantum particles oscillating in place, atoms vibrating with high-frequency tremor, suspended microscopic universe, soft luminous shimmer, no camera movement, intimate energetic stillness",
+      "motion_length_sec": 5.0
+    },
+    {
+      "name": "matter_dissolve",
+      "description": "Solid forms dissolving into light/particles, ethereal phase transition",
+      "motion_prompt": "Solid form dissolving into translucent particles, body silhouette reorganizing into pure light, ethereal phase transition, gentle dispersion, soft emanation, no camera movement",
+      "motion_length_sec": 6.5
+    },
+    {
+      "name": "color_refraction",
+      "description": "Light passing through prism — colors shifting through visible spectrum",
+      "motion_prompt": "Pure white light refracting through crystal prism, rainbow spectrum unfolding, colors slowly shifting from violet to red, fluid wavelength dance, no abrupt motion, cinematic chromatic poetry",
+      "motion_length_sec": 7.0
+    },
+    {
+      "name": "neural_waves",
+      "description": "Brain / consciousness shots — pulsing neural waveforms, soft cerebral glow",
+      "motion_prompt": "Neural waveforms pulsing rhythmically, brainwave patterns oscillating in delta-theta-alpha-beta-gamma sequence, soft cerebral glow, gentle synaptic shimmer, no camera movement, contemplative interior",
+      "motion_length_sec": 6.0
+    },
+    {
+      "name": "harmonic_convergence",
+      "description": "Closing / resolution shots — waves aligning, harmonic ripples synchronizing",
+      "motion_prompt": "Frequency waves aligning into harmonic resonance, ripples converging in synchronization, peaceful resolution, light convergence at center, soft radial bloom, cinematic stillness",
+      "motion_length_sec": 5.5
+    },
+    {
+      "name": "cosmic_zoom",
+      "description": "Atmospheric / cosmic shots — slow camera pull-back through stars/space",
+      "motion_prompt": "Slow camera pulling back through cosmic dust and starlight, vast scale revelation, gentle stellar drift, parallax depth, contemplative cosmic motion, no abrupt cuts",
+      "motion_length_sec": 8.4
+    }
+  ]
+}
