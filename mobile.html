@@ -1697,6 +1697,85 @@
       width: 20px;
     }
 
+    /* ============ FV LISTEN BAR (floating bottom CTA) ============ */
+    .fv-listen-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1000;
+      background: linear-gradient(135deg, var(--accent-sky), var(--accent));
+      color: var(--white);
+      padding: 12px 56px calc(12px + env(safe-area-inset-bottom)) 48px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 -6px 20px rgba(0,0,0,0.35);
+      transform: translateY(0);
+      transition: transform 0.3s ease;
+    }
+
+    .fv-listen-bar.hidden {
+      transform: translateY(calc(100% + 100px));
+      pointer-events: none;
+    }
+
+    .fv-listen-bar-link {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      color: var(--white);
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .fv-listen-bar-link:active {
+      opacity: 0.85;
+    }
+
+    .fv-listen-bar-icon {
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .fv-listen-bar-arrow {
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+
+    .fv-listen-bar-link:active .fv-listen-bar-arrow {
+      transform: translateX(3px);
+    }
+
+    .fv-listen-bar-close {
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 28px;
+      height: 28px;
+      border: none;
+      background: rgba(255,255,255,0.18);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: inherit;
+      -webkit-appearance: none;
+      appearance: none;
+      padding: 0;
+    }
+
+    .fv-listen-bar-close:active {
+      background: rgba(255,255,255,0.3);
+    }
+
   </style>
 </head>
 
@@ -1963,7 +2042,7 @@
       <!-- Intro text -->
       <div class="about-card fade-up">
         <p>
-          A globally experienced holistic lifestyle practitioner with 20+ years in somatic therapy, martial arts, frequency work, and coaching. Raised in Amsterdam, based in Ibiza — with a career spanning Monaco, Dubai, and Indonesia, offering tailored wellness programs to high-profile clients worldwide. Co-founder of Vortex Unity.
+          A globally experienced holistic lifestyle practitioner with 20+ years in somatic therapy, martial arts, frequency work, and coaching. Raised in Amsterdam, based in Ibiza — with a career spanning Monaco, Dubai, and Indonesia, offering tailored wellness programs to high-profile clients worldwide.
         </p>
       </div>
 
@@ -1994,8 +2073,8 @@
               <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
             </svg>
           </div>
-          <div class="about-grid-title">Vortex Unity</div>
-          <div class="about-grid-text">Co-founded in 2025 — merging spiritual development, body-mind practices & high-performance coaching.</div>
+          <div class="about-grid-title">Frequency Vibes</div>
+          <div class="about-grid-text">Author and creator of Frequency Vibes — a body of work on alignment, coherence & conscious evolution.</div>
         </div>
         <div class="about-grid-card">
           <div class="about-grid-icon">
@@ -2574,6 +2653,49 @@
         });
       }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
       els.forEach(function(el) { io.observe(el); });
+    })();
+  </script>
+
+  <!-- ============ FV LISTEN BAR (floating bottom CTA) ============ -->
+  <div class="fv-listen-bar" id="fvListenBar" role="region" aria-label="Frequency Vibes chapters promotion">
+    <a href="https://book.eugenemierak.com" class="fv-listen-bar-link" target="_blank" rel="noopener" aria-label="Listen the Frequency Vibes chapters">
+      <span class="fv-listen-bar-icon" aria-hidden="true">🎧</span>
+      <span>Listen the Frequency Vibes chapters</span>
+      <svg class="fv-listen-bar-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </a>
+    <button class="fv-listen-bar-close" id="fvListenBarClose" type="button" aria-label="Dismiss">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+  <script>
+    (function () {
+      var bar = document.getElementById('fvListenBar');
+      var btn = document.getElementById('fvListenBarClose');
+      if (!bar || !btn) return;
+      try {
+        if (sessionStorage.getItem('fvListenBarDismissed') === '1') {
+          bar.classList.add('hidden');
+        }
+      } catch (_) {}
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        bar.classList.add('hidden');
+        try { sessionStorage.setItem('fvListenBarDismissed', '1'); } catch (_) {}
+      });
+
+      // Stack above cookie-notice when it's present
+      function adjustForCookieNotice() {
+        var notice = document.getElementById('cookieNotice');
+        bar.style.bottom = notice ? notice.offsetHeight + 'px' : '0';
+      }
+      var mo = new MutationObserver(adjustForCookieNotice);
+      mo.observe(document.body, { childList: true });
+      adjustForCookieNotice();
     })();
   </script>
 
