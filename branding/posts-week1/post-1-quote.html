@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Post 1 — Quote · Everything is frequency</title>
+<link rel="stylesheet" href="base.css">
+<style>
+  body { background: #07070a; }
+  .canvas-square {
+    background: var(--bg);
+    background-image:
+      radial-gradient(ellipse at 50% 30%, rgba(212,168,102,0.08), transparent 60%),
+      radial-gradient(ellipse at 70% 80%, rgba(120,70,180,0.06), transparent 60%);
+    display: grid; place-items: center;
+    padding: 80px;
+  }
+  .mark {
+    position: absolute; top: 56px; left: 50%; transform: translateX(-50%);
+    width: 96px; height: 96px; border-radius: 8px;
+    background: url('../frequency-vibes-logo-teal-clean.png') center/cover;
+    opacity: 0.92;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  }
+  .quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-weight: 400;
+    font-size: 76px; line-height: 1.22; text-align: center;
+    color: var(--ink); max-width: 86%;
+    letter-spacing: -0.01em;
+  }
+  .quote em { color: var(--gold); font-style: italic; font-weight: 500; }
+  .citation {
+    position: absolute; bottom: 56px; left: 50%; transform: translateX(-50%);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 18px; letter-spacing: 0.42em; text-transform: uppercase;
+    color: var(--gold); opacity: 0.9;
+    white-space: nowrap;
+  }
+  .corner { position: absolute; width: 88px; height: 88px; border: 2px solid var(--gold); opacity: 0.32; }
+  .tl { top: 52px; left: 52px; border-right: 0; border-bottom: 0; }
+  .tr { top: 52px; right: 52px; border-left: 0; border-bottom: 0; }
+  .bl { bottom: 52px; left: 52px; border-right: 0; border-top: 0; }
+  .br { bottom: 52px; right: 52px; border-left: 0; border-top: 0; }
+</style></head>
+<body>
+<div class="canvas-square">
+  <div class="corner tl"></div><div class="corner tr"></div>
+  <div class="corner bl"></div><div class="corner br"></div>
+  <div class="mark"></div>
+  <div class="quote">Everything is <em>frequency.</em><br>The body is just<br>the first instrument.</div>
+  <div class="citation">— Frequency Vibes</div>
+</div>
+</body></html>

@@ -69,5 +69,77 @@ run_app.bat
 .wrangler/
 .vercel/
 
-# Stray Windows-temp directory accidentally captured at repo root or under web/
-**/C\357\200\272UsersUsuarioAppDataLocalTempvibeyard/
+# Stray Windows-temp directory recreated by a Claude Code hook bug
+# (literal "C:UsersUsuarioAppDataLocalTempvibeyard" with a Unicode-PUA colon)
+*vibeyard/
+**/*vibeyard/
+
+# ─── Higgs / audio generation runtime (root-level scripts and artifacts) ───
+# Generation / rendering / repair scripts (per-chapter, per-version, lab work)
+generate_*.py
+render_*.py
+render_chapter*.py
+render_biozar_*.py
+repair_*.py
+repair_chapter*.py
+rerender_*.py
+master_chapter*.py
+patch_master_*.py
+prepare_*_dataset.py
+import_eugene_voice.py
+transcribe_*.py
+reprocess_*.py
+lora_*.py
+clean_s1_*.py
+competition_ch*.py
+add_missing_*.py
+fix_problem_*.py
+sync_biozar_*.py
+group_chapter*.py
+build_chapter*.py
+strip_notebook_*.py
+test_chapter*.py
+test_eugene_*.py
+test_fish_*.py
+
+# Higgs runtime artifacts
+chapter*_higgs_*.txt
+chapter*_higgs_clean.txt
+tts_chapter_*.txt
+config_higgs_audiobook*.json
+*.wav
+*.pid
+run_chapter*.bat
+run_ch*_after_ch*.sh
+generated_reports/
+logs/
+
+# Library data — local content, generated metadata, test users
+library_data/users/
+library_data/books/*/source/
+library_data/books/book_*/
+
+# Personal / internal docs not for production
+plan-*.html
+legal-review-document.html
+
+# Worker / mobile node_modules
+worker/node_modules/
+mobile/node_modules/
+
+# Mobile (Expo) build artifacts
+mobile/.expo/
+mobile/.expo-shared/
+mobile/android/app/build/
+mobile/android/build/
+mobile/android/.gradle/
+mobile/ios/build/
+mobile/ios/Pods/
+
+# Branding heavy media folders (videos, renders — too large for git)
+branding/video-workbench/
+branding/reels/
+
+# Tooling caches
+tmp_zoom_debug/
+tmp_zoom_debug2/

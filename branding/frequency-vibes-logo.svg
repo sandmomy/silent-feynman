@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="800" height="800">
+  <!-- Frequency Vibes — logo v13 (Stippled Dots variant) -->
+  <!-- Black disk background -->
+  <circle cx="120" cy="120" r="120" fill="#0b0b0f"/>
+
+  <!-- All trace stippled (gold dots) -->
+  <g fill="none" stroke="#d4a866" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.1 4">
+    <!-- Outer circle -->
+    <circle stroke-width="6" cx="120" cy="120" r="105"/>
+
+    <!-- 4 cardinal zigurat arms (outline) -->
+    <path stroke-width="6" d="M 105 92 L 105 75 L 95 75 L 95 60 L 105 60 L 105 45 L 135 45 L 135 60 L 145 60 L 145 75 L 135 75 L 135 92"/>
+    <path stroke-width="6" d="M 105 148 L 105 165 L 95 165 L 95 180 L 105 180 L 105 195 L 135 195 L 135 180 L 145 180 L 145 165 L 135 165 L 135 148"/>
+    <path stroke-width="6" d="M 148 105 L 165 105 L 165 95 L 180 95 L 180 105 L 195 105 L 195 135 L 180 135 L 180 145 L 165 145 L 165 135 L 148 135"/>
+    <path stroke-width="6" d="M 92 105 L 75 105 L 75 95 L 60 95 L 60 105 L 45 105 L 45 135 L 60 135 L 60 145 L 75 145 L 75 135 L 92 135"/>
+
+    <!-- Equalizer — 7 vertical bars in pyramid -->
+    <line stroke-width="7" x1="92" y1="120" x2="92" y2="120"/>
+    <line stroke-width="7" x1="102" y1="112" x2="102" y2="128"/>
+    <line stroke-width="7" x1="112" y1="100" x2="112" y2="140"/>
+    <line stroke-width="7" x1="120" y1="92" x2="120" y2="148"/>
+    <line stroke-width="7" x1="128" y1="100" x2="128" y2="140"/>
+    <line stroke-width="7" x1="138" y1="112" x2="138" y2="128"/>
+    <line stroke-width="7" x1="148" y1="120" x2="148" y2="120"/>
+  </g>
+</svg>

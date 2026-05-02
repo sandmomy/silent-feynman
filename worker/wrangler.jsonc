@@ -1,0 +1,46 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "bookvoice",
+  "main": "src/index.js",
+  "compatibility_date": "2024-12-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  "vars": {
+    "ADMIN_USERNAME": "eugene",
+    "BOOK_PRICE_EUR_CENTS": "1199",
+    "COOKIE_SECURE": "true",
+    "LAUNCH_BOOK_SLUG": "book_chapter_1",
+    "PUBLIC_BASE_URL": "https://book.eugenemierak.com",
+    "SELF_SIGNUP_ENABLED": "true",
+    "SOFT_LAUNCH_ENABLED": "false"
+  },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "bookvoice",
+      "database_id": "35b605fb-fd0e-4934-9651-7bf3557d2449"
+    }
+  ],
+
+  "r2_buckets": [
+    {
+      "binding": "ASSETS",
+      "bucket_name": "bookvoice-assets"
+    }
+  ],
+
+  "observability": {
+    "enabled": true
+  },
+
+  "triggers": {
+    "crons": ["0 3 * * SUN", "0 10 * * *"]
+  }
+
+  // Secrets (set via `wrangler secret put` — never commit):
+  //   ADMIN_PASSWORD
+  //   SESSION_SECRET
+  //   GOOGLE_CLIENT_ID       (to be added for Google login)
+  //   GOOGLE_CLIENT_SECRET   (to be added for Google login)
+}

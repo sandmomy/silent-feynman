@@ -1,0 +1,878 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Frequency Vibes — Logo v2 (Concept A refined)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0b0f;
+      --bg-2: #15151c;
+      --bg-3: #1d1d27;
+      --gold: #d4a866;
+      --gold-soft: #e8c896;
+      --gold-deep: #a87d3f;
+      --ink: #f4ecdc;
+      --cream: #efe7d3;
+      --muted: #8a8275;
+      --border: #2a2620;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Cormorant Garamond', serif;
+      min-height: 100vh;
+    }
+    .wrap { max-width: 1240px; margin: 0 auto; padding: 64px 28px 96px; }
+
+    /* ─── Sectioning ─── */
+    .section { margin-top: 96px; }
+    .section:first-of-type { margin-top: 0; }
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 18px;
+      margin-bottom: 36px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-head .num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.32em;
+      color: var(--gold);
+    }
+    .section-head h2 {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      font-size: 30px;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+    .section-head p {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 460px;
+    }
+
+    /* ─── Hero ─── */
+    header.hero {
+      text-align: center;
+      padding: 72px 24px 96px;
+      border-bottom: 1px solid var(--border);
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(212,168,102,0.07), transparent 60%);
+    }
+    header.hero .eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.45em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+    header.hero h1 {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      font-size: 58px;
+      margin: 24px 0 8px;
+      letter-spacing: -0.02em;
+    }
+    header.hero p {
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 18px;
+      line-height: 1.55;
+    }
+
+    .hero-mark { margin: 0 auto 28px; width: 200px; height: 200px; }
+
+    /* ─── Big wordmark ─── */
+    .wordmark {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--gold);
+      font-weight: 500;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+    }
+    .wordmark.lg { font-size: 22px; letter-spacing: 0.42em; }
+    .wordmark.md { font-size: 14px; letter-spacing: 0.4em; }
+    .wordmark.sm { font-size: 11px; letter-spacing: 0.35em; }
+
+    /* ─── Construction grid ─── */
+    .construction {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    @media (max-width: 880px) { .construction { grid-template-columns: 1fr; } }
+    .construction .canvas {
+      position: relative;
+      aspect-ratio: 1;
+      max-width: 420px;
+      margin: 0 auto;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 28px;
+    }
+    .construction .grid-bg {
+      position: absolute;
+      inset: 28px;
+      background-image:
+        linear-gradient(rgba(212,168,102,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212,168,102,0.08) 1px, transparent 1px);
+      background-size: calc((100% - 0px) / 12) calc((100% - 0px) / 12);
+      pointer-events: none;
+    }
+    .construction svg { position: relative; width: 100%; height: 100%; }
+    .construction .notes {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .construction .notes li {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 16px;
+    }
+    .construction .notes b {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+      align-self: start;
+      padding-top: 4px;
+    }
+    .construction .notes p {
+      margin: 0;
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    .construction .notes p span { color: var(--muted); display: block; margin-top: 4px; font-size: 14px; }
+
+    /* ─── Lock-ups ─── */
+    .lockups {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    @media (max-width: 880px) { .lockups { grid-template-columns: 1fr; } }
+    .lockup-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      min-height: 240px;
+      justify-content: center;
+    }
+    .lockup-card .label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: var(--muted);
+      margin-top: auto;
+      padding-top: 18px;
+    }
+    .horizontal-lockup { display: flex; align-items: center; gap: 18px; }
+    .horizontal-lockup .divider { width: 1px; height: 28px; background: var(--gold); opacity: 0.5; }
+
+    /* ─── Color variants ─── */
+    .colors {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 1100px) { .colors { grid-template-columns: repeat(2, 1fr); } }
+    .swatch {
+      border-radius: 6px;
+      padding: 36px 18px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      border: 1px solid var(--border);
+      min-height: 220px;
+      justify-content: center;
+    }
+    .swatch .label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      margin-top: auto;
+      padding-top: 14px;
+    }
+    .swatch.s1 { background: var(--bg); }
+    .swatch.s1 .label { color: #6c6354; }
+    .swatch.s2 { background: var(--cream); }
+    .swatch.s2 .label { color: #6c6354; }
+    .swatch.s3 { background: var(--bg); }
+    .swatch.s3 .label { color: #6c6354; }
+    .swatch.s4 { background: var(--cream); }
+    .swatch.s4 .label { color: #6c6354; }
+
+    /* ─── Applications ─── */
+    .apps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+    @media (max-width: 880px) { .apps { grid-template-columns: 1fr; } }
+    .app-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .app-card .stage {
+      aspect-ratio: 4/3;
+      background: var(--bg-3);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .app-card h3 {
+      font-family: 'Fraunces', serif;
+      font-weight: 400;
+      font-size: 19px;
+      margin: 0;
+    }
+    .app-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ─── IG profile mock ─── */
+    .ig-mock {
+      width: 88px; height: 88px; border-radius: 50%;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--gold-deep);
+      box-shadow: 0 0 0 3px var(--bg-2);
+    }
+    /* ─── Favicon mocks ─── */
+    .browser-bar {
+      width: 80%;
+      background: #2a2a36;
+      border-radius: 6px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid #353548;
+    }
+    .browser-bar svg { width: 16px; height: 16px; }
+    .browser-bar .url {
+      flex: 1;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: #8a8595;
+      letter-spacing: 0.05em;
+    }
+    /* ─── App icon mock ─── */
+    .app-icon-mock {
+      width: 96px; height: 96px;
+      background: linear-gradient(135deg, #1a1a25 0%, #0b0b0f 100%);
+      border-radius: 22px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+      border: 1px solid #2a2438;
+    }
+    /* ─── Business card ─── */
+    .card-mock {
+      width: 90%;
+      max-width: 280px;
+      aspect-ratio: 1.7/1;
+      background: var(--bg);
+      border-radius: 6px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+      border: 1px solid #1f1d22;
+    }
+    .card-mock .top { display: flex; align-items: center; gap: 12px; }
+    .card-mock .top svg { width: 28px; height: 28px; }
+    .card-mock .top span {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--gold);
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+    }
+    .card-mock .name {
+      font-family: 'Fraunces', serif;
+      color: var(--ink);
+      font-weight: 400;
+      font-size: 15px;
+    }
+    .card-mock .role {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 0.2em;
+      margin-top: 4px;
+    }
+    .card-mock .contact {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+    }
+    /* ─── Book cover mock ─── */
+    .book-mock {
+      width: 70%;
+      max-width: 200px;
+      aspect-ratio: 2/3;
+      background: linear-gradient(180deg, #0b0b0f 0%, #161020 100%);
+      border-radius: 2px 6px 6px 2px;
+      padding: 30px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.6), -4px 0 12px rgba(0,0,0,0.4);
+      border-right: 1px solid #2a2438;
+    }
+    .book-mock .top { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .book-mock .top svg { width: 40px; height: 40px; }
+    .book-mock .title {
+      font-family: 'Fraunces', serif;
+      color: var(--cream);
+      font-size: 18px;
+      font-weight: 300;
+      text-align: center;
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+    }
+    .book-mock .author {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 8px;
+      color: var(--gold);
+      letter-spacing: 0.3em;
+      text-align: center;
+      margin-top: auto;
+    }
+    /* ─── Product label ─── */
+    .label-mock {
+      width: 70%;
+      max-width: 180px;
+      aspect-ratio: 1/1.4;
+      background: var(--cream);
+      border-radius: 2px;
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+      position: relative;
+    }
+    .label-mock::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: 1px solid #c4a875;
+      border-radius: 1px;
+      pointer-events: none;
+    }
+    .label-mock svg { width: 44px; height: 44px; margin-top: 8px; }
+    .label-mock .product {
+      font-family: 'Fraunces', serif;
+      color: #2a1f10;
+      font-size: 11px;
+      text-align: center;
+      line-height: 1.2;
+      font-weight: 400;
+      max-width: 90%;
+    }
+    .label-mock .product strong {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 7px;
+      letter-spacing: 0.35em;
+      color: var(--gold-deep);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .label-mock .footer-line {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 6px;
+      color: #8a7855;
+      letter-spacing: 0.2em;
+      margin-top: auto;
+    }
+
+    /* ─── Rules / Don'ts ─── */
+    .rules {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 880px) { .rules { grid-template-columns: 1fr; } }
+    .rule {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 28px 22px;
+    }
+    .rule .pill {
+      display: inline-block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      padding: 5px 10px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+    }
+    .rule .pill.do { background: rgba(212,168,102,0.15); color: var(--gold); }
+    .rule .pill.dont { background: rgba(220,80,80,0.15); color: #e88a8a; }
+    .rule h4 {
+      font-family: 'Fraunces', serif;
+      font-weight: 400;
+      font-size: 17px;
+      margin: 0 0 8px;
+    }
+    .rule p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    footer.brand-footer {
+      margin-top: 96px;
+      padding: 40px 0 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- ════════════════════════════════ HERO ════════════════════════════════ -->
+    <header class="hero">
+      <div class="eyebrow">— logo v2 · concept a refined —</div>
+      <svg class="hero-mark" viewBox="0 0 240 240" fill="none" stroke="#d4a866" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-label="Frequency Vibes mark">
+        <!-- Outer rounded square frame -->
+        <rect x="28" y="28" width="184" height="184" rx="6" />
+        <!-- Mayan opposing spirals (yin-yang style) -->
+        <path d="M120 60 Q90 60 90 90 Q90 120 120 120 Q150 120 150 90 Q150 75 138 75" />
+        <path d="M120 180 Q150 180 150 150 Q150 120 120 120 Q90 120 90 150 Q90 165 102 165" />
+        <!-- Four corner triangles -->
+        <path d="M28 28 L52 28 L28 52 Z" fill="#d4a866" stroke="none"/>
+        <path d="M212 28 L212 52 L188 28 Z" fill="#d4a866" stroke="none"/>
+        <path d="M28 212 L28 188 L52 212 Z" fill="#d4a866" stroke="none"/>
+        <path d="M212 212 L188 212 L212 188 Z" fill="#d4a866" stroke="none"/>
+        <!-- Eye of Anubis at center -->
+        <ellipse cx="120" cy="120" rx="18" ry="9" />
+        <line x1="120" y1="113" x2="120" y2="127" stroke-width="3" />
+        <!-- Anubis kohl line (subtle, extends from outer eye corner) -->
+        <path d="M138 120 Q146 122 152 118" stroke-width="1.8" />
+      </svg>
+      <h1>Frequency Vibes</h1>
+      <p class="wordmark lg" style="margin-top: 8px;">Tune your frequency</p>
+      <p style="margin-top: 28px;">Brand identity v2 — a single glyph fusing the Mayan Hunab Ku (the cosmos in motion) with the Eye of Anubis (presence and threshold). Editorial gold over deep dark.</p>
+    </header>
+
+    <!-- ════════════════════════════════ 1 · CONSTRUCTION ════════════════════════════════ -->
+    <section class="section">
+      <div class="section-head">
+        <div class="num">01</div>
+        <h2>Construction</h2>
+        <p>Built on a 12-unit grid. The square frame, opposing spirals and central eye sit on harmonic axes — keeps the mark precise at any size.</p>
+      </div>
+      <div class="construction">
+        <div class="canvas">
+          <div class="grid-bg"></div>
+          <svg viewBox="0 0 240 240" fill="none" stroke="#d4a866" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="28" y="28" width="184" height="184" rx="6" />
+            <path d="M120 60 Q90 60 90 90 Q90 120 120 120 Q150 120 150 90 Q150 75 138 75" />
+            <path d="M120 180 Q150 180 150 150 Q150 120 120 120 Q90 120 90 150 Q90 165 102 165" />
+            <path d="M28 28 L52 28 L28 52 Z" fill="#d4a866" stroke="none"/>
+            <path d="M212 28 L212 52 L188 28 Z" fill="#d4a866" stroke="none"/>
+            <path d="M28 212 L28 188 L52 212 Z" fill="#d4a866" stroke="none"/>
+            <path d="M212 212 L188 212 L212 188 Z" fill="#d4a866" stroke="none"/>
+            <ellipse cx="120" cy="120" rx="18" ry="9" />
+            <line x1="120" y1="113" x2="120" y2="127" stroke-width="3" />
+            <path d="M138 120 Q146 122 152 118" stroke-width="1.8" />
+          </svg>
+        </div>
+        <ul class="notes">
+          <li>
+            <b>01</b>
+            <p>Square frame with subtle radius<span>The cosmos contained — soft enough to feel modern, hard enough to feel ancient.</span></p>
+          </li>
+          <li>
+            <b>02</b>
+            <p>Two opposing spirals<span>The Hunab Ku — yin / yang, day / night, the universe in motion. Every vibration has its opposite.</span></p>
+          </li>
+          <li>
+            <b>03</b>
+            <p>Four corner triangles<span>The four cardinal directions, the four elements, the four chapters of any cycle.</span></p>
+          </li>
+          <li>
+            <b>04</b>
+            <p>Eye of Anubis at center<span>Presence. Awareness. The witness who sees the frequency before reading it.</span></p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════ 2 · LOCK-UPS ════════════════════════════════ -->
+    <section class="section">
+      <div class="section-head">
+        <div class="num">02</div>
+        <h2>Lock-ups</h2>
+        <p>Three official versions. Use only these — no improvising new combinations.</p>
+      </div>
+      <div class="lockups">
+        <!-- Glyph only -->
+        <div class="lockup-card">
+          <svg viewBox="0 0 240 240" width="120" height="120" fill="none" stroke="#d4a866" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="28" y="28" width="184" height="184" rx="6" />
+            <path d="M120 60 Q90 60 90 90 Q90 120 120 120 Q150 120 150 90 Q150 75 138 75" />
+            <path d="M120 180 Q150 180 150 150 Q150 120 120 120 Q90 120 90 150 Q90 165 102 165" />
+            <path d="M28 28 L52 28 L28 52 Z" fill="#d4a866" stroke="none"/>
+            <path d="M212 28 L212 52 L188 28 Z" fill="#d4a866" stroke="none"/>
+            <path d="M28 212 L28 188 L52 212 Z" fill="#d4a866" stroke="none"/>
+            <path d="M212 212 L188 212 L212 188 Z" fill="#d4a866" stroke="none"/>
+            <ellipse cx="120" cy="120" rx="18" ry="9" />
+            <line x1="120" y1="113" x2="120" y2="127" stroke-width="3" />
+            <path d="M138 120 Q146 122 152 118" stroke-width="1.8" />
+          </svg>
+          <div class="label">A · GLYPH ONLY</div>
+        </div>
+
+        <!-- Stacked -->
+        <div class="lockup-card">
+          <svg viewBox="0 0 240 240" width="92" height="92" fill="none" stroke="#d4a866" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="28" y="28" width="184" height="184" rx="6" />
+            <path d="M120 60 Q90 60 90 90 Q90 120 120 120 Q150 120 150 90 Q150 75 138 75" />
+            <path d="M120 180 Q150 180 150 150 Q150 120 120 120 Q90 120 90 150 Q90 165 102 165" />
+            <path d="M28 28 L52 28 L28 52 Z" fill="#d4a866" stroke="none"/>
+            <path d="M212 28 L212 52 L188 28 Z" fill="#d4a866" stroke="none"/>
+            <path d="M28 212 L28 188 L52 212 Z" fill="#d4a866" stroke="none"/>
+            <path d="M212 212 L188 212 L212 188 Z" fill="#d4a866" stroke="none"/>
+            <ellipse cx="120" cy="120" rx="18" ry="9" />
+            <line x1="120" y1="113" x2="120" y2="127" stroke-width="3" />
+            <path d="M138 120 Q146 122 152 118" stroke-width="1.8" />
+          </svg>
+          <div class="wordmark md">Frequency&nbsp;&nbsp;Vibes</div>
+          <div class="label">B · STACKED</div>
+        </div>
+
+        <!-- Horizontal -->
+        <div class="lockup-card">
+          <div class="horizontal-lockup">
+            <svg viewBox="0 0 240 240" width="58" height="58" fill="none" stroke="#d4a866" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="28" y="28" width="184" height="184" rx="6" />
+              <path d="M120 60 Q90 60 90 90 Q90 120 120 120 Q150 120 150 90 Q150 75 138 75" />
+              <path d="M120 180 Q150 180 150 150 Q150 120 120 120 Q90 120 90 150 Q90 165 102 165" />
+              <path d="M28 28 L52 28 L28 52 Z" fill="#d4a866" stroke="none"/>
+              <path d="M212 28 L212 52 L188 28 Z" fill="#d4a866" stroke="none"/>
+              <path d="M28 212 L28 188 L52 212 Z" fill="#d4a866" stroke="none"/>
+              <path d="M212 212 L188 212 L212 188 Z" fill="#d4a866" stroke="none"/>
+              <ellipse cx="120" cy="120" rx="18" ry="9" />
+              <line x1="120" y1="113" x2="120" y2="127" stroke-width="3" />
+              <path d="M138 120 Q146 122 152 118" stroke-width="1.8" />
+            </svg>
+            <div class="divider"></div>
+            <div style="text-align: left;">
+              <div class="wordmark md">Frequency</div>
+              <div class="wordmark md" style="margin-top: 4px;">Vibes</div>
+            </div>
+          </div>
+          <div class="label">C · HORIZONTAL</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════ 3 · COLOR ════════════════════════════════ -->
+    <section class="section">
+      <div class="section-head">
+        <div class="num">03</div>
+        <h2>Color</h2>
+        <p>Primary is gold on dark. The other three are escape hatches: print, monochrome on imagery, contracts.</p>
+      </div>
+      <div class="colors">
+
+        <div class="swatch s1">
+          <svg viewBox="0 0 240 240" width="92" height="92" fill="none" stroke="#d4a866" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="28" y="28" width="184" height="184" rx="6" />
+            <path d="M120 60 Q90 60 90 90 Q90 120 120 120 Q150 120 150 90 Q150 75 138 75" />
+            <path d="M120 180 Q150 180 150 150 Q150 120 120 120 Q90 120 90 150 Q90 165 102 165" />
+            <path d="M28 28 L52 28 L28 52 Z" fill="#d4a866" stroke="none"/>
+            <path d="M212 28 L212 52 L188 28 Z" fill="#d4a866" stroke="none"/>
+            <path d="M28 212 L28 188 L52 212 Z" fill="#d4a866" stroke="none"/>
+            <path d="M212 212 L188 212 L212 188 Z" fill="#d4a866" stroke="none"/>
+            <ellipse cx="120" cy="120" rx="18" ry="9" />
+            <line x1="120" y1="113" x2="120" y2="127" stroke-width="3" />
+            <path d="M138 120 Q146 122 152 118" stroke-width="1.8" />
+          </svg>
+          <div class="label">PRIMARY · GOLD ON DARK<br><span style="color:#a87d3f;font-size:9px;">#D4A866 · #0B0B0F</span></div>
+        </div>
+
+        <div class="swatch s2">
+          <svg viewBox="0 0 240 240" width="92" height="92" fill="none" stroke="#0b0b0f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="28" y="28" width="184" height="184" rx="6" />
+            <path d="M120 60 Q90 60 90 90 Q90 120 120 120 Q150 120 150 90 Q150 75 138 75" />
+            <path d="M120 180 Q150 180 150 150 Q150 120 120 120 Q90 120 90 150 Q90 165 102 165" />
+            <path d="M28 28 L52 28 L28 52 Z" fill="#0b0b0f" stroke="none"/>
+            <path d="M212 28 L212 52 L188 28 Z" fill="#0b0b0f" stroke="none"/>
+            <path d="M28 212 L28 188 L52 212 Z" fill="#0b0b0f" stroke="none"/>
+            <path d="M212 212 L188 212 L212 188 Z" fill="#0b0b0f" stroke="none"/>
+            <ellipse cx="120" cy="120" rx="18" ry="9" />
+            <line x1="120" y1="113" x2="120" y2="127" stroke-width="3" />
+            <path d="M138 120 Q146 122 152 118" stroke-width="1.8" />
+          </svg>
+          <div class="label">INVERSE · DARK ON CREAM<br><span style="color:#6c6354;font-size:9px;">#0B0B0F · #EFE7D3</span></div>
+        </div>
+
+        <div class="swatch s3">
+          <svg viewBox="0 0 240 240" width="92" height="92" fill="none" stroke="#f4ecdc" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="28" y="28" width="184" height="184" rx="6" />
+            <path d="M120 60 Q90 60 90 90 Q90 120 120 120 Q150 120 150 90 Q150 75 138 75" />
+            <path d="M120 180 Q150 180 150 150 Q150 120 120 120 Q90 120 90 150 Q90 165 102 165" />
+            <path d="M28 28 L52 28 L28 52 Z" fill="#f4ecdc" stroke="none"/>
+            <path d="M212 28 L212 52 L188 28 Z" fill="#f4ecdc" stroke="none"/>
+            <path d="M28 212 L28 188 L52 212 Z" fill="#f4ecdc" stroke="none"/>
+            <path d="M212 212 L188 212 L212 188 Z" fill="#f4ecdc" stroke="none"/>
+            <ellipse cx="120" cy="120" rx="18" ry="9" />
+            <line x1="120" y1="113" x2="120" y2="127" stroke-width="3" />
+            <path d="M138 120 Q146 122 152 118" stroke-width="1.8" />
+          </svg>
+          <div class="label">MONO · CREAM<br><span style="color:#a87d3f;font-size:9px;">FOR PHOTOGRAPHY</span></div>
+        </div>
+
+        <div class="swatch s4">
+          <svg viewBox="0 0 240 240" width="92" height="92" fill="none" stroke="#0b0b0f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="28" y="28" width="184" height="184" rx="6" />
+            <path d="M120 60 Q90 60 90 90 Q90 120 120 120 Q150 120 150 90 Q150 75 138 75" />
+            <path d="M120 180 Q150 180 150 150 Q150 120 120 120 Q90 120 90 150 Q90 165 102 165" />
+            <path d="M28 28 L52 28 L28 52 Z" fill="#0b0b0f" stroke="none"/>
+            <path d="M212 28 L212 52 L188 28 Z" fill="#0b0b0f" stroke="none"/>
+            <path d="M28 212 L28 188 L52 212 Z" fill="#0b0b0f" stroke="none"/>
+            <path d="M212 212 L188 212 L212 188 Z" fill="#0b0b0f" stroke="none"/>
+            <ellipse cx="120" cy="120" rx="18" ry="9" />
+            <line x1="120" y1="113" x2="120" y2="127" stroke-width="3" />
+            <path d="M138 120 Q146 122 152 118" stroke-width="1.8" />
+          </svg>
+          <div class="label">MONO · BLACK<br><span style="color:#6c6354;font-size:9px;">FOR DOCUMENTS</span></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════ 4 · APPLICATIONS ════════════════════════════════ -->
+    <section class="section">
+      <div class="section-head">
+        <div class="num">04</div>
+        <h2>Applications</h2>
+        <p>How the mark behaves across the touchpoints Eugene actually uses today.</p>
+      </div>
+      <div class="apps">
+
+        <!-- Instagram avatar -->
+        <div class="app-card">
+          <div class="stage">
+            <div class="ig-mock">
+              <svg viewBox="0 0 240 240" width="56" height="56" fill="none" stroke="#d4a866" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="28" y="28" width="184" height="184" rx="10" />
+                <path d="M120 60 Q90 60 90 90 Q90 120 120 120 Q150 120 150 90 Q150 75 138 75" />
+                <path d="M120 180 Q150 180 150 150 Q150 120 120 120 Q90 120 90 150 Q90 165 102 165" />
+                <path d="M28 28 L52 28 L28 52 Z" fill="#d4a866" stroke="none"/>
+                <path d="M212 28 L212 52 L188 28 Z" fill="#d4a866" stroke="none"/>
+                <path d="M28 212 L28 188 L52 212 Z" fill="#d4a866" stroke="none"/>
+                <path d="M212 212 L188 212 L212 188 Z" fill="#d4a866" stroke="none"/>
+                <ellipse cx="120" cy="120" rx="18" ry="9" />
+                <line x1="120" y1="113" x2="120" y2="127" stroke-width="4" />
+              </svg>
+            </div>
+          </div>
+          <h3>Instagram avatar</h3>
+          <p>Glyph centered on dark, slight gold ring on profile preview. Crops cleanly at 1:1.</p>
+        </div>
+
+        <!-- Favicon -->
+        <div class="app-card">
+          <div class="stage">
+            <div class="browser-bar">
+              <svg viewBox="0 0 240 240" fill="none" stroke="#d4a866" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="28" y="28" width="184" height="184" rx="14" />
+                <ellipse cx="120" cy="120" rx="36" ry="18" />
+                <line x1="120" y1="106" x2="120" y2="134" stroke-width="18"/>
+              </svg>
+              <div class="url">book.eugenemierak.com</div>
+            </div>
+          </div>
+          <h3>Favicon · 32×32</h3>
+          <p>Simplified to frame + eye only at favicon scale. Spirals reappear at 64px+.</p>
+        </div>
+
+        <!-- App icon -->
+        <div class="app-card">
+          <div class="stage">
+            <div class="app-icon-mock">
+              <svg viewBox="0 0 240 240" width="60" height="60" fill="none" stroke="#d4a866" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M120 60 Q90 60 90 90 Q90 120 120 120 Q150 120 150 90 Q150 75 138 75" />
+                <path d="M120 180 Q150 180 150 150 Q150 120 120 120 Q90 120 90 150 Q90 165 102 165" />
+                <ellipse cx="120" cy="120" rx="18" ry="9" />
+                <line x1="120" y1="113" x2="120" y2="127" stroke-width="4" />
+              </svg>
+            </div>
+          </div>
+          <h3>App icon · Android</h3>
+          <p>Frame absorbed into the iOS/Android squircle. Spirals + eye remain — the soul of the mark.</p>
+        </div>
+
+        <!-- Business card -->
+        <div class="app-card">
+          <div class="stage">
+            <div class="card-mock">
+              <div class="top">
+                <svg viewBox="0 0 240 240" fill="none" stroke="#d4a866" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="28" y="28" width="184" height="184" rx="6" />
+                  <ellipse cx="120" cy="120" rx="22" ry="11" />
+                  <line x1="120" y1="111" x2="120" y2="129" stroke-width="7"/>
+                </svg>
+                <span>Frequency&nbsp;Vibes</span>
+              </div>
+              <div>
+                <div class="name">Eugene Mierak</div>
+                <div class="role">FOUNDER · TUNER</div>
+              </div>
+              <div class="contact">eugenemierak.com</div>
+            </div>
+          </div>
+          <h3>Business card</h3>
+          <p>Dark stock + gold foil. Title "Tuner" — not "coach", not "founder" alone.</p>
+        </div>
+
+        <!-- Book cover -->
+        <div class="app-card">
+          <div class="stage">
+            <div class="book-mock">
+              <div class="top">
+                <svg viewBox="0 0 240 240" fill="none" stroke="#d4a866" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="28" y="28" width="184" height="184" rx="6" />
+                  <path d="M120 60 Q90 60 90 90 Q90 120 120 120 Q150 120 150 90 Q150 75 138 75" />
+                  <path d="M120 180 Q150 180 150 150 Q150 120 120 120 Q90 120 90 150 Q90 165 102 165" />
+                  <path d="M28 28 L52 28 L28 52 Z" fill="#d4a866" stroke="none"/>
+                  <path d="M212 28 L212 52 L188 28 Z" fill="#d4a866" stroke="none"/>
+                  <path d="M28 212 L28 188 L52 212 Z" fill="#d4a866" stroke="none"/>
+                  <path d="M212 212 L188 212 L212 188 Z" fill="#d4a866" stroke="none"/>
+                  <ellipse cx="120" cy="120" rx="18" ry="9" />
+                  <line x1="120" y1="113" x2="120" y2="127" stroke-width="3" />
+                </svg>
+                <div class="title">Frequency<br>Vibes</div>
+              </div>
+              <div class="author">EUGENE&nbsp;MIERAK</div>
+            </div>
+          </div>
+          <h3>BookVoice cover</h3>
+          <p>Glyph at top, title in Fraunces, author signature in mono caps. Replaces current placeholder.</p>
+        </div>
+
+        <!-- Product label -->
+        <div class="app-card">
+          <div class="stage">
+            <div class="label-mock">
+              <svg viewBox="0 0 240 240" fill="none" stroke="#0b0b0f" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="28" y="28" width="184" height="184" rx="6" />
+                <path d="M120 60 Q90 60 90 90 Q90 120 120 120 Q150 120 150 90 Q150 75 138 75" />
+                <path d="M120 180 Q150 180 150 150 Q150 120 120 120 Q90 120 90 150 Q90 165 102 165" />
+                <path d="M28 28 L52 28 L28 52 Z" fill="#0b0b0f" stroke="none"/>
+                <path d="M212 28 L212 52 L188 28 Z" fill="#0b0b0f" stroke="none"/>
+                <path d="M28 212 L28 188 L52 212 Z" fill="#0b0b0f" stroke="none"/>
+                <path d="M212 212 L188 212 L212 188 Z" fill="#0b0b0f" stroke="none"/>
+                <ellipse cx="120" cy="120" rx="18" ry="9" />
+                <line x1="120" y1="113" x2="120" y2="127" stroke-width="4.5" />
+              </svg>
+              <div class="product"><strong>Frequency&nbsp;Foods</strong>Raw Cacao &amp; Maca Blend</div>
+              <div class="footer-line">200G · TUNED · BALI</div>
+            </div>
+          </div>
+          <h3>Product label · Foods</h3>
+          <p>Inverse mark on cream paper. Sub-line "Frequency Foods" connects partner products to the brand.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════ 5 · RULES ════════════════════════════════ -->
+    <section class="section">
+      <div class="section-head">
+        <div class="num">05</div>
+        <h2>Do &amp; Don't</h2>
+        <p>Five rules. Anyone touching the mark — designer, printer, agency — reads these first.</p>
+      </div>
+      <div class="rules">
+        <div class="rule">
+          <span class="pill do">DO</span>
+          <h4>Respect the clear space</h4>
+          <p>Always leave breathing room around the glyph equal to the height of one corner triangle. No element invades.</p>
+        </div>
+        <div class="rule">
+          <span class="pill do">DO</span>
+          <h4>Pair with editorial type</h4>
+          <p>Cormorant Garamond or Fraunces for the wordmark. IBM Plex Mono for accents. No sans-serif geometric.</p>
+        </div>
+        <div class="rule">
+          <span class="pill do">DO</span>
+          <h4>Use gold on dark first</h4>
+          <p>The primary lock-up is always preferred. Inverse and mono only when the medium forces it.</p>
+        </div>
+        <div class="rule">
+          <span class="pill dont">DON'T</span>
+          <h4>Don't recolor on a whim</h4>
+          <p>No purples, no neon, no pastels. Gold #D4A866 or its monochrome translations. Period.</p>
+        </div>
+        <div class="rule">
+          <span class="pill dont">DON'T</span>
+          <h4>Don't stretch or rotate</h4>
+          <p>The mark is square. Never distort proportions or rotate beyond 0°. The cosmos is balanced.</p>
+        </div>
+        <div class="rule">
+          <span class="pill dont">DON'T</span>
+          <h4>Don't drop below 24px</h4>
+          <p>For the full glyph. Below that, switch to the favicon-simplified variant (frame + eye only).</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="brand-footer">
+      v2 · Logo direction approved by Zak — refined for Eugene Mierak — 2026
+    </footer>
+  </div>
+</body>
+</html>

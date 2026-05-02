@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" fill="none">
+  <!-- Leaf icon -->
+  <g transform="translate(3,3)">
+    <path d="M16 2C10 8 3 17 3 26c0 5.5 3.5 9 9 9 1.8 0 3.5-.8 5-2.2" stroke="#68d391" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M16 2c-1.8 9-1.8 18 0 28" stroke="#48bb78" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M16 2C22 8 29 17 29 26c0 5.5-3.5 9-9 9-1.8 0-3.5-.8-5-2.2" stroke="#68d391" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <circle cx="16" cy="4" r="3.5" fill="#f5a623"/>
+  </g>
+  <!-- Text -->
+  <text x="42" y="22" font-family="Georgia, serif" font-size="19" font-weight="700" fill="#ffffff" letter-spacing="2">EKO</text>
+  <text x="42" y="42" font-family="Georgia, serif" font-size="18" font-weight="700" fill="#68d391" letter-spacing="2">VITARIS</text>
+</svg>

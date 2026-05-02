@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Frequency Vibes — Logo Concepts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,500&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0b0f;
+      --bg-2: #15151c;
+      --gold: #d4a866;
+      --gold-soft: #e8c896;
+      --ink: #f4ecdc;
+      --muted: #8a8275;
+      --border: #2a2620;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Cormorant Garamond', serif;
+      min-height: 100vh;
+      padding: 64px 24px 96px;
+    }
+    .wrap { max-width: 1180px; margin: 0 auto; }
+    header {
+      text-align: center;
+      margin-bottom: 80px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 40px;
+    }
+    header .eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    header h1 {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      font-size: 46px;
+      margin: 0 0 12px;
+      letter-spacing: -0.01em;
+    }
+    header p {
+      color: var(--muted);
+      max-width: 640px;
+      margin: 0 auto;
+      font-size: 17px;
+      line-height: 1.55;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    @media (max-width: 980px) { .grid { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .card .stage {
+      padding: 56px 24px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(212,168,102,0.06), transparent 60%),
+        var(--bg);
+    }
+    .card .meta {
+      padding: 22px 28px 28px;
+      border-top: 1px solid var(--border);
+    }
+    .card .tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.32em;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .card h2 {
+      font-family: 'Fraunces', serif;
+      font-weight: 400;
+      font-size: 22px;
+      margin: 0 0 10px;
+    }
+    .card p {
+      color: var(--muted);
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .wordmark {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--gold);
+      font-size: 12px;
+      letter-spacing: 0.42em;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    /* Inverse strip */
+    .inverse {
+      margin-top: 64px;
+      background: var(--ink);
+      border-radius: 6px;
+      padding: 56px 24px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      align-items: center;
+    }
+    @media (max-width: 980px) { .inverse { grid-template-columns: 1fr; } }
+    .inverse .slot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .inverse .label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: #6b5f47;
+    }
+    .inverse .wordmark { color: #4a3a1d; }
+
+    /* Tiny strip — favicon scale test */
+    .scale-strip {
+      margin-top: 64px;
+      padding: 36px 24px;
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .scale-strip .group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .scale-strip .group span {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.2em;
+    }
+
+    footer {
+      margin-top: 80px;
+      text-align: center;
+      color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">— logo exploration · v1 —</div>
+      <h1>Frequency Vibes</h1>
+      <p>Three directions blending the Mayan Hunab Ku (the cosmos in motion) with a stylized echo of Anubis. All in editorial gold on dark, matching the existing BookVoice universe.</p>
+    </header>
+
+    <!-- ─────────── 3 CONCEPTS ─────────── -->
+    <div class="grid">
+
+      <!-- ============ A — Hunab Ku + Eye of Anubis ============ -->
+      <div class="card">
+        <div class="stage">
+          <svg width="180" height="180" viewBox="0 0 200 200" fill="none" stroke="#d4a866" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-label="Concept A">
+            <!-- Outer square frame -->
+            <rect x="22" y="22" width="156" height="156" rx="3" />
+            <!-- Mayan Hunab Ku — two opposing spirals -->
+            <!-- Top-left spiral -->
+            <path d="M70 60 Q60 60 60 75 Q60 95 80 95 Q100 95 100 75 Q100 60 88 60" />
+            <!-- Bottom-right spiral (mirrored) -->
+            <path d="M130 140 Q140 140 140 125 Q140 105 120 105 Q100 105 100 125 Q100 140 112 140" />
+            <!-- Corner triangles (4) -->
+            <path d="M22 22 L40 22 L22 40 Z" fill="#d4a866" stroke="none"/>
+            <path d="M178 22 L178 40 L160 22 Z" fill="#d4a866" stroke="none"/>
+            <path d="M22 178 L22 160 L40 178 Z" fill="#d4a866" stroke="none"/>
+            <path d="M178 178 L160 178 L178 160 Z" fill="#d4a866" stroke="none"/>
+            <!-- Eye of Anubis at the center — almond + vertical pupil -->
+            <ellipse cx="100" cy="100" rx="14" ry="7" />
+            <line x1="100" y1="95" x2="100" y2="105" stroke-width="2.6" />
+          </svg>
+          <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        </div>
+        <div class="meta">
+          <div class="tag">CONCEPT&nbsp;A</div>
+          <h2>Hunab Ku · Eye at center</h2>
+          <p>Sealed glyph. Mayan square + opposing spirals + four corner triangles. Anubis enters as the almond eye with vertical pupil at the dead center. Both cultures, one symbol.</p>
+        </div>
+      </div>
+
+      <!-- ============ B — Hunab Ku + Jackal silhouette ============ -->
+      <div class="card">
+        <div class="stage">
+          <svg width="180" height="180" viewBox="0 0 200 200" fill="none" stroke="#d4a866" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-label="Concept B">
+            <!-- Two pointed jackal ears emerging from the top corners -->
+            <path d="M30 28 L40 6 L52 30" />
+            <path d="M148 30 L160 6 L170 28" />
+            <!-- Outer rounded square / cosmic seal -->
+            <path d="M30 30 L170 30 L170 170 L30 170 Z" />
+            <!-- Inner circle — universe -->
+            <circle cx="100" cy="100" r="52" />
+            <!-- Yin-yang style spirals inside -->
+            <path d="M100 48 Q126 48 126 74 Q126 100 100 100 Q74 100 74 126 Q74 152 100 152" />
+            <!-- Two dots — the eyes / breath -->
+            <circle cx="100" cy="74" r="3.5" fill="#d4a866" stroke="none"/>
+            <circle cx="100" cy="126" r="3.5" fill="#d4a866" stroke="none"/>
+            <!-- Subtle frequency lines outside the seal -->
+            <path d="M14 100 Q22 96 30 100" />
+            <path d="M170 100 Q178 96 186 100" opacity="0.7"/>
+            <path d="M170 100 Q178 104 186 100" opacity="0.7"/>
+            <path d="M14 100 Q22 104 30 100" />
+          </svg>
+          <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        </div>
+        <div class="meta">
+          <div class="tag">CONCEPT&nbsp;B</div>
+          <h2>Cosmic seal · Jackal contour</h2>
+          <p>From a distance: a Mayan cosmic seal. Up close: the upper edges become Anubis ears. Frequency waves run outside the seal. The most subtle of the three — ages well.</p>
+        </div>
+      </div>
+
+      <!-- ============ C — Minimalist rune ============ -->
+      <div class="card">
+        <div class="stage">
+          <svg width="180" height="180" viewBox="0 0 200 200" fill="none" stroke="#d4a866" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-label="Concept C">
+            <!-- Two abstract jackal ears -->
+            <line x1="78" y1="40" x2="78" y2="70" />
+            <line x1="122" y1="40" x2="122" y2="70" />
+            <!-- Minimal yin-yang waveform -->
+            <path d="M60 100 Q80 80 100 100 T140 100" />
+            <path d="M60 110 Q80 130 100 110 T140 110" opacity="0.5"/>
+            <!-- Center pupil -->
+            <circle cx="100" cy="105" r="3" fill="#d4a866" stroke="none"/>
+            <!-- Optional encircling thin ring -->
+            <circle cx="100" cy="105" r="58" stroke-opacity="0.35" stroke-width="1.2"/>
+          </svg>
+          <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        </div>
+        <div class="meta">
+          <div class="tag">CONCEPT&nbsp;C</div>
+          <h2>Rune · Minimalist</h2>
+          <p>Two waves (frequency / yin-yang spirals reduced) + two vertical strokes (Anubis ears abstracted) + a single dot. Reads at 16px and at 3 meters. The "ten-year" choice.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ─────────── INVERSE STRIP ─────────── -->
+    <section class="inverse">
+      <div class="slot">
+        <svg width="120" height="120" viewBox="0 0 200 200" fill="none" stroke="#0b0b0f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="22" y="22" width="156" height="156" rx="3" />
+          <path d="M70 60 Q60 60 60 75 Q60 95 80 95 Q100 95 100 75 Q100 60 88 60" />
+          <path d="M130 140 Q140 140 140 125 Q140 105 120 105 Q100 105 100 125 Q100 140 112 140" />
+          <path d="M22 22 L40 22 L22 40 Z" fill="#0b0b0f" stroke="none"/>
+          <path d="M178 22 L178 40 L160 22 Z" fill="#0b0b0f" stroke="none"/>
+          <path d="M22 178 L22 160 L40 178 Z" fill="#0b0b0f" stroke="none"/>
+          <path d="M178 178 L160 178 L178 160 Z" fill="#0b0b0f" stroke="none"/>
+          <ellipse cx="100" cy="100" rx="14" ry="7" />
+          <line x1="100" y1="95" x2="100" y2="105" stroke-width="2.6" />
+        </svg>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <div class="label">A · ON LIGHT</div>
+      </div>
+
+      <div class="slot">
+        <svg width="120" height="120" viewBox="0 0 200 200" fill="none" stroke="#0b0b0f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M30 28 L40 6 L52 30" />
+          <path d="M148 30 L160 6 L170 28" />
+          <path d="M30 30 L170 30 L170 170 L30 170 Z" />
+          <circle cx="100" cy="100" r="52" />
+          <path d="M100 48 Q126 48 126 74 Q126 100 100 100 Q74 100 74 126 Q74 152 100 152" />
+          <circle cx="100" cy="74" r="3.5" fill="#0b0b0f" stroke="none"/>
+          <circle cx="100" cy="126" r="3.5" fill="#0b0b0f" stroke="none"/>
+        </svg>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <div class="label">B · ON LIGHT</div>
+      </div>
+
+      <div class="slot">
+        <svg width="120" height="120" viewBox="0 0 200 200" fill="none" stroke="#0b0b0f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="78" y1="40" x2="78" y2="70" />
+          <line x1="122" y1="40" x2="122" y2="70" />
+          <path d="M60 100 Q80 80 100 100 T140 100" />
+          <path d="M60 110 Q80 130 100 110 T140 110" opacity="0.5"/>
+          <circle cx="100" cy="105" r="3" fill="#0b0b0f" stroke="none"/>
+          <circle cx="100" cy="105" r="58" stroke-opacity="0.35" stroke-width="1.2"/>
+        </svg>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <div class="label">C · ON LIGHT</div>
+      </div>
+    </section>
+
+    <!-- ─────────── SCALE TEST ─────────── -->
+    <div class="scale-strip">
+      <div class="group">
+        <span>16PX</span>
+        <svg width="16" height="16" viewBox="0 0 200 200" fill="none" stroke="#d4a866" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="22" y="22" width="156" height="156" rx="6"/>
+          <ellipse cx="100" cy="100" rx="22" ry="11" />
+        </svg>
+      </div>
+      <div class="group">
+        <span>32PX</span>
+        <svg width="32" height="32" viewBox="0 0 200 200" fill="none" stroke="#d4a866" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="22" y="22" width="156" height="156" rx="4"/>
+          <ellipse cx="100" cy="100" rx="20" ry="9" />
+          <line x1="100" y1="92" x2="100" y2="108" stroke-width="5"/>
+        </svg>
+      </div>
+      <div class="group">
+        <span>64PX</span>
+        <svg width="64" height="64" viewBox="0 0 200 200" fill="none" stroke="#d4a866" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="22" y="22" width="156" height="156" rx="3"/>
+          <path d="M70 60 Q60 60 60 75 Q60 95 80 95 Q100 95 100 75 Q100 60 88 60" />
+          <path d="M130 140 Q140 140 140 125 Q140 105 120 105 Q100 105 100 125 Q100 140 112 140" />
+          <ellipse cx="100" cy="100" rx="14" ry="7" />
+          <line x1="100" y1="95" x2="100" y2="105" stroke-width="3"/>
+        </svg>
+      </div>
+      <div class="group">
+        <span>128PX</span>
+        <svg width="128" height="128" viewBox="0 0 200 200" fill="none" stroke="#d4a866" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="22" y="22" width="156" height="156" rx="3"/>
+          <path d="M70 60 Q60 60 60 75 Q60 95 80 95 Q100 95 100 75 Q100 60 88 60" />
+          <path d="M130 140 Q140 140 140 125 Q140 105 120 105 Q100 105 100 125 Q100 140 112 140" />
+          <path d="M22 22 L40 22 L22 40 Z" fill="#d4a866" stroke="none"/>
+          <path d="M178 22 L178 40 L160 22 Z" fill="#d4a866" stroke="none"/>
+          <path d="M22 178 L22 160 L40 178 Z" fill="#d4a866" stroke="none"/>
+          <path d="M178 178 L160 178 L178 160 Z" fill="#d4a866" stroke="none"/>
+          <ellipse cx="100" cy="100" rx="14" ry="7" />
+          <line x1="100" y1="95" x2="100" y2="105" stroke-width="2.6" />
+        </svg>
+      </div>
+    </div>
+
+    <footer>
+      v1 · concepts only — pick one direction and we refine in Figma
+    </footer>
+  </div>
+</body>
+</html>
