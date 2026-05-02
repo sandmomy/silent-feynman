@@ -438,7 +438,7 @@
     }
     /* Partners strip */
     .hero-partners {
-      margin-bottom: 0;
+      margin-bottom: 80px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -455,16 +455,30 @@
 
     .partner-list {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px 20px;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px 16px;
       width: 100%;
-      max-width: 260px;
+      max-width: 320px;
     }
 
     .partner-tag {
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+
+    .partner-atranga {
+      grid-column: 1 / -1;
+      justify-content: center;
+      margin-top: 4px;
+    }
+
+    .partner-logo-atranga-img {
+      height: 22px;
+      width: auto;
+      max-width: 140px;
+      object-fit: contain;
+      filter: brightness(1.4);
     }
 
     .partner-logo-main-img {
@@ -1860,21 +1874,24 @@
           <a href="sdbi-center.html" class="partner-tag" aria-label="SBDI Center">
             <img src="assets/logo-sbdi.webp" alt="SBDI" class="partner-logo-main-img" loading="lazy" decoding="async">
           </a>
+          <a href="biozar-venezuela.html" class="partner-tag" aria-label="Biozar Venezuela">
+            <img src="assets/optimized/logo-biozar.340w.webp" alt="Biozar Venezuela" class="partner-logo-biozar-img" loading="lazy" decoding="async">
+          </a>
+          <a href="wiseuse.html" class="partner-tag partner-wiseuse" aria-label="WiseUse">
+            <img src="assets/optimized/wiseuse-pyramid.171w.webp" alt="WiseUse" class="partner-logo-wiseuse-pyramid" loading="lazy" decoding="async">
+            <img src="assets/optimized/wiseuse-text.193w.webp" alt="WiseUse International" class="partner-logo-wiseuse-text" loading="lazy" decoding="async">
+          </a>
           <a href="vegaqura.html" class="partner-tag" aria-label="Vegaqura">
             <img src="assets/optimized/logo-vegaqura.480w.webp" alt="Vegaqura" class="partner-logo-vegaqura-img" loading="lazy" decoding="async">
           </a>
           <a href="eko-vitaris.html" class="partner-tag" aria-label="Eko Vitaris">
             <img src="assets/logo-eko-vitaris.svg" alt="Eko Vitaris" class="partner-logo-ekovitaris-img" loading="lazy" decoding="async">
           </a>
-          <a href="wiseuse.html" class="partner-tag partner-wiseuse" aria-label="WiseUse">
-            <img src="assets/optimized/wiseuse-pyramid.171w.webp" alt="WiseUse" class="partner-logo-wiseuse-pyramid" loading="lazy" decoding="async">
-            <img src="assets/optimized/wiseuse-text.193w.webp" alt="WiseUse International" class="partner-logo-wiseuse-text" loading="lazy" decoding="async">
-          </a>
           <a href="mariposa-batu.html" class="partner-tag" aria-label="Mariposa Batu">
             <img src="assets/optimized/logo-mariposa-batu.480w.webp" alt="Mariposa Batu" class="partner-logo-mariposa-img" loading="lazy" decoding="async">
           </a>
-          <a href="biozar-venezuela.html" class="partner-tag" aria-label="Biozar Venezuela">
-            <img src="assets/optimized/logo-biozar.340w.webp" alt="Biozar Venezuela" class="partner-logo-biozar-img" loading="lazy" decoding="async">
+          <a href="atranga.html" class="partner-tag partner-atranga" aria-label="Atranga BioSafe">
+            <img src="assets/atranga/logo_Atranga_horizontal-color.svg" alt="Atranga BioSafe" class="partner-logo-atranga-img" loading="lazy" decoding="async">
           </a>
         </div>
       </div>
