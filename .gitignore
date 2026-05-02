@@ -141,6 +141,10 @@ branding/video-workbench/
 
 # Generated radar output (re-runnable from scout.py, not source)
 branding/scout/radar.html
+# Personal watchlist + scout pycache + scout vibeyard hook artifacts
+branding/scout/watchlist.json
+branding/scout/__pycache__/
+branding/scout/*vibeyard/
 
 # Reels output (per-reel render assets are large + regenerable). The pipeline
 # code under branding/reels/v1/controller/ IS tracked — only generated assets
