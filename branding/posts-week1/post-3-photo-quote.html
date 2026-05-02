@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Post 3 — Photo + Quote · Eugene signing</title>
+<link rel="stylesheet" href="base.css">
+<style>
+  body { background: #07070a; }
+  .canvas-portrait {
+    background: linear-gradient(135deg, #1c2735 0%, #0d1218 100%);
+  }
+  .photo-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 28%, rgba(0,0,0,0.88) 92%),
+      url('file:///C:/Users/Usuario/Desktop/video imagen istaram/WhatsApp Image 2026-04-26 at 14.01.36 (1).jpeg')
+      center 30% / cover;
+  }
+  .photo-vignette {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 60% 30%, transparent 30%, rgba(0,0,0,0.55) 100%),
+      linear-gradient(0deg, rgba(0,0,0,0.4), transparent 50%);
+  }
+  .mark {
+    position: absolute; top: 56px; left: 56px;
+    width: 88px; height: 88px; border-radius: 8px;
+    background: url('../frequency-vibes-logo-teal-clean.png') center/cover;
+    opacity: 0.94;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.5);
+  }
+  .kicker {
+    position: absolute; top: 76px; right: 64px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 20px; letter-spacing: 0.42em; text-transform: uppercase;
+    color: var(--gold); opacity: 0.85;
+  }
+  .quote {
+    position: absolute; bottom: 220px; left: 64px; right: 64px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-weight: 400;
+    font-size: 64px; line-height: 1.22; color: var(--ink);
+    text-shadow: 0 6px 24px rgba(0,0,0,0.85);
+    letter-spacing: -0.005em;
+  }
+  .quote em { color: var(--gold); font-style: italic; font-weight: 500; }
+  .author {
+    position: absolute; bottom: 150px; left: 64px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 22px; letter-spacing: 0.42em; text-transform: uppercase;
+    color: var(--gold);
+  }
+  .cta {
+    position: absolute; bottom: 64px; left: 64px; right: 64px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 20px; letter-spacing: 0.36em; text-transform: uppercase;
+    color: rgba(244, 236, 220, 0.7);
+    border-top: 1px solid rgba(212, 168, 102, 0.35);
+    padding-top: 22px;
+  }
+  .cta .url { color: var(--gold); }
+</style></head>
+<body>
+<div class="canvas-portrait">
+  <div class="photo-bg"></div>
+  <div class="photo-vignette"></div>
+  <div class="mark"></div>
+  <div class="kicker">Malang · Dec 2025</div>
+  <div class="quote">You don't <em>find</em> your frequency.<br>You <em>tune</em> it — every day.</div>
+  <div class="author">— Eugene Mierak</div>
+  <div class="cta">
+    <span>Read &amp; Listen</span>
+    <span class="url">eugenemierak.com</span>
+  </div>
+</div>
+</body></html>

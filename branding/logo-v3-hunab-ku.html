@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Frequency Vibes — Logo v3 (Hunab Ku faithful)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,400&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0b0f;
+      --bg-2: #15151c;
+      --gold: #d4a866;
+      --gold-soft: #e8c896;
+      --gold-deep: #a87d3f;
+      --ink: #f4ecdc;
+      --cream: #efe7d3;
+      --muted: #8a8275;
+      --border: #2a2620;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Cormorant Garamond', serif;
+      min-height: 100vh;
+      padding: 64px 24px 96px;
+    }
+    .wrap { max-width: 1180px; margin: 0 auto; }
+    header {
+      text-align: center;
+      margin-bottom: 64px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid var(--border);
+    }
+    header .eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.42em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    header h1 {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      font-size: 44px;
+      margin: 0 0 12px;
+      letter-spacing: -0.01em;
+    }
+    header p {
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+    .wordmark {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--gold);
+      font-weight: 500;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-bottom: 64px;
+    }
+    @media (max-width: 880px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 56px 32px 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 22px;
+    }
+    .card .tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.32em;
+      color: var(--gold);
+      margin-top: 12px;
+    }
+    .card h2 {
+      font-family: 'Fraunces', serif;
+      font-weight: 400;
+      font-size: 22px;
+      margin: 0;
+    }
+    .card p {
+      color: var(--muted);
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.5;
+      text-align: center;
+      max-width: 360px;
+    }
+
+    .scale-row {
+      margin-top: 32px;
+      padding: 36px 24px;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .scale-row .group {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .scale-row .group span {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.2em;
+    }
+
+    footer {
+      margin-top: 72px;
+      text-align: center;
+      color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+    }
+
+    /* On-light strip */
+    .light-strip {
+      margin-top: 32px;
+      background: var(--cream);
+      border-radius: 6px;
+      padding: 48px 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+    @media (max-width: 880px) { .light-strip { grid-template-columns: 1fr; } }
+    .light-strip .slot {
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+    }
+    .light-strip .label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: #6b5f47;
+    }
+    .light-strip .wordmark { color: #2a1f10; }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════ Reusable Hunab Ku symbol ════════════ -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <!-- ╔══════════════════════════════════════╗
+           ║  HUNAB KU — Frequency Vibes v3       ║
+           ║  ViewBox 0 0 240 240                 ║
+           ║  All elements in #d4a866 fill        ║
+           ║  Background: #0b0b0f circle          ║
+           ╚══════════════════════════════════════╝ -->
+      <symbol id="hunabku" viewBox="0 0 240 240">
+        <!-- Black background circle -->
+        <circle cx="120" cy="120" r="116" fill="#0b0b0f"/>
+        <!-- Subtle outer gold ring -->
+        <circle cx="120" cy="120" r="115.5" fill="none" stroke="#d4a866" stroke-width="0.8" opacity="0.6"/>
+
+        <g fill="#d4a866" stroke="none">
+          <!-- ─── CENTRAL SPIRAL (S-shape, the cosmos in motion) ─── -->
+          <path d="
+            M 120 78
+            Q 96 78 96 102
+            Q 96 120 114 120
+            Q 124 120 124 110
+            L 134 110
+            Q 134 130 114 130
+            Q 86 130 86 102
+            Q 86 68 120 68
+            Q 154 68 154 102
+            L 154 138
+            Q 154 172 120 172
+            Q 96 172 96 148
+            L 106 148
+            Q 106 162 120 162
+            Q 144 162 144 138
+            L 144 102
+            Q 144 78 120 78
+            Z
+          "/>
+
+          <!-- ─── NORTH ARM — stepped tower (zigurat) ─── -->
+          <path d="
+            M 108 68
+            L 108 56
+            L 100 56
+            L 100 44
+            L 108 44
+            L 108 32
+            L 132 32
+            L 132 44
+            L 140 44
+            L 140 56
+            L 132 56
+            L 132 68
+            Z
+          "/>
+
+          <!-- ─── SOUTH ARM — stepped tower (mirrored) ─── -->
+          <path d="
+            M 108 172
+            L 108 184
+            L 100 184
+            L 100 196
+            L 108 196
+            L 108 208
+            L 132 208
+            L 132 196
+            L 140 196
+            L 140 184
+            L 132 184
+            L 132 172
+            Z
+          "/>
+
+          <!-- ─── EAST ARM — curled hook ─── -->
+          <path d="
+            M 154 112
+            L 168 112
+            L 168 104
+            L 188 104
+            Q 204 104 204 120
+            Q 204 134 192 134
+            Q 184 134 184 126
+            Q 184 120 190 120
+            Q 192 120 192 122
+            L 198 122
+            Q 198 114 190 114
+            Q 178 114 178 126
+            Q 178 140 192 140
+            Q 210 140 210 120
+            Q 210 98 188 98
+            L 168 98
+            L 168 90
+            L 154 90
+            Z
+          "/>
+
+          <!-- ─── WEST ARM — curled hook (mirrored) ─── -->
+          <path d="
+            M 86 112
+            L 72 112
+            L 72 104
+            L 52 104
+            Q 36 104 36 120
+            Q 36 134 48 134
+            Q 56 134 56 126
+            Q 56 120 50 120
+            Q 48 120 48 122
+            L 42 122
+            Q 42 114 50 114
+            Q 62 114 62 126
+            Q 62 140 48 140
+            Q 30 140 30 120
+            Q 30 98 52 98
+            L 72 98
+            L 72 90
+            L 86 90
+            Z
+          "/>
+
+          <!-- ─── DIAGONAL ORNAMENTS (4 small hooks) ─── -->
+          <!-- NW -->
+          <path d="M 60 60 Q 60 52 68 52 Q 76 52 76 60 L 72 60 Q 72 56 68 56 Q 64 56 64 60 Z"/>
+          <!-- NE -->
+          <path d="M 180 60 Q 180 52 172 52 Q 164 52 164 60 L 168 60 Q 168 56 172 56 Q 176 56 176 60 Z"/>
+          <!-- SW -->
+          <path d="M 60 180 Q 60 188 68 188 Q 76 188 76 180 L 72 180 Q 72 184 68 184 Q 64 184 64 180 Z"/>
+          <!-- SE -->
+          <path d="M 180 180 Q 180 188 172 188 Q 164 188 164 180 L 168 180 Q 168 184 172 184 Q 176 184 176 180 Z"/>
+        </g>
+      </symbol>
+
+      <!-- Variant B: same as A, but central spiral has an Anubis-eye pupil at its core -->
+      <symbol id="hunabku-eye" viewBox="0 0 240 240">
+        <circle cx="120" cy="120" r="116" fill="#0b0b0f"/>
+        <circle cx="120" cy="120" r="115.5" fill="none" stroke="#d4a866" stroke-width="0.8" opacity="0.6"/>
+        <g fill="#d4a866" stroke="none">
+          <path d="
+            M 120 78
+            Q 96 78 96 102
+            Q 96 120 114 120
+            Q 124 120 124 110
+            L 134 110
+            Q 134 130 114 130
+            Q 86 130 86 102
+            Q 86 68 120 68
+            Q 154 68 154 102
+            L 154 138
+            Q 154 172 120 172
+            Q 96 172 96 148
+            L 106 148
+            Q 106 162 120 162
+            Q 144 162 144 138
+            L 144 102
+            Q 144 78 120 78
+            Z
+          "/>
+          <path d="M 108 68 L 108 56 L 100 56 L 100 44 L 108 44 L 108 32 L 132 32 L 132 44 L 140 44 L 140 56 L 132 56 L 132 68 Z"/>
+          <path d="M 108 172 L 108 184 L 100 184 L 100 196 L 108 196 L 108 208 L 132 208 L 132 196 L 140 196 L 140 184 L 132 184 L 132 172 Z"/>
+          <path d="M 154 112 L 168 112 L 168 104 L 188 104 Q 204 104 204 120 Q 204 134 192 134 Q 184 134 184 126 Q 184 120 190 120 Q 192 120 192 122 L 198 122 Q 198 114 190 114 Q 178 114 178 126 Q 178 140 192 140 Q 210 140 210 120 Q 210 98 188 98 L 168 98 L 168 90 L 154 90 Z"/>
+          <path d="M 86 112 L 72 112 L 72 104 L 52 104 Q 36 104 36 120 Q 36 134 48 134 Q 56 134 56 126 Q 56 120 50 120 Q 48 120 48 122 L 42 122 Q 42 114 50 114 Q 62 114 62 126 Q 62 140 48 140 Q 30 140 30 120 Q 30 98 52 98 L 72 98 L 72 90 L 86 90 Z"/>
+          <path d="M 60 60 Q 60 52 68 52 Q 76 52 76 60 L 72 60 Q 72 56 68 56 Q 64 56 64 60 Z"/>
+          <path d="M 180 60 Q 180 52 172 52 Q 164 52 164 60 L 168 60 Q 168 56 172 56 Q 176 56 176 60 Z"/>
+          <path d="M 60 180 Q 60 188 68 188 Q 76 188 76 180 L 72 180 Q 72 184 68 184 Q 64 184 64 180 Z"/>
+          <path d="M 180 180 Q 180 188 172 188 Q 164 188 164 180 L 168 180 Q 168 184 172 184 Q 176 184 176 180 Z"/>
+        </g>
+        <!-- Anubis eye placed on top of the spiral's outer ring — looks like a pupil watching -->
+        <ellipse cx="124" cy="103" rx="3.5" ry="6" fill="#0b0b0f"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <div class="wrap">
+
+    <header>
+      <div class="eyebrow">— logo v3 · hunab ku faithful —</div>
+      <h1>Frequency Vibes</h1>
+      <p>Refined to capture the visual weight of the reference symbol — solid gold forms on black, central S-spiral, four cardinal arms, ornamental hooks. This is the brand mark.</p>
+    </header>
+
+    <!-- ═══════ Reference comparison ═══════ -->
+    <div class="grid-2">
+
+      <div class="card">
+        <svg viewBox="0 0 240 240" width="220" height="220">
+          <use href="#hunabku"/>
+        </svg>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <h2>Variant A · Hunab Ku faithful</h2>
+        <p>Pure cosmic seal. The central spiral remains untouched — Eugene's reference, refined for vector use.</p>
+        <div class="tag">RECOMMENDED · CLEANEST</div>
+      </div>
+
+      <div class="card">
+        <svg viewBox="0 0 240 240" width="220" height="220">
+          <use href="#hunabku-eye"/>
+        </svg>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <h2>Variant B · with Anubis pupil</h2>
+        <p>Same mark, but a small dark almond inside the spiral reads as a watching eye. A whisper of Anubis, no more.</p>
+        <div class="tag">SUBTLE FUSION</div>
+      </div>
+
+    </div>
+
+    <!-- ═══════ Scale test ═══════ -->
+    <div class="scale-row">
+      <div class="group">
+        <svg viewBox="0 0 240 240" width="20" height="20"><use href="#hunabku"/></svg>
+        <span>20PX</span>
+      </div>
+      <div class="group">
+        <svg viewBox="0 0 240 240" width="32" height="32"><use href="#hunabku"/></svg>
+        <span>32PX</span>
+      </div>
+      <div class="group">
+        <svg viewBox="0 0 240 240" width="48" height="48"><use href="#hunabku"/></svg>
+        <span>48PX</span>
+      </div>
+      <div class="group">
+        <svg viewBox="0 0 240 240" width="80" height="80"><use href="#hunabku"/></svg>
+        <span>80PX</span>
+      </div>
+      <div class="group">
+        <svg viewBox="0 0 240 240" width="140" height="140"><use href="#hunabku"/></svg>
+        <span>140PX</span>
+      </div>
+    </div>
+
+    <!-- ═══════ On light ═══════ -->
+    <div class="light-strip">
+      <div class="slot">
+        <svg viewBox="0 0 240 240" width="160" height="160" style="filter: invert(1) hue-rotate(180deg);">
+          <use href="#hunabku"/>
+        </svg>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <div class="label">A · ON CREAM (INVERSE)</div>
+      </div>
+      <div class="slot">
+        <svg viewBox="0 0 240 240" width="160" height="160" style="filter: invert(1) hue-rotate(180deg);">
+          <use href="#hunabku-eye"/>
+        </svg>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <div class="label">B · ON CREAM (INVERSE)</div>
+      </div>
+    </div>
+
+    <footer>
+      v3 · hunab ku faithful — pick A or B, then we lock the brand sheet
+    </footer>
+  </div>
+
+</body>
+</html>

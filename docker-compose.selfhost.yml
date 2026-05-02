@@ -1,0 +1,37 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    environment:
+      BOOKVOICE_HOST: 0.0.0.0
+      BOOKVOICE_PORT: 8000
+      BOOKVOICE_DATA_DIR: /srv/bookvoice/library_data
+      BOOKVOICE_COOKIE_SECURE: "true"
+    volumes:
+      - ./deploy/data:/srv/bookvoice/library_data
+    expose:
+      - "8000"
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      BOOKVOICE_DOMAIN: ${BOOKVOICE_DOMAIN}
+      BOOKVOICE_UPSTREAM: app:8000
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:

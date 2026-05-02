@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Frequency Vibes — Logo v7 (A original)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,400&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0b0f;
+      --bg-2: #15151c;
+      --gold: #d4a866;
+      --ink: #f4ecdc;
+      --cream: #efe7d3;
+      --muted: #8a8275;
+      --border: #2a2620;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Cormorant Garamond', serif;
+      min-height: 100vh;
+      padding: 56px 24px 96px;
+    }
+    .wrap { max-width: 1180px; margin: 0 auto; }
+    header {
+      text-align: center;
+      margin-bottom: 56px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+    header .eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.42em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    header h1 {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      font-size: 42px;
+      margin: 0 0 10px;
+      letter-spacing: -0.01em;
+    }
+    header p {
+      color: var(--muted);
+      max-width: 620px;
+      margin: 0 auto;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+    .wordmark {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--gold);
+      font-weight: 500;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+    .hero-mark {
+      display: flex;
+      justify-content: center;
+      padding: 56px 0 32px;
+      background: radial-gradient(ellipse at 50% 50%, rgba(212,168,102,0.07), transparent 60%);
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+    .hero-wm {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .hero-wm .wordmark {
+      font-size: 18px;
+      letter-spacing: 0.5em;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    @media (max-width: 700px) { .features { grid-template-columns: 1fr; } }
+    .feature {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 22px 24px;
+    }
+    .feature h4 {
+      font-family: 'Fraunces', serif;
+      font-weight: 400;
+      font-size: 17px;
+      margin: 0 0 8px;
+    }
+    .feature p { color: var(--muted); font-size: 14px; line-height: 1.5; margin: 0; }
+    .feature .pin {
+      display: inline-block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.32em;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .scale-row {
+      margin-top: 24px;
+      padding: 32px 24px;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .scale-row .group { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .scale-row .group span {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.2em;
+    }
+
+    .light-strip {
+      margin-top: 32px;
+      background: var(--cream);
+      border-radius: 6px;
+      padding: 56px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .light-strip .label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: #6b5f47;
+    }
+    .light-strip .wordmark { color: #2a1f10; font-size: 16px; letter-spacing: 0.5em; }
+
+    footer {
+      margin-top: 64px;
+      text-align: center;
+      color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════════════════════ The mark ════════════════════════════════ -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="mark" viewBox="0 0 240 240">
+
+        <!-- Black disk -->
+        <circle cx="120" cy="120" r="116" fill="#0b0b0f"/>
+
+        <!-- ═══ Frequency dial tickmarks (around outer ring) ═══ -->
+        <g stroke="#d4a866" stroke-linecap="round" stroke-width="2" opacity="0.7">
+          <line x1="120" y1="6" x2="120" y2="14"/>
+          <line x1="120" y1="226" x2="120" y2="234"/>
+          <line x1="6" y1="120" x2="14" y2="120"/>
+          <line x1="226" y1="120" x2="234" y2="120"/>
+        </g>
+        <g stroke="#d4a866" stroke-linecap="round" stroke-width="1.5" opacity="0.55">
+          <!-- 8 minor ticks -->
+          <line x1="63" y1="20" x2="66" y2="27"/>
+          <line x1="177" y1="20" x2="174" y2="27"/>
+          <line x1="63" y1="220" x2="66" y2="213"/>
+          <line x1="177" y1="220" x2="174" y2="213"/>
+          <line x1="20" y1="63" x2="27" y2="66"/>
+          <line x1="220" y1="63" x2="213" y2="66"/>
+          <line x1="20" y1="177" x2="27" y2="174"/>
+          <line x1="220" y1="177" x2="213" y2="174"/>
+        </g>
+
+        <!-- Outer thin ring -->
+        <circle cx="120" cy="120" r="108" fill="none" stroke="#d4a866" stroke-width="1.4" opacity="0.55"/>
+
+        <g fill="#d4a866" stroke="none">
+          <!-- ═══ 4 DIAGONAL SECTORS ═══ -->
+          <path d="M 120 120 L 95 95 L 60 35 A 100 100 0 0 0 35 60 L 95 95 Z"/>
+          <path d="M 120 120 L 145 95 L 180 35 A 100 100 0 0 1 205 60 L 145 95 Z"/>
+          <path d="M 120 120 L 95 145 L 60 205 A 100 100 0 0 1 35 180 L 95 145 Z"/>
+          <path d="M 120 120 L 145 145 L 180 205 A 100 100 0 0 0 205 180 L 145 145 Z"/>
+        </g>
+
+        <!-- ═══ Subtle vibration lines INSIDE diagonal sectors ═══ -->
+        <g fill="none" stroke="#0b0b0f" stroke-width="1.6" stroke-linecap="round" opacity="0.85">
+          <!-- NW sector wave -->
+          <path d="M 64 70 Q 70 64 76 70"/>
+          <path d="M 70 76 Q 76 70 82 76"/>
+          <!-- NE sector wave -->
+          <path d="M 164 70 Q 170 64 176 70"/>
+          <path d="M 158 76 Q 164 70 170 76"/>
+          <!-- SW sector wave -->
+          <path d="M 64 170 Q 70 176 76 170"/>
+          <path d="M 70 164 Q 76 170 82 164"/>
+          <!-- SE sector wave -->
+          <path d="M 164 170 Q 170 176 176 170"/>
+          <path d="M 158 164 Q 164 170 170 164"/>
+        </g>
+
+        <g fill="#d4a866" stroke="none">
+          <!-- ═══ NORTH ARM (zigurat with refined curls) ═══ -->
+          <path d="
+            M 105 95
+            L 105 80
+            L 95 80
+            L 95 65
+            L 105 65
+            L 105 50
+            L 135 50
+            L 135 65
+            L 145 65
+            L 145 80
+            L 135 80
+            L 135 95
+            Z
+          "/>
+          <!-- North refined curls (small, elegant) -->
+          <path d="M 108 50 L 108 38 Q 108 30 100 30 Q 92 30 92 38 Q 92 42 96 42 Q 96 38 100 38 Q 104 38 104 42 L 104 50 Z"/>
+          <path d="M 132 50 L 132 38 Q 132 30 140 30 Q 148 30 148 38 Q 148 42 144 42 Q 144 38 140 38 Q 136 38 136 42 L 136 50 Z"/>
+
+          <!-- ═══ SOUTH ARM (mirrored) ═══ -->
+          <path d="
+            M 105 145
+            L 105 160
+            L 95 160
+            L 95 175
+            L 105 175
+            L 105 190
+            L 135 190
+            L 135 175
+            L 145 175
+            L 145 160
+            L 135 160
+            L 135 145
+            Z
+          "/>
+          <path d="M 108 190 L 108 202 Q 108 210 100 210 Q 92 210 92 202 Q 92 198 96 198 Q 96 202 100 202 Q 104 202 104 198 L 104 190 Z"/>
+          <path d="M 132 190 L 132 202 Q 132 210 140 210 Q 148 210 148 202 Q 148 198 144 198 Q 144 202 140 202 Q 136 202 136 198 L 136 190 Z"/>
+
+          <!-- ═══ EAST ARM ═══ -->
+          <path d="
+            M 145 105
+            L 160 105
+            L 160 95
+            L 175 95
+            L 175 105
+            L 190 105
+            L 190 135
+            L 175 135
+            L 175 145
+            L 160 145
+            L 160 135
+            L 145 135
+            Z
+          "/>
+          <path d="M 190 108 L 202 108 Q 210 108 210 100 Q 210 92 202 92 Q 198 92 198 96 Q 202 96 202 100 Q 202 104 198 104 L 190 104 Z"/>
+          <path d="M 190 132 L 202 132 Q 210 132 210 140 Q 210 148 202 148 Q 198 148 198 144 Q 202 144 202 140 Q 202 136 198 136 L 190 136 Z"/>
+
+          <!-- ═══ WEST ARM (mirrored) ═══ -->
+          <path d="
+            M 95 105
+            L 80 105
+            L 80 95
+            L 65 95
+            L 65 105
+            L 50 105
+            L 50 135
+            L 65 135
+            L 65 145
+            L 80 145
+            L 80 135
+            L 95 135
+            Z
+          "/>
+          <path d="M 50 108 L 38 108 Q 30 108 30 100 Q 30 92 38 92 Q 42 92 42 96 Q 38 96 38 100 Q 38 104 42 104 L 50 104 Z"/>
+          <path d="M 50 132 L 38 132 Q 30 132 30 140 Q 30 148 38 148 Q 42 148 42 144 Q 38 144 38 140 Q 38 136 42 136 L 50 136 Z"/>
+        </g>
+
+        <!-- ═══ CENTRAL S-SPIRAL (Adidas-clean stroke) ═══ -->
+        <g fill="none" stroke="#d4a866" stroke-linecap="round" stroke-linejoin="round" stroke-width="13">
+          <!-- Top half of S — opens to the right -->
+          <path d="
+            M 100 86
+            Q 80 86 80 106
+            Q 80 122 100 122
+            Q 116 122 116 110
+          "/>
+          <!-- Bottom half of S — opens to the left -->
+          <path d="
+            M 140 154
+            Q 160 154 160 134
+            Q 160 118 140 118
+            Q 124 118 124 130
+          "/>
+        </g>
+
+        <!-- ═══ CENTER POINT — tiny anubis eye ═══ -->
+        <circle cx="120" cy="120" r="3.5" fill="#d4a866"/>
+        <circle cx="120" cy="120" r="1.5" fill="#0b0b0f"/>
+
+      </symbol>
+    </defs>
+  </svg>
+
+  <div class="wrap">
+
+    <header>
+      <div class="eyebrow">— logo v7 · a original —</div>
+      <h1>Frequency Vibes</h1>
+      <p>The Hunab Ku, kept faithful — but with five small originalizations that turn it into <em>your</em> mark, not a generic Mayan cosmogram.</p>
+    </header>
+
+    <div class="hero-mark">
+      <svg viewBox="0 0 240 240" width="320" height="320"><use href="#mark"/></svg>
+    </div>
+
+    <div class="hero-wm">
+      <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+    </div>
+
+    <!-- ═══════ The 5 originalizations ═══════ -->
+    <div class="features">
+      <div class="feature">
+        <span class="pin">01 · CENTER</span>
+        <h4>The Anubis pupil</h4>
+        <p>A tiny eye at the dead center — a hollow gold dot. Subtle nod to your original Anubis idea, without making the mark literal.</p>
+      </div>
+      <div class="feature">
+        <span class="pin">02 · BORDER</span>
+        <h4>Frequency dial tickmarks</h4>
+        <p>Small radial lines at 4 cardinal points and 8 secondary positions. The disk now reads as a tuner, a dial — a frequency.</p>
+      </div>
+      <div class="feature">
+        <span class="pin">03 · CORE</span>
+        <h4>S-spiral as Adidas-clean stroke</h4>
+        <p>The complex closed spiral becomes two open hooks — readable, modern, scales to favicon. The cosmos as a sound-wave gesture.</p>
+      </div>
+      <div class="feature">
+        <span class="pin">04 · QUADRANTS</span>
+        <h4>Vibration micro-curves</h4>
+        <p>Two thin black curves inside each diagonal sector. From a distance: ornament. Up close: tiny waves. They make the disk vibrate.</p>
+      </div>
+      <div class="feature">
+        <span class="pin">05 · CURLS</span>
+        <h4>Refined cardinal curls</h4>
+        <p>The hooks at the end of the four arms are now tighter and more elegant — less folkloric, more editorial. Same DNA, refined silhouette.</p>
+      </div>
+      <div class="feature">
+        <span class="pin">DNA</span>
+        <h4>What stays untouched</h4>
+        <p>The four cardinal zigurat arms, the four diagonal sectors, the disk silhouette — the structural DNA of the Hunab Ku is preserved.</p>
+      </div>
+    </div>
+
+    <!-- ═══════ Scale ═══════ -->
+    <div class="scale-row">
+      <div class="group"><svg viewBox="0 0 240 240" width="22" height="22"><use href="#mark"/></svg><span>22PX</span></div>
+      <div class="group"><svg viewBox="0 0 240 240" width="36" height="36"><use href="#mark"/></svg><span>36PX</span></div>
+      <div class="group"><svg viewBox="0 0 240 240" width="56" height="56"><use href="#mark"/></svg><span>56PX</span></div>
+      <div class="group"><svg viewBox="0 0 240 240" width="96" height="96"><use href="#mark"/></svg><span>96PX</span></div>
+      <div class="group"><svg viewBox="0 0 240 240" width="160" height="160"><use href="#mark"/></svg><span>160PX</span></div>
+    </div>
+
+    <!-- ═══════ On cream ═══════ -->
+    <div class="light-strip">
+      <svg viewBox="0 0 240 240" width="220" height="220" style="filter: invert(1) hue-rotate(180deg);"><use href="#mark"/></svg>
+      <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+      <div class="label">ON CREAM (INVERSE)</div>
+    </div>
+
+    <footer>
+      v7 · a original — refined hunab ku for frequency vibes
+    </footer>
+  </div>
+
+</body>
+</html>

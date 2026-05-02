@@ -1,0 +1,14 @@
+{$BOOKVOICE_DOMAIN} {
+    encode zstd gzip
+    reverse_proxy {$BOOKVOICE_UPSTREAM}
+
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "same-origin"
+    }
+}
+
+www.{$BOOKVOICE_DOMAIN} {
+    redir https://{$BOOKVOICE_DOMAIN}{uri} permanent
+}

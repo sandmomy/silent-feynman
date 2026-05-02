@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Frequency Vibes · Wireframe builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400;1,500&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0b0b0f; --gold: #d4a866; --ink: #f4ecdc; --cream: #efe7d3;
+  --oxblood: #b4432a; --teal-bg: #2a8b96; --muted: #8a8275; --border: #2a2620;
+  --ui-bg: #0e0e13; --ui-panel: #1a1a22; --ui-panel-2: #232331; --ui-text: #d8d2c0;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100vh; overflow: hidden; }
+body {
+  background: var(--ui-bg); color: var(--ui-text);
+  font-family: 'Inter', system-ui, sans-serif; font-size: 13px;
+  display: grid; grid-template-columns: 280px 1fr 360px;
+  grid-template-rows: 48px 1fr;
+}
+.topbar {
+  grid-column: 1 / -1; grid-row: 1;
+  background: #06060a; border-bottom: 1px solid #000;
+  display: flex; align-items: center; padding: 0 14px; gap: 12px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+}
+.topbar .brand { color: var(--gold); font-weight: 500; }
+.topbar select, .topbar button {
+  background: var(--ui-panel); color: var(--ui-text);
+  border: 1px solid var(--border); padding: 5px 10px;
+  font-family: inherit; font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; cursor: pointer; border-radius: 3px;
+}
+.topbar button:hover { background: var(--ui-panel-2); }
+.topbar button.primary { background: var(--gold); color: #1a1a1a; border-color: var(--gold); font-weight: 500; }
+.topbar .right { margin-left: auto; display: flex; gap: 8px; }
+.topbar .sep { width: 1px; height: 20px; background: #222; }
+
+.left, .right {
+  background: var(--ui-panel); overflow-y: auto;
+  display: flex; flex-direction: column;
+}
+.right { border-left: 1px solid #000; }
+.left { border-right: 1px solid #000; }
+.section { border-bottom: 1px solid #0a0a0a; padding: 12px 14px; }
+.section h3 {
+  margin: 0 0 10px; font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* photo gallery */
+.gallery { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; }
+.gallery .thumb {
+  aspect-ratio: 1/1; background: #000; border-radius: 2px;
+  background-size: cover; background-position: center;
+  cursor: pointer; border: 2px solid transparent;
+}
+.gallery .thumb:hover { border-color: var(--gold); }
+.gallery .thumb.selected { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+
+/* logos picker */
+.logo-list { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.logo-chip {
+  aspect-ratio: 1/1; background: var(--ui-panel-2);
+  display: grid; place-items: center; border-radius: 3px;
+  cursor: pointer; border: 2px solid transparent; padding: 6px;
+}
+.logo-chip:hover { border-color: var(--gold); }
+.logo-chip.selected { border-color: var(--gold); }
+.logo-chip img { max-width: 80%; max-height: 80%; }
+
+/* canvas: 3-band wireframe */
+.canvas-area {
+  grid-column: 2; grid-row: 2;
+  display: grid; place-items: center; padding: 24px;
+  background: #050508 radial-gradient(circle at 50% 50%, rgba(255,255,255,0.02) 1px, transparent 1px) 0/24px 24px;
+  overflow: auto;
+}
+.wireframe {
+  width: 540px; aspect-ratio: 1/1;
+  display: flex; flex-direction: column;
+  background: var(--bg);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  border-radius: 4px; overflow: hidden;
+  position: relative;
+}
+.wireframe.portrait { aspect-ratio: 4/5; }
+.wireframe.story { aspect-ratio: 9/16; }
+.band {
+  flex: 1; min-height: 60px;
+  background: var(--bg); color: var(--ink);
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 16px; text-align: center;
+  border: 1px dashed transparent;
+}
+.band:hover { border-color: rgba(212,168,102,0.4); }
+.band.active { border-color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); }
+.band.is-cream { background: var(--cream); color: #1a0f00; }
+.band.is-dark { background: var(--bg); color: var(--ink); }
+.band.is-teal { background: linear-gradient(135deg, #142a2c, #0a0e10); color: var(--ink); }
+.band.has-photo {
+  background-size: cover; background-position: center;
+  position: relative;
+}
+.band.has-photo::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.6) 100%);
+  pointer-events: none;
+}
+.band-content {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; gap: 6px; align-items: center;
+  width: 100%;
+}
+.band-content .kicker {
+  font-family: 'IBM Plex Mono', monospace; font-size: 8px;
+  letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--gold); opacity: 0.85;
+}
+.band-content .title {
+  font-family: 'Fraunces', serif; font-weight: 300;
+  font-size: 28px; line-height: 1.05; letter-spacing: -0.02em;
+}
+.band.is-cream .title em { color: var(--oxblood); font-style: italic; }
+.band:not(.is-cream) .title em { color: var(--gold); font-style: italic; }
+.band-content .body {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-size: 14px; line-height: 1.4; opacity: 0.85; max-width: 90%;
+}
+.band-content .logo {
+  width: 36px; height: 36px; border-radius: 4px;
+  background-size: contain; background-position: center; background-repeat: no-repeat;
+}
+.band-content .logos-row { display: flex; gap: 10px; align-items: center; }
+
+/* right panel */
+.field { margin-bottom: 10px; }
+.field label {
+  display: block; font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 4px;
+}
+.field input, .field textarea, .field select {
+  width: 100%; background: var(--ui-panel-2); color: var(--ui-text);
+  border: 1px solid var(--border); padding: 6px 8px;
+  font-family: inherit; font-size: 12px; border-radius: 2px;
+}
+.field textarea { font-family: 'Cormorant Garamond', serif; font-style: italic;
+  min-height: 50px; resize: vertical; }
+.band-tab {
+  display: flex; gap: 4px; margin-bottom: 12px;
+}
+.band-tab button {
+  flex: 1; background: var(--ui-panel-2); color: var(--muted);
+  border: 1px solid var(--border); padding: 6px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  cursor: pointer; border-radius: 2px;
+}
+.band-tab button.active { background: var(--gold); color: #1a1a1a; border-color: var(--gold); }
+
+.preset-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-top: 4px; }
+.preset-btn {
+  background: var(--ui-panel-2); border: 1px solid var(--border);
+  padding: 6px; cursor: pointer; border-radius: 2px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ui-text);
+}
+.preset-btn.active { background: var(--gold); color: #1a1a1a; border-color: var(--gold); }
+.preset-btn:hover:not(.active) { border-color: var(--gold); }
+
+.prompt-box {
+  background: #050508; border: 1px solid var(--border); border-radius: 3px;
+  padding: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+  color: #b3d6ff; line-height: 1.4; white-space: pre-wrap; word-break: break-word;
+  max-height: 280px; overflow-y: auto;
+}
+.toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: var(--gold); color: #1a1a1a; padding: 10px 22px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  border-radius: 3px; opacity: 0; transition: opacity 0.2s;
+  pointer-events: none; z-index: 9999;
+}
+.toast.show { opacity: 1; }
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-thumb { background: #2a2a3a; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #3a3a4a; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="brand">▢ Frequency Vibes · Wireframe</span>
+  <span class="sep"></span>
+  <span>Format</span>
+  <select id="format">
+    <option value="square">1:1 · 1080×1080</option>
+    <option value="portrait">4:5 · 1080×1350</option>
+    <option value="story">9:16 · 1080×1920</option>
+  </select>
+  <span class="sep"></span>
+  <span>Bands</span>
+  <select id="band-count">
+    <option value="1">1 band (full)</option>
+    <option value="2">2 bands</option>
+    <option value="3" selected>3 bands</option>
+  </select>
+  <div class="right">
+    <button id="reset">Reset</button>
+    <button id="copy-prompt" class="primary">📋 Copy ChatGPT prompt</button>
+  </div>
+</div>
+
+<aside class="left">
+
+  <div class="section">
+    <h3>Photos · 43</h3>
+    <div class="gallery" id="gallery"></div>
+  </div>
+
+  <div class="section">
+    <h3>Partner logos</h3>
+    <div class="logo-list" id="logo-list">
+      <div class="logo-chip" data-logo="fv"><img src="../frequency-vibes-logo-teal-clean.png" draggable="false"></div>
+      <div class="logo-chip" data-logo="sbdi"><img src="../studio/partner-logos/logo-sbdi.webp" draggable="false"></div>
+      <div class="logo-chip" data-logo="wiseuse"><img src="../studio/partner-logos/logo-wiseuse.png" draggable="false"></div>
+      <div class="logo-chip" data-logo="vegaqura"><img src="../studio/partner-logos/logo-vegaqura.png" draggable="false"></div>
+      <div class="logo-chip" data-logo="ekovitaris"><img src="../studio/partner-logos/logo-eko-vitaris.svg" draggable="false"></div>
+      <div class="logo-chip" data-logo="biozar"><img src="../studio/partner-logos/logo-biozar.png" draggable="false"></div>
+      <div class="logo-chip" data-logo="mariposa"><img src="../studio/partner-logos/logo-mariposa-batu-white.png" draggable="false"></div>
+    </div>
+  </div>
+
+</aside>
+
+<main class="canvas-area">
+  <div class="wireframe" id="wireframe">
+    <div class="band is-dark" data-band="0">
+      <div class="band-content">
+        <span class="kicker">Click a band to edit</span>
+        <div class="title">Top band — <em>headline</em></div>
+        <div class="body">Subtitle italic</div>
+      </div>
+    </div>
+    <div class="band is-cream" data-band="1">
+      <div class="band-content">
+        <span class="logo" style="background-image:url('../frequency-vibes-logo-teal-clean.png');"></span>
+        <div class="title">Middle band — <em>partner</em> mark</div>
+      </div>
+    </div>
+    <div class="band is-dark" data-band="2">
+      <div class="band-content">
+        <span class="kicker">Bottom · cta</span>
+        <div class="title">3 features or CTA</div>
+        <div class="body">eugenemierak.com</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<aside class="right">
+  <div class="section">
+    <h3>Active band</h3>
+    <div class="band-tab" id="band-tabs">
+      <button data-band="0" class="active">Top</button>
+      <button data-band="1">Middle</button>
+      <button data-band="2">Bottom</button>
+    </div>
+
+    <div class="field">
+      <label>Background style</label>
+      <div class="preset-grid">
+        <button class="preset-btn" data-bg="dark">Dark</button>
+        <button class="preset-btn" data-bg="cream">Cream</button>
+        <button class="preset-btn" data-bg="teal">Teal</button>
+        <button class="preset-btn" data-bg="photo">Photo</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Kicker (mono caps)</label>
+      <input type="text" id="band-kicker" placeholder="e.g. MALANG · DEC 2025">
+    </div>
+
+    <div class="field">
+      <label>Title (Fraunces) — wrap *italic gold* in asterisks</label>
+      <input type="text" id="band-title" placeholder="e.g. Architecture is *frozen* frequency.">
+    </div>
+
+    <div class="field">
+      <label>Body (Cormorant italic)</label>
+      <textarea id="band-body" placeholder="e.g. Where the roof curves, the air settles."></textarea>
+    </div>
+
+    <div class="field">
+      <label>Show logo in this band?</label>
+      <select id="band-show-logo">
+        <option value="">No</option>
+        <option value="fv">FV mark</option>
+        <option value="partner">Selected partner logo</option>
+        <option value="both">FV + partner</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>ChatGPT prompt preview</h3>
+    <div class="prompt-box" id="prompt-preview">click "Copy ChatGPT prompt" above…</div>
+  </div>
+</aside>
+
+<div class="toast" id="toast">copied</div>
+
+<script>
+const PHOTOS = [
+'WhatsApp Image 2026-04-26 at 14.01.35 (1).jpeg','WhatsApp Image 2026-04-26 at 14.01.35 (2).jpeg','WhatsApp Image 2026-04-26 at 14.01.35 (3).jpeg','WhatsApp Image 2026-04-26 at 14.01.35.jpeg','WhatsApp Image 2026-04-26 at 14.01.36 (1).jpeg','WhatsApp Image 2026-04-26 at 14.01.36 (2).jpeg','WhatsApp Image 2026-04-26 at 14.01.36 (3).jpeg','WhatsApp Image 2026-04-26 at 14.01.36 (4).jpeg','WhatsApp Image 2026-04-26 at 14.01.36 (5).jpeg','WhatsApp Image 2026-04-26 at 14.01.36 (6).jpeg','WhatsApp Image 2026-04-26 at 14.01.36 (7).jpeg','WhatsApp Image 2026-04-26 at 14.01.36 (8).jpeg','WhatsApp Image 2026-04-26 at 14.01.36 (9).jpeg','WhatsApp Image 2026-04-26 at 14.01.36.jpeg','WhatsApp Image 2026-04-26 at 14.01.37 (1).jpeg','WhatsApp Image 2026-04-26 at 14.01.37 (2).jpeg','WhatsApp Image 2026-04-26 at 14.01.37 (3).jpeg','WhatsApp Image 2026-04-26 at 14.01.37 (4).jpeg','WhatsApp Image 2026-04-26 at 14.01.37 (5).jpeg','WhatsApp Image 2026-04-26 at 14.01.37 (6).jpeg','WhatsApp Image 2026-04-26 at 14.01.37 (7).jpeg','WhatsApp Image 2026-04-26 at 14.01.37 (8).jpeg','WhatsApp Image 2026-04-26 at 14.01.37 (9).jpeg','WhatsApp Image 2026-04-26 at 14.01.37.jpeg','WhatsApp Image 2026-04-26 at 14.01.38 (1).jpeg','WhatsApp Image 2026-04-26 at 14.01.38 (2).jpeg','WhatsApp Image 2026-04-26 at 14.01.38 (3).jpeg','WhatsApp Image 2026-04-26 at 14.01.38 (4).jpeg','WhatsApp Image 2026-04-26 at 14.01.38 (5).jpeg','WhatsApp Image 2026-04-26 at 14.01.38 (6).jpeg','WhatsApp Image 2026-04-26 at 14.01.38 (7).jpeg','WhatsApp Image 2026-04-26 at 14.01.38.jpeg','WhatsApp Image 2026-04-26 at 14.01.39 (1).jpeg','WhatsApp Image 2026-04-26 at 14.01.39 (2).jpeg','WhatsApp Image 2026-04-26 at 14.01.39 (3).jpeg','WhatsApp Image 2026-04-26 at 14.01.39 (4).jpeg','WhatsApp Image 2026-04-26 at 14.01.39 (5).jpeg','WhatsApp Image 2026-04-26 at 14.01.39 (6).jpeg','WhatsApp Image 2026-04-26 at 14.01.39.jpeg','WhatsApp Image 2026-04-26 at 14.01.40 (1).jpeg','WhatsApp Image 2026-04-26 at 14.01.40 (2).jpeg','WhatsApp Image 2026-04-26 at 14.01.40 (3).jpeg','WhatsApp Image 2026-04-26 at 14.01.40.jpeg'
+];
+const PHOTO_BASE = '../studio/_assets/photos/';
+const PARTNER_LOGOS = {
+  fv: { name: 'Frequency Vibes', file: '../frequency-vibes-logo-teal-clean.png' },
+  sbdi: { name: 'SBDI Center', file: '../studio/partner-logos/logo-sbdi.webp' },
+  wiseuse: { name: 'Wise Use International', file: '../studio/partner-logos/logo-wiseuse.png' },
+  vegaqura: { name: 'Vegaqura', file: '../studio/partner-logos/logo-vegaqura.png' },
+  ekovitaris: { name: 'Eko Vitaris', file: '../studio/partner-logos/logo-eko-vitaris.svg' },
+  biozar: { name: 'Biozar Venezuela', file: '../studio/partner-logos/logo-biozar.png' },
+  mariposa: { name: 'Mariposa Batu', file: '../studio/partner-logos/logo-mariposa-batu-white.png' }
+};
+const FORMATS = {
+  square:   { w: 1080, h: 1080, label: '1:1 square' },
+  portrait: { w: 1080, h: 1350, label: '4:5 portrait' },
+  story:    { w: 1080, h: 1920, label: '9:16 story/reel' }
+};
+
+const state = {
+  format: 'square',
+  bandCount: 3,
+  activeBand: 0,
+  selectedPhoto: null,
+  selectedPartner: null,
+  bands: [
+    { bg: 'dark', kicker: '', title: '', body: '', photo: null, showLogo: '' },
+    { bg: 'cream', kicker: '', title: '', body: '', photo: null, showLogo: 'fv' },
+    { bg: 'dark', kicker: '', title: '', body: '', photo: null, showLogo: '' }
+  ]
+};
+
+const wireframe = document.getElementById('wireframe');
+
+// ============ GALLERY ============
+function buildGallery() {
+  const g = document.getElementById('gallery');
+  PHOTOS.forEach(p => {
+    const t = document.createElement('div');
+    t.className = 'thumb';
+    t.style.backgroundImage = `url('${PHOTO_BASE + encodeURIComponent(p)}')`;
+    t.title = p;
+    t.addEventListener('click', () => {
+      g.querySelectorAll('.thumb').forEach(x => x.classList.remove('selected'));
+      t.classList.add('selected');
+      state.selectedPhoto = p;
+      // Apply to active band if it's a photo bg
+      const b = state.bands[state.activeBand];
+      if (b.bg === 'photo') { b.photo = p; render(); }
+    });
+    g.appendChild(t);
+  });
+}
+buildGallery();
+
+// ============ LOGOS ============
+document.querySelectorAll('.logo-chip').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('.logo-chip').forEach(x => x.classList.remove('selected'));
+    c.classList.add('selected');
+    state.selectedPartner = c.dataset.logo;
+  });
+});
+
+// ============ BAND TABS ============
+document.querySelectorAll('#band-tabs button').forEach(b => {
+  b.addEventListener('click', () => {
+    state.activeBand = parseInt(b.dataset.band);
+    document.querySelectorAll('#band-tabs button').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    syncFields();
+    render();
+  });
+});
+
+// ============ BG PRESETS ============
+document.querySelectorAll('.preset-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    const band = state.bands[state.activeBand];
+    band.bg = b.dataset.bg;
+    if (band.bg === 'photo' && state.selectedPhoto) band.photo = state.selectedPhoto;
+    render();
+    syncFields();
+  });
+});
+
+// ============ FIELDS ============
+['kicker', 'title', 'body'].forEach(k => {
+  document.getElementById('band-' + k).addEventListener('input', e => {
+    state.bands[state.activeBand][k] = e.target.value;
+    render();
+  });
+});
+document.getElementById('band-show-logo').addEventListener('change', e => {
+  state.bands[state.activeBand].showLogo = e.target.value;
+  render();
+});
+
+function syncFields() {
+  const b = state.bands[state.activeBand];
+  document.getElementById('band-kicker').value = b.kicker || '';
+  document.getElementById('band-title').value = b.title || '';
+  document.getElementById('band-body').value = b.body || '';
+  document.getElementById('band-show-logo').value = b.showLogo || '';
+  document.querySelectorAll('.preset-btn').forEach(x => x.classList.toggle('active', x.dataset.bg === b.bg));
+}
+syncFields();
+
+// ============ FORMAT / BAND COUNT ============
+document.getElementById('format').addEventListener('change', e => {
+  state.format = e.target.value;
+  wireframe.classList.remove('portrait', 'story');
+  if (state.format === 'portrait') wireframe.classList.add('portrait');
+  if (state.format === 'story') wireframe.classList.add('story');
+});
+document.getElementById('band-count').addEventListener('change', e => {
+  state.bandCount = parseInt(e.target.value);
+  // Resize bands array
+  while (state.bands.length < state.bandCount) state.bands.push({ bg: 'dark', kicker: '', title: '', body: '', photo: null, showLogo: '' });
+  state.bands.length = state.bandCount;
+  if (state.activeBand >= state.bandCount) state.activeBand = 0;
+  // Rebuild band tabs
+  const tabs = document.getElementById('band-tabs');
+  tabs.innerHTML = '';
+  const labels = state.bandCount === 1 ? ['Full'] : state.bandCount === 2 ? ['Top', 'Bottom'] : ['Top', 'Middle', 'Bottom'];
+  labels.forEach((lbl, i) => {
+    const btn = document.createElement('button');
+    btn.dataset.band = i;
+    btn.textContent = lbl;
+    if (i === state.activeBand) btn.classList.add('active');
+    btn.addEventListener('click', () => {
+      state.activeBand = i;
+      tabs.querySelectorAll('button').forEach(x => x.classList.remove('active'));
+      btn.classList.add('active');
+      syncFields();
+      render();
+    });
+    tabs.appendChild(btn);
+  });
+  render();
+  syncFields();
+});
+
+document.getElementById('reset').addEventListener('click', () => {
+  state.bands.forEach(b => { b.kicker = ''; b.title = ''; b.body = ''; b.photo = null; b.showLogo = ''; });
+  render();
+  syncFields();
+});
+
+// ============ RENDER ============
+function parseEmphasis(text) {
+  if (!text) return '';
+  return text.replace(/\*([^*]+)\*/g, '<em>$1</em>')
+             .replace(/&/g, '&amp;');
+}
+function render() {
+  wireframe.innerHTML = '';
+  state.bands.forEach((b, i) => {
+    const div = document.createElement('div');
+    div.className = 'band';
+    div.classList.add('is-' + b.bg);
+    div.dataset.band = i;
+    if (i === state.activeBand) div.classList.add('active');
+    if (b.bg === 'photo' && b.photo) {
+      div.classList.add('has-photo');
+      div.style.backgroundImage = `url('${PHOTO_BASE + encodeURIComponent(b.photo)}')`;
+    }
+    const content = document.createElement('div');
+    content.className = 'band-content';
+    if (b.kicker) {
+      const k = document.createElement('span');
+      k.className = 'kicker';
+      k.textContent = b.kicker;
+      content.appendChild(k);
+    }
+    if (b.showLogo) {
+      const wrap = document.createElement('div');
+      wrap.className = 'logos-row';
+      if (b.showLogo === 'fv' || b.showLogo === 'both') {
+        const l = document.createElement('span'); l.className = 'logo';
+        l.style.backgroundImage = `url('${PARTNER_LOGOS.fv.file}')`;
+        wrap.appendChild(l);
+      }
+      if ((b.showLogo === 'partner' || b.showLogo === 'both') && state.selectedPartner) {
+        const l = document.createElement('span'); l.className = 'logo';
+        l.style.backgroundImage = `url('${PARTNER_LOGOS[state.selectedPartner].file}')`;
+        wrap.appendChild(l);
+      }
+      content.appendChild(wrap);
+    }
+    if (b.title) {
+      const t = document.createElement('div');
+      t.className = 'title';
+      t.innerHTML = parseEmphasis(b.title);
+      content.appendChild(t);
+    }
+    if (b.body) {
+      const bd = document.createElement('div');
+      bd.className = 'body';
+      bd.textContent = b.body;
+      content.appendChild(bd);
+    }
+    div.appendChild(content);
+    div.addEventListener('click', () => {
+      state.activeBand = i;
+      document.querySelectorAll('#band-tabs button').forEach((x, idx) => x.classList.toggle('active', idx === i));
+      syncFields();
+      render();
+    });
+    wireframe.appendChild(div);
+  });
+}
+render();
+
+// ============ BUILD CHATGPT PROMPT ============
+function buildPrompt() {
+  const fmt = FORMATS[state.format];
+  const bandLabels = state.bandCount === 1 ? ['Full'] : state.bandCount === 2 ? ['Top', 'Bottom'] : ['Top', 'Middle', 'Bottom'];
+  const partnerName = state.selectedPartner ? PARTNER_LOGOS[state.selectedPartner].name : null;
+
+  const lines = [];
+  lines.push(`Create a ${fmt.w}×${fmt.h} Instagram post for "Frequency Vibes" — Eugene Mierak's wellness brand. Editorial magazine style.`);
+  lines.push(``);
+  lines.push(`Brand colors: dark #0b0b0f, gold #d4a866, cream #efe7d3, oxblood #b4432a, ink-cream #f4ecdc.`);
+  lines.push(`Fonts: Fraunces (display serif) for titles, Cormorant Garamond italic for body, IBM Plex Mono uppercase for kickers/CTA.`);
+  if (partnerName) lines.push(`Partner: ${partnerName}.`);
+  lines.push(``);
+  lines.push(`Layout: ${state.bandCount} horizontal band${state.bandCount > 1 ? 's' : ''}, stacked vertically.`);
+  lines.push(``);
+
+  state.bands.forEach((b, i) => {
+    const bgDesc = b.bg === 'dark' ? 'dark #0b0b0f with subtle gold + violet radial glows'
+                : b.bg === 'cream' ? 'cream #efe7d3'
+                : b.bg === 'teal' ? 'dark teal gradient (#142a2c → #0a0e10)'
+                : b.bg === 'photo' && b.photo ? `full-bleed photo (provided: ${b.photo}) cropped center, with bottom dark gradient overlay for text legibility`
+                : 'dark';
+    lines.push(`${bandLabels[i].toUpperCase()} BAND — ${bgDesc}.`);
+    if (b.showLogo === 'fv') lines.push(`  • Frequency Vibes logo (provided) shown.`);
+    else if (b.showLogo === 'partner' && partnerName) lines.push(`  • ${partnerName} logo (provided) shown.`);
+    else if (b.showLogo === 'both' && partnerName) lines.push(`  • Frequency Vibes + ${partnerName} logos side by side.`);
+    if (b.kicker) lines.push(`  • Kicker (mono caps, gold, letter-spacing 0.42em): "${b.kicker}".`);
+    if (b.title) {
+      const titleHTML = b.title.replace(/\*([^*]+)\*/g, '*$1*');
+      const accent = b.bg === 'cream' ? 'oxblood italic' : 'gold italic';
+      lines.push(`  • Title (Fraunces serif, ${state.bandCount === 1 ? 'large' : 'medium'}): "${titleHTML}" — emphasized words in *asterisks* should be ${accent}.`);
+    }
+    if (b.body) lines.push(`  • Body (Cormorant Garamond italic): "${b.body}"`);
+    lines.push(``);
+  });
+
+  lines.push(`Bottom of canvas: ensure "EUGENEMIERAK.COM" appears in mono caps gold somewhere as the CTA.`);
+  lines.push(``);
+  lines.push(`Editorial mood: contemplative, premium, magazine-quality. No shouting. Generous whitespace.`);
+
+  return lines.join('\n');
+}
+
+document.getElementById('copy-prompt').addEventListener('click', () => {
+  const txt = buildPrompt();
+  document.getElementById('prompt-preview').textContent = txt;
+  navigator.clipboard.writeText(txt).then(() => showToast('prompt copied — paste in ChatGPT')).catch(() => showToast('preview ready (manual copy)'));
+});
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// initial preview
+document.getElementById('prompt-preview').textContent = buildPrompt();
+</script>
+</body>
+</html>

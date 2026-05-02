@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Frequency Vibes — Logo v9 (Hunab Ku reduced)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,400&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0b0f;
+      --bg-2: #15151c;
+      --gold: #d4a866;
+      --ink: #f4ecdc;
+      --cream: #efe7d3;
+      --muted: #8a8275;
+      --border: #2a2620;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Cormorant Garamond', serif;
+      min-height: 100vh;
+      padding: 56px 24px 96px;
+    }
+    .wrap { max-width: 1180px; margin: 0 auto; }
+    header {
+      text-align: center;
+      margin-bottom: 56px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+    header .eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.42em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    header h1 {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      font-size: 42px;
+      margin: 0 0 10px;
+      letter-spacing: -0.01em;
+    }
+    header p {
+      color: var(--muted);
+      max-width: 640px;
+      margin: 0 auto;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+    .wordmark {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--gold);
+      font-weight: 500;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 700px) { .grid-4 { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 64px 28px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      min-height: 460px;
+    }
+    .card .stage {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+    .card h2 {
+      font-family: 'Fraunces', serif;
+      font-weight: 400;
+      font-size: 21px;
+      margin: 0;
+      text-align: center;
+    }
+    .card .reads {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: center;
+      margin: 0;
+      max-width: 280px;
+    }
+    .card .tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.32em;
+      color: var(--gold);
+      margin-top: 4px;
+    }
+    .mini-strip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 8px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+      width: 100%;
+    }
+
+    .compare {
+      margin-top: 40px;
+      padding: 32px 28px;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+    .compare h3 {
+      font-family: 'Fraunces', serif;
+      font-weight: 400;
+      font-size: 17px;
+      margin: 0 0 18px;
+      color: var(--ink);
+    }
+    .compare-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .compare-row svg + svg { margin-left: 4px; }
+    .compare-row .arrow {
+      font-family: 'IBM Plex Mono', monospace;
+      color: var(--gold);
+      font-size: 22px;
+      letter-spacing: 0.2em;
+      opacity: 0.7;
+    }
+    .compare-cap {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    .light-strip {
+      margin-top: 32px;
+      background: var(--cream);
+      border-radius: 6px;
+      padding: 48px 24px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 700px) { .light-strip { grid-template-columns: repeat(2, 1fr); } }
+    .light-strip .slot { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .light-strip .label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      color: #6b5f47;
+    }
+    .light-strip .wordmark { color: #2a1f10; font-size: 11px; }
+
+    footer {
+      margin-top: 64px;
+      text-align: center;
+      color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════ Marks ════════════ -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+
+      <!-- Reference (a faint sketch of full Hunab Ku for the comparison row) -->
+      <symbol id="ref" viewBox="0 0 240 240">
+        <circle cx="120" cy="120" r="106" fill="none" stroke="currentColor" stroke-width="2.5" opacity="0.9"/>
+        <g fill="currentColor" stroke="none" opacity="0.9">
+          <rect x="108" y="50" width="24" height="44"/>
+          <rect x="108" y="146" width="24" height="44"/>
+          <rect x="50" y="108" width="44" height="24"/>
+          <rect x="146" y="108" width="44" height="24"/>
+        </g>
+        <path d="M 80 120 Q 80 92 110 92 Q 130 92 130 110 M 160 120 Q 160 148 130 148 Q 110 148 110 130"
+              fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" opacity="0.9"/>
+      </symbol>
+
+      <!-- ═══ A · Skeleton — outline-only Hunab Ku ═══ -->
+      <symbol id="mA" viewBox="0 0 240 240">
+        <g fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Outer circle -->
+          <circle cx="120" cy="120" r="105"/>
+          <!-- 4 cardinal stepped arms drawn as outlines (zigurat shapes) -->
+          <!-- North -->
+          <path d="M 105 92 L 105 75 L 95 75 L 95 60 L 105 60 L 105 45 L 135 45 L 135 60 L 145 60 L 145 75 L 135 75 L 135 92"/>
+          <!-- South -->
+          <path d="M 105 148 L 105 165 L 95 165 L 95 180 L 105 180 L 105 195 L 135 195 L 135 180 L 145 180 L 145 165 L 135 165 L 135 148"/>
+          <!-- East -->
+          <path d="M 148 105 L 165 105 L 165 95 L 180 95 L 180 105 L 195 105 L 195 135 L 180 135 L 180 145 L 165 145 L 165 135 L 148 135"/>
+          <!-- West -->
+          <path d="M 92 105 L 75 105 L 75 95 L 60 95 L 60 105 L 45 105 L 45 135 L 60 135 L 60 145 L 75 145 L 75 135 L 92 135"/>
+          <!-- Central S — two interlocking hooks -->
+          <path stroke-width="9" d="M 95 120 Q 95 100 115 100 Q 130 100 130 115"/>
+          <path stroke-width="9" d="M 145 120 Q 145 140 125 140 Q 110 140 110 125"/>
+        </g>
+      </symbol>
+
+      <!-- ═══ B · Silhouette — solid simplified Hunab Ku ═══ -->
+      <symbol id="mB" viewBox="0 0 240 240">
+        <circle cx="120" cy="120" r="108" fill="currentColor" opacity="0.07"/>
+        <g fill="currentColor" stroke="none">
+          <!-- 4 cardinal arms — simplified rectangles with one step -->
+          <path d="M 100 95 L 100 70 L 92 70 L 92 50 L 148 50 L 148 70 L 140 70 L 140 95 Z"/>
+          <path d="M 100 145 L 100 170 L 92 170 L 92 190 L 148 190 L 148 170 L 140 170 L 140 145 Z"/>
+          <path d="M 145 100 L 170 100 L 170 92 L 190 92 L 190 148 L 170 148 L 170 140 L 145 140 Z"/>
+          <path d="M 95 100 L 70 100 L 70 92 L 50 92 L 50 148 L 70 148 L 70 140 L 95 140 Z"/>
+        </g>
+        <!-- Central S — bold stroke -->
+        <g fill="none" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M 100 116 Q 100 96 118 96 Q 134 96 134 112"/>
+          <path d="M 140 124 Q 140 144 122 144 Q 106 144 106 128"/>
+        </g>
+      </symbol>
+
+      <!-- ═══ C · Cross + S — most reduced (Adidas-level) ═══ -->
+      <symbol id="mC" viewBox="0 0 240 240">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Faint outer ring -->
+          <circle cx="120" cy="120" r="108" stroke-width="2.5" opacity="0.45"/>
+          <!-- 4 cardinal beats — short thick bars -->
+          <line stroke-width="14" x1="120" y1="42" x2="120" y2="68"/>
+          <line stroke-width="14" x1="120" y1="172" x2="120" y2="198"/>
+          <line stroke-width="14" x1="42" y1="120" x2="68" y2="120"/>
+          <line stroke-width="14" x1="172" y1="120" x2="198" y2="120"/>
+          <!-- Central S -->
+          <path stroke-width="16" d="M 88 120 Q 88 92 116 92 Q 138 92 138 112"/>
+          <path stroke-width="16" d="M 152 120 Q 152 148 124 148 Q 102 148 102 128"/>
+        </g>
+      </symbol>
+
+      <!-- ═══ D · Sigil — single continuous Hunab Ku trace ═══ -->
+      <symbol id="mD" viewBox="0 0 240 240">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <!-- Full circle -->
+          <circle cx="120" cy="120" r="105" stroke-width="7"/>
+          <!-- 4 stepped arms drawn in a single line each (one stroke per arm) -->
+          <path stroke-width="9" d="M 120 50 L 120 90"/>
+          <path stroke-width="9" d="M 105 70 L 135 70"/>
+          <path stroke-width="9" d="M 120 190 L 120 150"/>
+          <path stroke-width="9" d="M 105 170 L 135 170"/>
+          <path stroke-width="9" d="M 50 120 L 90 120"/>
+          <path stroke-width="9" d="M 70 105 L 70 135"/>
+          <path stroke-width="9" d="M 190 120 L 150 120"/>
+          <path stroke-width="9" d="M 170 105 L 170 135"/>
+          <!-- Central S — one continuous double curve -->
+          <path stroke-width="11" d="M 92 120 Q 92 96 118 96 Q 132 96 132 110 Q 132 124 148 124 Q 148 144 122 144 Q 108 144 108 130 Q 108 116 92 116"/>
+        </g>
+      </symbol>
+
+    </defs>
+  </svg>
+
+  <div class="wrap">
+
+    <header>
+      <div class="eyebrow">— logo v9 · hunab ku reduced —</div>
+      <h1>Frequency Vibes</h1>
+      <p>Same DNA as your reference. Different levels of reduction. Each one should still <em>read</em> as Hunab Ku at first glance — that's the test.</p>
+    </header>
+
+    <!-- ═══════ Reference comparison ═══════ -->
+    <div class="compare">
+      <h3>The reduction path</h3>
+      <div class="compare-row">
+        <svg viewBox="0 0 240 240" width="80" height="80" style="color: #d4a866;"><use href="#ref"/></svg>
+        <span class="arrow">→</span>
+        <svg viewBox="0 0 240 240" width="70" height="70" style="color: #d4a866;"><use href="#mA"/></svg>
+        <span class="arrow">→</span>
+        <svg viewBox="0 0 240 240" width="70" height="70" style="color: #d4a866;"><use href="#mB"/></svg>
+        <span class="arrow">→</span>
+        <svg viewBox="0 0 240 240" width="70" height="70" style="color: #d4a866;"><use href="#mC"/></svg>
+      </div>
+      <div class="compare-cap">REFERENCE&nbsp;&nbsp;→&nbsp;&nbsp;A·SKELETON&nbsp;&nbsp;→&nbsp;&nbsp;B·SILHOUETTE&nbsp;&nbsp;→&nbsp;&nbsp;C·CROSS+S</div>
+    </div>
+
+    <!-- ═══════ 4 reductions ═══════ -->
+    <div class="grid-4">
+
+      <!-- A · Skeleton -->
+      <div class="card">
+        <div class="stage">
+          <svg viewBox="0 0 240 240" width="200" height="200" style="color: #d4a866;"><use href="#mA"/></svg>
+        </div>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <h2>A · Skeleton</h2>
+        <p class="reads">Hunab Ku as wireframe. Just the outlines — circle, four stepped arms, central S. All structure, no fills.</p>
+        <div class="mini-strip">
+          <svg viewBox="0 0 240 240" width="22" height="22" style="color: #d4a866;"><use href="#mA"/></svg>
+          <svg viewBox="0 0 240 240" width="40" height="40" style="color: #d4a866;"><use href="#mA"/></svg>
+          <svg viewBox="0 0 240 240" width="64" height="64" style="color: #d4a866;"><use href="#mA"/></svg>
+        </div>
+        <div class="tag">A · WIREFRAME</div>
+      </div>
+
+      <!-- B · Silhouette -->
+      <div class="card">
+        <div class="stage">
+          <svg viewBox="0 0 240 240" width="200" height="200" style="color: #d4a866;"><use href="#mB"/></svg>
+        </div>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <h2>B · Silhouette</h2>
+        <p class="reads">Solid simplified Hunab Ku. Four cardinal arms with one step each + central S in stroke. Less detail than the original, full presence.</p>
+        <div class="mini-strip">
+          <svg viewBox="0 0 240 240" width="22" height="22" style="color: #d4a866;"><use href="#mB"/></svg>
+          <svg viewBox="0 0 240 240" width="40" height="40" style="color: #d4a866;"><use href="#mB"/></svg>
+          <svg viewBox="0 0 240 240" width="64" height="64" style="color: #d4a866;"><use href="#mB"/></svg>
+        </div>
+        <div class="tag">B · SOLID</div>
+      </div>
+
+      <!-- C · Cross+S -->
+      <div class="card">
+        <div class="stage">
+          <svg viewBox="0 0 240 240" width="200" height="200" style="color: #d4a866;"><use href="#mC"/></svg>
+        </div>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <h2>C · Cross + S</h2>
+        <p class="reads">Most reduced — Adidas territory. Four cardinal beats, one S, faint outer ring. Reads at favicon size.</p>
+        <div class="mini-strip">
+          <svg viewBox="0 0 240 240" width="22" height="22" style="color: #d4a866;"><use href="#mC"/></svg>
+          <svg viewBox="0 0 240 240" width="40" height="40" style="color: #d4a866;"><use href="#mC"/></svg>
+          <svg viewBox="0 0 240 240" width="64" height="64" style="color: #d4a866;"><use href="#mC"/></svg>
+        </div>
+        <div class="tag">C · MINIMAL</div>
+      </div>
+
+      <!-- D · Sigil -->
+      <div class="card">
+        <div class="stage">
+          <svg viewBox="0 0 240 240" width="200" height="200" style="color: #d4a866;"><use href="#mD"/></svg>
+        </div>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <h2>D · Sigil</h2>
+        <p class="reads">All-stroke version of the Hunab Ku — circle, T-shaped arms, continuous S. Looks like an engraved seal.</p>
+        <div class="mini-strip">
+          <svg viewBox="0 0 240 240" width="22" height="22" style="color: #d4a866;"><use href="#mD"/></svg>
+          <svg viewBox="0 0 240 240" width="40" height="40" style="color: #d4a866;"><use href="#mD"/></svg>
+          <svg viewBox="0 0 240 240" width="64" height="64" style="color: #d4a866;"><use href="#mD"/></svg>
+        </div>
+        <div class="tag">D · SIGIL</div>
+      </div>
+
+    </div>
+
+    <!-- ═══════ On cream ═══════ -->
+    <div class="light-strip">
+      <div class="slot">
+        <svg viewBox="0 0 240 240" width="100" height="100" style="color: #1a0f00;"><use href="#mA"/></svg>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <div class="label">A · ON CREAM</div>
+      </div>
+      <div class="slot">
+        <svg viewBox="0 0 240 240" width="100" height="100" style="color: #1a0f00;"><use href="#mB"/></svg>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <div class="label">B · ON CREAM</div>
+      </div>
+      <div class="slot">
+        <svg viewBox="0 0 240 240" width="100" height="100" style="color: #1a0f00;"><use href="#mC"/></svg>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <div class="label">C · ON CREAM</div>
+      </div>
+      <div class="slot">
+        <svg viewBox="0 0 240 240" width="100" height="100" style="color: #1a0f00;"><use href="#mD"/></svg>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <div class="label">D · ON CREAM</div>
+      </div>
+    </div>
+
+    <footer>
+      v9 · hunab ku reduced — pick gut feeling
+    </footer>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Frequency Vibes — Logo v5 (Iconic minimal)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,400&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0b0f;
+      --bg-2: #15151c;
+      --gold: #d4a866;
+      --ink: #f4ecdc;
+      --cream: #efe7d3;
+      --muted: #8a8275;
+      --border: #2a2620;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Cormorant Garamond', serif;
+      min-height: 100vh;
+      padding: 56px 24px 96px;
+    }
+    .wrap { max-width: 1240px; margin: 0 auto; }
+    header {
+      text-align: center;
+      margin-bottom: 56px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+    header .eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.42em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    header h1 {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      font-size: 42px;
+      margin: 0 0 10px;
+      letter-spacing: -0.01em;
+    }
+    header p {
+      color: var(--muted);
+      max-width: 620px;
+      margin: 0 auto;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+    .wordmark {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--gold);
+      font-weight: 500;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 1100px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .grid-4 { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 36px 24px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      min-height: 380px;
+    }
+    .card .stage {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 16px 0;
+    }
+    .card h2 {
+      font-family: 'Fraunces', serif;
+      font-weight: 400;
+      font-size: 19px;
+      margin: 0;
+      text-align: center;
+    }
+    .card .reads {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      text-align: center;
+      margin: 0;
+      max-width: 220px;
+    }
+    .card .tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.32em;
+      color: var(--gold);
+    }
+
+    /* Mini scale strip per card */
+    .mini-strip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 6px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      width: 100%;
+    }
+
+    /* On light strip */
+    .light-strip {
+      margin-top: 32px;
+      background: var(--cream);
+      border-radius: 6px;
+      padding: 40px 24px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 1100px) { .light-strip { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .light-strip { grid-template-columns: 1fr; } }
+    .light-strip .slot {
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+    }
+    .light-strip .label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      color: #6b5f47;
+    }
+    .light-strip .wordmark { color: #2a1f10; font-size: 12px; }
+
+    footer {
+      margin-top: 64px;
+      text-align: center;
+      color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════ Reusable marks ════════════ -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+
+      <!-- ───── A — Three rising waves (Adidas-style, but sound) ───── -->
+      <symbol id="mark-A" viewBox="0 0 240 240">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="14">
+          <path d="M 50 165 Q 90 95 130 165 Q 170 235 210 165" transform="translate(0 -28) scale(1)"/>
+          <path d="M 60 175 Q 95 115 130 175 Q 165 235 200 175" transform="translate(0 -10) scale(1)" opacity="0.85"/>
+          <path d="M 70 185 Q 100 135 130 185 Q 160 235 190 185" transform="translate(0 8) scale(1)" opacity="0.6"/>
+        </g>
+      </symbol>
+
+      <!-- ───── B — Tuning fork (literal "tune your frequency") ───── -->
+      <symbol id="mark-B" viewBox="0 0 240 240">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="13">
+          <!-- Two prongs -->
+          <line x1="92" y1="40" x2="92" y2="120"/>
+          <line x1="148" y1="40" x2="148" y2="120"/>
+          <!-- U-base -->
+          <path d="M 92 120 Q 92 150 120 150 Q 148 150 148 120"/>
+          <!-- Stem -->
+          <line x1="120" y1="150" x2="120" y2="200"/>
+          <!-- Vibration arc on top (subtle) -->
+          <path stroke-width="6" opacity="0.5" d="M 70 30 Q 120 14 170 30"/>
+        </g>
+      </symbol>
+
+      <!-- ───── C — FV monogram with wave ───── -->
+      <symbol id="mark-C" viewBox="0 0 240 240">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="14">
+          <!-- F (top-left) -->
+          <line x1="60" y1="60" x2="60" y2="180"/>
+          <line x1="60" y1="60" x2="120" y2="60"/>
+          <line x1="60" y1="115" x2="105" y2="115"/>
+          <!-- V (bottom-right) — slanted -->
+          <path d="M 130 80 L 165 180 L 200 80"/>
+          <!-- Wave underline -->
+          <path stroke-width="8" d="M 50 200 Q 80 188 110 200 T 170 200 T 210 200"/>
+        </g>
+      </symbol>
+
+      <!-- ───── D — Circle + S-wave (cosmos in motion, minimalist) ───── -->
+      <symbol id="mark-D" viewBox="0 0 240 240">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="120" cy="120" r="92" stroke-width="11"/>
+          <path stroke-width="13" d="M 78 120 Q 78 80 120 80 Q 162 80 162 120 Q 162 160 120 160 Q 78 160 78 120"
+                stroke-dasharray="0 1000" />
+          <!-- The S-wave -->
+          <path stroke-width="13" d="M 78 120 Q 99 80 120 120 T 162 120"/>
+        </g>
+      </symbol>
+
+      <!-- ───── E (alt) — Pure sound wave (super minimal, Spotify-like) ───── -->
+      <symbol id="mark-E" viewBox="0 0 240 240">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <line stroke-width="14" x1="50" y1="120" x2="50" y2="120"/>
+          <line stroke-width="14" x1="80" y1="100" x2="80" y2="140"/>
+          <line stroke-width="14" x1="110" y1="70" x2="110" y2="170"/>
+          <line stroke-width="14" x1="140" y1="50" x2="140" y2="190"/>
+          <line stroke-width="14" x1="170" y1="80" x2="170" y2="160"/>
+          <line stroke-width="14" x1="200" y1="105" x2="200" y2="135"/>
+        </g>
+      </symbol>
+
+    </defs>
+  </svg>
+
+  <div class="wrap">
+
+    <header>
+      <div class="eyebrow">— logo v5 · iconic minimal —</div>
+      <h1>Frequency Vibes</h1>
+      <p>Adidas / Nike / Apple territory. One idea per mark. Reads in 2 seconds. Survives at 16px and on a billboard. Pick the one that <em>feels</em> Frequency Vibes — gut, not analysis.</p>
+    </header>
+
+    <!-- ═══════ 4 directions ═══════ -->
+    <div class="grid-4">
+
+      <!-- A -->
+      <div class="card">
+        <div class="stage">
+          <svg viewBox="0 0 240 240" width="170" height="170" style="color: #d4a866;">
+            <use href="#mark-A"/>
+          </svg>
+        </div>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <h2>A · Three Waves</h2>
+        <p class="reads">Adidas energy — three rising frequencies stacked. Pure motion. Reads as growth, energy, ascent.</p>
+        <div class="mini-strip">
+          <svg viewBox="0 0 240 240" width="20" height="20" style="color: #d4a866;"><use href="#mark-A"/></svg>
+          <svg viewBox="0 0 240 240" width="40" height="40" style="color: #d4a866;"><use href="#mark-A"/></svg>
+          <svg viewBox="0 0 240 240" width="80" height="80" style="color: #d4a866;"><use href="#mark-A"/></svg>
+        </div>
+        <div class="tag">A · WAVES</div>
+      </div>
+
+      <!-- B -->
+      <div class="card">
+        <div class="stage">
+          <svg viewBox="0 0 240 240" width="170" height="170" style="color: #d4a866;">
+            <use href="#mark-B"/>
+          </svg>
+        </div>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <h2>B · Tuning Fork</h2>
+        <p class="reads">Literal "tune your frequency". A diapason — the instrument that finds the right note. Premium, ritual, precise.</p>
+        <div class="mini-strip">
+          <svg viewBox="0 0 240 240" width="20" height="20" style="color: #d4a866;"><use href="#mark-B"/></svg>
+          <svg viewBox="0 0 240 240" width="40" height="40" style="color: #d4a866;"><use href="#mark-B"/></svg>
+          <svg viewBox="0 0 240 240" width="80" height="80" style="color: #d4a866;"><use href="#mark-B"/></svg>
+        </div>
+        <div class="tag">B · FORK</div>
+      </div>
+
+      <!-- C -->
+      <div class="card">
+        <div class="stage">
+          <svg viewBox="0 0 240 240" width="170" height="170" style="color: #d4a866;">
+            <use href="#mark-C"/>
+          </svg>
+        </div>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <h2>C · FV Monogram</h2>
+        <p class="reads">Initials F + V locked, wave underneath. Classic monogram with a sound twist. Easy to embroider, stamp, foil.</p>
+        <div class="mini-strip">
+          <svg viewBox="0 0 240 240" width="20" height="20" style="color: #d4a866;"><use href="#mark-C"/></svg>
+          <svg viewBox="0 0 240 240" width="40" height="40" style="color: #d4a866;"><use href="#mark-C"/></svg>
+          <svg viewBox="0 0 240 240" width="80" height="80" style="color: #d4a866;"><use href="#mark-C"/></svg>
+        </div>
+        <div class="tag">C · MONOGRAM</div>
+      </div>
+
+      <!-- E (sound bars) -->
+      <div class="card">
+        <div class="stage">
+          <svg viewBox="0 0 240 240" width="170" height="170" style="color: #d4a866;">
+            <use href="#mark-E"/>
+          </svg>
+        </div>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <h2>D · Sound Bars</h2>
+        <p class="reads">A frequency spectrum frozen in time. Six vertical bars, each its own vibration. Modern, digital, audio-first.</p>
+        <div class="mini-strip">
+          <svg viewBox="0 0 240 240" width="20" height="20" style="color: #d4a866;"><use href="#mark-E"/></svg>
+          <svg viewBox="0 0 240 240" width="40" height="40" style="color: #d4a866;"><use href="#mark-E"/></svg>
+          <svg viewBox="0 0 240 240" width="80" height="80" style="color: #d4a866;"><use href="#mark-E"/></svg>
+        </div>
+        <div class="tag">D · BARS</div>
+      </div>
+
+    </div>
+
+    <!-- ═══════ On cream ═══════ -->
+    <div class="light-strip">
+      <div class="slot">
+        <svg viewBox="0 0 240 240" width="100" height="100" style="color: #1a0f00;"><use href="#mark-A"/></svg>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <div class="label">A · ON CREAM</div>
+      </div>
+      <div class="slot">
+        <svg viewBox="0 0 240 240" width="100" height="100" style="color: #1a0f00;"><use href="#mark-B"/></svg>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <div class="label">B · ON CREAM</div>
+      </div>
+      <div class="slot">
+        <svg viewBox="0 0 240 240" width="100" height="100" style="color: #1a0f00;"><use href="#mark-C"/></svg>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <div class="label">C · ON CREAM</div>
+      </div>
+      <div class="slot">
+        <svg viewBox="0 0 240 240" width="100" height="100" style="color: #1a0f00;"><use href="#mark-E"/></svg>
+        <div class="wordmark">Frequency&nbsp;&nbsp;Vibes</div>
+        <div class="label">D · ON CREAM</div>
+      </div>
+    </div>
+
+    <footer>
+      v5 · iconic minimal — pick A, B, C or D · gut feeling
+    </footer>
+  </div>
+
+</body>
+</html>

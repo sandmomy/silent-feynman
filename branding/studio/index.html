@@ -1,0 +1,2745 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Frequency Vibes · Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.js"></script>
+<style>
+:root {
+  --bg: #0b0b0f; --bg-2: #15151c; --bg-3: #1d1d27;
+  --gold: #d4a866; --gold-soft: #e8c896;
+  --ink: #f4ecdc; --cream: #efe7d3;
+  --oxblood: #b4432a; --teal-bg: #2a8b96; --purple-bg: #6b3c9a;
+  --muted: #8a8275; --border: #2a2620;
+  --ui-bg: #0e0e13; --ui-panel: #1a1a22; --ui-panel-2: #232331; --ui-text: #d8d2c0;
+  --ui-accent: #d4a866; --ui-blue: #6ea3c6;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100vh; overflow: hidden; }
+body {
+  background: var(--ui-bg); color: var(--ui-text);
+  font-family: 'Inter', system-ui, sans-serif; font-size: 13px;
+  display: grid; grid-template-columns: 280px 1fr 280px;
+  grid-template-rows: 48px 1fr;
+  user-select: none;
+}
+.topbar {
+  grid-column: 1 / -1; grid-row: 1;
+  background: #06060a; border-bottom: 1px solid #000;
+  display: flex; align-items: center; padding: 0 12px; gap: 8px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  white-space: nowrap; overflow-x: auto; overflow-y: hidden;
+  flex-wrap: nowrap;
+}
+.topbar > * { flex-shrink: 0; }
+.topbar::-webkit-scrollbar { height: 4px; }
+.topbar .right { margin-left: auto; }
+.topbar .brand { color: var(--ui-accent); font-weight: 500; }
+.topbar .sep { width: 1px; height: 22px; background: #222; }
+.topbar select, .topbar button {
+  background: var(--ui-panel); color: var(--ui-text);
+  border: 1px solid var(--border); padding: 5px 8px;
+  font-family: inherit; font-size: 10px; letter-spacing: 0.12em;
+  text-transform: uppercase; cursor: pointer; border-radius: 3px;
+  white-space: nowrap; flex-shrink: 0;
+}
+.topbar button:hover { background: var(--ui-panel-2); }
+.topbar button.primary { background: var(--ui-accent); color: #1a1a1a; border-color: var(--ui-accent); font-weight: 500; }
+.topbar .right { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+.topbar .zoom { font-family: 'IBM Plex Mono', monospace; color: var(--muted); }
+
+.left, .right {
+  background: var(--ui-panel); overflow-y: auto;
+  display: flex; flex-direction: column;
+}
+.right { border-left: 1px solid #000; }
+.left { border-right: 1px solid #000; }
+.section { border-bottom: 1px solid #0a0a0a; }
+.section h3 {
+  margin: 0; padding: 12px 14px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+  letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--muted); background: #0a0a0e;
+  border-bottom: 1px solid #0a0a0a;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.section h3 .count { color: var(--ui-accent); font-size: 9px; }
+.section .body { padding: 10px 12px; }
+
+.tpl-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.tpl-thumb {
+  aspect-ratio: 1/1; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 4px; cursor: pointer; position: relative; overflow: hidden;
+  display: grid; place-items: center; font-family: 'Fraunces', serif;
+  font-size: 10px; color: var(--ink); text-align: center; padding: 4px;
+}
+.tpl-thumb:hover { border-color: var(--gold); }
+.tpl-thumb.selected { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+.tpl-thumb.dark { background: var(--bg); color: var(--ink); }
+.tpl-thumb.cream { background: var(--cream); color: #1a0f00; }
+.tpl-thumb.photo {
+  background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.85)),
+    url('../frequency-vibes-logo-teal-clean.png') center/cover;
+}
+.tpl-thumb .ic { font-family: 'IBM Plex Mono', monospace; font-size: 8px;
+  letter-spacing: 0.2em; color: var(--gold); margin-bottom: 4px; }
+
+.add-btn {
+  width: 100%; padding: 10px; margin-top: 8px;
+  background: var(--ui-panel-2); color: var(--gold);
+  border: 1px dashed var(--gold); border-radius: 3px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+  letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer;
+}
+.add-btn:hover { background: rgba(212, 168, 102, 0.1); }
+
+.gallery { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; }
+.gallery .thumb {
+  aspect-ratio: 1/1; background: #000; border-radius: 2px;
+  background-size: cover; background-position: center;
+  cursor: grab; border: 1px solid transparent;
+}
+.gallery .thumb:hover { border-color: var(--gold); }
+
+.uploaded-list { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-top: 6px; }
+.uploaded-list .thumb { aspect-ratio: 1/1; background: var(--ui-panel-2);
+  background-size: contain; background-position: center; background-repeat: no-repeat;
+  border-radius: 2px; cursor: grab; border: 1px solid var(--border);
+}
+.uploaded-list .thumb:hover { border-color: var(--gold); }
+.uploaded-empty { font-size: 10px; color: var(--muted); padding: 12px 6px;
+  text-align: center; font-style: italic; }
+
+.phrases { font-family: 'Cormorant Garamond', serif; }
+.phrase {
+  padding: 8px 10px; margin-bottom: 4px;
+  background: var(--ui-panel-2); border-radius: 3px;
+  cursor: pointer; font-size: 13px; color: var(--ink);
+  font-style: italic; line-height: 1.3;
+  border: 1px solid transparent;
+}
+.phrase:hover { border-color: var(--gold); background: #2a2a3a; }
+.phrase em { color: var(--gold); font-weight: 500; }
+.phrase .cat { display: block; font-family: 'IBM Plex Mono', monospace;
+  font-style: normal; font-size: 8px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.phrase-filter { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
+.phrase-filter button {
+  background: var(--ui-panel-2); color: var(--muted);
+  border: 1px solid var(--border); padding: 3px 8px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  cursor: pointer; border-radius: 2px;
+}
+.phrase-filter button.active { background: var(--gold); color: #1a1a1a; border-color: var(--gold); }
+
+.logo-list { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.logo-chip {
+  aspect-ratio: 1/1; background: var(--ui-panel-2);
+  display: grid; place-items: center; border-radius: 4px;
+  cursor: grab; border: 1px solid var(--border);
+  font-family: 'IBM Plex Mono', monospace; font-size: 8px;
+  color: var(--muted); padding: 6px; text-align: center;
+}
+.logo-chip:hover { border-color: var(--gold); }
+.logo-chip img { max-width: 80%; max-height: 80%; }
+
+.canvas-area {
+  grid-column: 2; grid-row: 2;
+  background: #050508;
+  display: grid; place-items: center;
+  overflow: auto; padding: 32px; position: relative;
+  background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.stage-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.stage-meta {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+  letter-spacing: 0.28em; text-transform: uppercase; color: var(--muted);
+}
+.stage {
+  background: #000; box-shadow: 0 24px 64px rgba(0,0,0,0.7);
+  position: relative; transform-origin: center;
+  transition: width 0.2s, height 0.2s;
+}
+.stage.drop-active::after {
+  content: 'DROP HERE'; position: absolute; inset: 0;
+  display: grid; place-items: center; pointer-events: none;
+  background: rgba(212, 168, 102, 0.15); color: var(--gold);
+  font-family: 'IBM Plex Mono', monospace; font-size: 14px;
+  letter-spacing: 0.3em; text-transform: uppercase; z-index: 9999;
+}
+
+.tpl {
+  width: 100%; height: 100%; position: relative; overflow: hidden;
+  font-family: 'Cormorant Garamond', serif;
+}
+.tpl.is-dark { background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 50% 30%, rgba(212,168,102,0.08), transparent 60%),
+    radial-gradient(ellipse at 70% 80%, rgba(120,70,180,0.06), transparent 60%);
+  color: var(--ink); }
+.tpl.is-cream { background: var(--cream); color: #1a0f00; }
+.tpl.is-teal { background: linear-gradient(135deg, #142a2c 0%, #0a0e10 100%); color: var(--ink); }
+
+.slot { position: absolute; user-select: text; }
+.slot[contenteditable=true] { outline: none; cursor: text; }
+.slot.image-slot, .slot.logo-slot, .slot.free-image {
+  background-size: cover; background-position: center; background-repeat: no-repeat;
+}
+.slot.logo-slot { background-size: contain; }
+.slot.free-image { cursor: move; }
+.slot.is-locked { cursor: default; }
+
+.slot.selected { outline: 2px solid var(--ui-blue); outline-offset: 0; }
+.slot.selected[contenteditable=true]:focus { outline-color: var(--gold); }
+
+/* Selection handles overlay (positioned by JS) */
+.handles {
+  position: absolute; pointer-events: none;
+  outline: 2px solid var(--ui-blue);
+  z-index: 9000;
+}
+.handles .h {
+  position: absolute; width: 14px; height: 14px;
+  background: var(--ui-blue); border: 2px solid #fff;
+  border-radius: 2px; pointer-events: auto;
+  transform: translate(-50%, -50%);
+}
+.handles .h.tl { top: 0; left: 0; cursor: nwse-resize; }
+.handles .h.tr { top: 0; left: 100%; cursor: nesw-resize; }
+.handles .h.bl { top: 100%; left: 0; cursor: nesw-resize; }
+.handles .h.br { top: 100%; left: 100%; cursor: nwse-resize; }
+.handles .h.t  { top: 0; left: 50%; cursor: ns-resize; }
+.handles .h.b  { top: 100%; left: 50%; cursor: ns-resize; }
+.handles .h.l  { top: 50%; left: 0; cursor: ew-resize; }
+.handles .h.r  { top: 50%; left: 100%; cursor: ew-resize; }
+.handles .h.rotate {
+  top: -34px; left: 50%; cursor: grab;
+  background: var(--gold); border-color: #fff; border-radius: 50%;
+}
+.handles .h.rotate::after {
+  content: ''; position: absolute; left: 50%; top: 100%;
+  width: 1px; height: 22px; background: var(--ui-blue);
+  transform: translateX(-50%);
+}
+
+.corner { position: absolute; border: 2px solid var(--gold); opacity: 0.32; }
+
+.props { font-size: 12px; }
+.props .row { display: flex; align-items: center; gap: 8px; padding: 8px 12px;
+  border-bottom: 1px solid #0a0a0a; }
+.props .row label { width: 70px; color: var(--muted); font-size: 11px;
+  font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.16em; text-transform: uppercase; }
+.props .row input[type=color] { width: 40px; height: 26px; border: 1px solid var(--border);
+  background: transparent; cursor: pointer; }
+.props .row input[type=range] { flex: 1; }
+.props .row input[type=text], .props .row input[type=number],
+.props .row select, .props .row textarea {
+  flex: 1; background: var(--ui-panel-2); color: var(--ui-text);
+  border: 1px solid var(--border); padding: 4px 8px;
+  font-family: inherit; font-size: 12px; border-radius: 2px;
+}
+.props .row textarea { font-family: 'Cormorant Garamond', serif; min-height: 60px; resize: vertical; }
+.props-empty { padding: 24px; color: var(--muted); font-size: 12px; text-align: center; }
+.props .row-actions { display: flex; gap: 6px; padding: 10px 12px;
+  border-bottom: 1px solid #0a0a0a; }
+.props .row-actions button {
+  flex: 1; background: var(--ui-panel-2); border: 1px solid var(--border);
+  color: var(--ui-text); padding: 6px; font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase;
+  cursor: pointer; border-radius: 2px;
+}
+.props .row-actions button:hover { background: #2a2a3a; }
+.props .row-actions button.danger { color: #d94747; border-color: #5a2222; }
+.props .row-actions button.danger:hover { background: #2a1414; }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #2a2a3a; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #3a3a4a; }
+
+.toast {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: var(--gold); color: #1a1a1a; padding: 12px 24px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+  letter-spacing: 0.18em; text-transform: uppercase; border-radius: 3px;
+  z-index: 99999; opacity: 0; transition: opacity 0.2s; pointer-events: none;
+}
+.toast.show { opacity: 1; }
+.help-line { font-size: 10px; color: var(--muted); padding: 6px 12px;
+  border-bottom: 1px solid #0a0a0a; line-height: 1.5; }
+.help-line code { color: var(--gold); font-family: 'IBM Plex Mono', monospace; font-size: 9px; }
+
+/* file:// warning banner */
+.file-banner {
+  grid-column: 1 / -1; grid-row: 0;
+  background: linear-gradient(90deg, #b4432a, #d4a866);
+  color: #1a1a1a; padding: 10px 16px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 12px;
+}
+.file-banner strong { font-weight: 600; }
+.file-banner code { background: rgba(0,0,0,0.25); padding: 3px 8px; border-radius: 3px; color: #fff; }
+.file-banner .x { margin-left: auto; cursor: pointer; opacity: 0.6; font-size: 14px; }
+.file-banner .x:hover { opacity: 1; }
+body.with-banner { grid-template-rows: auto 48px 1fr; }
+
+/* Layers panel */
+.layers-list { display: flex; flex-direction: column; gap: 2px; max-height: 380px; overflow-y: auto; }
+.layer-row {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 8px; background: var(--ui-panel-2);
+  border-radius: 3px; cursor: pointer; font-size: 11px;
+  border: 1px solid transparent; user-select: none;
+}
+.layer-row:hover { border-color: var(--border); background: #2a2a3a; }
+.layer-row.active { border-color: var(--gold); background: rgba(212,168,102,0.12); }
+.layer-row.dragging { opacity: 0.4; }
+.layer-row.drop-above { border-top: 2px solid var(--gold); }
+.layer-row.drop-below { border-bottom: 2px solid var(--gold); }
+.layer-row .lyr-grip { color: var(--muted); font-size: 12px; cursor: grab; opacity: 0.5; }
+.layer-row .lyr-grip:hover { opacity: 1; }
+.layer-row .lyr-icon { width: 22px; flex-shrink: 0; cursor: pointer;
+  font-size: 13px; text-align: center; transition: color 0.15s; }
+.layer-row .lyr-icon:hover { color: var(--gold) !important; }
+.layer-row .lyr-name { flex: 1; color: var(--ui-text); overflow: hidden;
+  white-space: nowrap; text-overflow: ellipsis; font-size: 11px; }
+.layer-row .lyr-type { font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+  color: var(--gold); margin-right: 4px; opacity: 0.7; letter-spacing: 0.1em; }
+.layer-row .lyr-thumb { width: 24px; height: 24px; flex-shrink: 0;
+  background: #000; background-size: cover; background-position: center;
+  border-radius: 2px; border: 1px solid #2a2a3a; }
+.layer-row.is-locked { background: rgba(217, 71, 71, 0.06); border-color: rgba(217, 71, 71, 0.3); }
+.layer-row.is-hidden { opacity: 0.4; }
+.layer-row.is-hidden .lyr-name { text-decoration: line-through; }
+.layers-toolbar {
+  display: flex; gap: 4px; padding: 6px 0; margin-bottom: 6px;
+  border-bottom: 1px solid #0a0a0a;
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+}
+.layers-toolbar button {
+  flex: 1; background: transparent; border: 1px solid var(--border);
+  color: var(--muted); padding: 4px 6px; cursor: pointer;
+  font-family: inherit; font-size: 9px; letter-spacing: 0.16em;
+  text-transform: uppercase; border-radius: 2px;
+}
+.layers-toolbar button:hover, .layers-toolbar button.active {
+  border-color: var(--gold); color: var(--gold);
+}
+
+/* Snap guides */
+.snap-line {
+  position: absolute; pointer-events: none;
+  background: var(--gold); z-index: 99998;
+  box-shadow: 0 0 4px rgba(212,168,102,0.6);
+}
+.snap-line.h { width: 100%; height: 1px; left: 0; }
+.snap-line.v { height: 100%; width: 1px; top: 0; }
+
+/* Grain overlay */
+.grain-overlay {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95   0 0 0 0 0.92   0 0 0 0 0.85   0 0 0 0.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity: 0.18; mix-blend-mode: overlay;
+  z-index: 8000;
+}
+
+/* Vertical text via writing-mode */
+.text-vertical-up   { writing-mode: vertical-rl; transform: rotate(180deg); transform-origin: center; }
+.text-vertical-down { writing-mode: vertical-rl; }
+
+/* Slide tabs (carousel mode) */
+.slide-tabs {
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  padding: 8px 12px; background: var(--ui-panel);
+  border: 1px solid var(--border); border-radius: 4px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+}
+.slide-tab {
+  padding: 6px 12px; background: var(--ui-panel-2);
+  border: 1px solid var(--border); border-radius: 3px;
+  cursor: pointer; color: var(--muted); display: inline-flex; gap: 6px; align-items: center;
+}
+.slide-tab.active { background: var(--gold); color: #1a1a1a; border-color: var(--gold); font-weight: 500; }
+.slide-tab:hover:not(.active) { border-color: var(--gold); color: var(--ui-text); }
+.slide-tab .x { font-size: 11px; opacity: 0.7; }
+.slide-tab .x:hover { color: #d94747; opacity: 1; }
+.slide-tab.add { background: transparent; border-style: dashed; color: var(--gold); }
+
+/* Decorative shapes panel */
+.shapes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+.shape-chip {
+  aspect-ratio: 1/1; background: var(--ui-panel-2);
+  display: grid; place-items: center; border-radius: 3px;
+  cursor: grab; border: 1px solid var(--border);
+  color: var(--gold);
+}
+.shape-chip svg { width: 70%; height: 70%; pointer-events: none; }
+.shape-chip:hover { border-color: var(--gold); background: rgba(212,168,102,0.1); }
+
+/* Free shape inserted on canvas */
+.slot.free-shape { color: var(--gold); display: flex; }
+.slot.free-shape svg { width: 100%; height: 100%; display: block; }
+
+/* Multi-select indicator */
+.slot.multi-selected { outline: 2px dashed var(--gold); outline-offset: 0; }
+
+/* Align bar */
+.align-bar {
+  display: none;
+  position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+  background: rgba(14, 14, 19, 0.95); padding: 6px;
+  border: 1px solid var(--border); border-radius: 4px;
+  z-index: 9500; gap: 4px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+.align-bar.show { display: flex; }
+.align-bar button {
+  width: 28px; height: 28px; padding: 0;
+  background: var(--ui-panel-2); border: 1px solid var(--border);
+  color: var(--ui-text); cursor: pointer; border-radius: 2px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+}
+.align-bar button:hover { background: var(--gold); color: #1a1a1a; }
+.align-bar .sep { width: 1px; height: 24px; background: var(--border); margin: 0 2px; }
+
+/* My templates section */
+.mytpl-list { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.mytpl-card {
+  aspect-ratio: 1/1; background: var(--ui-panel-2);
+  border: 1px solid var(--border); border-radius: 3px;
+  cursor: pointer; position: relative; overflow: hidden;
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+  color: var(--muted); padding: 4px;
+}
+.mytpl-card:hover { border-color: var(--gold); }
+.mytpl-card .name { font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+.mytpl-card .x {
+  position: absolute; top: 2px; right: 2px;
+  width: 16px; height: 16px; background: rgba(0,0,0,0.7);
+  color: #d94747; display: grid; place-items: center;
+  border-radius: 50%; font-size: 10px; cursor: pointer; opacity: 0;
+}
+.mytpl-card:hover .x { opacity: 1; }
+
+/* Knockout text */
+.slot.is-knockout {
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+
+/* Disabled topbar button */
+.topbar button:disabled, .topbar button.disabled {
+  opacity: 0.35; cursor: not-allowed;
+}
+.topbar button.toggle.active {
+  background: var(--gold); color: #1a1a1a; border-color: var(--gold);
+}
+</style>
+</head>
+<body>
+
+<div id="file-banner" class="file-banner" style="display:none;">
+  <strong>⚠ You are using the studio via file://</strong>
+  <span>The browser blocks PNG export from local files. Double-click <code>start-studio.bat</code> in this folder for the local server.</span>
+  <span class="x" id="banner-close">×</span>
+</div>
+
+<div class="topbar">
+  <span class="brand">◆ Frequency Vibes · Studio</span>
+  <span class="sep"></span>
+  <span>Format</span>
+  <select id="format">
+    <option value="square">1:1 · 1080×1080</option>
+    <option value="portrait">4:5 · 1080×1350</option>
+    <option value="story">9:16 · 1080×1920</option>
+  </select>
+  <span class="sep"></span>
+  <button id="undo" disabled title="Undo (Ctrl+Z)">↶ Undo</button>
+  <button id="redo" disabled title="Redo (Ctrl+Y)">↷ Redo</button>
+  <span class="sep"></span>
+  <button id="add-text" title="Add a free text element">＋ Text</button>
+  <button id="reset-tpl">Reset</button>
+  <button id="clear-text">Clear text</button>
+  <span class="sep"></span>
+  <button id="grain-toggle" class="toggle" title="Toggle film grain overlay">▦</button>
+  <button id="save-state" title="Save editable .json (re-edit later)">💾</button>
+  <button id="load-state" title="Open a saved .json">📁</button>
+  <button id="save-as-tpl" title="Save current as my template">★</button>
+  <input type="file" id="load-input" accept="application/json,.json" style="display:none;">
+  <div class="right">
+    <span class="zoom" id="zoom-info">FIT</span>
+    <button id="copy-png" title="Copy final PNG to clipboard">📋</button>
+    <button id="export-png" class="primary" title="Download final PNG image">↓ Image</button>
+    <button id="export-carousel" class="primary" style="display:none;" title="Download all slides as PNGs">↓ Carousel</button>
+  </div>
+</div>
+
+<aside class="left">
+
+  <div class="section">
+    <h3>Templates <span class="count">8</span></h3>
+    <div class="body">
+      <div class="tpl-list" id="tpl-list">
+        <div class="tpl-thumb dark selected" data-tpl="quote"><div><div class="ic">01</div>Quote</div></div>
+        <div class="tpl-thumb photo" data-tpl="photo-quote"><div><div class="ic">02</div>Photo + Quote</div></div>
+        <div class="tpl-thumb dark" data-tpl="partner-cover"><div><div class="ic">03</div>Partner cover</div></div>
+        <div class="tpl-thumb dark" data-tpl="partner-photo"><div><div class="ic">04</div>Partner + photo</div></div>
+        <div class="tpl-thumb cream" data-tpl="edu-cream"><div><div class="ic">05</div>Edu cream</div></div>
+        <div class="tpl-thumb dark" data-tpl="pull-quote"><div><div class="ic">06</div>Pull quote</div></div>
+        <div class="tpl-thumb dark" data-tpl="blank-dark" style="font-style:italic;color:var(--muted);"><div><div class="ic">07</div>Blank · dark</div></div>
+        <div class="tpl-thumb cream" data-tpl="blank-cream" style="font-style:italic;color:rgba(26,15,0,0.5);"><div><div class="ic">08</div>Blank · cream</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Phrases <span class="count">44</span></h3>
+    <div class="body">
+      <div class="phrase-filter" id="phrase-filter">
+        <button class="active" data-cat="all">All</button>
+        <button data-cat="core">Core</button>
+        <button data-cat="foods">Foods</button>
+        <button data-cat="habitat">Habitat</button>
+        <button data-cat="community">Community</button>
+        <button data-cat="hooks">Hooks</button>
+      </div>
+      <div id="phrases-list"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Photos <span class="count" id="ph-count">43</span></h3>
+    <div class="body">
+      <div class="gallery" id="gallery"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Decorative shapes <span class="count">12</span></h3>
+    <div class="body">
+      <div class="shapes-grid" id="shapes-grid"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>My templates <span class="count" id="mytpl-count">0</span></h3>
+    <div class="body">
+      <div class="mytpl-list" id="mytpl-list"></div>
+      <div id="mytpl-empty" style="font-size:10px;color:var(--muted);padding:6px;font-style:italic;">
+        Click "★ Save as tpl" to save your current composition for reuse.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>+ Your assets <span class="count" id="up-count">0</span></h3>
+    <div class="body">
+      <input type="file" id="upload-input" accept="image/*" multiple style="display:none;">
+      <button class="add-btn" id="upload-btn">+ Add image / PNG cutout</button>
+      <div class="uploaded-list" id="uploaded-list"></div>
+      <div id="uploaded-empty" class="uploaded-empty">PNGs/cutouts/extra photos you upload here.<br>Drag onto canvas to compose.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Partner logos <span class="count">9</span></h3>
+    <div class="body">
+      <div class="logo-list" id="logo-list">
+        <div class="logo-chip" draggable="true" data-logo="fv"><img src="../frequency-vibes-logo-teal-clean.png" title="Frequency Vibes" draggable="false"></div>
+        <div class="logo-chip" draggable="true" data-logo="sbdi"><img src="partner-logos/logo-sbdi.webp" title="SBDI Center" draggable="false"></div>
+        <div class="logo-chip" draggable="true" data-logo="wiseuse"><img src="partner-logos/logo-wiseuse-clean.png" title="Wise Use International B.V." draggable="false"></div>
+        <div class="logo-chip" draggable="true" data-logo="vegaqura"><img src="partner-logos/logo-vegaqura.png" title="Vegaqura" draggable="false"></div>
+        <div class="logo-chip" draggable="true" data-logo="ekovitaris"><img src="partner-logos/logo-eko-vitaris.svg" title="Eko Vitaris" draggable="false"></div>
+        <div class="logo-chip" draggable="true" data-logo="biozar"><img src="partner-logos/logo-biozar.png" title="Biozar Venezuela" draggable="false"></div>
+        <div class="logo-chip" draggable="true" data-logo="mariposa"><img src="partner-logos/logo-mariposa-batu-white.png" title="Mariposa Batu" draggable="false"></div>
+        <div class="logo-chip" draggable="true" data-logo="unisma" style="font-size:9px;color:var(--gold);">UNISMA</div>
+        <div class="logo-chip" draggable="true" data-logo="igcn" style="font-size:8px;color:var(--gold);">IGCN<br>UN GC</div>
+      </div>
+      <p style="font-size:10px; color: var(--muted); margin: 8px 0 0; line-height: 1.4;">
+        Drag a logo onto the canvas. UNISMA &amp; IGCN are text placeholders (no real logo yet).
+      </p>
+    </div>
+  </div>
+
+</aside>
+
+<main class="canvas-area" id="canvas-area">
+  <div class="stage-wrap">
+    <div class="slide-tabs" id="slide-tabs">
+      <span style="color:var(--muted);">SLIDES</span>
+      <span class="slide-tab active" data-idx="0">01<span class="x" data-act="del">×</span></span>
+      <span class="slide-tab add" id="add-slide">+ ADD SLIDE</span>
+    </div>
+    <div class="stage-meta" id="stage-meta">QUOTE · 1080 × 1080</div>
+    <div class="stage" id="stage" style="width:540px;height:540px;">
+      <div class="tpl is-dark" id="tpl"></div>
+    </div>
+  </div>
+  <div class="handles" id="handles" style="display:none;">
+    <div class="h tl" data-dir="tl"></div>
+    <div class="h t"  data-dir="t"></div>
+    <div class="h tr" data-dir="tr"></div>
+    <div class="h r"  data-dir="r"></div>
+    <div class="h br" data-dir="br"></div>
+    <div class="h b"  data-dir="b"></div>
+    <div class="h bl" data-dir="bl"></div>
+    <div class="h l"  data-dir="l"></div>
+    <div class="h rotate" data-dir="rotate"></div>
+  </div>
+  <div class="align-bar" id="align-bar">
+    <button data-align="left" title="Align left">⫷</button>
+    <button data-align="cx"   title="Align center horizontal">⊟</button>
+    <button data-align="right"title="Align right">⫸</button>
+    <span class="sep"></span>
+    <button data-align="top"  title="Align top">⊥</button>
+    <button data-align="cy"   title="Align middle vertical">⊟</button>
+    <button data-align="bottom" title="Align bottom">⊤</button>
+    <span class="sep"></span>
+    <button data-align="dx"   title="Distribute horizontally">↔</button>
+    <button data-align="dy"   title="Distribute vertically">↕</button>
+  </div>
+</main>
+
+<aside class="right">
+  <div class="section">
+    <h3>Layers <span class="count" id="lyr-count">0</span></h3>
+    <div class="body">
+      <div class="layers-toolbar">
+        <button id="lyr-show-decor" title="Toggle template decoration (corners, etc.)">+ decor</button>
+        <button id="lyr-clear-free" title="Remove all free elements (keeps template structure)">clear added</button>
+      </div>
+      <div class="layers-list" id="layers-list"></div>
+      <p style="font-size: 10px; color: var(--muted); margin: 8px 0 0; line-height: 1.4;">
+        <strong style="color: var(--ui-text);">Top of list = top of canvas.</strong> Drag a row to reorder. 👁 visibility · 🔒 lock.
+      </p>
+    </div>
+  </div>
+  <div class="section">
+    <h3>Selection</h3>
+    <div class="body" id="props-body" style="padding:0;">
+      <div class="props-empty">Click any element on the canvas to edit it. Drop a photo or your own image to add it as a free element.</div>
+    </div>
+  </div>
+  <div class="help-line">
+    <strong style="color:var(--ui-text);">Shortcuts:</strong>
+    <code>click</code> select · <code>drag</code> move · <code>2-click text</code> edit · <code>Del</code> delete · <code>↑↓←→</code> 1px · <code>Shift+↓</code> 10px · <code>[</code>/<code>]</code> z-order · <code>Ctrl+Z</code> undo · <code>Ctrl+D</code> dup
+  </div>
+  <div class="section">
+    <h3>Quick captions</h3>
+    <div class="body" style="font-size: 11px; color: var(--muted); line-height: 1.5;">
+      <p style="margin: 0 0 8px;">After exporting PNG, get the matching caption from:</p>
+      <code style="color: var(--gold); font-size: 10px; word-break: break-all;">posts-week1/_out/captions.md</code>
+      <p style="margin: 12px 0 0;">CTA always: <strong style="color: var(--gold);">eugenemierak.com</strong></p>
+    </div>
+  </div>
+</aside>
+
+<div class="toast" id="toast">copied</div>
+
+<script>
+// ============ DATA ============
+const PHOTOS = [
+'WhatsApp Image 2026-04-26 at 14.01.35 (1).jpeg','WhatsApp Image 2026-04-26 at 14.01.35 (2).jpeg','WhatsApp Image 2026-04-26 at 14.01.35 (3).jpeg','WhatsApp Image 2026-04-26 at 14.01.35.jpeg','WhatsApp Image 2026-04-26 at 14.01.36 (1).jpeg','WhatsApp Image 2026-04-26 at 14.01.36 (2).jpeg','WhatsApp Image 2026-04-26 at 14.01.36 (3).jpeg','WhatsApp Image 2026-04-26 at 14.01.36 (4).jpeg','WhatsApp Image 2026-04-26 at 14.01.36 (5).jpeg','WhatsApp Image 2026-04-26 at 14.01.36 (6).jpeg','WhatsApp Image 2026-04-26 at 14.01.36 (7).jpeg','WhatsApp Image 2026-04-26 at 14.01.36 (8).jpeg','WhatsApp Image 2026-04-26 at 14.01.36 (9).jpeg','WhatsApp Image 2026-04-26 at 14.01.36.jpeg','WhatsApp Image 2026-04-26 at 14.01.37 (1).jpeg','WhatsApp Image 2026-04-26 at 14.01.37 (2).jpeg','WhatsApp Image 2026-04-26 at 14.01.37 (3).jpeg','WhatsApp Image 2026-04-26 at 14.01.37 (4).jpeg','WhatsApp Image 2026-04-26 at 14.01.37 (5).jpeg','WhatsApp Image 2026-04-26 at 14.01.37 (6).jpeg','WhatsApp Image 2026-04-26 at 14.01.37 (7).jpeg','WhatsApp Image 2026-04-26 at 14.01.37 (8).jpeg','WhatsApp Image 2026-04-26 at 14.01.37 (9).jpeg','WhatsApp Image 2026-04-26 at 14.01.37.jpeg','WhatsApp Image 2026-04-26 at 14.01.38 (1).jpeg','WhatsApp Image 2026-04-26 at 14.01.38 (2).jpeg','WhatsApp Image 2026-04-26 at 14.01.38 (3).jpeg','WhatsApp Image 2026-04-26 at 14.01.38 (4).jpeg','WhatsApp Image 2026-04-26 at 14.01.38 (5).jpeg','WhatsApp Image 2026-04-26 at 14.01.38 (6).jpeg','WhatsApp Image 2026-04-26 at 14.01.38 (7).jpeg','WhatsApp Image 2026-04-26 at 14.01.38.jpeg','WhatsApp Image 2026-04-26 at 14.01.39 (1).jpeg','WhatsApp Image 2026-04-26 at 14.01.39 (2).jpeg','WhatsApp Image 2026-04-26 at 14.01.39 (3).jpeg','WhatsApp Image 2026-04-26 at 14.01.39 (4).jpeg','WhatsApp Image 2026-04-26 at 14.01.39 (5).jpeg','WhatsApp Image 2026-04-26 at 14.01.39 (6).jpeg','WhatsApp Image 2026-04-26 at 14.01.39.jpeg','WhatsApp Image 2026-04-26 at 14.01.40 (1).jpeg','WhatsApp Image 2026-04-26 at 14.01.40 (2).jpeg','WhatsApp Image 2026-04-26 at 14.01.40 (3).jpeg','WhatsApp Image 2026-04-26 at 14.01.40.jpeg'
+];
+const PHOTO_BASE = '_assets/photos/';
+const photoUrl = name => PHOTO_BASE + encodeURIComponent(name);
+
+const PHRASES = [
+  // ── Core (brand voice) ──
+  {cat:'core', text:'Everything is <em>frequency.</em> The body is just the first instrument.'},
+  {cat:'core', text:'You don\'t <em>find</em> your frequency. You <em>tune</em> it — every day.'},
+  {cat:'core', text:'Tune the body. The <em>mind</em> follows.'},
+  {cat:'core', text:'Stillness is not absence. It\'s the <em>highest</em> frequency.'},
+  {cat:'core', text:'Listen to the <em>static</em>. That\'s where the message is.'},
+  {cat:'core', text:'The body remembers what the <em>land</em> remembers.'},
+  // ── Foods ──
+  {cat:'foods', text:'What you eat <em>carries a frequency.</em> What you drink writes it down.'},
+  {cat:'foods', text:'The first medicine was <em>sound</em>. The second, <em>water</em>.'},
+  {cat:'foods', text:'We are not <em>consuming</em> nutrients. We are <em>receiving</em> them.'},
+  {cat:'foods', text:'Living water · plant-based ferment · <em>ancestral memory.</em>'},
+  {cat:'foods', text:'Cassava is not a backup crop. It\'s a <em>blueprint</em>.'},
+  {cat:'foods', text:'What feeds the shrimp feeds the <em>ocean</em> feeds the table.'},
+  {cat:'foods', text:'A new recipe for food security starts with <em>shared knowledge.</em>'},
+  {cat:'foods', text:'From Java to Lagos · the same root, <em>different ground.</em>'},
+  {cat:'foods', text:'Real food doesn\'t shout. It <em>hums</em>.'},
+  {cat:'foods', text:'The supplement aisle is loud. The <em>source</em> is quiet.'},
+  // ── Habitat ──
+  {cat:'habitat', text:'A <em>space</em> that breathes back.'},
+  {cat:'habitat', text:'Architecture is <em>frozen</em> frequency.'},
+  {cat:'habitat', text:'Where the roof curves, the <em>air settles</em>.'},
+  {cat:'habitat', text:'Slow water · slow stone · <em>slow you</em>.'},
+  // ── Community / Impact ──
+  {cat:'community', text:'Unity in diversity is not a slogan. It\'s <em>SDG 18</em>.'},
+  {cat:'community', text:'100 trainers. 2 weeks. <em>One root crop</em>. From Indonesia to Africa.'},
+  {cat:'community', text:'When women lead the supply chain, the <em>whole table changes</em>.'},
+  {cat:'community', text:'Bloom together. Grow together. <em>Vibrate</em> together.'},
+  {cat:'community', text:'Local empowerment &gt; <em>global donation</em>.'},
+  {cat:'community', text:'Knowledge travels faster than money — when <em>it has a recipe</em>.'},
+  // ── Hooks (3-word reel/story openers) ──
+  {cat:'hooks', text:'<em>Frequency · Foods · Future</em>'},
+  {cat:'hooks', text:'<em>Tune. Eat. Live.</em>'},
+  {cat:'hooks', text:'<em>Source. Sound. Self.</em>'},
+  {cat:'hooks', text:'<em>Resonance</em> before resolution.'},
+  {cat:'hooks', text:'<em>Bali to Lagos</em>'},
+  {cat:'hooks', text:'<em>Coherence beats calories</em>'},
+  {cat:'hooks', text:'<em>Where it really comes from</em>'},
+  // ── Partner-specific (extracted from eugenemierak.com editorial copy) ──
+  {cat:'foods', text:'When health becomes <em>complex</em>, finding something that <em>truly works</em> matters. — Biozar'},
+  {cat:'foods', text:'97.7% natural ingredients. <em>26 years</em> restoring immunity. — Biozar Original'},
+  {cat:'foods', text:'Direct relationships with <em>farmers</em>. Shared prosperity at <em>the source</em>. — Eko Vitaris'},
+  {cat:'foods', text:'From volcanic <em>highlands</em> to European <em>tables</em>. — Eko Vitaris × Eugene Mierak · 2026'},
+  {cat:'foods', text:'Plankton · pine pollen · probiotics. <em>Frequency in a bottle</em>. — Vegaqura'},
+  {cat:'foods', text:'Total reset · Ibiza · <em>awake the cell</em>. — Vegaqura'},
+  {cat:'habitat', text:'29 premium villas. Infinity pools. <em>Mountain frequency</em>. — Mariposa at Klub Bunga'},
+  {cat:'habitat', text:'Batu · Malang · East Java. Where the <em>volcanoes whisper</em> first.'},
+  {cat:'community', text:'Building bridges between <em>developed</em> and <em>developing</em> nations.'},
+  {cat:'community', text:'Renewable energy · regenerative farming · <em>climate action</em> · eco-villages. — SBDI Center'},
+  {cat:'community', text:'Strategic Partner of <em>SBDI Center</em> · UN Global Compact Indonesia.'},
+  {cat:'community', text:'40% ownership · USD 30M · <em>now open</em>. — Mariposa investment'}
+];
+
+const FORMATS = {
+  square:   { w: 1080, h: 1080, label: '1080 × 1080' },
+  portrait: { w: 1080, h: 1350, label: '1080 × 1350' },
+  story:    { w: 1080, h: 1920, label: '1080 × 1920' }
+};
+
+// ============ EFFECT PRESETS ============
+const TEXT_SHADOWS = {
+  none:    'none',
+  soft:    '0 4px 16px rgba(0,0,0,0.5)',
+  hard:    '0 8px 24px rgba(0,0,0,0.85)',
+  glow:    '0 0 24px rgba(212,168,102,0.7), 0 0 8px rgba(232,200,150,0.5)',
+  oxblood: '0 0 28px rgba(180,67,42,0.7), 0 0 8px rgba(212,168,102,0.3)',
+  teal:    '0 0 28px rgba(42,139,150,0.7)',
+  outline: '-1px -1px 0 rgba(0,0,0,0.7), 1px -1px 0 rgba(0,0,0,0.7), -1px 1px 0 rgba(0,0,0,0.7), 1px 1px 0 rgba(0,0,0,0.7)'
+};
+const TEXT_GRADIENTS = {
+  none:    null,
+  gold:    'linear-gradient(135deg, #d4a866 0%, #e8c896 60%, #d4a866 100%)',
+  goldlux: 'linear-gradient(135deg, #b48848 0%, #f4d896 50%, #b48848 100%)',
+  oxblood: 'linear-gradient(135deg, #b4432a 0%, #d97a5c 100%)',
+  teal:    'linear-gradient(135deg, #2a8b96 0%, #6ec6cf 100%)',
+  ink:     'linear-gradient(180deg, #f4ecdc 0%, #c5b89d 100%)'
+};
+const IMG_FILTERS = {
+  none:      'none',
+  bw:        'grayscale(100%)',
+  sepia:     'sepia(60%) contrast(1.05)',
+  gold:      'sepia(80%) saturate(1.6) hue-rotate(-12deg) brightness(1.05)',
+  vintage:   'sepia(45%) contrast(1.1) brightness(0.95) saturate(0.8)',
+  faded:     'opacity(0.7) brightness(1.1) contrast(0.85) saturate(0.7)',
+  vibrant:   'contrast(1.2) saturate(1.4)',
+  cyano:     'sepia(100%) hue-rotate(180deg) saturate(1.6)',
+  noir:      'grayscale(100%) contrast(1.4) brightness(0.9)',
+  warm:      'saturate(1.2) hue-rotate(-8deg) brightness(1.05)',
+  cool:      'saturate(1.2) hue-rotate(15deg)'
+};
+const LOGO_TINTS = {
+  none:    'none',
+  white:   'brightness(0) invert(1)',
+  black:   'brightness(0)',
+  gold:    'brightness(0) saturate(100%) invert(75%) sepia(40%) saturate(540%) hue-rotate(2deg) brightness(91%) contrast(85%)',
+  cream:   'brightness(0) saturate(100%) invert(95%) sepia(8%) saturate(380%) hue-rotate(2deg) brightness(99%) contrast(94%)',
+  oxblood: 'brightness(0) saturate(100%) invert(34%) sepia(74%) saturate(1190%) hue-rotate(346deg) brightness(95%) contrast(86%)',
+  teal:    'brightness(0) saturate(100%) invert(50%) sepia(57%) saturate(440%) hue-rotate(143deg) brightness(88%) contrast(85%)'
+};
+const DROP_SHADOWS = {
+  none: 'none',
+  soft: 'drop-shadow(0 8px 20px rgba(0,0,0,0.45))',
+  hard: 'drop-shadow(0 12px 30px rgba(0,0,0,0.75))',
+  gold: 'drop-shadow(0 0 20px rgba(212,168,102,0.7))'
+};
+const SHAPE_MASKS = {
+  none:    '',
+  circle:  'inset(0 0 0 0 round 50%)',
+  hex:     'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
+  rounded: 'inset(0 round 12%)',
+  arch:    'inset(0 round 50% 50% 0 0)'
+};
+
+// ============ TEMPLATES ============
+const TEMPLATES = {
+  quote: () => `
+    <div class="corner" style="width:88px;height:88px;top:52px;left:52px;border-right:0;border-bottom:0;"></div>
+    <div class="corner" style="width:88px;height:88px;top:52px;right:52px;border-left:0;border-bottom:0;"></div>
+    <div class="corner" style="width:88px;height:88px;bottom:52px;left:52px;border-right:0;border-top:0;"></div>
+    <div class="corner" style="width:88px;height:88px;bottom:52px;right:52px;border-left:0;border-top:0;"></div>
+    <div class="slot logo-slot" data-slot="logo" style="top:56px;left:50%;transform:translateX(-50%);width:96px;height:96px;border-radius:8px;background-image:url('../frequency-vibes-logo-teal-clean.png');"></div>
+    <div class="slot" data-slot="text" data-style="quote-main" contenteditable="true"
+      style="left:50%;top:50%;transform:translate(-50%,-50%);width:86%;text-align:center;
+        font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;
+        font-size:76px;line-height:1.22;letter-spacing:-0.01em;color:var(--ink);">
+      Everything is <em style="color:var(--gold);font-weight:500;">frequency.</em><br>The body is just<br>the first instrument.
+    </div>
+    <div class="slot" data-slot="text" data-style="citation" contenteditable="true"
+      style="bottom:56px;left:50%;transform:translateX(-50%);
+        font-family:'IBM Plex Mono',monospace;font-size:18px;letter-spacing:0.42em;
+        text-transform:uppercase;color:var(--gold);opacity:0.9;white-space:nowrap;">
+      — Frequency Vibes
+    </div>
+  `,
+
+  'photo-quote': () => `
+    <div class="slot image-slot" data-slot="bg" style="inset:0;background-image:linear-gradient(180deg,transparent 28%,rgba(0,0,0,0.88) 92%),url('${photoUrl(PHOTOS[4])}');background-position:center 30%;"></div>
+    <div class="slot logo-slot" data-slot="logo" style="top:56px;left:56px;width:88px;height:88px;border-radius:8px;background-image:url('../frequency-vibes-logo-teal-clean.png');"></div>
+    <div class="slot" data-slot="text" data-style="kicker" contenteditable="true"
+      style="top:76px;right:64px;font-family:'IBM Plex Mono',monospace;font-size:20px;
+        letter-spacing:0.42em;text-transform:uppercase;color:var(--gold);">
+      Malang · Dec 2025
+    </div>
+    <div class="slot" data-slot="text" data-style="quote-photo" contenteditable="true"
+      style="bottom:220px;left:64px;right:64px;
+        font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;
+        font-size:64px;line-height:1.22;color:var(--ink);text-shadow:0 6px 24px rgba(0,0,0,0.85);">
+      You don't <em style="color:var(--gold);font-weight:500;">find</em> your frequency.<br>You <em style="color:var(--gold);font-weight:500;">tune</em> it — every day.
+    </div>
+    <div class="slot" data-slot="text" data-style="author" contenteditable="true"
+      style="bottom:150px;left:64px;
+        font-family:'IBM Plex Mono',monospace;font-size:22px;letter-spacing:0.42em;
+        text-transform:uppercase;color:var(--gold);">
+      — Eugene Mierak
+    </div>
+    <div class="slot" data-slot="text" data-style="cta" contenteditable="true"
+      style="bottom:64px;left:64px;right:64px;display:flex;justify-content:space-between;
+        font-family:'IBM Plex Mono',monospace;font-size:20px;letter-spacing:0.36em;
+        text-transform:uppercase;color:rgba(244,236,220,0.7);
+        border-top:1px solid rgba(212,168,102,0.35);padding-top:22px;">
+      <span>Read &amp; Listen</span><span style="color:var(--gold);">eugenemierak.com</span>
+    </div>
+  `,
+
+  'partner-cover': () => `
+    <div style="position:absolute;inset:0;background:linear-gradient(135deg,#142a2c 0%,#0a0e10 100%);pointer-events:none;"></div>
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 30% 10%,rgba(212,168,102,0.10),transparent 55%),radial-gradient(ellipse at 80% 95%,rgba(42,139,150,0.12),transparent 55%);pointer-events:none;"></div>
+    <div class="slot logo-slot" data-slot="logo" style="top:80px;left:80px;width:80px;height:80px;border-radius:8px;background-image:url('../frequency-vibes-logo-teal-clean.png');"></div>
+    <div class="slot" data-slot="text" data-style="slide-num" contenteditable="true"
+      style="top:96px;right:80px;font-family:'IBM Plex Mono',monospace;font-size:20px;
+        letter-spacing:0.36em;color:var(--gold);opacity:0.75;">01 / 06</div>
+    <div class="slot" data-slot="text" data-style="kicker" contenteditable="true"
+      style="left:50%;top:42%;transform:translate(-50%,-50%);text-align:center;width:80%;
+        font-family:'IBM Plex Mono',monospace;font-size:22px;letter-spacing:0.46em;
+        text-transform:uppercase;color:var(--gold);">Frequency Foods · Center</div>
+    <div class="slot" data-slot="text" data-style="partner-name" contenteditable="true"
+      style="left:50%;top:54%;transform:translate(-50%,-50%);text-align:center;width:90%;
+        font-family:'Fraunces',serif;font-weight:300;font-size:112px;line-height:1.02;
+        color:var(--ink);letter-spacing:-0.025em;">
+      Unity in <em style="color:var(--gold);font-weight:400;font-style:italic;">Diversity</em>
+    </div>
+    <div class="slot" data-slot="text" data-style="partner-tag" contenteditable="true"
+      style="left:50%;top:72%;transform:translate(-50%,-50%);text-align:center;width:80%;
+        font-family:'Cormorant Garamond',serif;font-style:italic;font-size:38px;line-height:1.3;
+        color:rgba(244,236,220,0.78);">
+      Is not a slogan. It is <em style="color:var(--gold);">SDG 18</em>.
+    </div>
+    <div class="slot" data-slot="text" data-style="bottom" contenteditable="true"
+      style="bottom:80px;left:80px;right:80px;display:flex;justify-content:space-between;
+        font-family:'IBM Plex Mono',monospace;font-size:18px;letter-spacing:0.36em;
+        text-transform:uppercase;color:var(--gold);opacity:0.9;
+        border-top:1px solid rgba(212,168,102,0.28);padding-top:22px;">
+      <span>SBDI Center · UN GC 2025</span><span>Swipe →</span>
+    </div>
+  `,
+
+  'partner-photo': () => `
+    <div class="slot image-slot" data-slot="bg" style="inset:0;background-image:linear-gradient(180deg,transparent 30%,rgba(0,0,0,0.92) 92%),url('${photoUrl(PHOTOS[3])}');background-position:center 30%;"></div>
+    <div class="slot logo-slot" data-slot="logo" style="top:56px;left:56px;width:64px;height:64px;border-radius:8px;background-image:url('../frequency-vibes-logo-teal-clean.png');"></div>
+    <div class="slot" data-slot="text" data-style="slide-num" contenteditable="true"
+      style="top:64px;right:56px;font-family:'IBM Plex Mono',monospace;font-size:18px;
+        letter-spacing:0.36em;color:var(--gold);">02 / 06</div>
+    <div class="slot" data-slot="text" data-style="kicker" contenteditable="true"
+      style="left:64px;right:64px;bottom:280px;
+        font-family:'IBM Plex Mono',monospace;font-size:18px;letter-spacing:0.42em;
+        text-transform:uppercase;color:var(--gold);">23 Dec 2025 · Malang, Java</div>
+    <div class="slot" data-slot="text" data-style="head" contenteditable="true"
+      style="left:64px;right:64px;bottom:140px;
+        font-family:'Fraunces',serif;font-weight:300;font-size:64px;line-height:1.12;
+        color:var(--ink);letter-spacing:-0.015em;">
+      An MoU that <em style="color:var(--gold);font-style:italic;font-weight:400;">moves</em><br>cassava from Java to <em style="color:var(--gold);font-style:italic;font-weight:400;">Lagos</em>.
+    </div>
+    <div class="slot" data-slot="text" data-style="bottom" contenteditable="true"
+      style="bottom:56px;left:64px;right:64px;display:flex;justify-content:space-between;
+        font-family:'IBM Plex Mono',monospace;font-size:16px;letter-spacing:0.36em;
+        text-transform:uppercase;color:rgba(212,168,102,0.85);
+        border-top:1px solid rgba(212,168,102,0.25);padding-top:16px;">
+      <span>SBDI · Signing Ceremony</span><span>Swipe →</span>
+    </div>
+  `,
+
+  'edu-cream': () => `
+    <div class="slot" data-slot="text" data-style="top-kick" contenteditable="true"
+      style="top:88px;left:88px;font-family:'IBM Plex Mono',monospace;font-size:18px;
+        letter-spacing:0.42em;text-transform:uppercase;color:var(--oxblood);">
+      Frequency Vibes · Foods
+    </div>
+    <div class="slot" data-slot="text" data-style="slide-num" contenteditable="true"
+      style="top:88px;right:88px;font-family:'IBM Plex Mono',monospace;font-size:18px;
+        letter-spacing:0.36em;color:var(--oxblood);">01 / 05</div>
+    <div class="slot" data-slot="text" data-style="big-num" contenteditable="true"
+      style="left:88px;top:240px;font-family:'Fraunces',serif;font-weight:200;
+        font-size:380px;line-height:0.85;color:var(--gold);letter-spacing:-0.07em;">5</div>
+    <div class="slot" data-slot="text" data-style="title-cream" contenteditable="true"
+      style="left:88px;right:88px;top:580px;font-family:'Fraunces',serif;font-weight:400;
+        font-size:84px;line-height:1.06;color:#1a0f00;letter-spacing:-0.022em;">
+      things to know about<br><em style="color:var(--oxblood);font-style:italic;font-weight:500;">MOCAF</em>, the cassava flour<br>scaling two continents
+    </div>
+    <div class="slot" data-slot="text" data-style="subtitle-cream" contenteditable="true"
+      style="left:88px;right:88px;top:880px;font-family:'Cormorant Garamond',serif;
+        font-style:italic;font-size:32px;line-height:1.35;color:rgba(26,15,0,0.7);">
+      A short primer on the food security model behind the SBDI program.
+    </div>
+    <div class="slot logo-slot" data-slot="logo" style="bottom:80px;left:88px;width:56px;height:56px;border-radius:6px;background-image:url('../frequency-vibes-logo-teal-clean.png');"></div>
+    <div class="slot" data-slot="text" data-style="cta-cream" contenteditable="true"
+      style="bottom:88px;right:88px;font-family:'IBM Plex Mono',monospace;font-size:16px;
+        letter-spacing:0.32em;text-transform:uppercase;color:var(--oxblood);">eugenemierak.com</div>
+  `,
+
+  'blank-dark': () => `
+    <!-- Blank dark canvas: drop photos/shapes/logos and add text from scratch -->
+    <div class="slot logo-slot" data-slot="logo" style="top:56px;left:50%;transform:translateX(-50%);width:64px;height:64px;border-radius:6px;background-image:url('../frequency-vibes-logo-teal-clean.png');opacity:0.5;"></div>
+  `,
+
+  'blank-cream': () => `
+    <!-- Blank cream canvas -->
+    <div class="slot logo-slot" data-slot="logo" style="top:56px;left:50%;transform:translateX(-50%);width:64px;height:64px;border-radius:6px;background-image:url('../frequency-vibes-logo-teal-clean.png');opacity:0.5;"></div>
+  `,
+
+  'pull-quote': () => `
+    <div class="slot" data-slot="text" data-style="top-kick" contenteditable="true"
+      style="top:88px;left:88px;font-family:'IBM Plex Mono',monospace;font-size:18px;
+        letter-spacing:0.42em;text-transform:uppercase;color:var(--gold);">
+      UN Global Compact · Indonesia 2025
+    </div>
+    <div class="slot" data-slot="text" data-style="slide-num" contenteditable="true"
+      style="top:88px;right:88px;font-family:'IBM Plex Mono',monospace;font-size:18px;
+        letter-spacing:0.36em;color:var(--gold);">04 / 06</div>
+    <div class="slot" data-slot="text" data-style="pull-quote-main" contenteditable="true"
+      style="left:88px;right:88px;top:50%;transform:translateY(-50%);
+        font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;
+        font-size:60px;line-height:1.22;color:var(--ink);letter-spacing:-0.005em;">
+      <span style="color:var(--gold);opacity:0.4;font-family:Fraunces,serif;font-size:160px;line-height:0;vertical-align:-0.55em;margin-right:12px;">"</span>Sustainable food security<br>begins with <em style="color:var(--gold);">shared knowledge</em><br>and <em style="color:var(--gold);">local action</em>.
+    </div>
+    <div class="slot" data-slot="text" data-style="source" contenteditable="true"
+      style="left:88px;right:88px;bottom:200px;font-family:'IBM Plex Mono',monospace;
+        font-size:18px;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);
+        opacity:0.85;border-top:1px solid rgba(212,168,102,0.3);padding-top:18px;">
+      — IGCN Impact Stories 2025 · p.41
+    </div>
+    <div class="slot logo-slot" data-slot="logo" style="bottom:88px;left:88px;width:56px;height:56px;border-radius:6px;background-image:url('../frequency-vibes-logo-teal-clean.png');"></div>
+    <div class="slot" data-slot="text" data-style="bottom-cta" contenteditable="true"
+      style="bottom:88px;right:88px;font-family:'IBM Plex Mono',monospace;font-size:16px;
+        letter-spacing:0.32em;text-transform:uppercase;color:rgba(244,236,220,0.55);">Swipe →</div>
+  `
+};
+
+const TEMPLATE_THEMES = {
+  quote: 'is-dark', 'photo-quote': 'is-dark', 'partner-cover': 'is-teal',
+  'partner-photo': 'is-dark', 'edu-cream': 'is-cream', 'pull-quote': 'is-dark',
+  'blank-dark': 'is-dark', 'blank-cream': 'is-cream'
+};
+
+// ============ STATE ============
+const state = {
+  template: 'quote',
+  format: 'square',
+  selected: null,
+  uploads: [], // {id, url, name}
+  scale: 1,
+  zCounter: 100 // legacy, no longer used (DOM order is the source of truth)
+};
+
+// Stacking is purely DOM-order based. No z-index. Last child = top of canvas.
+// Helpers:
+function bringToFront(el) { tplEl.appendChild(el); }
+function sendToBack(el)   { tplEl.insertBefore(el, tplEl.firstChild); }
+function moveForward(el)  { const next = el.nextElementSibling; if (next) tplEl.insertBefore(next, el); }
+function moveBackward(el) { const prev = el.previousElementSibling; if (prev) tplEl.insertBefore(el, prev); }
+
+const stage = document.getElementById('stage');
+const tplEl = document.getElementById('tpl');
+const handlesEl = document.getElementById('handles');
+
+// ============ STAGE SCALING ============
+function applyStageSize() {
+  const fmt = FORMATS[state.format];
+  const area = document.querySelector('.canvas-area');
+  const padding = 80;
+  const maxW = area.clientWidth - padding;
+  const maxH = area.clientHeight - 80;
+  const scale = Math.min(maxW / fmt.w, maxH / fmt.h, 1);
+  state.scale = scale;
+  stage.style.width = (fmt.w * scale) + 'px';
+  stage.style.height = (fmt.h * scale) + 'px';
+  tplEl.style.width = fmt.w + 'px';
+  tplEl.style.height = fmt.h + 'px';
+  tplEl.style.transform = `scale(${scale})`;
+  tplEl.style.transformOrigin = 'top left';
+  document.getElementById('zoom-info').textContent = `${Math.round(scale * 100)}%`;
+  document.getElementById('stage-meta').textContent =
+    `${state.template.toUpperCase().replace('-',' ')} · ${fmt.label}`;
+  updateHandles();
+}
+
+function loadTemplate() {
+  tplEl.innerHTML = TEMPLATES[state.template]();
+  tplEl.className = 'tpl ' + TEMPLATE_THEMES[state.template];
+  state.selected = null;
+  bindAllSlots();
+  renderProps();
+  applyStageSize();
+  hideHandles();
+  if (typeof History !== 'undefined') { History.stack = []; History.index = -1; History.push('init'); }
+  if (typeof renderLayers === 'function') renderLayers();
+}
+
+function bindAllSlots() {
+  tplEl.querySelectorAll('.slot').forEach(s => bindSlot(s));
+}
+
+function bindSlot(s) {
+  // Unified pattern (Figma-style):
+  //   1st mousedown   → select + start drag (move on mousemove)
+  //   doubleclick     → enter inline edit (focus contenteditable)
+  //   click outside   → blur (handled elsewhere)
+  s.addEventListener('mousedown', e => {
+    // If we're already editing this text element, let contenteditable handle (cursor, selection)
+    if (s.contentEditable === 'true' && document.activeElement === s) return;
+    // Don't intercept clicks on resize/rotate handles or right-click etc.
+    if (e.button !== 0) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if (state.selected !== s) selectElement(s);
+    startMove(e, s);
+  });
+  if (s.contentEditable === 'true') {
+    s.addEventListener('dblclick', e => {
+      e.stopPropagation();
+      s.focus();
+      // place caret at clicked position (browser default)
+    });
+    s.addEventListener('blur', () => {
+      // Ensure no spurious focus state lingers
+    });
+  }
+  s.addEventListener('dragover', e => { e.preventDefault(); });
+  s.addEventListener('drop', e => { e.preventDefault(); e.stopPropagation(); handleDrop(e, s); });
+}
+
+// ============ DROP HANDLER ============
+// drop a photo onto:
+//   - if landed on a slot with [data-slot=bg] OR existing image-slot → swap bg
+//   - otherwise → add as free image at drop coords
+function handleDrop(e, slot) {
+  // Always clean up the drop-active state, even when drop happens on a child slot
+  stage.classList.remove('drop-active');
+  const photo = e.dataTransfer.getData('photo');
+  const upload = e.dataTransfer.getData('upload');
+  const logo = e.dataTransfer.getData('logo');
+  const phrase = e.dataTransfer.getData('phrase');
+  const shape = e.dataTransfer.getData('shape');
+  const fileList = e.dataTransfer.files;
+
+  // Phrase: always create a free-text element wherever it's dropped
+  if (phrase) {
+    addFreeText(phrase, e);
+    return;
+  }
+  // Shape: also valid on any slot
+  if (shape) {
+    addFreeShape(shape, e);
+    return;
+  }
+
+  // External file dropped
+  if (fileList && fileList.length) {
+    for (const f of fileList) if (f.type.startsWith('image/')) {
+      const url = URL.createObjectURL(f);
+      addUpload(url, f.name);
+      addFreeImage(url, e);
+    }
+    return;
+  }
+
+  let imageUrl = null;
+  if (photo) imageUrl = photoUrl(photo);
+  else if (upload) imageUrl = upload;
+
+  if (imageUrl) {
+    if (slot && (slot.dataset.slot === 'bg' || slot.classList.contains('image-slot'))) {
+      const bg = slot.style.backgroundImage;
+      const grad = bg && bg.match(/linear-gradient\([^)]+\)/);
+      slot.style.backgroundImage = grad ? `${grad[0]},url('${imageUrl}')` : `url('${imageUrl}')`;
+      History.push('swap-bg'); renderLayers();
+    } else {
+      addFreeImage(imageUrl, e);
+    }
+    return;
+  }
+
+  if (logo) {
+    if (slot && slot.classList.contains('logo-slot')) {
+      applyLogo(slot, logo);
+      History.push('swap-logo'); renderLayers();
+    } else {
+      addFreeLogo(logo, e);
+    }
+  }
+}
+
+const LOGO_FILES = {
+  fv: '../frequency-vibes-logo-teal-clean.png',
+  sbdi: 'partner-logos/logo-sbdi.webp',
+  wiseuse: 'partner-logos/logo-wiseuse-clean.png',
+  vegaqura: 'partner-logos/logo-vegaqura.png',
+  ekovitaris: 'partner-logos/logo-eko-vitaris.svg',
+  biozar: 'partner-logos/logo-biozar.png',
+  mariposa: 'partner-logos/logo-mariposa-batu-white.png'
+};
+function applyLogo(slot, logo) {
+  // Reset
+  slot.textContent = '';
+  slot.style.background = '';
+  slot.style.border = '';
+  slot.style.color = '';
+  slot.style.fontFamily = '';
+  slot.style.fontSize = '';
+  slot.style.letterSpacing = '';
+  slot.style.textTransform = '';
+  slot.style.display = '';
+  slot.style.padding = '';
+  slot.style.textAlign = '';
+  if (LOGO_FILES[logo]) {
+    slot.style.backgroundImage = `url('${LOGO_FILES[logo]}')`;
+    slot.style.backgroundSize = 'contain';
+    slot.style.backgroundRepeat = 'no-repeat';
+    slot.style.backgroundPosition = 'center';
+  } else {
+    // Text placeholder for partners without a real logo file (UNISMA, IGCN)
+    slot.style.backgroundImage = '';
+    slot.style.background = 'rgba(212, 168, 102, 0.15)';
+    slot.style.border = '1px solid var(--gold)';
+    slot.style.borderRadius = '8px';
+    slot.style.color = 'var(--gold)';
+    slot.style.fontFamily = "'IBM Plex Mono', monospace";
+    slot.style.fontSize = '11px';
+    slot.style.letterSpacing = '0.18em';
+    slot.style.textTransform = 'uppercase';
+    slot.style.display = 'grid';
+    slot.style.placeItems = 'center';
+    slot.style.padding = '8px';
+    slot.style.textAlign = 'center';
+    slot.textContent = logo.toUpperCase();
+  }
+}
+
+function addFreeImage(url, e) {
+  // compute drop position in tpl natural coords (1080-based)
+  const rect = tplEl.getBoundingClientRect();
+  const x = e ? (e.clientX - rect.left) / state.scale : 200;
+  const y = e ? (e.clientY - rect.top) / state.scale : 200;
+  const sz = 400; // initial natural size
+  const el = document.createElement('div');
+  el.className = 'slot free-image';
+  el.style.left = (x - sz/2) + 'px';
+  el.style.top = (y - sz/2) + 'px';
+  el.style.width = sz + 'px';
+  el.style.height = sz + 'px';
+  el.style.backgroundImage = `url('${url}')`;
+  el.style.backgroundSize = 'cover';
+  el.style.backgroundPosition = 'center';
+  el.dataset.style = 'free-image';
+  tplEl.appendChild(el);
+  bindSlot(el);
+  selectElement(el);
+  History.push('add-image');
+}
+
+function addFreeLogo(logo, e) {
+  const rect = tplEl.getBoundingClientRect();
+  const x = e ? (e.clientX - rect.left) / state.scale : 200;
+  const y = e ? (e.clientY - rect.top) / state.scale : 200;
+  const sz = 120;
+  const el = document.createElement('div');
+  el.className = 'slot logo-slot';
+  el.style.left = (x - sz/2) + 'px';
+  el.style.top = (y - sz/2) + 'px';
+  el.style.width = sz + 'px';
+  el.style.height = sz + 'px';
+  el.style.borderRadius = '8px';
+  el.dataset.style = 'logo';
+  applyLogo(el, logo);
+  tplEl.appendChild(el);
+  bindSlot(el);
+  selectElement(el);
+  History.push('add-logo');
+}
+
+// ============ SELECTION ============
+function selectElement(el) {
+  // Remove selected class from all
+  tplEl.querySelectorAll('.slot.selected').forEach(s => s.classList.remove('selected'));
+  state.selected = el;
+  if (el) {
+    el.classList.add('selected');
+    showHandles(el);
+  } else {
+    hideHandles();
+  }
+  renderProps();
+  if (typeof renderLayers === 'function') renderLayers();
+}
+
+function deselect() { selectElement(null); }
+
+// click on stage outside elements → deselect
+stage.addEventListener('mousedown', e => {
+  if (e.target === tplEl || e.target === stage) deselect();
+});
+
+// ============ HANDLES (resize + rotate) ============
+function showHandles(el) {
+  if (!el || el.classList.contains('corner')) { hideHandles(); return; }
+  handlesEl.style.display = 'block';
+  updateHandles();
+}
+function hideHandles() { handlesEl.style.display = 'none'; }
+
+function updateHandles() {
+  if (!state.selected) return;
+  const el = state.selected;
+  const r = el.getBoundingClientRect();
+  const areaRect = document.querySelector('.canvas-area').getBoundingClientRect();
+  // Position handles overlay relative to canvas-area (which is the offsetParent for handles)
+  handlesEl.style.left = (r.left - areaRect.left + document.querySelector('.canvas-area').scrollLeft) + 'px';
+  handlesEl.style.top  = (r.top - areaRect.top + document.querySelector('.canvas-area').scrollTop) + 'px';
+  handlesEl.style.width = r.width + 'px';
+  handlesEl.style.height = r.height + 'px';
+  // rotation
+  const t = el.style.transform || '';
+  const m = t.match(/rotate\(([-\d.]+)deg\)/);
+  const rot = m ? parseFloat(m[1]) : 0;
+  handlesEl.style.transform = `rotate(${rot}deg)`;
+  handlesEl.style.transformOrigin = 'center';
+}
+
+window.addEventListener('resize', () => { applyStageSize(); });
+document.querySelector('.canvas-area').addEventListener('scroll', updateHandles);
+
+// ============ MOVE ============
+function startMove(e, el) {
+  if (el.classList.contains('is-locked') || el.dataset.locked === '1') return;
+  e.preventDefault();
+  const startX = e.clientX, startY = e.clientY;
+  const cs = window.getComputedStyle(el);
+  const left0 = parseFloat(el.style.left) || 0;
+  const top0  = parseFloat(el.style.top) || 0;
+  const usingLeft = el.style.left.includes('%') ? null : left0;
+  const usingTop  = el.style.top.includes('%') ? null : top0;
+  const w = el.offsetWidth, h = el.offsetHeight;
+  function onMove(ev) {
+    const dx = (ev.clientX - startX) / state.scale;
+    const dy = (ev.clientY - startY) / state.scale;
+    let nl = usingLeft !== null ? usingLeft + dx : null;
+    let nt = usingTop  !== null ? usingTop  + dy : null;
+    // Snap when both axes are in px
+    if (!ev.altKey && nl !== null && nt !== null) {
+      const snapped = snap.apply(nl, nt, w, h);
+      nl = snapped.left; nt = snapped.top;
+    } else { snap.hide(); }
+    if (nl !== null) el.style.left = nl + 'px';
+    if (nt !== null) el.style.top  = nt + 'px';
+    updateHandles();
+  }
+  function onUp() {
+    document.removeEventListener('mousemove', onMove);
+    document.removeEventListener('mouseup', onUp);
+    snap.hide();
+    renderProps();
+    History.push('move');
+  }
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('mouseup', onUp);
+}
+
+// ============ HANDLES INTERACTION (resize + rotate) ============
+handlesEl.querySelectorAll('.h').forEach(h => {
+  h.addEventListener('mousedown', e => {
+    e.preventDefault(); e.stopPropagation();
+    const dir = h.dataset.dir;
+    const el = state.selected;
+    if (!el) return;
+    if (dir === 'rotate') startRotate(e, el);
+    else startResize(e, el, dir);
+  });
+});
+
+function startResize(e, el, dir) {
+  const startX = e.clientX, startY = e.clientY;
+  const startW = parseFloat(el.style.width) || el.offsetWidth;
+  const startH = parseFloat(el.style.height) || el.offsetHeight;
+  const startL = parseFloat(el.style.left) || 0;
+  const startT = parseFloat(el.style.top) || 0;
+  const isLeft = dir.includes('l');
+  const isRight = dir.includes('r');
+  const isTop = dir.includes('t');
+  const isBottom = dir.includes('b');
+  function onMove(ev) {
+    const dx = (ev.clientX - startX) / state.scale;
+    const dy = (ev.clientY - startY) / state.scale;
+    if (isRight) el.style.width = Math.max(20, startW + dx) + 'px';
+    if (isLeft) {
+      const nw = Math.max(20, startW - dx);
+      el.style.width = nw + 'px';
+      el.style.left = (startL + (startW - nw)) + 'px';
+    }
+    if (isBottom) el.style.height = Math.max(20, startH + dy) + 'px';
+    if (isTop) {
+      const nh = Math.max(20, startH - dy);
+      el.style.height = nh + 'px';
+      el.style.top = (startT + (startH - nh)) + 'px';
+    }
+    updateHandles();
+  }
+  function onUp() {
+    document.removeEventListener('mousemove', onMove);
+    document.removeEventListener('mouseup', onUp);
+    renderProps();
+    History.push('resize');
+  }
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('mouseup', onUp);
+}
+
+function startRotate(e, el) {
+  const r = el.getBoundingClientRect();
+  const cx = r.left + r.width/2;
+  const cy = r.top + r.height/2;
+  const t = el.style.transform || '';
+  const m = t.match(/rotate\(([-\d.]+)deg\)/);
+  const startRot = m ? parseFloat(m[1]) : 0;
+  const startAngle = Math.atan2(e.clientY - cy, e.clientX - cx) * 180 / Math.PI;
+  // Strip rotate from transform
+  const baseTransform = t.replace(/rotate\([^)]+\)/, '').trim();
+  function onMove(ev) {
+    const ang = Math.atan2(ev.clientY - cy, ev.clientX - cx) * 180 / Math.PI;
+    const delta = ang - startAngle;
+    const rot = startRot + delta;
+    el.style.transform = `${baseTransform} rotate(${rot.toFixed(1)}deg)`.trim();
+    updateHandles();
+  }
+  function onUp() {
+    document.removeEventListener('mousemove', onMove);
+    document.removeEventListener('mouseup', onUp);
+    renderProps();
+    History.push('rotate');
+  }
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('mouseup', onUp);
+}
+
+// ============ PROPS PANEL ============
+function renderProps() {
+  const body = document.getElementById('props-body');
+  if (!state.selected) {
+    body.innerHTML = '<div class="props-empty">Click any element on the canvas to edit it. Drop a photo or your own image to add it as a free element.</div>';
+    return;
+  }
+  const el = state.selected;
+  const cs = window.getComputedStyle(el);
+  const isText = el.contentEditable === 'true';
+  const isImage = el.classList.contains('image-slot') || el.classList.contains('logo-slot') || el.classList.contains('free-image');
+  const isFree = el.classList.contains('free-image') || (el.classList.contains('logo-slot') && !el.dataset.slot);
+  const isCorner = el.classList.contains('corner');
+  if (isCorner) {
+    body.innerHTML = '<div class="props-empty">Corner ornament — locked.</div>';
+    return;
+  }
+
+  let html = `<div class="props">`;
+  html += `<div class="row"><label>Type</label><span style="color:var(--gold);font-family:'IBM Plex Mono';font-size:10px;letter-spacing:0.18em;">${el.dataset.style || el.dataset.slot || (isText ? 'text' : 'image')}</span></div>`;
+
+  // Actions
+  html += `<div class="row-actions">
+    <button data-act="forward" title="Bring forward (one step)">↑</button>
+    <button data-act="top" title="Bring to front">⤒</button>
+    <button data-act="back" title="Send backward (one step)">↓</button>
+    <button data-act="bottom" title="Send to back">⤓</button>
+    <button data-act="duplicate" title="Duplicate (Ctrl+D)">⧉</button>
+    <button data-act="delete" class="danger" title="Delete (Del)">✕</button>
+  </div>`;
+
+  if (isText) {
+    html += `<div class="row"><label>Text</label><textarea id="p-text">${el.innerHTML}</textarea></div>`;
+    html += `<div class="row"><label>Color</label><input type="color" id="p-color" value="${rgbToHex(cs.color)}"></div>`;
+    html += `<div class="row"><label>Size</label><input type="range" id="p-size" min="10" max="400" value="${parseInt(cs.fontSize)}"><span id="p-size-v" style="font-family:'IBM Plex Mono';font-size:10px;color:var(--muted);min-width:40px;text-align:right;">${parseInt(cs.fontSize)}px</span></div>`;
+    html += `<div class="row"><label>Align</label>
+      <select id="p-align">
+        <option value="left" ${cs.textAlign==='left'?'selected':''}>Left</option>
+        <option value="center" ${cs.textAlign==='center'?'selected':''}>Center</option>
+        <option value="right" ${cs.textAlign==='right'?'selected':''}>Right</option>
+      </select></div>`;
+    html += `<div class="row"><label>Tracking</label><input type="text" id="p-tracking" value="${cs.letterSpacing}"></div>`;
+    html += `<div class="row"><label>Font</label>
+      <select id="p-font">
+        <option value="'Cormorant Garamond', serif" ${cs.fontFamily.includes('Cormorant')?'selected':''}>Cormorant (italic serif)</option>
+        <option value="'Fraunces', serif" ${cs.fontFamily.includes('Fraunces')?'selected':''}>Fraunces (display serif)</option>
+        <option value="'IBM Plex Mono', monospace" ${cs.fontFamily.includes('Plex Mono')?'selected':''}>Plex Mono</option>
+      </select></div>`;
+    html += `<div class="row"><label>Weight</label>
+      <select id="p-weight">
+        <option value="200" ${cs.fontWeight==='200'?'selected':''}>Thin (200)</option>
+        <option value="300" ${cs.fontWeight==='300'?'selected':''}>Light (300)</option>
+        <option value="400" ${cs.fontWeight==='400'?'selected':''}>Regular (400)</option>
+        <option value="500" ${cs.fontWeight==='500'?'selected':''}>Medium (500)</option>
+        <option value="600" ${cs.fontWeight==='600'?'selected':''}>Semibold (600)</option>
+      </select></div>`;
+    html += `<div class="row"><label>Case</label>
+      <select id="p-case">
+        <option value="none">Original</option>
+        <option value="upper" ${el.dataset.case==='upper'?'selected':''}>UPPERCASE</option>
+        <option value="lower" ${el.dataset.case==='lower'?'selected':''}>lowercase</option>
+        <option value="title" ${el.dataset.case==='title'?'selected':''}>Title Case</option>
+      </select></div>`;
+    html += `<div class="row"><label>Line H</label><input type="range" id="p-lineh" min="0.8" max="2" step="0.05" value="${parseFloat(cs.lineHeight)/parseFloat(cs.fontSize) || 1.2}"></div>`;
+    // Effects: text shadow, gradient, stroke, highlight
+    html += `<div class="row" style="background:#0a0a0e;"><label style="color:var(--gold);">FX TEXT</label></div>`;
+    html += `<div class="row"><label>Shadow</label>
+      <select id="p-tshadow">
+        <option value="none">None</option>
+        <option value="soft" ${el.dataset.textShadow==='soft'?'selected':''}>Soft drop</option>
+        <option value="hard" ${el.dataset.textShadow==='hard'?'selected':''}>Hard drop</option>
+        <option value="glow" ${el.dataset.textShadow==='glow'?'selected':''}>Gold glow</option>
+        <option value="oxblood" ${el.dataset.textShadow==='oxblood'?'selected':''}>Oxblood glow</option>
+        <option value="teal" ${el.dataset.textShadow==='teal'?'selected':''}>Teal glow</option>
+        <option value="outline" ${el.dataset.textShadow==='outline'?'selected':''}>Outline (dark)</option>
+      </select></div>`;
+    html += `<div class="row"><label>Gradient</label>
+      <select id="p-gradient">
+        <option value="none">None (solid color)</option>
+        <option value="gold" ${el.dataset.gradient==='gold'?'selected':''}>Gold</option>
+        <option value="goldlux" ${el.dataset.gradient==='goldlux'?'selected':''}>Gold lux (3-stop)</option>
+        <option value="oxblood" ${el.dataset.gradient==='oxblood'?'selected':''}>Oxblood</option>
+        <option value="teal" ${el.dataset.gradient==='teal'?'selected':''}>Teal</option>
+        <option value="ink" ${el.dataset.gradient==='ink'?'selected':''}>Ink fade</option>
+      </select></div>`;
+    html += `<div class="row"><label>Stroke</label><input type="text" id="p-stroke" placeholder="e.g. 1px #d4a866" value="${el.dataset.stroke || ''}"></div>`;
+    html += `<div class="row"><label>Highlight</label>
+      <select id="p-highlight">
+        <option value="none">None</option>
+        <option value="dark" ${el.dataset.highlight==='dark'?'selected':''}>Dark box</option>
+        <option value="gold" ${el.dataset.highlight==='gold'?'selected':''}>Gold box</option>
+        <option value="cream" ${el.dataset.highlight==='cream'?'selected':''}>Cream box</option>
+        <option value="pill" ${el.dataset.highlight==='pill'?'selected':''}>Gold pill (outline)</option>
+        <option value="underline" ${el.dataset.highlight==='underline'?'selected':''}>Gold underline</option>
+      </select></div>`;
+    const vertCurrent = el.classList.contains('text-vertical-up') ? 'up' : el.classList.contains('text-vertical-down') ? 'down' : 'horiz';
+    html += `<div class="row"><label>Orient.</label>
+      <select id="p-orient">
+        <option value="horiz" ${vertCurrent==='horiz'?'selected':''}>Horizontal</option>
+        <option value="up" ${vertCurrent==='up'?'selected':''}>Vertical ↑ (right edge)</option>
+        <option value="down" ${vertCurrent==='down'?'selected':''}>Vertical ↓ (left edge)</option>
+      </select></div>`;
+    html += `<div class="row"><label>Knockout</label>
+      <button id="p-knockout" style="flex:1;background:var(--ui-panel-2);border:1px solid var(--border);color:${el.classList.contains('is-knockout')?'var(--gold)':'var(--ui-text)'};padding:6px;font-family:'IBM Plex Mono';font-size:10px;letter-spacing:0.16em;text-transform:uppercase;cursor:pointer;border-radius:2px;">${el.classList.contains('is-knockout')?'✓ knockout on':'apply knockout (text = window to bg photo)'}</button></div>`;
+    html += `<div class="row"><label>Pick clr</label>
+      <button id="p-eyedropper" style="flex:1;background:var(--ui-panel-2);border:1px solid var(--border);color:var(--ui-text);padding:6px;font-family:'IBM Plex Mono';font-size:10px;letter-spacing:0.16em;text-transform:uppercase;cursor:pointer;border-radius:2px;">⊙ eyedropper from canvas</button></div>`;
+  }
+  if (isImage) {
+    html += `<div class="row"><label>Bg pos</label><input type="text" id="p-bgpos" value="${cs.backgroundPosition}"></div>`;
+    html += `<div class="row"><label>Bg size</label>
+      <select id="p-bgsize">
+        <option value="cover" ${cs.backgroundSize==='cover'?'selected':''}>Cover</option>
+        <option value="contain" ${cs.backgroundSize==='contain'?'selected':''}>Contain</option>
+        <option value="100% 100%" ${cs.backgroundSize.startsWith('100%')?'selected':''}>Stretch</option>
+      </select></div>`;
+    html += `<div class="row"><label>Opacity</label><input type="range" id="p-opacity" min="0" max="100" value="${Math.round(parseFloat(cs.opacity)*100)}"></div>`;
+    html += `<div class="row"><label>Radius</label><input type="text" id="p-radius" value="${el.style.borderRadius || '0px'}"></div>`;
+    if (isFree) {
+      const t = el.style.transform || '';
+      const m = t.match(/rotate\(([-\d.]+)deg\)/);
+      const rot = m ? parseFloat(m[1]) : 0;
+      html += `<div class="row"><label>Rotate</label><input type="range" id="p-rotate" min="-180" max="180" value="${rot}"><span id="p-rotate-v" style="font-family:'IBM Plex Mono';font-size:10px;color:var(--muted);min-width:40px;text-align:right;">${rot}°</span></div>`;
+    }
+    // Effects panel
+    const isLogo = el.classList.contains('logo-slot');
+    html += `<div class="row" style="background:#0a0a0e;"><label style="color:var(--gold);">FX IMAGE</label></div>`;
+    if (isLogo) {
+      html += `<div class="row"><label>Tint</label>
+        <select id="p-tint">
+          <option value="none">Original color</option>
+          <option value="gold" ${el.dataset.fxTint==='gold'?'selected':''}>Gold</option>
+          <option value="cream" ${el.dataset.fxTint==='cream'?'selected':''}>Cream</option>
+          <option value="white" ${el.dataset.fxTint==='white'?'selected':''}>White</option>
+          <option value="black" ${el.dataset.fxTint==='black'?'selected':''}>Black</option>
+          <option value="oxblood" ${el.dataset.fxTint==='oxblood'?'selected':''}>Oxblood</option>
+          <option value="teal" ${el.dataset.fxTint==='teal'?'selected':''}>Teal</option>
+        </select></div>`;
+    } else {
+      html += `<div class="row"><label>Filter</label>
+        <select id="p-fxpreset">
+          <option value="none">Original</option>
+          <option value="bw" ${el.dataset.fxPreset==='bw'?'selected':''}>Black &amp; White</option>
+          <option value="noir" ${el.dataset.fxPreset==='noir'?'selected':''}>Noir (high-contrast B&amp;W)</option>
+          <option value="sepia" ${el.dataset.fxPreset==='sepia'?'selected':''}>Sepia</option>
+          <option value="gold" ${el.dataset.fxPreset==='gold'?'selected':''}>Gold tone</option>
+          <option value="vintage" ${el.dataset.fxPreset==='vintage'?'selected':''}>Vintage</option>
+          <option value="faded" ${el.dataset.fxPreset==='faded'?'selected':''}>Faded</option>
+          <option value="vibrant" ${el.dataset.fxPreset==='vibrant'?'selected':''}>Vibrant</option>
+          <option value="warm" ${el.dataset.fxPreset==='warm'?'selected':''}>Warm</option>
+          <option value="cool" ${el.dataset.fxPreset==='cool'?'selected':''}>Cool</option>
+          <option value="cyano" ${el.dataset.fxPreset==='cyano'?'selected':''}>Cyanotype (blue)</option>
+        </select></div>`;
+    }
+    const fxB = el.dataset.fxBrightness || '100';
+    const fxC = el.dataset.fxContrast || '100';
+    const fxS = el.dataset.fxSaturate || '100';
+    const fxBlur = el.dataset.fxBlur || '0';
+    html += `<div class="row"><label>Bright</label><input type="range" id="p-fxbright" min="0" max="200" value="${fxB}"></div>`;
+    html += `<div class="row"><label>Contrast</label><input type="range" id="p-fxcontr" min="0" max="200" value="${fxC}"></div>`;
+    html += `<div class="row"><label>Saturate</label><input type="range" id="p-fxsat" min="0" max="200" value="${fxS}"></div>`;
+    html += `<div class="row"><label>Blur</label><input type="range" id="p-fxblur" min="0" max="40" value="${fxBlur}"></div>`;
+    html += `<div class="row"><label>Shadow</label>
+      <select id="p-dshadow">
+        <option value="none">None</option>
+        <option value="soft" ${el.dataset.dropShadow==='soft'?'selected':''}>Soft</option>
+        <option value="hard" ${el.dataset.dropShadow==='hard'?'selected':''}>Hard</option>
+        <option value="gold" ${el.dataset.dropShadow==='gold'?'selected':''}>Gold glow</option>
+      </select></div>`;
+    html += `<div class="row"><label>Shape</label>
+      <select id="p-shape">
+        <option value="none">Rectangle</option>
+        <option value="circle" ${el.dataset.shape==='circle'?'selected':''}>Circle</option>
+        <option value="rounded" ${el.dataset.shape==='rounded'?'selected':''}>Rounded</option>
+        <option value="hex" ${el.dataset.shape==='hex'?'selected':''}>Hexagon</option>
+        <option value="arch" ${el.dataset.shape==='arch'?'selected':''}>Arch (top-rounded)</option>
+      </select></div>`;
+    html += `<div class="row"><label>Blend</label>
+      <select id="p-blend">
+        <option value="normal">Normal</option>
+        <option value="multiply" ${cs.mixBlendMode==='multiply'?'selected':''}>Multiply</option>
+        <option value="screen" ${cs.mixBlendMode==='screen'?'selected':''}>Screen</option>
+        <option value="overlay" ${cs.mixBlendMode==='overlay'?'selected':''}>Overlay</option>
+        <option value="darken" ${cs.mixBlendMode==='darken'?'selected':''}>Darken</option>
+        <option value="lighten" ${cs.mixBlendMode==='lighten'?'selected':''}>Lighten</option>
+        <option value="color-dodge" ${cs.mixBlendMode==='color-dodge'?'selected':''}>Color dodge</option>
+        <option value="luminosity" ${cs.mixBlendMode==='luminosity'?'selected':''}>Luminosity</option>
+      </select></div>`;
+  }
+  // Position
+  html += `<div class="row"><label>Top</label><input type="text" id="p-top" value="${el.style.top || 'auto'}"></div>`;
+  html += `<div class="row"><label>Left</label><input type="text" id="p-left" value="${el.style.left || 'auto'}"></div>`;
+  html += `<div class="row"><label>Width</label><input type="text" id="p-width" value="${el.style.width || cs.width}"></div>`;
+  html += `<div class="row"><label>Height</label><input type="text" id="p-height" value="${el.style.height || cs.height}"></div>`;
+  html += `</div>`;
+  body.innerHTML = html;
+
+  // Bind controls
+  body.querySelectorAll('[data-act]').forEach(b => {
+    b.addEventListener('click', () => doAction(b.dataset.act));
+  });
+  if (isText) {
+    document.getElementById('p-text').addEventListener('input', e => el.innerHTML = e.target.value);
+    document.getElementById('p-color').addEventListener('input', e => el.style.color = e.target.value);
+    const sz = document.getElementById('p-size');
+    const szv = document.getElementById('p-size-v');
+    sz.addEventListener('input', e => { el.style.fontSize = e.target.value + 'px'; szv.textContent = e.target.value + 'px'; updateHandles(); });
+    document.getElementById('p-align').addEventListener('change', e => el.style.textAlign = e.target.value);
+    document.getElementById('p-tracking').addEventListener('input', e => el.style.letterSpacing = e.target.value);
+    document.getElementById('p-font').addEventListener('change', e => el.style.fontFamily = e.target.value);
+    document.getElementById('p-weight').addEventListener('change', e => el.style.fontWeight = e.target.value);
+    document.getElementById('p-case').addEventListener('change', e => { el.dataset.case = e.target.value; applyTextFx(el); });
+    document.getElementById('p-lineh').addEventListener('input', e => el.style.lineHeight = e.target.value);
+    document.getElementById('p-tshadow').addEventListener('change', e => { el.dataset.textShadow = e.target.value; applyTextFx(el); });
+    document.getElementById('p-gradient').addEventListener('change', e => { el.dataset.gradient = e.target.value; applyTextFx(el); });
+    document.getElementById('p-stroke').addEventListener('input', e => { el.dataset.stroke = e.target.value; applyTextFx(el); });
+    document.getElementById('p-highlight').addEventListener('change', e => { el.dataset.highlight = e.target.value; applyTextFx(el); updateHandles(); });
+    document.getElementById('p-orient').addEventListener('change', e => {
+      el.classList.remove('text-vertical-up', 'text-vertical-down');
+      if (e.target.value === 'up') el.classList.add('text-vertical-up');
+      else if (e.target.value === 'down') el.classList.add('text-vertical-down');
+      updateHandles();
+      History.push('orient');
+    });
+    document.getElementById('p-knockout').addEventListener('click', () => toggleKnockout(el));
+    document.getElementById('p-eyedropper').addEventListener('click', () => pickColorFromCanvas(el));
+  }
+  if (isImage) {
+    document.getElementById('p-bgpos').addEventListener('input', e => el.style.backgroundPosition = e.target.value);
+    document.getElementById('p-bgsize').addEventListener('change', e => el.style.backgroundSize = e.target.value);
+    document.getElementById('p-opacity').addEventListener('input', e => el.style.opacity = e.target.value/100);
+    document.getElementById('p-radius').addEventListener('input', e => el.style.borderRadius = e.target.value);
+    if (isFree) {
+      const rot = document.getElementById('p-rotate');
+      const rotv = document.getElementById('p-rotate-v');
+      rot.addEventListener('input', e => {
+        const baseT = (el.style.transform || '').replace(/rotate\([^)]+\)/, '').trim();
+        el.style.transform = `${baseT} rotate(${e.target.value}deg)`.trim();
+        rotv.textContent = e.target.value + '°';
+        updateHandles();
+      });
+    }
+    // FX wiring
+    const tintEl = document.getElementById('p-tint');
+    if (tintEl) tintEl.addEventListener('change', e => { el.dataset.fxTint = e.target.value; applyImageFx(el); });
+    const presetEl = document.getElementById('p-fxpreset');
+    if (presetEl) presetEl.addEventListener('change', e => { el.dataset.fxPreset = e.target.value; applyImageFx(el); });
+    document.getElementById('p-fxbright').addEventListener('input', e => { el.dataset.fxBrightness = e.target.value; applyImageFx(el); });
+    document.getElementById('p-fxcontr').addEventListener('input', e => { el.dataset.fxContrast = e.target.value; applyImageFx(el); });
+    document.getElementById('p-fxsat').addEventListener('input', e => { el.dataset.fxSaturate = e.target.value; applyImageFx(el); });
+    document.getElementById('p-fxblur').addEventListener('input', e => { el.dataset.fxBlur = e.target.value; applyImageFx(el); });
+    document.getElementById('p-dshadow').addEventListener('change', e => { el.dataset.dropShadow = e.target.value; applyImageFx(el); });
+    document.getElementById('p-shape').addEventListener('change', e => { el.dataset.shape = e.target.value; applyImageFx(el); });
+    document.getElementById('p-blend').addEventListener('change', e => { el.style.mixBlendMode = e.target.value === 'normal' ? '' : e.target.value; });
+  }
+  ['top','left','width','height'].forEach(k => {
+    document.getElementById('p-'+k).addEventListener('input', e => { el.style[k] = e.target.value; updateHandles(); });
+  });
+}
+
+function doAction(act) {
+  const el = state.selected;
+  if (!el) return;
+  if (act === 'delete') {
+    if (el.dataset.slot && !el.classList.contains('free-image')) {
+      if (el.contentEditable === 'true') el.innerHTML = '';
+      else if (el.classList.contains('image-slot') || el.classList.contains('logo-slot')) el.style.backgroundImage = '';
+    } else {
+      el.remove();
+      deselect();
+    }
+  }
+  if (act === 'forward') moveForward(el);
+  if (act === 'top') bringToFront(el);
+  if (act === 'back') moveBackward(el);
+  if (act === 'bottom') sendToBack(el);
+  if (act === 'duplicate') {
+    const clone = el.cloneNode(true);
+    clone.style.left = (parseFloat(el.style.left) || 0) + 30 + 'px';
+    clone.style.top = (parseFloat(el.style.top) || 0) + 30 + 'px';
+    tplEl.appendChild(clone);
+    bindSlot(clone);
+    selectElement(clone);
+  }
+  History.push(act);
+  renderLayers();
+}
+
+function rgbToHex(rgb){
+  const m = rgb.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+  if (!m) return '#ffffff';
+  return '#' + [m[1],m[2],m[3]].map(n=>parseInt(n).toString(16).padStart(2,'0')).join('');
+}
+
+// ============ EFFECT APPLY HELPERS ============
+function applyImageFx(el) {
+  const preset = el.dataset.fxPreset || 'none';
+  const tint = el.dataset.fxTint || 'none';
+  const ds = el.dataset.dropShadow || 'none';
+  const b = el.dataset.fxBrightness ?? '100';
+  const c = el.dataset.fxContrast ?? '100';
+  const s = el.dataset.fxSaturate ?? '100';
+  const blur = el.dataset.fxBlur ?? '0';
+  const parts = [];
+  if (tint !== 'none' && LOGO_TINTS[tint] !== 'none') parts.push(LOGO_TINTS[tint]);
+  else if (preset !== 'none' && IMG_FILTERS[preset] !== 'none') parts.push(IMG_FILTERS[preset]);
+  if (b !== '100' || c !== '100' || s !== '100' || blur !== '0') {
+    parts.push(`brightness(${b}%) contrast(${c}%) saturate(${s}%) blur(${blur}px)`);
+  }
+  if (ds !== 'none') parts.push(DROP_SHADOWS[ds]);
+  el.style.filter = parts.join(' ');
+  // shape mask
+  const shape = el.dataset.shape || 'none';
+  el.style.clipPath = SHAPE_MASKS[shape] || '';
+}
+
+function applyTextFx(el) {
+  // shadow
+  const sh = el.dataset.textShadow || 'none';
+  el.style.textShadow = TEXT_SHADOWS[sh] || 'none';
+  // gradient
+  const gr = el.dataset.gradient || 'none';
+  if (gr === 'none' || !TEXT_GRADIENTS[gr]) {
+    el.style.background = '';
+    el.style.webkitBackgroundClip = '';
+    el.style.backgroundClip = '';
+    el.style.webkitTextFillColor = '';
+  } else {
+    el.style.background = TEXT_GRADIENTS[gr];
+    el.style.webkitBackgroundClip = 'text';
+    el.style.backgroundClip = 'text';
+    el.style.webkitTextFillColor = 'transparent';
+  }
+  // stroke
+  const stroke = el.dataset.stroke || '';
+  el.style.webkitTextStroke = stroke;
+  // case
+  const cs = el.dataset.case || 'none';
+  el.style.textTransform = cs === 'upper' ? 'uppercase' : cs === 'lower' ? 'lowercase' : cs === 'title' ? 'capitalize' : '';
+  // highlight box
+  const hl = el.dataset.highlight || 'none';
+  if (hl === 'none') {
+    el.style.padding = el.dataset._padBackup || '';
+    el.style.borderRadius = el.dataset._radBackup || '';
+    el.style.backgroundColor = '';
+    el.style.boxShadow = '';
+  } else {
+    el.dataset._padBackup = el.dataset._padBackup || el.style.padding || '';
+    el.dataset._radBackup = el.dataset._radBackup || el.style.borderRadius || '';
+    if (hl === 'dark')   { el.style.padding = '14px 22px'; el.style.borderRadius = '4px'; el.style.backgroundColor = 'rgba(0,0,0,0.7)'; }
+    if (hl === 'gold')   { el.style.padding = '14px 22px'; el.style.borderRadius = '4px'; el.style.backgroundColor = 'rgba(212,168,102,0.95)'; el.style.color = '#1a0f00'; }
+    if (hl === 'cream')  { el.style.padding = '14px 22px'; el.style.borderRadius = '4px'; el.style.backgroundColor = '#efe7d3'; el.style.color = '#1a0f00'; }
+    if (hl === 'pill')   { el.style.padding = '12px 28px'; el.style.borderRadius = '999px'; el.style.backgroundColor = 'rgba(212,168,102,0.18)'; el.style.boxShadow = 'inset 0 0 0 1px rgba(212,168,102,0.7)'; }
+    if (hl === 'underline'){ el.style.padding = ''; el.style.borderRadius = ''; el.style.backgroundColor = ''; el.style.boxShadow = `inset 0 -8px 0 rgba(212,168,102,0.5)`; }
+  }
+}
+
+// ============ HISTORY (undo/redo) ============
+const History = {
+  stack: [],
+  index: -1,
+  max: 50,
+  pushDebounce: null,
+  push(reason='') {
+    clearTimeout(this.pushDebounce);
+    this.pushDebounce = setTimeout(() => {
+      const snap = { html: tplEl.innerHTML, cls: tplEl.className, tpl: state.template, fmt: state.format };
+      // Trim future redos
+      this.stack = this.stack.slice(0, this.index + 1);
+      this.stack.push(snap);
+      if (this.stack.length > this.max) this.stack.shift();
+      else this.index++;
+      this.refreshButtons();
+    }, 80);
+  },
+  undo() {
+    if (this.index <= 0) return;
+    this.index--;
+    this.restore();
+  },
+  redo() {
+    if (this.index >= this.stack.length - 1) return;
+    this.index++;
+    this.restore();
+  },
+  restore() {
+    const snap = this.stack[this.index];
+    tplEl.innerHTML = snap.html;
+    tplEl.className = snap.cls;
+    state.selected = null;
+    bindAllSlots();
+    hideHandles();
+    renderProps();
+    renderLayers();
+    this.refreshButtons();
+  },
+  refreshButtons() {
+    document.getElementById('undo').disabled = this.index <= 0;
+    document.getElementById('redo').disabled = this.index >= this.stack.length - 1;
+  }
+};
+
+// Wire undo/redo buttons
+document.getElementById('undo').addEventListener('click', () => History.undo());
+document.getElementById('redo').addEventListener('click', () => History.redo());
+
+// ============ LAYERS PANEL ============
+state.showDecor = false; // hide corners and other template chrome by default
+
+function describeLayer(el) {
+  if (el.classList.contains('corner')) return { type: 'DECOR', name: 'corner ornament', thumb: null, icon: '◜' };
+  if (el.classList.contains('grain-overlay')) return { type: 'FX', name: 'film grain overlay', thumb: null, icon: '▦' };
+  if (el.classList.contains('free-shape')) return { type: 'SHAPE', name: el.dataset.shapeKey || 'shape', thumb: null, icon: '✺' };
+  if (el.contentEditable === 'true') {
+    const text = (el.textContent || '').replace(/\s+/g,' ').trim().slice(0, 32) || '(empty text)';
+    return { type: 'TEXT', name: text, thumb: null, icon: 'T' };
+  }
+  if (el.classList.contains('logo-slot')) {
+    const bg = el.style.backgroundImage;
+    const u = bg && bg.match(/url\(["']?([^)"']+)/);
+    return { type: 'LOGO', name: el.dataset.style || el.dataset.slot || 'logo', thumb: u ? u[1] : null, icon: '⬡' };
+  }
+  if (el.classList.contains('image-slot') || el.classList.contains('free-image')) {
+    const bg = el.style.backgroundImage || '';
+    const u = bg.match(/url\(["']?([^)"']+)/);
+    const isBg = el.dataset.slot === 'bg';
+    return { type: isBg ? 'BG' : 'IMG', name: isBg ? 'background photo' : 'image', thumb: u ? u[1] : null, icon: '▦' };
+  }
+  return { type: 'ELEM', name: el.dataset.style || 'element', thumb: null, icon: '▢' };
+}
+
+function renderLayers() {
+  const list = document.getElementById('layers-list');
+  list.innerHTML = '';
+  // Top of list = top of canvas. Last child in DOM = top visual.
+  const items = Array.from(tplEl.children).slice().reverse();
+  let count = 0;
+  items.forEach(el => {
+    if (!(el instanceof HTMLElement)) return;
+    if (!el.classList.contains('slot') && !el.classList.contains('corner') && !el.classList.contains('grain-overlay')) return;
+    const isCorner = el.classList.contains('corner');
+    if (isCorner && !state.showDecor) return; // hide corners by default
+    count++;
+    const { type, name, thumb, icon } = describeLayer(el);
+    const isHidden = el.style.display === 'none';
+    const isLocked = el.dataset.locked === '1';
+    const row = document.createElement('div');
+    row.className = 'layer-row';
+    row.draggable = true;
+    if (state.selected === el) row.classList.add('active');
+    if (isLocked) row.classList.add('is-locked');
+    if (isHidden) row.classList.add('is-hidden');
+    row.innerHTML = `
+      <span class="lyr-grip" title="Drag to reorder">⋮⋮</span>
+      <span class="lyr-icon" data-act="vis" title="${isHidden?'Show':'Hide'}" style="color:${isHidden?'#666':'var(--gold)'};">${isHidden?'⊘':'👁'}</span>
+      <span class="lyr-icon" data-act="lock" title="${isLocked?'Unlock':'Lock position'}" style="color:${isLocked?'#d94747':'var(--muted)'};">${isLocked?'🔒':'🔓'}</span>
+      <span class="lyr-thumb" style="${thumb?`background-image:url('${thumb}')`:`background:var(--ui-panel);display:grid;place-items:center;color:var(--gold);font-family:'IBM Plex Mono',monospace;font-size:13px;`}">${thumb?'':icon}</span>
+      <span class="lyr-name"><span class="lyr-type">${type}</span>${name}</span>
+    `;
+    // Click row body: select. Click action button: do action.
+    row.addEventListener('click', e => {
+      if (e.target.closest('[data-act]')) return;
+      selectElement(el);
+    });
+    row.querySelectorAll('[data-act]').forEach(b => {
+      b.addEventListener('click', e => {
+        e.stopPropagation();
+        const act = b.dataset.act;
+        if (act === 'vis') { el.style.display = el.style.display === 'none' ? '' : 'none'; }
+        if (act === 'lock') { el.dataset.locked = el.dataset.locked === '1' ? '' : '1'; el.classList.toggle('is-locked', el.dataset.locked === '1'); }
+        renderLayers(); History.push('layer-' + act); updateHandles();
+      });
+    });
+    // Drag and drop reorder
+    row.dataset.layerEl = items.indexOf(el);
+    row.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('layer-reorder', '1');
+      e.dataTransfer.effectAllowed = 'move';
+      row.classList.add('dragging');
+      window._dragLayer = el;
+    });
+    row.addEventListener('dragend', () => { row.classList.remove('dragging'); window._dragLayer = null; clearAllDropMarkers(); });
+    row.addEventListener('dragover', e => {
+      if (!window._dragLayer || window._dragLayer === el) return;
+      e.preventDefault();
+      const rect = row.getBoundingClientRect();
+      const isAbove = e.clientY < rect.top + rect.height / 2;
+      clearAllDropMarkers();
+      row.classList.add(isAbove ? 'drop-above' : 'drop-below');
+    });
+    row.addEventListener('drop', e => {
+      e.preventDefault();
+      if (!window._dragLayer) return;
+      const rect = row.getBoundingClientRect();
+      const isAbove = e.clientY < rect.top + rect.height / 2;
+      // 'isAbove' in the visual list = should appear ABOVE this row in panel
+      // = should be AFTER 'el' in DOM (later children = top of canvas)
+      const target = el;
+      if (isAbove) target.after(window._dragLayer);
+      else target.before(window._dragLayer);
+      clearAllDropMarkers();
+      renderLayers(); History.push('layer-reorder'); updateHandles();
+    });
+    list.appendChild(row);
+  });
+  document.getElementById('lyr-count').textContent = count;
+  function clearAllDropMarkers() {
+    list.querySelectorAll('.layer-row').forEach(r => r.classList.remove('drop-above', 'drop-below'));
+  }
+}
+
+// Layers toolbar buttons
+document.getElementById('lyr-show-decor').addEventListener('click', () => {
+  state.showDecor = !state.showDecor;
+  document.getElementById('lyr-show-decor').classList.toggle('active', state.showDecor);
+  renderLayers();
+});
+document.getElementById('lyr-clear-free').addEventListener('click', () => {
+  if (!confirm('Remove all added free elements? (keeps the template intact)')) return;
+  tplEl.querySelectorAll('.free-image, .free-shape, [data-style="free-text"]').forEach(e => e.remove());
+  deselect();
+  renderLayers();
+  History.push('clear-free');
+});
+
+// ============ SNAP GUIDES ============
+const snap = {
+  threshold: 8, // natural px
+  showH: null, showV: null,
+  ensureLines() {
+    if (!this.lineH) {
+      this.lineH = document.createElement('div');
+      this.lineH.className = 'snap-line h';
+      stage.appendChild(this.lineH);
+    }
+    if (!this.lineV) {
+      this.lineV = document.createElement('div');
+      this.lineV.className = 'snap-line v';
+      stage.appendChild(this.lineV);
+    }
+  },
+  show(orientation, posPx) {
+    this.ensureLines();
+    if (orientation === 'h') {
+      this.lineH.style.display = ''; this.lineH.style.top = posPx + 'px';
+    } else {
+      this.lineV.style.display = ''; this.lineV.style.left = posPx + 'px';
+    }
+  },
+  hide() {
+    if (this.lineH) this.lineH.style.display = 'none';
+    if (this.lineV) this.lineV.style.display = 'none';
+  },
+  // Check snap and return adjusted left/top
+  apply(left, top, w, h) {
+    const fmt = FORMATS[state.format];
+    const cw = fmt.w, ch = fmt.h;
+    let snappedX = left, snappedY = top, showV = null, showH = null;
+    const cx = left + w/2, cy = top + h/2;
+    // X-axis snap: center, left edge, right edge to canvas center / left / right
+    if (Math.abs(cx - cw/2) < this.threshold)        { snappedX = cw/2 - w/2; showV = cw/2 * state.scale; }
+    else if (Math.abs(left) < this.threshold)        { snappedX = 0; showV = 0; }
+    else if (Math.abs(left + w - cw) < this.threshold){ snappedX = cw - w; showV = cw * state.scale - 1; }
+    if (Math.abs(cy - ch/2) < this.threshold)        { snappedY = ch/2 - h/2; showH = ch/2 * state.scale; }
+    else if (Math.abs(top) < this.threshold)         { snappedY = 0; showH = 0; }
+    else if (Math.abs(top + h - ch) < this.threshold){ snappedY = ch - h; showH = ch * state.scale - 1; }
+    if (showV !== null) this.show('v', showV); else if (this.lineV) this.lineV.style.display = 'none';
+    if (showH !== null) this.show('h', showH); else if (this.lineH) this.lineH.style.display = 'none';
+    return { left: snappedX, top: snappedY };
+  }
+};
+
+// ============ GRAIN OVERLAY ============
+const grainBtn = document.getElementById('grain-toggle');
+grainBtn.addEventListener('click', () => {
+  let g = tplEl.querySelector('.grain-overlay');
+  if (g) { g.remove(); grainBtn.classList.remove('active'); }
+  else {
+    g = document.createElement('div');
+    g.className = 'grain-overlay';
+    tplEl.appendChild(g);
+    grainBtn.classList.add('active');
+  }
+  History.push('grain');
+});
+
+// ============ SAVE / LOAD ============
+document.getElementById('save-state').addEventListener('click', () => {
+  const data = {
+    version: 1,
+    template: state.template,
+    format: state.format,
+    cls: tplEl.className,
+    html: tplEl.innerHTML,
+    timestamp: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `frequency-vibes_${state.template}_${Date.now().toString().slice(-6)}.json`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+  showToast('saved');
+});
+document.getElementById('load-state').addEventListener('click', () => document.getElementById('load-input').click());
+document.getElementById('load-input').addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      state.template = data.template;
+      state.format = data.format;
+      document.getElementById('format').value = data.format;
+      document.querySelectorAll('.tpl-thumb').forEach(t => {
+        t.classList.toggle('selected', t.dataset.tpl === data.template);
+      });
+      tplEl.className = data.cls;
+      tplEl.innerHTML = data.html;
+      bindAllSlots();
+      state.selected = null;
+      hideHandles();
+      renderProps();
+      renderLayers();
+      applyStageSize();
+      History.push('load');
+      showToast('loaded');
+    } catch (err) {
+      alert('Invalid JSON: ' + err.message);
+    }
+  };
+  reader.readAsText(f);
+  e.target.value = '';
+});
+
+// ============ DECORATIVE SHAPES (inline SVG, vector, recolorable) ============
+const SHAPES = {
+  wave:        '<svg viewBox="0 0 200 30" preserveAspectRatio="none"><path d="M0 15 Q25 0 50 15 T100 15 T150 15 T200 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  waveThick:   '<svg viewBox="0 0 200 40" preserveAspectRatio="none"><path d="M0 20 Q25 5 50 20 T100 20 T150 20 T200 20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>',
+  dotsRow:     '<svg viewBox="0 0 100 10"><g fill="currentColor"><circle cx="5" cy="5" r="2"/><circle cx="20" cy="5" r="2"/><circle cx="35" cy="5" r="2"/><circle cx="50" cy="5" r="2"/><circle cx="65" cy="5" r="2"/><circle cx="80" cy="5" r="2"/><circle cx="95" cy="5" r="2"/></g></svg>',
+  dotsGrid:    '<svg viewBox="0 0 100 100"><g fill="currentColor">' + Array.from({length: 10*10}, (_,i)=>{const x=(i%10)*10+5,y=Math.floor(i/10)*10+5;return `<circle cx="${x}" cy="${y}" r="1.2"/>`}).join('') + '</g></svg>',
+  hLine:       '<svg viewBox="0 0 200 4" preserveAspectRatio="none"><line x1="0" y1="2" x2="200" y2="2" stroke="currentColor" stroke-width="1"/></svg>',
+  hLineGold:   '<svg viewBox="0 0 200 4" preserveAspectRatio="none"><line x1="0" y1="2" x2="200" y2="2" stroke="currentColor" stroke-width="2"/></svg>',
+  vLine:       '<svg viewBox="0 0 4 200" preserveAspectRatio="none"><line x1="2" y1="0" x2="2" y2="200" stroke="currentColor" stroke-width="1"/></svg>',
+  circleFrame: '<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>',
+  cornerBracket:'<svg viewBox="0 0 50 50"><path d="M5 20 L5 5 L20 5" fill="none" stroke="currentColor" stroke-width="2"/></svg>',
+  triangle:    '<svg viewBox="0 0 100 100"><polygon points="50,10 90,85 10,85" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>',
+  freqWave:    '<svg viewBox="0 0 200 30" preserveAspectRatio="none"><path d="M0 15 Q5 5 10 15 T20 15 T30 15 T40 15 T50 15 T60 15 T70 15 T80 15 T90 15 T100 15 T110 15 T120 15 T130 15 T140 15 T150 15 T160 15 T170 15 T180 15 T190 15 T200 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
+  diamond:     '<svg viewBox="0 0 100 100"><polygon points="50,10 90,50 50,90 10,50" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>'
+};
+function buildShapesGrid() {
+  const g = document.getElementById('shapes-grid');
+  Object.entries(SHAPES).forEach(([key, svg]) => {
+    const c = document.createElement('div');
+    c.className = 'shape-chip';
+    c.innerHTML = svg;
+    c.draggable = true;
+    c.title = key;
+    c.addEventListener('dragstart', e => { e.dataTransfer.setData('shape', key); });
+    g.appendChild(c);
+  });
+}
+buildShapesGrid();
+function addFreeText(content, e) {
+  const rect = tplEl.getBoundingClientRect();
+  const fmt = FORMATS[state.format];
+  const x = e ? (e.clientX - rect.left) / state.scale : fmt.w / 2;
+  const y = e ? (e.clientY - rect.top) / state.scale : fmt.h / 2;
+  const w = 700;
+  const el = document.createElement('div');
+  el.className = 'slot';
+  el.contentEditable = 'true';
+  el.style.left = (x - w/2) + 'px';
+  el.style.top = (y - 50) + 'px';
+  el.style.width = w + 'px';
+  el.style.textAlign = 'center';
+  el.style.fontFamily = "'Cormorant Garamond', serif";
+  el.style.fontStyle = 'italic';
+  el.style.fontSize = '64px';
+  el.style.lineHeight = '1.22';
+  el.style.color = tplEl.classList.contains('is-cream') ? '#1a0f00' : 'var(--ink)';
+  el.dataset.style = 'free-text';
+  el.innerHTML = content || 'Click to edit text';
+  tplEl.appendChild(el);
+  bindSlot(el);
+  selectElement(el);
+  el.focus();
+  // select all text
+  const r = document.createRange(); r.selectNodeContents(el);
+  const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+  History.push('add-text');
+  return el;
+}
+document.getElementById('add-text').addEventListener('click', () => addFreeText());
+
+function addFreeShape(key, e) {
+  const rect = tplEl.getBoundingClientRect();
+  const x = e ? (e.clientX - rect.left) / state.scale : 200;
+  const y = e ? (e.clientY - rect.top) / state.scale : 200;
+  const sz = 240;
+  const el = document.createElement('div');
+  el.className = 'slot free-shape';
+  el.style.left = (x - sz/2) + 'px';
+  el.style.top = (y - sz/2) + 'px';
+  el.style.width = sz + 'px';
+  el.style.height = sz/3 + 'px'; // shapes default to wide aspect
+  el.style.color = 'var(--gold)';
+  el.dataset.style = 'shape-' + key;
+  el.dataset.shapeKey = key;
+  el.innerHTML = SHAPES[key];
+  tplEl.appendChild(el);
+  bindSlot(el);
+  selectElement(el);
+  History.push('add-shape');
+}
+
+// ============ KNOCKOUT TEXT ============
+function toggleKnockout(textEl) {
+  if (textEl.classList.contains('is-knockout')) {
+    textEl.classList.remove('is-knockout');
+    textEl.style.background = '';
+    textEl.style.webkitBackgroundClip = '';
+    textEl.style.backgroundClip = '';
+    textEl.style.webkitTextFillColor = '';
+    textEl.style.color = textEl.dataset._origColor || 'var(--ink)';
+  } else {
+    const bgSlot = tplEl.querySelector('[data-slot=bg]');
+    if (!bgSlot || !bgSlot.style.backgroundImage) {
+      showToast('add a background photo first');
+      return;
+    }
+    textEl.dataset._origColor = textEl.style.color || '';
+    // Use the same backgroundImage as bg slot, in size matching template
+    const bgImage = bgSlot.style.backgroundImage;
+    const bgPos = bgSlot.style.backgroundPosition || 'center';
+    const bgSize = bgSlot.style.backgroundSize || 'cover';
+    textEl.classList.add('is-knockout');
+    textEl.style.background = bgImage;
+    textEl.style.backgroundSize = `${FORMATS[state.format].w}px ${FORMATS[state.format].h}px`;
+    // Calculate offset so the text shows the photo at its actual position on canvas
+    // Get text element position relative to canvas origin
+    const tplLeft = parseFloat(textEl.style.left) || 0;
+    const tplTop  = parseFloat(textEl.style.top) || 0;
+    textEl.style.backgroundPosition = `-${tplLeft}px -${tplTop}px`;
+    textEl.style.backgroundRepeat = 'no-repeat';
+  }
+  History.push('knockout');
+  renderProps();
+}
+
+// ============ EYEDROPPER ============
+async function pickColorFromCanvas(textEl) {
+  if (!('EyeDropper' in window)) {
+    showToast('eyedropper not supported in this browser');
+    return;
+  }
+  try {
+    const ed = new EyeDropper();
+    const r = await ed.open();
+    textEl.style.color = r.sRGBHex;
+    History.push('eyedrop');
+    renderProps();
+    showToast('color: ' + r.sRGBHex);
+  } catch (err) { /* user cancelled */ }
+}
+
+// ============ COPY PNG TO CLIPBOARD ============
+async function copyPngToClipboard() {
+  const btn = document.getElementById('copy-png');
+  btn.textContent = '...'; btn.disabled = true;
+  const restore = await renderTplAtNativeSize();
+  try {
+    const blob = await captureTplAsBlob();
+    await navigator.clipboard.write([new ClipboardItem({'image/png': blob})]);
+    showToast('image copied to clipboard');
+  } catch (err) {
+    showToast('copy failed: ' + err.message);
+    console.error(err);
+  } finally {
+    restore();
+    btn.textContent = '📋'; btn.disabled = false;
+  }
+}
+document.getElementById('copy-png').addEventListener('click', copyPngToClipboard);
+
+// ============ MULTI-SELECT ============
+state.multi = []; // additional selected elements (state.selected is the primary)
+function clearMulti() { state.multi.forEach(e => e.classList.remove('multi-selected')); state.multi = []; }
+function addToMulti(el) {
+  if (el === state.selected) return;
+  if (state.multi.includes(el)) { state.multi = state.multi.filter(x => x !== el); el.classList.remove('multi-selected'); }
+  else { state.multi.push(el); el.classList.add('multi-selected'); }
+  document.getElementById('align-bar').classList.toggle('show', state.multi.length >= 1);
+}
+// Wire shift+click in bindSlot
+const _origSelectElement = selectElement;
+selectElement = function(el) {
+  // Clear multi unless we're shift-clicking
+  if (!window._shiftHeld) clearMulti();
+  _origSelectElement(el);
+  document.getElementById('align-bar').classList.toggle('show', state.multi.length >= 1);
+};
+document.addEventListener('keydown', e => { if (e.key === 'Shift') window._shiftHeld = true; });
+document.addEventListener('keyup',   e => { if (e.key === 'Shift') window._shiftHeld = false; });
+
+// Modify bindSlot to add to multi when shift+click
+const _origBindSlot = bindSlot;
+bindSlot = function(s) {
+  // Add shift+click handler before original mousedown
+  const onMouseDown = e => {
+    if (window._shiftHeld && state.selected && state.selected !== s) {
+      e.preventDefault(); e.stopPropagation();
+      addToMulti(s);
+      return;
+    }
+  };
+  s.addEventListener('mousedown', onMouseDown, true);
+  _origBindSlot(s);
+};
+
+// ============ ALIGN TOOLS ============
+document.querySelectorAll('#align-bar button').forEach(b => {
+  b.addEventListener('click', () => {
+    const op = b.dataset.align;
+    const all = [state.selected, ...state.multi].filter(Boolean);
+    if (all.length < 1) return;
+    const fmt = FORMATS[state.format];
+    // Reference: if 1 element, align to canvas; if multi, align to first selected
+    if (all.length === 1) {
+      const el = all[0];
+      const w = el.offsetWidth, h = el.offsetHeight;
+      if (op === 'left')   el.style.left = '0px';
+      if (op === 'right')  el.style.left = (fmt.w - w) + 'px';
+      if (op === 'cx')     el.style.left = (fmt.w/2 - w/2) + 'px';
+      if (op === 'top')    el.style.top  = '0px';
+      if (op === 'bottom') el.style.top  = (fmt.h - h) + 'px';
+      if (op === 'cy')     el.style.top  = (fmt.h/2 - h/2) + 'px';
+    } else {
+      // Use bounding box of all selected
+      const rects = all.map(el => ({el, x:parseFloat(el.style.left)||0, y:parseFloat(el.style.top)||0, w:el.offsetWidth, h:el.offsetHeight}));
+      const minX = Math.min(...rects.map(r=>r.x));
+      const maxX = Math.max(...rects.map(r=>r.x+r.w));
+      const minY = Math.min(...rects.map(r=>r.y));
+      const maxY = Math.max(...rects.map(r=>r.y+r.h));
+      rects.forEach(r => {
+        if (op === 'left')   r.el.style.left = minX + 'px';
+        if (op === 'right')  r.el.style.left = (maxX - r.w) + 'px';
+        if (op === 'cx')     r.el.style.left = ((minX+maxX)/2 - r.w/2) + 'px';
+        if (op === 'top')    r.el.style.top  = minY + 'px';
+        if (op === 'bottom') r.el.style.top  = (maxY - r.h) + 'px';
+        if (op === 'cy')     r.el.style.top  = ((minY+maxY)/2 - r.h/2) + 'px';
+      });
+      if (op === 'dx' && rects.length >= 3) {
+        const sorted = rects.slice().sort((a,b)=>a.x - b.x);
+        const total = sorted[sorted.length-1].x - sorted[0].x;
+        const step = total / (sorted.length - 1);
+        sorted.forEach((r,i) => r.el.style.left = (sorted[0].x + i*step) + 'px');
+      }
+      if (op === 'dy' && rects.length >= 3) {
+        const sorted = rects.slice().sort((a,b)=>a.y - b.y);
+        const total = sorted[sorted.length-1].y - sorted[0].y;
+        const step = total / (sorted.length - 1);
+        sorted.forEach((r,i) => r.el.style.top = (sorted[0].y + i*step) + 'px');
+      }
+    }
+    updateHandles();
+    History.push('align-' + op);
+  });
+});
+
+// ============ CAROUSEL / SLIDES ============
+state.slides = [{ name: '01', html: null, cls: 'tpl is-dark', tpl: 'quote', fmt: 'square' }];
+state.activeSlide = 0;
+
+function captureCurrentSlide() {
+  const s = state.slides[state.activeSlide];
+  if (!s) return;
+  s.html = tplEl.innerHTML;
+  s.cls = tplEl.className;
+  s.tpl = state.template;
+  s.fmt = state.format;
+}
+function loadSlide(idx) {
+  const s = state.slides[idx];
+  if (!s) return;
+  state.activeSlide = idx;
+  state.template = s.tpl;
+  state.format = s.fmt;
+  document.getElementById('format').value = s.fmt;
+  document.querySelectorAll('.tpl-thumb').forEach(t => t.classList.toggle('selected', t.dataset.tpl === s.tpl));
+  if (s.html === null) {
+    tplEl.innerHTML = TEMPLATES[s.tpl]();
+    tplEl.className = 'tpl ' + TEMPLATE_THEMES[s.tpl];
+  } else {
+    tplEl.innerHTML = s.html;
+    tplEl.className = s.cls;
+  }
+  state.selected = null;
+  bindAllSlots();
+  hideHandles();
+  renderProps();
+  renderLayers();
+  applyStageSize();
+  History.stack = []; History.index = -1; History.push('slide-load');
+  renderSlideTabs();
+}
+function renderSlideTabs() {
+  const wrap = document.getElementById('slide-tabs');
+  // Remove all .slide-tab elements except the "ADD" button
+  wrap.querySelectorAll('.slide-tab:not(.add)').forEach(x => x.remove());
+  const addBtn = document.getElementById('add-slide');
+  state.slides.forEach((s, i) => {
+    const t = document.createElement('span');
+    t.className = 'slide-tab' + (i === state.activeSlide ? ' active' : '');
+    t.dataset.idx = i;
+    const num = String(i + 1).padStart(2, '0');
+    t.innerHTML = `${num}${state.slides.length > 1 ? `<span class="x" data-act="del">×</span>` : ''}`;
+    t.addEventListener('click', e => {
+      if (e.target.dataset.act === 'del') { e.stopPropagation(); deleteSlide(i); return; }
+      captureCurrentSlide();
+      loadSlide(i);
+    });
+    wrap.insertBefore(t, addBtn);
+  });
+  document.getElementById('export-carousel').style.display = state.slides.length > 1 ? '' : 'none';
+}
+function addSlide() {
+  captureCurrentSlide();
+  state.slides.push({ name: String(state.slides.length+1).padStart(2,'0'), html: null, cls: 'tpl ' + TEMPLATE_THEMES[state.template], tpl: state.template, fmt: state.format });
+  loadSlide(state.slides.length - 1);
+}
+function deleteSlide(idx) {
+  if (state.slides.length <= 1) return;
+  if (!confirm('Delete slide ' + (idx+1) + '?')) return;
+  state.slides.splice(idx, 1);
+  if (state.activeSlide >= state.slides.length) state.activeSlide = state.slides.length - 1;
+  loadSlide(state.activeSlide);
+}
+document.getElementById('add-slide').addEventListener('click', addSlide);
+
+async function exportCarousel() {
+  captureCurrentSlide();
+  const btn = document.getElementById('export-carousel');
+  btn.textContent = '...'; btn.disabled = true;
+  try {
+    for (let i = 0; i < state.slides.length; i++) {
+      loadSlide(i);
+      await new Promise(r => setTimeout(r, 300));
+      const fmt = FORMATS[state.format];
+      const restore = await renderTplAtNativeSize();
+      try {
+        const blob = await captureTplAsBlob();
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `frequency-vibes_carousel_${String(i+1).padStart(2,'0')}_${fmt.w}x${fmt.h}.png`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+        await new Promise(r => setTimeout(r, 250));
+      } finally {
+        restore();
+      }
+    }
+    showToast('carousel exported');
+  } catch (err) {
+    alert('Carousel export failed: ' + err.message);
+    console.error(err);
+  } finally {
+    btn.textContent = '↓ Carousel'; btn.disabled = false;
+  }
+}
+document.getElementById('export-carousel').addEventListener('click', exportCarousel);
+
+// ============ MY TEMPLATES (localStorage) ============
+const MYTPL_KEY = 'fv-studio-mytemplates-v1';
+function loadMyTpls() {
+  try { return JSON.parse(localStorage.getItem(MYTPL_KEY)) || []; } catch { return []; }
+}
+function saveMyTpls(arr) {
+  localStorage.setItem(MYTPL_KEY, JSON.stringify(arr));
+}
+function renderMyTpls() {
+  const list = document.getElementById('mytpl-list');
+  const arr = loadMyTpls();
+  list.innerHTML = '';
+  arr.forEach((t, i) => {
+    const c = document.createElement('div');
+    c.className = 'mytpl-card';
+    c.innerHTML = `<div class="name">${t.name}</div><div style="font-size:8px;color:var(--muted);margin-top:4px;">${t.tpl} · ${t.fmt}</div><span class="x" data-act="del">×</span>`;
+    c.addEventListener('click', e => {
+      if (e.target.dataset.act === 'del') {
+        e.stopPropagation();
+        if (!confirm('Delete "' + t.name + '"?')) return;
+        const cur = loadMyTpls(); cur.splice(i, 1); saveMyTpls(cur); renderMyTpls();
+        return;
+      }
+      // Load this template
+      state.template = t.tpl; state.format = t.fmt;
+      document.getElementById('format').value = t.fmt;
+      tplEl.innerHTML = t.html;
+      tplEl.className = t.cls;
+      bindAllSlots();
+      state.selected = null;
+      hideHandles();
+      renderProps(); renderLayers();
+      applyStageSize();
+      History.stack = []; History.index = -1; History.push('mytpl-load');
+      showToast('loaded: ' + t.name);
+    });
+    list.appendChild(c);
+  });
+  document.getElementById('mytpl-count').textContent = arr.length;
+  document.getElementById('mytpl-empty').style.display = arr.length ? 'none' : '';
+}
+document.getElementById('save-as-tpl').addEventListener('click', () => {
+  const name = prompt('Template name?', 'My ' + state.template + ' ' + new Date().toISOString().slice(5,10));
+  if (!name) return;
+  const arr = loadMyTpls();
+  arr.push({ name, html: tplEl.innerHTML, cls: tplEl.className, tpl: state.template, fmt: state.format, ts: Date.now() });
+  saveMyTpls(arr);
+  renderMyTpls();
+  showToast('saved as template');
+});
+renderMyTpls();
+
+// ============ AUTOSAVE / RESTORE ============
+const AUTOSAVE_KEY = 'fv-studio-autosave-v1';
+let autosaveTimer = null;
+function autosave() {
+  clearTimeout(autosaveTimer);
+  autosaveTimer = setTimeout(() => {
+    captureCurrentSlide();
+    const data = {
+      slides: state.slides,
+      activeSlide: state.activeSlide,
+      ts: Date.now()
+    };
+    try { localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(data)); } catch {}
+  }, 1500);
+}
+// Hook autosave on every history push
+const _origHistoryPush = History.push.bind(History);
+History.push = function(reason) { _origHistoryPush(reason); autosave(); };
+
+function checkAutosave() {
+  try {
+    const raw = localStorage.getItem(AUTOSAVE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (!data.slides || !data.slides.length) return;
+    const age = Math.floor((Date.now() - data.ts) / 60000);
+    const ok = confirm(`Restore previous session (${age}min ago, ${data.slides.length} slide${data.slides.length>1?'s':''})?\n\nClick Cancel for a fresh start.`);
+    if (ok) {
+      state.slides = data.slides;
+      state.activeSlide = data.activeSlide || 0;
+      loadSlide(state.activeSlide);
+      showToast('session restored');
+    } else {
+      localStorage.removeItem(AUTOSAVE_KEY);
+    }
+  } catch {}
+}
+
+// ============ TEMPLATES UI ============
+document.querySelectorAll('.tpl-thumb').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.tpl-thumb').forEach(x => x.classList.remove('selected'));
+    t.classList.add('selected');
+    state.template = t.dataset.tpl;
+    loadTemplate();
+  });
+});
+
+document.getElementById('format').addEventListener('change', e => {
+  state.format = e.target.value;
+  applyStageSize();
+});
+document.getElementById('reset-tpl').addEventListener('click', () => loadTemplate());
+document.getElementById('clear-text').addEventListener('click', () => {
+  tplEl.querySelectorAll('.slot[contenteditable=true]').forEach(s => s.innerHTML = '');
+});
+
+// ============ STAGE-LEVEL DROP (for empty templates without bg) ============
+stage.addEventListener('dragover', e => { e.preventDefault(); stage.classList.add('drop-active'); });
+stage.addEventListener('dragleave', e => {
+  if (!stage.contains(e.relatedTarget)) stage.classList.remove('drop-active');
+});
+stage.addEventListener('drop', e => {
+  e.preventDefault(); stage.classList.remove('drop-active');
+  const bgSlot = tplEl.querySelector('[data-slot=bg]');
+  handleDrop(e, bgSlot);
+});
+// Global safety net: if a drop happens anywhere, clean stage state
+document.addEventListener('drop', () => stage.classList.remove('drop-active'), true);
+document.addEventListener('dragend', () => stage.classList.remove('drop-active'), true);
+
+// ============ GALLERY ============
+function buildGallery() {
+  const g = document.getElementById('gallery');
+  PHOTOS.forEach(p => {
+    const t = document.createElement('div');
+    t.className = 'thumb';
+    t.style.backgroundImage = `url('${photoUrl(p)}')`;
+    t.draggable = true;
+    t.title = p;
+    t.addEventListener('dragstart', e => { e.dataTransfer.setData('photo', p); e.dataTransfer.effectAllowed = 'copy'; });
+    g.appendChild(t);
+  });
+  document.getElementById('ph-count').textContent = PHOTOS.length;
+}
+buildGallery();
+
+// ============ UPLOADS ============
+const uploadedListEl = document.getElementById('uploaded-list');
+const uploadedEmpty = document.getElementById('uploaded-empty');
+function addUpload(url, name) {
+  state.uploads.push({ url, name });
+  const t = document.createElement('div');
+  t.className = 'thumb';
+  t.style.backgroundImage = `url('${url}')`;
+  t.draggable = true;
+  t.title = name;
+  t.addEventListener('dragstart', e => { e.dataTransfer.setData('upload', url); });
+  uploadedListEl.appendChild(t);
+  document.getElementById('up-count').textContent = state.uploads.length;
+  uploadedEmpty.style.display = 'none';
+}
+document.getElementById('upload-btn').addEventListener('click', () => document.getElementById('upload-input').click());
+document.getElementById('upload-input').addEventListener('change', e => {
+  Array.from(e.target.files).forEach(f => {
+    const url = URL.createObjectURL(f);
+    addUpload(url, f.name);
+  });
+  e.target.value = '';
+});
+
+// ============ LOGO DRAG ============
+document.querySelectorAll('.logo-chip').forEach(c => {
+  c.addEventListener('dragstart', e => { e.dataTransfer.setData('logo', c.dataset.logo); e.dataTransfer.effectAllowed = 'copy'; });
+});
+
+// ============ PHRASES ============
+function buildPhrases(filter='all') {
+  const list = document.getElementById('phrases-list');
+  list.innerHTML = '';
+  PHRASES.filter(p => filter === 'all' || p.cat === filter).forEach(p => {
+    const d = document.createElement('div');
+    d.className = 'phrase';
+    d.draggable = true;
+    d.innerHTML = `<span class="cat">${p.cat}</span>${p.text}`;
+    d.addEventListener('click', () => insertPhrase(p));
+    d.addEventListener('dragstart', e => { e.dataTransfer.setData('phrase', p.text); e.dataTransfer.effectAllowed = 'copy'; });
+    list.appendChild(d);
+  });
+}
+function insertPhrase(p) {
+  if (!state.selected || state.selected.contentEditable !== 'true') {
+    // Auto-create a text element with the phrase if nothing's selected
+    addFreeText(p.text);
+    return;
+  }
+  state.selected.innerHTML = p.text;
+  History.push('phrase');
+}
+document.querySelectorAll('#phrase-filter button').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('#phrase-filter button').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    buildPhrases(b.dataset.cat);
+  });
+});
+buildPhrases();
+
+// ============ KEYBOARD ============
+document.addEventListener('keydown', e => {
+  // Global shortcuts always available (except in input fields)
+  const inField = e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.contentEditable === 'true';
+  if (e.ctrlKey || e.metaKey) {
+    if (e.code === 'KeyZ' && !e.shiftKey) { e.preventDefault(); History.undo(); return; }
+    if ((e.code === 'KeyY') || (e.code === 'KeyZ' && e.shiftKey)) { e.preventDefault(); History.redo(); return; }
+    if (e.code === 'KeyS' && !inField) { e.preventDefault(); document.getElementById('save-state').click(); return; }
+    if (e.code === 'KeyD' && state.selected && !inField) { e.preventDefault(); doAction('duplicate'); return; }
+  }
+  if (inField) return;
+  const el = state.selected;
+  if (!el) return;
+  if (e.code === 'Delete' || e.code === 'Backspace') { e.preventDefault(); doAction('delete'); return; }
+  const step = e.shiftKey ? 10 : 1;
+  let moved = false;
+  const left0 = parseFloat(el.style.left) || 0;
+  const top0  = parseFloat(el.style.top) || 0;
+  if (e.code === 'ArrowLeft')  { el.style.left = (left0 - step) + 'px'; moved = true; }
+  if (e.code === 'ArrowRight') { el.style.left = (left0 + step) + 'px'; moved = true; }
+  if (e.code === 'ArrowUp')    { el.style.top  = (top0  - step) + 'px'; moved = true; }
+  if (e.code === 'ArrowDown')  { el.style.top  = (top0  + step) + 'px'; moved = true; }
+  if (e.code === 'BracketRight') { moveForward(el); renderLayers(); History.push('z+'); }
+  if (e.code === 'BracketLeft')  { moveBackward(el); renderLayers(); History.push('z-'); }
+  if (moved) { e.preventDefault(); updateHandles(); History.push('nudge'); }
+});
+
+// ============ TEXT INPUT HISTORY ============
+// Push history when user finishes editing text inline
+tplEl.addEventListener('focusout', e => {
+  if (e.target.contentEditable === 'true') History.push('text-edit');
+}, true);
+
+// ============ TOAST ============
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+// ============ EXPORT ============
+// Convert any URL (including file://) to a data: URL via XHR.
+// XHR works for same-origin file:// reads where fetch() is sometimes blocked.
+function urlToDataUrl(url) {
+  return new Promise((resolve, reject) => {
+    if (url.startsWith('data:')) return resolve(url);
+    // Try via <img> -> canvas first (no CORS for same-origin local images)
+    const img = new Image();
+    img.onload = () => {
+      try {
+        const c = document.createElement('canvas');
+        c.width = img.naturalWidth || 1080;
+        c.height = img.naturalHeight || 1080;
+        const ctx = c.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        const data = c.toDataURL('image/png');
+        resolve(data);
+      } catch (err) {
+        // Fallback to XHR
+        xhrLoad();
+      }
+    };
+    img.onerror = () => xhrLoad();
+    function xhrLoad() {
+      const xhr = new XMLHttpRequest();
+      try { xhr.open('GET', url, true); } catch (err) { return reject(err); }
+      xhr.responseType = 'blob';
+      xhr.onload = () => {
+        if (xhr.status === 0 || (xhr.status >= 200 && xhr.status < 400)) {
+          const fr = new FileReader();
+          fr.onload = () => resolve(fr.result);
+          fr.onerror = () => reject(new Error('FileReader failed'));
+          fr.readAsDataURL(xhr.response);
+        } else {
+          reject(new Error('HTTP ' + xhr.status));
+        }
+      };
+      xhr.onerror = () => reject(new Error('network error'));
+      try { xhr.send(); } catch (err) { reject(err); }
+    }
+    img.src = url;
+  });
+}
+
+// Detaint helper: replace all url(...) references in background-image with data: URLs
+async function detaintBackgroundImages(scope) {
+  const cache = new Map();
+  const restored = [];
+  let failures = 0;
+  const all = scope.querySelectorAll('*');
+  for (const el of all) {
+    const bg = el.style.backgroundImage;
+    if (!bg || bg === 'none') continue;
+    const urls = [...bg.matchAll(/url\(["']?([^)"']+)["']?\)/g)];
+    if (!urls.length) continue;
+    let newBg = bg;
+    let changed = false;
+    for (const m of urls) {
+      const url = m[1];
+      if (url.startsWith('data:')) continue;
+      let dataUrl = cache.get(url);
+      if (!dataUrl) {
+        try {
+          dataUrl = await urlToDataUrl(url);
+          cache.set(url, dataUrl);
+        } catch (err) {
+          console.warn('detaint failed:', url, err);
+          failures++;
+          continue;
+        }
+      }
+      newBg = newBg.split(m[0]).join(`url("${dataUrl}")`);
+      changed = true;
+    }
+    if (changed) {
+      restored.push([el, bg]);
+      el.style.backgroundImage = newBg;
+    }
+  }
+  if (failures > 0) {
+    showToast(`⚠ ${failures} image(s) could not be inlined — export may fail`);
+  }
+  return () => { restored.forEach(([el, orig]) => el.style.backgroundImage = orig); };
+}
+
+async function renderTplAtNativeSize() {
+  // Returns a callback to restore stage/tpl after the user runs the rendering.
+  const fmt = FORMATS[state.format];
+  const prev = {
+    transform: tplEl.style.transform,
+    w: stage.style.width, h: stage.style.height,
+    selected: state.selected
+  };
+  deselect();
+  hideHandles();
+  tplEl.style.transform = 'none';
+  stage.style.width = fmt.w + 'px';
+  stage.style.height = fmt.h + 'px';
+  // small delay for layout flush
+  await new Promise(r => requestAnimationFrame(() => r()));
+  return () => {
+    tplEl.style.transform = prev.transform;
+    stage.style.width = prev.w;
+    stage.style.height = prev.h;
+    if (prev.selected && tplEl.contains(prev.selected)) selectElement(prev.selected);
+  };
+}
+
+async function captureTplAsBlob() {
+  const fmt = FORMATS[state.format];
+  // html-to-image accepts a DOM node and produces a Blob with proper CSS-var resolution
+  const blob = await htmlToImage.toBlob(tplEl, {
+    width: fmt.w, height: fmt.h, pixelRatio: 1,
+    cacheBust: true, skipFonts: false,
+    style: { transform: 'none' }
+  });
+  if (!blob) throw new Error('renderer returned no blob');
+  return blob;
+}
+
+document.getElementById('export-png').addEventListener('click', async () => {
+  const fmt = FORMATS[state.format];
+  const btn = document.getElementById('export-png');
+  btn.textContent = '...'; btn.disabled = true;
+  const restore = await renderTplAtNativeSize();
+  try {
+    const blob = await captureTplAsBlob();
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `frequency-vibes_${state.template}_${fmt.w}x${fmt.h}_${Date.now()}.png`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    showToast('image saved');
+  } catch (err) {
+    const isTaint = (err.message || '').toLowerCase().includes('taint');
+    if (isTaint && location.protocol === 'file:') {
+      alert(
+        'Image export blocked by browser security on file://\n\n' +
+        '👉 Close this tab. Double-click start-studio.bat in the studio folder.\n' +
+        'It opens the same studio on http://localhost:8765 where export works.'
+      );
+    } else {
+      alert('Export failed: ' + err.message);
+    }
+    console.error(err);
+  } finally {
+    restore();
+    btn.textContent = '↓ Image'; btn.disabled = false;
+  }
+});
+
+// ============ INIT ============
+window.addEventListener('error', ev => {
+  try { showToast('JS ERR: ' + (ev.message || 'unknown')); } catch {}
+  console.error(ev);
+});
+
+// Show file:// warning banner
+if (location.protocol === 'file:') {
+  document.getElementById('file-banner').style.display = '';
+  document.body.classList.add('with-banner');
+  // Adjust grid rows on body to make room for banner
+  document.body.style.gridTemplateRows = '40px 48px 1fr';
+  document.querySelector('.topbar').style.gridRow = '2';
+  document.querySelector('.canvas-area').style.gridRow = '3';
+  document.querySelector('.left').style.gridRow = '3';
+  document.querySelector('.right').style.gridRow = '3';
+  document.getElementById('banner-close').addEventListener('click', () => {
+    document.getElementById('file-banner').style.display = 'none';
+    document.body.style.gridTemplateRows = '48px 1fr';
+    document.querySelector('.topbar').style.gridRow = '1';
+    document.querySelector('.canvas-area').style.gridRow = '2';
+    document.querySelector('.left').style.gridRow = '2';
+    document.querySelector('.right').style.gridRow = '2';
+  });
+}
+
+loadTemplate();
+renderSlideTabs();
+setTimeout(() => checkAutosave(), 100);
+</script>
+</body>
+</html>

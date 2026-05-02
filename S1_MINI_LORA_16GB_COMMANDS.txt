@@ -1,0 +1,48 @@
+S1-mini LoRA on WSL (16 GB safe-ish baseline)
+
+Environment:
+- Repo: /home/suario/fish_speech_s1mini_s1commit
+- Config: fish_speech/configs/text2semantic_finetune_16gb.yaml
+- Dataset source (Windows): /mnt/c/Users/Usuario/Desktop/bussines model/voicebox_lab/experiments/fish_speech/lora_datasets/eugene_tascam_long
+
+1. Start WSL and activate env
+cd /home/suario/fish_speech_s1mini_s1commit
+source .venv/bin/activate
+
+2. Sync dataset into local WSL disk
+rm -rf data/eugene_tascam_long
+mkdir -p data
+cp -r /mnt/c/Users/Usuario/Desktop/bussines\ model/voicebox_lab/experiments/fish_speech/lora_datasets/eugene_tascam_long data/
+
+3. Extract VQ codes
+python tools/vqgan/extract_vq.py data/eugene_tascam_long \
+  --num-workers 1 \
+  --batch-size 4 \
+  --config-name modded_dac_vq \
+  --checkpoint-path checkpoints/openaudio-s1-mini/codec.pth
+
+4. Build protobuf dataset
+python tools/llama/build_dataset.py \
+  --input data/eugene_tascam_long \
+  --output data/protos_eugene_tascam_long \
+  --text-extension .lab \
+  --num-workers 4
+
+5. Train LoRA
+python fish_speech/train.py --config-name text2semantic_finetune_16gb \
+  project=eugene_tascam_long_lora \
+  train_dataset.proto_files=[data/protos_eugene_tascam_long] \
+  val_dataset.proto_files=[data/protos_eugene_tascam_long] \
+  +lora@model.model.lora_config=r_8_alpha_16
+
+6. Merge LoRA weights for inference
+python tools/llama/merge_lora.py \
+  --lora-config r_8_alpha_16 \
+  --base-weight checkpoints/openaudio-s1-mini \
+  --lora-weight results/eugene_tascam_long_lora/checkpoints/step_000000100.ckpt \
+  --output checkpoints/openaudio-s1-mini-eugene-lora
+
+Notes:
+- Review the .lab transcripts before training. Whisper draft errors will be learned.
+- Earliest good checkpoint is often better than the latest one.
+- If VRAM is tight during training, reduce batch_size to 1 and/or max_length to 2048.

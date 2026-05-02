@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Frequency Vibes — Social media templates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0b0f;
+    --bg-2: #15151c;
+    --bg-3: #1d1d27;
+    --gold: #d4a866;
+    --gold-soft: #e8c896;
+    --ink: #f4ecdc;
+    --cream: #efe7d3;
+    --oxblood: #b4432a;
+    --teal-bg: #2a8b96;
+    --purple-bg: #6b3c9a;
+    --muted: #8a8275;
+    --border: #2a2620;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 56px 24px 96px;
+    background: #07070a; color: var(--ink);
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .wrap { max-width: 1200px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 48px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+  header h1 { font-family: 'Fraunces', serif; font-weight: 300; font-size: 38px; margin: 0 0 12px; }
+  header p { color: var(--muted); margin: 0; font-size: 15px; max-width: 640px; margin: 0 auto; }
+  h2.section-title {
+    font-family: 'Fraunces', serif; font-weight: 400; font-size: 22px;
+    margin: 56px 0 20px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: baseline; gap: 14px;
+  }
+  h2.section-title .num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.32em; color: var(--gold);
+  }
+  h2.section-title .size {
+    margin-left: auto; font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.25em; color: var(--muted);
+  }
+  .preview-row {
+    display: flex; flex-wrap: wrap; gap: 20px;
+    align-items: flex-start;
+  }
+  .preview-frame {
+    background: #fff; padding: 12px;
+    box-shadow: 0 14px 36px rgba(0,0,0,0.5);
+    border-radius: 4px;
+  }
+  .preview-frame .label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; letter-spacing: 0.28em;
+    color: #777; margin-bottom: 8px; text-align: center;
+  }
+  .ig-instructions {
+    flex: 1; min-width: 280px; max-width: 380px;
+    color: var(--muted); font-size: 14px; line-height: 1.55;
+    padding: 18px 22px; background: var(--bg-2);
+    border: 1px solid var(--border); border-radius: 6px;
+  }
+  .ig-instructions h3 {
+    color: var(--ink); font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: 16px; margin: 0 0 10px;
+  }
+  .ig-instructions ul { padding-left: 18px; margin: 8px 0; }
+  .ig-instructions li { margin-bottom: 6px; }
+  .ig-instructions code {
+    background: var(--bg-3); padding: 1px 6px; border-radius: 3px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px;
+    color: var(--gold);
+  }
+
+  /* ───────────────────────────────────────────────────────────
+     TEMPLATE 1 · QUOTE POST · 1080x1080
+     ─────────────────────────────────────────────────────────── */
+  .tpl-quote {
+    width: 540px; height: 540px;            /* preview at 50% scale */
+    background: var(--bg);
+    color: var(--ink);
+    position: relative; overflow: hidden;
+    display: grid; place-items: center;
+    padding: 40px;
+    background-image:
+      radial-gradient(ellipse at 50% 30%, rgba(212,168,102,0.08), transparent 60%),
+      radial-gradient(ellipse at 70% 80%, rgba(120,70,180,0.06), transparent 60%);
+  }
+  .tpl-quote .mark {
+    position: absolute; top: 28px; left: 50%; transform: translateX(-50%);
+    width: 48px; height: 48px; border-radius: 4px;
+    background: url('frequency-vibes-logo-teal-clean.png') center/cover;
+    opacity: 0.92;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+  }
+  .tpl-quote .quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-weight: 400;
+    font-size: 38px; line-height: 1.25; text-align: center;
+    color: var(--ink); max-width: 90%;
+    letter-spacing: -0.01em;
+  }
+  .tpl-quote .quote em { color: var(--gold); font-style: italic; font-weight: 500; }
+  .tpl-quote .citation {
+    position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; letter-spacing: 0.42em; text-transform: uppercase;
+    color: var(--gold); opacity: 0.85;
+  }
+  .tpl-quote .corner {
+    position: absolute; width: 44px; height: 44px;
+    border: 1px solid var(--gold); opacity: 0.32;
+  }
+  .tpl-quote .corner.tl { top: 26px; left: 26px; border-right: 0; border-bottom: 0; }
+  .tpl-quote .corner.tr { top: 26px; right: 26px; border-left: 0; border-bottom: 0; }
+  .tpl-quote .corner.bl { bottom: 26px; left: 26px; border-right: 0; border-top: 0; }
+  .tpl-quote .corner.br { bottom: 26px; right: 26px; border-left: 0; border-top: 0; }
+
+  /* ───────────────────────────────────────────────────────────
+     TEMPLATE 2 · PHOTO EUGENE + QUOTE · 1080x1350
+     ─────────────────────────────────────────────────────────── */
+  .tpl-photo {
+    width: 432px; height: 540px;
+    background: linear-gradient(135deg, #1c2735 0%, #0d1218 100%);
+    color: var(--ink);
+    position: relative; overflow: hidden;
+  }
+  .tpl-photo .photo-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.85)),
+      url('https://images.unsplash.com/photo-1542596594-649edbc13630?w=600&q=80') center/cover;
+  }
+  .tpl-photo .photo-vignette {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 60% 30%, transparent 30%, rgba(0,0,0,0.55) 100%),
+      linear-gradient(0deg, rgba(0,0,0,0.4), transparent 50%);
+  }
+  .tpl-photo .quote {
+    position: absolute; bottom: 96px; left: 32px; right: 32px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-weight: 400;
+    font-size: 26px; line-height: 1.3; color: var(--ink);
+    text-shadow: 0 4px 16px rgba(0,0,0,0.7);
+  }
+  .tpl-photo .quote em { color: var(--gold); font-style: italic; font-weight: 500; }
+  .tpl-photo .author {
+    position: absolute; bottom: 60px; left: 32px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.36em; text-transform: uppercase;
+    color: var(--gold);
+  }
+  .tpl-photo .cta {
+    position: absolute; bottom: 28px; left: 32px; right: 32px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: rgba(244, 236, 220, 0.65);
+  }
+  .tpl-photo .cta .url { color: var(--gold); }
+  .tpl-photo .mark {
+    position: absolute; top: 24px; left: 24px;
+    width: 38px; height: 38px; border-radius: 4px;
+    background: url('frequency-vibes-logo-teal-clean.png') center/cover;
+    opacity: 0.92;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+  }
+
+  /* ───────────────────────────────────────────────────────────
+     TEMPLATE 3 · PARTNERSHIP SPOTLIGHT · 1080x1080 (slide 1 of 6)
+     ─────────────────────────────────────────────────────────── */
+  .tpl-partner {
+    width: 540px; height: 540px;
+    background: linear-gradient(135deg, #142a2c 0%, #0a0e10 100%);
+    color: var(--ink);
+    position: relative; overflow: hidden; padding: 40px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .tpl-partner .top-row {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .tpl-partner .mark {
+    width: 40px; height: 40px; border-radius: 4px;
+    background: url('frequency-vibes-logo-teal-clean.png') center/cover;
+    opacity: 0.92;
+  }
+  .tpl-partner .slide-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.3em;
+    color: var(--gold); opacity: 0.7;
+  }
+  .tpl-partner .center {
+    text-align: center; margin-top: -20px;
+  }
+  .tpl-partner .kicker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; letter-spacing: 0.42em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 18px;
+  }
+  .tpl-partner .partner-name {
+    font-family: 'Fraunces', serif; font-weight: 300;
+    font-size: 56px; line-height: 1.05; color: var(--ink);
+    letter-spacing: -0.02em; margin-bottom: 14px;
+  }
+  .tpl-partner .partner-tag {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 18px;
+    color: rgba(244, 236, 220, 0.7); max-width: 80%; margin: 0 auto;
+  }
+  .tpl-partner .bottom {
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--gold); opacity: 0.85;
+  }
+  .tpl-partner .bottom .swipe {
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+
+  /* ───────────────────────────────────────────────────────────
+     TEMPLATE 4 · EDUCATIONAL CAROUSEL · 1080x1080 (slide 1 of 5)
+     ─────────────────────────────────────────────────────────── */
+  .tpl-edu {
+    width: 540px; height: 540px;
+    background: var(--cream);
+    color: #1a0f00;
+    position: relative; overflow: hidden; padding: 44px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .tpl-edu .top-row {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .tpl-edu .top-kick {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--oxblood);
+  }
+  .tpl-edu .slide-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; letter-spacing: 0.3em; color: var(--oxblood);
+  }
+  .tpl-edu .big-num {
+    font-family: 'Fraunces', serif; font-weight: 200;
+    font-size: 220px; line-height: 0.85; color: var(--gold);
+    letter-spacing: -0.06em; margin: 0;
+  }
+  .tpl-edu .title {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: 38px; line-height: 1.1; color: #1a0f00;
+    letter-spacing: -0.02em; margin: 12px 0 0;
+  }
+  .tpl-edu .title em { color: var(--oxblood); font-style: italic; font-weight: 500; }
+  .tpl-edu .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 18px;
+    color: rgba(26, 15, 0, 0.65); margin-top: 12px;
+  }
+  .tpl-edu .bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; letter-spacing: 0.32em; text-transform: uppercase;
+    color: rgba(26, 15, 0, 0.55);
+  }
+  .tpl-edu .bottom .url { color: var(--oxblood); }
+  .tpl-edu .mark {
+    width: 36px; height: 36px; border-radius: 4px;
+    background: url('frequency-vibes-logo-teal-clean.png') center/cover;
+    opacity: 0.92;
+  }
+
+  /* ───────────────────────────────────────────────────────────
+     TEMPLATE 5 · REEL / STORY · 1080x1920 (vertical)
+     ─────────────────────────────────────────────────────────── */
+  .tpl-reel {
+    width: 270px; height: 480px;
+    background: var(--bg);
+    color: var(--ink);
+    position: relative; overflow: hidden;
+    background-image:
+      radial-gradient(ellipse at 50% 0%, rgba(212,168,102,0.18), transparent 60%),
+      radial-gradient(ellipse at 0% 100%, rgba(120,70,180,0.08), transparent 70%);
+  }
+  .tpl-reel .top-band {
+    position: absolute; top: 24px; left: 24px; right: 24px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .tpl-reel .mark {
+    width: 30px; height: 30px; border-radius: 4px;
+    background: url('frequency-vibes-logo-teal-clean.png') center/cover;
+  }
+  .tpl-reel .top-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8px; letter-spacing: 0.36em; text-transform: uppercase;
+    color: var(--gold);
+  }
+  .tpl-reel .center-glyph {
+    position: absolute; top: 38%; left: 50%; transform: translate(-50%, -50%);
+    width: 90px; height: 90px; border-radius: 6px;
+    background: url('frequency-vibes-logo-teal-clean.png') center/cover;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+  }
+  .tpl-reel .headline {
+    position: absolute; top: 60%; left: 24px; right: 24px;
+    text-align: center;
+    font-family: 'Fraunces', serif; font-weight: 300;
+    font-size: 26px; line-height: 1.15; color: var(--ink);
+  }
+  .tpl-reel .headline em { color: var(--gold); font-style: italic; font-weight: 500; }
+  .tpl-reel .sub {
+    position: absolute; top: 80%; left: 24px; right: 24px;
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 14px;
+    color: rgba(244, 236, 220, 0.65);
+  }
+  .tpl-reel .bottom-cta {
+    position: absolute; bottom: 28px; left: 24px; right: 24px;
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--gold); padding-top: 14px;
+    border-top: 1px solid rgba(212, 168, 102, 0.35);
+  }
+  /* small wave at the bottom */
+  .tpl-reel .wave {
+    position: absolute; bottom: 56px; left: 50%; transform: translateX(-50%);
+    width: 60%; height: 6px;
+    opacity: 0.6;
+  }
+  .tpl-reel .wave svg { width: 100%; height: 100%; }
+  .tpl-reel .wave path { fill: none; stroke: var(--gold); stroke-width: 1; stroke-linecap: round; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Frequency Vibes — Social media templates</h1>
+    <p>Five reusable layouts. Capture each at <code>2×</code> via browser screenshot (or open file in Photoshop / Figma / Canva, swap text/photo, export). All preview here at 50% scale to fit the screen.</p>
+  </header>
+
+  <!-- ── 1 · QUOTE POST ── -->
+  <h2 class="section-title">
+    <span class="num">01</span>
+    Quote Post
+    <span class="size">1080 × 1080  ·  for IG feed</span>
+  </h2>
+  <div class="preview-row">
+    <div class="preview-frame">
+      <div class="label">PREVIEW · 50% SCALE</div>
+      <div class="tpl-quote">
+        <div class="corner tl"></div><div class="corner tr"></div>
+        <div class="corner bl"></div><div class="corner br"></div>
+        <div class="mark"></div>
+        <div class="quote">Everything is <em>frequency.</em><br>The body is just<br>the first instrument.</div>
+        <div class="citation">— Frequency Vibes · Cap. 1</div>
+      </div>
+    </div>
+    <div class="ig-instructions">
+      <h3>How to use</h3>
+      <p>Mondays + Tuesdays. Drop in a single line from the book or one of Eugene's recurring phrases.</p>
+      <ul>
+        <li>Replace text inside <code>.tpl-quote .quote</code></li>
+        <li>Edit the <code>em</code> tag for the gold-coloured emphasis</li>
+        <li>Update <code>.citation</code> with the chapter / source</li>
+        <li>Logo + corner ornaments stay fixed</li>
+      </ul>
+      <p><b>Frase repository</b>: te paso 15-20 frases cuando tengas las del libro elegidas.</p>
+    </div>
+  </div>
+
+  <!-- ── 2 · PHOTO + QUOTE ── -->
+  <h2 class="section-title">
+    <span class="num">02</span>
+    Photo + Quote
+    <span class="size">1080 × 1350  ·  vertical, max engagement</span>
+  </h2>
+  <div class="preview-row">
+    <div class="preview-frame">
+      <div class="label">PREVIEW · 40% SCALE</div>
+      <div class="tpl-photo">
+        <div class="photo-bg"></div>
+        <div class="photo-vignette"></div>
+        <div class="mark"></div>
+        <div class="quote">"You don't <em>find</em> your frequency.<br>You <em>tune</em> it — every day."</div>
+        <div class="author">— Eugene Mierak</div>
+        <div class="cta">
+          <span>Read &amp; listen</span>
+          <span class="url">eugenemierak.com</span>
+        </div>
+      </div>
+    </div>
+    <div class="ig-instructions">
+      <h3>How to use</h3>
+      <p>Wednesdays + Saturdays. Cuando Eugene te pase fotos, sustituyes la <code>background-image</code> URL.</p>
+      <ul>
+        <li>Photo: editorial portrait, 3/4 perfil, looking off-camera. NO selfies.</li>
+        <li>Vignette dark gradient mantiene el texto legible siempre</li>
+        <li>CTA "eugenemierak.com" siempre presente abajo</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── 3 · PARTNERSHIP SPOTLIGHT ── -->
+  <h2 class="section-title">
+    <span class="num">03</span>
+    Partnership Spotlight (slide 1 of 6)
+    <span class="size">1080 × 1080  ·  carousel</span>
+  </h2>
+  <div class="preview-row">
+    <div class="preview-frame">
+      <div class="label">SLIDE 1 · COVER</div>
+      <div class="tpl-partner">
+        <div class="top-row">
+          <div class="mark"></div>
+          <div class="slide-num">01 / 06</div>
+        </div>
+        <div class="center">
+          <div class="kicker">Frequency Foods</div>
+          <div class="partner-name">Vegaqura</div>
+          <div class="partner-tag">Living water · plant-based ferment from Bali</div>
+        </div>
+        <div class="bottom">
+          <span>Frequency Vibes</span>
+          <span class="swipe">SWIPE →</span>
+        </div>
+      </div>
+    </div>
+    <div class="ig-instructions">
+      <h3>How to use</h3>
+      <p>Lunes + jueves alternando partner. Slide 1 es la portada (este). Slides 2-5 narrativa, slide 6 CTA.</p>
+      <ul>
+        <li>Partner name: <code>.partner-name</code></li>
+        <li>Sub-line: <code>.partner-tag</code> — qué hacen en una frase</li>
+        <li>Kicker: rotar entre <em>Frequency Foods</em> · <em>Frequency Center</em> · <em>Frequency Habitat</em> según partner</li>
+        <li>Mismo template para los 6: Vegaqura, SBDI, WiseUse, Eko Vitaris, Mariposa Batu, Biozar</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── 4 · EDUCATIONAL CAROUSEL ── -->
+  <h2 class="section-title">
+    <span class="num">04</span>
+    Educational Carousel (slide 1 of 5)
+    <span class="size">1080 × 1080  ·  carousel · cream variant</span>
+  </h2>
+  <div class="preview-row">
+    <div class="preview-frame">
+      <div class="label">SLIDE 1 · COVER</div>
+      <div class="tpl-edu">
+        <div class="top-row">
+          <span class="top-kick">Frequency Vibes</span>
+          <span class="slide-num">01 / 05</span>
+        </div>
+        <div>
+          <div class="big-num">5</div>
+          <div class="title">frequencies you <em>tune</em><br>every day without<br>knowing</div>
+          <div class="subtitle">A small primer on how the body keeps time</div>
+        </div>
+        <div class="bottom">
+          <div class="mark"></div>
+          <span class="url">eugenemierak.com</span>
+        </div>
+      </div>
+    </div>
+    <div class="ig-instructions">
+      <h3>How to use</h3>
+      <p>Viernes (semana 1, 3, 5...). El cream variant da contraste con el feed dark — destaca.</p>
+      <ul>
+        <li>Number: <code>.big-num</code> — 3 / 5 / 7 son los más editoriales</li>
+        <li>Title: tipográfico, frase potente con un <code>em</code> destacado</li>
+        <li>Slides 2-N siguen mismo estilo — un punto / concepto por slide</li>
+        <li>Slide final = CTA al .com</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── 5 · REEL / STORY ── -->
+  <h2 class="section-title">
+    <span class="num">05</span>
+    Reel / Story
+    <span class="size">1080 × 1920  ·  vertical · 9:16</span>
+  </h2>
+  <div class="preview-row">
+    <div class="preview-frame">
+      <div class="label">PREVIEW · 25% SCALE</div>
+      <div class="tpl-reel">
+        <div class="top-band">
+          <div class="mark"></div>
+          <div class="top-tag">FREQUENCY VIBES</div>
+        </div>
+        <div class="center-glyph"></div>
+        <div class="headline">Everything is<br><em>frequency.</em></div>
+        <div class="sub">Read &amp; listen — 8 chapters</div>
+        <div class="wave">
+          <svg viewBox="0 0 200 8" preserveAspectRatio="none">
+            <path d="M -20 4 Q -10 0 0 4 T 20 4 T 40 4 T 60 4 T 80 4 T 100 4 T 120 4 T 140 4 T 160 4 T 180 4 T 200 4"/>
+          </svg>
+        </div>
+        <div class="bottom-cta">eugenemierak.com</div>
+      </div>
+    </div>
+    <div class="ig-instructions">
+      <h3>How to use</h3>
+      <p>Vertical para Stories + portada estática de Reels. La onda animada de tu library va aquí también.</p>
+      <ul>
+        <li>Headline: hook de 2-3 palabras, una en italic gold</li>
+        <li>Sub: 1 línea contexto</li>
+        <li>CTA: siempre el dominio en mono caps abajo</li>
+        <li>Para Reels reales: este layout es el frame inicial / final; en medio, b-roll de Eugene</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── INSTRUCTIONS ── -->
+  <h2 class="section-title">
+    <span class="num">06</span>
+    How to export to Instagram
+  </h2>
+  <div class="ig-instructions" style="max-width: 100%;">
+    <h3>3 formas, de más rápida a más profesional</h3>
+    <ul>
+      <li><b>Vía screenshot del browser</b> (rápido, calidad limitada): abre este HTML, zoom 200%, screenshot del template, recorta exacto al cuadrado/vertical. Suficiente para 1080×1080.</li>
+      <li><b>Vía DevTools "Capture node screenshot"</b> (calidad perfecta): F12 → click el elemento <code>.tpl-quote</code> en el inspector → 3 puntos → "Capture node screenshot" → exporta PNG exacto a las dimensiones reales.</li>
+      <li><b>Vía Figma / Canva</b> (workflow profesional): si quieres que lo pase a Figma con cada layer editable separable, dime y te exporto los SVG individuales. Se importa con un drag.</li>
+    </ul>
+    <h3 style="margin-top: 18px;">Checklist antes de subir cualquier post</h3>
+    <ul>
+      <li>✓ Logo visible (esquina o centro según template)</li>
+      <li>✓ <code>eugenemierak.com</code> escrito en alguna parte (CTA bottom o caption)</li>
+      <li>✓ Caption empieza con frase potente, termina con link en bio</li>
+      <li>✓ Hashtags fijos: <code>#FrequencyVibes #EugeneMierak</code> + 3-5 nicho según contenido (#frequencyhealing #consciouslifestyle #balitribe etc.)</li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>
