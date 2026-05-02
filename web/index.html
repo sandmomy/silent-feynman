@@ -1,9 +1,20 @@
 ﻿<!doctype html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>BookVoice Studio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>BookVoice — Frequency Vibes, read and listen</title>
+    <meta name="description" content="Frequency Vibes by Eugene Mierak — essays on frequency, sound and perception. Read online or listen to the narrated audio chapter by chapter." />
+    <meta name="theme-color" content="#0b0b0f" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="BookVoice — Frequency Vibes" />
+    <meta property="og:description" content="Essays on frequency, sound and perception. Read or listen, chapter by chapter." />
+    <meta property="og:url" content="https://book.eugenemierak.com/" />
+    <meta property="og:image" content="https://book.eugenemierak.com/covers/frequency-vibes.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/icons/bookvoice-192.png" sizes="192x192" type="image/png" />
+    <link rel="apple-touch-icon" href="/icons/bookvoice-180.png" />
+    <link rel="manifest" href="/bookvoice.webmanifest" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet" />
@@ -16,14 +27,15 @@
         <span class="brand-mark">BV</span>
         <span>
           <strong>BookVoice</strong>
-          <small>Libros en texto y audio</small>
+          <small>Read and listen</small>
         </span>
       </a>
       <nav class="nav-links">
-        <a href="/">Inicio</a>
-        <a href="/#publicShelf">Libros publicados</a>
-        <a href="/studio">Zona privada</a>
-        <button id="logoutBtn" class="ghost-button hidden" type="button">Cerrar sesion</button>
+        <a href="/">Home</a>
+        <a href="/#publicShelf">Catalog</a>
+        <a href="/customer.html">Sign in</a>
+        <a href="/studio">Studio</a>
+        <button id="logoutBtn" class="ghost-button hidden" type="button">Sign out</button>
       </nav>
     </header>
 
@@ -108,76 +120,67 @@
         <div id="publicHomeSections">
         <section class="public-hero" id="biblioteca">
           <div class="hero-copy panel-card">
-            <p class="eyebrow">Biblioteca clara y facil de usar</p>
-            <h1>Sube un libro, revisa el audio por partes y publicalo cuando este bien.</h1>
+            <p class="eyebrow">Frequency Vibes · by Eugene Mierak</p>
+            <h1>Essays on frequency, sound and the way we perceive the world.</h1>
             <p class="lead-text">
-              Esta web esta pensada para hacerlo facil: Eugene sube un libro, genera el audio, escucha cada parte con calma y luego publica la version final para leerla o escucharla.
+              A long-form book released chapter by chapter. Read online, listen to the narrated audio, or open it in the BookVoice app for Android.
             </p>
             <div class="hero-actions">
-              <a class="button-link accent-link" href="#publicShelf">Ver libros publicados</a>
-              <a class="button-link ghost-link" href="/studio">Entrar a la zona privada</a>
+              <a class="button-link accent-link" href="#publicShelf">Browse chapters</a>
+              <a class="button-link ghost-link" href="/customer.html">Sign in to read</a>
             </div>
           </div>
 
           <aside class="featured-panel panel-card">
-            <p class="eyebrow">Libro destacado</p>
-            <h2 id="featuredTitle">Todavia no hay libros publicados</h2>
-            <p id="featuredHook" class="featured-hook">Cuando publiques un libro aparecera aqui con su audio y su boton principal.</p>
-            <p id="featuredSummary" class="featured-summary muted">La portada publica muestra de forma clara el titulo, el resumen, el audio y el acceso al libro.</p>
+            <p class="eyebrow">Featured chapter</p>
+            <h2 id="featuredTitle">Frequency Vibes</h2>
+            <p id="featuredHook" class="featured-hook">A book about frequency as the organising principle behind matter, sound, light and thought.</p>
+            <p id="featuredSummary" class="featured-summary muted">New chapters unlock progressively. Each one comes with text and narrated audio.</p>
             <div class="featured-meta">
-              <span id="featuredPrice" class="price-pill">Borrador</span>
-              <span id="featuredFormat" class="meta-pill">Texto y audio</span>
+              <span id="featuredPrice" class="price-pill">€11.99 / chapter</span>
+              <span id="featuredFormat" class="meta-pill">Text · Audio</span>
             </div>
             <div id="featuredAudioWrap" class="featured-audio hidden">
               <audio id="featuredAudio" controls></audio>
             </div>
             <div class="hero-actions compact-actions">
-              <a id="featuredCta" class="button-link accent-link disabled-link" href="/studio">Configurar acceso</a>
-              <a id="featuredSource" class="button-link ghost-link disabled-link" href="/studio">Ver pagina</a>
+              <a id="featuredCta" class="button-link accent-link" href="#publicShelf">See chapters</a>
+              <a id="featuredSource" class="button-link ghost-link" href="/customer.html">Sign in</a>
             </div>
           </aside>
         </section>
 
-        <section class="steps-strip" aria-label="Como funciona">
+        <section class="steps-strip" aria-label="How it works">
           <article class="step-card content-card">
             <span class="step-number">1</span>
-            <h3>Subir el libro</h3>
-            <p class="muted">Importa un PDF o sube un archivo nuevo al catalogo privado.</p>
+            <h3>Browse the catalog</h3>
+            <p class="muted">See every published chapter with its excerpt, runtime and price.</p>
           </article>
           <article class="step-card content-card">
             <span class="step-number">2</span>
-            <h3>Revisar el audio</h3>
-            <p class="muted">Escucha el audio final y tambien cada parte por separado antes de publicar.</p>
+            <h3>Unlock a chapter</h3>
+            <p class="muted">Secure checkout via Stripe. Your chapter is saved to your library instantly.</p>
           </article>
           <article class="step-card content-card">
             <span class="step-number">3</span>
-            <h3>Publicar y compartir</h3>
-            <p class="muted">Activa el libro en la web y comparte su enlace publico cuando este listo.</p>
+            <h3>Read or listen</h3>
+            <p class="muted">On the web or in the BookVoice Android app — audio and text stay in sync across devices.</p>
           </article>
         </section>
 
-        <section class="stats-strip" aria-label="Resumen rapido">
-          <article class="metric-card content-card">
-            <span class="metric" id="booksMetric">0</span>
-            <span class="metric-label">libros en zona privada</span>
-          </article>
-          <article class="metric-card content-card">
-            <span class="metric" id="voicesMetric">0</span>
-            <span class="metric-label">voces guardadas</span>
-          </article>
-          <article class="metric-card content-card">
-            <span class="metric" id="publishedMetric">0</span>
-            <span class="metric-label">libros publicados</span>
-          </article>
+        <section class="stats-strip hidden" aria-hidden="true">
+          <span id="booksMetric" hidden></span>
+          <span id="voicesMetric" hidden></span>
+          <span id="publishedMetric" hidden></span>
         </section>
 
         <section class="public-shelf panel-card" id="publicShelf">
           <div class="section-head">
             <div>
-              <p class="eyebrow">Catalogo publico</p>
-              <h2>Libros listos para leer, escuchar y compartir.</h2>
+              <p class="eyebrow">Catalog</p>
+              <h2>Published chapters</h2>
             </div>
-            <p class="muted shelf-copy">Cada ficha publica muestra lo importante: titulo, resumen, audio y enlace principal.</p>
+            <p class="muted shelf-copy">Every card shows the summary, runtime and a preview link. Sign in to unlock.</p>
           </div>
           <div id="publishedBooksList" class="public-grid"></div>
         </section>
@@ -601,6 +604,15 @@
 
       <div id="toast" class="toast hidden"></div>
     </main>
+    <footer style="text-align:center;padding:24px 16px 32px;font-size:12px;color:rgba(255,255,255,0.4);">
+      <div style="display:flex;justify-content:center;gap:20px;margin-bottom:8px;">
+        <a href="/privacy" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;">Privacy</a>
+        <a href="/terms" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;">Terms</a>
+        <a href="/legal" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;">Legal</a>
+      </div>
+      &copy; 2026 BookVoice by Frequency Vibes. All rights reserved.
+    </footer>
     <script src="/app.js" type="module"></script>
+    <script src="/cookie-notice.js" defer></script>
   </body>
 </html>

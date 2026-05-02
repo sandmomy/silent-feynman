@@ -1,0 +1,1026 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+    <title>BookVoice — Frequency Vibes</title>
+    <meta name="description" content="Frequency Vibes by Eugene Mierak. Read and listen chapter by chapter." />
+    <meta name="theme-color" content="#000000" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="BookVoice" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <link rel="manifest" href="/bookvoice.webmanifest" />
+    <!-- Frequency Vibes brand favicons -->
+    <link rel="icon" type="image/x-icon" href="/brand/favicon-teal.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/brand/favicon-teal-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/brand/favicon-teal-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/brand/favicon-teal-96.png" />
+    <!-- Open Graph -->
+    <meta property="og:title" content="BookVoice — Frequency Vibes" />
+    <meta property="og:description" content="Read and listen to Frequency Vibes — eight chapters on tuning your life." />
+    <meta property="og:image" content="https://book.eugenemierak.com/brand/logo-teal-clean.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=IBM+Plex+Mono:wght@300;400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/mobile.css?v=20260424mist15" />
+    <style>
+      /* Back-to-main link (top-left, floating above the field) */
+      .back-to-main {
+        position: fixed;
+        top: calc(10px + env(safe-area-inset-top, 0px));
+        left: calc(10px + env(safe-area-inset-left, 0px));
+        z-index: 100;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 7px 12px;
+        font-family: var(--mono);
+        font-size: 10.5px;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+        color: var(--mob-gold);
+        background: rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(212, 162, 74, 0.32);
+        border-radius: 999px;
+        text-decoration: none;
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        transition: color 200ms ease, border-color 200ms ease, background 200ms ease;
+      }
+      .back-to-main:active {
+        color: var(--mob-gold-bright);
+        border-color: rgba(212, 162, 74, 0.7);
+        background: rgba(0, 0, 0, 0.8);
+      }
+      .back-to-main-arrow {
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <a class="back-to-main" href="https://eugenemierak.com" aria-label="Back to eugenemierak.com">
+      <span class="back-to-main-arrow" aria-hidden="true">←</span>
+      <span>eugenemierak.com</span>
+    </a>
+    <!-- Editorial wave field — same design language as desktop, tuned for mobile perf -->
+    <canvas id="mField" aria-hidden="true"></canvas>
+    <div class="scene-vignette" aria-hidden="true"></div>
+
+    <!-- Reader-entry beauty beat: native v7.4 port (rings + rays + core +
+         particles) composed with the editorial card, all riding on the live
+         canvas field. -->
+    <div id="readerEntryBeat" class="reader-beat" aria-hidden="true">
+      <span class="rb-halo" aria-hidden="true"></span>
+      <div class="rb-particles" aria-hidden="true"></div>
+      <div class="rb-sacred" aria-hidden="true">
+        <span class="rb-ring rb-ring-outer"></span>
+        <span class="rb-ring rb-ring-mid"></span>
+        <span class="rb-ring rb-ring-inner"></span>
+        <span class="rb-ray" style="--r:0deg"></span>
+        <span class="rb-ray" style="--r:60deg"></span>
+        <span class="rb-ray" style="--r:120deg"></span>
+        <span class="rb-ray" style="--r:180deg"></span>
+        <span class="rb-ray" style="--r:240deg"></span>
+        <span class="rb-ray" style="--r:300deg"></span>
+        <span class="rb-core"></span>
+      </div>
+      <span class="rb-eyebrow" id="readerBeatEyebrow">Frequency Vibes</span>
+      <h2 class="rb-title" id="readerBeatTitle">Chapter</h2>
+      <span class="rb-line"></span>
+      <span class="rb-sub">BookVoice Reader</span>
+    </div>
+    <div id="app">
+      <!-- ═══ LOGIN ═══ -->
+      <section class="view view-login" data-view="login">
+        <div class="login-hero">
+          <figure class="hero-cover" aria-label="Frequency Vibes cover">
+            <div class="hero-cover-img" role="presentation"></div>
+          </figure>
+          <span class="eyebrow">By Eugene Mierak</span>
+          <h1>Frequency Vibes</h1>
+          <p class="sub">A chapter-by-chapter summary &mdash; read and listen.</p>
+        </div>
+
+        <div class="cta-stack">
+          <div class="seg-control" role="tablist">
+            <button type="button" data-auth-tab="signin" class="seg-btn active" role="tab">Sign in</button>
+            <button type="button" data-auth-tab="register" class="seg-btn" role="tab">Create account</button>
+          </div>
+
+          <button id="btnGoogle" class="btn btn-secondary" type="button">
+            <svg class="g-logo" viewBox="0 0 48 48" width="18" height="18" aria-hidden="true">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            </svg>
+            <span>Continue with Google</span>
+          </button>
+
+          <div class="divider"><span>or email</span></div>
+
+          <form id="formSignin" class="auth-form">
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" width="18" height="18" class="input-icon"><path fill="currentColor" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4.17-8 4.8-8-4.8V6h.2l7.8 4.68L19.8 6H20Z"/></svg>
+              <input type="text" name="username" placeholder="Email or username" autocomplete="username" required />
+            </div>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" width="18" height="18" class="input-icon"><path fill="currentColor" d="M18 8h-1V6a5 5 0 0 0-10 0v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2Zm-6 9a2 2 0 1 1 2-2 2 2 0 0 1-2 2Zm3-9H9V6a3 3 0 0 1 6 0Z"/></svg>
+              <input type="password" name="password" placeholder="Password" autocomplete="current-password" required />
+            </div>
+            <button type="submit" class="btn btn-primary">
+              <span>Sign in</span>
+              <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 4l-1.4 1.4 5.6 5.6H4v2h12.2l-5.6 5.6L12 20l8-8z"/></svg>
+            </button>
+            <a href="/forgot-password" class="link-muted">Forgot password?</a>
+          </form>
+
+          <form id="formRegister" class="auth-form hidden">
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" width="18" height="18" class="input-icon"><path fill="currentColor" d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4 0-8 2-8 6v2h16v-2c0-4-4-6-8-6Z"/></svg>
+              <input type="text" name="display_name" placeholder="Your name" autocomplete="name" />
+            </div>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" width="18" height="18" class="input-icon"><path fill="currentColor" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4.17-8 4.8-8-4.8V6h.2l7.8 4.68L19.8 6H20Z"/></svg>
+              <input type="email" name="email" placeholder="Email" autocomplete="email" required />
+            </div>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" width="18" height="18" class="input-icon"><path fill="currentColor" d="M18 8h-1V6a5 5 0 0 0-10 0v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2Zm-6 9a2 2 0 1 1 2-2 2 2 0 0 1-2 2Zm3-9H9V6a3 3 0 0 1 6 0Z"/></svg>
+              <input type="password" name="password" placeholder="Password (min. 8)" autocomplete="new-password" minlength="8" required />
+            </div>
+            <label class="terms-row">
+              <input type="checkbox" id="acceptTerms" required />
+              <span>I accept the <a href="/terms" target="_blank">Terms</a> and <a href="/privacy" target="_blank">Privacy</a></span>
+            </label>
+            <button type="submit" class="btn btn-primary">
+              <span>Create account</span>
+              <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 4l-1.4 1.4 5.6 5.6H4v2h12.2l-5.6 5.6L12 20l8-8z"/></svg>
+            </button>
+          </form>
+
+          <p class="legal">
+            By continuing you accept the <a href="/terms" target="_blank">Terms</a> and <a href="/privacy" target="_blank">Privacy</a>.
+          </p>
+        </div>
+      </section>
+
+      <!-- ═══ CATALOG ═══ editorial table of contents -->
+      <section class="view view-catalog hidden" data-view="catalog">
+        <header class="view-head view-head-editorial view-head-catalog">
+          <!-- Editorial sun disk — bold filled center + radiating rays.
+               Classical woodcut feel, reads strong at small size with blur. -->
+          <svg class="vh-symbol vh-symbol-catalog" viewBox="0 0 200 200" aria-hidden="true">
+            <g fill="currentColor">
+              <!-- 8 long pointed rays -->
+              <polygon points="100,4 108,80 92,80"/>
+              <polygon points="100,196 108,120 92,120"/>
+              <polygon points="4,100 80,92 80,108"/>
+              <polygon points="196,100 120,92 120,108"/>
+              <polygon points="32,32 85,85 74,96"/>
+              <polygon points="168,168 115,115 126,104"/>
+              <polygon points="32,168 85,115 96,126"/>
+              <polygon points="168,32 115,85 104,74"/>
+              <!-- 8 shorter rays between -->
+              <polygon points="100,40 104,78 96,78" opacity="0.7"/>
+              <polygon points="100,160 104,122 96,122" opacity="0.7"/>
+              <polygon points="40,100 78,96 78,104" opacity="0.7"/>
+              <polygon points="160,100 122,96 122,104" opacity="0.7"/>
+              <!-- Solid sun disk center -->
+              <circle cx="100" cy="100" r="30"/>
+            </g>
+            <!-- Inner highlight ring -->
+            <circle cx="100" cy="100" r="18" fill="none" stroke="#0e0b07" stroke-width="1.5" opacity="0.35"/>
+            <circle cx="100" cy="100" r="4" fill="#0e0b07" opacity="0.5"/>
+          </svg>
+          <h1>Frequency Vibes</h1>
+          <p class="view-sub">8 Movements &middot; By Eugene Mierak</p>
+          <span class="view-head-rule" aria-hidden="true"></span>
+        </header>
+        <div id="catalogList">
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+        </div>
+      </section>
+
+      <!-- ═══ LIBRARY ═══ -->
+      <section class="view view-library hidden" data-view="library">
+        <header class="view-head view-head-editorial view-head-library">
+          <!-- Editorial crescent moon — clean concentric-with-offset cut,
+               single star outside the dark zone (no "eye" effect). -->
+          <svg class="vh-symbol vh-symbol-library" viewBox="0 0 200 200" aria-hidden="true">
+            <!-- Crescent: outer disk r=88, inner cut r=72 offset up-right -->
+            <path d="M 100 12
+                     A 88 88 0 1 1 100 188
+                     A 88 88 0 1 1 100 12
+                     M 124 30
+                     A 72 72 0 1 1 124 174
+                     A 72 72 0 1 1 124 30 Z"
+                  fill="currentColor" fill-rule="evenodd"/>
+            <!-- Soft inner highlight — thin gold arc along the crescent's inner edge -->
+            <path d="M 56 54 Q 30 100 56 146"
+                  fill="none" stroke="currentColor" stroke-width="1.4"
+                  stroke-linecap="round" opacity="0.4"/>
+            <!-- One small traveler-star, clearly OUTSIDE the moon (upper-right space) -->
+            <polygon points="186,42 188,48 194,50 188,52 186,58 184,52 178,50 184,48"
+                     fill="currentColor" opacity="0.7"/>
+          </svg>
+          <h1>Library</h1>
+          <p class="view-sub">Your journey through the movements</p>
+          <span class="view-head-rule" aria-hidden="true"></span>
+        </header>
+        <div id="libraryList"></div>
+      </section>
+
+      <!-- ═══ BUNDLE OFFER DETAIL ═══ -->
+      <section class="view view-bundle hidden" data-view="bundle">
+        <header class="book-head">
+          <button type="button" class="book-back" data-go-tab="catalog" aria-label="Back">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M15.4 7.4 14 6l-6 6 6 6 1.4-1.4L10.8 12z"/></svg>
+          </button>
+        </header>
+        <div class="bundle-detail">
+          <span class="bundle-detail-badge">Best value</span>
+          <h1 class="bundle-detail-title">Unlock the full book</h1>
+          <p class="bundle-detail-lead">
+            Every chapter Eugene has published, in three carefully crafted forms.
+            One purchase, kept for this account forever.
+          </p>
+
+          <div class="bundle-detail-price">
+            <span class="bundle-detail-strike" id="bundleDetailStrike">&euro;96</span>
+            <span class="bundle-detail-total">&euro;50</span>
+            <span class="bundle-detail-save" id="bundleDetailSave">save &euro;46</span>
+          </div>
+
+          <ul class="bundle-mode-list">
+            <li class="bundle-mode-row">
+              <span class="bmr-num">I</span>
+              <div class="bmr-body">
+                <span class="bmr-title">Illustrated pages</span>
+                <p class="bmr-desc">The author&rsquo;s original PDF with every diagram, margin, note, and illustration preserved exactly as published.</p>
+              </div>
+            </li>
+            <li class="bundle-mode-row">
+              <span class="bmr-num">II</span>
+              <div class="bmr-body">
+                <span class="bmr-title">Narrated audio</span>
+                <p class="bmr-desc">Read aloud by Eugene himself in a close, intimate recording for walking, cooking, or resting.</p>
+              </div>
+            </li>
+            <li class="bundle-mode-row">
+              <span class="bmr-num">III</span>
+              <div class="bmr-body">
+                <span class="bmr-title">Plain text</span>
+                <p class="bmr-desc">Just the words, reflowed for distraction-free reading on any screen or reader preference.</p>
+              </div>
+            </li>
+          </ul>
+
+          <button type="button" class="btn btn-primary bundle-detail-cta" id="bundleDetailCta">
+            Complete purchase &middot; &euro;50
+          </button>
+          <p class="bundle-detail-legal">
+            Secure payment via Stripe &middot; VAT included &middot; Lifetime access to all current and future chapters
+          </p>
+        </div>
+      </section>
+
+      <!-- ═══ BOOK DETAIL ═══ -->
+      <section class="view view-book hidden" data-view="book">
+        <header class="book-head">
+          <button type="button" class="book-back" data-go-tab="catalog" aria-label="Back">
+            <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M15 6l-6 6 6 6"/></svg>
+          </button>
+        </header>
+        <div class="book-detail" id="bookDetail">
+          <div class="skeleton-card" style="height:280px;margin-top:12px"></div>
+        </div>
+      </section>
+
+      <!-- ═══ READER ═══ -->
+      <section class="view view-reader hidden" data-view="reader">
+        <header class="reader-head">
+          <button type="button" class="book-back" data-go-tab="catalog" aria-label="Back">
+            <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M15 6l-6 6 6 6"/></svg>
+          </button>
+          <span id="readerTitle" class="reader-title">Chapter</span>
+          <button id="readerAudioBtn" class="reader-audio-btn hidden" type="button" aria-label="Play audio">
+            <svg class="icon-play" viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="20" height="20" style="display:none"><path fill="currentColor" d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+          </button>
+        </header>
+        <div id="readerVariantTabs" class="reader-variant-tabs hidden">
+          <button type="button" class="variant-tab active" data-variant="pdf">
+            <svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M19 2H8a2 2 0 0 0-2 2v14a3 3 0 0 0 3 3h10V4a2 2 0 0 0-2-2Zm-1 17H9a1 1 0 0 1 0-2h9Zm-2-9h-5V4h5Z"/></svg>
+            <span>Chapter</span>
+          </button>
+          <button type="button" class="variant-tab" data-variant="slides">
+            <svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M4 4h16v12H4zm0 14h10v2H4zm12 0h4v2h-4z"/></svg>
+            <span>Slides</span>
+          </button>
+          <button type="button" class="variant-tab" data-variant="text">
+            <svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M3 5h18v2H3zm0 5h18v2H3zm0 5h12v2H3z"/></svg>
+            <span>Text</span>
+          </button>
+        </div>
+        <audio id="readerAudio" preload="none" style="display:none"></audio>
+        <div id="readerFrameWrap" class="reader-frame-wrap">
+          <div class="reader-loading">
+            <div class="reader-spinner"></div>
+            <span>Loading chapter…</span>
+          </div>
+        </div>
+        <!-- Plain-text reader pane — shown when Text variant is active -->
+        <div id="readerTextPane" class="reader-text-pane hidden" aria-hidden="true"></div>
+      </section>
+
+      <!-- ═══ ACCOUNT ═══ -->
+      <section class="view view-account hidden" data-view="account">
+        <header class="view-head view-head-editorial view-head-account">
+          <!-- Mountain range silhouette on black background — the traveller's
+               view. Moon rising, front + back ranges, lone star at the peak. -->
+          <svg class="vh-symbol vh-symbol-account" viewBox="0 0 200 200" aria-hidden="true">
+            <circle cx="148" cy="70" r="22" fill="currentColor" opacity="0.55"/>
+            <path d="M 0 140 L 30 108 L 55 128 L 82 94 L 115 122 L 150 92 L 180 118 L 200 108 L 200 200 L 0 200 Z"
+                  fill="currentColor" opacity="0.55"/>
+            <path d="M 0 170 L 22 140 L 48 162 L 75 120 L 98 148 L 128 110 L 155 150 L 180 130 L 200 148 L 200 200 L 0 200 Z"
+                  fill="currentColor"/>
+            <polygon points="100,38 102,44 108,45 102,46 100,52 98,46 92,45 98,44"
+                     fill="currentColor" opacity="0.75"/>
+          </svg>
+          <span class="eyebrow">You</span>
+          <h1 id="accountName">Reader</h1>
+          <p class="view-sub" id="accountEmail">—</p>
+          <span class="view-head-rule" aria-hidden="true"></span>
+        </header>
+        <div class="links-group">
+          <a id="linkAndroid" class="link-row" href="#" aria-disabled="true">
+            <div class="link-platform">
+              <span class="link-icon link-icon-android">
+                <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M17.6 9.48l1.84-3.18a.4.4 0 0 0-.54-.54L16.9 9.12a11.43 11.43 0 0 0-9.8 0L5.24 5.76a.4.4 0 0 0-.54.54L6.4 9.48A10.81 10.81 0 0 0 1 18h22a10.81 10.81 0 0 0-5.4-8.52ZM7 15.25a1.25 1.25 0 1 1 1.25-1.25A1.25 1.25 0 0 1 7 15.25Zm10 0a1.25 1.25 0 1 1 1.25-1.25A1.25 1.25 0 0 1 17 15.25Z"/></svg>
+              </span>
+              <div>
+                <strong>Android app</strong>
+                <span id="linkAndroidStatus">Private testing — coming soon</span>
+              </div>
+            </div>
+            <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M9 6l6 6-6 6"/></svg>
+          </a>
+          <button id="linkIos" class="link-row" type="button">
+            <div class="link-platform">
+              <span class="link-icon link-icon-ios">
+                <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M16.37 12.13a3.36 3.36 0 0 1 1.58-2.79 3.36 3.36 0 0 0-2.64-1.43c-1.12-.11-2.2.66-2.76.66s-1.45-.64-2.4-.62A3.51 3.51 0 0 0 7.1 9.74c-1.26 2.19-.32 5.43.9 7.21.6.87 1.32 1.85 2.26 1.81s1.26-.58 2.36-.58 1.41.58 2.37.57c.98-.02 1.6-.89 2.2-1.76a7.72 7.72 0 0 0 1-2.06 3.29 3.29 0 0 1-1.82-2.8ZM14.6 6.24a3.24 3.24 0 0 0 .74-2.33 3.28 3.28 0 0 0-2.13 1.1 3.1 3.1 0 0 0-.76 2.27 2.72 2.72 0 0 0 2.15-1.04Z"/></svg>
+              </span>
+              <div>
+                <strong>iPhone / iPad</strong>
+                <span>Install as app — tap for steps</span>
+              </div>
+            </div>
+            <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M9 6l6 6-6 6"/></svg>
+          </button>
+          <a class="link-row" href="mailto:zakirsternik3c@gmail.com?subject=BookVoice%20support">
+            <div>
+              <strong>Contact support</strong>
+              <span>zakirsternik3c@gmail.com</span>
+            </div>
+            <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M9 6l6 6-6 6"/></svg>
+          </a>
+          <a class="link-row" href="/terms" target="_blank">
+            <div>
+              <strong>Terms of service</strong>
+            </div>
+            <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M9 6l6 6-6 6"/></svg>
+          </a>
+          <a class="link-row" href="/privacy" target="_blank">
+            <div>
+              <strong>Privacy policy</strong>
+            </div>
+            <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M9 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <button id="btnEditProfile" class="btn btn-ghost" type="button">Edit profile</button>
+        <button id="btnSignOut" class="btn btn-ghost-danger" type="button">Sign out</button>
+        <p class="version" id="appVersion">BookVoice web</p>
+      </section>
+    </div>
+
+    <nav class="tab-bar" id="tabBar" aria-label="Main sections">
+      <button class="tab" data-tab="catalog" aria-label="Catalog">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
+        <span>Catalog</span>
+      </button>
+      <button class="tab" data-tab="library" aria-label="Library">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M19 2H8a2 2 0 0 0-2 2v14a3 3 0 0 0 3 3h10V4a2 2 0 0 0-2-2Zm-1 17H9a1 1 0 0 1 0-2h9Zm-2-9h-5V4h5Z"/></svg>
+        <span>Library</span>
+      </button>
+      <button class="tab" data-tab="account" aria-label="Account">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4 0-8 2-8 6v2h16v-2c0-4-4-6-8-6Z"/></svg>
+        <span>Account</span>
+      </button>
+    </nav>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <div id="iosInstallModal" class="ios-modal hidden" role="dialog" aria-modal="true">
+      <div class="ios-modal-backdrop" data-close-ios></div>
+      <div class="ios-modal-card">
+        <button class="ios-modal-close" type="button" data-close-ios aria-label="Close">×</button>
+        <div class="ios-modal-header">
+          <div class="ios-modal-icon"><img src="/icons/bookvoice-192.png" alt="BookVoice" /></div>
+          <div>
+            <h2>Add BookVoice to your Home Screen</h2>
+            <p>Three taps in Safari and BookVoice opens like a native app.</p>
+          </div>
+        </div>
+        <ol class="ios-modal-steps">
+          <li><span class="step-num">1</span><div><strong>Tap the Share icon</strong><p>At the bottom of Safari — square with an arrow pointing up.</p></div></li>
+          <li><span class="step-num">2</span><div><strong>Tap "Add to Home Screen"</strong><p>Scroll the actions and find the one with the plus icon.</p></div></li>
+          <li><span class="step-num">3</span><div><strong>Tap "Add"</strong><p>BookVoice shows up as an app icon.</p></div></li>
+        </ol>
+        <p class="ios-modal-note">Must use Safari — Chrome on iOS cannot install web apps.</p>
+        <button class="btn btn-primary" type="button" data-close-ios>Got it</button>
+      </div>
+    </div>
+
+    <div id="profileModal" class="profile-modal hidden" role="dialog" aria-modal="true">
+      <div class="profile-modal-backdrop" data-close-profile></div>
+      <div class="profile-modal-card">
+        <button class="profile-modal-close" type="button" data-close-profile aria-label="Close">×</button>
+        <h2>Edit profile</h2>
+
+        <form id="profileEditForm" class="profile-form">
+          <label>
+            Display name
+            <input name="display_name" id="profileDisplayName" type="text" maxlength="80" placeholder="How we greet you" />
+          </label>
+          <label>
+            Email
+            <input name="email" id="profileEmail" type="email" autocomplete="email" placeholder="you@example.com" />
+          </label>
+          <p class="profile-note">Changing your email will require verifying the new address.</p>
+          <button class="btn btn-primary" type="submit">Save profile</button>
+        </form>
+
+        <div class="profile-divider"></div>
+
+        <form id="profilePasswordForm" class="profile-form">
+          <h3>Change password</h3>
+          <label>
+            Current password
+            <input name="current_password" type="password" autocomplete="current-password" required />
+          </label>
+          <label>
+            New password
+            <input name="new_password" type="password" autocomplete="new-password" minlength="8" required />
+          </label>
+          <button class="btn btn-primary" type="submit">Update password</button>
+        </form>
+
+        <div id="profileMessage" class="profile-message hidden"></div>
+
+        <div class="profile-danger-zone">
+          <a href="/delete-account" class="profile-danger-link">Delete my account</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="readerOnboardModal" class="reader-onboard-overlay hidden" role="dialog" aria-modal="true">
+      <div class="reader-onboard-card">
+        <div class="reader-onboard-progress">
+          <span class="reader-onboard-dot is-active" data-step-dot="0"></span>
+          <span class="reader-onboard-dot" data-step-dot="1"></span>
+          <span class="reader-onboard-dot" data-step-dot="2"></span>
+        </div>
+
+        <div class="reader-onboard-steps">
+          <div class="reader-onboard-step is-active" data-step="0">
+            <div class="reader-onboard-icon">
+              <svg viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M12 4a1 1 0 0 1 1 1v11.586l3.293-3.293a1 1 0 1 1 1.414 1.414l-5 5a1 1 0 0 1-1.414 0l-5-5a1 1 0 1 1 1.414-1.414L11 16.586V5a1 1 0 0 1 1-1Z"/></svg>
+            </div>
+            <h3>Scroll to turn pages</h3>
+            <p>The whole chapter loads vertically. Slide your finger up to keep reading.</p>
+          </div>
+
+          <div class="reader-onboard-step" data-step="1">
+            <div class="reader-onboard-icon">
+              <svg viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M12 3a4 4 0 0 1 4 4v5a4 4 0 0 1-8 0V7a4 4 0 0 1 4-4Zm6 9a1 1 0 0 1 1 1 7 7 0 0 1-6 6.93V22a1 1 0 0 1-2 0v-2.07A7 7 0 0 1 5 13a1 1 0 0 1 2 0 5 5 0 0 0 10 0 1 1 0 0 1 1-1Z"/></svg>
+            </div>
+            <h3>Tap the audio pill to listen</h3>
+            <p>Eugene narrates every chapter himself. Tap the pill at the top to play along while you read.</p>
+          </div>
+
+          <div class="reader-onboard-step" data-step="2">
+            <div class="reader-onboard-icon">
+              <svg viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M4 5a2 2 0 0 1 2-2h5v18H6a2 2 0 0 1-2-2Zm9 16V3h5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2Z"/></svg>
+            </div>
+            <h3>Switch between Chapter & Slides</h3>
+            <p>Tabs above let you jump from the chapter's original manuscript to a visual slide deck of the same content.</p>
+          </div>
+        </div>
+
+        <div class="reader-onboard-actions">
+          <button id="readerOnboardSkip" class="reader-onboard-skip" type="button">Skip</button>
+          <button id="readerOnboardNext" class="reader-onboard-next" type="button">Next</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="purchaseReceiptOverlay" class="m-receipt-overlay hidden" role="dialog" aria-modal="true">
+      <div class="m-receipt-card">
+        <div class="m-receipt-seal">&#10023;</div>
+        <div class="m-receipt-eyebrow">Purchase complete</div>
+        <div class="m-receipt-cover-frame">
+          <img id="mReceiptCoverImg" class="m-receipt-cover-img" src="/covers/frequency-vibes.jpg" alt="Chapter cover" />
+        </div>
+        <h2 class="m-receipt-title">The chapter is yours.</h2>
+        <p class="m-receipt-sub" id="mReceiptQuote">Your library has grown. Open the chapter whenever you're ready.</p>
+        <div class="m-receipt-detail">
+          <span>Chapter</span>
+          <strong id="mReceiptChapter">—</strong>
+        </div>
+        <div class="m-receipt-detail">
+          <span>Author</span>
+          <strong>Eugene Mierak</strong>
+        </div>
+        <div class="m-receipt-detail">
+          <span>Amount</span>
+          <strong id="mReceiptAmount">€11.99</strong>
+        </div>
+        <button id="mReceiptReadNowBtn" class="m-receipt-cta" type="button">Start reading</button>
+        <button id="mReceiptEnterLibraryBtn" class="m-receipt-cta-ghost" type="button">Go to my library</button>
+      </div>
+    </div>
+
+    <script src="/mobile.js?v=20260424senda7"></script>
+
+    <!-- ============ Editorial wave field (mobile-optimised, full scene) ============
+         Horizontal lines + drifting sacred glyphs + signal streaks + nebulas +
+         stars — same design language as the desktop canvas, lighter parameters
+         tuned for mobile GPU. -->
+    <script>
+    (function () {
+      const canvas = document.getElementById('mField');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d', { alpha: true });
+      const MOTION_OK = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let W = 0, H = 0, dpr = 1;
+
+      // Mobile browser chrome (URL bar) hides/shows on scroll and fires
+      // `resize` events even though the viewport didn't really change.
+      // We only reconfigure the canvas when the WIDTH changes (or on
+      // orientation change) — height fluctuations from the chrome toggling
+      // are absorbed by the oversized buffer we allocate the first time.
+      let lastW = 0;
+      function resize(force) {
+        const newW = window.innerWidth;
+        if (!force && newW === lastW) return;
+        lastW = newW;
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        W = newW;
+        // Use the larger of innerHeight and screen.height so the canvas
+        // never visibly shrinks when the mobile URL bar appears.
+        const maxH = Math.max(window.innerHeight, (screen && screen.height) || 0);
+        H = maxH;
+        canvas.width = Math.floor(W * dpr);
+        canvas.height = Math.floor(H * dpr);
+        canvas.style.width = W + 'px';
+        canvas.style.height = H + 'px';
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(dpr, dpr);
+      }
+      resize(true);
+      window.addEventListener('resize', () => resize(false));
+      window.addEventListener('orientationchange', () => resize(true));
+
+      // Inline perlin noise
+      const perm = new Uint8Array(512);
+      for (let i = 0; i < 256; i++) perm[i] = Math.floor(Math.random() * 256);
+      for (let i = 0; i < 256; i++) perm[i + 256] = perm[i];
+      const fade = t => t * t * t * (t * (t * 6 - 15) + 10);
+      const lerp = (t, a, b) => a + t * (b - a);
+      const grad = (h, x, y) => {
+        const u = (h & 3) < 2 ? x : y;
+        const v = (h & 3) < 2 ? y : x;
+        return ((h & 1) === 0 ? u : -u) + ((h & 2) === 0 ? v : -v);
+      };
+      function perlin(x, y) {
+        const X = Math.floor(x) & 255, Y = Math.floor(y) & 255;
+        x -= Math.floor(x); y -= Math.floor(y);
+        const u = fade(x), v = fade(y);
+        const A = perm[X] + Y, B = perm[X + 1] + Y;
+        return lerp(v,
+          lerp(u, grad(perm[A], x, y), grad(perm[B], x - 1, y)),
+          lerp(u, grad(perm[A + 1], x, y - 1), grad(perm[B + 1], x - 1, y - 1)));
+      }
+
+      // ================= Scene parameters (mobile-tuned) =================
+      const LINE_COUNT = Math.max(18, Math.min(32, Math.floor(H / 28)));
+      const POINTS_PER_LINE = 80;
+      const LINE_AMP = 5;
+
+      // Nebulas — soft radial clouds (rendered once via cached gradients)
+      const NEBULA_SEEDS = [
+        { xFrac: 0.18, yFrac: 0.24, r: 140, hue: [180, 67, 42] },
+        { xFrac: 0.82, yFrac: 0.34, r: 180, hue: [212, 162, 74] },
+        { xFrac: 0.50, yFrac: 0.72, r: 160, hue: [180, 67, 42] },
+        { xFrac: 0.25, yFrac: 0.88, r: 120, hue: [212, 162, 74] },
+      ];
+      const nebulas = NEBULA_SEEDS.map(s => ({ ...s, t0: Math.random() * 5 }));
+
+      // Stars — tiny static dots in three brightness tiers
+      const STAR_COUNT = 60;
+      const stars = [];
+      for (let i = 0; i < STAR_COUNT; i++) {
+        stars.push({
+          x: Math.random() * 1, // fraction
+          y: Math.random() * 1,
+          size: Math.random() < 0.14 ? 1.5 : Math.random() < 0.5 ? 1 : 0.6,
+          phase: Math.random() * Math.PI * 2,
+          rate: 0.6 + Math.random() * 1.6,
+        });
+      }
+
+      // Sacred glyphs — 5 types spaced generously so the background breathes.
+      const glyphs = [
+        { type: 'circle',    yFrac: 0.15, r: 26, speed: 14, x: W * 0.22 },
+        { type: 'hex',       yFrac: 0.35, r: 28, speed: 20, x: W * 0.70 },
+        { type: 'merkaba',   yFrac: 0.54, r: 24, speed: 16, x: W * 0.18 },
+        { type: 'spiral',    yFrac: 0.72, r: 26, speed: 15, x: W * 0.62 },
+        { type: 'flower',    yFrac: 0.88, r: 24, speed: 13, x: W * 0.30 },
+      ];
+
+      // Touch ripples + gravity well — smooth, slow (mirrors desktop feel).
+      const ripples = [];
+      let touchGravity = null; // {x, y} while a finger is pressed
+      let lastRippleAt = 0;
+      function spawnRipple(x, y) {
+        if (time - lastRippleAt < 0.25) return; // throttle rapid-fire taps
+        lastRippleAt = time;
+        ripples.push({ x, y, t0: time, life: 2.4 });
+      }
+      function shouldIgnore(target) {
+        if (!target) return false;
+        return !!target.closest('button, a, input, textarea, [role="button"], .input-wrap, .book-card, .card');
+      }
+      window.addEventListener('touchstart', (e) => {
+        if (shouldIgnore(e.target)) return;
+        const t = e.touches[0];
+        if (t) {
+          spawnRipple(t.clientX, t.clientY);
+          touchGravity = { x: t.clientX, y: t.clientY };
+        }
+      }, { passive: true });
+      window.addEventListener('touchmove', (e) => {
+        if (shouldIgnore(e.target)) return;
+        const t = e.touches[0];
+        if (t) touchGravity = { x: t.clientX, y: t.clientY };
+      }, { passive: true });
+      window.addEventListener('touchend', () => { touchGravity = null; }, { passive: true });
+      window.addEventListener('mousedown', (e) => {
+        if (shouldIgnore(e.target)) return;
+        spawnRipple(e.clientX, e.clientY);
+      });
+
+      // Signal streaks — slow, calm shooting-star-like diagonals (mobile-tuned)
+      const streaks = [];
+      function spawnStreak() {
+        streaks.push({
+          x: -60,
+          y: Math.random() * H,
+          vx: 70 + Math.random() * 60,   // ~3× slower than before
+          vy: (Math.random() - 0.5) * 20,
+          life: 0,
+          maxLife: 3 + Math.random() * 2, // lives longer, feels gentle
+        });
+      }
+      let streakTimer = 0;
+
+      let time = 0;
+      let last = performance.now();
+
+      // ================= Drawing helpers =================
+      function drawNebulas() {
+        for (let i = 0; i < nebulas.length; i++) {
+          const n = nebulas[i];
+          const cx = W * n.xFrac;
+          const cy = H * n.yFrac;
+          const breath = 0.8 + Math.sin(time * 0.35 + n.t0) * 0.15;
+          const r = n.r * breath;
+          const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+          g.addColorStop(0, `rgba(${n.hue[0]},${n.hue[1]},${n.hue[2]}, 0.075)`);
+          g.addColorStop(0.55, `rgba(${n.hue[0]},${n.hue[1]},${n.hue[2]}, 0.025)`);
+          g.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(cx, cy, r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function drawStars() {
+        for (let i = 0; i < stars.length; i++) {
+          const s = stars[i];
+          const twinkle = 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(time * s.rate + s.phase));
+          ctx.fillStyle = `rgba(236, 220, 180, ${0.3 * twinkle})`;
+          ctx.beginPath();
+          ctx.arc(s.x * W, s.y * H, s.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function drawLines() {
+        ctx.strokeStyle = 'rgba(70, 120, 210, 0.48)';
+        ctx.lineWidth = 0.9;
+        ctx.lineCap = 'round';
+        const gap = H / (LINE_COUNT + 1);
+        const stepX = W / (POINTS_PER_LINE - 1);
+
+        const gravity = touchGravity; // local snapshot
+
+        for (let i = 0; i < LINE_COUNT; i++) {
+          const yBase = gap * (i + 1);
+          ctx.beginPath();
+          for (let j = 0; j < POINTS_PER_LINE; j++) {
+            const x = j * stepX;
+            let y = yBase + perlin(j * 0.028 + time * 0.35, i * 0.42 + time * 0.2)
+                         * LINE_AMP * (0.7 + Math.sin(i * 0.3) * 0.3);
+
+            // Gravity well while finger is pressed — gentle gaussian pull
+            if (gravity) {
+              const dx = x - gravity.x;
+              const dy = yBase - gravity.y;
+              const dist2 = dx * dx + dy * dy;
+              const sigma2 = 130 * 130;
+              const pull = Math.exp(-dist2 / (2 * sigma2));
+              y += (gravity.y - yBase) * pull * 0.28;
+            }
+
+            // Radial ripples — slow expanding sinusoidal bump (desktop-feel)
+            for (let r = 0; r < ripples.length; r++) {
+              const rp = ripples[r];
+              const age = time - rp.t0;
+              if (age < 0 || age > rp.life) continue;
+              const radius = age * 180; // gentle 180 px/sec expansion
+              const dx = x - rp.x;
+              const dy = yBase - rp.y;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+              const band = Math.exp(-((dist - radius) * (dist - radius)) / (2 * 110 * 110));
+              const fade = Math.pow(1 - age / rp.life, 1.6);
+              y += Math.sin((dist - radius) * 0.12) * 7 * band * fade;
+            }
+
+            if (j === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        }
+      }
+
+      function drawGlyph(g) {
+        const cy = H * g.yFrac;
+        const cx = g.x;
+        ctx.save();
+        ctx.strokeStyle = 'rgba(212, 162, 74, 0.55)';
+        ctx.lineWidth = 0.9;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        const rot = time * 0.18 + g.x * 0.003;
+
+        if (g.type === 'circle') {
+          ctx.beginPath();
+          ctx.arc(cx, cy, g.r, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(cx, cy, g.r * 0.55, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(cx, cy, 1.8, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(212, 162, 74, 0.6)';
+          ctx.fill();
+        } else if (g.type === 'triangle') {
+          ctx.beginPath();
+          for (let i = 0; i < 3; i++) {
+            const a = rot + i * (Math.PI * 2 / 3) - Math.PI / 2;
+            const px = cx + Math.cos(a) * g.r;
+            const py = cy + Math.sin(a) * g.r;
+            if (i === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+          }
+          ctx.closePath();
+          ctx.stroke();
+        } else if (g.type === 'merkaba') {
+          // Two overlapping triangles (Star of David)
+          for (let s = 0; s < 2; s++) {
+            ctx.beginPath();
+            for (let i = 0; i < 3; i++) {
+              const a = rot + i * (Math.PI * 2 / 3) - Math.PI / 2 + (s * Math.PI);
+              const px = cx + Math.cos(a) * g.r;
+              const py = cy + Math.sin(a) * g.r;
+              if (i === 0) ctx.moveTo(px, py);
+              else ctx.lineTo(px, py);
+            }
+            ctx.closePath();
+            ctx.stroke();
+          }
+        } else if (g.type === 'pentagram') {
+          // 5-point star traced as a single pentagram line
+          ctx.beginPath();
+          for (let i = 0; i <= 5; i++) {
+            const a = rot + (i * 2 * (Math.PI * 2 / 5)) - Math.PI / 2;
+            const px = cx + Math.cos(a) * g.r;
+            const py = cy + Math.sin(a) * g.r;
+            if (i === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+          }
+          ctx.stroke();
+          // Encircling ring
+          ctx.beginPath();
+          ctx.arc(cx, cy, g.r * 1.08, 0, Math.PI * 2);
+          ctx.stroke();
+        } else if (g.type === 'hex') {
+          // Hexagon outline (Seed-of-life style), with a smaller inner hex
+          for (let s = 0; s < 2; s++) {
+            ctx.beginPath();
+            const rad = s === 0 ? g.r : g.r * 0.5;
+            for (let i = 0; i < 6; i++) {
+              const a = rot + i * (Math.PI / 3);
+              const px = cx + Math.cos(a) * rad;
+              const py = cy + Math.sin(a) * rad;
+              if (i === 0) ctx.moveTo(px, py);
+              else ctx.lineTo(px, py);
+            }
+            ctx.closePath();
+            ctx.stroke();
+          }
+        } else if (g.type === 'crossed') {
+          // Equal-armed cross inside a circle (cardinal points)
+          ctx.beginPath();
+          ctx.arc(cx, cy, g.r, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.beginPath();
+          const ca = Math.cos(rot), sa = Math.sin(rot);
+          ctx.moveTo(cx - g.r * ca, cy - g.r * sa);
+          ctx.lineTo(cx + g.r * ca, cy + g.r * sa);
+          ctx.moveTo(cx + g.r * sa, cy - g.r * ca);
+          ctx.lineTo(cx - g.r * sa, cy + g.r * ca);
+          ctx.stroke();
+        } else if (g.type === 'vesica') {
+          // Vesica Piscis — two overlapping circles sharing a lens
+          const off = g.r * 0.55;
+          ctx.beginPath();
+          ctx.arc(cx - off, cy, g.r, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(cx + off, cy, g.r, 0, Math.PI * 2);
+          ctx.stroke();
+          // Center dot
+          ctx.beginPath();
+          ctx.arc(cx, cy, 1.6, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(212, 162, 74, 0.55)';
+          ctx.fill();
+        } else if (g.type === 'flower') {
+          // Flower of Life fragment — 6 petals around a center circle
+          const petalR = g.r * 0.6;
+          ctx.beginPath();
+          ctx.arc(cx, cy, petalR, 0, Math.PI * 2);
+          ctx.stroke();
+          for (let i = 0; i < 6; i++) {
+            const a = rot + i * (Math.PI / 3);
+            const px = cx + Math.cos(a) * petalR;
+            const py = cy + Math.sin(a) * petalR;
+            ctx.beginPath();
+            ctx.arc(px, py, petalR, 0, Math.PI * 2);
+            ctx.stroke();
+          }
+        } else if (g.type === 'infinity') {
+          // Lemniscate (horizontal figure 8)
+          ctx.beginPath();
+          const steps = 60;
+          const a = g.r * 1.1;
+          for (let i = 0; i <= steps; i++) {
+            const tt = (i / steps) * Math.PI * 2;
+            const denom = 1 + Math.sin(tt) * Math.sin(tt);
+            const px = cx + (a * Math.cos(tt)) / denom;
+            const py = cy + (a * Math.sin(tt) * Math.cos(tt)) / denom;
+            if (i === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+          }
+          ctx.stroke();
+        } else if (g.type === 'spiral') {
+          // Archimedean spiral — 3 turns growing outward
+          ctx.beginPath();
+          const turns = 3;
+          const steps = 90;
+          for (let i = 0; i <= steps; i++) {
+            const t = (i / steps) * turns * Math.PI * 2;
+            const rr = (i / steps) * g.r;
+            const px = cx + Math.cos(t + rot) * rr;
+            const py = cy + Math.sin(t + rot) * rr;
+            if (i === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+          }
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      function drawStreak(s) {
+        const alpha = 1 - (s.life / s.maxLife);
+        const len = 80 + s.life * s.vx;
+        const gx = s.x - (s.vx / Math.abs(s.vx || 1)) * len * 0.3;
+        const gy = s.y - (s.vy / Math.max(1, Math.abs(s.vy || 1))) * len * 0.3;
+        const g = ctx.createLinearGradient(gx, gy, s.x, s.y);
+        g.addColorStop(0, 'rgba(236, 220, 180, 0)');
+        g.addColorStop(0.5, `rgba(236, 220, 180, ${0.35 * alpha})`);
+        g.addColorStop(1, `rgba(255, 240, 200, ${0.85 * alpha})`);
+        ctx.strokeStyle = g;
+        ctx.lineWidth = 1.3;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(gx, gy);
+        ctx.lineTo(s.x, s.y);
+        ctx.stroke();
+      }
+
+      // ================= RAF loop =================
+      function render(now) {
+        const dt = Math.min(40, now - last);
+        last = now;
+
+        if (document.hidden) {
+          if (MOTION_OK) requestAnimationFrame(render);
+          return;
+        }
+
+        time += dt * 0.001;
+
+        // Advance glyph positions (lane-based horizontal drift)
+        for (let i = 0; i < glyphs.length; i++) {
+          glyphs[i].x += glyphs[i].speed * dt / 1000;
+          if (glyphs[i].x - glyphs[i].r > W + 40) glyphs[i].x = -glyphs[i].r - 40;
+        }
+
+        // Advance streaks — spawn rarely so they feel like rare events
+        streakTimer += dt * 0.001;
+        if (streakTimer > (4 + Math.random() * 4) && streaks.length < 2) {
+          spawnStreak();
+          streakTimer = 0;
+        }
+        for (let i = streaks.length - 1; i >= 0; i--) {
+          const s = streaks[i];
+          s.x += s.vx * dt / 1000;
+          s.y += s.vy * dt / 1000;
+          s.life += dt / 1000;
+          if (s.life > s.maxLife || s.x > W + 200) streaks.splice(i, 1);
+        }
+
+        // Expire finished ripples
+        for (let i = ripples.length - 1; i >= 0; i--) {
+          if (time - ripples[i].t0 > ripples[i].life) ripples.splice(i, 1);
+        }
+
+        ctx.clearRect(0, 0, W, H);
+
+        drawNebulas();
+        drawStars();
+        drawLines();
+        for (let i = 0; i < glyphs.length; i++) drawGlyph(glyphs[i]);
+        for (let i = 0; i < streaks.length; i++) drawStreak(streaks[i]);
+
+        if (MOTION_OK) requestAnimationFrame(render);
+      }
+
+      // Reader-entry transition: positive phase contracts (0 → 1 → scale 0.76),
+      // negative phase overshoots outward (0 → -1 → scale 1.4 expansion glow).
+      // GPU-accelerated via CSS transform on the canvas DOM element.
+      window.__bookvoiceFieldInhale = function (p) {
+        const phase = Math.max(-1, Math.min(1, Number(p) || 0));
+        if (phase === 0) {
+          canvas.style.transform = '';
+          canvas.style.opacity = '';
+          canvas.style.filter = '';
+          return;
+        }
+        canvas.style.transformOrigin = '50% 50%';
+        if (phase > 0) {
+          // Inhale — contract inward with slight fade + blur
+          const scale = 1 - phase * 0.24;            // 1 → 0.76
+          canvas.style.transform = 'scale(' + scale + ')';
+          canvas.style.opacity = String(1 - phase * 0.55);
+          canvas.style.filter = 'blur(' + (phase * 1.4).toFixed(2) + 'px)';
+        } else {
+          // Overshoot — expand outward past normal, clean (no blur/fade)
+          const scale = 1 + (-phase) * 0.4;          // 1 → 1.4 at peak
+          canvas.style.transform = 'scale(' + scale.toFixed(3) + ')';
+          canvas.style.opacity = '1';
+          canvas.style.filter = '';
+        }
+      };
+
+      if (MOTION_OK) requestAnimationFrame(render);
+      else render(performance.now()); // single static frame
+    })();
+    </script>
+  </body>
+</html>

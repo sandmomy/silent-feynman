@@ -1,5 +1,17 @@
 ﻿const common = window.BookVoiceCommon;
 
+(function applyMobileChrome() {
+  try {
+    const chrome = new URLSearchParams(window.location.search).get('chrome');
+    if (chrome === 'mobile' || chrome === 'mobile-reader') {
+      document.body.classList.add('mobile-chrome');
+    }
+    if (chrome === 'mobile-reader') {
+      document.body.classList.add('mobile-reader');
+    }
+  } catch {}
+})();
+
 function requestedStageFromUrl() {
   const stage = new URLSearchParams(window.location.search).get('stage');
   return ['preview', 'login', 'library'].includes(stage) ? stage : 'preview';
@@ -13,6 +25,7 @@ const state = {
   routeSlug: common.slugFromLocation(),
   homeStage: requestedStageFromUrl(),
   authMode: 'register',
+  libraryView: 'personal',
   pdfLib: null,
   pdfDocument: null,
   pdfSourceUrl: null,
@@ -40,6 +53,7 @@ const elements = {
   customerDetailView: document.querySelector('#customerDetailView'),
   customerTopState: document.querySelector('#customerTopState'),
   customerTopLogoutBtn: document.querySelector('#customerTopLogoutBtn'),
+  customerLibraryToggleBtn: document.querySelector('#customerLibraryToggleBtn'),
   customerMessage: document.querySelector('#customerMessage'),
   stagePreviewBtn: document.querySelector('#stagePreviewBtn'),
   stageLoginBtn: document.querySelector('#stageLoginBtn'),
@@ -67,7 +81,7 @@ const INSTALL_BANNER_KEY = 'bookvoice_install_banner_dismissed_v1';
 
 const mainOffer = {
   label: 'Introduction chapter',
-  price: 'EUR 9.99',
+  price: '\u20ac10',
   description: 'Start with the opening chapter, then add the rest of the Frequency Vibes collection one chapter at a time.',
 };
 
@@ -171,6 +185,95 @@ function readerTitleMeta(book) {
   };
 }
 
+function toRoman(num) {
+  if (!Number.isFinite(num) || num < 1) return '';
+  const map = [
+    [1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'],
+    [100, 'C'], [90, 'XC'], [50, 'L'], [40, 'XL'],
+    [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I'],
+  ];
+  let n = Math.floor(num);
+  let result = '';
+  for (const [v, r] of map) { while (n >= v) { result += r; n -= v; } }
+  return result;
+}
+
+function greetingByHour() {
+  const h = new Date().getHours();
+  if (h < 6) return 'Good night';
+  if (h < 12) return 'Good morning';
+  if (h < 19) return 'Good afternoon';
+  return 'Good evening';
+}
+
+const dailyWisdomPool = [
+  'The words you choose to hear are the architecture of the self you are becoming.',
+  'Today, let the chapter meet you where you are. No rush. The words have been waiting patiently.',
+  'Listen slowly. Silence is also part of the sentence.',
+  'Each chapter is a door. You choose which one opens next.',
+  'Your library is not what you own. It is what has moved through you.',
+];
+
+function dailyWisdom() {
+  const day = Math.floor(Date.now() / 86400000);
+  return dailyWisdomPool[day % dailyWisdomPool.length];
+}
+
+function sacredCardMarkup(book, opts = {}) {
+  const { showProgress = false, forceLocked = false } = opts;
+  const titleMeta = readerTitleMeta(book);
+  const num = chapterNumber(book);
+  const roman = toRoman(num);
+  const offer = offerConfig(book);
+  const hasAccess = Boolean(book.has_access);
+  const canBuy = canBuyNow(book);
+  const coming = isComingNext(book);
+
+  let mode = 'locked';
+  if (hasAccess) mode = 'owned';
+  else if (canBuy && !forceLocked) mode = 'buy';
+
+  const cardClass = mode === 'owned' ? 'is-owned' : (mode === 'locked' ? 'is-locked' : '');
+  const badge = mode === 'owned' ? `<span class="sacred-book-badge">Yours</span>` : '';
+  const romanMarkup = roman ? `<span class="sacred-book-cover-num">${common.escapeHtml(roman)}</span>` : '';
+
+  let subLabel = '';
+  let priceOrProgress = '';
+  let actionLabel;
+  let actionClass = 'btn-inline';
+
+  if (mode === 'owned') {
+    actionLabel = 'Open';
+  } else if (mode === 'buy') {
+    priceOrProgress = `<span class="sacred-book-price">${common.escapeHtml(offer.price || '\u20ac10')}</span>`;
+    actionLabel = 'View \u00b7 Buy';
+  } else {
+    actionLabel = 'Preview';
+    actionClass = 'btn-inline ghost';
+  }
+
+  return `
+    <a class="sacred-book-card ${cardClass}" href="/library/${encodeURIComponent(book.slug)}">
+      <div class="sacred-book-cover has-cover-image">
+        <img class="sacred-book-cover-img" src="/covers/frequency-vibes.jpg" alt="Frequency Vibes cover" loading="lazy" />
+        ${badge}
+        ${romanMarkup}
+      </div>
+      <div class="sacred-book-meta">
+        <h4 class="sacred-book-title">${common.escapeHtml(titleMeta.chapterLabel)} &mdash; ${common.escapeHtml(titleMeta.mainTitle)}</h4>
+        ${subLabel ? `<span class="sacred-book-sub">${common.escapeHtml(subLabel)}</span>` : ''}
+        ${priceOrProgress}
+        <span class="${actionClass}">${common.escapeHtml(actionLabel)}</span>
+      </div>
+    </a>
+  `;
+}
+
+function sacredCatalogGridMarkup(books) {
+  const ordered = sortedShelfBooks(books);
+  return `<div class="sacred-library-grid">${ordered.map((b) => sacredCardMarkup(b)).join('')}</div>`;
+}
+
 function isDetailRoute() {
   return Boolean(state.routeSlug);
 }
@@ -203,9 +306,16 @@ function isIosDevice() {
   return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
 }
 
+function isAndroidDevice() {
+  return /android/i.test(window.navigator.userAgent);
+}
+
 function isMobileViewport() {
   return window.matchMedia('(max-width: 860px), (max-height: 540px)').matches;
 }
+
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.eugenemierak.bookvoice';
+const PLAY_STORE_PUBLIC = false;
 
 function loadInstallBannerPreference() {
   try {
@@ -249,9 +359,15 @@ function shouldShowInstallBanner() {
   if (!elements.appInstallBanner || state.installDismissed || state.standalone || isDetailRoute()) {
     return false;
   }
+  // Android with native Play Store app available
+  if (isAndroidDevice() && PLAY_STORE_PUBLIC) {
+    return true;
+  }
+  // Android Chrome PWA prompt ready
   if (state.installPrompt) {
     return true;
   }
+  // iOS — PWA fallback with manual Add to Home Screen
   return isIosDevice() && isMobileViewport();
 }
 
@@ -266,6 +382,15 @@ function renderInstallBanner() {
     return;
   }
 
+  // Android + Play Store live → push the native app
+  if (isAndroidDevice() && PLAY_STORE_PUBLIC) {
+    elements.appInstallButton.disabled = false;
+    elements.appInstallButton.textContent = 'Get on Google Play';
+    elements.appInstallMessage.textContent = 'The BookVoice Android app offers offline reading, a smoother audio player and page-flip animations.';
+    return;
+  }
+
+  // Android Chrome PWA prompt
   if (state.installPrompt) {
     elements.appInstallButton.disabled = false;
     elements.appInstallButton.textContent = 'Install app';
@@ -273,12 +398,20 @@ function renderInstallBanner() {
     return;
   }
 
+  // iOS fallback — PWA via Add to Home Screen
   elements.appInstallButton.disabled = false;
   elements.appInstallButton.textContent = 'Show steps';
-  elements.appInstallMessage.textContent = 'On iPhone or iPad, use Share and then Add to Home Screen to install BookVoice like an app.';
+  elements.appInstallMessage.textContent = 'The BookVoice iOS app is coming soon. For now, tap Share in Safari and choose Add to Home Screen to install the reader like an app.';
 }
 
 async function handleInstallAction() {
+  if (isAndroidDevice() && PLAY_STORE_PUBLIC) {
+    window.open(PLAY_STORE_URL, '_blank', 'noopener');
+    persistInstallBannerPreference(true);
+    renderInstallBanner();
+    return;
+  }
+
   if (state.installPrompt) {
     state.installPrompt.prompt();
     const choice = await state.installPrompt.userChoice.catch(() => null);
@@ -291,7 +424,66 @@ async function handleInstallAction() {
   }
 
   if (isIosDevice()) {
-    elements.appInstallMessage.textContent = 'Tap Share in Safari, then choose Add to Home Screen. After that, BookVoice opens without browser chrome and feels much closer to a real app.';
+    showIosInstallModal();
+  }
+}
+
+function showIosInstallModal() {
+  const modal = document.getElementById('iosInstallModal');
+  if (!modal) return;
+  modal.classList.remove('hidden');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function hideIosInstallModal() {
+  const modal = document.getElementById('iosInstallModal');
+  if (!modal) return;
+  modal.classList.add('hidden');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+function registerIosInstallModalHooks() {
+  const modal = document.getElementById('iosInstallModal');
+  if (!modal) return;
+  modal.addEventListener('click', (event) => {
+    const target = event.target;
+    if (target && target.closest('[data-ios-install-close]')) {
+      hideIosInstallModal();
+    }
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
+      hideIosInstallModal();
+    }
+  });
+}
+
+function configureGetAppSection() {
+  const androidLink = document.getElementById('getAppAndroid');
+  const androidBadge = document.getElementById('getAppAndroidBadge');
+  const androidLabel = document.getElementById('getAppAndroidLabel');
+  if (androidLink) {
+    if (PLAY_STORE_PUBLIC) {
+      androidLink.setAttribute('href', PLAY_STORE_URL);
+      androidLink.removeAttribute('aria-disabled');
+      if (androidBadge) androidBadge.textContent = 'Live';
+      if (androidLabel) androidLabel.textContent = 'Get it on Google Play';
+    } else {
+      androidLink.setAttribute('aria-disabled', 'true');
+      androidLink.addEventListener('click', (event) => {
+        event.preventDefault();
+      });
+      if (androidBadge) androidBadge.textContent = 'Coming soon';
+      if (androidLabel) androidLabel.textContent = 'In private testing';
+    }
+  }
+  const iosButton = document.getElementById('getAppIos');
+  if (iosButton) {
+    iosButton.addEventListener('click', () => {
+      showIosInstallModal();
+    });
   }
 }
 
@@ -456,6 +648,31 @@ function renderTopState() {
   }
   elements.customerTopState.textContent = label;
   elements.customerTopLogoutBtn.classList.toggle('hidden', !state.session?.authenticated);
+
+  const toggleBtn = elements.customerLibraryToggleBtn;
+  const isReader = isReaderSession();
+  const ownedCount = Array.isArray(state.catalog)
+    ? state.catalog.filter((b) => b.has_access).length
+    : 0;
+  if (toggleBtn) {
+    const canToggle = isReader && ownedCount > 0;
+    toggleBtn.classList.toggle('hidden', !canToggle);
+    if (state.libraryView === 'catalog') {
+      toggleBtn.textContent = 'My library';
+      toggleBtn.dataset.libraryView = 'personal';
+    } else {
+      toggleBtn.textContent = 'Full catalog';
+      toggleBtn.dataset.libraryView = 'catalog';
+    }
+  }
+
+  const stepSub = document.querySelector('#stageLibraryBtnSub');
+  if (stepSub) {
+    const showingCatalog = state.libraryView === 'catalog' || ownedCount === 0;
+    stepSub.textContent = showingCatalog
+      ? 'Browse the full collection and unlock new chapters.'
+      : 'Open what you own and see what comes next.';
+  }
 }
 
 function setHomeStage(stage) {
@@ -482,7 +699,7 @@ function setHomeStage(stage) {
     const titles = {
       preview: { eyebrow: 'Private reader edition', h1: 'Read Frequency Vibes.', p: 'Browse the collection and enter the reader when you are ready.' },
       login: { eyebrow: 'Reader access', h1: 'Create your profile or sign back in.', p: 'One account keeps your shelf, chapters and reading progress in one place.' },
-      library: { eyebrow: 'Your library', h1: 'Welcome to the Frequency Vibes collection.', p: 'Open what you own and see what comes next.' },
+      library: { eyebrow: 'Your library', h1: 'Welcome to the Frequency Vibes collection.', p: '' },
     };
     const t = titles[stage] || titles.preview;
     const ey = barCopy.querySelector('.eyebrow');
@@ -492,6 +709,26 @@ function setHomeStage(stage) {
     if (h1) h1.textContent = t.h1;
     if (p) p.textContent = t.p;
   }
+  syncMobileTabBar(stage);
+}
+
+function syncMobileTabBar(stage) {
+  const tabs = document.querySelectorAll('#mobileTabBar [data-mobile-tab]');
+  tabs.forEach((btn) => {
+    btn.classList.toggle('active', btn.getAttribute('data-mobile-tab') === stage);
+  });
+}
+
+function registerMobileTabBar() {
+  const bar = document.getElementById('mobileTabBar');
+  if (!bar) return;
+  bar.addEventListener('click', (event) => {
+    const target = event.target;
+    const button = target && target.closest('[data-mobile-tab]');
+    if (!button) return;
+    const stage = button.getAttribute('data-mobile-tab');
+    if (stage) setHomeStage(stage);
+  });
 }
 
 function setAuthMode(mode) {
@@ -547,7 +784,6 @@ function renderPreviewStage() {
 
   const offer = offerConfig(featured);
   const titleMeta = readerTitleMeta(featured);
-  const nextCount = state.catalog.filter((book) => !book.has_access && !isLaunchTitle(book)).length;
   elements.stageOfferGrid.innerHTML = `
     <article class="stage-offer-card featured single-offer-card offer-centered">
       <h3>${common.escapeHtml(titleMeta.mainTitle)}</h3>
@@ -582,146 +818,223 @@ function renderLoginStage() {
 }
 
 function renderLibraryCards(books) {
-    return sortedShelfBooks(books).map((book) => {
-        const offer = offerConfig(book);
-        const titleMeta = readerTitleMeta(book);
-        const hasAccess = Boolean(book.has_access);
-        const launchTitle = isLaunchTitle(book);
-        const purchaseOpen = canBuyNow(book);
-        const comingNext = isComingNext(book);
-        const isAuthenticated = Boolean(state.session?.authenticated);
-        const formatLabel = common.hasPublishedAudio(book) ? 'Chapter PDF + audio' : 'Chapter PDF';
-      const statusLabel = hasAccess ? 'In your library' : (comingNext ? 'Coming next' : 'Now available');
-        const actionMarkup = hasAccess
-          ? `<a class="button-link primary" href="/library/${encodeURIComponent(book.slug)}">Open chapter</a>`
-          : purchaseOpen && isAuthenticated
-            ? (offer.external
-                ? `<a class="button-link warm" href="${common.escapeHtml(offer.href)}" target="_blank" rel="noreferrer">Buy now</a>`
-                : `<button class="button-link warm" type="button" data-action="buy-book" data-book-slug="${common.escapeHtml(book.slug)}">Buy now</button>`)
-            : purchaseOpen
-              ? `<button class="secondary" type="button" data-stage-jump="login">Sign in first</button>`
-              : `<button class="secondary" type="button" disabled>Coming next</button>`;
-        const secondaryMeta = hasAccess ? 'Owned' : (purchaseOpen ? offer.price : 'Next release');
-      const actionTitle = hasAccess
-        ? 'Continue reading'
-        : (comingNext ? 'Stay on the path' : (isAuthenticated ? 'Add to your library' : 'Sign in to continue'));
-        const actionText = hasAccess
-          ? 'Open this chapter to continue where you left off.'
-          : purchaseOpen && isAuthenticated
-            ? 'Purchase this chapter to unlock it permanently in your library.'
-            : purchaseOpen
-              ? 'Sign in first, then return here to get this chapter.'
-              : 'This chapter is visible on the shelf. It will be available soon.';
+  return sortedShelfBooks(books).map((book) => sacredCardMarkup(book)).join('');
+}
 
-    return `
-    <article class="stage-library-card ${hasAccess ? 'is-owned' : ''} ${comingNext ? 'is-coming-next' : ''}">
-      <div class="stage-library-visual">
-        ${coverMarkup(book, 'preview')}
+function personalLibraryMarkup(books) {
+  const ordered = sortedShelfBooks(books);
+  const owned = ordered.filter((b) => b.has_access);
+  const unowned = ordered.filter((b) => !b.has_access);
+  const lastOwned = owned[owned.length - 1];
+  const displayName = state.session?.display_name || state.session?.username || 'reader';
+  const greeting = `${greetingByHour()}, ${displayName}`;
+
+  let continueMarkup = '';
+  if (lastOwned) {
+    const meta = readerTitleMeta(lastOwned);
+    const roman = toRoman(chapterNumber(lastOwned));
+    continueMarkup = `
+      <div class="sacred-divider">
+        <span class="sacred-symbol">&#10041;</span>
+        <span>continue where you left</span>
+        <span class="sacred-symbol">&#10041;</span>
       </div>
-      <div class="stage-library-body">
-        <div class="stage-library-top">
-          <span class="eyebrow">${common.escapeHtml(titleMeta.chapterLabel)}</span>
-          <span class="stage-library-status">${common.escapeHtml(statusLabel)}</span>
+      <div class="continue-card">
+        <div class="sacred-book-cover has-cover-image">
+          <img class="sacred-book-cover-img" src="/covers/frequency-vibes.jpg" alt="Frequency Vibes cover" loading="lazy" />
+          ${roman ? `<span class="sacred-book-cover-num">${common.escapeHtml(roman)}</span>` : ''}
         </div>
-        <h3>${common.escapeHtml(titleMeta.mainTitle)}</h3>
-        <p class="stage-library-blurb">${common.escapeHtml(shelfBlurb(book))}</p>
-        <div class="stage-library-bottom">
-          <span class="stage-library-price">${common.escapeHtml(secondaryMeta)}</span>
-          <span class="stage-library-format">${common.escapeHtml(formatLabel)}</span>
-        </div>
-        <div class="stage-library-actions">
-          ${actionMarkup}
+        <div class="continue-info">
+          <h3>${common.escapeHtml(meta.chapterLabel)} &mdash; ${common.escapeHtml(meta.mainTitle)}</h3>
+          <div class="continue-sub">The frequency is open to you. Pick up where you left off.</div>
+          <div class="continue-actions">
+            <a class="continue-btn" href="/library/${encodeURIComponent(lastOwned.slug)}">Resume the passage</a>
+          </div>
         </div>
       </div>
-    </article>
+    `;
+  }
+
+  const ownedGrid = owned.length
+    ? `
+      <div class="personal-section-title">
+        <h3>Your collection</h3>
+        <p>${owned.length} ${owned.length === 1 ? 'chapter' : 'chapters'} in your library</p>
+      </div>
+      <div class="sacred-library-grid">${owned.map((b) => sacredCardMarkup(b)).join('')}</div>
+    `
+    : '';
+
+  const discoverGrid = unowned.length
+    ? `
+      <div class="personal-section-title">
+        <h3>To discover</h3>
+        <p>${unowned.length} more ${unowned.length === 1 ? 'chapter awaits' : 'chapters await'}</p>
+      </div>
+      <div class="sacred-library-grid">${unowned.map((b) => sacredCardMarkup(b)).join('')}</div>
+    `
+    : '';
+
+  return `
+    <div class="personal-greeting">
+      <div class="personal-greeting-time">${common.escapeHtml(greeting)}</div>
+      <h2>Welcome home to your library.</h2>
+      <p class="daily-wisdom">&ldquo;${common.escapeHtml(dailyWisdom())}&rdquo;</p>
+    </div>
+    ${continueMarkup}
+    ${ownedGrid}
+    ${discoverGrid}
+    <div class="footer-contemplate">
+      <p>The words you hear today become the person you are tomorrow.</p>
+    </div>
   `;
-  }).join('');
 }
 
 function renderLibraryStage() {
   elements.stageLibrarySpotlight.innerHTML = '';
   elements.libraryLockedState.classList.add('hidden');
   elements.libraryLockedState.innerHTML = '';
-  const liveBook = launchBook();
-  const liveBookMeta = liveBook ? readerTitleMeta(liveBook) : null;
-  const liveBookTitle = liveBookMeta?.mainTitle || titleParts(liveBook).title || liveBook?.title || 'Frequency Vibes';
-  const liveBookLabel = liveBookMeta?.chapterLabel || 'The collection';
-  const baseIntro = `The full Frequency Vibes collection in order. Open what you own and see what comes next.`;
-  const baseShelfCopy = `Browse the available chapters. The rest stay visible on the shelf as they are being prepared.`;
 
-  if (!state.session?.authenticated) {
-    elements.libraryStageIntro.textContent = baseIntro;
-    elements.libraryShelfCopy.textContent = baseShelfCopy;
-    elements.libraryUnlockedState.classList.remove('hidden');
-    elements.customerCatalogList.innerHTML = state.catalog.length
-      ? renderLibraryCards(state.catalog)
-      : `
-          <article class="empty-card stage-empty-state">
-            <h3>No books on the shelf yet</h3>
-            <p>Once new titles are published, they will appear here as editions on the shelf.</p>
-          </article>
-        `;
+  const panel = elements.stageLibrary;
+  const hasBooks = Array.isArray(state.catalog) && state.catalog.length > 0;
+  const isReader = isReaderSession();
+  const ownedCount = hasBooks ? state.catalog.filter((b) => b.has_access).length : 0;
+  const personalMode = isReader && ownedCount > 0;
+
+  const baseIntro = 'The full Frequency Vibes collection in order. Open what you own and see what comes next.';
+  const baseShelfCopy = 'Browse the available chapters. The rest stay visible on the shelf as they are being prepared.';
+
+  elements.libraryUnlockedState.classList.remove('hidden');
+
+  if (panel) panel.classList.add('sacred-active');
+
+  renderTopState();
+
+  if (!hasBooks) {
+    elements.customerCatalogList.innerHTML = `
+      <div class="sacred-catalog-header">
+        <span class="eyebrow">Frequency Vibes</span>
+        <h2>The collection</h2>
+      </div>
+      <article class="empty-card stage-empty-state">
+        <h3>The shelf is being prepared</h3>
+        <p>New chapters appear here as they are published. Come back soon.</p>
+      </article>
+    `;
     return;
   }
 
-    if (isReaderSession()) {
-        const ownedCount = state.catalog.filter((book) => book.has_access).length;
-        elements.libraryStageIntro.textContent = baseIntro;
-        elements.libraryShelfCopy.textContent = ownedCount
-          ? 'The chapters you already own stay ready here. The rest of the collection remains visible on the shelf.'
-          : `Your shelf is ready. Browse the available chapters and expand your collection.`;
-      elements.libraryUnlockedState.classList.remove('hidden');
-      elements.customerCatalogList.innerHTML = state.catalog.length
-        ? renderLibraryCards(state.catalog)
-        : `
-          <article class="empty-card stage-empty-state">
-            <h3>No books on the shelf yet</h3>
-            <p>Once new titles are published, they will appear here inside your reader shelf.</p>
-          </article>
-        `;
+  const showPersonal = personalMode && state.libraryView !== 'catalog';
+
+  if (showPersonal) {
+    elements.customerCatalogList.innerHTML = personalLibraryMarkup(state.catalog);
     return;
   }
 
-    elements.libraryShelfCopy.textContent = state.session.role === 'admin'
-      ? 'This is the same chapter shelf your readers will use. The available chapters are ready and the rest remain visible on the path ahead.'
-      : `The store is centered on ${liveBookTitle}. Once it belongs to the reader, the same card becomes their way back into the chapter.`;
-    elements.libraryUnlockedState.classList.remove('hidden');
-    elements.libraryStageIntro.textContent = state.session.role === 'admin'
-      ? 'You are signed in as admin, so this is the same chapter collection your readers will use as the store and returning library for the Frequency Vibes project.'
-      : baseIntro;
-  const source = state.catalog;
-  elements.customerCatalogList.innerHTML = source.length
-    ? renderLibraryCards(source)
-    : `
-        <article class="empty-card stage-empty-state">
-          <h3>No books here yet</h3>
-          <p>Once access is granted or new titles are published, the shelf will fill here automatically.</p>
-        </article>
-      `;
+  const displayName = state.session?.display_name || state.session?.username || '';
+  const welcomeLabel = isReader && displayName ? `Welcome, ${displayName}` : 'Welcome to the collection';
+
+  elements.customerCatalogList.innerHTML = `
+    <div class="catalog-hero">
+      <span class="catalog-hero-eyebrow">${common.escapeHtml(welcomeLabel)}</span>
+      <h1>Your library begins here.</h1>
+      <p class="catalog-hero-quote">
+        &ldquo;The words you choose to hear are the architecture of the self you are becoming.&rdquo;
+      </p>
+      <span class="catalog-hero-author">&mdash; Eugene Mierak</span>
+    </div>
+    <div class="sacred-divider catalog-divider">
+      <span class="sacred-symbol">&#8756;</span>
+      <span>the collection</span>
+      <span class="sacred-symbol">&#8756;</span>
+    </div>
+    <div class="sacred-library-grid">${renderLibraryCards(state.catalog)}</div>
+  `;
 }
 
 async function handleBuyBook(slug) {
   const messageTarget = elements.customerMessage;
   common.renderNotice(messageTarget, '');
+  common.trackEvent('click_buy', { slug });
   try {
-    await api(`/api/customer/books/${encodeURIComponent(slug)}/purchase`, { method: 'POST' });
-    await refreshCatalog();
-    await refreshLibrary();
-    if (isDetailRoute()) {
-      await refreshDetail();
-      await renderDetail();
-    } else {
-      renderHome();
-      setHomeStage('library');
+    const result = await api(`/api/customer/books/${encodeURIComponent(slug)}/checkout`, { method: 'POST' });
+    if (result?.url) {
+      common.trackEvent('checkout_start', { slug });
+      window.location.href = result.url;
+      return;
     }
-    const boughtBook = state.catalog.find((book) => book.slug === slug);
-    common.renderNotice(
-      messageTarget,
-      'The book is now in your library. Open it from this same shelf.',
-      'success'
-    );
+    throw new Error('Stripe did not return a checkout URL.');
   } catch (error) {
-    common.renderNotice(messageTarget, error.message || 'We could not complete the purchase right now.', 'error');
+    common.renderNotice(messageTarget, error.message || 'We could not start checkout right now.', 'error');
+  }
+}
+
+function showPurchaseReceipt(book, slug) {
+  const overlay = document.querySelector('#purchaseReceiptOverlay');
+  if (!overlay) return;
+  const chapterEl = document.querySelector('#receiptChapter');
+  const amountEl = document.querySelector('#receiptAmount');
+  const quoteEl = document.querySelector('#receiptQuote');
+  const displayName = state.session?.display_name || state.session?.username || '';
+
+  if (book && chapterEl) {
+    const meta = readerTitleMeta(book);
+    const roman = toRoman(chapterNumber(book));
+    chapterEl.textContent = roman ? `${roman} \u2014 ${meta.mainTitle}` : meta.mainTitle;
+  } else if (chapterEl) {
+    chapterEl.textContent = slug;
+  }
+
+  if (amountEl) {
+    const offer = book ? offerConfig(book) : null;
+    amountEl.textContent = offer?.price || '\u20ac11.99';
+  }
+
+  const coverImg = document.querySelector('#receiptCoverImg');
+  if (coverImg) {
+    coverImg.src = '/covers/frequency-vibes.jpg';
+    coverImg.alt = book ? `${book.title || 'Chapter'} cover` : 'Chapter cover';
+  }
+
+  if (quoteEl) {
+    const name = displayName ? `, ${displayName}` : '';
+    quoteEl.textContent = `Thank you${name}. Your library has grown. Open the chapter whenever you're ready.`;
+  }
+
+  const androidHint = document.querySelector('#receiptAndroidHint');
+  const androidHintText = document.querySelector('#receiptAndroidHintText');
+  if (androidHint && androidHintText) {
+    if (PLAY_STORE_PUBLIC) {
+      androidHint.setAttribute('href', PLAY_STORE_URL);
+      androidHint.classList.remove('is-disabled');
+      androidHintText.textContent = 'Reading on the go? Continue in the Android app.';
+    } else {
+      androidHint.setAttribute('href', '#');
+      androidHint.classList.add('is-disabled');
+      androidHintText.textContent = 'Android app coming soon.';
+    }
+  }
+
+  overlay.dataset.slug = slug || '';
+  overlay.classList.remove('hidden');
+  common.trackEvent('purchase_success', { slug });
+}
+
+function hidePurchaseReceiptAndEnterLibrary() {
+  const overlay = document.querySelector('#purchaseReceiptOverlay');
+  if (overlay) overlay.classList.add('hidden');
+  state.libraryView = 'personal';
+  window.location.href = '/?stage=library';
+}
+
+function hidePurchaseReceiptAndStartReading() {
+  const overlay = document.querySelector('#purchaseReceiptOverlay');
+  const slug = overlay?.dataset?.slug || '';
+  if (overlay) overlay.classList.add('hidden');
+  if (slug) {
+    window.location.href = `/library/${encodeURIComponent(slug)}?read=1`;
+  } else {
+    hidePurchaseReceiptAndEnterLibrary();
   }
 }
 
@@ -734,6 +1047,7 @@ function renderHome() {
   renderPreviewStage();
   renderLoginStage();
   renderLibraryStage();
+  common.trackEvent('view_catalog');
 
   if ((isReaderSession() || state.session?.authenticated) && state.homeStage === 'preview') {
     setHomeStage('library');
@@ -2115,69 +2429,93 @@ function renderPurchaseView(book) {
   const titleMeta = readerTitleMeta(book);
   const isAuth = Boolean(state.session?.authenticated);
   const isCustomer = state.session?.role === 'customer';
-  const launchTitle = isLaunchTitle(book);
   const purchaseOpen = canBuyNow(book);
-  const liveBook = launchBook();
-  const launchHref = liveBook ? `/library/${encodeURIComponent(liveBook.slug)}` : '/';
+  const hasAccess = Boolean(book.has_access);
+  const roman = toRoman(chapterNumber(book));
+  const formatLabel = common.hasPublishedAudio(book) ? 'Text \u00b7 Audio \u00b7 PDF' : 'Text \u00b7 PDF';
+  const description = profile.hook || 'A private reading and listening chapter built from the original PDF pages. Open the chapter to read along, listen to the narration, or do both at once.';
 
-    bookElements.purchaseCover.innerHTML = coverMarkup(book, 'large');
-    let infoHTML = `
-      <span class="eyebrow">${common.escapeHtml(`${titleMeta.chapterLabel} · ${book.has_access ? 'in your library' : (purchaseOpen ? 'available' : 'coming next')}`)}</span>
-      <h1>${common.escapeHtml(titleMeta.mainTitle)}</h1>
-      <p class="book-purchase-desc">${common.escapeHtml(profile.hook || 'A private reading and listening chapter built from the original PDF pages.')}</p>
-      <div class="pill-row compact-pill-row">
-        <span class="pill">${common.escapeHtml(bookMeta(book))}</span>
-      </div>
-    `;
+  const otherBooks = sortedShelfBooks(state.catalog || [])
+    .filter((b) => b.slug !== book.slug)
+    .slice(0, 3);
 
-    if (book.has_access) {
-      infoHTML += `
-        <div class="actions">
-          <button class="primary" type="button" data-action="enter-book">Open chapter</button>
-        </div>
-      `;
-    } else if (!purchaseOpen) {
-      infoHTML += `
-        <div class="book-purchase-offer">
-          <span class="eyebrow">Visible on the path ahead</span>
-          <strong>Not in the first public release yet</strong>
-          <p class="book-purchase-desc">This chapter is visible on the shelf. It will be available soon.</p>
-          <div class="actions">
-            <a class="button-link warm" href="${common.escapeHtml(launchHref)}">Back to the collection</a>
-            <a class="button-link ghost" href="/">Back to the shelf</a>
-          </div>
-        </div>
-      `;
-    } else if (isAuth && isCustomer) {
-      infoHTML += `
-        <div class="book-purchase-offer">
-          <span class="eyebrow">${common.escapeHtml('Single chapter')}</span>
-          <strong>${common.escapeHtml(offer.label)}</strong>
-          <span class="offer-price">${common.escapeHtml(offer.price)}</span>
-          <p class="book-purchase-desc">${common.escapeHtml(offer.description)}</p>
-        ${offer.external
-          ? `<a class="button-link warm" href="${common.escapeHtml(offer.href)}" target="_blank" rel="noreferrer">Buy now</a>`
-          : `<button class="primary warm" type="button" data-action="buy-book" data-book-slug="${common.escapeHtml(book.slug)}">Buy now</button>`}
-      </div>
+  const eyebrow = hasAccess
+    ? `${titleMeta.chapterLabel} \u00b7 in your library`
+    : titleMeta.chapterLabel;
+
+  let actionsMarkup = '';
+  if (hasAccess) {
+    actionsMarkup = `
+      <button class="book-page-open-btn-sacred" type="button" data-action="enter-book">
+        <span>&#10023;</span> Open this chapter
+      </button>
     `;
-    } else if (isAuth) {
-      infoHTML += `<p class="book-purchase-desc">You are signed in as admin, previewing the chapter storefront.</p>`;
-    } else {
-      infoHTML += `
-        <div class="book-purchase-offer">
-          <span class="eyebrow">Sign in to continue</span>
-          <p class="book-purchase-desc">Sign in or create an account to buy and open this chapter.</p>
-          <form id="detailLoginForm" class="book-purchase-login-form">
-          <label>Username or email<input name="username" autocomplete="username" required /></label>
-          <label>Password<input name="password" type="password" autocomplete="current-password" required /></label>
-          <button class="primary" type="submit">Sign in</button>
-        </form>
-        <div id="detailInlineMessage" class="notice hidden"></div>
+  } else if (!purchaseOpen) {
+    actionsMarkup = '';
+  } else if (isAuth && isCustomer) {
+    actionsMarkup = `
+      <div class="book-page-price-row-sacred">
+        <span class="book-page-price-sacred">${common.escapeHtml(offer.price || '\u20ac10')}</span>
+        <span class="book-page-price-note-sacred">one-time &middot; lifetime access</span>
       </div>
+      ${offer.external
+        ? `<a class="book-page-pay-btn-sacred" href="${common.escapeHtml(offer.href)}" target="_blank" rel="noreferrer"><span>&#10023;</span> Pay &amp; unlock this chapter</a>`
+        : `<button class="book-page-pay-btn-sacred" type="button" data-action="buy-book" data-book-slug="${common.escapeHtml(book.slug)}"><span>&#10023;</span> Pay &amp; unlock this chapter</button>`}
+      <div class="book-page-stripe-mark">Secure checkout via Stripe</div>
+    `;
+  } else if (isAuth) {
+    actionsMarkup = `
+      <div class="book-page-stripe-mark">Admin preview of the chapter storefront.</div>
+    `;
+  } else {
+    actionsMarkup = `
+      <div class="book-page-price-row-sacred">
+        <span class="book-page-price-sacred">${common.escapeHtml(offer.price || '\u20ac10')}</span>
+        <span class="book-page-price-note-sacred">sign in to unlock</span>
+      </div>
+      <a class="book-page-pay-btn-sacred" href="/?stage=login"><span>&#10023;</span> Sign in to continue</a>
     `;
   }
 
-  bookElements.purchaseInfo.innerHTML = infoHTML;
+  const carouselMarkup = otherBooks.length
+    ? `
+      <div class="sacred-divider">
+        <span class="sacred-symbol">&#8902;</span>
+        <span>to discover</span>
+        <span class="sacred-symbol">&#8902;</span>
+      </div>
+      <div class="book-page-carousel">
+        <div class="book-page-carousel-track">
+          ${otherBooks.map((b) => sacredCardMarkup(b)).join('')}
+        </div>
+      </div>
+    `
+    : '';
+
+  bookElements.purchaseView.innerHTML = `
+    <div class="book-page-redesign">
+      <a class="book-back-link" href="/">&larr; Back to the library</a>
+      <div class="book-page-hero-sacred">
+        <div class="book-page-cover-sacred has-cover-image">
+          <img class="book-page-cover-img" src="/covers/frequency-vibes.jpg" alt="Frequency Vibes cover" />
+          ${roman ? `<span class="book-page-cover-num">${common.escapeHtml(roman)}</span>` : ''}
+        </div>
+        <div class="book-page-info-sacred">
+          <span class="eyebrow">${common.escapeHtml(eyebrow)}</span>
+          <h1>${common.escapeHtml(titleMeta.mainTitle)}</h1>
+          <p class="book-page-subtitle-sacred">&ldquo;${common.escapeHtml(description)}&rdquo;</p>
+          <div class="book-page-meta-sacred">
+            <div>Duration<strong>${common.escapeHtml(bookMeta(book))}</strong></div>
+            <div>Format<strong>${common.escapeHtml(formatLabel)}</strong></div>
+            <div>Access<strong>Lifetime</strong></div>
+          </div>
+          ${actionsMarkup}
+        </div>
+      </div>
+      ${carouselMarkup}
+    </div>
+  `;
+
   bookElements.purchaseView.classList.remove('hidden');
   bookElements.readerView.classList.add('hidden');
 }
@@ -2317,6 +2655,7 @@ async function renderDetail() {
     renderMissingDetail(book);
     return;
   }
+  common.trackEvent('view_book', { slug: book.slug });
 
   if (book.has_access && bookUsesPdf(book)) {
     await renderBookReader(book);
@@ -2406,10 +2745,35 @@ async function handleRegister(form, target = elements.customerMessage) {
     form.reset();
     common.renderNotice(target, 'Account created. You are now inside.', 'info');
     state.homeStage = 'library';
+    try { localStorage.setItem('bv_onboarding_pending', '1'); } catch (_) {}
     await hydrate();
   } catch (error) {
     common.renderNotice(target, error.message, 'error');
   }
+}
+
+function showOnboardingToast(message) {
+  if (!message) return;
+  const existing = document.querySelector('.bv-onboarding-toast');
+  if (existing) existing.remove();
+  const toast = document.createElement('div');
+  toast.className = 'bv-onboarding-toast';
+  toast.setAttribute('role', 'status');
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  setTimeout(() => { toast.remove(); }, 5200);
+}
+
+function maybeShowOnboardingToast() {
+  let pending = null;
+  try { pending = localStorage.getItem('bv_onboarding_pending'); } catch (_) {}
+  if (!pending) return;
+  try { localStorage.removeItem('bv_onboarding_pending'); } catch (_) {}
+  const name = state.session?.display_name || '';
+  const msg = name
+    ? `Welcome to your library, ${name}. Your reader is ready.`
+    : 'Welcome to your library. Your reader is ready.';
+  setTimeout(() => showOnboardingToast(msg), 600);
 }
 
 async function handleLogout() {
@@ -2424,6 +2788,51 @@ async function handleLogout() {
   }
 }
 
+async function consumePurchaseSuccessFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const purchased = params.get('purchase_success');
+  if (!purchased) return null;
+  params.delete('purchase_success');
+  params.delete('stripe_session');
+  const cleaned = params.toString();
+  const newUrl = window.location.pathname + (cleaned ? `?${cleaned}` : '') + window.location.hash;
+  window.history.replaceState({}, '', newUrl);
+  try {
+    await refreshCatalog();
+    await refreshLibrary();
+  } catch (_) { /* best effort */ }
+  state.libraryView = 'personal';
+  const book = state.catalog.find((b) => b.slug === purchased);
+  showPurchaseReceipt(book || null, purchased);
+  renderLibraryStage();
+  return true;
+}
+
+function consumeAuthFlashFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const welcome = params.get('welcome');
+  const authError = params.get('auth_error');
+  if (!welcome && !authError) return null;
+  params.delete('welcome');
+  params.delete('auth_error');
+  const cleaned = params.toString();
+  const newUrl = window.location.pathname + (cleaned ? `?${cleaned}` : '') + window.location.hash;
+  window.history.replaceState({}, '', newUrl);
+  if (welcome === 'google') {
+    return { tone: 'success', message: 'Signed in with Google. Welcome to your library.' };
+  }
+  if (authError) {
+    const friendly = {
+      access_denied: 'Google sign-in was cancelled.',
+      state_mismatch: 'Sign-in expired. Please try again.',
+      state_invalid: 'Sign-in expired. Please try again.',
+      email_unverified: 'Your Google account email is not verified.',
+    };
+    return { tone: 'error', message: friendly[authError] || 'Google sign-in failed. Please try again.' };
+  }
+  return null;
+}
+
 async function hydrate() {
   await refreshSession();
   await refreshCatalog();
@@ -2436,6 +2845,14 @@ async function hydrate() {
   }
 
   renderHome();
+
+  const flash = consumeAuthFlashFromUrl();
+  if (flash && elements.customerSessionCard) {
+    common.renderNotice(elements.customerSessionCard, flash.message, flash.tone);
+  }
+
+  consumePurchaseSuccessFromUrl();
+  maybeShowOnboardingToast();
 }
 
 function bindEvents() {
@@ -2444,6 +2861,20 @@ function bindEvents() {
   elements.appInstallDismiss?.addEventListener('click', () => {
     persistInstallBannerPreference(true);
     renderInstallBanner();
+  });
+  document.querySelector('#receiptEnterLibraryBtn')?.addEventListener('click', hidePurchaseReceiptAndEnterLibrary);
+  document.querySelector('#receiptReadNowBtn')?.addEventListener('click', hidePurchaseReceiptAndStartReading);
+
+  elements.customerLibraryToggleBtn?.addEventListener('click', () => {
+    const target = elements.customerLibraryToggleBtn.dataset.libraryView || 'personal';
+    state.libraryView = target === 'catalog' ? 'catalog' : 'personal';
+    if (isDetailRoute()) {
+      window.location.href = '/?stage=library';
+      return;
+    }
+    setHomeStage('library');
+    renderLibraryStage();
+    elements.stageLibrary?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
   document.addEventListener('submit', async (event) => {
@@ -2483,11 +2914,15 @@ function bindEvents() {
       return;
     }
     if (actionHost.hasAttribute('data-google-auth')) {
-      common.renderNotice(
-        elements.customerSessionCard,
-        'Google sign-in will be available soon. Use the form below to register or sign in.',
-        'info'
-      );
+      if (!state.session?.google_enabled) {
+        common.renderNotice(
+          elements.customerSessionCard,
+          'Google sign-in is not enabled yet. Use the form below to register or sign in.',
+          'info'
+        );
+        return;
+      }
+      window.location.href = '/api/auth/google/start';
       return;
     }
     if (action === 'buy-book') {
@@ -2665,6 +3100,9 @@ function bindEvents() {
 }
 
 registerInstallHooks();
+registerIosInstallModalHooks();
+configureGetAppSection();
+registerMobileTabBar();
 registerServiceWorker();
 bindEvents();
 hydrate().catch((error) => {

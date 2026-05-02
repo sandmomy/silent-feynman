@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>BookVoice</title>
+  <meta name="theme-color" content="#0b0b0f" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0b0b0f;
+      --bg-card: #13131b;
+      --text: #f5f1e8;
+      --text-muted: rgba(245, 241, 232, 0.55);
+      --accent: #d4a866;
+      --accent-text: #0b0b0f;
+      --border: rgba(245, 241, 232, 0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Manrope', sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      padding: 24px 20px 32px;
+      padding-bottom: max(32px, env(safe-area-inset-bottom));
+      padding-top: max(24px, env(safe-area-inset-top));
+    }
+    .brand {
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+    .cover {
+      width: 100%;
+      aspect-ratio: 1;
+      max-width: 320px;
+      margin: 0 auto 24px;
+      background: #0d1224;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 600;
+      line-height: 1.15;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .description {
+      font-size: 14px;
+      line-height: 1.6;
+      color: rgba(245, 241, 232, 0.8);
+      margin-bottom: 28px;
+      white-space: pre-line;
+    }
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .price-currency {
+      font-size: 13px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+    .actions { margin-top: auto; }
+    button, .btn {
+      width: 100%;
+      padding: 16px 20px;
+      border: none;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: block;
+      text-align: center;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: var(--accent-text);
+    }
+    .btn-primary:disabled { opacity: 0.5; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      margin-top: 10px;
+    }
+    .hint {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 14px;
+      letter-spacing: 0.5px;
+    }
+    .trust {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+    .trust strong { color: var(--text); }
+    .status {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      padding: 40px 0;
+    }
+    .error {
+      background: rgba(200, 40, 40, 0.12);
+      border: 1px solid rgba(200, 40, 40, 0.3);
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      color: #ffb4b4;
+      margin-bottom: 16px;
+    }
+    .success-seal {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(212, 168, 102, 0.15);
+      border: 1px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      color: var(--accent);
+      margin: 10px auto 20px;
+    }
+    .hidden { display: none !important; }
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 2px solid rgba(245, 241, 232, 0.2);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    footer {
+      text-align: center;
+      font-size: 11px;
+      color: rgba(245, 241, 232, 0.3);
+      padding-top: 20px;
+      margin-top: 20px;
+    }
+    footer a { color: rgba(245, 241, 232, 0.4); text-decoration: none; margin: 0 8px; }
+  </style>
+</head>
+<body>
+  <div class="brand">BookVoice</div>
+
+  <div id="loadingView" class="status">
+    <div class="spinner"></div>
+    Loading chapter…
+  </div>
+
+  <div id="errorView" class="hidden">
+    <div class="error" id="errorMsg"></div>
+    <a class="btn btn-ghost" href="bookvoice://">Return to BookVoice</a>
+  </div>
+
+  <div id="buyView" class="hidden">
+    <div class="cover" id="coverWrap"></div>
+    <h1 class="title" id="bookTitle"></h1>
+    <p class="subtitle" id="bookSubtitle"></p>
+    <p class="description" id="bookDescription"></p>
+    <div class="price-row">
+      <span class="price" id="bookPrice"></span>
+      <span class="price-currency" id="bookCurrency"></span>
+    </div>
+    <div class="actions">
+      <button class="btn-primary" id="buyBtn" type="button">Buy securely</button>
+      <p class="hint">Powered by <strong>Stripe</strong>. Returning to the app when done.</p>
+      <p class="trust">Purchasing on <strong>book.eugenemierak.com</strong></p>
+    </div>
+  </div>
+
+  <div id="successView" class="hidden">
+    <div class="success-seal">&#10003;</div>
+    <h1 class="title">Chapter unlocked</h1>
+    <p class="subtitle" id="successTitle"></p>
+    <p class="description" style="text-align:center;">Your library in the BookVoice app has been updated.</p>
+    <div class="actions">
+      <a class="btn btn-primary" id="returnBtn" href="bookvoice://">Return to BookVoice</a>
+      <p class="hint">Tap the button above to go back to the app.</p>
+    </div>
+  </div>
+
+  <footer>
+    <a href="/privacy">Privacy</a> ·
+    <a href="/terms">Terms</a>
+  </footer>
+
+  <script>
+    (function () {
+      const slug = window.location.pathname.replace(/^\/m\//, "").replace(/\/$/, "");
+      const params = new URLSearchParams(window.location.search);
+      const mt = params.get("mt") || params.get("mobile_token");
+      const purchased = params.get("purchased") === "1";
+      const authSuffix = mt ? `?mobile_token=${encodeURIComponent(mt)}` : "";
+
+      const $ = (id) => document.getElementById(id);
+      const show = (id) => $(id).classList.remove("hidden");
+      const hide = (id) => $(id).classList.add("hidden");
+      const showError = (msg) => {
+        $("errorMsg").textContent = msg;
+        hide("loadingView");
+        hide("buyView");
+        hide("successView");
+        show("errorView");
+      };
+
+      async function fetchBook() {
+        const res = await fetch(`/api/customer/books/${encodeURIComponent(slug)}${authSuffix}`);
+        if (!res.ok) throw new Error(`Could not load chapter (${res.status})`);
+        return res.json();
+      }
+
+      function renderBook(book) {
+        $("bookTitle").textContent = book.title || slug;
+        const eyebrow = (book.public_profile && book.public_profile.hook) || "";
+        $("bookSubtitle").textContent = eyebrow && eyebrow !== book.title ? eyebrow : "";
+        const summary = (book.public_profile && book.public_profile.summary) || book.excerpt || "";
+        $("bookDescription").textContent = summary;
+        const priceLabel = (book.public_profile && book.public_profile.priceLabel) || "";
+        if (priceLabel) {
+          const match = priceLabel.match(/([0-9]+(?:[.,][0-9]+)?)/);
+          if (match) {
+            $("bookPrice").textContent = match[1].replace(",", ".");
+            $("bookCurrency").textContent = priceLabel.replace(match[1], "").trim() || "EUR";
+          } else {
+            $("bookPrice").textContent = priceLabel;
+            $("bookCurrency").textContent = "";
+          }
+        } else {
+          $("bookPrice").textContent = "€10";
+          $("bookCurrency").textContent = "";
+        }
+        const coverWrap = $("coverWrap");
+        coverWrap.innerHTML = "";
+        const img = document.createElement("img");
+        img.src = "/covers/frequency-vibes.jpg";
+        img.alt = book.title || "";
+        coverWrap.appendChild(img);
+      }
+
+      async function startCheckout() {
+        const btn = $("buyBtn");
+        btn.disabled = true;
+        btn.textContent = "Opening secure checkout…";
+        try {
+          const res = await fetch(
+            `/api/customer/books/${encodeURIComponent(slug)}/checkout${authSuffix}${authSuffix ? "&" : "?"}mobile=1`,
+            { method: "POST" }
+          );
+          if (res.status === 401) {
+            showError("Please sign in to the BookVoice app first, then try again.");
+            return;
+          }
+          if (!res.ok) {
+            const body = await res.json().catch(() => ({}));
+            throw new Error(body.error || `Checkout failed (${res.status})`);
+          }
+          const { url } = await res.json();
+          if (!url) throw new Error("No checkout URL returned");
+          window.location.href = url;
+        } catch (err) {
+          btn.disabled = false;
+          btn.textContent = "Buy securely";
+          showError(err.message || "Checkout failed");
+        }
+      }
+
+      if (purchased) {
+        hide("loadingView");
+        show("successView");
+        const stripeSession = params.get("stripe_session");
+        fetchBook().then((book) => {
+          $("successTitle").textContent = book.title || "";
+        }).catch(() => {});
+        const confirmUrl = stripeSession
+          ? `/api/customer/books/${encodeURIComponent(slug)}/confirm${authSuffix}${authSuffix ? "&" : "?"}stripe_session=${encodeURIComponent(stripeSession)}`
+          : null;
+        const returnBtn = $("returnBtn");
+        const goBackToApp = () => { window.location.href = "bookvoice://"; };
+        let redirected = false;
+        const redirectOnce = () => { if (!redirected) { redirected = true; goBackToApp(); } };
+        async function confirmWithRetries() {
+          if (!confirmUrl) {
+            setTimeout(redirectOnce, 2500);
+            return;
+          }
+          for (let attempt = 0; attempt < 6; attempt += 1) {
+            try {
+              const res = await fetch(confirmUrl);
+              if (res.ok) {
+                const data = await res.json();
+                if (data.owned) {
+                  redirectOnce();
+                  return;
+                }
+              }
+            } catch (_) { /* keep polling */ }
+            await new Promise((r) => setTimeout(r, 1500));
+          }
+          redirectOnce();
+        }
+        confirmWithRetries();
+        if (returnBtn) returnBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          redirectOnce();
+        });
+        return;
+      }
+
+      if (!slug) {
+        showError("Missing chapter reference.");
+        return;
+      }
+
+      fetchBook()
+        .then((book) => {
+          if (book.has_access) {
+            hide("loadingView");
+            show("successView");
+            $("successTitle").textContent = book.title || "";
+            return;
+          }
+          renderBook(book);
+          hide("loadingView");
+          show("buyView");
+          $("buyBtn").addEventListener("click", startCheckout);
+        })
+        .catch((err) => showError(err.message || "Could not load chapter."));
+    })();
+  </script>
+</body>
+</html>
