@@ -536,6 +536,12 @@
             height: 70px;
             max-width: 100%;
             object-fit: contain;
+            /* Soft dark drop-shadow so the all-gold wordmark separates from the
+               warm sunset photo behind the hero card (especially on mobile,
+               where the cropped bg sits closer to the logo). */
+            filter:
+                drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45))
+                drop-shadow(0 0 1px rgba(0, 0, 0, 0.35));
         }
 
         .hero h1 {
