@@ -127,6 +127,11 @@ legal-review-document.html
 worker/node_modules/
 mobile/node_modules/
 
+# Mobile (Expo) app — has its own internal git history, deploys via EAS not
+# Netlify. Was incorrectly registered as a submodule (gitlink with no
+# .gitmodules entry) which broke every Netlify deploy. Now fully ignored.
+/mobile/
+
 # Mobile (Expo) build artifacts
 mobile/.expo/
 mobile/.expo-shared/
