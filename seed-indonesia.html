@@ -1,0 +1,2435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1e1e1e" />
+  <title>SEED Indonesia × Frequency Vibes · Issue I, 2026</title>
+  <meta name="description" content="A documentary on Sulthan Muhammad Karimullah, 13, founder of SEED Indonesia. Issue I — 2026. In collaboration with Eugene Mierak / Frequency Vibes." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Lenis smooth scroll (Exat microsite, R—K, Pell Mell all use it) -->
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.42/bundled/lenis.min.js" defer></script>
+
+<style>
+  /*  ════════════════════════════════════════════════════════════════════
+      Issue I — 2026 · SEED INDONESIA × FREQUENCY VIBES
+      Research-derived editorial layout. Techniques sourced from:
+      Exat microsite (Codrops, Apr 2026), Jason Bergh (Codrops, Feb 2026),
+      Pell Mell (Codrops, Mar 2026), R—K '26 (Codrops, Apr 2026).
+
+      Key principles:
+      - Editorial rhythm: magazine spread feel, not platform navigation
+      - 12-column grid · 6 rows on 100vh sections
+      - Lenis smooth scroll
+      - Cream + dark-editing-suite palette (NOT navy)
+      - Display typography as structure, not decoration
+      - Italics on first letter of headings ("planned imperfection")
+      - Restrained interactions: 0.8s ease · 40px offset · 3% scale · 0.5s hover
+      - Stacked panels pinned scroll for commitments (Exat technique)
+      - Persistent film-strip vertical lines (Jason Bergh)
+      - Page numbers, issue markers, drop caps (magazine essentials)
+      ════════════════════════════════════════════════════════════════════ */
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    /* Green-dominant editorial palette · Eugene Mierak / Frequency Vibes
+       Background: deep forest-black with green undertone
+       Primary accent: editorial sage/jade (NOT loud neon green)
+       Gold: reserved for fine details only — masthead, small caps, byline strong */
+    --paper:        #0a1612;            /* deep forest-black, very subtle green */
+    --paper-deep:   #060e0c;
+    --paper-edge:   #03070a;
+    --ink:          #e6efe7;            /* cool cream with green undertone */
+    --ink-warm:     #d8e8d2;
+    --ink-dim:      rgba(230,239,231,0.62);
+    --ink-faint:    rgba(230,239,231,0.18);
+    --rule:         rgba(230,239,231,0.15);
+    --rule-soft:    rgba(230,239,231,0.08);
+
+    /* PRIMARY accent — soft sage editorial green
+       Muted, low-saturation. Better contrast on warm-dark paper.
+       --green       on paper: 5.9:1 contrast (WCAG AA strong)
+       --green-bright on paper: 10.4:1 contrast (WCAG AAA) */
+    --green:        #7eb59c;
+    --green-bright: #b0d3c0;
+    --green-deep:   #3d6a55;
+    --green-mist:   rgba(126,181,156,0.12);
+
+    /* GOLD — fine touches only, never dominant */
+    --gold:         #c9a55c;
+    --gold-bright:  #e0bb78;
+    --rust:         #c2603e;
+
+    --display:      "Fraunces", "Didot", "Playfair Display", Georgia, serif;
+    --serif-body:   "Cormorant Garamond", Georgia, serif;
+    --sans:         "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --cursive:      "Tangerine", cursive;
+
+    --col:          calc((100vw - 11 * var(--gap)) / 12);
+    --gap:          24px;
+    --gutter:       clamp(20px, 4vw, 48px);
+  }
+  @media (max-width: 720px) { :root { --gap: 12px; } }
+
+  html { -webkit-text-size-adjust: 100%; background: var(--paper); }
+  /* Anti-FOUC — body fades in 250ms after fonts/JS ready */
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: relative;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+  }
+  body.is-ready { opacity: 1; }
+  img { display: block; max-width: 100%; }
+  a { text-decoration: none; color: inherit; }
+
+  .skip-link {
+    position: absolute; left: -9999px; top: auto;
+    background: var(--green); color: var(--paper);
+    padding: 10px 16px; font: 700 12px/1 var(--sans);
+    letter-spacing: 0.18em; text-transform: uppercase; z-index: 9999;
+  }
+  .skip-link:focus { left: 16px; top: 16px; }
+
+  /* Film-strip rules removed in favor of more silence on the page. */
+
+  /*  ─────── NAVBAR · 1:1 port from atranga.html top-nav-banner.
+      Brand isolated on the LEFT; all action items (official link · sep ·
+      Home · Get in Touch · Partners) grouped together on the RIGHT. ─── */
+  .nav-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 9999;
+    height: 48px;
+    background: rgba(8, 12, 20, 0.97);     /* navy — matches eugenemierak.com */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-family: var(--sans);
+    display: flex;
+    align-items: center;
+    overflow: visible;
+  }
+  .nav-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: visible;
+  }
+
+  /* LEFT — brand (logo circle + Frequency Vibes™) */
+  .nav-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--display);
+    font-style: italic;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .nav-brand-mark {
+    width: 32px; height: 32px;
+    flex-shrink: 0;
+    display: block;
+    border-radius: 50%;
+    object-fit: cover;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+    transition: transform 320ms cubic-bezier(0.32, 0.72, 0.2, 1);
+  }
+  .nav-brand:hover .nav-brand-mark { transform: rotate(8deg); }
+  .nav-brand sup {
+    font-size: 0.5em;
+    vertical-align: top;
+    margin-left: 1px;
+    opacity: 0.75;
+  }
+
+  /* RIGHT — grouped action items */
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .nav-official {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    margin-right: 1rem;
+    opacity: 0.9;
+    transition: opacity 0.3s;
+  }
+  .nav-official:hover { opacity: 1; text-decoration: underline; }
+  .nav-sep {
+    width: 1px; height: 16px;
+    background: rgba(255,255,255,0.2);
+    margin-right: 1rem;
+  }
+  .nav-link {
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    border-radius: 6px;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+  }
+  .nav-link:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.1);
+  }
+
+  /* Partners button (sky-blue gradient — Eugene's signature) */
+  .nav-partners-btn {
+    display: flex;
+    align-items: center;
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    transition: all 0.3s ease;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .nav-partners-btn svg { margin-left: 6px; }
+  .nav-partners-btn:hover,
+  .nav-partners-btn[aria-expanded="true"] {
+    background: linear-gradient(135deg, #0284c7 0%, #0891b2 100%);
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+  }
+
+  /* Mobile hamburger */
+  .nav-menu-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px; height: 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 10001;
+  }
+  .nav-menu-btn span {
+    width: 100%; height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  /* Below 868px the right group collapses into a fullscreen drawer */
+  @media (max-width: 868px) {
+    .nav-container { padding: 0 1rem; }
+    .nav-menu-btn { display: flex; }
+    .nav-links {
+      display: none;
+      position: fixed;
+      top: 48px; left: 0; right: 0; bottom: 0;
+      background: rgba(8, 12, 20, 0.98);
+      flex-direction: column;
+      padding: 2rem;
+      gap: 1.25rem;
+      align-items: flex-start;
+      z-index: 10000;
+    }
+    .nav-links.is-open { display: flex; }
+    .nav-official { margin-right: 0; }
+    .nav-sep { display: none; }
+    .nav-brand { font-size: 1rem; }
+    .nav-brand-mark { width: 28px; height: 28px; }
+  }
+
+  /* Partners dropdown — anchored to PARTNERS button (atranga.html pattern) */
+  .partners-dropdown-container {
+    position: relative;
+    display: inline-block;
+  }
+  .partners-panel {
+    position: absolute;
+    top: 100%; right: 0;
+    margin-top: 12px;
+    width: 240px;
+    background: #0f172a;
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6),
+                0 0 0 1px rgba(255,255,255,0.05);
+    padding: 6px;
+    z-index: 1010;
+    display: none;
+    flex-direction: column;
+    gap: 2px;
+    transform-origin: top right;
+    animation: dropdownPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .partners-panel.open { display: flex; }
+  @keyframes dropdownPop {
+    from { opacity: 0; transform: scale(0.95) translateY(-5px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .partners-panel-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  .partners-panel-item:hover {
+    background: rgba(255,255,255,0.10);
+    color: #fff;
+    transform: translateX(2px);
+  }
+  .partners-panel-item img {
+    height: 28px;
+    width: auto;
+    max-width: 40px;
+    object-fit: contain;
+    filter: brightness(1.1);
+  }
+  .partners-panel-item img[alt="Mariposa Batu"] { filter: invert(1) brightness(1.8); }
+  .partners-panel-item img[alt="Biozar"] { filter: brightness(1.5); }
+  /* Click-outside catcher (invisible, full-viewport while panel open) */
+  .partners-panel-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1009;
+  }
+  .partners-panel-overlay.open { display: block; }
+
+  /* Top scroll-progress indicator (1px gold line) — fine touch */
+  .scroll-progress {
+    position: fixed;
+    top: 48px; left: 0;
+    height: 1px;
+    background: var(--gold);
+    z-index: 1000;
+    transform-origin: left center;
+    transform: scaleX(0);
+    transition: transform 0.05s linear;
+    pointer-events: none;
+  }
+
+  /*  ════════════════════════════════════════════════════════════════════
+      ENTRY ANIMATION SYSTEM
+      Six entry techniques, layered. Cinematic but restrained — every text
+      element on the page animates in. Each obeys prefers-reduced-motion.
+
+      .reveal           — base fade + 40px Y lift (Pell Mell, 0.8s)
+      .reveal-mask      — clip-path sweep left→right (editorial wipe)
+      .reveal-blur      — opacity + blur(14px) → focus (cinematic)
+      .reveal-slide-l   — translate from left
+      .reveal-slide-r   — translate from right
+      .reveal-rule      — horizontal line growing scaleX 0→1
+      .reveal-words     — JS wraps each word; per-word stagger (display)
+      ════════════════════════════════════════════════════════════════════ */
+
+  /*  ── Unified easing curves ──
+      --ease-out-soft : exits fast, settles slow (default for reveals)
+      --ease-out-expo : strong settle, dramatic (for mask wipes, headlines)
+      --ease-out-back : tiny overshoot for emphasis (rare) */
+  :root {
+    --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --reveal-dur:    0.9s;
+    --reveal-dur-l:  1.05s;  /* longer for blur/mask */
+    --word-step:     0.038s; /* per-word stagger — fine, fast */
+  }
+
+  /* Base — opacity + Y lift */
+  .reveal {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity var(--reveal-dur) var(--ease-out-soft),
+                transform var(--reveal-dur) var(--ease-out-expo);
+  }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+  /* Mask sweep — editorial wipe right */
+  .reveal-mask {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+    transition: clip-path var(--reveal-dur-l) var(--ease-out-expo),
+                opacity 0.45s ease 0.15s;
+  }
+  .reveal-mask.is-visible { clip-path: inset(0 0 0 0); opacity: 1; }
+
+  /* Blur focus — cinematic depth-of-field */
+  .reveal-blur {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translateY(16px);
+    transition: opacity var(--reveal-dur-l) var(--ease-out-soft),
+                filter var(--reveal-dur-l) var(--ease-out-soft),
+                transform var(--reveal-dur-l) var(--ease-out-expo);
+  }
+  .reveal-blur.is-visible { opacity: 1; filter: blur(0); transform: translateY(0); }
+
+  /* Slide from left */
+  .reveal-slide-l {
+    opacity: 0;
+    transform: translateX(-48px);
+    transition: opacity var(--reveal-dur) var(--ease-out-soft),
+                transform var(--reveal-dur) var(--ease-out-expo);
+  }
+  .reveal-slide-l.is-visible { opacity: 1; transform: translateX(0); }
+
+  /* Slide from right */
+  .reveal-slide-r {
+    opacity: 0;
+    transform: translateX(48px);
+    transition: opacity var(--reveal-dur) var(--ease-out-soft),
+                transform var(--reveal-dur) var(--ease-out-expo);
+  }
+  .reveal-slide-r.is-visible { opacity: 1; transform: translateX(0); }
+
+  /* Horizontal rule growing in */
+  .reveal-rule {
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--reveal-dur-l) var(--ease-out-expo);
+  }
+  .reveal-rule.is-visible { transform: scaleX(1); }
+
+  /* Word-by-word reveal (JS splits headline into spans on load) */
+  .reveal-words .word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.55em);
+    transition: opacity 0.65s var(--ease-out-soft),
+                transform 0.85s var(--ease-out-expo);
+    transition-delay: calc(var(--word-step) * var(--i, 0));
+  }
+  .reveal-words.is-visible .word { opacity: 1; transform: translateY(0); }
+
+  /* Delay modifiers (work on any reveal-* variant) */
+  .reveal.d1, .reveal-mask.d1, .reveal-blur.d1, .reveal-slide-l.d1, .reveal-slide-r.d1, .reveal-rule.d1, .reveal-words.d1 { transition-delay: 0.10s; }
+  .reveal.d2, .reveal-mask.d2, .reveal-blur.d2, .reveal-slide-l.d2, .reveal-slide-r.d2, .reveal-rule.d2, .reveal-words.d2 { transition-delay: 0.22s; }
+  .reveal.d3, .reveal-mask.d3, .reveal-blur.d3, .reveal-slide-l.d3, .reveal-slide-r.d3, .reveal-rule.d3, .reveal-words.d3 { transition-delay: 0.34s; }
+  .reveal.d4, .reveal-mask.d4, .reveal-blur.d4, .reveal-slide-l.d4, .reveal-slide-r.d4, .reveal-rule.d4, .reveal-words.d4 { transition-delay: 0.46s; }
+  /* word-stagger version: base delay shifts when d* applied */
+  .reveal-words.d1 .word { transition-delay: calc(0.10s + var(--word-step) * var(--i, 0)); }
+  .reveal-words.d2 .word { transition-delay: calc(0.22s + var(--word-step) * var(--i, 0)); }
+  .reveal-words.d3 .word { transition-delay: calc(0.34s + var(--word-step) * var(--i, 0)); }
+  .reveal-words.d4 .word { transition-delay: calc(0.46s + var(--word-step) * var(--i, 0)); }
+
+  /*  ── HERO sequencing: photo enters first, then text cascades after ──
+      Photo entry (heroEntry @keyframes) starts at 0.4s + 2.4s = 2.8s.
+      Text reveals are pushed to start ~1.1s in, after the photo has begun
+      to slide in but well before it lands. */
+  .cover-text .reveal,
+  .cover-text .reveal-mask,
+  .cover-text .reveal-blur,
+  .cover-text .reveal-slide-l,
+  .cover-text .reveal-slide-r,
+  .cover-text .reveal-words {
+    transition-delay: 1.1s;
+  }
+  .cover-text .reveal.d1,
+  .cover-text .reveal-mask.d1,
+  .cover-text .reveal-blur.d1,
+  .cover-text .reveal-slide-l.d1,
+  .cover-text .reveal-slide-r.d1,
+  .cover-text .reveal-words.d1 { transition-delay: 1.3s; }
+  .cover-text .reveal.d2,
+  .cover-text .reveal-mask.d2,
+  .cover-text .reveal-blur.d2,
+  .cover-text .reveal-slide-l.d2,
+  .cover-text .reveal-slide-r.d2,
+  .cover-text .reveal-words.d2 { transition-delay: 1.5s; }
+  .cover-text .reveal.d3,
+  .cover-text .reveal-mask.d3,
+  .cover-text .reveal-blur.d3,
+  .cover-text .reveal-slide-l.d3,
+  .cover-text .reveal-slide-r.d3,
+  .cover-text .reveal-words.d3 { transition-delay: 1.7s; }
+  .cover-text .reveal-words .word { transition-delay: calc(1.1s + var(--word-step) * var(--i, 0)); }
+  .cover-text .reveal-words.d1 .word { transition-delay: calc(1.3s + var(--word-step) * var(--i, 0)); }
+  .cover-text .reveal-words.d2 .word { transition-delay: calc(1.5s + var(--word-step) * var(--i, 0)); }
+  .cover-text .reveal-words.d3 .word { transition-delay: calc(1.7s + var(--word-step) * var(--i, 0)); }
+
+  /*  ════════════════════════════════════════════════════════════════════
+      SPREAD I — COVER (grid 50/50: photo left + editorial text right)
+      ════════════════════════════════════════════════════════════════════ */
+  .spread-cover {
+    position: relative;
+    min-height: 0;
+    padding-top: 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--paper);
+  }
+  @media (max-width: 880px) {
+    .spread-cover { grid-template-columns: 1fr; }
+  }
+
+  .cover-photo {
+    position: relative;
+    overflow: hidden;
+    background: var(--paper-deep);
+    min-height: 0;
+    aspect-ratio: 3 / 4;             /* portrait, bigger */
+    max-height: 88svh;
+    align-self: center;              /* centered in the grid cell */
+    justify-self: center;
+    width: 100%;
+  }
+  @media (max-width: 880px) {
+    .cover-photo { aspect-ratio: 16 / 12; max-height: 56svh; }
+  }
+
+  /* Chill entry — slides in from the left + reveals left-to-right + soft focus.
+     inset() order: top right bottom left.
+     Start: right=100% (right edge fully clipped → only zero-width sliver on the
+     left visible). End: inset(0) (fully visible). The clip retracts on the
+     right side, so the image is revealed from LEFT toward RIGHT. */
+  .cover-photo-entry {
+    animation: heroEntry 2.4s var(--ease-out-soft) 0.4s both;
+  }
+  @keyframes heroEntry {
+    from {
+      opacity: 0;
+      transform: translateX(-56px);
+      clip-path: inset(0 100% 0 0);
+      filter: blur(6px) saturate(0.82);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+      clip-path: inset(0);
+      filter: blur(0) saturate(0.92);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cover-photo-entry { animation: none; }
+  }
+  .cover-photo img {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    object-position: 50% 0%;          /* anchor at top — head never clipped */
+    filter: contrast(1.06) saturate(0.92);
+  }
+  .cover-photo::after {
+    content: '';
+    position: absolute; inset: 0;
+    box-shadow: inset 0 -120px 80px -40px rgba(10,22,18,0.78);
+    pointer-events: none;
+  }
+  /* SEED logo stamp — circular cream backplate (the logo is designed for a
+     light background; we keep it native by mounting it on a cream disc). */
+  .cover-stamp {
+    position: absolute;
+    top: clamp(32px, 6vh, 68px);
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: clamp(88px, 9vw, 120px);
+    aspect-ratio: 1;
+    z-index: 5;
+    border-radius: 50%;
+    background: #f4ebd8;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.5),
+                inset 0 0 0 1px rgba(201,165,92,0.35);
+    padding: 4px;
+    animation: stampFloat 9s ease-in-out infinite;
+  }
+  .cover-stamp img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
+  @keyframes stampFloat {
+    0%,100% { transform: translate(-50%, 0) rotate(-3deg); }
+    50%     { transform: translate(-50%, -4px) rotate(2deg); }
+  }
+  @media (max-width: 880px) {
+    /* on narrow screens (single column) place top-right corner of the photo */
+    .cover-stamp {
+      top: 64px;
+      left: auto;
+      right: 20px;
+      transform: rotate(-3deg);
+      width: 88px;
+    }
+    @keyframes stampFloat {
+      0%,100% { transform: rotate(-3deg) translateY(0); }
+      50%     { transform: rotate(2deg)  translateY(-4px); }
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cover-stamp { animation: none; }
+  }
+  .cover-photo-caption {
+    position: absolute;
+    bottom: 24px;
+    left: 56px;
+    right: 24px;
+    z-index: 2;
+    font-family: var(--sans);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-warm);
+    text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+  }
+  .cover-photo-caption b {
+    display: block;
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(28px, 4vw, 38px);
+    letter-spacing: -0.005em;
+    text-transform: none;
+    color: var(--ink);
+    margin-bottom: 6px;
+    font-variation-settings: "SOFT" 100, "opsz" 144, "WONK" 1;
+  }
+
+  .cover-text {
+    position: relative;
+    padding: clamp(24px, 4vw, 56px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;       /* pack tight at top, no vertical spread */
+    gap: clamp(16px, 2vh, 24px);
+  }
+  .cover-issue {
+    font-family: var(--sans);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--green);
+    border-top: 1px solid var(--green);
+    padding-top: 12px;
+    margin-bottom: clamp(20px, 3vw, 36px);
+    display: flex;
+    justify-content: space-between;
+  }
+  .cover-issue span:last-child { color: var(--ink-dim); }
+
+  .cover-title {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(44px, 7.5vw, 96px);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+    margin-bottom: clamp(20px, 3vw, 32px);
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+  }
+  .cover-title .drop {
+    font-style: italic;
+    color: var(--green-bright);
+    font-variation-settings: "SOFT" 100, "opsz" 144, "WONK" 1;
+  }
+  .cover-title em {
+    font-style: italic;
+    color: var(--green-bright);
+    font-variation-settings: "SOFT" 100, "opsz" 144, "WONK" 1;
+  }
+  .cover-title .small {
+    display: block;
+    font-style: italic;
+    font-size: 0.4em;
+    color: var(--ink-dim);
+    margin-top: 12px;
+    letter-spacing: 0;
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+  }
+
+  .cover-tagline-text {
+    font-family: var(--serif-body);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(17px, 2vw, 21px);
+    line-height: 1.45;
+    color: var(--ink-dim);
+    max-width: 36ch;
+    margin-bottom: clamp(20px, 3vh, 32px);
+  }
+
+  .cover-meta-block { margin-top: clamp(40px, 6vh, 88px); }
+  .cover-byline {
+    border-top: 1px solid var(--rule);
+    padding-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 36px;
+    font-family: var(--sans);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .cover-byline div { display: flex; flex-direction: column; gap: 4px; }
+  .cover-byline label {
+    font-size: 9px;
+    color: var(--ink-faint);
+    letter-spacing: 0.32em;
+  }
+  .cover-byline strong {
+    font-family: var(--display);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 18px;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--green-bright);
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+  }
+
+  /*  ════════════════════════════════════════════════════════════════════
+      SPREAD II — THE QUESTION (full-bleed Sulthan B&W desaturated + question)
+      The boy returns silently. Question in italics massive lives on top.
+      ════════════════════════════════════════════════════════════════════ */
+  .spread-question {
+    position: relative;
+    padding: clamp(36px, 5vh, 56px) clamp(40px, 6vw, 88px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .spread-question::before {
+    /* Sulthan B&W desaturated, ghost-like presence */
+    content: '';
+    position: absolute; inset: 0;
+    z-index: 0;
+    background-image: url('assets/seed/sulthan-portrait.png');
+    background-size: cover;
+    background-position: center 20%;
+    filter: grayscale(1) contrast(1.15) brightness(0.42);
+    opacity: 0.45;
+  }
+  .spread-question::after {
+    content: '';
+    position: absolute; inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(90deg, rgba(10,22,18,0.78) 0%, rgba(10,22,18,0.45) 40%, rgba(10,22,18,0.92) 100%);
+  }
+  .spread-question > * { position: relative; z-index: 2; }
+  .question-eyebrow {
+    font-family: var(--sans);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: clamp(14px, 2vh, 22px);
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+  }
+  .question-eyebrow::before {
+    content: 'II';
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink-dim);
+    letter-spacing: 0;
+  }
+  .question-eyebrow::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+    margin-left: 12px;
+  }
+
+  .question-headline {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(32px, 5vw, 64px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    max-width: 22ch;
+    margin-bottom: clamp(18px, 2.5vh, 28px);
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+    text-shadow: 0 6px 40px rgba(0,0,0,0.6);
+  }
+  .question-headline .drop {
+    font-style: italic;
+    color: var(--green-bright);
+    font-variation-settings: "SOFT" 100, "opsz" 144, "WONK" 1;
+  }
+  .question-headline em {
+    font-style: italic;
+    color: var(--green-bright);
+    font-variation-settings: "SOFT" 100, "opsz" 144, "WONK" 1;
+  }
+
+  /* "He did not ask for funding. He asked for collaboration." — drop quote */
+  .question-dropquote {
+    border-left: 2px solid var(--green);
+    padding-left: clamp(20px, 3vw, 40px);
+    margin-left: auto;
+    max-width: 26ch;
+  }
+  .question-dropquote-text {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(17px, 2vw, 22px);
+    line-height: 1.4;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .question-dropquote-attr {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+
+  /*  ════════════════════════════════════════════════════════════════════
+      SPREAD III — PULL QUOTE (full-bleed)
+      Sulthan's words, magazine pull-quote treatment.
+      ════════════════════════════════════════════════════════════════════ */
+  .spread-quote {
+    position: relative;
+    padding: clamp(72px, 14vh, 140px) clamp(40px, 6vw, 88px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(28px, 4vh, 48px);
+    background: var(--paper-deep);
+    text-align: center;
+  }
+
+  .pq-marker {
+    font-family: var(--sans);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--green);
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 18px;
+  }
+  .pq-marker::before {
+    content: 'III';
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink-dim);
+    letter-spacing: 0;
+  }
+  .pq-marker::after { content: '— in his words'; color: var(--ink-dim); letter-spacing: 0.18em; text-transform: none; font-style: italic; font-family: var(--serif-body); }
+
+  .pq-text {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(40px, 7vw, 96px);
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    max-width: 22ch;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .pq-text .quote-mark {
+    font-style: italic;
+    color: var(--green);
+    line-height: 0;
+    font-size: 1.2em;
+    vertical-align: -0.05em;
+    margin-right: 0.06em;
+  }
+  .pq-text em { color: var(--green-bright); font-style: italic; }
+  .pq-text .strike { color: var(--rust); font-style: italic; }
+
+  .pq-meta {
+    align-self: end;
+    display: grid;
+    grid-template-columns: 64px 1fr 1fr;
+    gap: 24px 32px;
+    align-items: end;
+    border-top: 1px solid var(--rule);
+    padding-top: 20px;
+  }
+  .pq-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid var(--green);
+    box-shadow: 0 0 0 4px rgba(201,165,92,0.08);
+    grid-row: span 1;
+  }
+  .pq-avatar img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+    filter: grayscale(0.4) contrast(1.05);
+  }
+  @media (max-width: 720px) {
+    .pq-meta { grid-template-columns: 56px 1fr; gap: 16px; }
+    .pq-meta > div:last-child { grid-column: 2; }
+  }
+  .pq-meta div { display: flex; flex-direction: column; gap: 4px; }
+  .pq-meta label {
+    font-family: var(--sans);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .pq-meta strong {
+    font-family: var(--display);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--ink);
+    letter-spacing: 0;
+  }
+
+  /*  ════════════════════════════════════════════════════════════════════
+      SPREAD IV — THREE COMMITMENTS (stacked panels pinned scroll)
+      Exat microsite technique: each panel replaces the previous vertically
+      ════════════════════════════════════════════════════════════════════ */
+  .spread-commitments {
+    position: relative;
+    height: 360vh; /* 3 panels × 120vh worth of scroll */
+    background: var(--paper);
+  }
+  .commitments-pin {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+    background: var(--paper);
+  }
+  .commit-panel {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+    will-change: transform, opacity;
+    background: var(--paper);
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 1s cubic-bezier(0.16, 0.84, 0.32, 1),
+                opacity 0.7s ease;
+  }
+  .commit-panel.is-active {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .commit-panel.is-past {
+    transform: translateY(-100%);
+    opacity: 0.7;
+  }
+  @media (max-width: 880px) {
+    .commit-panel { grid-template-columns: 1fr; }
+    .commit-panel .commit-image { aspect-ratio: 16/9; height: auto; }
+    .commit-panel .commit-text { padding: clamp(32px, 6vw, 56px); }
+  }
+
+  /*  ─────── COMMIT PANEL · INNER STAGGER ───────
+      When a panel becomes active, image and text elements enter staggered.
+      Uses the same easing pair as the global reveal system. */
+  .commit-panel .commit-image img,
+  .commit-panel .commit-num-marker,
+  .commit-panel .commit-num-big,
+  .commit-panel .commit-title,
+  .commit-panel .commit-body,
+  .commit-panel .commit-footnote {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s var(--ease-out-soft),
+                transform 0.95s var(--ease-out-expo),
+                filter 1.05s var(--ease-out-soft);
+  }
+  .commit-panel .commit-image img {
+    transform: scale(1.06);
+    filter: blur(8px) contrast(1.05) saturate(0.92);
+  }
+
+  .commit-panel.is-active .commit-image img {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0) contrast(1.05) saturate(0.92);
+    transition-delay: 0.04s;
+  }
+  .commit-panel.is-active .commit-num-marker {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.28s;
+  }
+  .commit-panel.is-active .commit-num-big {
+    opacity: 0.92;
+    transform: translateY(0);
+    transition-delay: 0.38s;
+  }
+  .commit-panel.is-active .commit-title {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.5s;
+  }
+  .commit-panel.is-active .commit-body {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.62s;
+  }
+  .commit-panel.is-active .commit-footnote {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.74s;
+  }
+
+  /* Mobile (stacked panels, all is-active simultaneously) — no inner stagger */
+  @media (pointer: coarse) and (max-width: 720px) {
+    .commit-panel .commit-image img,
+    .commit-panel .commit-num-marker,
+    .commit-panel .commit-num-big,
+    .commit-panel .commit-title,
+    .commit-panel .commit-body,
+    .commit-panel .commit-footnote {
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
+      transition: none;
+    }
+    .commit-panel .commit-num-big { opacity: 0.92 !important; }
+  }
+
+  .commit-image {
+    position: relative;
+    overflow: hidden;
+    background: var(--paper-deep);
+  }
+  .commit-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: contrast(1.05) saturate(0.92);
+  }
+  .commit-image::after {
+    content: '';
+    position: absolute; inset: 0;
+    box-shadow: inset -1px 0 0 var(--rule),
+                inset 0 -120px 80px -50px rgba(10,22,18,0.7);
+  }
+  .commit-text {
+    padding: clamp(56px, 8vw, 120px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+  .commit-num-big {
+    font-family: var(--display);
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(120px, 26vw, 320px);
+    line-height: 0.78;
+    color: var(--gold);          /* fine touch — Roman numeral as gold accent */
+    letter-spacing: -0.06em;
+    margin-bottom: 32px;
+    opacity: 0.92;
+  }
+  .commit-num-marker {
+    font-family: var(--sans);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);          /* fine touch — small caps eyebrow */
+    margin-bottom: 16px;
+  }
+  .commit-title {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 0.95;
+    letter-spacing: -0.022em;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+  .commit-title .drop { font-style: italic; color: var(--green-bright); }
+  .commit-title em { font-style: italic; color: var(--rust); }
+  .commit-body {
+    font-family: var(--serif-body);
+    font-size: clamp(18px, 2.2vw, 22px);
+    line-height: 1.55;
+    color: var(--ink-dim);
+    max-width: 36ch;
+    margin-bottom: auto;
+  }
+  .commit-footnote {
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+    margin-top: 32px;
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /*  Step indicator on the right edge during commitments pin */
+  .commit-indicator {
+    position: absolute;
+    top: 50%;
+    right: clamp(24px, 4vw, 56px);
+    transform: translateY(-50%);
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .commit-indicator span {
+    width: 1px;
+    height: 28px;
+    background: var(--ink-faint);
+    transition: background 0.4s ease;
+  }
+  .commit-indicator span.is-active { background: var(--green-bright); }
+
+  /*  ════════════════════════════════════════════════════════════════════
+      INTERLUDE · SEED MANTRA STRIP
+      Brand spine: PLANT · LEARN · CONNECT · GROW with central SEED logo.
+      Sourced from the official SEED Indonesia deck. ════════════════════ */
+  .seed-mantra {
+    position: relative;
+    padding: clamp(56px, 10vh, 100px) clamp(40px, 6vw, 80px);
+    background: var(--paper-deep);
+    border-top: 1px solid var(--rule-soft);
+    border-bottom: 1px solid var(--rule-soft);
+    overflow: hidden;
+  }
+  .seed-mantra::before,
+  .seed-mantra::after {
+    content: '';
+    position: absolute;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, var(--green-mist) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .seed-mantra::before { top: -120px; left: -120px; }
+  .seed-mantra::after  { bottom: -120px; right: -120px; }
+  .seed-mantra-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: clamp(28px, 5vw, 64px);
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  @media (max-width: 720px) {
+    .seed-mantra-inner { grid-template-columns: 1fr; gap: 32px; text-align: center; }
+  }
+  .seed-mantra-verbs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: clamp(28px, 4.2vw, 52px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+  }
+  .seed-mantra-verbs.right { text-align: right; }
+  @media (max-width: 720px) {
+    .seed-mantra-verbs,
+    .seed-mantra-verbs.right { text-align: center; }
+  }
+  .seed-mantra-verbs em {
+    font-style: italic;
+    color: var(--green-bright);
+    font-variation-settings: "SOFT" 100, "opsz" 144, "WONK" 1;
+  }
+  .seed-mantra-verbs span {
+    display: block;
+  }
+  .seed-mantra-verbs span b {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--sans);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    line-height: 1.4;
+  }
+  .seed-mantra-logo {
+    width: clamp(140px, 18vw, 220px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #f4ebd8;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.4),
+                inset 0 0 0 1px rgba(201,165,92,0.32);
+    padding: 6px;
+    transition: transform 0.5s var(--ease-out-expo);
+  }
+  .seed-mantra-logo:hover { transform: scale(1.04) rotate(-2deg); }
+  .seed-mantra-logo img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
+  .seed-mantra-tag {
+    margin-top: clamp(36px, 6vh, 60px);
+    text-align: center;
+    font-family: var(--cursive);
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1;
+    color: var(--gold);
+    position: relative;
+    z-index: 1;
+  }
+  .seed-mantra-tag::before,
+  .seed-mantra-tag::after {
+    content: '';
+    display: inline-block;
+    width: clamp(40px, 8vw, 80px);
+    height: 1px;
+    background: var(--gold);
+    vertical-align: middle;
+    margin: 0 18px;
+    opacity: 0.6;
+  }
+
+  /*  ────── SEED watermark on QUESTION spread (subtle medallion behind text) ────── */
+  .question-seed-watermark {
+    position: absolute;
+    top: 50%;
+    right: clamp(-80px, -3vw, -40px);
+    transform: translateY(-50%) rotate(-8deg);
+    width: clamp(280px, 36vw, 480px);
+    aspect-ratio: 1;
+    z-index: 1;
+    opacity: 0.10;
+    pointer-events: none;
+    mix-blend-mode: luminosity;       /* keep B&W bg untouched — no green tint */
+  }
+  .question-seed-watermark img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    filter: grayscale(1) contrast(0.9) brightness(1.4);
+  }
+
+  /*  ────── SEED mark above INDEX headline — centered + bigger ────── */
+  .index-seed-mark {
+    width: clamp(140px, 14vw, 200px);
+    aspect-ratio: 1;
+    align-self: center;                        /* center within flex-column parent */
+    margin: 0 0 clamp(28px, 4vh, 44px);
+    border-radius: 50%;
+    background: #f4ebd8;
+    box-shadow: 0 16px 44px rgba(0,0,0,0.45),
+                inset 0 0 0 1px rgba(201,165,92,0.35);
+    padding: 6px;
+  }
+  .index-seed-mark img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
+
+  /*  ────── COLOPHON — partnership marks ────── */
+  .colophon-marks {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(28px, 5vw, 56px);
+    margin-bottom: clamp(20px, 3vh, 28px);
+  }
+  .colophon-marks .mark {
+    width: clamp(64px, 8vw, 88px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  .colophon-marks .mark.is-seed {
+    background: #f4ebd8;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.3),
+                inset 0 0 0 1px rgba(201,165,92,0.32);
+    padding: 3px;
+  }
+  .colophon-marks .mark img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
+  .colophon-marks .x {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: clamp(28px, 3.5vw, 40px);
+    color: var(--gold);
+    opacity: 0.6;
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+  }
+
+  /*  ── Decorative botanical leaf (inline SVG, reused in spread corners) ── */
+  .leaf-deco {
+    position: absolute;
+    width: clamp(120px, 14vw, 200px);
+    height: auto;
+    pointer-events: none;
+    color: var(--green);
+    opacity: 0.22;
+    z-index: 1;
+  }
+  .leaf-deco.tl { top: 8px; left: 8px; transform: rotate(-12deg); }
+  .leaf-deco.tr { top: 8px; right: 8px; transform: scaleX(-1) rotate(-12deg); }
+  .leaf-deco.bl { bottom: 8px; left: 8px; transform: scaleY(-1) rotate(12deg); }
+  .leaf-deco.br { bottom: 8px; right: 8px; transform: scale(-1, -1) rotate(12deg); }
+
+  /*  ════════════════════════════════════════════════════════════════════
+      SPREAD V — THE COLLABORATION ESSAY
+      Two-column body text · drop cap · pull quote sidebar
+      ════════════════════════════════════════════════════════════════════ */
+  .spread-essay {
+    position: relative;
+    padding: clamp(60px, 12vh, 120px) clamp(56px, 8vw, 120px);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(48px, 6vh, 80px);
+    background: var(--paper);
+  }
+  @media (min-width: 880px) {
+    .spread-essay { grid-template-columns: 1fr 0.4fr; gap: 80px; }
+  }
+
+  .essay-head {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--green);
+    border-bottom: 1px solid var(--green);
+    padding: 24px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: clamp(40px, 6vh, 64px);
+    font-family: var(--sans);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--green);
+  }
+  .essay-head em {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--ink-dim);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .essay-headline {
+    grid-column: 1 / -1;
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(34px, 5vw, 64px);
+    line-height: 1.1;
+    letter-spacing: -0.022em;
+    color: var(--ink);
+    margin: 0 auto clamp(40px, 6vh, 64px);
+    max-width: 28ch;                 /* wider — flows more horizontally */
+    text-align: center;              /* centered as section title */
+    text-wrap: balance;
+  }
+  .essay-headline .drop { font-style: italic; color: var(--green-bright); }
+  .essay-headline em { font-style: italic; color: var(--green-bright); font-variation-settings: "SOFT" 100, "opsz" 144, "WONK" 1; }
+
+  /* ── Body type: long-read editorial in horizontal columns (newspaper).
+        Cormorant Garamond, generous leading, balanced 2-column layout. ── */
+  .essay-body {
+    font-family: var(--serif-body);
+    font-size: clamp(18px, 1.8vw, 20px);
+    line-height: 1.7;
+    color: var(--ink);
+    column-count: 2;
+    column-gap: clamp(36px, 4vw, 64px);
+    column-rule: 1px solid var(--rule-soft);
+    font-feature-settings: "kern", "liga", "onum";
+    text-wrap: pretty;
+    text-align: justify;
+    hyphens: auto;
+  }
+  @media (max-width: 880px) {
+    .essay-body {
+      column-count: 1;
+      max-width: 62ch;
+      text-align: left;
+      hyphens: none;
+    }
+  }
+  .essay-body p {
+    margin: 0 0 1.25em;
+    orphans: 3;
+    widows: 3;
+    break-inside: avoid-column;
+  }
+  .essay-body p + p { text-indent: 1.4em; }       /* book-style paragraph indent */
+  .essay-body p:first-of-type { text-indent: 0; } /* but not after the drop cap */
+  .essay-body p:first-of-type::first-letter {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 4.4em;
+    line-height: 0.82;
+    float: left;
+    margin: 0.05em 0.1em 0 0;
+    color: var(--green-bright);
+    font-variation-settings: "SOFT" 100, "opsz" 144, "WONK" 1;
+  }
+  .essay-body p:first-of-type::first-line {
+    font-variant: small-caps;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+  }
+  .essay-body strong {
+    color: var(--green-bright);
+    font-weight: 500;
+    font-style: italic;
+  }
+  .essay-body em { font-style: italic; color: var(--ink-warm); }
+
+  /* Section break — spans both columns as a typographic divider */
+  .essay-break {
+    column-span: all;
+    text-align: center;
+    margin: clamp(32px, 5vh, 48px) auto;
+    color: var(--green);
+    font-size: 14px;
+    letter-spacing: 1.4em;
+    user-select: none;
+    opacity: 0.6;
+  }
+  .essay-break.reveal-rule {
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 1.1s var(--ease-out-expo), opacity 0.6s ease;
+  }
+  .essay-break.reveal-rule.is-visible { transform: scaleX(1); opacity: 0.6; }
+
+  /* Centerpiece pull paragraph — spans both columns, framed by gold caps,
+     visually anchored as the editorial pivot of the essay. */
+  .essay-centerpiece {
+    column-span: all;
+    position: relative;
+    margin: clamp(20px, 3vh, 32px) auto !important;
+    padding: clamp(28px, 4vh, 48px) clamp(28px, 4vw, 60px);
+    max-width: 32ch;
+    text-align: center;
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(28px, 4vw, 46px);
+    line-height: 1.16;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+    text-indent: 0 !important;
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+  }
+  .essay-centerpiece em {
+    font-style: italic;
+    color: var(--green-bright);
+    font-variation-settings: "SOFT" 100, "opsz" 144, "WONK" 1;
+  }
+  /* Decorative gold corner brackets — frame the centerpiece without shouting */
+  .essay-centerpiece::before,
+  .essay-centerpiece::after {
+    content: '';
+    position: absolute;
+    width: 28px; height: 28px;
+    border: 1px solid var(--gold);
+    opacity: 0.55;
+  }
+  .essay-centerpiece::before {
+    top: 0; left: 0;
+    border-right: none;
+    border-bottom: none;
+  }
+  .essay-centerpiece::after {
+    bottom: 0; right: 0;
+    border-left: none;
+    border-top: none;
+  }
+
+  .essay-side {
+    align-self: start;
+    border-left: 2px solid var(--green);
+    padding-left: clamp(20px, 3vw, 32px);
+    margin-top: clamp(56px, 10vh, 140px);
+  }
+  .essay-side-mark {
+    font-family: var(--sans);
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 16px;
+  }
+  .essay-side-quote {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(22px, 2.8vw, 30px);
+    line-height: 1.32;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .essay-side-quote em { color: var(--green-bright); }
+  .essay-side-attr {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+
+  /*  ════════════════════════════════════════════════════════════════════
+      SPREAD VI — INDEX (table of contents style for CTAs)
+      ════════════════════════════════════════════════════════════════════ */
+  .spread-index {
+    position: relative;
+    min-height: 100svh;
+    padding: clamp(60px, 12vh, 120px) clamp(56px, 8vw, 120px);
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .index-head {
+    border-top: 1px solid var(--green);
+    padding-top: 16px;
+    margin-bottom: clamp(40px, 6vh, 64px);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--sans);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--green);
+  }
+  .index-headline {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(40px, 7vw, 96px);
+    line-height: 0.95;
+    letter-spacing: -0.028em;
+    color: var(--ink);
+    margin-bottom: clamp(40px, 6vh, 80px);
+    max-width: 18ch;
+  }
+  .index-headline .drop { font-style: italic; color: var(--green-bright); }
+  .index-headline em { font-style: italic; color: var(--rust); }
+
+  .index-rows {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--rule);
+  }
+  .index-row {
+    display: grid;
+    grid-template-columns: 60px minmax(140px, auto) 1fr auto;
+    gap: clamp(20px, 3vw, 40px);
+    align-items: baseline;
+    padding: clamp(20px, 3vw, 32px) 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink);
+    transition: background 0.5s ease, padding 0.5s ease;
+  }
+  .index-row:hover {
+    background: rgba(245,240,224,0.03);
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .index-row:hover .index-arrow { transform: translateX(8px); color: var(--green-bright); }
+  .index-row:hover .index-value { color: var(--green-bright); }
+  .index-num {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(28px, 3vw, 36px);
+    color: var(--green);
+    line-height: 1;
+  }
+  .index-label {
+    font-family: var(--sans);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .index-value {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(22px, 3vw, 30px);
+    color: var(--ink);
+    letter-spacing: -0.005em;
+    transition: color 0.5s ease;
+  }
+  .index-arrow {
+    font-family: var(--display);
+    font-style: italic;
+    color: var(--green);
+    font-size: clamp(20px, 2.4vw, 26px);
+    transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.5s ease;
+  }
+  @media (max-width: 720px) {
+    .index-row { grid-template-columns: 36px 1fr auto; }
+    .index-label { display: none; }
+  }
+
+  /*  ════════════════════════════════════════════════════════════════════
+      SPREAD VII — DONATE
+      ════════════════════════════════════════════════════════════════════ */
+  .spread-donate {
+    padding: clamp(60px, 10vh, 100px) clamp(56px, 8vw, 120px);
+    background: var(--paper-deep);
+  }
+  .donate-wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    border-top: 1px solid var(--gold);   /* fine gold frame on the CTA block */
+    border-bottom: 1px solid var(--gold);
+    padding: clamp(40px, 6vh, 64px) 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    text-align: left;
+  }
+  @media (min-width: 720px) {
+    .donate-wrap { grid-template-columns: 0.7fr 1fr; }
+  }
+  .donate-mark {
+    font-family: var(--sans);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--green);
+  }
+  .donate-mark span {
+    display: block;
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(28px, 4vw, 40px);
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    text-transform: none;
+    margin-top: 12px;
+    line-height: 1.05;
+  }
+  .donate-bank {
+    font-family: var(--serif-body);
+    font-size: clamp(18px, 2.2vw, 22px);
+    line-height: 1.7;
+    color: var(--ink);
+  }
+  .donate-bank b {
+    display: block;
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(20px, 2.4vw, 24px);
+    color: var(--green-bright);
+    letter-spacing: 0;
+  }
+  .donate-bank code {
+    font-family: var(--sans);
+    color: var(--green-bright);
+    font-size: clamp(28px, 3.6vw, 36px);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    display: block;
+    margin: 14px 0;
+  }
+  .donate-impact {
+    grid-column: 1 / -1;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px 36px;
+    border-top: 1px solid var(--rule);
+    padding-top: 28px;
+  }
+  @media (max-width: 720px) {
+    .donate-impact { grid-template-columns: 1fr; gap: 16px; }
+  }
+  .donate-impact li {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--green);
+    border-left: 1px solid var(--rule-soft);
+    padding: 4px 0 4px 16px;
+  }
+  .donate-impact li b {
+    display: block;
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(18px, 2.2vw, 22px);
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--green-bright);
+    margin-bottom: 4px;
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+  }
+  .donate-impact li span {
+    display: block;
+    font-family: var(--serif-body);
+    font-size: 14px;
+    letter-spacing: 0;
+    text-transform: none;
+    font-weight: 400;
+    color: var(--ink-dim);
+    line-height: 1.5;
+    margin-top: 2px;
+  }
+  .donate-tag {
+    grid-column: 1 / -1;
+    font-family: var(--serif-body);
+    font-style: italic;
+    font-size: clamp(16px, 2vw, 19px);
+    color: var(--ink-dim);
+    text-align: center;
+    border-top: 1px solid var(--rule);
+    padding-top: 24px;
+  }
+
+  /*  ════════════════════════════════════════════════════════════════════
+      COLOPHON (footer as magazine colophon)
+      ════════════════════════════════════════════════════════════════════ */
+  .colophon {
+    padding: 80px clamp(56px, 8vw, 120px) 96px;
+    background: var(--paper);
+    border-top: 1px solid var(--rule);
+  }
+  .colophon-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .colophon-end {
+    font-family: var(--display);
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(40px, 6vw, 64px);
+    line-height: 1;
+    color: var(--green-bright);
+    margin-bottom: 32px;
+    letter-spacing: -0.01em;
+  }
+  .colophon-text {
+    font-family: var(--sans);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    line-height: 1.8;
+  }
+  .colophon-text a { color: var(--gold); border-bottom: 1px solid var(--rule); padding-bottom: 1px; }
+  .colophon-text a:hover { color: var(--gold-bright); border-color: var(--gold); }
+  .colophon-mantra {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: clamp(18px, 2.4vw, 26px);
+    color: var(--green-bright);
+    margin-bottom: 22px;
+    letter-spacing: 0.04em;
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+  }
+  .colophon-mantra span {
+    color: var(--ink);
+    font-style: italic;
+  }
+
+  /*  ─────── ACCESSIBILITY · prefers-reduced-motion ─────── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    .reveal,
+    .reveal-mask,
+    .reveal-blur,
+    .reveal-slide-l,
+    .reveal-slide-r,
+    .reveal-rule,
+    .reveal-words {
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
+      clip-path: none !important;
+    }
+    .reveal-words .word { opacity: 1 !important; transform: none !important; }
+    .commit-panel { position: relative; transform: none !important; opacity: 1 !important; }
+    .commit-panel .commit-image img,
+    .commit-panel .commit-num-marker,
+    .commit-panel .commit-num-big,
+    .commit-panel .commit-title,
+    .commit-panel .commit-body,
+    .commit-panel .commit-footnote {
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
+    }
+    .commit-panel .commit-num-big { opacity: 0.92 !important; }
+    .spread-commitments { height: auto; }
+    .commitments-pin { position: relative; height: auto; }
+  }
+
+  /* Mobile touch fallbacks */
+  @media (pointer: coarse) and (max-width: 720px) {
+    .spread-commitments { height: auto; }
+    .commitments-pin { position: relative; height: auto; }
+    .commit-panel { position: relative; transform: none; opacity: 1; min-height: 100svh; transition: none; }
+    .commit-indicator { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<!-- ═════════ NAVBAR · structure 1:1 with eugenemierak.com/atranga.html ═════════ -->
+<nav class="nav-bar" role="banner">
+  <div class="nav-container">
+
+    <!-- LEFT — brand only -->
+    <a href="https://eugenemierak.com" class="nav-brand" aria-label="Frequency Vibes — Eugene Mierak home">
+      <img src="assets/brand/logo-circle.webp" alt="" class="nav-brand-mark" width="32" height="32" loading="eager" decoding="async" />
+      <span>Frequency Vibes<sup>&trade;</sup></span>
+    </a>
+
+    <!-- Mobile hamburger -->
+    <button class="nav-menu-btn" id="navMenuBtn" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <!-- RIGHT — all action items grouped -->
+    <div class="nav-links" id="navLinks">
+      <a href="https://www.seedindonesia.org" class="nav-official" target="_blank" rel="noopener">seedindonesia.org</a>
+      <div class="nav-sep" aria-hidden="true"></div>
+      <a href="https://eugenemierak.com" class="nav-link">Home</a>
+      <a href="https://eugenemierak.com/#contact" class="nav-link">Get in Touch</a>
+      <div class="partners-dropdown-container">
+        <button class="nav-partners-btn" id="partnersBtn" aria-expanded="false" aria-label="Partners menu">
+          PARTNERS
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true">
+            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+        <div class="partners-panel" id="partnersPanel" role="menu">
+          <a href="https://eugenemierak.com/vegaqura.html" class="partners-panel-item" role="menuitem">
+            <img src="https://eugenemierak.com/assets/optimized/logo-vegaqura.480w.webp" alt="Vegaqura" loading="lazy" decoding="async">
+            Vegaqura
+          </a>
+          <a href="https://eugenemierak.com/sdbi-center.html" class="partners-panel-item" role="menuitem">
+            <img src="https://eugenemierak.com/assets/logo-sbdi.webp" alt="SBDI" loading="lazy" decoding="async">
+            SBDI Center
+          </a>
+          <a href="https://eugenemierak.com/wiseuse.html" class="partners-panel-item" role="menuitem">
+            <img src="https://eugenemierak.com/assets/optimized/wiseuse-pyramid.171w.webp" alt="WiseUse" loading="lazy" decoding="async">
+            WiseUse International
+          </a>
+          <a href="https://eugenemierak.com/eko-vitaris.html" class="partners-panel-item" role="menuitem">
+            <img src="https://eugenemierak.com/assets/logo-eko-vitaris.svg" alt="Eko Vitaris" loading="lazy" decoding="async">
+            Eko Vitaris
+          </a>
+          <a href="https://eugenemierak.com/mariposa-batu.html" class="partners-panel-item" role="menuitem">
+            <img src="https://eugenemierak.com/assets/optimized/logo-mariposa-batu.480w.webp" alt="Mariposa Batu" loading="lazy" decoding="async" style="border-radius:4px;">
+            Mariposa Batu
+          </a>
+          <a href="https://eugenemierak.com/biozar-venezuela.html" class="partners-panel-item" role="menuitem">
+            <img src="https://eugenemierak.com/assets/optimized/logo-biozar.340w.webp" alt="Biozar" loading="lazy" decoding="async">
+            Biozar Venezuela
+          </a>
+          <a href="https://eugenemierak.com/atranga.html" class="partners-panel-item" role="menuitem">
+            <img src="https://atranga.com/wp-content/uploads/2024/03/logo_Atranga_horizontal-color.svg" alt="Atranga" loading="lazy" decoding="async">
+            Atranga
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+<!-- Click-outside catcher for partners dropdown -->
+<div class="partners-panel-overlay" id="partnersOverlay"></div>
+
+<!-- Top scroll-progress indicator -->
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+<main id="main">
+
+  <!-- ══════════════ I · COVER (50/50 grid: photo left, text right) ══════════════ -->
+  <article class="spread-cover" aria-labelledby="cover-title">
+
+    <figure class="cover-photo cover-photo-entry">
+      <img src="assets/seed/sulthan-portrait.png" alt="Portrait of Sulthan Muhammad Karimullah, 13" />
+    </figure>
+    <!-- SEED stamp lives at spread level so it can overhang the photo edge -->
+    <div class="cover-stamp reveal-blur d2" aria-hidden="true">
+      <img src="assets/seed/seed-logo.png" alt="" />
+    </div>
+
+    <section class="cover-text">
+      <p class="cover-issue reveal-mask">
+        <span>Issue I &middot; 2026</span>
+        <span>Documentary &middot; Eight spreads</span>
+      </p>
+
+      <h1 class="cover-title reveal-words d1" id="cover-title">
+        <span class="drop">P</span>lant the <em>earth.</em><br/>
+        Live the <em>culture.</em><br/>
+        <span class="small">Discover the soul.</span>
+      </h1>
+
+      <p class="cover-tagline-text reveal-blur d2">
+        <em>A thirteen-year-old in East Java is building a sustainable learning home where travel becomes contribution. Frequency Vibes walks beside it. This is the work we have been quietly cultivating for two years.</em>
+      </p>
+
+      <div class="cover-meta-block reveal d3">
+        <div class="cover-byline">
+          <div>
+            <label>Role</label>
+            <strong>Young Tourism Ambassador &middot; Founder, SEED Indonesia</strong>
+          </div>
+          <div>
+            <label>Partnership</label>
+            <strong>Eugene Mierak · Frequency Vibes</strong>
+          </div>
+          <div>
+            <label>Place</label>
+            <strong>Malang Regency · East Java</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </article>
+
+  <!-- ══════════════ II · THE QUESTION ══════════════ -->
+  <article class="spread-question" aria-labelledby="q-title">
+    <div class="question-seed-watermark" aria-hidden="true">
+      <img src="assets/seed/seed-logo.png" alt="" />
+    </div>
+    <p class="question-eyebrow reveal-mask">East Java &middot; UNISMA &middot; Malang Regency</p>
+
+    <h2 class="question-headline reveal-words d1" id="q-title">
+      <span class="drop">I</span>ndonesia holds <em>thousands of sacred places</em> &mdash; and most are quietly being erased.
+    </h2>
+
+    <aside class="question-dropquote reveal-slide-r d3">
+      <p class="question-dropquote-text">Forest loss. Spiritual tourism underdeveloped. A younger generation drifting from its own traditions. <em>Five challenges, one answer.</em></p>
+      <div class="question-dropquote-attr">— SEED Indonesia, programme brief</div>
+    </aside>
+
+  </article>
+
+  <!-- ══════════════ III · PULL QUOTE ══════════════ -->
+  <article class="spread-quote" aria-label="Sulthan's words">
+    <p class="pq-marker reveal-mask"><span>His answer</span></p>
+
+    <p class="pq-text reveal-words d1">
+      <span class="quote-mark">&ldquo;</span>We don't sell <span class="strike">tourism</span>. We sell <em>meaningful experience</em> and <em>real impact</em>.<span class="quote-mark">&rdquo;</span>
+    </p>
+
+  </article>
+
+  <!-- ══════════════ IV · THREE COMMITMENTS (stacked panels pinned) ══════════════ -->
+  <section class="spread-commitments" aria-label="Three commitments" data-commitments>
+    <div class="commitments-pin">
+
+      <div class="commit-indicator" aria-hidden="true">
+        <span data-step="0"></span>
+        <span data-step="1"></span>
+        <span data-step="2"></span>
+      </div>
+
+      <article class="commit-panel" data-panel="0">
+        <figure class="commit-image">
+          <img src="assets/seed/bg-hands-seedling.png" alt="" />
+        </figure>
+        <div class="commit-text">
+          <div>
+            <p class="commit-num-marker">Eco tourism &middot; pillar i</p>
+            <div class="commit-num-big">i.</div>
+            <h3 class="commit-title"><span class="drop">P</span>lant the <em>earth</em>.</h3>
+            <p class="commit-body">
+              Indonesia's natural wonders, explored responsibly. Reforestation, regenerative farming, sustainable travel. Volunteers walk uphill before they walk a temple &mdash; <em style="font-style:italic;color:var(--green-bright);">conservation through participation</em>.
+            </p>
+          </div>
+          <div class="commit-footnote"><span>SEED &middot; Eco programme</span><span>i / iii</span></div>
+        </div>
+      </article>
+
+      <article class="commit-panel" data-panel="1">
+        <figure class="commit-image">
+          <img src="assets/seed/bg-triptych.png" alt="" />
+        </figure>
+        <div class="commit-text">
+          <div>
+            <p class="commit-num-marker">Cultural immersion &middot; pillar ii</p>
+            <div class="commit-num-big">ii.</div>
+            <h3 class="commit-title"><span class="drop">L</span>ive the <em>culture</em>.</h3>
+            <p class="commit-body">
+              Live the local way. Family kitchens. <em style="font-style:italic;color:var(--green-bright);">Bahasa</em> before the temple, <em style="font-style:italic;color:var(--green-bright);">gamelan</em> before the photograph. Travelers arrive as students &mdash; connections that last a lifetime.
+            </p>
+          </div>
+          <div class="commit-footnote"><span>SEED &middot; Culture programme</span><span>ii / iii</span></div>
+        </div>
+      </article>
+
+      <article class="commit-panel" data-panel="2">
+        <figure class="commit-image">
+          <img src="assets/seed/bg-temple-dawn.png" alt="" />
+        </figure>
+        <div class="commit-text">
+          <div>
+            <p class="commit-num-marker">Spiritual tourism &middot; pillar iii</p>
+            <div class="commit-num-big">iii.</div>
+            <h3 class="commit-title"><span class="drop">D</span>iscover the <em>soul</em>.</h3>
+            <p class="commit-body">
+              Journey to sacred places that nourish the soul. The Singosari Temple is older than most European capitals. Find meaning, inner peace, and connection through Indonesia's <em style="font-style:italic;color:var(--green-bright);">spiritual heritage</em>.
+            </p>
+          </div>
+          <div class="commit-footnote"><span>SEED &middot; Spiritual programme</span><span>iii / iii</span></div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ══════════════ INTERLUDE · SEED MANTRA STRIP ══════════════ -->
+  <section class="seed-mantra" aria-label="SEED Indonesia mantra">
+    <!-- Botanical leaf branch (stylized line drawing — matches SEED brand) -->
+    <svg class="leaf-deco tl" viewBox="0 0 200 120" fill="currentColor" aria-hidden="true">
+      <path d="M10,60 Q60,10 130,30 Q170,40 190,75 Q150,55 110,55 Q70,55 40,75 Q20,70 10,60 Z" opacity="0.7"/>
+      <path d="M60,40 Q90,32 120,42" stroke="currentColor" stroke-width="1.2" fill="none"/>
+      <path d="M30,55 Q55,48 80,58" stroke="currentColor" stroke-width="1" fill="none"/>
+      <ellipse cx="155" cy="35" rx="12" ry="6" transform="rotate(-15 155 35)" opacity="0.85"/>
+      <ellipse cx="175" cy="55" rx="10" ry="5" transform="rotate(-25 175 55)" opacity="0.7"/>
+    </svg>
+    <svg class="leaf-deco br" viewBox="0 0 200 120" fill="currentColor" aria-hidden="true">
+      <path d="M10,60 Q60,10 130,30 Q170,40 190,75 Q150,55 110,55 Q70,55 40,75 Q20,70 10,60 Z" opacity="0.7"/>
+      <path d="M60,40 Q90,32 120,42" stroke="currentColor" stroke-width="1.2" fill="none"/>
+      <ellipse cx="155" cy="35" rx="12" ry="6" transform="rotate(-15 155 35)" opacity="0.85"/>
+    </svg>
+
+    <div class="seed-mantra-inner">
+      <div class="seed-mantra-verbs reveal-slide-l">
+        <span><em>Plant.</em><b>Act for the earth.</b></span>
+        <span>Learn.<b>Gain knowledge and experience.</b></span>
+      </div>
+      <a class="seed-mantra-logo reveal-blur d1" href="https://www.seedindonesia.org" target="_blank" rel="noopener" aria-label="SEED Indonesia">
+        <img src="assets/seed/seed-logo.png" alt="SEED Indonesia Program" />
+      </a>
+      <div class="seed-mantra-verbs right reveal-slide-r d2">
+        <span>Connect.<b>Build relationships and communities.</b></span>
+        <span><em>Grow.</em><b>Create real impact.</b></span>
+      </div>
+    </div>
+    <p class="seed-mantra-tag reveal d3">Together, we plant hope. Together, we grow the future.</p>
+  </section>
+
+  <!-- ══════════════ V · THE COLLABORATION ESSAY ══════════════ -->
+  <article class="spread-essay" aria-labelledby="essay-title">
+    <div class="essay-head reveal-mask">
+      <span>V &middot; The collaboration</span>
+      <em>Same work, two languages</em>
+    </div>
+
+    <h2 class="essay-headline reveal-words" id="essay-title">
+      <span class="drop">F</span>requency Vibes <em>walks beside</em> a structure already being built.
+    </h2>
+
+    <div class="essay-body">
+      <p class="reveal-blur">
+        Two years ago Frequency Vibes signed two formal agreements with UNISMA, Sulthan's father's university in Malang. The work has been quiet. Cultural before commercial. Time spent listening before time spent building.
+      </p>
+      <p class="reveal d1">
+        SEED Indonesia is not a fundraising pitch. It is a <strong>sustainable learning home</strong> &mdash; a free place to stay, learn, and act for nature, culture, and communities. Bamboo, local materials, reforestation, on-site language and crafts. The full programme runs through eco, cultural, and spiritual tourism with measurable SDG outcomes.
+      </p>
+
+      <div class="essay-break reveal-rule" aria-hidden="true">·  ·  ·</div>
+
+      <p class="essay-centerpiece reveal-words">
+        Sulthan is thirteen. His team and his father at UNISMA are already running the operation. This is not a concept asking for funding. It is <em>a building being built</em>.
+      </p>
+
+      <div class="essay-break reveal-rule" aria-hidden="true">·  ·  ·</div>
+
+      <p class="reveal">
+        SEED Indonesia and Frequency Vibes are pointing at the same work, in two languages, by two generations. They build it from the soil up &mdash; bamboo, cultural roots, sacred geography. <strong>Frequency Vibes carries it from the air down</strong> &mdash; sound, frequency, conscious attention.
+      </p>
+      <p class="reveal d1">
+        The funding goal is <strong>IDR 2.5 billion</strong>. The capital is hybrid: public crowdfunding, corporate CSR, impact investors, and grants. The role on this side is to stand visible &mdash; and walk across when the timing serves both sides. To open doors that take a lifetime to open from outside. To amplify the campaign once and well, when SEED is ready.
+      </p>
+    </div>
+
+    <aside class="essay-side reveal-slide-r d2" aria-label="Marginalia">
+      <p class="essay-side-mark">— marginalia</p>
+      <p class="essay-side-quote">
+        One project alone is local. Two projects connected become a <em>bridge</em>.
+      </p>
+      <p class="essay-side-attr">Working principle</p>
+    </aside>
+
+  </article>
+
+  <!-- ══════════════ VI · INDEX (CTAs as table of contents) ══════════════ -->
+  <article class="spread-index" id="walk" aria-labelledby="index-title">
+    <div class="index-head reveal-mask">
+      <span>VI &middot; Walk with us</span>
+      <span>Three doors</span>
+    </div>
+
+    <div class="index-seed-mark reveal-blur" aria-hidden="true">
+      <img src="assets/seed/seed-logo.png" alt="" />
+    </div>
+
+    <h2 class="index-headline reveal-words" id="index-title">
+      <span class="drop">T</span>hree ways to walk it &mdash; <em>three doors</em> open.
+    </h2>
+
+    <div class="index-rows">
+      <a class="index-row reveal-slide-l d1" href="https://www.seedindonesia.org" target="_blank" rel="noopener">
+        <span class="index-num">i.</span>
+        <span class="index-label">Visit</span>
+        <span class="index-value">seedindonesia.org</span>
+        <span class="index-arrow">→</span>
+      </a>
+      <a class="index-row reveal-slide-l d2" href="#donate">
+        <span class="index-num">ii.</span>
+        <span class="index-label">Support</span>
+        <span class="index-value">BSI · 7312969704</span>
+        <span class="index-arrow">→</span>
+      </a>
+      <a class="index-row reveal-slide-l d3" href="https://www.instagram.com/seedindonesia.program" target="_blank" rel="noopener">
+        <span class="index-num">iii.</span>
+        <span class="index-label">Follow</span>
+        <span class="index-value">@seedindonesia.program</span>
+        <span class="index-arrow">→</span>
+      </a>
+    </div>
+
+  </article>
+
+  <!-- ══════════════ VII · DONATE ══════════════ -->
+  <article class="spread-donate" id="donate" aria-label="Donation account">
+    <div class="donate-wrap reveal-blur">
+      <div class="donate-mark reveal-mask d1">
+        Donation
+        <span>Your support plants change.</span>
+      </div>
+
+      <div class="donate-bank reveal-slide-r d2">
+        <b>Bank Syariah Indonesia (BSI)</b>
+        Account holder · Sulthan Muhammad Karimullah
+        <code>7312969704</code>
+        Every contribution lands directly in the SEED Indonesia program account. Funding goal · IDR 2.5 billion (build, educate, empower).
+      </div>
+
+      <ul class="donate-impact reveal d3" aria-label="What your donation funds">
+        <li><b>Empower people</b><span>Education, skills, real-life experiences.</span></li>
+        <li><b>Protect the planet</b><span>Tree planting, eco-living, sustainable practices.</span></li>
+        <li><b>Preserve culture</b><span>Heritage, traditions, local wisdom.</span></li>
+        <li><b>Build community</b><span>Connection, collaboration, mutual empowerment.</span></li>
+      </ul>
+
+      <p class="donate-tag reveal d4">
+        <em>Every contribution, big or small, brings us closer to a better Indonesia for all.</em>
+      </p>
+    </div>
+  </article>
+
+</main>
+
+<!-- Colophon (magazine-style footer) -->
+<footer class="colophon">
+  <div class="colophon-inner">
+    <div class="colophon-end reveal-mask">— end of issue I —</div>
+    <div class="colophon-marks reveal-blur d1">
+      <div class="mark"><img src="assets/seed/fv-circle-teal.png" alt="Frequency Vibes" /></div>
+      <span class="x" aria-hidden="true">×</span>
+      <div class="mark is-seed"><img src="assets/seed/seed-logo.png" alt="SEED Indonesia" /></div>
+    </div>
+    <p class="colophon-mantra reveal d2">
+      <span>Plant</span> &middot; <span>Learn</span> &middot; <span>Connect</span> &middot; <span>Grow</span>
+    </p>
+    <p class="colophon-text reveal d3">
+      Eugene Mierak &middot; Frequency Vibes &nbsp;·&nbsp; Sulthan M. Karimullah &middot; SEED Indonesia<br/>
+      Singosari, Malang Regency &middot; East Java, Indonesia<br/>
+      <a href="https://eugenemierak.com">eugenemierak.com</a> &nbsp;·&nbsp; <a href="https://www.seedindonesia.org">seedindonesia.org</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isCoarseSmall = window.matchMedia('(pointer: coarse)').matches && window.innerWidth < 720;
+
+  /* ── Lenis smooth scroll (Exat / Pell Mell / R—K all use it) ── */
+  function setupLenis() {
+    if (prefersReduced || !window.Lenis) return;
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      smoothTouch: false, // touch keeps native momentum
+    });
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+  }
+
+  /* ── Wrap each word of a .reveal-words element in <span class="word">
+        with --i index for staggered entry. Caps --i at MAX_I so a long
+        headline never takes more than ~0.55s to finish staggering. ── */
+  const MAX_I = 14;
+  function splitWords() {
+    document.querySelectorAll('.reveal-words').forEach(el => {
+      if (el.dataset.split === '1') return;
+      el.dataset.split = '1';
+      const walk = (node, ctx) => {
+        const out = [];
+        node.childNodes.forEach(child => {
+          if (child.nodeType === 3) {
+            const parts = child.textContent.split(/(\s+)/);
+            parts.forEach(p => {
+              if (!p) return;
+              if (/^\s+$/.test(p)) {
+                out.push(document.createTextNode(p));
+              } else {
+                const span = document.createElement('span');
+                span.className = 'word';
+                span.style.setProperty('--i', Math.min(ctx.idx, MAX_I));
+                span.textContent = p;
+                ctx.idx += 1;
+                out.push(span);
+              }
+            });
+          } else if (child.nodeType === 1) {
+            const tag = child.tagName.toLowerCase();
+            if (tag === 'br') { out.push(child.cloneNode(false)); return; }
+            const clone = child.cloneNode(false);
+            const innerNodes = walk(child, ctx);
+            innerNodes.forEach(n => clone.appendChild(n));
+            out.push(clone);
+          }
+        });
+        return out;
+      };
+      const ctx = { idx: 0 };
+      const newNodes = walk(el, ctx);
+      el.innerHTML = '';
+      newNodes.forEach(n => el.appendChild(n));
+    });
+  }
+
+  /* ── Reveal observer ── triggers ALL reveal-* variants ── */
+  function setupReveal() {
+    const selector = '.reveal, .reveal-mask, .reveal-blur, .reveal-slide-l, .reveal-slide-r, .reveal-rule, .reveal-words, .cover-photo-entry';
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll(selector).forEach(el => el.classList.add('is-visible'));
+      return;
+    }
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.14, rootMargin: '0px 0px -6% 0px' });
+    document.querySelectorAll(selector).forEach(el => obs.observe(el));
+  }
+
+  /* ── Commitments stacked panels pinned (Exat technique) ──
+     Section is 360vh tall; sticky child is 100vh. As we scroll
+     through the section, we determine which panel (0/1/2) should
+     be active and apply classes. Each panel slides up from below
+     and the previous one slides up to past. */
+  function setupCommitments() {
+    const section = document.querySelector('[data-commitments]');
+    const panels = section?.querySelectorAll('.commit-panel');
+    const indicators = section?.querySelectorAll('.commit-indicator span');
+    if (!section || !panels || !panels.length) return;
+
+    if (isCoarseSmall || prefersReduced) {
+      // mobile fallback: all panels visible inline
+      panels.forEach(p => p.classList.add('is-active'));
+      indicators?.forEach(i => i.classList.add('is-active'));
+      return;
+    }
+
+    let lastActive = -1;
+    const update = () => {
+      const rect = section.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const total = rect.height - vh;
+      const scrolled = Math.min(Math.max(-rect.top, 0), total);
+      const progress = total > 0 ? scrolled / total : 0; // 0..1
+      // 3 panels split the progress into thirds
+      const active = Math.min(panels.length - 1, Math.floor(progress * panels.length * 0.999));
+      if (active !== lastActive) {
+        panels.forEach((p, i) => {
+          p.classList.remove('is-active', 'is-past');
+          if (i < active) p.classList.add('is-past');
+          else if (i === active) p.classList.add('is-active');
+        });
+        indicators?.forEach((dot, i) => {
+          dot.classList.toggle('is-active', i === active);
+        });
+        lastActive = active;
+      }
+    };
+
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) { requestAnimationFrame(() => { update(); ticking = false; }); ticking = true; }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+
+  /* ── Partners dropdown ── */
+  function setupPartners() {
+    const btn = document.getElementById('partnersBtn');
+    const panel = document.getElementById('partnersPanel');
+    const overlay = document.getElementById('partnersOverlay');
+    if (!btn || !panel || !overlay) return;
+    const close = () => {
+      panel.classList.remove('open');
+      overlay.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    };
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = !panel.classList.contains('open');
+      panel.classList.toggle('open', open);
+      overlay.classList.toggle('open', open);
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    overlay.addEventListener('click', close);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+    panel.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+  }
+
+  /* ── Mobile hamburger drawer ── */
+  function setupNavMenu() {
+    const btn = document.getElementById('navMenuBtn');
+    const links = document.getElementById('navLinks');
+    if (!btn || !links) return;
+    btn.addEventListener('click', () => {
+      const open = links.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    // close drawer when clicking any link inside
+    links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      links.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+    }));
+  }
+
+  /* ── Scroll progress (1px gold line under nav) ── */
+  function setupScrollProgress() {
+    const bar = document.getElementById('scrollProgress');
+    if (!bar) return;
+    let ticking = false;
+    const update = () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      const p = max > 0 ? Math.min(1, Math.max(0, h.scrollTop / max)) : 0;
+      bar.style.transform = `scaleX(${p})`;
+    };
+    window.addEventListener('scroll', () => {
+      if (!ticking) { requestAnimationFrame(() => { update(); ticking = false; }); ticking = true; }
+    }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+
+  window.addEventListener('load', () => {
+    setupLenis();
+    splitWords();
+    setupReveal();
+    setupCommitments();
+    setupPartners();
+    setupNavMenu();
+    setupScrollProgress();
+    // Body fade-in — runs after layout settles, prevents FOUC
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => document.body.classList.add('is-ready'));
+    });
+  });
+
+  // Fail-safe: body becomes visible even if 'load' is delayed
+  setTimeout(() => { document.body.classList.add('is-ready'); }, 600);
+
+  // If the deferred Lenis script hasn't loaded yet by 'load', try again shortly
+  setTimeout(() => { if (window.Lenis && !window.__lenisStarted) { window.__lenisStarted = true; setupLenis(); } }, 800);
+})();
+</script>
+
+</body>
+</html>
