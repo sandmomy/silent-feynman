@@ -11,6 +11,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
 
+  <!-- Preload the hero portrait (LCP element) so it paints fast -->
+  <link rel="preload" as="image" href="assets/seed/sulthan-portrait.jpg" fetchpriority="high">
+
   <!-- Lenis smooth scroll (Exat microsite, R—K, Pell Mell all use it) -->
   <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.42/bundled/lenis.min.js" defer></script>
 
@@ -728,7 +731,7 @@
     content: '';
     position: absolute; inset: 0;
     z-index: 0;
-    background-image: url('assets/seed/sulthan-portrait.png');
+    background-image: url('assets/seed/sulthan-portrait.jpg');
     background-size: cover;
     background-position: center 20%;
     filter: grayscale(1) contrast(1.15) brightness(0.42);
@@ -1918,11 +1921,11 @@
   <article class="spread-cover" aria-labelledby="cover-title">
 
     <figure class="cover-photo cover-photo-entry">
-      <img src="assets/seed/sulthan-portrait.png" alt="Portrait of Sulthan Muhammad Karimullah, 13" />
+      <img src="assets/seed/sulthan-portrait.jpg" alt="Portrait of Sulthan Muhammad Karimullah, 13" width="1086" height="1448" fetchpriority="high" decoding="async" />
     </figure>
     <!-- SEED stamp lives at spread level so it can overhang the photo edge -->
     <div class="cover-stamp reveal-blur d2" aria-hidden="true">
-      <img src="assets/seed/seed-logo.png" alt="" />
+      <img src="assets/seed/seed-logo.png" alt="" width="686" height="686" loading="lazy" decoding="async" />
     </div>
 
     <section class="cover-text">
@@ -1964,7 +1967,7 @@
   <!-- ══════════════ II · THE QUESTION ══════════════ -->
   <article class="spread-question" aria-labelledby="q-title">
     <div class="question-seed-watermark" aria-hidden="true">
-      <img src="assets/seed/seed-logo.png" alt="" />
+      <img src="assets/seed/seed-logo.png" alt="" width="686" height="686" loading="lazy" decoding="async" />
     </div>
     <p class="question-eyebrow reveal-mask">East Java &middot; UNISMA &middot; Malang Regency</p>
 
@@ -2001,7 +2004,7 @@
 
       <article class="commit-panel" data-panel="0">
         <figure class="commit-image">
-          <img src="assets/seed/bg-hands-seedling.png" alt="" />
+          <img src="assets/seed/bg-hands-seedling.jpg" alt="" width="731" height="1280" loading="lazy" decoding="async" />
         </figure>
         <div class="commit-text">
           <div>
@@ -2018,7 +2021,7 @@
 
       <article class="commit-panel" data-panel="1">
         <figure class="commit-image">
-          <img src="assets/seed/bg-triptych.png" alt="" />
+          <img src="assets/seed/bg-triptych.jpg" alt="" width="731" height="1280" loading="lazy" decoding="async" />
         </figure>
         <div class="commit-text">
           <div>
@@ -2035,7 +2038,7 @@
 
       <article class="commit-panel" data-panel="2">
         <figure class="commit-image">
-          <img src="assets/seed/bg-temple-dawn.png" alt="" />
+          <img src="assets/seed/bg-temple-dawn.jpg" alt="" width="731" height="1280" loading="lazy" decoding="async" />
         </figure>
         <div class="commit-text">
           <div>
@@ -2075,7 +2078,7 @@
         <span>Learn.<b>Gain knowledge and experience.</b></span>
       </div>
       <a class="seed-mantra-logo reveal-blur d1" href="https://www.seedindonesia.org" target="_blank" rel="noopener" aria-label="SEED Indonesia">
-        <img src="assets/seed/seed-logo.png" alt="SEED Indonesia Program" />
+        <img src="assets/seed/seed-logo.png" alt="SEED Indonesia Program" width="686" height="686" loading="lazy" decoding="async" />
       </a>
       <div class="seed-mantra-verbs right reveal-slide-r d2">
         <span>Connect.<b>Build relationships and communities.</b></span>
@@ -2138,7 +2141,7 @@
     </div>
 
     <div class="index-seed-mark reveal-blur" aria-hidden="true">
-      <img src="assets/seed/seed-logo.png" alt="" />
+      <img src="assets/seed/seed-logo.png" alt="" width="686" height="686" loading="lazy" decoding="async" />
     </div>
 
     <h2 class="index-headline reveal-words" id="index-title">
@@ -2203,9 +2206,9 @@
   <div class="colophon-inner">
     <div class="colophon-end reveal-mask">— end of issue I —</div>
     <div class="colophon-marks reveal-blur d1">
-      <div class="mark"><img src="assets/seed/fv-circle-teal.png" alt="Frequency Vibes" /></div>
+      <div class="mark"><img src="assets/seed/fv-circle-teal.png" alt="Frequency Vibes" width="320" height="320" loading="lazy" decoding="async" /></div>
       <span class="x" aria-hidden="true">×</span>
-      <div class="mark is-seed"><img src="assets/seed/seed-logo.png" alt="SEED Indonesia" /></div>
+      <div class="mark is-seed"><img src="assets/seed/seed-logo.png" alt="SEED Indonesia" width="686" height="686" loading="lazy" decoding="async" /></div>
     </div>
     <p class="colophon-mantra reveal d2">
       <span>Plant</span> &middot; <span>Learn</span> &middot; <span>Connect</span> &middot; <span>Grow</span>
