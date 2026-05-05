@@ -483,6 +483,40 @@
   .cover-text .reveal-words.d2 .word { transition-delay: calc(1.5s + var(--word-step) * var(--i, 0)); }
   .cover-text .reveal-words.d3 .word { transition-delay: calc(1.7s + var(--word-step) * var(--i, 0)); }
 
+  /* On mobile the cover stacks vertically: photo on top, text below.
+     The long delays above were tuned to wait for the desktop photo entry —
+     on mobile they just feel sluggish. Use the global reveal timing. */
+  @media (max-width: 880px) {
+    .cover-text .reveal,
+    .cover-text .reveal-mask,
+    .cover-text .reveal-blur,
+    .cover-text .reveal-slide-l,
+    .cover-text .reveal-slide-r,
+    .cover-text .reveal-words { transition-delay: 0s; }
+    .cover-text .reveal.d1,
+    .cover-text .reveal-mask.d1,
+    .cover-text .reveal-blur.d1,
+    .cover-text .reveal-slide-l.d1,
+    .cover-text .reveal-slide-r.d1,
+    .cover-text .reveal-words.d1 { transition-delay: 0.10s; }
+    .cover-text .reveal.d2,
+    .cover-text .reveal-mask.d2,
+    .cover-text .reveal-blur.d2,
+    .cover-text .reveal-slide-l.d2,
+    .cover-text .reveal-slide-r.d2,
+    .cover-text .reveal-words.d2 { transition-delay: 0.22s; }
+    .cover-text .reveal.d3,
+    .cover-text .reveal-mask.d3,
+    .cover-text .reveal-blur.d3,
+    .cover-text .reveal-slide-l.d3,
+    .cover-text .reveal-slide-r.d3,
+    .cover-text .reveal-words.d3 { transition-delay: 0.34s; }
+    .cover-text .reveal-words .word { transition-delay: calc(var(--word-step) * var(--i, 0)); }
+    .cover-text .reveal-words.d1 .word { transition-delay: calc(0.10s + var(--word-step) * var(--i, 0)); }
+    .cover-text .reveal-words.d2 .word { transition-delay: calc(0.22s + var(--word-step) * var(--i, 0)); }
+    .cover-text .reveal-words.d3 .word { transition-delay: calc(0.34s + var(--word-step) * var(--i, 0)); }
+  }
+
   /*  ════════════════════════════════════════════════════════════════════
       SPREAD I — COVER (grid 50/50: photo left + editorial text right)
       ════════════════════════════════════════════════════════════════════ */
@@ -1169,6 +1203,7 @@
   }
   @media (max-width: 720px) {
     .seed-mantra-inner { grid-template-columns: 1fr; gap: 32px; text-align: center; }
+    .seed-mantra-logo { justify-self: center; }
   }
   .seed-mantra-verbs {
     display: flex;
